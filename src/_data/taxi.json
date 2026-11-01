@@ -1,0 +1,252 @@
+{
+  "business": {
+    "name": "VIP Taxi Lanta",
+    "owner": "Mr. Brown",
+    "tagline": "Private minivans and Koh Lanta taxis",
+    "place": "Koh Lanta, Krabi, Thailand",
+    "reviewsUrl": "https://maps.app.goo.gl/hnm3donEq7uR56Dr6",
+    "areaServed": [
+      "Southern Thailand",
+      "Koh Lanta",
+      "Krabi",
+      "Ao Nang",
+      "Phuket",
+      "Surat Thani",
+      "Trang",
+      "Khao Lak",
+      "Khao Sok",
+      "Hat Yai"
+    ],
+    "sameAs": [
+      "https://maps.app.goo.gl/hnm3donEq7uR56Dr6",
+      "https://viptaxilanta.wordpress.com/"
+    ]
+  },
+  "hero": {
+    "title": "Private minivans across Southern Thailand, taxis on Koh Lanta",
+    "lead": "Airports, piers, national parks and towns across Southern Thailand, from Phuket and Khao Lak to Trang and Hat Yai, by private minivan. Taxi rides on Koh Lanta, where we are based.",
+    "note": "Private transfers, no sharing, no hidden fees.",
+    "photo": {
+      "src": "/images/taxi/hero-ceiling-1800.webp",
+      "srcset": "/images/taxi/hero-ceiling-900.webp 900w, /images/taxi/hero-ceiling-1800.webp 1800w",
+      "width": 1800,
+      "height": 1350,
+      "alt": "Lit ceiling and tan leather seats inside the minivan"
+    },
+    "confirmed": true
+  },
+  "gallery": {
+    "title": "Our minivan",
+    "photos": [
+      {
+        "src": "/images/taxi/van-exterior.webp",
+        "width": 900,
+        "height": 675,
+        "alt": "Silver minivan seen from the side, parked on the street"
+      },
+      {
+        "src": "/images/taxi/van-seats.webp",
+        "width": 900,
+        "height": 675,
+        "alt": "Minivan interior with diamond-stitched tan leather seats and a lit ceiling"
+      },
+      {
+        "src": "/images/taxi/van-welcome.webp",
+        "width": 900,
+        "height": 675,
+        "alt": "Lit ceiling with a Welcome sign above rows of tan leather seats"
+      }
+    ]
+  },
+  "tours": {
+    "tag": "Our partner",
+    "title": "Ready to explore?",
+    "kicker": "Day tours and boat trips",
+    "text": "Secret Travel & Tour runs private day tours around Koh Lanta, plus longtail and speedboat trips. Choose one on their page and ask for a price on WhatsApp.",
+    "link": {
+      "href": "/",
+      "label": "Visit Secret Travel & Tour"
+    },
+    "photo": {
+      "src": "/images/secret/koh-phi-phi.webp",
+      "width": 800,
+      "height": 596,
+      "alt": "A longtail boat in turquoise water below limestone cliffs"
+    },
+    "confirmed": true
+  },
+  "services": [
+    {
+      "id": "airport",
+      "title": "Airport transfers",
+      "text": "Private minivan to and from Krabi Airport (KBV), Phuket Airport (HKT) and Surat Thani Airport (URT), in both directions, for Koh Lanta or any other place in the south.",
+      "photo": null,
+      "link": null,
+      "confirmed": true,
+      "routes": [
+        "krabi-airport-koh-lanta",
+        "phuket-airport-koh-lanta",
+        "surat-thani-koh-lanta"
+      ]
+    },
+    {
+      "id": "long-distance",
+      "title": "Long-distance private transfers",
+      "text": "Between any two places in Southern Thailand: Krabi Town, Ao Nang, Phuket, Khao Lak, Khao Sok, Surat Thani, Trang, Hat Yai, Donsak Pier, Cheow Lan Pier, with or without Koh Lanta on the way.",
+      "photo": null,
+      "link": null,
+      "confirmed": true,
+      "routes": [
+        "koh-lanta-krabi-town",
+        "koh-lanta-ao-nang",
+        "koh-lanta-khao-sok",
+        "koh-lanta-trang",
+        "koh-lanta-khao-lak",
+        "koh-lanta-donsak-pier"
+      ]
+    },
+    {
+      "id": "local",
+      "title": "Local taxi on Koh Lanta",
+      "text": "Private taxi rides around the island, for your group only.",
+      "photo": null,
+      "link": null,
+      "confirmed": true
+    }
+  ],
+  "why": [
+    {
+      "title": "Private only",
+      "text": "No sharing, no stress, no waiting.",
+      "confirmed": true
+    },
+    {
+      "title": "Professional drivers",
+      "text": "Friendly drivers who know the region well.",
+      "confirmed": true
+    },
+    {
+      "title": "Clean and comfortable vehicles",
+      "text": "Private minivans for your transfer, and taxis on Koh Lanta.",
+      "confirmed": true
+    },
+    {
+      "title": "Direct confirmation",
+      "text": "The team confirms your booking with you on WhatsApp.",
+      "confirmed": true
+    }
+  ],
+  "rating": {
+    "text": "Rated 5 stars on Google by international travelers",
+    "confirmed": true
+  },
+  "steps": [
+    {
+      "title": "Send your request",
+      "text": "Date, time, passengers, pick-up and drop-off.",
+      "confirmed": true
+    },
+    {
+      "title": "Get your confirmation",
+      "text": "Our team replies on WhatsApp with the price and the details.",
+      "confirmed": true
+    },
+    {
+      "title": "Meet your driver",
+      "text": "Your driver is on time at the pick-up point.",
+      "confirmed": true
+    }
+  ],
+  "payment": {
+    "text": "Cash to the driver on the day. No prepayment. No hidden fees.",
+    "confirmed": true
+  },
+  "faq": [
+    {
+      "q": "How do I book a transfer?",
+      "a": "Fill in the request form on this page. It opens WhatsApp with your message ready, and the team replies with the price and the details.",
+      "confirmed": true
+    },
+    {
+      "q": "Is the transfer private?",
+      "a": "Yes. Every transfer is private, with no sharing, so you travel only with your group.",
+      "confirmed": true
+    },
+    {
+      "q": "Is it a taxi or a minivan?",
+      "a": "Outside Koh Lanta we always drive a private minivan. On the island itself you can also book a taxi.",
+      "confirmed": true
+    },
+    {
+      "q": "How do I pay?",
+      "a": "You pay in cash to the driver on the day of the transfer. There is no prepayment and no hidden fees.",
+      "confirmed": true
+    },
+    {
+      "q": "Where do you drive in Southern Thailand?",
+      "a": "Across Southern Thailand: Krabi Town and Krabi airport, Ao Nang, Phuket and Phuket airport, Surat Thani airport and bus terminal, Trang, Khao Lak, Khao Sok, Donsak Pier and Cheow Lan Pier, and more.",
+      "confirmed": true
+    },
+    {
+      "q": "Do you only drive from Koh Lanta?",
+      "a": "No. Koh Lanta (also written Ko Lanta) is our base, but we drive across Southern Thailand, including trips that never touch the island, such as Krabi Airport to Ao Nang or Phuket Airport to Khao Lak. Tell us where we pick you up and where you are going in the request form.",
+      "confirmed": true
+    },
+    {
+      "q": "Do you offer airport transfers?",
+      "a": "Yes. We drive private minivan transfers between Krabi, Phuket and Surat Thani airports and Koh Lanta, Ao Nang, Khao Lak or any other place in Southern Thailand, in both directions.",
+      "confirmed": true
+    },
+    {
+      "q": "How do I get from Krabi Airport to Koh Lanta?",
+      "a": "Book a private minivan from Krabi Airport (KBV) to Koh Lanta. Enter Krabi Airport as the pickup and Koh Lanta as the destination in the request form, and the team replies with the price and the details.",
+      "confirmed": true
+    },
+    {
+      "q": "How do I get from Phuket Airport to Khao Lak?",
+      "a": "Book a private minivan from Phuket Airport (HKT) to Khao Lak. Enter Phuket Airport as the pickup and Khao Lak as the destination in the request form, and the team replies with the price.",
+      "confirmed": true
+    },
+    {
+      "q": "Can you pick me up at Phuket Airport and take me to Koh Lanta?",
+      "a": "Yes. We drive private minivan transfers from Phuket Airport (HKT) to Koh Lanta and back. Send your date and time in the request form and the team replies with the price.",
+      "confirmed": true
+    },
+    {
+      "q": "Can you take me to the airport when I leave Koh Lanta?",
+      "a": "Yes. Enter your hotel or Koh Lanta as the pickup and the airport as the destination, with your date and pickup time. We drive to Krabi, Phuket and Surat Thani airports.",
+      "confirmed": true
+    },
+    {
+      "q": "Can you drive me to a pier such as Donsak or Cheow Lan?",
+      "a": "Yes. Donsak Pier and Cheow Lan Pier are among the places we drive to. Enter the pier as your pickup or destination in the request form.",
+      "confirmed": true
+    },
+    {
+      "q": "Can I travel with children or babies?",
+      "a": "Yes. The request form lets you add children and babies and ask for a child seat or a baby seat.",
+      "confirmed": true
+    },
+    {
+      "q": "Can I book day tours or boat trips too?",
+      "a": "Day tours around Koh Lanta and boat trips are handled by Secret Travel & Tour. You can choose a trip and ask for a price on their page.",
+      "confirmed": true
+    }
+  ],
+  "places": [
+    "Krabi Airport",
+    "Phuket Airport",
+    "Surat Thani Airport",
+    "Koh Lanta",
+    "Krabi Town",
+    "Ao Nang",
+    "Khao Lak",
+    "Khao Sok",
+    "Trang",
+    "Hat Yai",
+    "Phuket Bus Terminal",
+    "Surat Thani Bus Terminal",
+    "Donsak Pier",
+    "Cheow Lan Pier"
+  ]
+}

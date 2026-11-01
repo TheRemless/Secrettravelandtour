@@ -1,0 +1,23 @@
+---
+permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://secrettravelandtour.com/</loc>
+  </url>
+  <url>
+    <loc>https://secrettravelandtour.com/taxi/</loc>
+  </url>
+{%- for p in secretPages.pages %}
+  <url>
+    <loc>{{ p.url }}</loc>
+  </url>
+{%- endfor %}
+{%- for r in taxiRoutesView.routes %}
+  <url>
+    <loc>{{ r.url }}</loc>
+  </url>
+{%- endfor %}
+</urlset>
