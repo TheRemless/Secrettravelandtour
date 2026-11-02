@@ -28,3 +28,22 @@
   for = "/js/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+# Versions françaises des pages légales retirées le 02.11.2026 (site en anglais seulement pour l'instant).
+[[redirects]]
+  from = "/terms/fr/*"
+  to = "/terms/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/legal/fr/*"
+  to = "/legal/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/privacy/fr/*"
+  to = "/privacy/"
+  status = 301
+  force = true

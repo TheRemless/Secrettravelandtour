@@ -1,25 +1,25 @@
 // tests/terms.test.js : conditions de réservation propres à Secret Travel & Tour et VIP Taxi Lanta.
 // Zwald garde ses CGV sur zwaldtravelplanner.com (décision de Jérémy du 02.11.2026).
+// Anglais seulement : les versions /fr/ ont été retirées le 02.11.2026 (301 dans netlify.toml).
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 
-const SRC = path.join(__dirname, "..", "src");
+const ROOT = path.join(__dirname, "..");
+const SRC = path.join(ROOT, "src");
 const read = (file) => fs.readFileSync(path.join(SRC, file), "utf8");
 
-test("conditions : version anglaise (qui fait foi) et traduction française, non indexées", () => {
+test("conditions : version anglaise seule, non indexée", () => {
   const en = read("terms.njk");
-  const fr = read("terms-fr.njk");
   assert.match(en, /permalink: \/terms\//);
-  assert.match(fr, /permalink: \/terms\/fr\//);
-  for (const page of [en, fr]) {
-    assert.match(page, /<meta name="robots" content="noindex, follow">/);
-    assert.match(page, /Zwald Travel Planner Co\., Ltd\./);
-    assert.doesNotMatch(page, /booking-terms/);
-  }
-  assert.match(fr, /la <a href="\/terms\/">version anglaise<\/a> fait foi/);
-  assert.equal((en.match(/<h2>/g) || []).length, (fr.match(/<h2>/g) || []).length, "même nombre d'articles");
+  assert.match(en, /<meta name="robots" content="noindex, follow">/);
+  assert.match(en, /Zwald Travel Planner Co\., Ltd\./);
+  assert.doesNotMatch(en, /booking-terms/);
+});
+
+test("conditions : tranches d'âge propres à chaque activité, pas de règle unique", () => {
+  assert.doesNotMatch(read("terms.njk"), /Babies are up to 2 years old/);
 });
 
 test("conditions : liées depuis l'accueil, les pages /tours/ et les pages taxi, plus vers les CGV de Zwald", () => {
@@ -30,8 +30,8 @@ test("conditions : liées depuis l'accueil, les pages /tours/ et les pages taxi,
   }
 });
 
-test("mentions légales et confidentialité propres au site, en anglais (qui fait foi) et en français", () => {
-  const pages = { "legal.njk": "/legal/", "legal-fr.njk": "/legal/fr/", "privacy.njk": "/privacy/", "privacy-fr.njk": "/privacy/fr/" };
+test("mentions légales et confidentialité propres au site, en anglais", () => {
+  const pages = { "legal.njk": "/legal/", "privacy.njk": "/privacy/" };
   for (const [file, url] of Object.entries(pages)) {
     const page = read(file);
     assert.match(page, new RegExp("permalink: " + url.replace(/\//g, "\\/")));
@@ -40,12 +40,24 @@ test("mentions légales et confidentialité propres au site, en anglais (qui fai
     assert.match(page, /292 Moo 2/);
     assert.doesNotMatch(page, /Moo 6|252\/1/, file + " garde l'ancienne adresse");
   }
-  assert.equal((read("privacy.njk").match(/<h2>/g) || []).length, (read("privacy-fr.njk").match(/<h2>/g) || []).length);
-  assert.equal((read("legal.njk").match(/<h2>/g) || []).length, (read("legal-fr.njk").match(/<h2>/g) || []).length);
+});
+
+test("aucune page en français : ni fichier /fr/, ni hreflang, ni lien « Version française »", () => {
+  for (const file of ["terms-fr.njk", "legal-fr.njk", "privacy-fr.njk"]) {
+    assert.ok(!fs.existsSync(path.join(SRC, file)), file + " existe encore");
+  }
+  for (const file of ["terms.njk", "legal.njk", "privacy.njk"]) {
+    const page = read(file);
+    assert.doesNotMatch(page, /hreflang|\/fr\/|Version française/, file);
+  }
+  const toml = fs.readFileSync(path.join(ROOT, "netlify.toml"), "utf8");
+  for (const p of ["terms", "legal", "privacy"]) {
+    assert.match(toml, new RegExp('from = "/' + p + '/fr/\\*"\\s+to = "/' + p + '/"\\s+status = 301'), p + " : 301 manquante");
+  }
 });
 
 test("plus aucun lien vers les pages légales de Zwald depuis Secret et le taxi", () => {
-  for (const file of ["secret.njk", "secret-page.njk", "taxi.njk", "taxi-route.njk", "terms.njk", "terms-fr.njk"]) {
+  for (const file of ["secret.njk", "secret-page.njk", "taxi.njk", "taxi-route.njk", "terms.njk"]) {
     const page = read(file);
     assert.doesNotMatch(page, /zwaldtravelplanner\.com\/(cgv|mentions-legales|politique-confidentialite)\//, file);
   }
