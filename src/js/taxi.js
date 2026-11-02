@@ -9,7 +9,7 @@
   if (!F || !form) return;
 
   var dateOther = document.getElementById("date-other");
-  var KEYS = ["from", "to", "date", "adults", "name"];
+  var KEYS = ["from", "to", "date", "time", "adults", "name"];
   var MAX_PEOPLE = 60;
 
   function el(name) {
@@ -110,7 +110,7 @@
   el("date_other").addEventListener("blur", function () { validateKey("date"); });
   el("date_other").addEventListener("change", function () { validateKey("date"); });
 
-  ["from", "to", "name"].forEach(function (key) {
+  ["from", "to", "time", "name"].forEach(function (key) {
     el(key).addEventListener("blur", function () { validateKey(key); });
     // Une fois l'erreur affichée, elle disparaît dès que la saisie devient valide.
     el(key).addEventListener("input", function () {

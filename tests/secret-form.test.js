@@ -117,7 +117,7 @@ test("buildMessage : excursion en bateau, enfants à 0 omis", () => {
     F.buildMessage(s, TODAY),
     [
       "Hi Secret Travel & Tour!",
-      "I'd like a price for a boat tour: Koh Rok & Koh Haa.",
+      "I'm interested in a boat tour: Koh Rok & Koh Haa.",
       "Name: Jane Doe",
       "Date: Tue 24 Nov 2026",
       "Adults: 2",
@@ -139,7 +139,7 @@ test("buildMessage : activité", () => {
     F.buildMessage(s, TODAY),
     [
       "Hi Secret Travel & Tour!",
-      "I'd like a price for an activity: Thai cooking class.",
+      "I'm interested in an activity: Thai cooking class.",
       "Name: Jane Doe",
       "Date: Today (Sat 14 Nov)",
       "People: 2",
@@ -247,4 +247,13 @@ test("validate : le nom est obligatoire, au moins deux caractères", () => {
   assert.match(F.validate(baseState({ name: " J " }), TODAY).name, /name/i);
   assert.equal(F.validate(baseState({ name: "Jo" }), TODAY).name, undefined);
   assert.equal(F.validate(baseState({ name: undefined }), TODAY).name !== undefined, true, "ancien brouillon sans nom");
+});
+
+test("validate : l'heure de prise en charge est obligatoire pour un transfert, pas pour une excursion", () => {
+  const t = baseState();
+  t.transfer = Object.assign({}, t.transfer, { time: "" });
+  assert.match(F.validate(t, TODAY).time, /pickup time/i);
+  assert.deepEqual(Object.keys(F.validate(t, TODAY)), ["time"]);
+  const b = baseState({ type: "boat" });
+  assert.equal(F.validate(b, TODAY).time, undefined);
 });

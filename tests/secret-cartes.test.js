@@ -17,7 +17,7 @@ test("carte : le titre est un lien vers la page de l'excursion, ou vers le formu
   assert.match(macro, /<h3><a class="card-link" href="#tell-us" data-type="\{\{ type \}\}" data-value="\{\{ item\.name \}\}">/);
   // Les liens explicites restent.
   assert.match(macro, /class="learn"/);
-  assert.match(macro, /getPrice\(type, item\.name\)/);
+  assert.match(macro, /getPrice\(type, item\.name, /);
 });
 
 test("css : le lien du titre couvre toute la carte, les liens explicites restent au-dessus", () => {

@@ -1,6 +1,6 @@
 // Pages /tours/<id>/ : une par excursion ou activité qui a assez de faits confirmés.
 // Catalogue (nom, photo, infos courtes) dans secret.json, textes et programmes dans
-// secretPagesContent.json (base partenaires du 28.10.2026). Aucun prix nulle part.
+// secretPagesContent.json (base partenaires du 28.10.2026). Les tarifs affichés sont ceux des brochures, jamais dans le JSON-LD.
 const secret = require("./secret.json");
 const content = require("./secretPagesContent.json");
 
@@ -36,7 +36,7 @@ function jsonLd(item, page, url) {
       ? { "@type": "ItemList", itemListElement: page.places.map((name, i) => ({ "@type": "ListItem", position: i + 1, item: { "@type": "Place", name } })) }
       : undefined,
     location: page.schemaType !== "TouristTrip" ? { "@type": "Place", name: "Koh Lanta", address: { "@type": "PostalAddress", addressLocality: "Koh Lanta", addressRegion: "Krabi", addressCountry: "TH" } } : undefined,
-    // Aucun prix : le tarif est donné sur WhatsApp.
+    // Pas de prix dans les données structurées : les tarifs sont affichés sur la page.
     offers: { "@type": "Offer", url: `${SITE}/#tell-us`, availability: "https://schema.org/InStock" }
   };
   Object.keys(main).forEach((k) => main[k] === undefined && delete main[k]);
@@ -57,7 +57,9 @@ function jsonLd(item, page, url) {
 }
 
 module.exports = function () {
-  const items = secret.tours.map((t) => ({ ...t, kind: "boat" })).concat(secret.activities.map((a) => ({ ...a, kind: "activity" })));
+  const items = secret.tours.map((t) => ({ ...t, kind: "boat" }))
+    .concat(secret.activities.map((a) => ({ ...a, kind: "activity" })))
+    .concat((secret.transfers || []).map((t) => ({ ...t, kind: "transfer" })));
   const pages = [];
   for (const item of items) {
     const page = content.pages[item.id];
@@ -67,5 +69,7 @@ module.exports = function () {
     merged.jsonLd = jsonLd(item, merged, url);
     pages.push(merged);
   }
-  return { pages, parkFeeNote: content.parkFeeNote, byId: Object.fromEntries(pages.map((p) => [p.id, p])) };
+  const byKind = { boat: [], activity: [], transfer: [] };
+  for (const page of pages) byKind[page.kind].push(page);
+  return { pages, parkFeeNote: content.parkFeeNote, byId: Object.fromEntries(pages.map((p) => [p.id, p])), byKind };
 };

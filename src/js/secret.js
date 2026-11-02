@@ -124,7 +124,7 @@
   }
 
   /* Erreurs affichées sous chaque champ, focus sur le premier champ fautif. */
-  var ERROR_FIELDS = { from: "t-from", to: "t-to", tour: "b-tour", activity: "a-activity", date: "dateChoice", name: "name" };
+  var ERROR_FIELDS = { from: "t-from", to: "t-to", time: "t-time", tour: "b-tour", activity: "a-activity", date: "dateChoice", name: "name" };
   function errorTarget(key) {
     if (key !== "adults") return { id: "err-" + key, field: ERROR_FIELDS[key] };
     return radio("type") === "boat" ? { id: "err-adults-boat", field: "b-adults" } : { id: "err-adults", field: "t-adults" };
@@ -221,10 +221,15 @@
     firstDate.focus({ preventScroll: true });
   });
 
-  /* Arrivée depuis une page d'excursion (/tours/<id>/?tour=… ou ?activity=…) :
+  /* Arrivée depuis une page d'excursion (/tours/<id>/?tour=…, ?activity=… ou ?transfer=speedboat) :
      présélectionne le service comme un clic sur « Get a price ». */
   function presetFromUrl() {
     var params = new URLSearchParams(window.location.search);
+    if (params.get("transfer") === "speedboat") {
+      setRadio("type", "transfer");
+      setRadio("t-vehicle", "speedboat");
+      return true;
+    }
     var type = params.has("tour") ? "boat" : params.has("activity") ? "activity" : "";
     if (!type) return false;
     setRadio("type", type);

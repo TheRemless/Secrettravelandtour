@@ -90,13 +90,13 @@
       lines.push((t.mode === "shared" ? "Shared " : "Private ") + vehicle);
     } else if (state.type === "boat") {
       var b = state.boat;
-      lines.push("I'd like a price for a boat tour: " + clean(b.tour) + ".");
+      lines.push("I'm interested in a boat tour: " + clean(b.tour) + ".");
       if (dateLine) lines.push(dateLine);
       travellers(lines, b);
       lines.push(b.mode === "join-in" ? "Join-in trip" : "Private boat");
     } else {
       var a = state.activity;
-      lines.push("I'd like a price for an activity: " + clean(a.activity) + ".");
+      lines.push("I'm interested in an activity: " + clean(a.activity) + ".");
       if (dateLine) lines.push(dateLine);
       if (a.people > 0) lines.push("People: " + a.people);
     }
@@ -118,6 +118,7 @@
     if (state.type === "transfer") {
       if (!clean(state.transfer.from)) errors.from = "Tell us where we pick you up.";
       if (!clean(state.transfer.to)) errors.to = "Tell us where you're going.";
+      if (!clean(state.transfer.time)) errors.time = "Choose a pickup time.";
       if (!(state.transfer.adults > 0)) errors.adults = "At least one adult travels.";
     } else if (state.type === "boat") {
       if (!clean(state.boat.tour)) errors.tour = "Choose a boat tour.";
