@@ -32,7 +32,7 @@
     },
     {
       "label": "Season",
-      "value": "Open all year"
+      "value": "All year"
     }
   ],
   "price": {
@@ -100,7 +100,7 @@
       "steps": [
         {
           "label": "Morning",
-          "text": "Pickup at 8:00 to 9:00. Introduction to batik at 9:00, then you create your artwork from 10:00 to 12:00. Back at your hotel around 13:00."
+          "text": "Pickup at 08:00 to 09:00. Introduction to batik at 09:00, then you create your artwork from 10:00 to 12:00. Back at your hotel around 13:00."
         },
         {
           "label": "Afternoon",
@@ -116,7 +116,7 @@
       "steps": [
         {
           "label": "Kayak",
-          "text": "Pickup at 8:00 to 9:00 for Tungyeepeng pier. A longtail to Koh Talabeng, paddling around the islets, the sea cave and the beach. Lunch at the mangrove restaurant at 12:00, painting from 13:00, back at your hotel at 17:00."
+          "text": "Pickup at 08:00 to 09:00 for Tungyeepeng pier. A longtail to Koh Talabeng, paddling around the islets, the sea cave and the beach. Lunch at the mangrove restaurant at 12:00, painting from 13:00, back at your hotel at 17:00."
         }
       ]
     }
@@ -127,10 +127,6 @@
     "An English-speaking local guide",
     "Your finished canvas, delivered the next day after varnishing"
   ],
-  "beforeYouBook": {
-    "children": "Children from 3 to 10 pay the child rate.",
-    "weather": "Times are approximate and can change with the tide and the weather."
-  },
   "faq": [
     {
       "q": "Can children join?",

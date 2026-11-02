@@ -27,23 +27,32 @@ boardPermalink: /design/taxi/
   /* Mise en page propre à la planche, pas au site. */
   .bd-sec { padding-top: var(--s5); }
   .bd-sec > h2 { margin-bottom: var(--s1); }
-  .bd-desc { margin-bottom: var(--s3); color: var(--mute); }
+  .bd-title { font-size: clamp(2rem, 1.5rem + 2vw, 3rem); }
+  .bd-desc { margin: var(--s1) 0 var(--s3); color: var(--mute); }
+  .bd-switch { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s1); }
+  .bd-switch p { margin-right: var(--s1); font-weight: 700; }
+  .bd-switch button { min-height: 44px; padding: 0 1rem; border: 1px solid var(--edge-line); border-radius: 10px; background: var(--bg-2); color: var(--text); font: 700 .9375rem/1 var(--sans); cursor: pointer; }
+  .bd-switch button[aria-pressed="true"] { border-color: var(--amber); background: var(--amber); color: var(--ink); }
   .bd-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: var(--s2); list-style: none; padding: 0; }
   .bd-swatches li { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
   .bd-chip { height: 4rem; }
-  .bd-swatches p { padding: .5rem .75rem; font-size: .9375rem; line-height: 1.4; color: var(--text); }
+  .bd-swatches p { padding: .5rem .75rem; font-size: .9375rem; line-height: 1.4; }
+  .c-bg { background: #140D09; } .c-bg2 { background: #1F140E; } .c-text { background: #F2E6D2; } .c-mute { background: #C2B199; }
+  .c-amber { background: #F0B13A; } .c-edge { background: #846428; } .c-ink { background: #20130A; outline: 1px solid #846428; outline-offset: -1px; } .c-muteink { background: #5A4A3A; }
   .bd-type > * + * { margin-top: var(--s3); }
   .bd-type small { display: block; margin-bottom: .25rem; color: var(--mute); font: 400 .875rem/1.3 var(--sans); }
-  .bd-hero { position: relative; overflow: hidden; border-radius: var(--radius); }
-  .bd-hero img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
-  .bd-route h1 { margin: var(--s3) 0 var(--s2); font-size: clamp(2.1rem, 1.5rem + 3vw, 3.6rem); }
+  .t-h1 { max-width: none; font: 400 clamp(2.4rem, 1.7rem + 3.4vw, 4.4rem)/1.04 var(--serif); letter-spacing: -.01em; }
+  .bd-hero img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: var(--radius); }
+  .bd-route .t-h1 { margin: var(--s3) 0 var(--s2); font-size: clamp(2.1rem, 1.5rem + 3vw, 3.6rem); }
   .bd-route .lead { color: var(--mute); max-width: 40rem; }
+  .bd-route .ticket { margin-top: var(--s3); }
   .bd-route .actions { display: flex; flex-wrap: wrap; gap: var(--s2); margin-top: var(--s3); }
   .bd-route section { margin-top: var(--s5); }
   .bd-route section > h2 { margin-bottom: var(--s3); }
   .bd-phone { max-width: 390px; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
   .bd-phone .vbar { position: static; display: flex; }
-  .bd-phone p.cap { padding: var(--s2); color: var(--mute); font-size: .9375rem; }
+  .bd-cap { padding: var(--s2); color: var(--mute); font-size: .9375rem; }
+  .bd-open { margin-top: var(--s3); }
   @media (min-width: 64rem) { .bd-two { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--s5); align-items: start; } }
 </style>
 <script>document.documentElement.classList.add("js");</script>
@@ -54,28 +63,34 @@ boardPermalink: /design/taxi/
 
 <main id="main" class="wrap">
   <div class="bd-sec">
-    <h1 style="font-size:clamp(2rem,1.5rem + 2vw,3rem)">Design board, VIP Taxi Lanta</h1>
-    <p class="bd-desc" style="margin-top:var(--s1)">Mr. Brown's own identity on the same domain: espresso, gold, Marcellus and Figtree, his logo unchanged. Real content from the data files only.</p>
+    <h1 class="bd-title">Design board, VIP Taxi Lanta</h1>
+    <p class="bd-desc">Mr. Brown's own identity on the same domain: espresso, gold, Marcellus and Figtree, his logo unchanged. Real content from the data files only.</p>
+    <div class="bd-switch" role="group" aria-label="Secret Travel &amp; Tour emblem shown in the boat trips block">
+      <p>Secret emblem</p>
+      <button type="button" data-logo-choice="a" aria-pressed="false">Option A</button>
+      <button type="button" data-logo-choice="b" aria-pressed="true">Option B</button>
+      <button type="button" data-logo-choice="bv" aria-pressed="false">Option B with the van</button>
+    </div>
   </div>
 
   <section class="bd-sec" aria-labelledby="h-colours">
     <h2 id="h-colours">Colours</h2>
     <p class="bd-desc">Contrast ratios measured against the background named, WCAG 2.1.</p>
     <ul class="bd-swatches">
-      <li><div class="bd-chip" style="background:#140D09"></div><p>Espresso <code>#140D09</code><br>page background</p></li>
-      <li><div class="bd-chip" style="background:#1F140E"></div><p>Cabin <code>#1F140E</code><br>cards, mobile bar</p></li>
-      <li><div class="bd-chip" style="background:#F2E6D2"></div><p>Cream <code>#F2E6D2</code><br>15.6:1 on espresso</p></li>
-      <li><div class="bd-chip" style="background:#C2B199"></div><p>Muted <code>#C2B199</code><br>9.2:1 on espresso</p></li>
-      <li><div class="bd-chip" style="background:#F0B13A"></div><p>Gold <code>#F0B13A</code><br>10.1:1 on espresso</p></li>
-      <li><div class="bd-chip" style="background:#846428"></div><p>Card edge <code>#846428</code><br>3.5:1 on espresso, 3.3:1 on cabin</p></li>
-      <li><div class="bd-chip" style="background:#20130A;outline:1px solid #846428"></div><p>Ink <code>#20130A</code><br>14.7:1 on cream</p></li>
-      <li><div class="bd-chip" style="background:#5A4A3A"></div><p>Ink, muted <code>#5A4A3A</code><br>6.9:1 on cream</p></li>
+      <li><div class="bd-chip c-bg"></div><p>Espresso <code>#140D09</code><br>page background</p></li>
+      <li><div class="bd-chip c-bg2"></div><p>Cabin <code>#1F140E</code><br>mobile bar</p></li>
+      <li><div class="bd-chip c-text"></div><p>Cream <code>#F2E6D2</code><br>15.6:1 on espresso</p></li>
+      <li><div class="bd-chip c-mute"></div><p>Muted <code>#C2B199</code><br>9.2:1 on espresso</p></li>
+      <li><div class="bd-chip c-amber"></div><p>Gold <code>#F0B13A</code><br>10.1:1 on espresso</p></li>
+      <li><div class="bd-chip c-edge"></div><p>Rules <code>#846428</code><br>3.5:1 on espresso</p></li>
+      <li><div class="bd-chip c-ink"></div><p>Ink <code>#20130A</code><br>14.7:1 on cream</p></li>
+      <li><div class="bd-chip c-muteink"></div><p>Ink, muted <code>#5A4A3A</code><br>6.9:1 on cream</p></li>
     </ul>
   </section>
 
   <section class="bd-sec bd-type" aria-labelledby="h-type">
     <h2 id="h-type">Type</h2>
-    <div><small>Title, Marcellus 400</small><p style="font:400 clamp(2.4rem,1.7rem + 3.4vw,4.4rem)/1.04 var(--serif);max-width:none">{{ r.h1 }}</p></div>
+    <div><small>Title, Marcellus 400</small><p class="t-h1">{{ r.h1 }}</p></div>
     <div><small>Text, Figtree 400, line height 1.65</small><p>{{ r.lead }}</p></div>
   </section>
 
@@ -85,9 +100,9 @@ boardPermalink: /design/taxi/
       {%- if tb.hero %}
       <div class="bd-hero"><img eleventy:ignore src="{{ tb.hero.src }}" alt="{{ tb.hero.alt }}" width="{{ tb.hero.width }}" height="{{ tb.hero.height }}" fetchpriority="high"></div>
       {%- endif %}
-      <p style="font:400 clamp(2.1rem,1.5rem + 3vw,3.6rem)/1.04 var(--serif);margin:var(--s3) 0 var(--s2);max-width:none">{{ r.h1 }}</p>
+      <p class="t-h1">{{ r.h1 }}</p>
       <p class="lead">{{ r.lead }}</p>
-      <div style="margin-top:var(--s3)">{{ vip.routeFacts(r.facts, "Facts, " + r.name) }}</div>
+      {{ vip.routeFacts(r.facts, "Facts, " + r.name) }}
       <div class="actions">
         <a class="btn" href="{{ fallback }}" data-book="">{{ icon("whatsapp") }}<span>Check availability</span></a>
       </div>
@@ -95,9 +110,7 @@ boardPermalink: /design/taxi/
 
     <section aria-labelledby="h-routes">
       <h2 id="h-routes">Routes</h2>
-      <ul class="routes">
-        {% for c in tb.routeCards %}<li>{{ vip.routeCard(c) }}</li>{% endfor %}
-      </ul>
+      {{ vip.routeList(tb.routeCards) }}
     </section>
 
     <section>{{ vip.vehicle(tb.vehicle, slots) }}</section>
@@ -116,14 +129,17 @@ boardPermalink: /design/taxi/
           <h2 id="h-rating">Google rating</h2>
           {{ vip.rating(tb.rating) }}
         </section>
-        <section>{{ vip.secretAd(tb.secret) }}</section>
+        <section aria-labelledby="h-ad">
+          <h2 id="h-ad">Secret Travel &amp; Tour block</h2>
+          {{ vip.secretAd(tb.secret, "b") }}
+        </section>
         <section aria-labelledby="h-bar">
           <h2 id="h-bar">Mobile bar</h2>
           <div class="bd-phone">
-            <p class="cap">Fixed to the bottom of the screen on phones. Live at the bottom of this page under 1,024 px.</p>
+            <p class="bd-cap">Fixed to the bottom of the screen on phones. Live at the bottom of this page under 1,024 px.</p>
             {{ vip.mobileBar(null, fallback) }}
           </div>
-          <p style="margin-top:var(--s3)"><button class="btn" type="button" data-book="">Open the booking sheet</button></p>
+          <p class="bd-open"><button class="btn" type="button" data-book="">Open the booking sheet</button></p>
         </section>
       </div>
     </div>
@@ -134,9 +150,6 @@ boardPermalink: /design/taxi/
 {{ vip.mobileBar(null, fallback) }}
 {{ bookingSheet(tb.booking, boardContact) }}
 <script src="/js/booking.js?v={{ build.v }}" defer></script>
-<script>
-  // Planche seulement : /design/taxi/#sheet ouvre la feuille, pour les captures.
-  if (location.hash === "#sheet") addEventListener("load", function () { var b = document.querySelector('.actions [data-book]'); if (b) b.click(); });
-</script>
+{% include "board-tools.njk" %}
 </body>
 </html>

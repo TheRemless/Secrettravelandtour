@@ -254,7 +254,7 @@
       "steps": [
         {
           "label": "1 day",
-          "text": "Sea cave kayaking and island hopping. Mangrove and monkeys, Koh Aung, then Koh Talabeng by longtail with kayaking and the sea cave. Lunch and a swim on Koh Bubu. 9:00 to 15:00."
+          "text": "Sea cave kayaking and island hopping. Mangrove and monkeys, Koh Aung, then Koh Talabeng by longtail with kayaking and the sea cave. Lunch and a swim on Koh Bubu. 09:00 to 15:00."
         }
       ]
     },
@@ -266,7 +266,7 @@
       "steps": [
         {
           "label": "1 day",
-          "text": "Love kayak, two places. Paddling in the mangrove, then Koh Talabeng by longtail, the sea cave by kayak, lunch on the beach and Koh Phee by longtail. 9:00 to 15:30."
+          "text": "Love kayak, two places. Paddling in the mangrove, then Koh Talabeng by longtail, the sea cave by kayak, lunch on the beach and Koh Phee by longtail. 09:00 to 15:30."
         }
       ]
     },
@@ -334,13 +334,8 @@
   "included": [
     "Hotel transfer both ways",
     "Experienced local guide",
-    "Lunch, drinks and seasonal fruit",
-    "Insurance"
+    "Lunch, drinks and seasonal fruit"
   ],
-  "beforeYouBook": {
-    "children": "Children from 4 to 11 pay the child rate.",
-    "weather": "Times can change with the tide and the weather."
-  },
   "faq": [
     {
       "q": "Which trip should I choose?",

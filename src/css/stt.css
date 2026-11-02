@@ -104,7 +104,7 @@ h1, h2, h3, h4 {
   line-height: 1.15;
   text-wrap: balance;
 }
-h1 { font-size: clamp(2.25rem, 1.55rem + 3vw, 3.75rem); line-height: 1.05; letter-spacing: -.018em; }
+h1 { font-size: clamp(2.25rem, 1.55rem + 3vw, 3.75rem); line-height: 1.05; letter-spacing: -.01em; word-spacing: .04em; }
 h2 { font-size: clamp(1.625rem, 1.3rem + 1.4vw, 2.25rem); line-height: 1.1; letter-spacing: -.01em; }
 h3 { font-size: 1.25rem; font-weight: 650; line-height: 1.2; }
 p, ul, ol, dl { margin: 0; }
@@ -163,7 +163,7 @@ a:hover { text-decoration-thickness: 2px; }
 }
 .site-header .wrap { display: flex; align-items: center; gap: var(--s2); min-height: var(--header-h); }
 .brand { display: flex; align-items: center; flex: none; min-height: 44px; }
-.brand img { width: auto; height: 32px; }
+.brand img { width: auto; height: 30px; }
 .nav { display: none; }
 .header-actions { display: flex; align-items: center; gap: var(--s1); margin-left: auto; }
 .header-wa { min-height: 44px; padding: 0 .85rem; font-size: 1rem; }
@@ -173,9 +173,13 @@ a:hover { text-decoration-thickness: 2px; }
   background: transparent; color: var(--ink); cursor: pointer;
 }
 .menu-btn svg { width: 1.5rem; height: 1.5rem; }
-@media (max-width: 22.4rem) { .header-wa span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); } }
+/* Sous 26rem, le bouton WhatsApp garde son pictogramme et son nom accessible, sans le mot visible. */
+@media (max-width: 26rem) {
+  .header-wa { width: 44px; padding: 0; }
+  .header-wa span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
 @media (min-width: 64rem) {
-  .brand img { height: 40px; }
+  .brand img { height: 36px; }
   .nav { display: block; margin-left: var(--s4); }
   .nav ul { display: flex; gap: var(--s3); list-style: none; padding: 0; }
   .nav a {
@@ -196,7 +200,7 @@ a:hover { text-decoration-thickness: 2px; }
 }
 .menu::backdrop { background: var(--sand); }
 .menu-top { display: flex; align-items: center; justify-content: space-between; min-height: var(--header-h); padding-inline: var(--margin); border-bottom: 1px solid var(--rule); }
-.menu-top img { height: 34px; width: auto; }
+.menu-top img { height: 30px; width: auto; }
 .menu nav ul { list-style: none; padding: var(--s2) var(--margin) 0; }
 .menu nav li + li { border-top: 1px solid var(--rule); }
 .menu nav a {
@@ -245,44 +249,48 @@ a:hover { text-decoration-thickness: 2px; }
   color: var(--mute); font-size: .9375rem; text-align: center; background: transparent;
 }
 
-/* ---------- Bandeau de faits clés : le tableau des départs ---------- */
+/* ---------- Bandeau de faits clés : billet de ferry, grille réglée ---------- */
 .board {
-  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin: 0; padding: .25rem var(--s2);
+  display: grid; grid-template-columns: minmax(0, 1fr); column-gap: var(--s4);
+  margin: 0; padding: .25rem var(--s3);
   border-radius: var(--radius); background: var(--deep); color: var(--white);
 }
-.board div { padding: var(--s2) 0; border-top: 1px solid var(--rule-dark); }
-.board div:nth-child(-n+2) { border-top: 0; }
-.board div:nth-child(even) { padding-left: var(--s2); border-left: 1px solid var(--rule-dark); }
-.board dt { font-size: .875rem; line-height: 1.3; color: var(--lagoon); }
-.board dd {
-  margin: .25rem 0 0;
-  font: 700 clamp(1.25rem, 1rem + 1.2vw, 1.75rem)/1.1 var(--head); font-stretch: var(--narrow);
-  font-variant-numeric: tabular-nums; letter-spacing: -.005em;
+.board-row {
+  display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: var(--s2); align-items: baseline;
+  padding: .85rem 0; border-top: 1px solid var(--rule-dark);
 }
-.board dd small { display: block; margin-top: .2rem; font: 400 .875rem/1.3 var(--text); color: var(--lagoon); letter-spacing: 0; }
-.board .board-price dd { color: var(--sun); }
+.board-row:first-child { border-top: 0; }
+.board dt { font-size: .9375rem; line-height: 1.3; color: var(--lagoon); }
+.board dd { margin: 0; font-size: 1.0625rem; line-height: 1.35; }
+.board-num {
+  display: block;
+  font: 700 clamp(1.625rem, 1.3rem + 1.2vw, 2.125rem)/1.05 var(--head); font-stretch: var(--narrow);
+  font-variant-numeric: tabular-nums; letter-spacing: 0;
+}
+.board-price .board-num { color: var(--sun); }
+.board-note { display: block; margin-top: .25rem; font-size: .9375rem; color: var(--lagoon); }
+/* Les deux lignes chiffrées ouvrent le billet ; un filet pointillé les sépare des lignes de texte. */
+.board-row--num + .board-row:not(.board-row--num) { border-top-style: dashed; border-top-color: var(--lagoon); }
 @media (min-width: 48rem) {
-  .board { grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); grid-template-columns: none; padding: 0 var(--s1); }
-  .board div, .board div:nth-child(even) { padding: var(--s2) var(--s3); border-top: 0; border-left: 1px solid var(--rule-dark); }
-  .board div:first-child { border-left: 0; }
+  .board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .board .board-row.board-row:nth-child(-n+2) { border-top: 0; }
+  .board-row--num + .board-row--num + .board-row:not(.board-row--num),
+  .board-row--num + .board-row--num + .board-row + .board-row { border-top-style: dashed; border-top-color: var(--lagoon); }
 }
 
-/* ---------- Options et prix ---------- */
+/* ---------- Options et prix : la ligne entière est le bouton ---------- */
 .options { display: grid; gap: var(--s2); list-style: none; padding: 0; }
 .opt {
-  display: grid; grid-template-columns: 1.5rem minmax(0, 1fr); gap: 0 .75rem; width: 100%;
-  padding: var(--s2) var(--s2) var(--s2) .875rem;
+  display: grid; gap: .5rem; width: 100%; padding: var(--s2);
   border: 1px solid var(--field); border-radius: var(--radius);
   background: var(--white); color: var(--ink); text-align: left; font: inherit; cursor: pointer;
-  touch-action: manipulation;
+  touch-action: manipulation; transition: border-color .15s ease-out;
 }
 .opt:hover { border-color: var(--sea); }
+.opt:hover .opt-title { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .15em; }
 .opt[aria-pressed="true"] { border-color: var(--sea); outline: 1px solid var(--sea); outline-offset: -2px; }
-.opt-dot { width: 1.25rem; height: 1.25rem; margin-top: .2rem; border: 2px solid var(--field); border-radius: 50%; }
-.opt[aria-pressed="true"] .opt-dot { border: 6px solid var(--sea); }
-.opt-main { display: grid; gap: .5rem; min-width: 0; }
 .opt-title { display: block; font: 650 1.25rem/1.2 var(--head); font-stretch: var(--narrow); }
+.opt-body { display: grid; gap: .5rem; }
 .opt-note { display: block; color: var(--mute); font-size: .9375rem; }
 .opt-rows { display: grid; }
 .opt-row { display: flex; justify-content: space-between; align-items: baseline; gap: var(--s2); padding: .45rem 0; border-top: 1px solid var(--rule); }
@@ -290,15 +298,13 @@ a:hover { text-decoration-thickness: 2px; }
 .opt-row .num { flex: none; font: 700 1.125rem/1.2 var(--head); font-stretch: var(--narrow); }
 .opt-fee { display: block; font-size: .9375rem; color: var(--mute); }
 .opt-fee b { color: var(--ink); }
-.opt-cta { display: inline-flex; align-items: center; gap: .3rem; margin-top: .25rem; color: var(--sea); font-weight: 700; }
-.opt-cta svg { width: 1rem; height: 1rem; }
 .fees { margin-top: var(--s2); padding-top: var(--s2); border-top: 1px solid var(--rule); }
 .fees strong { font-weight: 700; }
 .price-note { margin-top: var(--s1); color: var(--mute); font-size: .9375rem; }
 
 /* ---------- Déroulé de la journée ---------- */
 .timeline { list-style: none; padding: 0; max-width: 46rem; }
-.timeline li { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: var(--s2); padding: .75rem 0; border-top: 1px solid var(--rule); }
+.timeline li { display: grid; grid-template-columns: 4rem minmax(0, 1fr); gap: var(--s2); padding: .75rem 0; border-top: 1px solid var(--rule); }
 .timeline li:first-child { border-top: 0; }
 .timeline .t { font: 700 1.125rem/1.5 var(--head); font-stretch: var(--narrow); font-variant-numeric: tabular-nums; color: var(--sea); }
 .timeline-note { margin-top: var(--s2); color: var(--mute); font-size: .9375rem; }
@@ -377,7 +383,7 @@ a:hover { text-decoration-thickness: 2px; }
 .site-footer a { color: var(--lagoon); }
 .site-footer .grid { row-gap: var(--s4); }
 .foot-brand { grid-column: 1 / -1; }
-.foot-brand img { height: 44px; width: auto; }
+.foot-brand img { height: 64px; width: auto; }
 .foot-col { grid-column: 1 / -1; }
 .foot-col h2 { margin-bottom: .5rem; font-size: 1.125rem; letter-spacing: 0; }
 .foot-col p + p { margin-top: .5rem; }

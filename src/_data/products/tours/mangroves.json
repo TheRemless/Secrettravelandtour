@@ -47,7 +47,7 @@
       "label": "Private raft at sunrise",
       "kind": "private",
       "boat": "raft",
-      "note": "On the water by 5:30, breakfast on board.",
+      "note": "On the water by 05:30, breakfast on board.",
       "prices": [
         {
           "label": "1 to 2 people, the raft",
@@ -277,7 +277,7 @@
       "steps": [
         {
           "time": "04:40",
-          "text": "Sunrise raft. On the water by 5:30, sunrise around 6:00 over the mountains, light breakfast on the raft (coffee, tea, snacks), back at the hotel by 7:30."
+          "text": "Sunrise raft. On the water by 05:30, sunrise around 06:00 over the mountains, light breakfast on the raft (coffee, tea, snacks), back at the hotel by 07:30."
         }
       ]
     },
@@ -312,7 +312,7 @@
     "Kayaks and life jackets on the kayak trip"
   ],
   "beforeYouBook": {
-    "pickup": "Sunrise raft: pickup around 4:40, back at the hotel by 7:30.",
+    "pickup": "Sunrise raft: pickup around 04:40, back at the hotel by 07:30.",
     "bring": [
       "Mosquito repellent for sunrise and sunset"
     ],
@@ -329,7 +329,7 @@
     },
     {
       "q": "How early is the sunrise trip?",
-      "a": "Pickup is around 4:40 and you are back at the hotel by 7:30, in time for a second breakfast."
+      "a": "Pickup is around 04:40 and you are back at the hotel by 07:30, in time for a second breakfast."
     }
   ],
   "photos": [

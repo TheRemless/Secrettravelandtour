@@ -13,8 +13,8 @@
       "h1": "Koh Rok and Koh Haa snorkeling tour"
     }
   },
-  "h1": "Koh Rok and Koh Haa snorkeling day trip",
-  "lead": "Two islands of the Mu Ko Lanta National Park, open from October to April, by speedboat or private longtail. Snorkeling stops and lunch on the beach of Koh Rok.",
+  "h1": "Koh Rok and Koh Haa snorkelling day trip",
+  "lead": "Two islands of the Mu Ko Lanta National Park, open from October to April, by speedboat or private longtail. Snorkelling stops and lunch on the beach of Koh Rok.",
   "facts": [
     {
       "label": "Duration",
@@ -108,7 +108,7 @@
       "label": "Private longtail to Koh Rok",
       "kind": "private",
       "boat": "longtail",
-      "note": "The whole boat for your group. Koh Rok only, 8:00 to 16:00, about 1h30 each way, your group only.",
+      "note": "The whole boat for your group. Koh Rok only, 08:00 to 16:00, about 1 hr 30 min each way, your group only.",
       "prices": [
         {
           "label": "1 to 3 people",
@@ -180,7 +180,7 @@
       "kind": "private",
       "boat": "speedboat",
       "priceOnRequest": true,
-      "note": "Private speedboat option: your group only, 9:00 to 16:00.",
+      "note": "Private speedboat option: your group only, 09:00 to 16:00.",
       "notIncludedFees": [
         {
           "label": "National park fee, adult",
@@ -252,14 +252,14 @@
       "steps": [
         {
           "time": "08:00",
-          "text": "Pickup at your hotel around 8:00, light breakfast at the pier."
+          "text": "Pickup at your hotel around 08:00, light breakfast at the pier."
         },
         {
           "time": "09:30",
           "text": "The speedboat leaves for Koh Rok."
         },
         {
-          "text": "Two snorkeling stops over the coral around Koh Rok."
+          "text": "Two snorkelling stops over the coral around Koh Rok."
         },
         {
           "time": "12:00",
@@ -267,7 +267,7 @@
         },
         {
           "time": "14:00",
-          "text": "Koh Haa and a third snorkeling stop in the lagoon."
+          "text": "Koh Haa and a third snorkelling stop in the lagoon."
         },
         {
           "time": "15:30",
@@ -280,17 +280,16 @@
     "Hotel transfer both ways",
     "Thai buffet lunch on the beach, water and fruit",
     "Masks, snorkels and life jackets",
-    "Guide and insurance"
+    "Guide"
   ],
   "notIncluded": [
     "National park fee, paid in cash on the island"
   ],
   "beforeYouBook": {
-    "pickup": "Pickup at your hotel around 8:00, light breakfast at the pier.",
+    "pickup": "Pickup at your hotel around 08:00, light breakfast at the pier.",
     "bring": [
       "Cash for the national park fee"
     ],
-    "children": "Children from 4 to 11 pay a child rate on the speedboat.",
     "weather": "The park is closed in the rainy season. Tours run from October to April."
   },
   "faq": [

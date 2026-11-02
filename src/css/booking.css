@@ -93,9 +93,11 @@ html.sheet-open { overflow: hidden; }
 }
 .choice--list input + span { justify-content: space-between; text-align: left; font-weight: 400; }
 .choice--list input + span b { font-weight: 700; }
-.choice--list input + span .num { flex: none; font-variant-numeric: tabular-nums; color: var(--sheet-mute); }
+.choice--list .opt-price { flex: none; text-align: right; line-height: 1.2; color: var(--sheet-mute); }
+.choice--list .opt-price .num { font-weight: 700; font-variant-numeric: tabular-nums; }
+.choice--list .opt-price small { display: block; font-size: .8125rem; }
 .choice input:checked + span { border-color: var(--sheet-accent); background: var(--sheet-accent); color: var(--sheet-accent-ink); }
-.choice input:checked + span .num { color: inherit; }
+.choice input:checked + span .opt-price { color: inherit; }
 .choice input:focus-visible + span { box-shadow: var(--sheet-focus); }
 .choice input[aria-invalid="true"] + span { border-color: var(--sheet-err); }
 .date-other { margin-top: .6rem; }

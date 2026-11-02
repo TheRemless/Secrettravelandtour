@@ -3,7 +3,7 @@
   "url": "/tours/elephant-sanctuary/",
   "brand": "secret",
   "template": "activity",
-  "name": "Ethical elephant sanctuary",
+  "name": "Elephant sanctuary",
   "seo": {
     "title": "Ethical Elephant Sanctuary Koh Lanta | Secret Travel",
     "metaDescription": "Ethical elephant sanctuary on Koh Lanta: walk with the elephants, feed them, mud bath, no riding. Transfer included. Adults from 1,800 THB.",
@@ -12,8 +12,8 @@
       "h1": "Ethical elephant sanctuary on Koh Lanta"
     }
   },
-  "h1": "Ethical elephant sanctuary",
-  "lead": "Walk with the elephants, feed them, join them in the mud bath and the pool. Nobody rides. Three programmes, from an hour and a half to a full day.",
+  "h1": "Elephant sanctuary",
+  "lead": "Walk with the elephants, feed them, join them in the mud bath and the pool. No riding. Three programmes, from an hour and a half to a full day.",
   "facts": [
     {
       "label": "Riding",
@@ -133,7 +133,7 @@
       "steps": [
         {
           "label": "A",
-          "text": "About 1h30 to 2 hours: walk with the elephants, feeding, mud bath, bathing together in the pool. Fresh fruit and water for you, bananas for them."
+          "text": "About 1 hr 30 min to 2 hours: walk with the elephants, feeding, mud bath, bathing together in the pool. Fresh fruit and water for you, bananas for them."
         }
       ]
     },
@@ -145,7 +145,7 @@
       "steps": [
         {
           "label": "B",
-          "text": "About 3 hours, at 7:30 or 13:00: everything in A, plus making traditional herbal remedies and paper from elephant dung, which you take home. Coffee and tea."
+          "text": "About 3 hours, at 07:30 or 13:00: everything in A, plus making traditional herbal remedies and paper from elephant dung, which you take home. Coffee and tea."
         }
       ]
     },
@@ -157,7 +157,7 @@
       "steps": [
         {
           "label": "C",
-          "text": "Full day from 7:30: everything in B, plus a Thai set lunch, a swim at the Emerald Pool and the hot spring waterfall. Two people per session at most, booked ahead."
+          "text": "Full day from 07:30: everything in B, plus a Thai set lunch, a swim at the Emerald Pool and the hot spring waterfall. Two people per session at most, booked ahead."
         }
       ]
     }
@@ -166,7 +166,6 @@
     "Hotel transfer both ways",
     "Fruit and water",
     "Bananas for the elephants",
-    "Insurance",
     "Programme C: lunch and the entrance fees"
   ],
   "beforeYouBook": {
@@ -176,8 +175,7 @@
       "Flip-flops",
       "A change of clothes"
     ],
-    "children": "Children from 4 to 10 pay a child rate. Under 4 go free.",
-    "pickup": "Hotel transfer both ways. Sessions start at 7:30, 10:00 and 13:00."
+    "pickup": "Hotel transfer both ways. Sessions start at 07:30, 10:00 and 13:00."
   },
   "faq": [
     {
@@ -198,7 +196,7 @@
       "slot": "hero",
       "status": "keep",
       "file": "secret/elephant-sanctuary.webp",
-      "alt": "An elephant at an ethical sanctuary",
+      "alt": "An elephant at the sanctuary",
       "shot": "Elephants in the mud bath or the pool, no riding (current file is real but only 635 px: replace later)."
     },
     {

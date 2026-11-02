@@ -18,11 +18,12 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 {%- endmacro %}
 
 {#- Header collant : logo, menu, bouton WhatsApp toujours visible. Sur mobile, le menu s'ouvre en plein écran (<dialog>). -#}
-{% macro header(current, number, logo="a", nav=none) %}
+{#- logo : "a", "b" ou "bv" (piste choisie par le client). Sous 64 px de haut, version compacte sans « Koh Lanta ». -#}
+{% macro header(current, number, logo="b", nav=none) %}
 {%- set items = nav or NAV -%}
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="/"><img eleventy:ignore src="/images/brand/stt-{{ logo }}-horizontal.svg" width="520" height="100" alt="Secret Travel &amp; Tour, Koh Lanta, home"></a>
+    <a class="brand" href="/"><img eleventy:ignore data-brand-logo src="/images/brand/stt-{{ logo }}-compact.svg" width="630" height="100" alt="Secret Travel &amp; Tour, home"></a>
     <nav class="nav" aria-label="Main">
       <ul>
         {%- for item in items %}
@@ -38,7 +39,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 </header>
 <dialog class="menu" id="menu" aria-label="Menu">
   <div class="menu-top">
-    <img eleventy:ignore src="/images/brand/stt-{{ logo }}-horizontal.svg" width="520" height="100" alt="Secret Travel &amp; Tour, Koh Lanta">
+    <img eleventy:ignore data-brand-logo src="/images/brand/stt-{{ logo }}-compact.svg" width="630" height="100" alt="Secret Travel &amp; Tour">
     <button class="menu-btn" type="button" data-menu-close>{{ icon("close") }}<span class="sr-only">Close menu</span></button>
   </div>
   <nav aria-label="Main">
@@ -105,32 +106,36 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 </a>
 {% endmacro %}
 
-{#- Bandeau de faits clés, façon tableau des départs : libellé court, grande valeur en chiffres tabulaires. -#}
+{#- Bandeau de faits clés, façon billet de ferry : une grille réglée, libellé à gauche ; seuls les chiffres
+    (prix, heures) sont composés en grand, le texte reste à taille de lecture. facts : view.keyFacts(product). -#}
 {% macro keyFacts(facts, label="Key facts") %}
 <dl class="board" aria-label="{{ label }}">
   {%- for f in facts %}{% if f.value %}
-  <div{% if f.price %} class="board-price"{% endif %}><dt>{{ f.label }}</dt><dd>{{ f.value }}{% if f.note %}<small>{{ f.note }}</small>{% endif %}</dd></div>
+  <div class="board-row{% if f.number %} board-row--num{% endif %}{% if f.price %} board-price{% endif %}">
+    <dt>{{ f.label }}</dt>
+    <dd>{% if f.number %}<span class="board-num">{{ f.value }}</span>{% else %}{{ f.value }}{% endif %}{% if f.note %}<span class="board-note">{{ f.note }}</span>{% endif %}</dd>
+  </div>
   {%- endif %}{% endfor %}
 </dl>
 {% endmacro %}
 
-{#- Options et prix : chaque option est un bouton qui ouvre la feuille de réservation, option préremplie.
+{#- Options et prix : chaque option est un bouton entier qui ouvre la feuille de réservation, option préremplie.
+    Nom accessible court (« Check availability for … »), prix et notes lus en description.
     Les frais non inclus suivent immédiatement les prix. -#}
 {% macro optionsPrices(options, fees, note) %}
 <ul class="options">
   {%- for o in options %}
   <li>
-    <button class="opt" type="button" data-book="{{ o.id }}" aria-pressed="false">
-      <span class="opt-dot" aria-hidden="true"></span>
-      <span class="opt-main">
-        <span><span class="opt-title">{{ o.title }}</span>{% if o.note %}<span class="opt-note">{{ o.note }}</span>{% endif %}</span>
+    <button class="opt" type="button" data-book="{{ o.id }}" aria-pressed="false" aria-label="Check availability for {{ o.title }}" aria-describedby="opt-{{ o.id }}-d">
+      <span class="opt-title">{{ o.title }}</span>
+      <span class="opt-body" id="opt-{{ o.id }}-d">
+        {%- if o.note %}<span class="opt-note">{{ o.note }}</span>{% endif %}
         {%- if o.rows and o.rows.length %}
         <span class="opt-rows">{% for r in o.rows %}<span class="opt-row"><span>{{ r.label }}</span><span class="num">{{ r.price }}</span></span>{% endfor %}</span>
         {%- else %}
         <span class="opt-rows"><span class="opt-row"><span>Price</span><span class="num">On WhatsApp</span></span></span>
         {%- endif %}
         {%- if o.fees %}<span class="opt-fee"><b>Not included</b> {{ o.fees }}</span>{% endif %}
-        <span class="opt-cta">Check availability {{ icon("chevron-right") }}</span>
       </span>
     </button>
   </li>
@@ -222,11 +227,11 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 
 {#- Pied de page : adresse, carte, WhatsApp, délai de réponse, société, pages légales.
     site : site.json ; contact : view.contact(site). L'emplacement de la licence TAT n'affiche rien tant que licence est null. -#}
-{% macro footer(site, contact, logo="a") %}
+{% macro footer(site, contact, logo="b") %}
 {%- set b = site.brands.secret -%}
 <footer class="site-footer">
   <div class="wrap grid">
-    <div class="foot-brand"><img eleventy:ignore src="/images/brand/stt-{{ logo }}-horizontal-light.svg" width="520" height="100" alt="Secret Travel &amp; Tour, Koh Lanta" loading="lazy"></div>
+    <div class="foot-brand"><img eleventy:ignore data-brand-logo src="/images/brand/stt-{{ logo }}-horizontal-light.svg" width="543" height="100" alt="Secret Travel &amp; Tour, Koh Lanta" loading="lazy"></div>
     <div class="foot-col">
       <h2>Our desk</h2>
       <p>{{ b.address.display }}</p>

@@ -93,7 +93,7 @@ Format attendu pour chaque prise de vue :
 | gallery | manquante |  | The local market visit, choosing ingredients. |
 | gallery | manquante |  | The four finished dishes on the table. |
 
-## Ethical elephant sanctuary (/tours/elephant-sanctuary/)
+## Elephant sanctuary (/tours/elephant-sanctuary/)
 
 | Emplacement | Statut | Fichier actuel | Ce qui doit être visible |
 |---|---|---|---|

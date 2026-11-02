@@ -101,7 +101,7 @@
       "kind": "private",
       "boat": "speedboat",
       "priceOnRequest": true,
-      "note": "Private speedboat option, 9:00 to 16:00, your group only, with a guide.",
+      "note": "Private speedboat option, 09:00 to 16:00, your group only, with a guide.",
       "notIncludedFees": [
         {
           "label": "National park fee, adult",
@@ -139,7 +139,7 @@
       "steps": [
         {
           "time": "08:00",
-          "text": "Pickup at your hotel between 8:00 and 9:00, light breakfast at the pier."
+          "text": "Pickup at your hotel between 08:00 and 09:00, light breakfast at the pier."
         },
         {
           "time": "09:00",
@@ -147,7 +147,7 @@
         },
         {
           "time": "10:00",
-          "text": "Maya Bay, Viking Cave, Pileh Lagoon, Monkey Beach and a snorkeling stop."
+          "text": "Maya Bay, Viking Cave, Pileh Lagoon, Monkey Beach and a snorkelling stop."
         },
         {
           "time": "12:00",
@@ -155,11 +155,11 @@
         },
         {
           "time": "13:30",
-          "text": "Bamboo Island, swimming and snorkeling from the beach."
+          "text": "Bamboo Island, swimming and snorkelling from the beach."
         },
         {
           "time": "14:15",
-          "text": "Snorkeling at Loh Mudee Bay."
+          "text": "Snorkelling at Loh Mudee Bay."
         },
         {
           "time": "16:00",
@@ -172,17 +172,16 @@
     "Hotel transfer both ways",
     "Thai buffet lunch, water and fruit",
     "Masks, snorkels and life jackets",
-    "Guide and insurance"
+    "Guide"
   ],
   "notIncluded": [
     "National park fee, paid in cash"
   ],
   "beforeYouBook": {
-    "pickup": "Pickup at your hotel between 8:00 and 9:00, light breakfast at the pier.",
+    "pickup": "Pickup at your hotel between 08:00 and 09:00, light breakfast at the pier.",
     "bring": [
       "Cash for the national park fee"
     ],
-    "children": "Children from 4 to 11 pay a child rate.",
     "weather": "Maya Bay has its own rules set by the national park. The stop depends on the day and the season."
   },
   "faq": [
@@ -200,7 +199,7 @@
     },
     {
       "q": "Can we have the boat for ourselves?",
-      "a": "Yes. A private speedboat runs from 9:00 to 16:00 with a guide for your group only."
+      "a": "Yes. A private speedboat runs from 09:00 to 16:00 with a guide for your group only."
     }
   ],
   "photos": [

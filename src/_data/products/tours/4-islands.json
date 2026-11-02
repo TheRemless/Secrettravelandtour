@@ -168,7 +168,7 @@
       "label": "Private longtail",
       "kind": "private",
       "boat": "longtail",
-      "note": "The whole boat for your group.",
+      "note": "The whole boat for your group. The schedule is flexible and you choose the order of the islands.",
       "prices": [
         {
           "label": "1 to 2 people",
@@ -235,7 +235,7 @@
       "steps": [
         {
           "time": "07:45",
-          "text": "Pickup at your hotel between 7:45 and 8:30, then the pier (the Old Town pier for the longtail, a separate pier for the speedboat)."
+          "text": "Pickup at your hotel until 08:30, then the pier (the Old Town pier for the longtail, a separate pier for the speedboat)."
         },
         {
           "time": "09:00",
@@ -243,7 +243,7 @@
         },
         {
           "time": "09:45",
-          "text": "Koh Chueak, snorkeling over the reef, about 45 minutes."
+          "text": "Koh Chueak, snorkelling over the reef, about 45 minutes."
         },
         {
           "time": "11:00",
@@ -255,32 +255,31 @@
         },
         {
           "time": "13:45",
-          "text": "One more island and one more snorkeling stop: Koh Ma on the longtail, Koh Ngai on the speedboat."
+          "text": "One more island and one more snorkelling stop: Koh Ma on the longtail, Koh Ngai on the speedboat."
         },
         {
           "time": "15:30",
-          "text": "Back on Koh Lanta between 15:30 and 16:00, transfer to your hotel."
+          "text": "Back on Koh Lanta by 16:00, transfer to your hotel."
         }
-      ]
+      ],
+      "note": "Times vary a little with the sea and the season."
     }
   ],
   "included": [
     "Hotel transfer both ways",
     "Thai buffet lunch on the beach, water and fruit",
     "Masks, snorkels and life jackets",
-    "Guide and insurance",
+    "Guide",
     "On a private boat: the boat and the captain for your group only"
   ],
   "notIncluded": [
     "National park fee, paid in cash on the island"
   ],
   "beforeYouBook": {
-    "pickup": "Pickup at your hotel between 7:45 and 8:30, then the pier (the Old Town pier for the longtail, a separate pier for the speedboat).",
+    "pickup": "From your hotel. The longtail leaves from Lanta Old Town pier, the speedboat from a separate pier.",
     "bring": [
       "Cash for the national park fee"
-    ],
-    "children": "Children have their own rate. Babies under 4 go free on the longtail. Give us the ages when you book.",
-    "weather": "Times vary a little with the sea and the season. On a private longtail the schedule is flexible and you choose the order of the islands."
+    ]
   },
   "faq": [
     {
@@ -304,9 +303,9 @@
     {
       "slot": "hero",
       "status": "keep",
-      "file": "secret/longtail.webp",
-      "alt": "A longtail boat on clear turquoise water",
-      "shot": "Longtail at Lanta Old Town pier, landscape, early light. The current photo is real but reused three times: keep it here only."
+      "file": "secret/longtail-crop.webp",
+      "alt": "Bow of a longtail boat with garlands and coloured ribbons, in clear shallow water",
+      "shot": "Longtail at Lanta Old Town pier, landscape, early light. The current photo is real but reused three times: keep it here only. Cropped to hide the partner's name painted on the hull (longtail-crop.webp, derived from longtail.webp)."
     },
     {
       "slot": "gallery",

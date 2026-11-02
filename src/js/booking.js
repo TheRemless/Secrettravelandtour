@@ -101,12 +101,13 @@
     return clean(state.from) + " to " + clean(state.to);
   }
 
+  // La première ligne dit tout de suite ce qui est demandé : l'agence trie ses messages sur elle.
   function buildMessage(config, state) {
-    var lines = ["Hello " + config.brand + ","];
+    var lines = [];
     var date = resolveDate(state.dateChoice, state.dateOther, state.today);
 
     if (config.variant === "taxi") {
-      lines.push("Transfer request: " + routeLabel(config, state) + " (private minivan)");
+      lines.push("Transfer request: " + routeLabel(config, state) + (config.vehicle ? " (" + config.vehicle + ")" : ""));
       if (date) lines.push("Date: " + formatDate(date));
       if (clean(state.time)) lines.push("Pickup time: " + clean(state.time));
       if (clean(state.flight)) lines.push("Flight or ferry: " + clean(state.flight));

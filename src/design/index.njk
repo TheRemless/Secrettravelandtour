@@ -1,13 +1,15 @@
 ---
 boardPermalink: /design/
 ---
-{#- Planche de composants Secret Travel & Tour (étape 2 du brief, validation client). Jamais en production. -#}
+{#- Planche de composants Secret Travel & Tour (étape 2 du brief, validation client). Jamais en production.
+    Le logo du header, du pied de page et du favicon passe par un seul réglage (piste B par défaut). -#}
 {% import "components/stt.njk" as stt %}
 {% from "components/booking.njk" import bookingSheet %}
 {%- set t = board.tour -%}
 {%- set wa = boardContact.number -%}
 {%- set slots = buildContext.showPhotoSlots -%}
 {%- set fallback = stt.waHref(wa, t.fallback) -%}
+{%- set logo = "b" -%}
 <!DOCTYPE html>
 <html lang="en-GB" data-board>
 <head>
@@ -19,152 +21,163 @@ boardPermalink: /design/
 <link rel="preload" as="font" type="font/woff2" href="/css/fonts/atkinson-hyperlegible-next-latin-wght-normal.woff2" crossorigin>
 <link rel="stylesheet" href="/css/stt.css?v={{ build.v }}">
 <link rel="stylesheet" href="/css/booking.css?v={{ build.v }}">
-<link rel="icon" type="image/svg+xml" href="/images/brand/stt-b-emblem.svg">
+<link rel="icon" type="image/svg+xml" href="/images/brand/stt-{{ logo }}-emblem.svg" data-brand-logo>
 <meta name="theme-color" content="#F5F0E6">
 <style>
   /* Mise en page propre à la planche, pas au site. */
   .bd-intro { padding-block: var(--s4) var(--s2); }
   .bd-intro p { color: var(--mute); }
+  .bd-switch { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s1); margin-top: var(--s3); }
+  .bd-switch p { margin-right: var(--s1); color: var(--ink); font-weight: 700; }
+  .bd-switch button { min-height: 44px; padding: 0 1rem; border: 1px solid var(--field); border-radius: var(--radius); background: var(--white); color: var(--ink); font: 600 1rem/1 var(--head); font-stretch: var(--narrow); cursor: pointer; }
+  .bd-switch button[aria-pressed="true"] { border-color: var(--sea); background: var(--sea); color: var(--white); }
   .bd-sec { padding-block: var(--s5) 0; }
   .bd-sec > h2 { margin-bottom: var(--s1); }
-  .bd-sec > .bd-desc { margin-bottom: var(--s3); color: var(--mute); }
+  .bd-desc { margin-bottom: var(--s3); color: var(--mute); }
   .bd-sub { margin: var(--s4) 0 var(--s2); font-size: 1.125rem; }
   .bd-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: var(--s2); list-style: none; padding: 0; }
   .bd-swatches li { border: 1px solid var(--rule); border-radius: var(--radius); background: var(--white); overflow: hidden; }
   .bd-chip { height: 4.5rem; }
   .bd-swatches p { padding: .5rem .75rem; font-size: .9375rem; line-height: 1.4; }
-  .bd-swatches code { font-variant-numeric: tabular-nums; }
+  .c-ink { background: #14282A; } .c-sea { background: #0D5C63; } .c-deep { background: #0A3F44; } .c-sand { background: #F5F0E6; }
+  .c-white { background: #FFFFFF; } .c-mute { background: #56625F; } .c-field { background: #6F7B78; } .c-buoy { background: #B83A16; }
+  .c-sun { background: #F0B429; } .c-lagoon { background: #BFE6DF; }
   .bd-type > * + * { margin-top: var(--s3); }
-  .bd-type small { display: block; margin-bottom: .25rem; color: var(--mute); font: 400 .875rem/1.3 var(--text); letter-spacing: 0; }
+  .bd-type small { display: block; margin-bottom: .25rem; color: var(--mute); font: 400 .875rem/1.3 var(--text); }
+  .t-h1 { max-width: none; font: 700 clamp(2.25rem, 1.55rem + 3vw, 3.75rem)/1.05 var(--head); font-stretch: var(--narrow); letter-spacing: -.01em; word-spacing: .04em; }
+  .t-h2 { font: 700 clamp(1.625rem, 1.3rem + 1.4vw, 2.25rem)/1.1 var(--head); font-stretch: var(--narrow); letter-spacing: -.01em; }
+  .t-h3 { font: 650 1.25rem/1.2 var(--head); font-stretch: var(--narrow); }
+  .t-figs span + span { margin-left: var(--s3); }
   .bd-space { display: grid; gap: .5rem; }
   .bd-space div { display: flex; align-items: center; gap: var(--s2); font-size: .9375rem; }
   .bd-space span { display: block; height: 1rem; background: var(--sea); }
-  .bd-cols { height: 6rem; }
+  .w-s1 { width: var(--s1); } .w-s2 { width: var(--s2); } .w-s3 { width: var(--s3); } .w-s4 { width: var(--s4); } .w-s5 { width: var(--s5); } .w-s6 { width: var(--s6); }
+  .bd-cols { height: 6rem; margin-top: var(--s3); }
   .bd-cols span { background: var(--lagoon); }
+  @media (max-width: 63.99rem) { .bd-wide { display: none; } }
   .bd-logo { display: grid; gap: var(--s3); }
   .bd-ground { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--s4); padding: var(--s3); border: 1px solid var(--rule); border-radius: var(--radius); }
   .bd-ground figure { margin: 0; }
   .bd-ground figcaption { margin-top: .5rem; font-size: .875rem; color: var(--mute); }
-  .bd-ground img { height: auto; }
-  .g-sand { background: var(--sand); }
-  .g-white { background: var(--white); }
-  .g-deep { background: var(--deep); }
+  .g-sand { background: var(--sand); } .g-white { background: var(--white); } .g-deep { background: var(--deep); }
   .g-deep figcaption { color: var(--lagoon); }
+  .e-200 { width: 200px; height: auto; } .e-64 { height: 64px; width: auto; } .e-32 { height: 32px; width: auto; }
+  .l-36 { height: 36px; width: auto; } .l-64 { height: 64px; width: auto; } .s-200 { width: 200px; height: auto; }
   .bd-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2); }
+  .bd-row + .bd-row { margin-top: var(--s2); }
   .demo-focus { box-shadow: 0 0 0 2px var(--white), 0 0 0 5px var(--sea); }
   .bd-deep { padding: var(--s3); border-radius: var(--radius); background: var(--deep); }
-  .bd-page h1 { margin: var(--s1) 0 var(--s2); }
-  .bd-page .lead { font-size: 1.1875rem; max-width: 40rem; }
+  .bd-deep a:not(.btn) { color: var(--lagoon); }
+  .bd-page .lead { max-width: 40rem; margin-top: var(--s2); font-size: 1.1875rem; }
+  .bd-page .board { margin-top: var(--s3); }
   .bd-page .actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s1) var(--s3); margin-top: var(--s3); }
   .bd-page section { margin-top: var(--s5); }
   .bd-page section > h2 { margin-bottom: var(--s3); }
+  .bd-page .crumbs + .t-h1 { margin-top: var(--s1); }
   @media (min-width: 64rem) {
     .bd-split { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--s5); align-items: start; }
     .bd-split > aside { position: sticky; top: calc(var(--header-h) + var(--s3)); }
   }
   .bd-phone { max-width: 390px; border: 1px solid var(--rule); border-radius: var(--radius); background: var(--sand); overflow: hidden; }
-  .bd-phone .mbar { position: static; }
-  .bd-phone p.bd-phone-cap { padding: var(--s2); color: var(--mute); font-size: .9375rem; }
-  @media (min-width: 64rem) { .bd-phone .mbar { display: flex; } }
+  .bd-phone .mbar { position: static; display: flex; }
+  .bd-cap { padding: var(--s2); color: var(--mute); font-size: .9375rem; }
+  .bd-aside-text { margin-bottom: var(--s2); }
 </style>
 <script>document.documentElement.classList.add("js");</script>
 </head>
 <body class="has-mbar">
 <a class="skip" href="#main">Skip to content</a>
-{{ stt.header("boat-trips", wa, "a") }}
+{{ stt.header("boat-trips", wa, logo) }}
 
 <main id="main">
   <div class="wrap bd-intro">
     <h1>Design board</h1>
     <p>Secret Travel &amp; Tour, refonte step 2. Real content from the data files only. Dashed boxes mark photos still to supply; they never appear in production.</p>
+    <div class="bd-switch" role="group" aria-label="Logo shown in the header, footer and favicon">
+      <p>Logo in use</p>
+      <button type="button" data-logo-choice="a" aria-pressed="false">Option A</button>
+      <button type="button" data-logo-choice="b" aria-pressed="true">Option B</button>
+      <button type="button" data-logo-choice="bv" aria-pressed="false">Option B with the van</button>
+    </div>
   </div>
 
-  {# ---------- Couleurs ---------- #}
   <section class="wrap bd-sec" aria-labelledby="h-colours">
     <h2 id="h-colours">Colours</h2>
     <p class="bd-desc">Contrast ratios measured against the background named, WCAG 2.1.</p>
     <ul class="bd-swatches">
-      <li><div class="bd-chip" style="background:#14282A"></div><p>Ink <code>#14282A</code><br>13.5:1 on sand</p></li>
-      <li><div class="bd-chip" style="background:#0D5C63"></div><p>Andaman sea <code>#0D5C63</code><br>6.8:1 on sand, links</p></li>
-      <li><div class="bd-chip" style="background:#0A3F44"></div><p>Deep sea <code>#0A3F44</code><br>white 11.6:1</p></li>
-      <li><div class="bd-chip" style="background:#F5F0E6"></div><p>Sand <code>#F5F0E6</code><br>page background</p></li>
-      <li><div class="bd-chip" style="background:#FFFFFF"></div><p>White <code>#FFFFFF</code><br>fields, options</p></li>
-      <li><div class="bd-chip" style="background:#56625F"></div><p>Secondary text <code>#56625F</code><br>5.6:1 on sand</p></li>
-      <li><div class="bd-chip" style="background:#6F7B78"></div><p>Field border <code>#6F7B78</code><br>4.4:1 on white</p></li>
-      <li><div class="bd-chip" style="background:#B83A16"></div><p>Buoy red <code>#B83A16</code><br>white 5.75:1, main button</p></li>
-      <li><div class="bd-chip" style="background:#F0B429"></div><p>Sun <code>#F0B429</code><br>6.2:1 on deep sea only</p></li>
-      <li><div class="bd-chip" style="background:#BFE6DF"></div><p>Lagoon <code>#BFE6DF</code><br>ink 11.4:1, flat boxes</p></li>
+      <li><div class="bd-chip c-ink"></div><p>Ink <code>#14282A</code><br>13.5:1 on sand</p></li>
+      <li><div class="bd-chip c-sea"></div><p>Andaman sea <code>#0D5C63</code><br>6.8:1 on sand, links</p></li>
+      <li><div class="bd-chip c-deep"></div><p>Deep sea <code>#0A3F44</code><br>white 11.6:1</p></li>
+      <li><div class="bd-chip c-sand"></div><p>Sand <code>#F5F0E6</code><br>page background</p></li>
+      <li><div class="bd-chip c-white"></div><p>White <code>#FFFFFF</code><br>fields, options</p></li>
+      <li><div class="bd-chip c-mute"></div><p>Secondary text <code>#56625F</code><br>5.6:1 on sand</p></li>
+      <li><div class="bd-chip c-field"></div><p>Field border <code>#6F7B78</code><br>4.4:1 on white</p></li>
+      <li><div class="bd-chip c-buoy"></div><p>Buoy red <code>#B83A16</code><br>white 5.75:1, main button</p></li>
+      <li><div class="bd-chip c-sun"></div><p>Sun <code>#F0B429</code><br>6.2:1 on deep sea only</p></li>
+      <li><div class="bd-chip c-lagoon"></div><p>Lagoon <code>#BFE6DF</code><br>ink 11.4:1, flat boxes</p></li>
     </ul>
   </section>
 
-  {# ---------- Typographie ---------- #}
-  <section class="wrap bd-sec" aria-labelledby="h-type">
+  <section class="wrap bd-sec bd-type" aria-labelledby="h-type">
     <h2 id="h-type">Type</h2>
     <p class="bd-desc">Archivo at 87.5% width for headings and figures, Atkinson Hyperlegible Next for text. Body 17 px on mobile, 18 px on desktop.</p>
-    <div class="bd-type">
-      <div><small>H1, Archivo 700, line height 1.05</small><p style="font:700 clamp(2.25rem,1.55rem + 3vw,3.75rem)/1.05 var(--head);font-stretch:87.5%;letter-spacing:-.018em;max-width:none">{{ t.h1 }}</p></div>
-      <div><small>H2, Archivo 700</small><p style="font:700 clamp(1.625rem,1.3rem + 1.4vw,2.25rem)/1.1 var(--head);font-stretch:87.5%;letter-spacing:-.01em">Options and prices</p></div>
-      <div><small>H3, Archivo 650</small><p style="font:650 1.25rem/1.2 var(--head);font-stretch:87.5%">{{ t.options[0].title }}</p></div>
-      <div><small>Body, Atkinson Hyperlegible Next 400, line height 1.6</small><p>{{ t.lead }}</p></div>
-      <div><small>Figures, tabular</small><p><span class="price-amount">{{ t.options[0].rows[0].price }}</span> &nbsp; <span class="price-amount">{{ t.options[2].rows[0].price }}</span> &nbsp; <span class="price-amount">{{ board.timeline.steps[0].t }}</span></p></div>
-    </div>
+    <div><small>H1, Archivo 700, line height 1.05</small><p class="t-h1">{{ t.h1 }}</p></div>
+    <div><small>H2, Archivo 700</small><p class="t-h2">Options and prices</p></div>
+    <div><small>H3, Archivo 650</small><p class="t-h3">{{ t.options[0].title }}</p></div>
+    <div><small>Body, Atkinson Hyperlegible Next 400, line height 1.6</small><p>{{ t.lead }}</p></div>
+    <div><small>Figures, tabular</small><p class="t-figs"><span class="price-amount">{{ t.options[0].rows[0].price }}</span><span class="price-amount">{{ t.options[2].rows[0].price }}</span><span class="price-amount">{{ board.timeline.steps[0].t }}</span></p></div>
   </section>
 
-  {# ---------- Espacements et grille ---------- #}
   <section class="wrap bd-sec" aria-labelledby="h-space">
     <h2 id="h-space">Spacing and grid</h2>
     <p class="bd-desc">Base 8: 8, 16, 24, 40, 64, 96. Grid of 4 columns with 20 px margins on mobile, 12 columns and 1,200 px on desktop.</p>
     <div class="bd-space">
-      {% for s in [["8", "s1"], ["16", "s2"], ["24", "s3"], ["40", "s4"], ["64", "s5"], ["96", "s6"]] %}<div><span style="width:var(--{{ s[1] }})"></span>{{ s[0] }} px</div>{% endfor %}
+      {% for s in [["8", "s1"], ["16", "s2"], ["24", "s3"], ["40", "s4"], ["64", "s5"], ["96", "s6"]] %}<div><span class="w-{{ s[1] }}"></span>{{ s[0] }} px</div>{% endfor %}
     </div>
-    <div class="grid bd-cols" style="margin-top:var(--s3)" aria-hidden="true">{% for i in range(0, 12) %}<span{% if i >= 4 %} class="bd-wide"{% endif %}></span>{% endfor %}</div>
-    <style>@media (max-width: 63.99rem) { .bd-wide { display: none; } }</style>
+    <div class="grid bd-cols" aria-hidden="true">{% for i in range(0, 12) %}<span{% if i >= 4 %} class="bd-wide"{% endif %}></span>{% endfor %}</div>
   </section>
 
-  {# ---------- Logo ---------- #}
   <section class="wrap bd-sec" aria-labelledby="h-logo">
-    <h2 id="h-logo">Logo, two redraws of the printed badge</h2>
-    <p class="bd-desc">Option A keeps the whole printed composition in five flat colours. Option B keeps the karst, one palm and the longtail bow with its ribbon, in three colours, so it still reads at 32 px. Wordmark in Archivo 700 at 87.5% width for both.</p>
-    {% for opt in [["a", "Option A, faithful"], ["b", "Option B, simplified"]] %}
+    <h2 id="h-logo">Logo, redraws of the printed badge</h2>
+    <p class="bd-desc">Option A follows the printed badge: same open circle, beige palms, the white MPV on the curving road, the wooden longtail whose bow and ribbons break out of the circle on the right. It is drawn flat, without the gradients of the print. Option B keeps the karsts, one leaning palm and the longtail bow with its ribbon, flat and without outlines, so it still reads at 32 px; it comes with or without the van. Wordmark in Archivo 700 at 87.5% width for all three. Below 64 px high, the wordmark drops “Koh Lanta”.</p>
+    {% for opt in [["a", "Option A, faithful"], ["b", "Option B, simplified"], ["bv", "Option B with the van"]] %}
     <h3 class="bd-sub">{{ opt[1] }}</h3>
     <div class="bd-logo">
       {% for g in [["sand", "Sand"], ["white", "White"], ["deep", "Deep sea"]] %}
+      {%- set light = "-light" if g[0] == "deep" else "" %}
       <div class="bd-ground g-{{ g[0] }}">
-        {%- set light = "-light" if g[0] == "deep" else "" %}
-        <figure><img eleventy:ignore src="/images/brand/stt-{{ opt[0] }}-emblem.svg" width="200" height="200" alt="Emblem, option {{ opt[0] | upper }}, 200 px"><figcaption>Emblem 200 px</figcaption></figure>
-        <figure><img eleventy:ignore src="/images/brand/stt-{{ opt[0] }}-emblem.svg" width="64" height="64" alt="Emblem 64 px"><figcaption>64 px</figcaption></figure>
-        <figure><img eleventy:ignore src="/images/brand/stt-{{ opt[0] }}-emblem.svg" width="32" height="32" alt="Emblem 32 px"><figcaption>32 px</figcaption></figure>
-        <figure><img eleventy:ignore src="/images/brand/stt-{{ opt[0] }}-horizontal{{ light }}.svg" style="height:40px;width:auto" width="520" height="100" alt="Horizontal lockup"><figcaption>Horizontal, header height 40 px</figcaption></figure>
-        <figure><img eleventy:ignore src="/images/brand/stt-{{ opt[0] }}-horizontal{{ light }}.svg" style="height:64px;width:auto" width="520" height="100" alt="Horizontal lockup, 64 px"><figcaption>Horizontal 64 px</figcaption></figure>
-        <figure><img eleventy:ignore src="/images/brand/stt-{{ opt[0] }}-stacked{{ light }}.svg" style="width:200px" width="400" height="260" alt="Stacked lockup"><figcaption>Stacked 200 px wide</figcaption></figure>
+        <figure><img eleventy:ignore class="e-200" src="/images/brand/stt-{{ opt[0] }}-emblem.svg" width="200" height="190" alt="{{ opt[1] }}, emblem at 200 px, on {{ g[1] | lower }}"><figcaption>Emblem 200 px</figcaption></figure>
+        <figure><img eleventy:ignore class="e-64" src="/images/brand/stt-{{ opt[0] }}-emblem.svg" width="67" height="64" alt="Emblem at 64 px"><figcaption>64 px</figcaption></figure>
+        <figure><img eleventy:ignore class="e-32" src="/images/brand/stt-{{ opt[0] }}-emblem.svg" width="34" height="32" alt="Emblem at 32 px"><figcaption>32 px, favicon</figcaption></figure>
+        <figure><img eleventy:ignore class="l-36" src="/images/brand/stt-{{ opt[0] }}-compact{{ light }}.svg" width="630" height="100" alt="Compact lockup"><figcaption>Compact, header 36 px</figcaption></figure>
+        <figure><img eleventy:ignore class="l-64" src="/images/brand/stt-{{ opt[0] }}-horizontal{{ light }}.svg" width="543" height="100" alt="Horizontal lockup"><figcaption>Horizontal 64 px</figcaption></figure>
+        <figure><img eleventy:ignore class="s-200" src="/images/brand/stt-{{ opt[0] }}-stacked{{ light }}.svg" width="490" height="242" alt="Stacked lockup"><figcaption>Stacked 200 px wide</figcaption></figure>
       </div>
       {% endfor %}
     </div>
     {% endfor %}
   </section>
 
-  {# ---------- Boutons et liens ---------- #}
   <section class="wrap bd-sec" aria-labelledby="h-buttons">
     <h2 id="h-buttons">Buttons and links</h2>
-    <p class="bd-desc">One main action per screen, in buoy red. WhatsApp actions in Andaman sea. Second row shows the keyboard focus ring.</p>
+    <p class="bd-desc">One main action per screen, in buoy red. WhatsApp actions in Andaman sea. Second row and the dark panel show the keyboard focus ring.</p>
     <div class="bd-row">
       <a class="btn btn-primary" href="{{ fallback }}">Check availability</a>
       <a class="btn btn-sea" href="{{ stt.waHref(wa) }}">Ask on WhatsApp</a>
       <a class="btn btn-line" href="/tours/">See boat trips</a>
       <a href="/tours/4-islands/">A text link</a>
     </div>
-    <div class="bd-row" style="margin-top:var(--s2)">
+    <div class="bd-row">
       <a class="btn btn-primary demo-focus" href="{{ fallback }}">Check availability</a>
       <a class="btn btn-sea demo-focus" href="{{ stt.waHref(wa) }}">Ask on WhatsApp</a>
       <a class="demo-focus" href="/tours/4-islands/">A text link</a>
     </div>
-    <div class="bd-row bd-deep" style="margin-top:var(--s2)">
+    <div class="bd-row bd-deep">
       <a class="btn btn-primary demo-focus" href="{{ fallback }}">Check availability</a>
-      <a class="demo-focus" style="color:var(--lagoon)" href="/">A link on deep sea</a>
+      <a class="demo-focus" href="/">A link on deep sea</a>
     </div>
   </section>
 
-  {# ---------- Cartes ---------- #}
   <section class="wrap bd-sec" aria-labelledby="h-cards">
     <h2 id="h-cards">Product cards</h2>
     <p class="bd-desc">The whole card is the link. Facts line as a list with thin rules. Grid on mobile, never a carousel.</p>
@@ -178,13 +191,12 @@ boardPermalink: /design/
     </ul>
   </section>
 
-  {# ---------- Fil d'Ariane, tête de page produit, faits clés ---------- #}
   <section class="wrap bd-sec bd-page" aria-labelledby="h-product">
     <h2 id="h-product" class="sr-only">Product page parts</h2>
     {{ stt.breadcrumb([{ label: "Home", href: "/" }, { label: "Boat trips", href: "/tours/#boat-trips" }, { label: t.name }]) }}
-    <p style="font:700 clamp(2.25rem,1.55rem + 3vw,3.75rem)/1.05 var(--head);font-stretch:87.5%;letter-spacing:-.018em;margin:var(--s1) 0 var(--s2)">{{ t.h1 }}</p>
+    <p class="t-h1">{{ t.h1 }}</p>
     <p class="lead">{{ t.lead }}</p>
-    <div style="margin-top:var(--s3)">{{ stt.keyFacts(t.facts, "Key facts, " + t.name) }}</div>
+    {{ stt.keyFacts(t.facts, "Key facts, " + t.name) }}
     <div class="actions">
       <a class="btn btn-primary" href="{{ fallback }}" data-book="">Check availability</a>
       <a class="link-wa" href="{{ stt.waHref(wa) }}">Ask on WhatsApp</a>
@@ -204,8 +216,8 @@ boardPermalink: /design/
 
         <section aria-labelledby="h-day">
           <h2 id="h-day">{{ board.timeline.title }}</h2>
-          <p class="bd-desc" style="margin:-1rem 0 var(--s2);color:var(--mute)">Fishing trip timeline: the 4 Islands one still says “time to do nothing” and waits for its rewrite.</p>
-          {{ stt.timeline(board.timeline.steps) }}
+          <p class="bd-desc">Fishing trip timeline: the 4 Islands one still says “time to do nothing” and waits for its rewrite.</p>
+          {{ stt.timeline(board.timeline.steps, board.timeline.note) }}
         </section>
 
         <section aria-labelledby="h-incl">
@@ -220,17 +232,17 @@ boardPermalink: /design/
           {{ stt.faq(t.faq) }}
         </section>
       </div>
-      <aside aria-label="Mobile bar preview">
-        <section>
-          <h2>Mobile bar</h2>
+      <aside aria-label="Mobile bar and booking sheet">
+        <section aria-labelledby="h-mbar">
+          <h2 id="h-mbar">Mobile bar</h2>
           <div class="bd-phone">
-            <p class="bd-phone-cap">Fixed to the bottom of the screen on phones, above the safe area. It is live at the bottom of this page under 1,024 px.</p>
+            <p class="bd-cap">Fixed to the bottom of the screen on phones, above the safe area. It is live at the bottom of this page under 1,024 px.</p>
             {{ stt.mobileBar(t.price, fallback) }}
           </div>
         </section>
-        <section>
-          <h2>Booking sheet</h2>
-          <p style="margin-bottom:var(--s2)">Bottom sheet on phones, side panel on desktop. Choosing an option row above opens it with that option selected.</p>
+        <section aria-labelledby="h-sheet">
+          <h2 id="h-sheet">Booking sheet</h2>
+          <p class="bd-aside-text">Bottom sheet on phones, side panel on desktop. Choosing an option above opens it with that option selected.</p>
           <button class="btn btn-primary" type="button" data-book="{{ t.options[0].id }}">Open with {{ t.options[0].title | lower }}</button>
         </section>
       </aside>
@@ -238,14 +250,11 @@ boardPermalink: /design/
   </section>
 </main>
 
-{{ stt.footer(site, boardContact, "a") }}
+{{ stt.footer(site, boardContact, logo) }}
 {{ stt.mobileBar(t.price, fallback) }}
 {{ bookingSheet(board.booking, boardContact) }}
 <script src="/js/booking.js?v={{ build.v }}" defer></script>
 <script src="/js/ui.js?v={{ build.v }}" defer></script>
-<script>
-  // Planche seulement : /design/#sheet ouvre la feuille, pour les captures.
-  if (location.hash === "#sheet") addEventListener("load", function () { var b = document.querySelector('.opt[data-book]'); if (b) b.click(); });
-</script>
+{% include "board-tools.njk" %}
 </body>
 </html>

@@ -15,7 +15,7 @@ Fichier généré par `scripts/manques.mjs` à chaque `npm run build`, à partir
 | Mangroves (/tours/mangroves/) | 3 |
 | ATV (quad bike) (/tours/atv/) | 1 |
 | Thai cooking class (/tours/cooking-class/) | 1 |
-| Ethical elephant sanctuary (/tours/elephant-sanctuary/) | 2 |
+| Elephant sanctuary (/tours/elephant-sanctuary/) | 2 |
 | Electric go-kart (/tours/go-kart/) | 4 |
 | Kayaking (/tours/kayak/) | 3 |
 | Scuba diving (/tours/scuba-diving/) | 2 |
@@ -103,7 +103,7 @@ Source : `src/_data/products/activities/cooking-class.json`
 
 - cours du soir (mardi, jeudi, vendredi, 16:00–21:00) : même contenu que le matin, marché compris ? La FAQ dit le marché seulement « in the morning class ».
 
-### Ethical elephant sanctuary (/tours/elephant-sanctuary/)
+### Elephant sanctuary (/tours/elephant-sanctuary/)
 
 Source : `src/_data/products/activities/elephant-sanctuary.json`
 

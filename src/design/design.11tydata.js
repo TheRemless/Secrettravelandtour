@@ -8,7 +8,7 @@ const P = (rel) => require(`../_data/products/${rel}.json`);
 
 // Seules photos autorisées sur la planche (décision du 02.11.2026) ; ailleurs, un emplacement « Photo to supply ».
 const ALLOWED = [
-  "secret/longtail.webp", "secret/fishing.webp", "secret/atv.webp", "secret/batik.webp",
+  "secret/longtail-crop.webp", "secret/fishing.webp", "secret/atv.webp", "secret/batik.webp",
   "secret/elephant-sanctuary.webp", "secret/lanta-old-town.webp",
   "taxi/van-exterior.webp", "taxi/van-seats.webp", "taxi/van-welcome.webp", "taxi/hero-ceiling-1800.webp"
 ];
@@ -22,10 +22,10 @@ function cardFacts(product) {
     .map((f) => f.value);
 }
 
-// La promesse d'une carte reprend la description de l'ancienne carte, en attendant la réécriture.
+// La promesse d'une carte reprend l'accroche (lead) du produit, en attendant la réécriture des cartes.
 function card(product) {
   return view.card(product, {
-    promise: (product.legacyText && product.legacyText.cardDescription) || "",
+    promise: product.lead || "",
     facts: cardFacts(product),
     allowed: ALLOWED
   });
@@ -53,9 +53,8 @@ module.exports = {
       h1: four.h1,
       lead: four.lead,
       price: view.price(four),
-      // Bandeau : prix d'appel en premier (price.unit), puis les faits courts du produit.
-      facts: [{ label: "Price", value: view.thb(four.price.from), note: four.price.unit, price: true }]
-        .concat(four.facts.filter((f) => f.value.length <= 28).slice(0, 4)),
+      // Bandeau : les faits du brief §6.2 (prix, prise en charge, durée, bateau, formule, saison).
+      facts: view.keyFacts(four, ["Hotel pickup", "Duration", "Boat", "Format", "Season"]),
       options: fourOptions.list,
       fees: fourOptions.fees,
       included: four.included,
@@ -66,7 +65,7 @@ module.exports = {
       fallback: view.fallbackText(four, site),
       firstPrice: `${firstPrice.label} ${view.thb(firstPrice.amount)}`
     },
-    // Le déroulé du 4 Islands contient « time to do nothing » (tournure bannie, à réécrire) : la planche montre celui de la pêche.
+    // Le déroulé du 4 Islands contient encore « time to do nothing » (à réécrire) : la planche montre celui de la pêche.
     timeline: view.day(fishing)[0],
     cards: ["tours/4-islands", "tours/fishing-trip", "activities/atv", "activities/elephant-sanctuary", "activities/batik", "activities/kayak"].map((r) => card(P(r))),
     cardNoPhoto: card(P("tours/koh-rok-koh-haa")),
@@ -88,8 +87,8 @@ module.exports = {
     routeCards: ["krabi-airport-koh-lanta", "koh-lanta-krabi-town", "koh-lanta-ao-nang", "phuket-airport-koh-lanta", "surat-thani-koh-lanta", "koh-lanta-trang"]
       .map((id) => P(`taxi/${id}`))
       .map((r) => ({ href: r.url, from: r.route.from, to: r.route.to, drive: r.route.drive || "" })),
+    // brands.vip.vehicles est une note interne : pas affichée telle quelle.
     vehicle: {
-      text: vip.vehicles,
       childSeats: vip.childSeats,
       payment: vip.payment,
       photos: vip.photos.filter((p) => p.slot === "gallery").map((p) => ({ photo: view.photo(p, ALLOWED), slot: view.slot(p) }))

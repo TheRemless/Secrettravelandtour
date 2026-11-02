@@ -81,12 +81,22 @@ function feesText(fees) {
   return `${shared ? prefix + ": " : ""}${list}.${note}`;
 }
 
+// Unité du premier tarif d'une option, pour la liste de la feuille : « per adult », « per boat, 1–2 people ».
+function firstUnit(row) {
+  if (!row) return "";
+  if (row.group) return `${row.unit || ""}${row.unit ? ", " : ""}${row.group.min}–${row.group.max} people`;
+  if (row.unit === "per person" && /^[A-Za-z ]+$/.test(row.label)) return `per ${row.label.toLowerCase()}`;
+  return row.unit || "";
+}
+
 function options(product) {
   const list = (product.options || []).map((o) => ({
     id: o.id,
     title: o.label,
     note: o.note || "",
     rows: (o.prices || []).map((r) => ({ label: r.label, price: priceText(r) })),
+    from: o.prices && o.prices.length ? priceText(o.prices[0]) : "",
+    unit: firstUnit(o.prices && o.prices[0]),
     fees: feesText(o.notIncludedFees)
   }));
   // Mêmes frais pour toutes les options : un seul bloc sous la liste, sinon une ligne dans chaque option.
@@ -100,6 +110,7 @@ function day(product) {
   return (product.day || []).map((b) => ({
     title: b.title,
     options: b.options || [],
+    note: b.note || "",
     steps: b.steps.map((s) => ({ t: s.time || s.label || "", text: s.text }))
   }));
 }
@@ -115,11 +126,11 @@ const BEFORE = [
 ];
 
 // « Before you book » : valeurs du produit, à défaut celles de site.json (booking).
+// La règle météo commune (report ou remboursement) s'affiche toujours, après la précision propre au produit.
 function beforeBook(product, site) {
   const own = product.beforeYouBook || {};
   const common = (site && site.booking) || {};
   const fallback = {
-    weather: common.weather,
     payment: Array.isArray(common.payment) && common.payment.length
       ? common.payment.join(" or ").replace(/^./, (c) => c.toUpperCase()) + "."
       : ""
@@ -127,6 +138,7 @@ function beforeBook(product, site) {
   return BEFORE.map(([key, label]) => {
     let v = own[key] !== undefined ? own[key] : fallback[key];
     if (Array.isArray(v)) v = v.join(", ");
+    if (key === "weather" && common.weather) v = v ? `${v} ${common.weather}` : common.weather;
     return v ? { label, text: v } : null;
   }).filter(Boolean);
 }
@@ -164,7 +176,7 @@ function bookingTour(product, site) {
     page: site.url.replace(/^https?:\/\//, "") + product.url,
     whatsapp: site.whatsapp.number,
     pickupRequired: product.template !== "rental",
-    options: options(product).list.map((o) => ({ id: o.id, title: o.title, rows: o.rows }))
+    options: options(product).list.map((o) => ({ id: o.id, title: o.title, rows: o.rows, from: o.from, unit: o.unit }))
   };
 }
 
@@ -187,6 +199,18 @@ function fallbackText(product, site) {
   return `${product.template === "route" ? "Transfer request" : "Booking request"}: ${product.name}\nPage: ${site.url.replace(/^https?:\/\//, "")}${product.url}`;
 }
 
+// Bandeau de faits : les valeurs chiffrées (prix, heures) sont composées en grand, le texte à taille normale.
+// `labels` limite le bandeau aux faits du brief (prix, durée, prise en charge, bateau, formule, saison).
+function keyFacts(product, labels) {
+  const isNumber = (v) => /^[\d,.:–\- ]+(THB)?$/.test(v);
+  const list = [];
+  if (product.price) list.push({ label: "From", value: thb(product.price.from), note: product.price.unit || "", number: true, price: true });
+  for (const f of product.facts || []) {
+    if (!labels || labels.includes(f.label)) list.push({ label: f.label, value: f.value, number: isNumber(f.value) });
+  }
+  return list.sort((a, b) => Number(b.number) - Number(a.number));
+}
+
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 // Note Google : « 5.0 », nombre d'avis et date de lecture « 2 Nov 2026 ». Rien si la note manque.
@@ -203,6 +227,7 @@ function rating(r) {
 
 module.exports = {
   rating,
+  keyFacts,
   thb, webpSize, photo, slot, heroOf, price, card, options, feesText, day, beforeBook, gallery,
   replyTime, contact, bookingTour, bookingRoute, fallbackText
 };

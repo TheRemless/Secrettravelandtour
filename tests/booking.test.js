@@ -57,11 +57,10 @@ test("guestsLine : adultes, un enfant, plusieurs enfants, bébé", () => {
   assert.equal(B.guestsLine(2, [0, 3, 10]), "2 adults, 3 children (ages under 1, 3 and 10)");
 });
 
-test("buildMessage excursion : modèle de 03-audit-contenu §4.5, sans « Hi » ni point d'exclamation", () => {
+test("buildMessage excursion : la demande en première ligne, sans formule d'appel ni point d'exclamation", () => {
   assert.equal(
     B.buildMessage(TOUR, tourState()),
     [
-      "Hello Secret Travel & Tour,",
       "Booking request: 4 Islands – Join-in longtail",
       "Date: Wed 4 Nov 2026",
       "Guests: 2 adults, 1 child (age 7)",
@@ -71,7 +70,7 @@ test("buildMessage excursion : modèle de 03-audit-contenu §4.5, sans « Hi » 
       "Page: secrettravelandtour.com/tours/4-islands/"
     ].join("\n")
   );
-  assert.doesNotMatch(B.buildMessage(TOUR, tourState()), /Hi\b|!|Today|Tomorrow/);
+  assert.doesNotMatch(B.buildMessage(TOUR, tourState()), /Hi\b|Hello|!|Today|Tomorrow/);
 });
 
 test("buildMessage excursion : option sans prix, pas de ligne de prix", () => {
@@ -85,8 +84,7 @@ test("buildMessage trajet : aller, vol, sièges, bagages, adresse de dépose", (
   assert.equal(
     B.buildMessage(TAXI, taxiState()),
     [
-      "Hello VIP Taxi Lanta,",
-      "Transfer request: Krabi Airport to Koh Lanta (private minivan)",
+      "Transfer request: Krabi Airport to Koh Lanta",
       "Date: Tue 10 Nov 2026",
       "Pickup time: 14:30",
       "Flight or ferry: FD3xxx",
@@ -98,6 +96,11 @@ test("buildMessage trajet : aller, vol, sièges, bagages, adresse de dépose", (
       "Page: secrettravelandtour.com/taxi/krabi-airport-koh-lanta/"
     ].join("\n")
   );
+});
+
+test("buildMessage trajet : véhicule seulement s'il est donné par les données", () => {
+  const msg = B.buildMessage(Object.assign({}, TAXI, { vehicle: "private minivan" }), taxiState());
+  assert.match(msg, /^Transfer request: Krabi Airport to Koh Lanta \(private minivan\)\n/);
 });
 
 test("buildMessage trajet : retour, l'adresse devient la prise en charge, champs vides omis", () => {

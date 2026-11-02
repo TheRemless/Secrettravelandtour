@@ -42,7 +42,7 @@
           <legend>Option</legend>
           <div class="choice choice--list">
             {%- for o in cfg.options %}
-            <label><input type="radio" name="option" value="{{ o.id }}" aria-describedby="book-e-option"><span><b>{{ o.title }}</b>{% if o.rows and o.rows.length %}<span class="num">{{ o.rows[0].price }}</span>{% endif %}</span></label>
+            <label><input type="radio" name="option" value="{{ o.id }}" aria-describedby="book-e-option"><span><b>{{ o.title }}</b>{% if o.from %}<span class="opt-price"><span class="num">{{ o.from }}</span>{% if o.unit %} <small>{{ o.unit }}</small>{% endif %}</span>{% endif %}</span></label>
             {%- endfor %}
           </div>
           <p class="err" id="book-e-option" hidden></p>
