@@ -112,6 +112,7 @@
     var date = resolveDate(v.date_choice, v.date_other, today);
     if (!date || !isRealDate(date)) errors.date = "Choose a date.";
     else if (date < today) errors.date = "This date has already passed.";
+    if (!/^\d{1,2}:\d{2}$/.test(clean(v.time))) errors.time = "Choose a pickup time.";
     if (clean(v.name).length < 2) errors.name = "Tell us your full name.";
     return errors;
   }

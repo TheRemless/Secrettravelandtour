@@ -102,10 +102,12 @@ test("validate : une demande complète est valide", () => {
   assert.deepEqual(F.validate(values(), TODAY), {});
 });
 
-test("validate : départ, arrivée, date et un adulte sont obligatoires, l'heure ne l'est pas", () => {
+test("validate : départ, arrivée, date, heure et un adulte sont obligatoires", () => {
   const errors = F.validate(values({ from: " ", to: "", date_choice: "", adults: 0, time: "" }), TODAY);
-  assert.deepEqual(Object.keys(errors).sort(), ["adults", "date", "from", "to"]);
+  assert.deepEqual(Object.keys(errors).sort(), ["adults", "date", "from", "time", "to"]);
   assert.equal(errors.name, undefined);
+  assert.match(errors.time, /pickup time/i);
+  assert.equal(F.validate(values({ time: "07:05" }), TODAY).time, undefined);
 });
 
 test("validate : Other date doit être une vraie date, d'aujourd'hui ou plus tard", () => {

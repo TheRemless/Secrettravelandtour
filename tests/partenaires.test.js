@@ -17,7 +17,7 @@ function htmlFiles(dir) {
 }
 
 // VIP Taxi Lanta est la marque de transferts assumée sur le site, elle n'est donc pas dans cette liste.
-const PARTENAIRES = /rattana|lacha ?ru|sukho|lanta ?atv|atv adventure|lanta elephant|lanta longtail|lanta batik|lanta kayaking|e-?gokart|noom|bundhaya|satun|pakbara|blue ?planet/i;
+const PARTENAIRES = /rattana|lacha ?ru|sukho|lanta ?atv|atv adventure|lanta elephant|lanta longtail|lanta batik|lanta kayaking|lanta ?e-?gokart|noom|bundhaya|satun|pakbara|blue ?planet/i;
 
 test("aucun nom de prestataire dans les pages générées", () => {
   const files = htmlFiles(site);
@@ -54,4 +54,39 @@ test("formulaires : la date est obligatoire (radios required) sur l'accueil et s
     assert.equal(found.length, 3, name);
     for (const tag of found) assert.match(tag, /\brequired\b/, tag);
   }
+});
+
+test("prix : affichés sur les pages qui en ont, jamais dans les données structurées, jamais de net ni de commission", () => {
+  const pages = require("../src/_data/secretPages.js")();
+  const withPrices = pages.pages.filter((p) => p.prices && p.prices.length);
+  assert.ok(withPrices.length >= 12, String(withPrices.length));
+  for (const p of withPrices) {
+    const doc = fs.readFileSync(path.join(site, "tours", p.id, "index.html"), "utf8");
+    assert.match(doc, /id="h-prices"/, p.id);
+    for (const g of p.prices) for (const r of g.rows) assert.match(r.price, /^\+?[\d,]+ THB$/, `${p.id} : ${r.label}`);
+    assert.match(doc, />Book now</, p.id);
+    assert.doesNotMatch(JSON.stringify(p.jsonLd), /"price"|priceCurrency/, p.id);
+  }
+  const all = JSON.stringify(require("../src/_data/secretPagesContent.json")) + JSON.stringify(require("../src/_data/secret.json"));
+  assert.doesNotMatch(all, /commission|net price|agent price|selling price|contract rate/i);
+});
+
+test("nouvelles pages : batik, karting, kayak, location et speedboat existent et sont dans le plan du site", () => {
+  const sitemap = fs.readFileSync(path.join(site, "sitemap.xml"), "utf8");
+  for (const id of ["batik", "go-kart", "kayak", "rental", "speedboat"]) {
+    assert.ok(fs.existsSync(path.join(site, "tours", id, "index.html")), id);
+    assert.match(sitemap, new RegExp(`/tours/${id}/`), id);
+  }
+  const speed = fs.readFileSync(path.join(site, "tours", "speedboat", "index.html"), "utf8");
+  assert.match(speed, /href="\/\?transfer=speedboat#tell-us"/);
+  assert.doesNotMatch(speed, /\d\s?THB/);
+  const home = fs.readFileSync(path.join(site, "index.html"), "utf8");
+  assert.match(home, /href="\/tours\/speedboat\/"/);
+});
+
+test("formulaires : l'heure de prise en charge est marquée obligatoire", () => {
+  const home = fs.readFileSync(path.join(site, "index.html"), "utf8");
+  const taxi = fs.readFileSync(path.join(site, "taxi", "index.html"), "utf8");
+  assert.match(home, /<input id="f-t-time"[^>]*aria-required="true"/);
+  assert.match(taxi, /<input id="f-time"[^>]*aria-required="true"/);
 });

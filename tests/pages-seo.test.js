@@ -52,7 +52,7 @@ test("pages taxi : ni prix, ni téléphone, ni e-mail affichés", () => {
 test("pages secret : lien vers le formulaire prérempli et JSON-LD", () => {
   for (const p of secretPages.pages) {
     const doc = html(`tours/${p.id}`);
-    assert.match(doc, /href="\/\?(tour|activity)=/, `${p.id} : lien formulaire`);
+    assert.match(doc, /href="\/\?(tour|activity|transfer)=/, `${p.id} : lien formulaire`);
     assert.match(doc, /application\/ld\+json/, `${p.id} : JSON-LD`);
   }
 });
