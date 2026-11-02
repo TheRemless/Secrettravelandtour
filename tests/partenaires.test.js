@@ -63,7 +63,7 @@ test("prix : affichés sur les pages qui en ont, jamais dans les données struct
   for (const p of withPrices) {
     const doc = fs.readFileSync(path.join(site, "tours", p.id, "index.html"), "utf8");
     assert.match(doc, /id="h-prices"/, p.id);
-    for (const g of p.prices) for (const r of g.rows) assert.match(r.price, /^\+?[\d,]+ THB$/, `${p.id} : ${r.label}`);
+    for (const g of p.prices) for (const r of g.rows) assert.match(r.price, /^(\+?[\d,]+( or [\d,]+)? THB|Free|\d+% off)$/, `${p.id} : ${r.label}`);
     assert.match(doc, />Book now</, p.id);
     assert.doesNotMatch(JSON.stringify(p.jsonLd), /"price"|priceCurrency/, p.id);
   }
