@@ -29,3 +29,28 @@ test("conditions : liées depuis l'accueil, les pages /tours/ et les pages taxi,
     assert.doesNotMatch(page, /zwaldtravelplanner\.com\/cgv\//, file + " renvoie encore vers les CGV de Zwald");
   }
 });
+
+test("mentions légales et confidentialité propres au site, en anglais (qui fait foi) et en français", () => {
+  const pages = { "legal.njk": "/legal/", "legal-fr.njk": "/legal/fr/", "privacy.njk": "/privacy/", "privacy-fr.njk": "/privacy/fr/" };
+  for (const [file, url] of Object.entries(pages)) {
+    const page = read(file);
+    assert.match(page, new RegExp("permalink: " + url.replace(/\//g, "\\/")));
+    assert.match(page, /<meta name="robots" content="noindex, follow">/);
+    assert.match(page, /Zwald Travel Planner Co\., Ltd\./);
+    assert.match(page, /292 Moo 2/);
+    assert.doesNotMatch(page, /Moo 6|252\/1/, file + " garde l'ancienne adresse");
+  }
+  assert.equal((read("privacy.njk").match(/<h2>/g) || []).length, (read("privacy-fr.njk").match(/<h2>/g) || []).length);
+  assert.equal((read("legal.njk").match(/<h2>/g) || []).length, (read("legal-fr.njk").match(/<h2>/g) || []).length);
+});
+
+test("plus aucun lien vers les pages légales de Zwald depuis Secret et le taxi", () => {
+  for (const file of ["secret.njk", "secret-page.njk", "taxi.njk", "taxi-route.njk", "terms.njk", "terms-fr.njk"]) {
+    const page = read(file);
+    assert.doesNotMatch(page, /zwaldtravelplanner\.com\/(cgv|mentions-legales|politique-confidentialite)\//, file);
+  }
+  for (const file of ["secret.njk", "secret-page.njk", "taxi.njk", "taxi-route.njk"]) {
+    assert.match(read(file), /href="\/legal\/"/, file);
+    assert.match(read(file), /href="\/privacy\/"/, file);
+  }
+});
