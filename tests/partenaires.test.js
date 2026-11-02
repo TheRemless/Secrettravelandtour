@@ -99,3 +99,17 @@ test("photos : chaque excursion, activité et transfert a une photo qui existe, 
     assert.ok(item.photoAlt && item.photoAlt.length > 15, `${item.id} : alt`);
   }
 });
+
+test("galeries : chaque photo citée existe, avec un texte alternatif, et s'affiche sur sa page", () => {
+  const pages = require("../src/_data/secretPages.js")();
+  const withGallery = pages.pages.filter((p) => p.gallery && p.gallery.length);
+  assert.ok(withGallery.length >= 8, String(withGallery.length));
+  for (const p of withGallery) {
+    const doc = fs.readFileSync(path.join(site, "tours", p.id, "index.html"), "utf8");
+    for (const g of p.gallery) {
+      assert.ok(fs.existsSync(path.join(site, "images", "secret", "gallery", g.src)), `${p.id} : ${g.src}`);
+      assert.ok(g.alt.length > 15, `${p.id} : alt`);
+      assert.ok(doc.includes(`/images/secret/gallery/${g.src}`), `${p.id} : ${g.src} absent de la page`);
+    }
+  }
+});
