@@ -1,5 +1,7 @@
-# Assemble les deux pistes de logo (A fidèle, B simplifiée) en fichiers SVG autonomes.
-# Le dessin de l'emblème est écrit à la main ci-dessous ; le mot-symbole vient de glyphs.json.
+# Assemble les deux pistes de logo (A fidèle, B simplifiée) en fichiers SVG autonomes dans src/images/brand/.
+# Le dessin de l'emblème est écrit à la main ci-dessous, d'après le badge imprimé (cartes de visite) ;
+# le mot-symbole vient de glyphs.json (contours Archivo produits par glyphs.py).
+# Usage : python3 scripts/logo/build_logo.py src/images/brand
 import json, os, sys
 
 OUT = sys.argv[1]

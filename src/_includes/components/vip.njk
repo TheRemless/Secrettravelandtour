@@ -1,0 +1,127 @@
+{#- Composants de VIP Taxi Lanta (refonte), identité « Night cabin ». Importer avec :
+      {% import "components/vip.njk" as vip %}
+    Données en paramètres uniquement. Le logo est celui de Mr. Brown (images/taxi/logo.webp), jamais redessiné. -#}
+{% from "components/icons.njk" import icon %}
+
+{% macro waHref(number, text) -%}
+https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
+{%- endmacro %}
+
+{#- Header : plaque du logo, nom, liens d'ancre sur desktop, bouton WhatsApp toujours visible. -#}
+{% macro header(brand, number, nav=[]) %}
+<header class="vip-header">
+  <div class="wrap">
+    <a class="vip-brand" href="{{ brand.url }}">
+      <span class="plate"><img eleventy:ignore src="/images/taxi/logo.webp" width="640" height="640" alt=""></span>
+      <span class="vip-name">{{ brand.name }}<small>{{ brand.owner }}</small></span>
+    </a>
+    {%- if nav.length %}
+    <nav class="vip-nav" aria-label="Main">
+      <ul>{% for item in nav %}<li><a href="{{ item.href }}">{{ item.label }}</a></li>{% endfor %}</ul>
+    </nav>
+    {%- endif %}
+    <a class="btn" href="{{ waHref(number) }}">{{ icon("whatsapp") }}<span>WhatsApp</span></a>
+  </div>
+</header>
+{% endmacro %}
+
+{#- Carte de trajet : départ, arrivée, durée indicative, prix ou « Price on WhatsApp ». -#}
+{% macro routeCard(r, headingLevel=3) %}
+<a class="route-card" href="{{ r.href }}">
+  <h{{ headingLevel }} class="route-from">{{ r.from }}</h{{ headingLevel }}>
+  <span class="route-to"><span class="route-sep">to</span> {{ r.to }}</span>
+  {% if r.drive %}<span class="route-drive">{{ r.drive }}</span>{% endif %}
+  <span class="route-price">{% if r.price %}from <span class="num">{{ r.price }}</span>{% else %}Price on WhatsApp{% endif %}</span>
+</a>
+{% endmacro %}
+
+{#- Faits du trajet, posés comme un billet : libellé et valeur, cases séparées par une perforation. -#}
+{% macro routeFacts(facts, label="Route facts") %}
+<dl class="ticket" aria-label="{{ label }}">
+  {%- for f in facts %}{% if f.value %}<div><dt>{{ f.label }}</dt><dd>{{ f.value }}</dd></div>{% endif %}{% endfor %}
+</dl>
+{% endmacro %}
+
+{#- Le minivan : vraies photos (les manquantes en emplacement hors production) et faits de site.json. -#}
+{% macro vehicle(v, showSlots, id="h-vehicle") %}
+<section class="vehicle" aria-labelledby="{{ id }}">
+  <h2 id="{{ id }}">Our minivan</h2>
+  <ul class="vehicle-photos">
+    {%- for p in v.photos %}
+      {%- if p.photo %}
+    <li><img eleventy:ignore src="{{ p.photo.src }}" alt="{{ p.photo.alt }}" width="{{ p.photo.width }}" height="{{ p.photo.height }}" loading="lazy" decoding="async"></li>
+      {%- elif showSlots and p.slot %}
+    <li><div class="photo-slot">Photo to supply: {{ p.slot }}</div></li>
+      {%- endif %}
+    {%- endfor %}
+  </ul>
+  <div class="vehicle-text">
+    {% if v.text %}<p>{{ v.text }}</p>{% endif %}
+    {% if v.childSeats %}<p class="muted">{{ v.childSeats }}</p>{% endif %}
+    {% if v.payment %}<p class="muted">{{ v.payment }}</p>{% endif %}
+  </div>
+</section>
+{% endmacro %}
+
+{#- Note Google réelle (view.rating) : valeur, nombre d'avis, date de lecture, lien vers la fiche. Pas de citation d'avis
+    tant que l'autorisation manque, et jamais de balisage AggregateRating. -#}
+{% macro rating(r) %}
+{%- if r %}
+<div class="rating">
+  <p class="rating-value num">{{ r.value }}</p>
+  <div class="rating-text">
+    <p>{{ r.count }} reviews on Google</p>
+    {% if r.readOn %}<p class="muted">Read on {{ r.readOn }}</p>{% endif %}
+    {% if r.url %}<p><a href="{{ r.url }}">See the reviews on Google Maps</a></p>{% endif %}
+  </div>
+</div>
+{%- endif %}
+{% endmacro %}
+
+{#- Encart discret pour Secret Travel & Tour : excursions et activités, même numéro WhatsApp. -#}
+{% macro secretAd(secret, id="h-secret-ad") %}
+<aside class="stt-ad" aria-labelledby="{{ id }}">
+  <img eleventy:ignore src="/images/brand/stt-b-emblem.svg" width="56" height="56" alt="">
+  <div>
+    <h2 id="{{ id }}">Boat trips and activities</h2>
+    <p>Booked through {{ secret.name }}, on the same WhatsApp number.</p>
+    <a href="{{ secret.url }}">See {{ secret.name }}</a>
+  </div>
+</aside>
+{% endmacro %}
+
+{#- Barre collante mobile : « Price on WhatsApp » (aucun prix de trajet publié) et « Check availability ». -#}
+{% macro mobileBar(price, fallbackHref) %}
+<div class="vbar">
+  <p>{% if price %}From <span class="num">{{ price }}</span>{% else %}Price on WhatsApp{% endif %}</p>
+  <a class="btn" href="{{ fallbackHref }}" data-book="">{{ icon("whatsapp") }}<span>Check availability</span></a>
+</div>
+{% endmacro %}
+
+{#- Pied de page : logo, base, WhatsApp et délai de réponse, pages légales. -#}
+{% macro footer(site, contact) %}
+{%- set b = site.brands.vip -%}
+<footer class="vip-footer">
+  <div class="wrap">
+    <span class="plate"><img eleventy:ignore src="/images/taxi/logo.webp" width="640" height="640" alt="{{ b.name }}, {{ b.owner }}" loading="lazy"></span>
+    <div>
+      <h2>{{ b.name }}</h2>
+      <p>{{ b.owner }}, based on {{ b.address.locality }}.</p>
+      {% if b.maps %}<p><a href="{{ b.maps }}">Google Maps listing</a></p>{% endif %}
+    </div>
+    <div>
+      <h2>WhatsApp</h2>
+      <p><a class="link-wa" href="{{ waHref(contact.number) }}">{{ icon("whatsapp") }}<span class="num">{{ contact.phoneDisplay }}</span></a></p>
+      {% if contact.replyTime %}<p>{{ contact.replyTime }}</p>{% endif %}
+    </div>
+    <div class="vip-legal">
+      <p>Bookings sold by {{ site.operator.name }}</p>
+      <ul>
+        <li><a href="/terms/">Booking terms</a></li>
+        <li><a href="/legal/">Legal notice</a></li>
+        <li><a href="/privacy/">Privacy</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+{% endmacro %}

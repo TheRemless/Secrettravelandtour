@@ -1,0 +1,144 @@
+/* Feuille de réservation : bas d'écran sur mobile, panneau latéral sur desktop.
+   Commune à Secret Travel & Tour et à VIP Taxi Lanta : toutes les couleurs et polices viennent des jetons
+   --sheet-* définis par stt.css ou vip.css. Seul composant du site avec une ombre (un vrai objet posé au-dessus). */
+html.sheet-open { overflow: hidden; }
+
+.sheet {
+  position: fixed; inset: auto 0 0 0;
+  width: 100%; max-width: 100%; max-height: 92dvh; margin: 0; padding: 0;
+  border: 0; border-radius: 12px 12px 0 0;
+  background: var(--sheet-bg); color: var(--sheet-ink);
+  font-family: var(--sheet-text);
+  box-shadow: 0 -8px 32px rgb(0 0 0 / .22);
+  overflow: hidden;
+}
+.sheet[open] { display: flex; flex-direction: column; animation: sheet-up .22s ease-out; }
+.sheet.is-closing { animation: sheet-down .16s ease-in forwards; }
+.sheet::backdrop { background: var(--sheet-backdrop); }
+@keyframes sheet-up { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes sheet-down { from { transform: none; } to { transform: translateY(100%); } }
+
+@media (min-width: 64rem) {
+  .sheet {
+    inset: 0 0 0 auto;
+    width: min(30rem, 100%); max-height: none; height: 100dvh;
+    border-radius: 0;
+    box-shadow: -8px 0 32px rgb(0 0 0 / .22);
+  }
+  @keyframes sheet-up { from { transform: translateX(100%); } to { transform: none; } }
+  @keyframes sheet-down { from { transform: none; } to { transform: translateX(100%); } }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sheet[open], .sheet.is-closing { animation: none; }
+}
+
+.sheet :focus { outline: none; }
+.sheet :focus-visible { outline: 3px solid transparent; box-shadow: var(--sheet-focus); }
+/* Les titres reçoivent le focus par script (annonce au lecteur d'écran) : pas d'anneau, ce ne sont pas des commandes. */
+.sheet [data-focus]:focus, .sheet [data-focus]:focus-visible { box-shadow: none; }
+
+.sheet-head {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;
+  padding: 1rem 1.25rem .75rem; border-bottom: 1px solid var(--sheet-rule);
+}
+.sheet-kicker { margin: 0 0 .15rem; font-size: .9375rem; color: var(--sheet-mute); }
+.sheet-title {
+  margin: 0; font-family: var(--sheet-head); font-stretch: var(--sheet-head-stretch);
+  font-weight: var(--sheet-head-weight); font-size: 1.5rem; line-height: 1.15;
+}
+.sheet-close {
+  flex: none; display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; margin: -.25rem -.5rem 0 0; padding: 0;
+  border: 0; border-radius: 6px; background: transparent; color: var(--sheet-ink); cursor: pointer;
+}
+.sheet-close svg { width: 1.5rem; height: 1.5rem; }
+.sheet-body { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: 1.25rem 1.25rem 0; }
+.sheet-foot {
+  padding: .75rem 1.25rem calc(.75rem + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--sheet-rule); background: var(--sheet-bg);
+}
+.sheet-screen { display: flex; flex-direction: column; min-height: 0; flex: 1; }
+.sheet-screen[hidden] { display: none; }
+.sheet form { display: flex; flex-direction: column; min-height: 0; flex: 1; }
+
+/* Champs */
+.f { margin: 0 0 1.25rem; padding: 0; border: 0; min-width: 0; }
+.f > label, .f > legend, .f-label { display: block; margin: 0 0 .35rem; padding: 0; font-weight: 700; font-size: 1rem; }
+.f-hint { margin: -.15rem 0 .4rem; font-size: .9375rem; color: var(--sheet-mute); }
+.sheet input[type="text"], .sheet input[type="date"], .sheet input[type="time"], .sheet select {
+  width: 100%; min-height: 48px; padding: .55rem .8rem;
+  border: 1.5px solid var(--sheet-field); border-radius: 6px;
+  background: var(--sheet-field-bg, var(--sheet-bg)); color: var(--sheet-ink);
+  font: 400 1.0625rem/1.3 var(--sheet-text);
+}
+.sheet select { appearance: none; padding-right: 2.5rem; }
+.select { position: relative; display: block; }
+.select::after {
+  content: ""; position: absolute; right: 1rem; top: 50%; width: .5rem; height: .5rem;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: translateY(-70%) rotate(45deg); pointer-events: none;
+}
+.sheet [aria-invalid="true"] { border-color: var(--sheet-err); border-width: 2px; }
+.err { margin: .4rem 0 0; color: var(--sheet-err); font-size: .9375rem; font-weight: 700; }
+
+/* Choix segmentés (date, option, sens) : de vrais boutons radio, stylés. */
+.choice { display: grid; gap: .5rem; }
+.choice--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.choice label { position: relative; display: block; }
+.choice input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.choice input + span {
+  display: flex; align-items: center; justify-content: center; gap: .5rem; min-height: 48px; padding: .5rem .75rem;
+  border: 1.5px solid var(--sheet-field); border-radius: 6px; background: var(--sheet-field-bg, var(--sheet-bg));
+  font-weight: 700; text-align: center; cursor: pointer;
+}
+.choice--list input + span { justify-content: space-between; text-align: left; font-weight: 400; }
+.choice--list input + span b { font-weight: 700; }
+.choice--list input + span .num { flex: none; font-variant-numeric: tabular-nums; color: var(--sheet-mute); }
+.choice input:checked + span { border-color: var(--sheet-accent); background: var(--sheet-accent); color: var(--sheet-accent-ink); }
+.choice input:checked + span .num { color: inherit; }
+.choice input:focus-visible + span { box-shadow: var(--sheet-focus); }
+.choice input[aria-invalid="true"] + span { border-color: var(--sheet-err); }
+.date-other { margin-top: .6rem; }
+
+/* Compteurs */
+.count { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 56px; border-top: 1px solid var(--sheet-rule); }
+.count:first-of-type { border-top: 0; }
+.count label { font-weight: 700; }
+.count label small { display: block; font-weight: 400; font-size: .9375rem; color: var(--sheet-mute); }
+.stepper { display: flex; align-items: center; gap: .25rem; }
+.stepper button {
+  width: 44px; height: 44px; padding: 0; border: 1.5px solid var(--sheet-field); border-radius: 6px;
+  background: var(--sheet-field-bg, var(--sheet-bg)); color: var(--sheet-ink); font: 700 1.25rem/1 var(--sheet-text); cursor: pointer; touch-action: manipulation;
+}
+.stepper input {
+  width: 3rem; min-height: 44px; padding: 0; border: 0; background: transparent; color: var(--sheet-ink);
+  text-align: center; font: 700 1.125rem/1 var(--sheet-text); font-variant-numeric: tabular-nums;
+  appearance: textfield; -moz-appearance: textfield;
+}
+.stepper input::-webkit-outer-spin-button, .stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.ages { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; margin: .25rem 0 .75rem; }
+.ages .f { margin: 0; }
+
+/* Boutons de la feuille */
+.sheet-btn {
+  display: flex; align-items: center; justify-content: center; gap: .5rem; width: 100%; min-height: 52px; padding: 0 1rem;
+  border: 2px solid transparent; border-radius: 6px; background: var(--sheet-cta); color: var(--sheet-cta-ink);
+  font: var(--sheet-head-weight) 1.125rem/1 var(--sheet-head); font-stretch: var(--sheet-head-stretch);
+  text-decoration: none; cursor: pointer; touch-action: manipulation;
+}
+.sheet-btn:hover { background: var(--sheet-cta-hover); }
+.sheet-btn svg { width: 1.3rem; height: 1.3rem; flex: none; }
+.sheet-btn--quiet { background: transparent; border-color: var(--sheet-field); color: var(--sheet-ink); }
+.sheet-btn--quiet:hover { background: var(--sheet-soft); }
+.sheet-note { margin: .6rem 0 0; font-size: .9375rem; color: var(--sheet-mute); }
+.sheet-row { display: grid; grid-template-columns: auto 1fr; gap: .5rem; }
+.sheet-row .sheet-btn--quiet { width: auto; padding: 0 1.1rem; }
+
+/* Aperçu du message : le texte exact qui partira, tel quel. */
+.message {
+  margin: 0; padding: 1rem; border-radius: 6px; background: var(--sheet-soft); color: var(--sheet-ink);
+  white-space: pre-wrap; overflow-wrap: anywhere; font: 400 1rem/1.55 var(--sheet-text); font-variant-numeric: tabular-nums;
+}
+.done-text p { margin: 0 0 .75rem; }
+.done-text .num { font-weight: 700; white-space: nowrap; }
+.copy-status { min-height: 1.5em; margin: .5rem 0 0; font-weight: 700; }

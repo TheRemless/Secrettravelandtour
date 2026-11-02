@@ -1,0 +1,142 @@
+---
+boardPermalink: /design/taxi/
+---
+{#- Planche de composants VIP Taxi Lanta (identité propre, décision client du 02.11.2026). Jamais en production. -#}
+{% import "components/vip.njk" as vip %}
+{% from "components/booking.njk" import bookingSheet %}
+{% from "components/icons.njk" import icon %}
+{%- set tb = taxiBoard -%}
+{%- set r = tb.route -%}
+{%- set wa = boardContact.number -%}
+{%- set slots = buildContext.showPhotoSlots -%}
+{%- set fallback = vip.waHref(wa, r.fallback) -%}
+<!DOCTYPE html>
+<html lang="en-GB" data-board>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Design board, VIP Taxi Lanta</title>
+<link rel="preload" as="font" type="font/woff2" href="/css/fonts/marcellus-400-normal-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/css/fonts/figtree-400-normal-latin.woff2" crossorigin>
+<link rel="stylesheet" href="/css/vip.css?v={{ build.v }}">
+<link rel="stylesheet" href="/css/booking.css?v={{ build.v }}">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/taxi/icon-32.png">
+<meta name="theme-color" content="#140D09">
+<style>
+  /* Mise en page propre à la planche, pas au site. */
+  .bd-sec { padding-top: var(--s5); }
+  .bd-sec > h2 { margin-bottom: var(--s1); }
+  .bd-desc { margin-bottom: var(--s3); color: var(--mute); }
+  .bd-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: var(--s2); list-style: none; padding: 0; }
+  .bd-swatches li { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .bd-chip { height: 4rem; }
+  .bd-swatches p { padding: .5rem .75rem; font-size: .9375rem; line-height: 1.4; color: var(--text); }
+  .bd-type > * + * { margin-top: var(--s3); }
+  .bd-type small { display: block; margin-bottom: .25rem; color: var(--mute); font: 400 .875rem/1.3 var(--sans); }
+  .bd-hero { position: relative; overflow: hidden; border-radius: var(--radius); }
+  .bd-hero img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+  .bd-route h1 { margin: var(--s3) 0 var(--s2); font-size: clamp(2.1rem, 1.5rem + 3vw, 3.6rem); }
+  .bd-route .lead { color: var(--mute); max-width: 40rem; }
+  .bd-route .actions { display: flex; flex-wrap: wrap; gap: var(--s2); margin-top: var(--s3); }
+  .bd-route section { margin-top: var(--s5); }
+  .bd-route section > h2 { margin-bottom: var(--s3); }
+  .bd-phone { max-width: 390px; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .bd-phone .vbar { position: static; display: flex; }
+  .bd-phone p.cap { padding: var(--s2); color: var(--mute); font-size: .9375rem; }
+  @media (min-width: 64rem) { .bd-two { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--s5); align-items: start; } }
+</style>
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body class="has-vbar">
+<a class="skip" href="#main">Skip to content</a>
+{{ vip.header(tb.vip, wa, [{ label: "Routes", href: "#h-routes" }, { label: "Our minivan", href: "#h-vehicle" }]) }}
+
+<main id="main" class="wrap">
+  <div class="bd-sec">
+    <h1 style="font-size:clamp(2rem,1.5rem + 2vw,3rem)">Design board, VIP Taxi Lanta</h1>
+    <p class="bd-desc" style="margin-top:var(--s1)">Mr. Brown's own identity on the same domain: espresso, gold, Marcellus and Figtree, his logo unchanged. Real content from the data files only.</p>
+  </div>
+
+  <section class="bd-sec" aria-labelledby="h-colours">
+    <h2 id="h-colours">Colours</h2>
+    <p class="bd-desc">Contrast ratios measured against the background named, WCAG 2.1.</p>
+    <ul class="bd-swatches">
+      <li><div class="bd-chip" style="background:#140D09"></div><p>Espresso <code>#140D09</code><br>page background</p></li>
+      <li><div class="bd-chip" style="background:#1F140E"></div><p>Cabin <code>#1F140E</code><br>cards, mobile bar</p></li>
+      <li><div class="bd-chip" style="background:#F2E6D2"></div><p>Cream <code>#F2E6D2</code><br>15.6:1 on espresso</p></li>
+      <li><div class="bd-chip" style="background:#C2B199"></div><p>Muted <code>#C2B199</code><br>9.2:1 on espresso</p></li>
+      <li><div class="bd-chip" style="background:#F0B13A"></div><p>Gold <code>#F0B13A</code><br>10.1:1 on espresso</p></li>
+      <li><div class="bd-chip" style="background:#846428"></div><p>Card edge <code>#846428</code><br>3.5:1 on espresso, 3.3:1 on cabin</p></li>
+      <li><div class="bd-chip" style="background:#20130A;outline:1px solid #846428"></div><p>Ink <code>#20130A</code><br>14.7:1 on cream</p></li>
+      <li><div class="bd-chip" style="background:#5A4A3A"></div><p>Ink, muted <code>#5A4A3A</code><br>6.9:1 on cream</p></li>
+    </ul>
+  </section>
+
+  <section class="bd-sec bd-type" aria-labelledby="h-type">
+    <h2 id="h-type">Type</h2>
+    <div><small>Title, Marcellus 400</small><p style="font:400 clamp(2.4rem,1.7rem + 3.4vw,4.4rem)/1.04 var(--serif);max-width:none">{{ r.h1 }}</p></div>
+    <div><small>Text, Figtree 400, line height 1.65</small><p>{{ r.lead }}</p></div>
+  </section>
+
+  <div class="bd-route">
+    <section aria-labelledby="h-route-head">
+      <h2 id="h-route-head" class="sr-only">Route page head</h2>
+      {%- if tb.hero %}
+      <div class="bd-hero"><img eleventy:ignore src="{{ tb.hero.src }}" alt="{{ tb.hero.alt }}" width="{{ tb.hero.width }}" height="{{ tb.hero.height }}" fetchpriority="high"></div>
+      {%- endif %}
+      <p style="font:400 clamp(2.1rem,1.5rem + 3vw,3.6rem)/1.04 var(--serif);margin:var(--s3) 0 var(--s2);max-width:none">{{ r.h1 }}</p>
+      <p class="lead">{{ r.lead }}</p>
+      <div style="margin-top:var(--s3)">{{ vip.routeFacts(r.facts, "Facts, " + r.name) }}</div>
+      <div class="actions">
+        <a class="btn" href="{{ fallback }}" data-book="">{{ icon("whatsapp") }}<span>Check availability</span></a>
+      </div>
+    </section>
+
+    <section aria-labelledby="h-routes">
+      <h2 id="h-routes">Routes</h2>
+      <ul class="routes">
+        {% for c in tb.routeCards %}<li>{{ vip.routeCard(c) }}</li>{% endfor %}
+      </ul>
+    </section>
+
+    <section>{{ vip.vehicle(tb.vehicle, slots) }}</section>
+
+    <div class="bd-two">
+      <section aria-labelledby="h-faq">
+        <h2 id="h-faq">Questions</h2>
+        <div class="faq">
+          {%- for f in r.faq %}
+          <details><summary>{{ f.q }}{{ icon("chevron-down") }}</summary><div class="answer"><p>{{ f.a }}</p></div></details>
+          {%- endfor %}
+        </div>
+      </section>
+      <div>
+        <section aria-labelledby="h-rating">
+          <h2 id="h-rating">Google rating</h2>
+          {{ vip.rating(tb.rating) }}
+        </section>
+        <section>{{ vip.secretAd(tb.secret) }}</section>
+        <section aria-labelledby="h-bar">
+          <h2 id="h-bar">Mobile bar</h2>
+          <div class="bd-phone">
+            <p class="cap">Fixed to the bottom of the screen on phones. Live at the bottom of this page under 1,024 px.</p>
+            {{ vip.mobileBar(null, fallback) }}
+          </div>
+          <p style="margin-top:var(--s3)"><button class="btn" type="button" data-book="">Open the booking sheet</button></p>
+        </section>
+      </div>
+    </div>
+  </div>
+</main>
+
+{{ vip.footer(site, boardContact) }}
+{{ vip.mobileBar(null, fallback) }}
+{{ bookingSheet(tb.booking, boardContact) }}
+<script src="/js/booking.js?v={{ build.v }}" defer></script>
+<script>
+  // Planche seulement : /design/taxi/#sheet ouvre la feuille, pour les captures.
+  if (location.hash === "#sheet") addEventListener("load", function () { var b = document.querySelector('.actions [data-book]'); if (b) b.click(); });
+</script>
+</body>
+</html>

@@ -1,4 +1,6 @@
-# Contours du mot-symbole en Archivo (instance largeur 87,5, graisse donnée), avec crénage harfbuzz.
+# Contours du mot-symbole en Archivo (instance largeur 87,5, graisse 700 et 600), avec crénage harfbuzz.
+# Dépendances hors dépôt : pip install fonttools brotli uharfbuzz
+# Usage : python3 scripts/logo/glyphs.py src/css/fonts/archivo-latin-wdth-normal.woff2 > scripts/logo/glyphs.json
 import sys, json
 import uharfbuzz as hb
 from fontTools.ttLib import TTFont

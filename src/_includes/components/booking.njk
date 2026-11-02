@@ -1,0 +1,167 @@
+{#- Feuille de réservation (src/js/booking.js) : un seul <dialog id="book"> par page.
+    cfg : variant "tour" ou "taxi", brand, product, productId, page, whatsapp, options [{id, title, rows}],
+          pickupRequired (excursions), from et to (trajet fixé ; sans eux, deux champs libres).
+    facts : replyTime, languages, phoneDisplay (secret.json). -#}
+{% from "components/icons.njk" import icon %}
+
+{% macro stepper(name, label, value, min, max, hint) %}
+<div class="count">
+  <label for="book-{{ name }}">{{ label }}{% if hint %}<small>{{ hint }}</small>{% endif %}</label>
+  <div class="stepper">
+    <button type="button" data-step="-1" data-for="{{ name }}" aria-label="One less, {{ label | lower }}">&minus;</button>
+    <input id="book-{{ name }}" name="{{ name }}" type="number" inputmode="numeric" min="{{ min }}" max="{{ max }}" value="{{ value }}" aria-describedby="book-e-{{ name }}">
+    <button type="button" data-step="1" data-for="{{ name }}" aria-label="One more, {{ label | lower }}">+</button>
+  </div>
+</div>
+{% endmacro %}
+
+{% macro text(name, label, hint, required=false, autocomplete="off") %}
+<div class="f">
+  <label for="book-{{ name }}"{% if name == "address" %} data-address-label{% endif %}>{{ label }}</label>
+  {% if hint %}<p class="f-hint" id="book-h-{{ name }}">{{ hint }}</p>{% endif %}
+  <input id="book-{{ name }}" name="{{ name }}" type="text" autocomplete="{{ autocomplete }}"{% if required %} required aria-required="true"{% endif %} aria-describedby="{% if hint %}book-h-{{ name }} {% endif %}book-e-{{ name }}">
+  <p class="err" id="book-e-{{ name }}" hidden></p>
+</div>
+{% endmacro %}
+
+{% macro bookingSheet(cfg, facts) %}
+{%- set taxi = cfg.variant == "taxi" -%}
+<dialog class="sheet" id="book" aria-labelledby="book-title">
+  <div class="sheet-screen" data-screen="form">
+    <form novalidate>
+      <div class="sheet-head">
+        <div>
+          <p class="sheet-kicker">Check availability</p>
+          <h2 class="sheet-title" id="book-title" tabindex="-1" data-focus>{{ cfg.product }}</h2>
+        </div>
+        <button class="sheet-close" type="button" data-close>{{ icon("close") }}<span class="sr-only">Close</span></button>
+      </div>
+      <div class="sheet-body">
+        {%- if cfg.options and cfg.options.length > 1 %}
+        <fieldset class="f">
+          <legend>Option</legend>
+          <div class="choice choice--list">
+            {%- for o in cfg.options %}
+            <label><input type="radio" name="option" value="{{ o.id }}" aria-describedby="book-e-option"><span><b>{{ o.title }}</b>{% if o.rows and o.rows.length %}<span class="num">{{ o.rows[0].price }}</span>{% endif %}</span></label>
+            {%- endfor %}
+          </div>
+          <p class="err" id="book-e-option" hidden></p>
+        </fieldset>
+        {%- endif %}
+
+        {%- if taxi %}
+          {%- if cfg.from and cfg.to %}
+        <fieldset class="f">
+          <legend>Direction</legend>
+          <div class="choice">
+            <label><input type="radio" name="direction" value="out"><span>{{ cfg.from }} to {{ cfg.to }}</span></label>
+            <label><input type="radio" name="direction" value="back"><span>{{ cfg.to }} to {{ cfg.from }}</span></label>
+          </div>
+        </fieldset>
+          {%- else %}
+        {{ text("from", "From", "", true) }}
+        {{ text("to", "To", "", true) }}
+          {%- endif %}
+        {%- endif %}
+
+        <fieldset class="f">
+          <legend>Date</legend>
+          <div class="choice choice--3">
+            <label><input type="radio" name="dateChoice" value="today" aria-describedby="book-e-date"><span>Today</span></label>
+            <label><input type="radio" name="dateChoice" value="tomorrow" aria-describedby="book-e-date"><span>Tomorrow</span></label>
+            <label><input type="radio" name="dateChoice" value="other" aria-describedby="book-e-date"><span>Other date</span></label>
+          </div>
+          <div class="date-other" data-date-other hidden>
+            <label class="f-label" for="book-dateOther">Date</label>
+            <input id="book-dateOther" name="dateOther" type="date" aria-describedby="book-e-date">
+          </div>
+          <p class="err" id="book-e-date" hidden></p>
+        </fieldset>
+
+        {%- if taxi %}
+        <div class="f">
+          <label for="book-time">Pickup time</label>
+          <input id="book-time" name="time" type="time" required aria-required="true" aria-describedby="book-e-time">
+          <p class="err" id="book-e-time" hidden></p>
+        </div>
+        {{ text("flight", "Flight number or ferry time", "If we pick you up at an airport or a pier.") }}
+        {%- endif %}
+
+        <fieldset class="f">
+          <legend>Guests</legend>
+          {{ stepper("adults", "Adults", 2, 0, 60) }}
+          <p class="err" id="book-e-adults" hidden></p>
+          {{ stepper("children", "Children", 0, 0, 12, "We ask each child's age") }}
+          <div class="ages" data-child-ages></div>
+          {%- if taxi %}
+          <div data-child-seats hidden>{{ stepper("childSeats", "Child seats", 0, 0, 12) }}</div>
+          {{ stepper("bags", "Bags", 0, 0, 30) }}
+          {%- endif %}
+        </fieldset>
+
+        {%- if taxi %}
+          {%- set outLabel = "Drop-off hotel or address" -%}
+          {%- set backLabel = "Pickup hotel or address" -%}
+        <div class="f">
+          <label for="book-address" data-address-label data-out="{{ outLabel }}" data-back="{{ backLabel }}">{% if cfg.from and cfg.to %}{{ outLabel }}{% else %}Hotel or address{% endif %}</label>
+          <input id="book-address" name="address" type="text" autocomplete="street-address" aria-describedby="book-e-address">
+          <p class="err" id="book-e-address" hidden></p>
+        </div>
+        {%- else %}
+        {{ text("pickup", "Hotel or address", "We pick you up here.", cfg.pickupRequired != false, "street-address") }}
+        {%- endif %}
+
+        {{ text("name", "First name", "", true, "given-name") }}
+      </div>
+      <div class="sheet-foot">
+        <button class="sheet-btn" type="submit">Preview message</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="sheet-screen" data-screen="preview" hidden>
+    <div class="sheet-head">
+      <div>
+        <p class="sheet-kicker">{{ cfg.product }}</p>
+        <h2 class="sheet-title" tabindex="-1" data-focus>Your message</h2>
+      </div>
+      <button class="sheet-close" type="button" data-close>{{ icon("close") }}<span class="sr-only">Close</span></button>
+    </div>
+    <div class="sheet-body">
+      <p class="f-hint">WhatsApp opens with this text. You can still change it there before sending.</p>
+      <pre class="message" data-message></pre>
+    </div>
+    <div class="sheet-foot">
+      <a class="sheet-btn" href="https://wa.me/{{ cfg.whatsapp }}" target="_blank" rel="noopener" data-send>{{ icon("whatsapp") }}<span>Send on WhatsApp</span></a>
+      <p class="sheet-note">Nothing is booked until we confirm.</p>
+      <button class="sheet-btn sheet-btn--quiet" type="button" data-edit>Edit details</button>
+    </div>
+  </div>
+
+  <div class="sheet-screen" data-screen="done" hidden>
+    <div class="sheet-head">
+      <h2 class="sheet-title" tabindex="-1" data-focus>WhatsApp should be open</h2>
+      <button class="sheet-close" type="button" data-close>{{ icon("close") }}<span class="sr-only">Close</span></button>
+    </div>
+    <div class="sheet-body done-text">
+      {% if facts.replyTime %}<p>{{ facts.replyTime }}</p>{% endif %}
+      {%- set langs = facts.languages %}
+      {% if langs and langs.length %}<p>We reply in {{ langs.slice(0, -1) | join(", ") }}{% if langs.length > 1 %} or {% endif %}{{ langs | last }}.</p>{% endif %}
+      <p>Nothing opened? Copy your message and send it on WhatsApp to <span class="num">{{ facts.phoneDisplay }}</span>.</p>
+      <button class="sheet-btn sheet-btn--quiet" type="button" data-copy>Copy message</button>
+      <p class="copy-status" data-copy-status role="status"></p>
+    </div>
+    <div class="sheet-foot">
+      <button class="sheet-btn sheet-btn--quiet" type="button" data-close>Close</button>
+    </div>
+  </div>
+</dialog>
+<template id="book-age-tpl">
+  <div class="f">
+    <label></label>
+    <span class="select"><select><option value="">Age</option><option value="0">Under 1</option>{% for a in range(1, 18) %}<option value="{{ a }}">{{ a }}</option>{% endfor %}</select></span>
+    <p class="err" hidden></p>
+  </div>
+</template>
+<script type="application/json" id="book-data">{{ cfg | dump | safe }}</script>
+{% endmacro %}

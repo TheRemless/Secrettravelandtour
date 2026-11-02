@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" role="img"><title>Secret Travel &amp; Tour, Koh Lanta</title><defs><clipPath id="cb"><circle cx="50" cy="50" r="48"/></clipPath></defs>
+<circle cx="50" cy="50" r="48" fill="#0A3F44"/>
+<g clip-path="url(#cb)">
+<path fill="#BFE6DF" d="M14 73C15 58 17 45 22 37C26 31 32 31 35 37C38 44 39 57 41 73Z"/>
+<path fill="#BFE6DF" d="M35 73C37 63 41 57 46 57C51 57 53 65 54 73Z"/>
+<path fill="none" stroke="#BFE6DF" stroke-width="2.6" d="M0 72H100"/>
+<path fill="none" stroke="#F0B429" stroke-width="4" stroke-linecap="round" d="M67 71C68 58 65 46 60 33"/>
+<path d="M0 0C10-11 27-11 38 1C27-3 12-2 0 0Z" transform="translate(60 33) scale(0.62 0.62) rotate(-30)" fill="#F0B429"/><path d="M0 0C10-11 27-11 38 1C27-3 12-2 0 0Z" transform="translate(60 33) scale(0.62 0.62) rotate(6)" fill="#F0B429"/><path d="M0 0C10-11 27-11 38 1C27-3 12-2 0 0Z" transform="translate(60 33) scale(-0.62 0.62) rotate(-30)" fill="#F0B429"/><path d="M0 0C10-11 27-11 38 1C27-3 12-2 0 0Z" transform="translate(60 33) scale(-0.62 0.62) rotate(6)" fill="#F0B429"/><path d="M0 0C10-11 27-11 38 1C27-3 12-2 0 0Z" transform="translate(60 33) scale(0.5 0.5) rotate(-72)" fill="#F0B429"/>
+<path fill="#F0B429" d="M12 80C30 84 58 84 72 80C77 75 81 65 83 51L87 52C87 67 84 80 78 88C60 92 30 91 17 86Z"/>
+<path fill="none" stroke="#BFE6DF" stroke-width="2.4" stroke-linecap="round" d="M85.5 55C83.5 60 86.5 64 84.5 70"/>
+</g></svg>

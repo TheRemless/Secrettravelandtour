@@ -65,7 +65,7 @@ const HIDDEN_FEES = /\bno hidden fees\b/gi;
 const BANNED_CLASSES = ["pol", "page-pol", "brush", "note-park", "learn"];
 const BANNED_HTML = [
   ["brush.webp", /brush\.webp/i],
-  ["polices de l'ancien site", /concert-one|sniglet|kaushan|marcellus|figtree/i],
+  ["polices de l'ancien site", /concert-one|sniglet|kaushan/i],
   ["AggregateRating auto-déclaré", /"@type"\s*:\s*"AggregateRating"|"aggregateRating"/],
   ["TouristAttraction", /"@type"\s*:\s*"TouristAttraction"/]
 ];
@@ -74,11 +74,15 @@ const BANNED_HTML = [
 const BANNED_CSS = [
   ["text-stroke", /text-stroke/i],
   ["brush.webp", /brush\.webp/i],
-  ["police interdite", /font-family\s*:[^;}]*\b(?:Inter|Poppins|Montserrat|DM Sans|Space Grotesk|Fraunces|Playfair|Sniglet|Concert One|Kaushan|Marcellus|Figtree)\b/i],
+  ["police interdite", /font-family\s*:[^;}]*\b(?:Inter|Poppins|Montserrat|DM Sans|Space Grotesk|Fraunces|Playfair|Sniglet|Concert One|Kaushan)\b/i],
   ["police script", /font-family\s*:[^;}]*\bcursive\b/i],
   ["flèche décorative", /content\s*:\s*"[^"]*(?:\\2192|→)/i],
   ["photo inclinée", /rotate\(\s*-?(?:[1-4](?:\.\d+)?|0?\.\d+)deg\s*\)/i]
 ];
+// Marcellus et Figtree : identité de VIP Taxi Lanta, gardée à la demande du client (02.11.2026).
+// Autorisées dans les pages de la marque vip (<html data-brand="vip">) et dans vip.css, interdites ailleurs.
+const VIP_FONTS = /marcellus|figtree/i;
+const VIP_CSS = new Set(["css/vip.css"]);
 const BANNED_JS = BANNED_TEXT.filter(([name]) => !["flèche décorative →", "1h30"].includes(name)).concat([["« Hi …! » en tête de message", /["'`]Hi [^"'`\n]{0,40}!/]]);
 
 const PLACEHOLDERS = /TODO\(client\)|\[À CONFIRMER\]/g;
@@ -145,6 +149,7 @@ function checkHtml(html, replaced) {
     for (const c of m[1].split(/\s+/)) if (BANNED_CLASSES.includes(c)) found.push([`classe .${c}`, m[0].trim()]);
   }
   for (const [name, re] of BANNED_HTML) if (re.test(html)) found.push([name, ""]);
+  if (!/<html\b[^>]*\sdata-brand="vip"/i.test(html) && VIP_FONTS.test(html)) found.push(["police VIP hors des pages VIP", ""]);
   for (const file of replaced) if (html.includes(`/images/${file}`)) found.push(["image à remplacer", file]);
   for (const m of html.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/gi)) {
     const t = decode(m[1].replace(/<[^>]+>/g, "")).trim();
@@ -184,7 +189,12 @@ for (const rel of htmlFiles) {
 for (const rel of assetFiles) {
   const content = fs.readFileSync(path.join(SITE, rel), "utf8");
   const rules = rel.endsWith(".css") ? BANNED_CSS : BANNED_JS;
-  for (const [rule, detail] of checkAsset(content, rules)) (strictAssets.has(rel) ? errors : warnings).push({ file: rel, rule, detail });
+  const found = checkAsset(content, rules);
+  if (rel.endsWith(".css") && !VIP_CSS.has(rel)) {
+    const m = content.match(/font-family\s*:[^;}]*\b(?:Marcellus|Figtree)\b/i);
+    if (m) found.push(["police VIP hors de vip.css", m[0]]);
+  }
+  for (const [rule, detail] of found) (strictAssets.has(rel) ? errors : warnings).push({ file: rel, rule, detail });
 }
 
 // TODO(client) et [À CONFIRMER] : partout dans _site (hors /design/).
