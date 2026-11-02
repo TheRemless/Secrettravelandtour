@@ -90,3 +90,12 @@ test("formulaires : l'heure de prise en charge est marquée obligatoire", () => 
   assert.match(home, /<input id="f-t-time"[^>]*aria-required="true"/);
   assert.match(taxi, /<input id="f-time"[^>]*aria-required="true"/);
 });
+
+test("photos : chaque excursion, activité et transfert a une photo qui existe, avec un texte alternatif", () => {
+  const secret = require("../src/_data/secret.json");
+  for (const item of secret.tours.concat(secret.activities, secret.transfers)) {
+    assert.ok(item.photo, `${item.id} : photo`);
+    assert.ok(fs.existsSync(path.join(site, "images", "secret", item.photo)), `${item.id} : ${item.photo}`);
+    assert.ok(item.photoAlt && item.photoAlt.length > 15, `${item.id} : alt`);
+  }
+});
