@@ -1,0 +1,103 @@
+{
+  "slug": "koh-lanta-khao-sok",
+  "url": "/taxi/koh-lanta-khao-sok/",
+  "brand": "vip",
+  "template": "route",
+  "name": "Koh Lanta to Khao Sok",
+  "seo": {
+    "title": "Koh Lanta to Khao Sok Minivan Taxi | VIP Taxi Lanta",
+    "metaDescription": "Private minivan taxi between Koh Lanta and Khao Sok or Cheow Lan Pier, both directions, door to door. Cash to the driver. Price on WhatsApp."
+  },
+  "h1": "Koh Lanta to Khao Sok, private transfer",
+  "lead": "From your hotel on Koh Lanta to Khao Sok village or Cheow Lan Pier, and back, in a private minivan.",
+  "route": {
+    "from": "Koh Lanta",
+    "to": "Khao Sok",
+    "bothDirections": true,
+    "drive": "about 4 to 5 hours",
+    "points": [
+      "Your hotel on Koh Lanta",
+      "Khao Sok village",
+      "Cheow Lan Pier"
+    ],
+    "region": "Khao Sok and the lake"
+  },
+  "facts": [
+    {
+      "label": "Drive time",
+      "value": "About 4 to 5 hours, depending on traffic"
+    },
+    {
+      "label": "Pickup and drop-off",
+      "value": "Your hotel on Koh Lanta, Khao Sok village, Cheow Lan Pier"
+    },
+    {
+      "label": "Directions",
+      "value": "Both directions"
+    }
+  ],
+  "priceOnRequest": true,
+  "faq": [
+    {
+      "q": "Do you drive to Cheow Lan Pier?",
+      "a": "Yes. Cheow Lan Pier is among the places we drive to. Enter it as your destination with the time of your boat."
+    }
+  ],
+  "photos": [
+    {
+      "file": "taxi/van-seats.webp",
+      "alt": "Minivan interior with diamond-stitched tan leather seats and a lit ceiling",
+      "slot": "hero",
+      "status": "keep",
+      "shot": "Real photo of the VIP Taxi Lanta minivan, shared by every route page today: one photo per route later if possible."
+    }
+  ],
+  "related": [
+    "/taxi/southern-thailand/"
+  ],
+  "schema": {
+    "type": "TaxiService",
+    "legacyType": "TaxiService",
+    "serviceType": "Private minivan transfer",
+    "areaServed": [
+      "Koh Lanta",
+      "Khao Sok"
+    ]
+  },
+  "legacyText": {
+    "title": "Koh Lanta to Khao Sok Minivan Taxi | VIP Taxi Lanta",
+    "body": [
+      "We drive to Khao Sok village and to Cheow Lan Pier, where the boats to the lake leave. Tell us which one and your boat time if you have one."
+    ]
+  },
+  "sources": [
+    {
+      "field": "name, seo, h1, lead, route, faq, legacyText",
+      "from": "taxiRoutes.json routes[id=koh-lanta-khao-sok]"
+    },
+    {
+      "field": "route.drive, facts[Drive time]",
+      "from": "taxiRoutes.json routes[id=koh-lanta-khao-sok].drive (durées approximatives relevées le 30.10.2026, registre de faits)"
+    },
+    {
+      "field": "route.points, facts[Pickup and drop-off]",
+      "from": "taxiRoutes.json routes[id=koh-lanta-khao-sok].lead, body, faq"
+    },
+    {
+      "field": "route.region, related",
+      "from": "taxiRoutes.json regions"
+    },
+    {
+      "field": "priceOnRequest",
+      "from": "Décision client du 02.11.2026 : prix des transferts privés sur WhatsApp"
+    },
+    {
+      "field": "photos",
+      "from": "src/taxi-route.njk (van-seats.webp) ; docs/refonte/01-audit-design.md §4 (photos du van à garder) ; 00-BRIEF §6.4 (point de rencontre)"
+    },
+    {
+      "field": "schema",
+      "from": "src/_data/taxiRoutesView.js"
+    }
+  ]
+}

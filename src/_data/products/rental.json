@@ -1,0 +1,353 @@
+{
+  "slug": "rental",
+  "url": "/tours/rental/",
+  "brand": "secret",
+  "template": "rental",
+  "name": "Car and scooter rental",
+  "seo": {
+    "title": "Car and Scooter Rental Koh Lanta | Secret Travel & Tour",
+    "metaDescription": "Rent a scooter, a big bike, a car or a pick-up on Koh Lanta. 35 vehicles, from a 110 cc scooter at 250 THB to a 7-seat Fortuner. See the daily rates.",
+    "draft": {
+      "title": "Scooter & Car Rental Koh Lanta – Daily Prices",
+      "h1": "Scooter and car rental on Koh Lanta"
+    }
+  },
+  "h1": "Car and scooter rental on Koh Lanta",
+  "lead": "Scooters, big bikes, cars and pick-ups, to explore the island at your own pace. Pick your vehicle from the list.",
+  "facts": [
+    {
+      "label": "Fleet",
+      "value": "35 vehicles: 8 cars and pick-ups, 10 big bikes, 17 scooters and small bikes"
+    },
+    {
+      "label": "Cars",
+      "value": "1,200–2,200 THB per day, Suzuki Swift to 7-seat Toyota Fortuner"
+    },
+    {
+      "label": "Big bikes",
+      "value": "600–1,200 THB per day, Kawasaki KLX 150 to Kawasaki Ninja 650"
+    },
+    {
+      "label": "Scooters",
+      "value": "250–800 THB per day, Honda Scoopy to Honda Forza 350"
+    }
+  ],
+  "price": {
+    "from": 250,
+    "currency": "THB",
+    "unit": "per day, small scooter"
+  },
+  "options": [
+    {
+      "id": "cars-and-pick-ups",
+      "label": "Cars and pick-ups",
+      "kind": "vehicle",
+      "prices": [
+        {
+          "label": "Toyota Fortuner, 7 seats",
+          "amount": 2200,
+          "unit": "per day"
+        },
+        {
+          "label": "Mitsubishi Xpander",
+          "amount": 2000,
+          "unit": "per day"
+        },
+        {
+          "label": "Chevrolet Captiva, diesel, 7 seats",
+          "amount": 1800,
+          "unit": "per day"
+        },
+        {
+          "label": "Chevrolet Colorado pick-up",
+          "amount": 1800,
+          "unit": "per day"
+        },
+        {
+          "label": "Mitsubishi Triton double cab pick-up",
+          "amount": 1800,
+          "unit": "per day"
+        },
+        {
+          "label": "Toyota Yaris",
+          "amount": 1500,
+          "unit": "per day"
+        },
+        {
+          "label": "Toyota Yaris Ativ",
+          "amount": 1500,
+          "unit": "per day"
+        },
+        {
+          "label": "Suzuki Swift",
+          "amount": 1200,
+          "unit": "per day"
+        }
+      ]
+    },
+    {
+      "id": "big-bikes",
+      "label": "Big bikes",
+      "kind": "vehicle",
+      "prices": [
+        {
+          "label": "Honda CB 500 F",
+          "amount": 1200,
+          "unit": "per day"
+        },
+        {
+          "label": "Kawasaki Ninja 650",
+          "amount": 1200,
+          "unit": "per day"
+        },
+        {
+          "label": "Honda CRF 250",
+          "amount": 900,
+          "unit": "per day"
+        },
+        {
+          "label": "Honda CBR 300R Repsol",
+          "amount": 800,
+          "unit": "per day"
+        },
+        {
+          "label": "GPX Mad 300",
+          "amount": 800,
+          "unit": "per day"
+        },
+        {
+          "label": "Honda Rebel 300",
+          "amount": 700,
+          "unit": "per day"
+        },
+        {
+          "label": "Yamaha MT-155",
+          "amount": 700,
+          "unit": "per day"
+        },
+        {
+          "label": "Kawasaki W175",
+          "amount": 700,
+          "unit": "per day"
+        },
+        {
+          "label": "Yamaha XSR 155",
+          "amount": 700,
+          "unit": "per day"
+        },
+        {
+          "label": "Kawasaki KLX 150",
+          "amount": 600,
+          "unit": "per day"
+        }
+      ]
+    },
+    {
+      "id": "scooters-and-small-bikes",
+      "label": "Scooters and small bikes",
+      "kind": "vehicle",
+      "prices": [
+        {
+          "label": "Honda ADV 350",
+          "amount": 800,
+          "unit": "per day"
+        },
+        {
+          "label": "Honda Forza 350",
+          "amount": 800,
+          "unit": "per day"
+        },
+        {
+          "label": "Yamaha X-MAX 300",
+          "amount": 800,
+          "unit": "per day"
+        },
+        {
+          "label": "Yamaha N-MAX",
+          "amount": 600,
+          "unit": "per day"
+        },
+        {
+          "label": "Honda PCX 160",
+          "amount": 550,
+          "unit": "per day"
+        },
+        {
+          "label": "Yamaha Aerox 155",
+          "amount": 550,
+          "unit": "per day"
+        },
+        {
+          "label": "Yamaha Tricity 125, three wheels",
+          "amount": 500,
+          "unit": "per day"
+        },
+        {
+          "label": "Honda MSX 125",
+          "amount": 500,
+          "unit": "per day"
+        },
+        {
+          "label": "Honda Click 160",
+          "amount": 450,
+          "unit": "per day"
+        },
+        {
+          "label": "Honda PCX 150",
+          "amount": 450,
+          "unit": "per day"
+        },
+        {
+          "label": "Honda Click 125",
+          "amount": 250,
+          "unit": "per day"
+        },
+        {
+          "label": "Zoomer X 110",
+          "amount": 250,
+          "unit": "per day"
+        },
+        {
+          "label": "Honda Wave 110",
+          "amount": 250,
+          "unit": "per day"
+        },
+        {
+          "label": "Honda Scoopy",
+          "amount": 250,
+          "unit": "per day"
+        },
+        {
+          "label": "Yamaha Fino 125",
+          "amount": 250,
+          "unit": "per day"
+        },
+        {
+          "label": "Yamaha Fazzio",
+          "amount": 250,
+          "unit": "per day"
+        },
+        {
+          "label": "Yamaha Grand Filano Hybrid",
+          "amount": 250,
+          "unit": "per day"
+        }
+      ]
+    }
+  ],
+  "beforeYouBook": {
+    "pickup": "Tell us the vehicle and your dates, we confirm availability."
+  },
+  "faq": [
+    {
+      "q": "Do you rent cars as well as scooters?",
+      "a": "Yes. There are 8 cars and pick-ups, 10 motorbikes and 17 scooters and small bikes."
+    },
+    {
+      "q": "What is the cheapest vehicle?",
+      "a": "Several small scooters, such as the Honda Click 125 or the Honda Scoopy, are 250 THB per day."
+    }
+  ],
+  "photos": [
+    {
+      "slot": "hero",
+      "status": "replace",
+      "file": "secret/lanta-old-town.webp",
+      "legacyAlt": "Scooters parked along the shopfronts of Lanta Old Town",
+      "shot": "Scooters or cars of the rental fleet (current file is the Lanta Old Town photo, to be kept for the island tour only)."
+    },
+    {
+      "slot": "gallery",
+      "status": "missing",
+      "shot": "The scooter line-up, one car, keys handover (no faces needed)."
+    }
+  ],
+  "related": [
+    "/tours/speedboat/",
+    "/transfers/",
+    "/taxi/"
+  ],
+  "schema": {
+    "type": "Service",
+    "legacyType": "Service",
+    "places": [
+      "Koh Lanta"
+    ]
+  },
+  "legacyText": {
+    "title": "Car and Scooter Rental Koh Lanta | Secret Travel & Tour",
+    "h1": "Car and scooter rental",
+    "h1em": "on Koh Lanta",
+    "intro": [
+      "35 vehicles in all. Prices start at 250 THB for a small scooter and go up to 2,200 THB for a 7-seat Toyota Fortuner. Motorbikes run from 600 to 1,200 THB.",
+      "Tell us the vehicle you want and your dates, and we confirm it is free."
+    ],
+    "cardDescription": "Scooters, big bikes, cars and pick-ups to explore the island.",
+    "cardInfo": [
+      "From 250 THB per day"
+    ],
+    "dayTitle": "What you can rent",
+    "dayItems": [
+      {
+        "t": "Cars",
+        "text": "8 cars and pick-ups, from a Suzuki Swift to a 7-seat Toyota Fortuner."
+      },
+      {
+        "t": "Big bikes",
+        "text": "10 motorbikes, from a 150 cc Kawasaki KLX to a Kawasaki Ninja 650."
+      },
+      {
+        "t": "Scooters",
+        "text": "17 scooters and small bikes, from a Honda Scoopy to a Honda Forza 350."
+      }
+    ],
+    "goodToKnow": [
+      "Tell us the vehicle and your dates, we confirm availability."
+    ],
+    "priceNote": "Prices in Thai baht, per day.",
+    "caption": "Lanta Old Town",
+    "photoPosition": "20% 60%"
+  },
+  "sources": [
+    {
+      "field": "name, legacyText.cardDescription, legacyText.cardInfo, photos[hero]",
+      "from": "secret.json activities[id=rental]"
+    },
+    {
+      "field": "seo, h1, lead, legacyText",
+      "from": "secretPagesContent.json pages.rental.title, metaDescription, h1, h1em, lead, intro"
+    },
+    {
+      "field": "facts, price",
+      "from": "secretPagesContent.json pages.rental (day, prices, goodToKnow, parkFee) et secret.json activities[id=rental].info, reformulés en lignes de faits"
+    },
+    {
+      "field": "options",
+      "from": "secretPagesContent.json pages.rental.prices, priceNote"
+    },
+    {
+      "field": "beforeYouBook",
+      "from": "secretPagesContent.json pages.rental.goodToKnow, intro, parkFee"
+    },
+    {
+      "field": "faq",
+      "from": "secretPagesContent.json pages.rental.faq"
+    },
+    {
+      "field": "seo.draft",
+      "from": "docs/refonte/02-audit-seo.md §6.2 (points de départ, prix à valider)"
+    },
+    {
+      "field": "photos[].status, photos[].shot",
+      "from": "docs/refonte/01-audit-design.md §4"
+    },
+    {
+      "field": "schema",
+      "from": "secretPagesContent.json pages.rental.schemaType, places ; type cible : docs/refonte/02-audit-seo.md §6.3"
+    }
+  ],
+  "todo": [
+    "TODO(client): conditions de location : permis exigé, caution, passeport, assurance, casque, livraison à l'hôtel, carburant, durée minimum (réponse : « ça se discute sur WhatsApp, en général la même chose partout »).",
+    "TODO(client): les tarifs sont-ils bien par jour ? (« per day » déduit selon le registre de faits, à confirmer)."
+  ]
+}

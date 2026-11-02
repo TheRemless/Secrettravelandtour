@@ -1,0 +1,464 @@
+{
+  "slug": "mangroves",
+  "url": "/tours/mangroves/",
+  "brand": "secret",
+  "template": "boat",
+  "name": "Mangroves",
+  "seo": {
+    "title": "Koh Lanta Mangrove Tour | Secret Travel & Tour",
+    "metaDescription": "Mangrove trips at Thung Yee Peng, Koh Lanta: private raft at sunrise or sunset, longtail or kayak, with monkeys and crabs. Half days from 1,000 THB.",
+    "draft": {
+      "title": "Koh Lanta Mangrove Tour – Thung Yee Peng",
+      "h1": "Mangrove tour at Thung Yee Peng, Koh Lanta"
+    }
+  },
+  "h1": "Mangroves of Thung Yee Peng",
+  "lead": "The mangrove on the east side of Koh Lanta, by longtail, on a private wooden raft, or by kayak. Half a day, or just a sunrise.",
+  "facts": [
+    {
+      "label": "Where",
+      "value": "Thung Yee Peng, east coast of Koh Lanta"
+    },
+    {
+      "label": "Duration",
+      "value": "Half day, or a sunrise"
+    },
+    {
+      "label": "Ways to go",
+      "value": "Longtail, private wooden raft or kayak"
+    },
+    {
+      "label": "Raft pier",
+      "value": "Thung Yee Peng pier"
+    },
+    {
+      "label": "Village entrance fee",
+      "value": "40 THB per person on the longtail and kayak trips, not included"
+    }
+  ],
+  "price": {
+    "from": 1000,
+    "currency": "THB",
+    "unit": "per adult, half day by longtail or kayak"
+  },
+  "options": [
+    {
+      "id": "raft-sunrise",
+      "label": "Private raft at sunrise",
+      "kind": "private",
+      "boat": "raft",
+      "note": "On the water by 5:30, breakfast on board.",
+      "prices": [
+        {
+          "label": "1 to 2 people, the raft",
+          "amount": 3500,
+          "group": {
+            "min": 1,
+            "max": 2
+          },
+          "unit": "per raft"
+        },
+        {
+          "label": "3 or more people, per person",
+          "amount": 1500,
+          "group": {
+            "min": 3
+          },
+          "unit": "per person"
+        },
+        {
+          "label": "Child 3 to 9, per person",
+          "amount": 1200,
+          "ages": {
+            "min": 3,
+            "max": 9
+          },
+          "unit": "per person"
+        }
+      ]
+    },
+    {
+      "id": "raft-fishing",
+      "label": "Private raft, fishing morning",
+      "kind": "private",
+      "boat": "raft",
+      "note": "Fishing in Ao Lanta and a seafood lunch.",
+      "prices": [
+        {
+          "label": "1 to 2 people, the raft",
+          "amount": 3900,
+          "group": {
+            "min": 1,
+            "max": 2
+          },
+          "unit": "per raft"
+        },
+        {
+          "label": "3 or more people, per person",
+          "amount": 1800,
+          "group": {
+            "min": 3
+          },
+          "unit": "per person"
+        },
+        {
+          "label": "Child 3 to 9, per person",
+          "amount": 1500,
+          "ages": {
+            "min": 3,
+            "max": 9
+          },
+          "unit": "per person"
+        }
+      ]
+    },
+    {
+      "id": "raft-sunset-dinner",
+      "label": "Private raft, sunset dinner",
+      "kind": "private",
+      "boat": "raft",
+      "note": "Seafood dinner and the plankton after dark.",
+      "prices": [
+        {
+          "label": "1 to 2 people, the raft",
+          "amount": 3900,
+          "group": {
+            "min": 1,
+            "max": 2
+          },
+          "unit": "per raft"
+        },
+        {
+          "label": "3 or more people, per person",
+          "amount": 1800,
+          "group": {
+            "min": 3
+          },
+          "unit": "per person"
+        },
+        {
+          "label": "Child 3 to 9, per person",
+          "amount": 1500,
+          "ages": {
+            "min": 3,
+            "max": 9
+          },
+          "unit": "per person"
+        }
+      ]
+    },
+    {
+      "id": "longtail-half-day",
+      "label": "Half day by longtail, with lunch",
+      "kind": "join-in",
+      "boat": "longtail",
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 1000,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 11",
+          "amount": 700,
+          "ages": {
+            "min": 4,
+            "max": 11
+          },
+          "unit": "per person"
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "Village entrance fee",
+          "amount": 40,
+          "unit": "per person",
+          "note": "Not included (legacy price note)"
+        }
+      ]
+    },
+    {
+      "id": "kayak-half-day",
+      "label": "Half day by kayak, with lunch",
+      "kind": "join-in",
+      "boat": "kayak",
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 1000,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 11",
+          "amount": 700,
+          "ages": {
+            "min": 4,
+            "max": 11
+          },
+          "unit": "per person"
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "Village entrance fee",
+          "amount": 40,
+          "unit": "per person",
+          "note": "Not included (legacy price note)"
+        }
+      ]
+    },
+    {
+      "id": "longtail-old-town-viewpoint",
+      "label": "Longtail through the mangrove, then Old Town and a viewpoint",
+      "kind": "join-in",
+      "boat": "longtail",
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 1300,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 11",
+          "amount": 900,
+          "ages": {
+            "min": 4,
+            "max": 11
+          },
+          "unit": "per person"
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "Village entrance fee",
+          "amount": 40,
+          "unit": "per person",
+          "note": "Not included (legacy price note)"
+        }
+      ]
+    },
+    {
+      "id": "fishing-park",
+      "label": "Mangrove by kayak or longtail, then a fishing park",
+      "kind": "join-in",
+      "boat": "kayak or longtail",
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 1800,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 11",
+          "amount": 1200,
+          "ages": {
+            "min": 4,
+            "max": 11
+          },
+          "unit": "per person"
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "Village entrance fee",
+          "amount": 40,
+          "unit": "per person",
+          "note": "Not included (legacy price note)"
+        }
+      ]
+    }
+  ],
+  "day": [
+    {
+      "options": [
+        "raft-sunrise"
+      ],
+      "title": "The raft programmes",
+      "steps": [
+        {
+          "time": "04:40",
+          "text": "Sunrise raft. On the water by 5:30, sunrise around 6:00 over the mountains, light breakfast on the raft (coffee, tea, snacks), back at the hotel by 7:30."
+        }
+      ]
+    },
+    {
+      "options": [
+        "raft-fishing"
+      ],
+      "title": "The raft programmes",
+      "steps": [
+        {
+          "time": "09:30",
+          "text": "Fishing raft. Fishing in the waters of Ao Lanta, a look at how the local fishermen work, a seafood lunch cooked on the raft, back around 14:00."
+        }
+      ]
+    },
+    {
+      "options": [
+        "raft-sunset-dinner"
+      ],
+      "title": "The raft programmes",
+      "steps": [
+        {
+          "time": "16:30",
+          "text": "Sunset raft. Sunset on the river, seafood dinner by candlelight, then the bioluminescent plankton in the dark water, back by 20:00."
+        }
+      ]
+    }
+  ],
+  "included": [
+    "Hotel transfer both ways",
+    "On the raft: breakfast, lunch or dinner depending on the programme, drinks and fruit",
+    "Kayaks and life jackets on the kayak trip"
+  ],
+  "beforeYouBook": {
+    "pickup": "Sunrise raft: pickup around 4:40, back at the hotel by 7:30.",
+    "bring": [
+      "Mosquito repellent for sunrise and sunset"
+    ],
+    "children": "The raft is private, for your group only. Children from 3 to 9 have a child rate. On the longtail and kayak trips children from 4 to 11 have a child rate."
+  },
+  "faq": [
+    {
+      "q": "Which mangrove trip should I pick?",
+      "a": "The raft is the quietest, with the sunrise and the sunset dinner as its two programmes. The kayak is more active and reaches the narrow channels. The longtail is the simplest with children."
+    },
+    {
+      "q": "Can we see the plankton?",
+      "a": "On the sunset dinner programme, once it is dark, the plankton lights up when the water moves."
+    },
+    {
+      "q": "How early is the sunrise trip?",
+      "a": "Pickup is around 4:40 and you are back at the hotel by 7:30, in time for a second breakfast."
+    }
+  ],
+  "photos": [
+    {
+      "slot": "hero",
+      "status": "replace",
+      "file": "secret/mangrove-longtail.webp",
+      "legacyAlt": "A longtail boat cruising through the mangroves",
+      "shot": "A longtail or the wooden raft in the Thung Yee Peng channels, real muddy water (current file is very probably AI-generated)."
+    },
+    {
+      "slot": "gallery",
+      "status": "replace",
+      "file": "secret/gallery/mangrove-longtail.webp",
+      "alt": "A longtail boat in a narrow mangrove channel",
+      "shot": "Longtail in a narrow mangrove channel (current file is a brochure scan)."
+    },
+    {
+      "slot": "gallery",
+      "status": "replace",
+      "file": "secret/gallery/kayak-mangrove.webp",
+      "alt": "Two kayaks in a mangrove channel",
+      "shot": "Kayaks in the mangrove (current file is a brochure scan, also on the kayak page)."
+    },
+    {
+      "slot": "gallery",
+      "status": "replace",
+      "file": "secret/gallery/mangrove-guide.webp",
+      "alt": "A guide and a young visitor in the mangrove",
+      "shot": "Guide in the mangrove with visitors (current file is a brochure scan)."
+    },
+    {
+      "slot": "gallery",
+      "status": "missing",
+      "shot": "The private wooden raft at sunrise."
+    }
+  ],
+  "related": [
+    "/tours/kayak/",
+    "/tours/fishing-trip/",
+    "/tours/atv/"
+  ],
+  "schema": {
+    "type": "TouristTrip",
+    "legacyType": "TouristTrip",
+    "places": [
+      "Thung Yee Peng",
+      "Ao Lanta"
+    ]
+  },
+  "legacyText": {
+    "title": "Koh Lanta Mangrove Tour | Secret Travel & Tour",
+    "h1": "Mangroves of",
+    "h1em": "Thung Yee Peng",
+    "intro": [
+      "Thung Yee Peng is a village on the east coast of Koh Lanta with a protected mangrove behind it. The channels are calm. You see monkeys, birds and fiddler crabs on the mud at low tide.",
+      "Three ways to go. A longtail runs through the main channels. A private wooden raft, poled slowly, leaves from Thung Yee Peng pier for a sunrise, a fishing morning or a dinner at sunset. A kayak gets you into the narrow channels."
+    ],
+    "cardDescription": "Through the mangroves by longtail, gondola or kayak.",
+    "cardInfo": [
+      "From 1,000 THB per adult",
+      "Half day"
+    ],
+    "dayTitle": "The raft programmes",
+    "goodToKnow": [
+      "The raft is private, for your group only. Children from 3 to 9 have a child rate.",
+      "The kayak can be combined with an hour of ATV in the forest, two hours in all.",
+      "Bring mosquito repellent for sunrise and sunset."
+    ],
+    "priceNote": "Prices in Thai baht. On the longtail and kayak trips the village entrance fee, 40 THB per person, is not included.",
+    "caption": "Thung Yee Peng",
+    "photoPosition": "40% 60%"
+  },
+  "sources": [
+    {
+      "field": "name, legacyText.cardDescription, legacyText.cardInfo, photos[hero]",
+      "from": "secret.json tours[id=mangroves]"
+    },
+    {
+      "field": "seo, h1, lead, legacyText",
+      "from": "secretPagesContent.json pages.mangroves.title, metaDescription, h1, h1em, lead, intro"
+    },
+    {
+      "field": "facts, price",
+      "from": "secretPagesContent.json pages.mangroves (day, prices, goodToKnow, parkFee) et secret.json tours[id=mangroves].info, reformulés en lignes de faits"
+    },
+    {
+      "field": "options",
+      "from": "secretPagesContent.json pages.mangroves.prices, priceNote"
+    },
+    {
+      "field": "day",
+      "from": "secretPagesContent.json pages.mangroves.dayTitle, day"
+    },
+    {
+      "field": "included, notIncluded",
+      "from": "secretPagesContent.json pages.mangroves.included, notIncluded"
+    },
+    {
+      "field": "beforeYouBook",
+      "from": "secretPagesContent.json pages.mangroves.goodToKnow, intro, parkFee"
+    },
+    {
+      "field": "faq",
+      "from": "secretPagesContent.json pages.mangroves.faq"
+    },
+    {
+      "field": "seo.draft",
+      "from": "docs/refonte/02-audit-seo.md §6.2 (points de départ, prix à valider)"
+    },
+    {
+      "field": "photos[].status, photos[].shot",
+      "from": "docs/refonte/01-audit-design.md §4"
+    },
+    {
+      "field": "schema",
+      "from": "secretPagesContent.json pages.mangroves.schemaType, places ; type cible : docs/refonte/02-audit-seo.md §6.3"
+    },
+    {
+      "field": "options[].notIncludedFees",
+      "from": "secretPagesContent.json pages.mangroves.parkFee, priceNote, goodToKnow"
+    }
+  ],
+  "todo": [
+    "TODO(client): âges enfant sur la même page : « Child 3 to 9 » (radeaux privés) et « Child, 4 to 11 » (longtail et kayak). Les deux tranches sont-elles justes, chacune pour sa formule ?",
+    "TODO(client): l'accueil dit « Through the mangroves by longtail, gondola or kayak » (secret.json activities mangroves.description) ; la page parle d'un radeau en bois (« wooden raft »), jamais de gondole. Quel mot ?",
+    "TODO(client): horaires des demi-journées en longtail et en kayak (la page ne donne que ceux des radeaux)."
+  ],
+  "notes": [
+    "Les formules 4 à 7 (longtail, kayak, Old Town, fishing park) sont les mêmes que les sorties 4 à 7 de la page kayak, aux mêmes prix : risque de cannibalisation, à arbitrer dans la structure (rédaction)."
+  ]
+}

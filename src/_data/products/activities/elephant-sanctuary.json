@@ -1,0 +1,311 @@
+{
+  "slug": "elephant-sanctuary",
+  "url": "/tours/elephant-sanctuary/",
+  "brand": "secret",
+  "template": "activity",
+  "name": "Ethical elephant sanctuary",
+  "seo": {
+    "title": "Ethical Elephant Sanctuary Koh Lanta | Secret Travel",
+    "metaDescription": "Ethical elephant sanctuary on Koh Lanta: walk with the elephants, feed them, mud bath, no riding. Transfer included. Adults from 1,800 THB.",
+    "draft": {
+      "title": "Ethical Elephant Sanctuary Koh Lanta – No Riding",
+      "h1": "Ethical elephant sanctuary on Koh Lanta"
+    }
+  },
+  "h1": "Ethical elephant sanctuary",
+  "lead": "Walk with the elephants, feed them, join them in the mud bath and the pool. Nobody rides. Three programmes, from an hour and a half to a full day.",
+  "facts": [
+    {
+      "label": "Riding",
+      "value": "None, no show"
+    },
+    {
+      "label": "Duration",
+      "value": "About 1 hr 30 min to a full day"
+    },
+    {
+      "label": "Sessions",
+      "value": "07:30, 10:00 and 13:00"
+    },
+    {
+      "label": "Children",
+      "value": "4–10 child rate, under 4 free"
+    }
+  ],
+  "price": {
+    "from": 1800,
+    "currency": "THB",
+    "unit": "per adult, programme A"
+  },
+  "options": [
+    {
+      "id": "programme-a",
+      "label": "Programme A, about 2 hours",
+      "kind": "join-in",
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 1800,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 10",
+          "amount": 1400,
+          "ages": {
+            "min": 4,
+            "max": 10
+          },
+          "unit": "per person"
+        },
+        {
+          "label": "Child under 4",
+          "amount": 0,
+          "ages": {
+            "max": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "programme-b",
+      "label": "Programme B, about 3 hours",
+      "kind": "join-in",
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 2600,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 10",
+          "amount": 2200,
+          "ages": {
+            "min": 4,
+            "max": 10
+          },
+          "unit": "per person"
+        },
+        {
+          "label": "Child under 4",
+          "amount": 0,
+          "ages": {
+            "max": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "programme-c",
+      "label": "Programme C, full day",
+      "kind": "join-in",
+      "note": "Two people at most, booked ahead.",
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 4000,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 10",
+          "amount": 3000,
+          "ages": {
+            "min": 4,
+            "max": 10
+          },
+          "unit": "per person"
+        },
+        {
+          "label": "Child under 4",
+          "amount": 0,
+          "ages": {
+            "max": 3
+          }
+        }
+      ]
+    }
+  ],
+  "day": [
+    {
+      "options": [
+        "programme-a"
+      ],
+      "title": "The three programmes",
+      "steps": [
+        {
+          "label": "A",
+          "text": "About 1h30 to 2 hours: walk with the elephants, feeding, mud bath, bathing together in the pool. Fresh fruit and water for you, bananas for them."
+        }
+      ]
+    },
+    {
+      "options": [
+        "programme-b"
+      ],
+      "title": "The three programmes",
+      "steps": [
+        {
+          "label": "B",
+          "text": "About 3 hours, at 7:30 or 13:00: everything in A, plus making traditional herbal remedies and paper from elephant dung, which you take home. Coffee and tea."
+        }
+      ]
+    },
+    {
+      "options": [
+        "programme-c"
+      ],
+      "title": "The three programmes",
+      "steps": [
+        {
+          "label": "C",
+          "text": "Full day from 7:30: everything in B, plus a Thai set lunch, a swim at the Emerald Pool and the hot spring waterfall. Two people per session at most, booked ahead."
+        }
+      ]
+    }
+  ],
+  "included": [
+    "Hotel transfer both ways",
+    "Fruit and water",
+    "Bananas for the elephants",
+    "Insurance",
+    "Programme C: lunch and the entrance fees"
+  ],
+  "beforeYouBook": {
+    "bring": [
+      "Clothes that can get dirty and wet",
+      "A towel",
+      "Flip-flops",
+      "A change of clothes"
+    ],
+    "children": "Children from 4 to 10 pay a child rate. Under 4 go free.",
+    "pickup": "Hotel transfer both ways. Sessions start at 7:30, 10:00 and 13:00."
+  },
+  "faq": [
+    {
+      "q": "Is there any riding?",
+      "a": "No. You walk with the elephants, feed them and wash them. Nobody sits on them."
+    },
+    {
+      "q": "How long does it take?",
+      "a": "From an hour and a half for Programme A to a full day for Programme C, plus the transfer from your hotel."
+    },
+    {
+      "q": "Is it suitable for small children?",
+      "a": "Yes. Children from 4 pay a child rate and under 4 go free. They stay next to you the whole time."
+    }
+  ],
+  "photos": [
+    {
+      "slot": "hero",
+      "status": "keep",
+      "file": "secret/elephant-sanctuary.webp",
+      "alt": "An elephant at an ethical sanctuary",
+      "shot": "Elephants in the mud bath or the pool, no riding (current file is real but only 635 px: replace later)."
+    },
+    {
+      "slot": "gallery",
+      "status": "replace",
+      "file": "secret/gallery/elephant-hug.webp",
+      "alt": "A visitor hugging an elephant at the sanctuary",
+      "shot": "Visitors walking with the elephants (current file is a brochure scan)."
+    },
+    {
+      "slot": "gallery",
+      "status": "replace",
+      "file": "secret/gallery/elephant-herbal.webp",
+      "alt": "Visitors preparing herbal food for the elephants",
+      "shot": "Preparing herbal remedies, programme B (current file is a brochure scan)."
+    },
+    {
+      "slot": "gallery",
+      "status": "replace",
+      "file": "secret/gallery/elephant-bath.webp",
+      "alt": "Visitors bathing with elephants in the pool",
+      "shot": "Bathing with the elephants in the pool (current file is a 710×264 brochure scan)."
+    }
+  ],
+  "related": [
+    "/tours/cooking-class/",
+    "/tours/atv/",
+    "/tours/batik/"
+  ],
+  "schema": {
+    "type": "TouristTrip",
+    "legacyType": "TouristAttraction",
+    "places": [
+      "Koh Lanta"
+    ]
+  },
+  "legacyText": {
+    "title": "Ethical Elephant Sanctuary Koh Lanta | Secret Travel",
+    "h1": "Ethical elephant",
+    "h1em": "sanctuary",
+    "intro": [
+      "The sanctuary is on Koh Lanta. There is no riding and no show. You spend the time next to the animals, feeding them bananas, walking with them and washing them.",
+      "Sessions start at 7:30, 10:00 and 13:00. Come in clothes that can get dirty and wet, with a towel and flip-flops."
+    ],
+    "cardDescription": "Feeding and walking with the elephants, no riding.",
+    "cardInfo": [
+      "From 1,800 THB per adult",
+      "Half day"
+    ],
+    "dayTitle": "The three programmes",
+    "goodToKnow": [
+      "Children from 4 to 10 pay a child rate. Under 4 go free.",
+      "Programme C takes two people per session only. Book it early.",
+      "You will get muddy. Bring a change of clothes."
+    ],
+    "priceNote": "Prices in Thai baht. Children under 4 go free.",
+    "caption": "No riding",
+    "photoPosition": "50% 72%"
+  },
+  "sources": [
+    {
+      "field": "name, legacyText.cardDescription, legacyText.cardInfo, photos[hero]",
+      "from": "secret.json activities[id=elephant-sanctuary]"
+    },
+    {
+      "field": "seo, h1, lead, legacyText",
+      "from": "secretPagesContent.json pages.elephant-sanctuary.title, metaDescription, h1, h1em, lead, intro"
+    },
+    {
+      "field": "facts, price",
+      "from": "secretPagesContent.json pages.elephant-sanctuary (day, prices, goodToKnow, parkFee) et secret.json activities[id=elephant-sanctuary].info, reformulés en lignes de faits"
+    },
+    {
+      "field": "options",
+      "from": "secretPagesContent.json pages.elephant-sanctuary.prices, priceNote"
+    },
+    {
+      "field": "day",
+      "from": "secretPagesContent.json pages.elephant-sanctuary.dayTitle, day"
+    },
+    {
+      "field": "included, notIncluded",
+      "from": "secretPagesContent.json pages.elephant-sanctuary.included, notIncluded"
+    },
+    {
+      "field": "beforeYouBook",
+      "from": "secretPagesContent.json pages.elephant-sanctuary.goodToKnow, intro, parkFee"
+    },
+    {
+      "field": "faq",
+      "from": "secretPagesContent.json pages.elephant-sanctuary.faq"
+    },
+    {
+      "field": "seo.draft",
+      "from": "docs/refonte/02-audit-seo.md §6.2 (points de départ, prix à valider)"
+    },
+    {
+      "field": "photos[].status, photos[].shot",
+      "from": "docs/refonte/01-audit-design.md §4"
+    },
+    {
+      "field": "schema",
+      "from": "secretPagesContent.json pages.elephant-sanctuary.schemaType, places ; type cible : docs/refonte/02-audit-seo.md §6.3"
+    }
+  ],
+  "todo": [
+    "TODO(client): programme C : la page dit « The sanctuary is on Koh Lanta » mais le C inclut l'Emerald Pool et la hot spring waterfall, situées à Khlong Thom sur le continent selon l'audit [à vérifier]. Lieu et temps de trajet du C ?",
+    "TODO(client): programme C « Two people per session at most » : maximum de deux personnes par session, ou par réservation ?"
+  ]
+}

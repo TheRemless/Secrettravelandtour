@@ -1,0 +1,194 @@
+{
+  "slug": "koh-talabeng-koh-bubu",
+  "url": "/tours/koh-talabeng-koh-bubu/",
+  "brand": "secret",
+  "template": "boat",
+  "name": "Koh Talabeng & Koh Bubu",
+  "seo": {
+    "title": "Koh Talabeng Kayak & Koh Bubu | Secret Travel & Tour",
+    "metaDescription": "Half-day longtail trip from Koh Lanta: kayaking around the limestone islets of Koh Talabeng, then a beach stop on Koh Bubu. Lunch included. Ask us for a price.",
+    "draft": {
+      "title": "Koh Talabeng Kayak & Koh Bubu, Koh Lanta Half Day",
+      "h1": "Koh Talabeng kayaking and Koh Bubu"
+    }
+  },
+  "h1": "Koh Talabeng and Koh Bubu kayak and longtail",
+  "lead": "A half day on the east side of Koh Lanta. You paddle around the limestone islets of Koh Talabeng, then the longtail takes you to the beach of Koh Bubu.",
+  "facts": [
+    {
+      "label": "Duration",
+      "value": "Half day"
+    },
+    {
+      "label": "Boat",
+      "value": "Longtail, then two-seater kayaks"
+    },
+    {
+      "label": "Where",
+      "value": "East coast of Koh Lanta: Koh Talabeng, Koh Bubu"
+    }
+  ],
+  "priceOnRequest": true,
+  "options": [
+    {
+      "id": "half-day",
+      "label": "Half day, kayak and longtail",
+      "kind": "join-in",
+      "boat": "longtail",
+      "priceOnRequest": true,
+      "note": "Ask us for a price (legacy meta description)."
+    }
+  ],
+  "day": [
+    {
+      "title": "How the half day goes",
+      "steps": [
+        {
+          "text": "Pickup at your hotel, then the longtail from the east coast."
+        },
+        {
+          "text": "Kayaking around the limestone islets of Koh Talabeng."
+        },
+        {
+          "text": "Longtail to Koh Bubu, lunch and time on the beach."
+        },
+        {
+          "text": "Back to Koh Lanta and your hotel."
+        }
+      ]
+    }
+  ],
+  "included": [
+    "Hotel transfer both ways",
+    "Lunch",
+    "Kayaks, masks, snorkels and life jackets"
+  ],
+  "beforeYouBook": {
+    "pickup": "Pickup at your hotel, then the longtail from the east coast.",
+    "health": "Tell us if you have never kayaked. The kayaks are two-seaters.",
+    "children": "Give us the ages of children when you book."
+  },
+  "faq": [
+    {
+      "q": "How long is the Koh Talabeng trip?",
+      "a": "Half a day, with hotel pickup and return."
+    },
+    {
+      "q": "Do I need kayaking experience?",
+      "a": "No. Tell us if it is your first time and you will share a two-seater kayak."
+    }
+  ],
+  "photos": [
+    {
+      "slot": "hero",
+      "status": "replace",
+      "file": "secret/koh-talabeng-kayak.webp",
+      "legacyAlt": "Two people kayaking past limestone islands",
+      "shot": "Kayaks among the limestone islets of Koh Talabeng (current file is soft, probably a video still)."
+    },
+    {
+      "slot": "gallery",
+      "status": "replace",
+      "file": "secret/gallery/kayak-cave.webp",
+      "alt": "Two people lying in a kayak at the mouth of the Talabeng sea cave",
+      "shot": "A kayak at the mouth of the Talabeng sea cave (current file is a brochure scan)."
+    },
+    {
+      "slot": "gallery",
+      "status": "replace",
+      "file": "secret/gallery/kayak-karst.webp",
+      "alt": "Limestone cliffs and turquoise water at Koh Talabeng",
+      "shot": "Koh Talabeng cliffs from the water (current file is a brochure scan with a green frame, also used on the kayak page)."
+    },
+    {
+      "slot": "gallery",
+      "status": "missing",
+      "shot": "Koh Bubu beach at the lunch stop."
+    }
+  ],
+  "related": [
+    "/tours/kayak/",
+    "/tours/mangroves/",
+    "/tours/4-islands/"
+  ],
+  "schema": {
+    "type": "TouristTrip",
+    "legacyType": "TouristTrip",
+    "places": [
+      "Koh Talabeng",
+      "Koh Bubu"
+    ]
+  },
+  "legacyText": {
+    "title": "Koh Talabeng Kayak & Koh Bubu | Secret Travel & Tour",
+    "h1": "Koh Talabeng and Koh Bubu",
+    "h1em": "kayak and longtail",
+    "intro": [
+      "Koh Talabeng is a group of limestone islets off the east coast of Koh Lanta. You paddle around them by kayak. Koh Bubu is a small island nearby, reached by longtail, with a beach for the stop."
+    ],
+    "cardDescription": "Kayaking around the limestone islets of Koh Talabeng, then a beach stop on Koh Bubu.",
+    "cardInfo": [
+      "Longtail",
+      "Half day"
+    ],
+    "dayTitle": "How the half day goes",
+    "goodToKnow": [
+      "Half day, by longtail.",
+      "Tell us if you have never kayaked. The kayaks are two-seaters.",
+      "Give us the ages of children when you book. Full-day and half-day kayak trips to Koh Talabeng, with prices, are on the kayaking page."
+    ],
+    "caption": "Talabeng",
+    "photoPosition": "50% 60%"
+  },
+  "sources": [
+    {
+      "field": "name, legacyText.cardDescription, legacyText.cardInfo, photos[hero]",
+      "from": "secret.json tours[id=koh-talabeng-koh-bubu]"
+    },
+    {
+      "field": "seo, h1, lead, legacyText",
+      "from": "secretPagesContent.json pages.koh-talabeng-koh-bubu.title, metaDescription, h1, h1em, lead, intro"
+    },
+    {
+      "field": "facts, price",
+      "from": "secretPagesContent.json pages.koh-talabeng-koh-bubu (day, prices, goodToKnow, parkFee) et secret.json tours[id=koh-talabeng-koh-bubu].info, reformulés en lignes de faits"
+    },
+    {
+      "field": "day",
+      "from": "secretPagesContent.json pages.koh-talabeng-koh-bubu.dayTitle, day"
+    },
+    {
+      "field": "included, notIncluded",
+      "from": "secretPagesContent.json pages.koh-talabeng-koh-bubu.included, notIncluded"
+    },
+    {
+      "field": "beforeYouBook",
+      "from": "secretPagesContent.json pages.koh-talabeng-koh-bubu.goodToKnow, intro, parkFee"
+    },
+    {
+      "field": "faq",
+      "from": "secretPagesContent.json pages.koh-talabeng-koh-bubu.faq"
+    },
+    {
+      "field": "seo.draft",
+      "from": "docs/refonte/02-audit-seo.md §6.2 (points de départ, prix à valider)"
+    },
+    {
+      "field": "photos[].status, photos[].shot",
+      "from": "docs/refonte/01-audit-design.md §4"
+    },
+    {
+      "field": "schema",
+      "from": "secretPagesContent.json pages.koh-talabeng-koh-bubu.schemaType, places ; type cible : docs/refonte/02-audit-seo.md §6.3"
+    },
+    {
+      "field": "options[priceOnRequest]",
+      "from": "secretPagesContent.json pages.koh-talabeng-koh-bubu (goodToKnow, priceNote) ; décision client du 02.11.2026 : « Price on WhatsApp »"
+    }
+  ],
+  "todo": [
+    "TODO(client): prix de Koh Talabeng & Koh Bubu : la page dit « Ask us for a price » ; la page kayak vend Koh Talabeng à 1 000 THB adulte / 700 enfant (« Sea cave kayaking and mangrove, half day », avec Koh Ung) et à 1 300 / 900 avec le déjeuner sur Koh Bubu (« Sea cave kayaking and island hopping, 1 day »). Même produit que l'une de ces sorties ?",
+    "TODO(client): tranches d'âge enfant (aucune sur la page).",
+    "TODO(client): horaires de la demi-journée (aucun sur la page)."
+  ]
+}

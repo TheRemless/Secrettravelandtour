@@ -1,0 +1,110 @@
+{
+  "slug": "koh-lanta-khao-lak",
+  "url": "/taxi/koh-lanta-khao-lak/",
+  "brand": "vip",
+  "template": "route",
+  "name": "Koh Lanta to Khao Lak",
+  "seo": {
+    "title": "Koh Lanta to Khao Lak Minivan Taxi | VIP Taxi Lanta",
+    "metaDescription": "Private minivan taxi between Koh Lanta and Khao Lak, both directions, hotel to hotel in one vehicle. Cash to the driver, no prepayment. Price on WhatsApp."
+  },
+  "h1": "Koh Lanta to Khao Lak, private transfer",
+  "lead": "Hotel to hotel between Koh Lanta and Khao Lak, in either direction, in a private minivan.",
+  "route": {
+    "from": "Koh Lanta",
+    "to": "Khao Lak",
+    "bothDirections": true,
+    "drive": "about 4 to 5 hours",
+    "points": [
+      "Your hotel on Koh Lanta",
+      "Your hotel in Khao Lak"
+    ],
+    "region": "Phuket and Khao Lak"
+  },
+  "facts": [
+    {
+      "label": "Drive time",
+      "value": "About 4 to 5 hours, depending on traffic"
+    },
+    {
+      "label": "Pickup and drop-off",
+      "value": "Your hotel on Koh Lanta, Your hotel in Khao Lak"
+    },
+    {
+      "label": "Directions",
+      "value": "Both directions"
+    },
+    {
+      "label": "Stops",
+      "value": "When you want them"
+    }
+  ],
+  "priceOnRequest": true,
+  "faq": [
+    {
+      "q": "Is the Khao Lak transfer private?",
+      "a": "Yes. Every transfer is private, your group only."
+    }
+  ],
+  "photos": [
+    {
+      "file": "taxi/van-seats.webp",
+      "alt": "Minivan interior with diamond-stitched tan leather seats and a lit ceiling",
+      "slot": "hero",
+      "status": "keep",
+      "shot": "Real photo of the VIP Taxi Lanta minivan, shared by every route page today: one photo per route later if possible."
+    }
+  ],
+  "related": [
+    "/taxi/phuket-airport-koh-lanta/",
+    "/taxi/southern-thailand/"
+  ],
+  "schema": {
+    "type": "TaxiService",
+    "legacyType": "TaxiService",
+    "serviceType": "Private minivan transfer",
+    "areaServed": [
+      "Koh Lanta",
+      "Khao Lak"
+    ]
+  },
+  "legacyText": {
+    "title": "Koh Lanta to Khao Lak Minivan Taxi | VIP Taxi Lanta",
+    "body": [
+      "One vehicle from your hotel on Koh Lanta to your hotel in Khao Lak, with stops when you want them."
+    ]
+  },
+  "sources": [
+    {
+      "field": "name, seo, h1, lead, route, faq, legacyText",
+      "from": "taxiRoutes.json routes[id=koh-lanta-khao-lak]"
+    },
+    {
+      "field": "route.drive, facts[Drive time]",
+      "from": "taxiRoutes.json routes[id=koh-lanta-khao-lak].drive (durées approximatives relevées le 30.10.2026, registre de faits)"
+    },
+    {
+      "field": "route.points, facts[Pickup and drop-off]",
+      "from": "taxiRoutes.json routes[id=koh-lanta-khao-lak].lead, body, faq"
+    },
+    {
+      "field": "route.region, related",
+      "from": "taxiRoutes.json regions"
+    },
+    {
+      "field": "priceOnRequest",
+      "from": "Décision client du 02.11.2026 : prix des transferts privés sur WhatsApp"
+    },
+    {
+      "field": "photos",
+      "from": "src/taxi-route.njk (van-seats.webp) ; docs/refonte/01-audit-design.md §4 (photos du van à garder) ; 00-BRIEF §6.4 (point de rencontre)"
+    },
+    {
+      "field": "schema",
+      "from": "src/_data/taxiRoutesView.js"
+    }
+  ],
+  "notes": [
+    "La FAQ « Is the Khao Lak transfer private? » répète la FAQ commune « Is the transfer private? » (site.json brands.vip.faq) : doublon relevé par l'audit contenu."
+  ]
+}

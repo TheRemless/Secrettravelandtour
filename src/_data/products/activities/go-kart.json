@@ -1,0 +1,226 @@
+{
+  "slug": "go-kart",
+  "url": "/tours/go-kart/",
+  "brand": "secret",
+  "template": "activity",
+  "name": "Electric go-kart",
+  "seo": {
+    "title": "Electric Go-Kart Koh Lanta | Secret Travel & Tour",
+    "metaDescription": "Electric go-karts on Koh Lanta: small and large karts, single or double seats, 10 or 15 minute sessions, plus koi fish feeding. From 399 THB.",
+    "draft": {
+      "h1": "Go-kart on Koh Lanta"
+    }
+  },
+  "h1": "Electric go-kart on Koh Lanta",
+  "lead": "Race electric karts on a track, alone or in a double seat, then feed the koi fish. Sessions of 10 or 15 minutes.",
+  "facts": [
+    {
+      "label": "Karts",
+      "value": "Small single seat, small double seat, large single seat, large double seat"
+    },
+    {
+      "label": "Sessions",
+      "value": "10 or 15 minutes"
+    },
+    {
+      "label": "Also",
+      "value": "Koi fish feeding"
+    },
+    {
+      "label": "Transfer",
+      "value": "Not included, ask us"
+    }
+  ],
+  "price": {
+    "from": 399,
+    "currency": "THB",
+    "unit": "small single-seat kart, 10 minutes"
+  },
+  "options": [
+    {
+      "id": "10-minutes",
+      "label": "10 minutes",
+      "kind": "session",
+      "prices": [
+        {
+          "label": "Small single seat",
+          "amount": 399,
+          "unit": "per kart"
+        },
+        {
+          "label": "Small double seat",
+          "amount": 499,
+          "unit": "per kart"
+        },
+        {
+          "label": "Large single seat",
+          "amount": 499,
+          "unit": "per kart"
+        },
+        {
+          "label": "Large double seat",
+          "amount": 599,
+          "unit": "per kart"
+        }
+      ]
+    },
+    {
+      "id": "15-minutes",
+      "label": "15 minutes",
+      "kind": "session",
+      "prices": [
+        {
+          "label": "Small single seat",
+          "amount": 599,
+          "unit": "per kart"
+        },
+        {
+          "label": "Small double seat",
+          "amount": 699,
+          "unit": "per kart"
+        },
+        {
+          "label": "Large single seat",
+          "amount": 699,
+          "unit": "per kart"
+        },
+        {
+          "label": "Large double seat",
+          "amount": 799,
+          "unit": "per kart"
+        }
+      ]
+    }
+  ],
+  "included": [
+    "The kart for the length of the session"
+  ],
+  "beforeYouBook": {
+    "pickup": "Need a ride to the track? Ask us for a transfer."
+  },
+  "faq": [
+    {
+      "q": "How long is a session?",
+      "a": "10 or 15 minutes, on a small or a large kart."
+    },
+    {
+      "q": "Can two people share a kart?",
+      "a": "Yes. The double-seat karts take two people, small or large."
+    }
+  ],
+  "photos": [
+    {
+      "slot": "hero",
+      "status": "replace",
+      "file": "secret/go-kart.webp",
+      "legacyAlt": "Two men racing electric go-karts on a track lined with tyres",
+      "shot": "Karts on the track, framed on the karts and drivers (current file is real but badly framed)."
+    },
+    {
+      "slot": "gallery",
+      "status": "replace",
+      "file": "secret/gallery/kart-kid.webp",
+      "alt": "A child in a yellow helmet driving a red electric go-kart",
+      "shot": "A child driving a kart (current file is a brochure scan with print screen)."
+    }
+  ],
+  "related": [
+    "/tours/atv/",
+    "/tours/elephant-sanctuary/",
+    "/tours/cooking-class/"
+  ],
+  "schema": {
+    "type": "TouristTrip",
+    "legacyType": "TouristAttraction",
+    "places": [
+      "Koh Lanta"
+    ]
+  },
+  "legacyText": {
+    "title": "Electric Go-Kart Koh Lanta | Secret Travel & Tour",
+    "h1": "Electric go-kart",
+    "h1em": "on Koh Lanta",
+    "intro": [
+      "There are four kinds of kart: small single seat, small double seat, large single seat and large double seat. Pick the one that fits your group, then the length of the session.",
+      "The price list is for a minimum of 2 programmes."
+    ],
+    "cardDescription": "Small and large electric karts, single or double seats, and koi fish to feed.",
+    "cardInfo": [
+      "From 399 THB",
+      "10 or 15 minutes"
+    ],
+    "dayTitle": "How it works",
+    "dayItems": [
+      {
+        "t": "Karts",
+        "text": "Small single seat, small double seat, large single seat or large double seat."
+      },
+      {
+        "t": "10 min",
+        "text": "The short session."
+      },
+      {
+        "t": "15 min",
+        "text": "The longer session."
+      },
+      {
+        "t": "Koi",
+        "text": "Feeding the koi fish is part of the visit."
+      }
+    ],
+    "goodToKnow": [
+      "Need a ride to the track? Ask us for a transfer."
+    ],
+    "priceNote": "Prices in Thai baht, for a minimum of 2 programmes.",
+    "caption": "Electric karts",
+    "photoPosition": "50% 40%"
+  },
+  "sources": [
+    {
+      "field": "name, legacyText.cardDescription, legacyText.cardInfo, photos[hero]",
+      "from": "secret.json activities[id=go-kart]"
+    },
+    {
+      "field": "seo, h1, lead, legacyText",
+      "from": "secretPagesContent.json pages.go-kart.title, metaDescription, h1, h1em, lead, intro"
+    },
+    {
+      "field": "facts, price",
+      "from": "secretPagesContent.json pages.go-kart (day, prices, goodToKnow, parkFee) et secret.json activities[id=go-kart].info, reformulés en lignes de faits"
+    },
+    {
+      "field": "options",
+      "from": "secretPagesContent.json pages.go-kart.prices, priceNote"
+    },
+    {
+      "field": "included, notIncluded",
+      "from": "secretPagesContent.json pages.go-kart.included, notIncluded"
+    },
+    {
+      "field": "beforeYouBook",
+      "from": "secretPagesContent.json pages.go-kart.goodToKnow, intro, parkFee"
+    },
+    {
+      "field": "faq",
+      "from": "secretPagesContent.json pages.go-kart.faq"
+    },
+    {
+      "field": "seo.draft",
+      "from": "docs/refonte/02-audit-seo.md §6.2 (points de départ, prix à valider)"
+    },
+    {
+      "field": "photos[].status, photos[].shot",
+      "from": "docs/refonte/01-audit-design.md §4"
+    },
+    {
+      "field": "schema",
+      "from": "secretPagesContent.json pages.go-kart.schemaType, places ; type cible : docs/refonte/02-audit-seo.md §6.3"
+    }
+  ],
+  "todo": [
+    "TODO(client): lieu de la piste de kart.",
+    "TODO(client): âge ou taille minimum pour conduire (et pour le siège passager des karts doubles).",
+    "TODO(client): sens de « The price list is for a minimum of 2 programmes » (intro et priceNote) : deux sessions minimum, deux karts, deux personnes ?",
+    "TODO(client): l'unité du prix est-elle bien par kart (et non par personne) pour les karts doubles ?"
+  ]
+}

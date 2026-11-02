@@ -1,0 +1,384 @@
+{
+  "slug": "speedboat-ferry",
+  "url": "/tours/speedboat/",
+  "brand": "secret",
+  "template": "transfer",
+  "name": "Speedboat and ferry",
+  "seo": {
+    "title": "Speedboat and Ferry from Koh Lanta | Secret Travel & Tour",
+    "metaDescription": "Speedboat times from Koh Lanta to Phi Phi, Phuket, Koh Ngai, Mook, Kradan, Lipe and Langkawi, plus Krabi and Ao Nang in season. Hotel pickup on Koh Lanta.",
+    "draft": {
+      "title": "Koh Lanta Speedboat & Ferry: Times and Tickets",
+      "h1": "Speedboats and ferries from Koh Lanta"
+    }
+  },
+  "h1": "Speedboat and ferry from Koh Lanta",
+  "lead": "Speedboats from Koh Lanta to Phi Phi and Phuket, to the islands of Koh Ngai, Koh Mook, Koh Kradan and Koh Lipe, and on to Langkawi. In the high season also to Krabi, Ao Nang, Railay and Koh Yao.",
+  "facts": [
+    {
+      "label": "Departure pier",
+      "value": "Saladan pier"
+    },
+    {
+      "label": "Hotel pickup",
+      "value": "Included on Koh Lanta, time depends on your beach"
+    },
+    {
+      "label": "Check-in",
+      "value": "30 min before departure, 1 hr 30 min for Langkawi (immigration)"
+    },
+    {
+      "label": "Timetable",
+      "value": "2026–2027 season"
+    },
+    {
+      "label": "Destinations",
+      "value": "Koh Phi Phi, Phuket, Koh Ngai, Koh Mook, Koh Kradan, Koh Bulon, Koh Lipe, Langkawi; in high season Krabi, Railay, Koh Yao Noi, Koh Yao Yai, Ao Nang"
+    }
+  ],
+  "priceOnRequest": true,
+  "beforeYouBook": {
+    "pickup": "Boats leave from Saladan pier. We book your seat and arrange the hotel pickup on Koh Lanta, at a time that depends on your beach.",
+    "weather": "Times are for the 2026-2027 season and change with the weather and the sea."
+  },
+  "faq": [
+    {
+      "q": "Is the hotel pickup included?",
+      "a": "Yes, on Koh Lanta. The pickup time depends on your beach and we confirm it when you book."
+    },
+    {
+      "q": "Can I go to Langkawi?",
+      "a": "Yes, from Koh Lanta with a change of boat at Koh Lipe. The day starts at 10:30 and you arrive at 18:00 on Malaysian time."
+    },
+    {
+      "q": "How do I book a seat?",
+      "a": "Choose speedboat in the form, pick your date and where you go, and send the message on WhatsApp. We reply with the fare."
+    }
+  ],
+  "photos": [
+    {
+      "slot": "hero",
+      "status": "replace",
+      "file": "secret/koh-phi-phi.webp",
+      "legacyAlt": "The limestone cliffs of Koh Phi Phi, one of the speedboat stops",
+      "shot": "A speedboat at Saladan pier, boarding with luggage (current file is the Phi Phi photo, reused here)."
+    }
+  ],
+  "related": [
+    "/tours/koh-phi-phi/",
+    "/transfers/",
+    "/taxi/"
+  ],
+  "schema": {
+    "type": "Service",
+    "legacyType": "Service",
+    "places": [
+      "Koh Lanta"
+    ],
+    "serviceType": "Speedboat transfers from Koh Lanta"
+  },
+  "legacyText": {
+    "title": "Speedboat and Ferry from Koh Lanta | Secret Travel & Tour",
+    "h1": "Speedboat and ferry",
+    "h1em": "from Koh Lanta",
+    "intro": [
+      "Boats leave from Saladan pier. We book your seat and arrange the hotel pickup on Koh Lanta, at a time that depends on your beach.",
+      "Tell us your route, your date and how many of you travel, and we reply with the fare."
+    ],
+    "cardDescription": "Speedboats from Koh Lanta to Phi Phi, Phuket, the islands and Langkawi.",
+    "dayTitle": "Departures from Koh Lanta",
+    "dayItems": [
+      {
+        "t": "9:00",
+        "text": "Koh Phi Phi at 9:30, then Phuket (Rassada pier) at 10:30."
+      },
+      {
+        "t": "10:30",
+        "text": "Koh Ngai 11:10, Koh Mook 11:20, Koh Kradan 11:35, Koh Bulon 12:35 and Koh Lipe 13:30. From Koh Lipe a ferry goes on to Langkawi, arriving at 18:00 on Malaysian time."
+      },
+      {
+        "t": "13:00",
+        "text": "Koh Phi Phi at 13:30, then Phuket at 14:30."
+      },
+      {
+        "t": "14:30",
+        "text": "Koh Phi Phi at 15:00, then Phuket at 16:00. From December to April a second boat leaves at the same time for Krabi (15:35), Railay (15:50), Koh Yao Noi (16:15), Koh Yao Yai (16:25) and Ao Nang (16:35, last stretch by shared van)."
+      },
+      {
+        "t": "15:00",
+        "text": "Koh Ngai 15:40, Koh Mook 15:50 and Koh Kradan 16:10."
+      }
+    ],
+    "goodToKnow": [
+      "Coming back to Koh Lanta: from Phuket at 8:30, 11:00 and 12:30, with a stop at Phi Phi, arriving at 10:00, 12:30 and 14:00. From Koh Kradan at 10:45 or 12:15 (Koh Mook 11:00 or 12:30, Koh Ngai 11:30 or 12:50), arriving at 12:00 or 13:30.",
+      "In high season, from Koh Yao Yai at 8:00, Koh Yao Noi 8:10, Railay 8:35, Ao Nang 7:50 and Krabi 8:50, arriving at Koh Lanta at 10:00.",
+      "Check in at the pier 30 minutes before departure, and 1h30 before for Langkawi, for the immigration check.",
+      "Times are for the 2026-2027 season and change with the weather and the sea. Some departures run all year, others from 15 October to 30 April. Langkawi runs from 1 November to 15 April, and Krabi, Ao Nang, Railay and Koh Yao from 1 December."
+    ],
+    "caption": "Koh Phi Phi",
+    "photoPosition": "60% 50%"
+  },
+  "sources": [
+    {
+      "field": "name, legacyText.cardDescription, legacyText.cardInfo, photos[hero]",
+      "from": "secret.json transfers[id=speedboat]"
+    },
+    {
+      "field": "seo, h1, lead, legacyText",
+      "from": "secretPagesContent.json pages.speedboat.title, metaDescription, h1, h1em, lead, intro"
+    },
+    {
+      "field": "facts, price",
+      "from": "secretPagesContent.json pages.speedboat (day, prices, goodToKnow, parkFee) et secret.json transfers[id=speedboat].info, reformulés en lignes de faits"
+    },
+    {
+      "field": "beforeYouBook",
+      "from": "secretPagesContent.json pages.speedboat.goodToKnow, intro, parkFee"
+    },
+    {
+      "field": "faq",
+      "from": "secretPagesContent.json pages.speedboat.faq"
+    },
+    {
+      "field": "seo.draft",
+      "from": "docs/refonte/02-audit-seo.md §6.2 (points de départ, prix à valider)"
+    },
+    {
+      "field": "photos[].status, photos[].shot",
+      "from": "docs/refonte/01-audit-design.md §4"
+    },
+    {
+      "field": "schema",
+      "from": "secretPagesContent.json pages.speedboat.schemaType, places ; type cible : docs/refonte/02-audit-seo.md §6.3"
+    },
+    {
+      "field": "timetable",
+      "from": "secretPagesContent.json pages.speedboat.day, goodToKnow"
+    }
+  ],
+  "todo": [
+    "TODO(client): tarifs des billets par trajet, au moins « à partir de » (aucun tarif sur le site actuel ; en attendant : « Price on WhatsApp »).",
+    "TODO(client): quels départs circulent toute l'année et lesquels du 15 octobre au 30 avril ? (le site dit seulement « Some departures run all year, others from 15 October to 30 April »).",
+    "TODO(client): ferry : la page s'appelle « Speedboat and ferry » mais ne cite aucun ferry. Trajets et horaires des ferries vendus ?",
+    "TODO(client): bagages autorisés sur le speedboat.",
+    "TODO(client): âges enfant et tarif enfant sur les billets."
+  ],
+  "notes": [
+    "URL actuelle /tours/speedboat/ conservée (décision client : garder toutes les URL). Le brief prévoyait /transfers/speedboat-ferry/."
+  ],
+  "timetable": {
+    "season": "2026-2027",
+    "outbound": [
+      {
+        "departs": "09:00",
+        "from": "Koh Lanta",
+        "stops": [
+          {
+            "place": "Koh Phi Phi",
+            "time": "09:30"
+          },
+          {
+            "place": "Phuket (Rassada pier)",
+            "time": "10:30"
+          }
+        ]
+      },
+      {
+        "departs": "10:30",
+        "from": "Koh Lanta",
+        "stops": [
+          {
+            "place": "Koh Ngai",
+            "time": "11:10"
+          },
+          {
+            "place": "Koh Mook",
+            "time": "11:20"
+          },
+          {
+            "place": "Koh Kradan",
+            "time": "11:35"
+          },
+          {
+            "place": "Koh Bulon",
+            "time": "12:35"
+          },
+          {
+            "place": "Koh Lipe",
+            "time": "13:30"
+          }
+        ],
+        "onward": "From Koh Lipe a ferry goes on to Langkawi, arriving at 18:00 Malaysia time.",
+        "season": "Langkawi: 1 November to 15 April"
+      },
+      {
+        "departs": "13:00",
+        "from": "Koh Lanta",
+        "stops": [
+          {
+            "place": "Koh Phi Phi",
+            "time": "13:30"
+          },
+          {
+            "place": "Phuket",
+            "time": "14:30"
+          }
+        ]
+      },
+      {
+        "departs": "14:30",
+        "from": "Koh Lanta",
+        "stops": [
+          {
+            "place": "Koh Phi Phi",
+            "time": "15:00"
+          },
+          {
+            "place": "Phuket",
+            "time": "16:00"
+          }
+        ]
+      },
+      {
+        "departs": "14:30",
+        "from": "Koh Lanta",
+        "stops": [
+          {
+            "place": "Krabi",
+            "time": "15:35"
+          },
+          {
+            "place": "Railay",
+            "time": "15:50"
+          },
+          {
+            "place": "Koh Yao Noi",
+            "time": "16:15"
+          },
+          {
+            "place": "Koh Yao Yai",
+            "time": "16:25"
+          },
+          {
+            "place": "Ao Nang",
+            "time": "16:35",
+            "note": "Last stretch by shared van"
+          }
+        ],
+        "season": "From 1 December (legacy text: December to April)"
+      },
+      {
+        "departs": "15:00",
+        "from": "Koh Lanta",
+        "stops": [
+          {
+            "place": "Koh Ngai",
+            "time": "15:40"
+          },
+          {
+            "place": "Koh Mook",
+            "time": "15:50"
+          },
+          {
+            "place": "Koh Kradan",
+            "time": "16:10"
+          }
+        ]
+      }
+    ],
+    "inbound": [
+      {
+        "from": "Phuket",
+        "departs": [
+          "08:30",
+          "11:00",
+          "12:30"
+        ],
+        "via": [
+          "Koh Phi Phi"
+        ],
+        "arrivesKohLanta": [
+          "10:00",
+          "12:30",
+          "14:00"
+        ]
+      },
+      {
+        "from": "Koh Kradan",
+        "departs": [
+          "10:45",
+          "12:15"
+        ],
+        "stops": [
+          {
+            "place": "Koh Mook",
+            "times": [
+              "11:00",
+              "12:30"
+            ]
+          },
+          {
+            "place": "Koh Ngai",
+            "times": [
+              "11:30",
+              "12:50"
+            ]
+          }
+        ],
+        "arrivesKohLanta": [
+          "12:00",
+          "13:30"
+        ]
+      },
+      {
+        "from": "Ao Nang",
+        "departs": [
+          "07:50"
+        ],
+        "arrivesKohLanta": [
+          "10:00"
+        ],
+        "season": "High season"
+      },
+      {
+        "from": "Koh Yao Yai",
+        "departs": [
+          "08:00"
+        ],
+        "stops": [
+          {
+            "place": "Koh Yao Noi",
+            "times": [
+              "08:10"
+            ]
+          },
+          {
+            "place": "Railay",
+            "times": [
+              "08:35"
+            ]
+          },
+          {
+            "place": "Krabi",
+            "times": [
+              "08:50"
+            ]
+          }
+        ],
+        "arrivesKohLanta": [
+          "10:00"
+        ],
+        "season": "High season"
+      }
+    ],
+    "seasons": [
+      "Some departures run all year, others from 15 October to 30 April.",
+      "Langkawi runs from 1 November to 15 April.",
+      "Krabi, Ao Nang, Railay and Koh Yao from 1 December."
+    ],
+    "checkIn": {
+      "default": "30 minutes before departure",
+      "langkawi": "1 hr 30 min before, for the immigration check"
+    }
+  }
+}

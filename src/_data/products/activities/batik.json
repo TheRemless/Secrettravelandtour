@@ -1,0 +1,263 @@
+{
+  "slug": "batik",
+  "url": "/tours/batik/",
+  "brand": "secret",
+  "template": "activity",
+  "name": "Batik painting",
+  "seo": {
+    "title": "Batik Painting Class Koh Lanta | Secret Travel & Tour",
+    "metaDescription": "Batik painting on Koh Lanta: morning or afternoon course, or kayak and paint. Hotel transfer and your finished canvas included. Adults 1,500 THB.",
+    "draft": {
+      "h1": "Batik on Koh Lanta"
+    }
+  },
+  "h1": "Batik painting on Koh Lanta",
+  "lead": "Paint your own batik canvas with a local instructor, in the morning or the afternoon, or pair it with a kayak trip to the sea cave of Koh Talabeng.",
+  "facts": [
+    {
+      "label": "Morning course",
+      "value": "Pickup 08:00–09:00, back around 13:00"
+    },
+    {
+      "label": "Afternoon course",
+      "value": "Pickup 12:00–13:00, back by 17:00"
+    },
+    {
+      "label": "Kayak and painting",
+      "value": "Pickup 08:00–09:00, Koh Talabeng by longtail and kayak, painting from 13:00, back 17:00"
+    },
+    {
+      "label": "Your canvas",
+      "value": "Varnished and delivered the next day"
+    },
+    {
+      "label": "Season",
+      "value": "Open all year"
+    }
+  ],
+  "price": {
+    "from": 1500,
+    "currency": "THB",
+    "unit": "per adult"
+  },
+  "options": [
+    {
+      "id": "morning-or-afternoon",
+      "label": "Morning or afternoon course",
+      "kind": "join-in",
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 1500,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 3 to 10",
+          "amount": 1000,
+          "ages": {
+            "min": 3,
+            "max": 10
+          },
+          "unit": "per person"
+        }
+      ]
+    },
+    {
+      "id": "kayak-and-painting",
+      "label": "Kayaking and painting",
+      "kind": "join-in",
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 1500,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 3 to 10",
+          "amount": 1000,
+          "ages": {
+            "min": 3,
+            "max": 10
+          },
+          "unit": "per person"
+        }
+      ]
+    },
+    {
+      "id": "private-course",
+      "label": "Private course, your group only",
+      "kind": "private",
+      "priceOnRequest": true,
+      "note": "For a private course, for your group only, ask us."
+    }
+  ],
+  "day": [
+    {
+      "options": [
+        "morning-or-afternoon"
+      ],
+      "title": "The three programmes",
+      "steps": [
+        {
+          "label": "Morning",
+          "text": "Pickup at 8:00 to 9:00. Introduction to batik at 9:00, then you create your artwork from 10:00 to 12:00. Back at your hotel around 13:00."
+        },
+        {
+          "label": "Afternoon",
+          "text": "Pickup at 12:00 to 13:00. Introduction at 13:00, then you create your artwork from 14:00 to 16:00. Back at your hotel by 17:00."
+        }
+      ]
+    },
+    {
+      "options": [
+        "kayak-and-painting"
+      ],
+      "title": "The three programmes",
+      "steps": [
+        {
+          "label": "Kayak",
+          "text": "Pickup at 8:00 to 9:00 for Tungyeepeng pier. A longtail to Koh Talabeng, paddling around the islets, the sea cave and the beach. Lunch at the mangrove restaurant at 12:00, painting from 13:00, back at your hotel at 17:00."
+        }
+      ]
+    }
+  ],
+  "included": [
+    "Hotel transfer both ways",
+    "Soft drinks and seasonal fruit",
+    "An English-speaking local guide",
+    "Your finished canvas, delivered the next day after varnishing"
+  ],
+  "beforeYouBook": {
+    "children": "Children from 3 to 10 pay the child rate.",
+    "weather": "Times are approximate and can change with the tide and the weather."
+  },
+  "faq": [
+    {
+      "q": "Can children join?",
+      "a": "Yes. Children from 3 to 10 have their own rate."
+    },
+    {
+      "q": "When do I get my painting?",
+      "a": "The day after the class, once it has been varnished."
+    },
+    {
+      "q": "Which programme should I pick?",
+      "a": "Morning or afternoon if you only want to paint. Kayak and painting if you want a day out with the sea cave first."
+    }
+  ],
+  "photos": [
+    {
+      "slot": "hero",
+      "status": "keep",
+      "file": "secret/batik.webp",
+      "alt": "A batik artist painting a colourful figure with a blue headdress on dark fabric",
+      "shot": "Detail of the wax drawing on fabric (keep the current photo as a detail shot)."
+    },
+    {
+      "slot": "gallery",
+      "status": "replace",
+      "file": "secret/gallery/batik-morning.webp",
+      "alt": "People painting batik at a long table in an open-air room",
+      "shot": "People painting at the long table (current file is a brochure scan)."
+    },
+    {
+      "slot": "gallery",
+      "status": "replace",
+      "file": "secret/gallery/batik-afternoon.webp",
+      "alt": "Colourful batik canvases hanging side by side",
+      "shot": "Finished canvases hanging (current file is a brochure scan)."
+    },
+    {
+      "slot": "gallery",
+      "status": "replace",
+      "file": "secret/gallery/batik-kayak.webp",
+      "alt": "Kayakers paddling below limestone cliffs",
+      "shot": "Kayaks below the cliffs, kayak and painting day (current file is a brochure scan)."
+    }
+  ],
+  "related": [
+    "/tours/cooking-class/",
+    "/tours/kayak/",
+    "/tours/elephant-sanctuary/"
+  ],
+  "schema": {
+    "type": "TouristTrip",
+    "legacyType": "TouristAttraction",
+    "places": [
+      "Koh Lanta"
+    ]
+  },
+  "legacyText": {
+    "title": "Batik Painting Class Koh Lanta | Secret Travel & Tour",
+    "h1": "Batik painting",
+    "h1em": "on Koh Lanta",
+    "intro": [
+      "Batik is a wax-resist technique from Java, recognised by UNESCO in 2009. You draw patterns in wax on fabric before it is coloured. An experienced instructor shows you the tools, the colours and the technique, then you paint what you like.",
+      "The canvas is varnished after the class and delivered to you the next day."
+    ],
+    "cardDescription": "Paint your own batik canvas with a local instructor, or add a kayak trip to the sea cave.",
+    "cardInfo": [
+      "From 1,500 THB per adult",
+      "Half day"
+    ],
+    "dayTitle": "The three programmes",
+    "goodToKnow": [
+      "Open all year.",
+      "Children from 3 to 10 pay the child rate.",
+      "Times are approximate and can change with the tide and the weather."
+    ],
+    "priceNote": "Prices in Thai baht. For a private course, for your group only, ask us.",
+    "caption": "Batik",
+    "photoPosition": "50% 40%"
+  },
+  "sources": [
+    {
+      "field": "name, legacyText.cardDescription, legacyText.cardInfo, photos[hero]",
+      "from": "secret.json activities[id=batik]"
+    },
+    {
+      "field": "seo, h1, lead, legacyText",
+      "from": "secretPagesContent.json pages.batik.title, metaDescription, h1, h1em, lead, intro"
+    },
+    {
+      "field": "facts, price",
+      "from": "secretPagesContent.json pages.batik (day, prices, goodToKnow, parkFee) et secret.json activities[id=batik].info, reformulés en lignes de faits"
+    },
+    {
+      "field": "options",
+      "from": "secretPagesContent.json pages.batik.prices, priceNote"
+    },
+    {
+      "field": "day",
+      "from": "secretPagesContent.json pages.batik.dayTitle, day"
+    },
+    {
+      "field": "included, notIncluded",
+      "from": "secretPagesContent.json pages.batik.included, notIncluded"
+    },
+    {
+      "field": "beforeYouBook",
+      "from": "secretPagesContent.json pages.batik.goodToKnow, intro, parkFee"
+    },
+    {
+      "field": "faq",
+      "from": "secretPagesContent.json pages.batik.faq"
+    },
+    {
+      "field": "seo.draft",
+      "from": "docs/refonte/02-audit-seo.md §6.2 (points de départ, prix à valider)"
+    },
+    {
+      "field": "photos[].status, photos[].shot",
+      "from": "docs/refonte/01-audit-design.md §4"
+    },
+    {
+      "field": "schema",
+      "from": "secretPagesContent.json pages.batik.schemaType, places ; type cible : docs/refonte/02-audit-seo.md §6.3"
+    },
+    {
+      "field": "options[priceOnRequest]",
+      "from": "secretPagesContent.json pages.batik (goodToKnow, priceNote) ; décision client du 02.11.2026 : « Price on WhatsApp »"
+    }
+  ]
+}

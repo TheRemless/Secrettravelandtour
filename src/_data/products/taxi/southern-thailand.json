@@ -1,0 +1,296 @@
+{
+  "slug": "southern-thailand",
+  "url": "/taxi/southern-thailand/",
+  "brand": "vip",
+  "template": "route",
+  "name": "Long-distance private transfers",
+  "seo": {
+    "title": "Long-distance private transfers | VIP Taxi Lanta",
+    "metaDescription": "Between any two places in Southern Thailand: Krabi Town, Ao Nang, Phuket, Khao Lak, Khao Sok, Surat Thani, Trang, Hat Yai, Donsak Pier, Cheow Lan Pier, with or without Koh Lanta on the way."
+  },
+  "h1": "Long-distance private transfers",
+  "lead": "Between any two places in Southern Thailand: Krabi Town, Ao Nang, Phuket, Khao Lak, Khao Sok, Surat Thani, Trang, Hat Yai, Donsak Pier, Cheow Lan Pier, with or without Koh Lanta on the way.",
+  "facts": [
+    {
+      "label": "Routes",
+      "value": "Krabi Airport to Ao Nang, Phuket Airport to Khao Lak, Krabi to Khao Sok, Phuket to Khao Sok, Surat Thani to Khao Sok, Phuket Airport to Ao Nang, Krabi Airport to Khao Lak"
+    },
+    {
+      "label": "Directions",
+      "value": "Both directions"
+    },
+    {
+      "label": "Further",
+      "value": "Hua Hin, Bangkok and any other place in Thailand on request."
+    }
+  ],
+  "priceOnRequest": true,
+  "routes": [
+    {
+      "id": "krabi-airport-ao-nang",
+      "legacyUrl": "/taxi/krabi-airport-ao-nang/",
+      "from": "Krabi Airport",
+      "to": "Ao Nang",
+      "code": "KBV",
+      "drive": "about 45 minutes",
+      "region": "Krabi province",
+      "points": [
+        "Krabi Airport (KBV)",
+        "Hotels in Ao Nang",
+        "Ao Nang piers for Railay"
+      ],
+      "seo": {
+        "title": "Krabi Airport to Ao Nang Minivan Taxi | VIP Taxi Lanta",
+        "metaDescription": "Private minivan taxi between Krabi Airport (KBV) and Ao Nang, both directions, straight to your hotel. Cash to the driver, no prepayment. Price on WhatsApp."
+      },
+      "h1": "Krabi Airport to Ao Nang, private minivan taxi",
+      "lead": "From the arrivals at Krabi Airport (KBV) to your hotel in Ao Nang, or the other way, in a private minivan.",
+      "body": [
+        "Send your flight number and landing time, your hotel in Ao Nang and the number of people. The team confirms the price on WhatsApp and the driver waits for you at the airport."
+      ],
+      "faq": [
+        {
+          "q": "Can you drop us at a pier in Ao Nang for Railay?",
+          "a": "Yes. Tell us which pier and at what time in the request form."
+        }
+      ]
+    },
+    {
+      "id": "phuket-airport-khao-lak",
+      "legacyUrl": "/taxi/phuket-airport-khao-lak/",
+      "from": "Phuket Airport",
+      "to": "Khao Lak",
+      "code": "HKT",
+      "drive": "about 1h30 to 2 hours",
+      "region": "Phuket and Khao Lak",
+      "points": [
+        "Phuket Airport (HKT)",
+        "Hotels on all the beaches of Khao Lak"
+      ],
+      "seo": {
+        "title": "Phuket Airport to Khao Lak Minivan Taxi | VIP Taxi Lanta",
+        "metaDescription": "Private minivan taxi between Phuket Airport (HKT) and Khao Lak, both directions, straight to your hotel. Cash to the driver. Price on WhatsApp."
+      },
+      "h1": "Phuket Airport to Khao Lak, private transfer",
+      "lead": "From Phuket Airport (HKT) to your hotel in Khao Lak, or back to the airport for your flight, in a private minivan.",
+      "body": [
+        "Give us your flight time, your hotel in Khao Lak and the number of people. The team confirms the price on WhatsApp and the driver waits for you at the airport."
+      ],
+      "faq": [
+        {
+          "q": "Do you serve all the beaches of Khao Lak?",
+          "a": "Yes. Give us the name of your hotel and the driver takes you to the door."
+        }
+      ]
+    },
+    {
+      "id": "krabi-khao-sok",
+      "legacyUrl": "/taxi/krabi-khao-sok/",
+      "from": "Krabi",
+      "to": "Khao Sok",
+      "drive": "about 2 to 3 hours",
+      "region": "Khao Sok and the lake",
+      "points": [
+        "Krabi Town",
+        "Ao Nang",
+        "Krabi Airport",
+        "Khao Sok village",
+        "Cheow Lan Pier"
+      ],
+      "seo": {
+        "title": "Krabi to Khao Sok Minivan Taxi | VIP Taxi Lanta",
+        "metaDescription": "Private minivan taxi between Krabi, Ao Nang or Krabi Airport and Khao Sok or Cheow Lan Pier, both directions. Cash to the driver. Price on WhatsApp."
+      },
+      "h1": "Krabi to Khao Sok, private transfer",
+      "lead": "From Krabi Town, Ao Nang or Krabi Airport to Khao Sok village or Cheow Lan Pier, and back, in a private minivan.",
+      "body": [
+        "Tell us where we pick you up in Krabi and whether you are going to the village or to Cheow Lan Pier, with your boat time if you have one. The team confirms the price on WhatsApp."
+      ],
+      "faq": [
+        {
+          "q": "Do you drive to Cheow Lan Pier?",
+          "a": "Yes. Enter Cheow Lan Pier as your destination with the time of your boat."
+        }
+      ]
+    },
+    {
+      "id": "phuket-khao-sok",
+      "legacyUrl": "/taxi/phuket-khao-sok/",
+      "from": "Phuket",
+      "to": "Khao Sok",
+      "drive": "about 2 to 3 hours",
+      "region": "Khao Sok and the lake",
+      "points": [
+        "Hotels in Phuket",
+        "Phuket Airport",
+        "Khao Sok village",
+        "Cheow Lan Pier"
+      ],
+      "seo": {
+        "title": "Phuket to Khao Sok Minivan Taxi | VIP Taxi Lanta",
+        "metaDescription": "Private minivan taxi between Phuket or Phuket Airport and Khao Sok or Cheow Lan Pier, both directions, door to door. Cash to the driver. Price on WhatsApp."
+      },
+      "h1": "Phuket to Khao Sok, private transfer",
+      "lead": "From your hotel in Phuket or from Phuket Airport to Khao Sok village or Cheow Lan Pier, and back, in a private minivan.",
+      "body": [
+        "Tell us where we pick you up in Phuket and whether you are going to the village or to Cheow Lan Pier. The team confirms the price on WhatsApp."
+      ],
+      "faq": [
+        {
+          "q": "Can you pick us up at Phuket Airport for Khao Sok?",
+          "a": "Yes. Send your flight time and the driver waits for you at the airport."
+        }
+      ]
+    },
+    {
+      "id": "surat-thani-khao-sok",
+      "legacyUrl": "/taxi/surat-thani-khao-sok/",
+      "from": "Surat Thani",
+      "to": "Khao Sok",
+      "drive": "about 1 to 2 hours",
+      "region": "Khao Sok and the lake",
+      "points": [
+        "Surat Thani Airport",
+        "Surat Thani bus terminal",
+        "Donsak Pier",
+        "Khao Sok village",
+        "Cheow Lan Pier"
+      ],
+      "seo": {
+        "title": "Surat Thani to Khao Sok Minivan Taxi | VIP Taxi Lanta",
+        "metaDescription": "Private minivan taxi between Surat Thani (airport, bus terminal or Donsak Pier) and Khao Sok or Cheow Lan Pier, both directions. Price on WhatsApp."
+      },
+      "h1": "Surat Thani to Khao Sok, private transfer",
+      "lead": "From Surat Thani Airport, the bus terminal or Donsak Pier to Khao Sok village or Cheow Lan Pier, and back, in a private vehicle.",
+      "body": [
+        "Tell us where we pick you up in Surat Thani and at what time. The team confirms the price on WhatsApp."
+      ],
+      "faq": [
+        {
+          "q": "Do you pick up at Donsak Pier for Khao Sok?",
+          "a": "Yes. Give us your ferry arrival time and the driver waits at the pier."
+        }
+      ]
+    },
+    {
+      "id": "phuket-airport-ao-nang",
+      "legacyUrl": "/taxi/phuket-airport-ao-nang/",
+      "from": "Phuket Airport",
+      "to": "Ao Nang",
+      "code": "HKT",
+      "drive": "about 3 hours",
+      "region": "Phuket and Khao Lak",
+      "points": [
+        "Phuket Airport (HKT)",
+        "Hotels in Ao Nang",
+        "Krabi Town"
+      ],
+      "seo": {
+        "title": "Phuket Airport to Ao Nang Minivan Taxi | VIP Taxi Lanta",
+        "metaDescription": "Private minivan taxi between Phuket Airport (HKT) and Ao Nang or Krabi, both directions, straight to your hotel. Cash to the driver. Price on WhatsApp."
+      },
+      "h1": "Phuket Airport to Ao Nang, private transfer",
+      "lead": "From Phuket Airport (HKT) to your hotel in Ao Nang or Krabi Town, or back to the airport, in a private minivan.",
+      "body": [
+        "Give us your flight time, your hotel and the number of people. The team confirms the price on WhatsApp and the driver waits for you at the airport."
+      ],
+      "faq": [
+        {
+          "q": "Do you also drive to Krabi Town from Phuket Airport?",
+          "a": "Yes. Enter Krabi Town or your hotel as the destination."
+        }
+      ]
+    },
+    {
+      "id": "krabi-airport-khao-lak",
+      "legacyUrl": "/taxi/krabi-airport-khao-lak/",
+      "from": "Krabi Airport",
+      "to": "Khao Lak",
+      "code": "KBV",
+      "region": "Krabi province",
+      "points": [
+        "Krabi Airport (KBV)",
+        "Your hotel in Khao Lak"
+      ],
+      "seo": {
+        "title": "Krabi Airport to Khao Lak Minivan Taxi | VIP Taxi Lanta",
+        "metaDescription": "Private minivan taxi between Krabi Airport (KBV) and Khao Lak, both directions, straight to your hotel. Cash to the driver, no prepayment. Price on WhatsApp."
+      },
+      "h1": "Krabi Airport to Khao Lak, private transfer",
+      "lead": "From Krabi Airport (KBV) to your hotel in Khao Lak, or back to the airport, in a private minivan.",
+      "body": [
+        "Give us your flight time, your hotel in Khao Lak and the number of people. The team confirms the price on WhatsApp and the driver waits for you at the airport."
+      ],
+      "faq": [
+        {
+          "q": "Is the Khao Lak transfer private?",
+          "a": "Yes. Every transfer is private, your group only."
+        }
+      ]
+    }
+  ],
+  "photos": [
+    {
+      "file": "taxi/van-seats.webp",
+      "alt": "Minivan interior with diamond-stitched tan leather seats and a lit ceiling",
+      "slot": "hero",
+      "status": "keep",
+      "shot": "Real photo of the VIP Taxi Lanta minivan."
+    }
+  ],
+  "related": [
+    "/taxi/",
+    "/taxi/krabi-airport-koh-lanta/",
+    "/taxi/phuket-airport-koh-lanta/"
+  ],
+  "schema": {
+    "type": "TaxiService",
+    "legacyType": "TaxiService",
+    "serviceType": "Private minivan transfer",
+    "areaServed": [
+      "Krabi",
+      "Ao Nang",
+      "Phuket",
+      "Khao Lak",
+      "Khao Sok",
+      "Surat Thani"
+    ]
+  },
+  "legacyText": {
+    "serviceTitle": "Long-distance private transfers",
+    "serviceText": "Between any two places in Southern Thailand: Krabi Town, Ao Nang, Phuket, Khao Lak, Khao Sok, Surat Thani, Trang, Hat Yai, Donsak Pier, Cheow Lan Pier, with or without Koh Lanta on the way."
+  },
+  "sources": [
+    {
+      "field": "routes[]",
+      "from": "taxiRoutes.json routes[id in krabi-airport-ao-nang, phuket-airport-khao-lak, krabi-khao-sok, phuket-khao-sok, surat-thani-khao-sok, phuket-airport-ao-nang, krabi-airport-khao-lak]"
+    },
+    {
+      "field": "routes[].drive",
+      "from": "taxiRoutes.json routes[].drive (approximatives, registre de faits du 30.10.2026)"
+    },
+    {
+      "field": "routes[].points",
+      "from": "taxiRoutes.json routes[].lead, body, faq"
+    },
+    {
+      "field": "name, h1, lead, seo (provisoires)",
+      "from": "taxi.json services[id=long-distance].title, text"
+    },
+    {
+      "field": "facts[Further]",
+      "from": "taxiRoutes.json further"
+    },
+    {
+      "field": "priceOnRequest",
+      "from": "Décision client du 02.11.2026"
+    }
+  ],
+  "todo": [
+    "TODO(client): durée du trajet Krabi Airport → Khao Lak (aucune source, durée non affichée sur la page actuelle)."
+  ],
+  "notes": [
+    "Page nouvelle : name, h1, lead et seo sont repris provisoirement du bloc « Long-distance private transfers » de /taxi/ ; à rédiger.",
+    "Les sept anciennes URL /taxi/<route>/ (routes[].legacyUrl) devront répondre en 301 vers /taxi/southern-thailand/ (ancre par trajet)."
+  ]
+}

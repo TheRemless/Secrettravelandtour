@@ -1,0 +1,325 @@
+{
+  "slug": "koh-phi-phi",
+  "url": "/tours/koh-phi-phi/",
+  "brand": "secret",
+  "template": "boat",
+  "name": "Koh Phi Phi",
+  "seo": {
+    "title": "Koh Phi Phi Day Trip from Koh Lanta | Secret Travel",
+    "metaDescription": "Koh Phi Phi from Koh Lanta by speedboat: Maya Bay, Pileh Lagoon, Monkey Beach, Bamboo Island, snorkeling and lunch. Join-in from 2,000 THB.",
+    "draft": {
+      "title": "Koh Phi Phi Day Trip from Koh Lanta by Speedboat",
+      "metaDescription": "Maya Bay, Pileh Lagoon, Monkey Beach and Bamboo Island in one day from Koh Lanta. Lunch and snorkeling included. From 2,000 THB.",
+      "h1": "Koh Phi Phi day trip from Koh Lanta"
+    }
+  },
+  "h1": "Koh Phi Phi day trip from Koh Lanta",
+  "lead": "Maya Bay, Pileh Lagoon, Viking Cave, Monkey Beach, then lunch on Phi Phi Don and an afternoon on Bamboo Island. By speedboat, join-in or private.",
+  "facts": [
+    {
+      "label": "Duration",
+      "value": "Full day"
+    },
+    {
+      "label": "Hotel pickup",
+      "value": "08:00–09:00"
+    },
+    {
+      "label": "Boat",
+      "value": "Speedboat, join-in or private"
+    },
+    {
+      "label": "Crossing",
+      "value": "About 1 hr by speedboat"
+    },
+    {
+      "label": "Stops",
+      "value": "Maya Bay, Viking Cave, Pileh Lagoon, Monkey Beach, Phi Phi Don, Bamboo Island, Loh Mudee Bay"
+    },
+    {
+      "label": "National park fee",
+      "value": "400 THB per adult, 200 THB per child, not included"
+    }
+  ],
+  "price": {
+    "from": 2000,
+    "currency": "THB",
+    "unit": "per adult, join-in speedboat"
+  },
+  "options": [
+    {
+      "id": "join-in-speedboat",
+      "label": "Join-in speedboat",
+      "kind": "join-in",
+      "boat": "speedboat",
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 2000,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 11",
+          "amount": 1000,
+          "ages": {
+            "min": 4,
+            "max": 11
+          },
+          "unit": "per person"
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "National park fee, adult",
+          "amount": 400,
+          "unit": "per person",
+          "note": "Cash"
+        },
+        {
+          "label": "National park fee, child",
+          "amount": 200,
+          "unit": "per person",
+          "note": "Cash"
+        },
+        {
+          "label": "National park fee, Thai national adult",
+          "amount": 40,
+          "unit": "per person",
+          "note": "Cash"
+        },
+        {
+          "label": "National park fee, Thai national child",
+          "amount": 20,
+          "unit": "per person",
+          "note": "Cash"
+        }
+      ]
+    },
+    {
+      "id": "private-speedboat",
+      "label": "Private speedboat",
+      "kind": "private",
+      "boat": "speedboat",
+      "priceOnRequest": true,
+      "note": "Private speedboat option, 9:00 to 16:00, your group only, with a guide.",
+      "notIncludedFees": [
+        {
+          "label": "National park fee, adult",
+          "amount": 400,
+          "unit": "per person",
+          "note": "Cash"
+        },
+        {
+          "label": "National park fee, child",
+          "amount": 200,
+          "unit": "per person",
+          "note": "Cash"
+        },
+        {
+          "label": "National park fee, Thai national adult",
+          "amount": 40,
+          "unit": "per person",
+          "note": "Cash"
+        },
+        {
+          "label": "National park fee, Thai national child",
+          "amount": 20,
+          "unit": "per person",
+          "note": "Cash"
+        }
+      ]
+    }
+  ],
+  "day": [
+    {
+      "options": [
+        "join-in-speedboat"
+      ],
+      "title": "How the day goes (speedboat, join-in)",
+      "steps": [
+        {
+          "time": "08:00",
+          "text": "Pickup at your hotel between 8:00 and 9:00, light breakfast at the pier."
+        },
+        {
+          "time": "09:00",
+          "text": "Crossing to Phi Phi Leh."
+        },
+        {
+          "time": "10:00",
+          "text": "Maya Bay, Viking Cave, Pileh Lagoon, Monkey Beach and a snorkeling stop."
+        },
+        {
+          "time": "12:00",
+          "text": "Lunch buffet on Phi Phi Don, free time on the beach."
+        },
+        {
+          "time": "13:30",
+          "text": "Bamboo Island, swimming and snorkeling from the beach."
+        },
+        {
+          "time": "14:15",
+          "text": "Snorkeling at Loh Mudee Bay."
+        },
+        {
+          "time": "16:00",
+          "text": "Back towards Koh Lanta, at your hotel around 16:30."
+        }
+      ]
+    }
+  ],
+  "included": [
+    "Hotel transfer both ways",
+    "Thai buffet lunch, water and fruit",
+    "Masks, snorkels and life jackets",
+    "Guide and insurance"
+  ],
+  "notIncluded": [
+    "National park fee, paid in cash"
+  ],
+  "beforeYouBook": {
+    "pickup": "Pickup at your hotel between 8:00 and 9:00, light breakfast at the pier.",
+    "bring": [
+      "Cash for the national park fee"
+    ],
+    "children": "Children from 4 to 11 pay a child rate.",
+    "weather": "Maya Bay has its own rules set by the national park. The stop depends on the day and the season."
+  },
+  "faq": [
+    {
+      "q": "How far is Phi Phi from Koh Lanta?",
+      "a": "About an hour by speedboat from the pier."
+    },
+    {
+      "q": "Do we stop at Maya Bay?",
+      "a": "Yes, in the morning, with Viking Cave, Pileh Lagoon and Monkey Beach. Access to Maya Bay follows the national park rules of the day."
+    },
+    {
+      "q": "Is the national park fee included?",
+      "a": "No. You pay 400 THB per adult and 200 THB per child in cash."
+    },
+    {
+      "q": "Can we have the boat for ourselves?",
+      "a": "Yes. A private speedboat runs from 9:00 to 16:00 with a guide for your group only."
+    }
+  ],
+  "photos": [
+    {
+      "slot": "hero",
+      "status": "replace",
+      "file": "secret/koh-phi-phi.webp",
+      "legacyAlt": "A longtail boat moored by the limestone cliffs of Koh Phi Phi",
+      "shot": "Pileh Lagoon or Maya Bay from the boat (current file is generic and reused on the speedboat page and every taxi page)."
+    },
+    {
+      "slot": "gallery",
+      "status": "replace",
+      "file": "secret/gallery/phiphi-bay.webp",
+      "alt": "A white sand beach below the limestone cliffs of Phi Phi",
+      "shot": "A Phi Phi beach below the cliffs (current file is a brochure scan)."
+    },
+    {
+      "slot": "gallery",
+      "status": "missing",
+      "shot": "Bamboo Island, swimming from the beach."
+    }
+  ],
+  "related": [
+    "/tours/4-islands/",
+    "/tours/koh-rok-koh-haa/",
+    "/tours/speedboat/"
+  ],
+  "schema": {
+    "type": "TouristTrip",
+    "legacyType": "TouristTrip",
+    "places": [
+      "Phi Phi Leh",
+      "Maya Bay",
+      "Pileh Lagoon",
+      "Viking Cave",
+      "Monkey Beach",
+      "Phi Phi Don",
+      "Bamboo Island"
+    ]
+  },
+  "legacyText": {
+    "title": "Koh Phi Phi Day Trip from Koh Lanta | Secret Travel",
+    "h1": "Koh Phi Phi",
+    "h1em": "day trip from Koh Lanta",
+    "intro": [
+      "Phi Phi is north of Koh Lanta. The speedboat crosses in about an hour. The morning is spent around Phi Phi Leh, the island with Maya Bay and Pileh Lagoon. After lunch on Phi Phi Don, the afternoon goes to Bamboo Island, with snorkeling from the beach."
+    ],
+    "cardDescription": "A day trip to the Phi Phi islands, with Maya Bay, Pileh Lagoon, Monkey Beach and snorkeling stops.",
+    "cardInfo": [
+      "Speedboat from 2,000 THB per adult",
+      "Full day"
+    ],
+    "dayTitle": "How the day goes (speedboat, join-in)",
+    "goodToKnow": [
+      "Private speedboat option, 9:00 to 16:00, your group only.",
+      "Children from 4 to 11 pay a child rate.",
+      "Maya Bay has its own rules set by the national park. The stop depends on the day and the season."
+    ],
+    "priceNote": "Prices in Thai baht. The national park fee is paid on the island and is not included. For a private speedboat, ask us.",
+    "parkFee": "400 THB per adult and 200 THB per child (Thai nationals 40 and 20 THB)",
+    "caption": "Phi Phi",
+    "photoPosition": "60% 50%"
+  },
+  "sources": [
+    {
+      "field": "name, legacyText.cardDescription, legacyText.cardInfo, photos[hero]",
+      "from": "secret.json tours[id=koh-phi-phi]"
+    },
+    {
+      "field": "seo, h1, lead, legacyText",
+      "from": "secretPagesContent.json pages.koh-phi-phi.title, metaDescription, h1, h1em, lead, intro"
+    },
+    {
+      "field": "facts, price",
+      "from": "secretPagesContent.json pages.koh-phi-phi (day, prices, goodToKnow, parkFee) et secret.json tours[id=koh-phi-phi].info, reformulés en lignes de faits"
+    },
+    {
+      "field": "options",
+      "from": "secretPagesContent.json pages.koh-phi-phi.prices, priceNote"
+    },
+    {
+      "field": "day",
+      "from": "secretPagesContent.json pages.koh-phi-phi.dayTitle, day"
+    },
+    {
+      "field": "included, notIncluded",
+      "from": "secretPagesContent.json pages.koh-phi-phi.included, notIncluded"
+    },
+    {
+      "field": "beforeYouBook",
+      "from": "secretPagesContent.json pages.koh-phi-phi.goodToKnow, intro, parkFee"
+    },
+    {
+      "field": "faq",
+      "from": "secretPagesContent.json pages.koh-phi-phi.faq"
+    },
+    {
+      "field": "seo.draft",
+      "from": "docs/refonte/02-audit-seo.md §6.2 (points de départ, prix à valider)"
+    },
+    {
+      "field": "photos[].status, photos[].shot",
+      "from": "docs/refonte/01-audit-design.md §4"
+    },
+    {
+      "field": "schema",
+      "from": "secretPagesContent.json pages.koh-phi-phi.schemaType, places ; type cible : docs/refonte/02-audit-seo.md §6.3"
+    },
+    {
+      "field": "options[priceOnRequest]",
+      "from": "secretPagesContent.json pages.koh-phi-phi (goodToKnow, priceNote) ; décision client du 02.11.2026 : « Price on WhatsApp »"
+    },
+    {
+      "field": "options[].notIncludedFees",
+      "from": "secretPagesContent.json pages.koh-phi-phi.parkFee, priceNote, goodToKnow"
+    }
+  ],
+  "todo": [
+    "TODO(client): moins de 4 ans : gratuit ? (aucun tarif publié pour les moins de 4 ans)."
+  ]
+}

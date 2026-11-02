@@ -1,0 +1,635 @@
+{
+  "slug": "scuba-diving",
+  "url": "/tours/scuba-diving/",
+  "brand": "secret",
+  "template": "activity",
+  "name": "Scuba diving",
+  "seo": {
+    "title": "Scuba Diving Koh Lanta, Courses and Dives | Secret Travel",
+    "metaDescription": "Scuba diving on Koh Lanta: first dive from 4,500 THB, fun dives at Koh Haa and Phi Phi, catamaran trips and SSI courses to Rescue. Small groups, hotel transfer.",
+    "draft": {
+      "h1": "Scuba diving on Koh Lanta"
+    }
+  },
+  "h1": "Scuba diving off Koh Lanta",
+  "lead": "Try diving for a day, or train from your first breath to advanced diver. Small groups, a professional instructor and the reefs of the Andaman Sea.",
+  "facts": [
+    {
+      "label": "One-day sites",
+      "value": "Koh Haa or Koh Bida"
+    },
+    {
+      "label": "First dive",
+      "value": "No experience needed: Kids Scuba Explorer from 8, Basic Diver from 10"
+    },
+    {
+      "label": "Courses",
+      "value": "Open Water, Advanced Open Water, React Right, Stress and Rescue, Deep Diver, Nitrox"
+    },
+    {
+      "label": "Group size",
+      "value": "Four divers at most per group on fun dives and courses"
+    },
+    {
+      "label": "Certification agency",
+      "value": "SSI (legacy meta description only)"
+    },
+    {
+      "label": "Not included",
+      "value": "National park fee and optional diving insurance, 150 THB per day"
+    }
+  ],
+  "price": {
+    "from": 4500,
+    "currency": "THB",
+    "unit": "per person, one-day experience"
+  },
+  "options": [
+    {
+      "id": "one-day-experience",
+      "label": "One-day experience, 2 dives",
+      "kind": "join-in",
+      "note": "No experience needed, local sites only. Price per person.",
+      "prices": [
+        {
+          "label": "Kids Scuba Explorer, from age 8",
+          "amount": 4500,
+          "ages": {
+            "min": 8
+          },
+          "unit": "per person"
+        },
+        {
+          "label": "Basic Diver, from age 10",
+          "amount": 4500,
+          "ages": {
+            "min": 10
+          },
+          "unit": "per person"
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "National park fee, diver adult",
+          "amount": 600,
+          "unit": "per diving day",
+          "note": "When you dive at Koh Haa, Hin Daeng or Phi Phi"
+        },
+        {
+          "label": "National park fee, diver child",
+          "amount": 400,
+          "unit": "per diving day",
+          "note": "When you dive at Koh Haa, Hin Daeng or Phi Phi"
+        },
+        {
+          "label": "National park fee, snorkeller or passenger adult",
+          "amount": 400,
+          "unit": "per day"
+        },
+        {
+          "label": "National park fee, snorkeller or passenger child",
+          "amount": 200,
+          "unit": "per day"
+        },
+        {
+          "label": "Diving insurance, optional",
+          "amount": 150,
+          "unit": "per day"
+        }
+      ]
+    },
+    {
+      "id": "fun-dives",
+      "label": "Fun dives for certified divers",
+      "kind": "join-in",
+      "note": "Big boat, local sites. Price per person.",
+      "prices": [
+        {
+          "label": "2 dives, Koh Haa",
+          "amount": 3500,
+          "unit": "per person"
+        },
+        {
+          "label": "2 dives, Phi Phi and Koh Bida",
+          "amount": 3500,
+          "unit": "per person"
+        },
+        {
+          "label": "Extra dive, decided on the day",
+          "amount": 1000,
+          "unit": "per person"
+        },
+        {
+          "label": "Refresher, added to a local trip, compulsory after a year without diving",
+          "amount": 1000,
+          "unit": "per person"
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "National park fee, diver adult",
+          "amount": 600,
+          "unit": "per diving day",
+          "note": "When you dive at Koh Haa, Hin Daeng or Phi Phi"
+        },
+        {
+          "label": "National park fee, diver child",
+          "amount": 400,
+          "unit": "per diving day",
+          "note": "When you dive at Koh Haa, Hin Daeng or Phi Phi"
+        },
+        {
+          "label": "National park fee, snorkeller or passenger adult",
+          "amount": 400,
+          "unit": "per day"
+        },
+        {
+          "label": "National park fee, snorkeller or passenger child",
+          "amount": 200,
+          "unit": "per day"
+        },
+        {
+          "label": "Diving insurance, optional",
+          "amount": 150,
+          "unit": "per day"
+        }
+      ]
+    },
+    {
+      "id": "catamaran-special-trips",
+      "label": "Special trips by catamaran, 3 dives",
+      "kind": "join-in",
+      "note": "Adventure Diver to 30 metres at least, last dive within six months. A deep adventure dive can be added for 1,000 THB.",
+      "prices": [
+        {
+          "label": "Northern trip, back at 4.30 pm",
+          "amount": 4500,
+          "unit": "per person"
+        },
+        {
+          "label": "Southern trip, back at 5 pm",
+          "amount": 5300,
+          "unit": "per person"
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "National park fee, diver adult",
+          "amount": 600,
+          "unit": "per diving day",
+          "note": "When you dive at Koh Haa, Hin Daeng or Phi Phi"
+        },
+        {
+          "label": "National park fee, diver child",
+          "amount": 400,
+          "unit": "per diving day",
+          "note": "When you dive at Koh Haa, Hin Daeng or Phi Phi"
+        },
+        {
+          "label": "National park fee, snorkeller or passenger adult",
+          "amount": 400,
+          "unit": "per day"
+        },
+        {
+          "label": "National park fee, snorkeller or passenger child",
+          "amount": 200,
+          "unit": "per day"
+        },
+        {
+          "label": "Diving insurance, optional",
+          "amount": 150,
+          "unit": "per day"
+        }
+      ]
+    },
+    {
+      "id": "courses",
+      "label": "Courses",
+      "kind": "join-in",
+      "note": "Price per person.",
+      "prices": [
+        {
+          "label": "Open Water Diver, 3 days, 4 dives",
+          "amount": 14000,
+          "unit": "per person"
+        },
+        {
+          "label": "Advanced Open Water Diver, 2 days, 5 dives",
+          "amount": 14000,
+          "unit": "per person"
+        },
+        {
+          "label": "React Right and Stress and Rescue Diver, 3 days, 4 dives",
+          "amount": 16500,
+          "unit": "per person"
+        },
+        {
+          "label": "Deep Diver specialty, 2 days, 5 dives",
+          "amount": 14000,
+          "unit": "per person"
+        },
+        {
+          "label": "Nitrox specialty, theory only",
+          "amount": 4200,
+          "unit": "per person"
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "National park fee, diver adult",
+          "amount": 600,
+          "unit": "per diving day",
+          "note": "When you dive at Koh Haa, Hin Daeng or Phi Phi"
+        },
+        {
+          "label": "National park fee, diver child",
+          "amount": 400,
+          "unit": "per diving day",
+          "note": "When you dive at Koh Haa, Hin Daeng or Phi Phi"
+        },
+        {
+          "label": "National park fee, snorkeller or passenger adult",
+          "amount": 400,
+          "unit": "per day"
+        },
+        {
+          "label": "National park fee, snorkeller or passenger child",
+          "amount": 200,
+          "unit": "per day"
+        },
+        {
+          "label": "Diving insurance, optional",
+          "amount": 150,
+          "unit": "per day"
+        }
+      ]
+    },
+    {
+      "id": "snorkelling-on-dive-boat",
+      "label": "Snorkelling on the dive boat",
+      "kind": "join-in",
+      "note": "Local sites only. The boat is shared with the divers.",
+      "prices": [
+        {
+          "label": "Adult, from age 12",
+          "amount": 1800,
+          "ages": {
+            "min": 12
+          },
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 5 to 11",
+          "amount": 1300,
+          "ages": {
+            "min": 5,
+            "max": 11
+          },
+          "unit": "per person"
+        },
+        {
+          "label": "Child under 5",
+          "amount": 0,
+          "ages": {
+            "max": 4
+          }
+        },
+        {
+          "label": "Nanny on board for your children",
+          "amount": 800
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "National park fee, diver adult",
+          "amount": 600,
+          "unit": "per diving day",
+          "note": "When you dive at Koh Haa, Hin Daeng or Phi Phi"
+        },
+        {
+          "label": "National park fee, diver child",
+          "amount": 400,
+          "unit": "per diving day",
+          "note": "When you dive at Koh Haa, Hin Daeng or Phi Phi"
+        },
+        {
+          "label": "National park fee, snorkeller or passenger adult",
+          "amount": 400,
+          "unit": "per day"
+        },
+        {
+          "label": "National park fee, snorkeller or passenger child",
+          "amount": 200,
+          "unit": "per day"
+        },
+        {
+          "label": "Diving insurance, optional",
+          "amount": 150,
+          "unit": "per day"
+        }
+      ]
+    },
+    {
+      "id": "rentals-and-discounts",
+      "label": "Rentals and discounts",
+      "kind": "extra",
+      "note": "Nitrox tanks need a dive computer.",
+      "prices": [
+        {
+          "label": "Dive computer",
+          "amount": 300
+        },
+        {
+          "label": "Nitrox, per tank, 12 L or 15 L",
+          "text": "200 or 300 THB"
+        },
+        {
+          "label": "GoPro Hero and accessories",
+          "amount": 1500
+        },
+        {
+          "label": "Your own BCD, daily discount",
+          "amount": 150,
+          "unit": "per day"
+        },
+        {
+          "label": "Your own regulator, daily discount",
+          "amount": 150,
+          "unit": "per day"
+        },
+        {
+          "label": "Your own mask, fins and snorkel, daily discount",
+          "amount": 100,
+          "unit": "per day"
+        },
+        {
+          "label": "Package of 2 diving days",
+          "text": "5% off"
+        },
+        {
+          "label": "Package of 3 diving days",
+          "text": "10% off"
+        },
+        {
+          "label": "Package of 5 diving days",
+          "text": "15% off"
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "National park fee, diver adult",
+          "amount": 600,
+          "unit": "per diving day",
+          "note": "When you dive at Koh Haa, Hin Daeng or Phi Phi"
+        },
+        {
+          "label": "National park fee, diver child",
+          "amount": 400,
+          "unit": "per diving day",
+          "note": "When you dive at Koh Haa, Hin Daeng or Phi Phi"
+        },
+        {
+          "label": "National park fee, snorkeller or passenger adult",
+          "amount": 400,
+          "unit": "per day"
+        },
+        {
+          "label": "National park fee, snorkeller or passenger child",
+          "amount": 200,
+          "unit": "per day"
+        },
+        {
+          "label": "Diving insurance, optional",
+          "amount": 150,
+          "unit": "per day"
+        }
+      ]
+    }
+  ],
+  "day": [
+    {
+      "options": [
+        "one-day-experience"
+      ],
+      "title": "The dive programmes",
+      "steps": [
+        {
+          "label": "1 day",
+          "text": "Kids Scuba Explorer. Two supervised dives to 5 metres, from age 8, with two children per instructor at most. No experience needed."
+        },
+        {
+          "label": "1 day",
+          "text": "Basic Diver. Breakfast and a briefing on the basic theory and safety rules, then the equipment and a few skills in shallow water, then two dives to 12 metres. From age 10, no experience needed."
+        }
+      ]
+    },
+    {
+      "options": [
+        "courses"
+      ],
+      "title": "The dive programmes",
+      "steps": [
+        {
+          "label": "3 days",
+          "text": "Open Water Diver. The first full certification: digital learning, confined-water training and four open water dives, down to 18 metres with a certified buddy. From age 12. Divers from 10 take the Junior version, to 12 metres."
+        },
+        {
+          "label": "2 days",
+          "text": "Advanced Open Water Diver. Five adventure dives to work on buoyancy, navigation and deep diving, down to 30 metres. From age 15, for certified divers. A Junior version, to 21 metres, starts at 12."
+        },
+        {
+          "label": "Half day",
+          "text": "React Right. First aid, CPR, oxygen and emergency response, from age 15. It is sold together with the Stress and Rescue Diver course."
+        },
+        {
+          "label": "3 days",
+          "text": "Stress and Rescue Diver. Recognising stress, preventing accidents and managing a rescue, with four training dives and four rescue scenarios. From age 15, and the step before Divemaster."
+        },
+        {
+          "label": "2 days",
+          "text": "Deep Diver specialty. Five dives: two on a local trip, to 30 metres, then three on a special trip, to 40 metres. From age 15, and it pairs well with Nitrox."
+        },
+        {
+          "label": "Theory only",
+          "text": "Nitrox specialty. Theory on enriched air, for longer bottom times and less tiredness after the dive. You add it to any day trip, with the Nitrox tanks and the dive computer included. From age 15."
+        }
+      ]
+    },
+    {
+      "options": [
+        "fun-dives"
+      ],
+      "title": "The dive programmes",
+      "steps": [
+        {
+          "label": "1 day",
+          "text": "Fun dives for certified divers. Two dives at Koh Haa, or at Phi Phi and Koh Bida, with a maximum of four divers per group. Divers with no dive in the last year take a refresher first."
+        }
+      ]
+    },
+    {
+      "options": [
+        "catamaran-special-trips"
+      ],
+      "title": "The dive programmes",
+      "steps": [
+        {
+          "label": "1 day",
+          "text": "Special trips by catamaran. Three dives for divers certified to Adventure Diver or Advanced, 30 metres at least, with a last dive within the past six months. The northern trip goes to the Kled Kaeo wreck, Koh Bida and Hin Klai and is back at 4.30 pm. The southern trip goes to Hin Daeng, Hin Muang and Koh Haa and is back at 5 pm."
+        }
+      ]
+    },
+    {
+      "options": [
+        "snorkelling-on-dive-boat"
+      ],
+      "title": "The dive programmes",
+      "steps": [
+        {
+          "label": "1 day",
+          "text": "Snorkelling on the dive boat. Local sites only, for people who would rather stay at the surface while a family member dives. Children under 5 come free, and a nanny stays on board with younger children."
+        }
+      ]
+    }
+  ],
+  "included": [
+    "Hotel transfer both ways, breakfast, lunch, snacks, fruit and drinks on the day",
+    "All the diving equipment, with mask, fins, wetsuit and BCD, and a guide",
+    "A professional instructor, two or three students at most on the one-day dives",
+    "Maximum four divers per group on the fun dives and the courses",
+    "Courses: the digital learning materials and a dive computer"
+  ],
+  "beforeYouBook": {
+    "health": "You must be medically fit to dive and fill in a medical questionnaire before diving.",
+    "bring": [
+      "Swimwear",
+      "A towel",
+      "Reef-safe sunscreen",
+      "Sunglasses",
+      "A change of clothes"
+    ],
+    "children": "8 for the Kids Scuba Explorer, 10 for the Basic Diver, 12 for Open Water and 15 for the advanced courses and specialties. On the dive boat, snorkelling children under 5 come free and a nanny can stay on board.",
+    "weather": "Every day depends on the weather and the sea, and you follow your instructor's safety instructions from start to finish."
+  },
+  "faq": [
+    {
+      "q": "Do I need to have dived before?",
+      "a": "No. The Kids Scuba Explorer and the one-day Basic Diver are made for people who have never dived."
+    },
+    {
+      "q": "How deep do we go?",
+      "a": "5 metres for the kids, 12 metres on the one-day dive. Once you are Open Water certified it is 18 metres, and 30 metres after Advanced Open Water. The Deep Diver specialty goes to 40 metres."
+    },
+    {
+      "q": "Which course should I pick?",
+      "a": "With one day, the Basic Diver. To dive on your own holidays for years, the three-day Open Water. Tell us your dates, your ages and who is already certified, and we will suggest the right one."
+    },
+    {
+      "q": "What is the minimum age?",
+      "a": "8 for the Kids Scuba Explorer, 10 for the Basic Diver, 12 for Open Water and 15 for the advanced courses and specialties."
+    }
+  ],
+  "photos": [
+    {
+      "slot": "hero",
+      "status": "replace",
+      "file": "secret/scuba-diving.webp",
+      "legacyAlt": "A scuba diver beside a coral reef, with a school of small silver fish and a clownfish in an anemone",
+      "shot": "Divers at Koh Haa or Koh Bida, real photo from the partner centre (current file is a classic stock composition)."
+    },
+    {
+      "slot": "gallery",
+      "status": "missing",
+      "shot": "Briefing on the dive boat, equipment check."
+    }
+  ],
+  "related": [
+    "/tours/koh-rok-koh-haa/",
+    "/tours/4-islands/",
+    "/tours/koh-phi-phi/"
+  ],
+  "schema": {
+    "type": "TouristTrip",
+    "legacyType": "TouristAttraction",
+    "places": [
+      "Koh Haa",
+      "Koh Bida"
+    ]
+  },
+  "legacyText": {
+    "title": "Scuba Diving Koh Lanta, Courses and Dives | Secret Travel",
+    "h1": "Scuba diving",
+    "h1em": "off Koh Lanta",
+    "intro": [
+      "Nobody needs experience for the one-day Basic Diver. You learn the basics in shallow water, then make two dives with your instructor, never more than two students per instructor. The courses go on from there, up to Advanced Open Water, rescue and specialties, with four students at most per class.",
+      "The one-day dives are at Koh Haa or Koh Bida. Every day depends on the weather and the sea, and you follow your instructor's safety instructions from start to finish."
+    ],
+    "cardDescription": "Try diving for a day, or train from Open Water up to advanced and rescue. Small groups.",
+    "cardInfo": [
+      "From 4,500 THB",
+      "From one day"
+    ],
+    "dayTitle": "The dive programmes",
+    "goodToKnow": [
+      "Not included: the National Park fee when you dive at Koh Haa, Hin Daeng or Phi Phi, and the optional diving insurance, 150 THB per day. The fee is 600 THB for an adult and 400 THB for a child per diving day.",
+      "You must be medically fit to dive and fill in a medical questionnaire before diving.",
+      "Bring swimwear, a towel, reef-safe sunscreen, sunglasses and a change of clothes."
+    ],
+    "priceNote": "Prices in Thai baht, per person. The National Park fee (adult 600 THB, child 400 THB per diving day; snorkellers and passengers pay 400 and 200) and the optional diving insurance, 150 THB per day, are not included.",
+    "caption": "Andaman Sea"
+  },
+  "sources": [
+    {
+      "field": "name, legacyText.cardDescription, legacyText.cardInfo, photos[hero]",
+      "from": "secret.json activities[id=scuba-diving]"
+    },
+    {
+      "field": "seo, h1, lead, legacyText",
+      "from": "secretPagesContent.json pages.scuba-diving.title, metaDescription, h1, h1em, lead, intro"
+    },
+    {
+      "field": "facts, price",
+      "from": "secretPagesContent.json pages.scuba-diving (day, prices, goodToKnow, parkFee) et secret.json activities[id=scuba-diving].info, reformulés en lignes de faits"
+    },
+    {
+      "field": "options",
+      "from": "secretPagesContent.json pages.scuba-diving.prices, priceNote"
+    },
+    {
+      "field": "day",
+      "from": "secretPagesContent.json pages.scuba-diving.dayTitle, day"
+    },
+    {
+      "field": "included, notIncluded",
+      "from": "secretPagesContent.json pages.scuba-diving.included, notIncluded"
+    },
+    {
+      "field": "beforeYouBook",
+      "from": "secretPagesContent.json pages.scuba-diving.goodToKnow, intro, parkFee"
+    },
+    {
+      "field": "faq",
+      "from": "secretPagesContent.json pages.scuba-diving.faq"
+    },
+    {
+      "field": "seo.draft",
+      "from": "docs/refonte/02-audit-seo.md §6.2 (points de départ, prix à valider)"
+    },
+    {
+      "field": "photos[].status, photos[].shot",
+      "from": "docs/refonte/01-audit-design.md §4"
+    },
+    {
+      "field": "schema",
+      "from": "secretPagesContent.json pages.scuba-diving.schemaType, places ; type cible : docs/refonte/02-audit-seo.md §6.3"
+    },
+    {
+      "field": "options[].notIncludedFees",
+      "from": "secretPagesContent.json pages.scuba-diving.parkFee, priceNote, goodToKnow"
+    }
+  ],
+  "todo": [
+    "TODO(client): élèves par moniteur sur la journée découverte : « never more than two students per instructor » (intro) contre « two or three students at most on the one-day dives » (included) ; le registre de faits dit 2.",
+    "TODO(client): agence de certification SSI (citée seulement dans l'ancienne meta description) : à confirmer avant de l'afficher."
+  ]
+}

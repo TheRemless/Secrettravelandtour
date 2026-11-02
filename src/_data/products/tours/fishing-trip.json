@@ -1,0 +1,240 @@
+{
+  "slug": "fishing-trip",
+  "url": "/tours/fishing-trip/",
+  "brand": "secret",
+  "template": "boat",
+  "name": "Fishing trip",
+  "seo": {
+    "title": "Fishing Trip from Koh Lanta | Secret Travel & Tour",
+    "metaDescription": "Fishing off Koh Lanta on a longtail, or on a private wooden raft in Ao Lanta with a seafood lunch cooked on board. Raft from 3,900 THB.",
+    "draft": {
+      "title": "Fishing Trip Koh Lanta – Longtail or Private Raft",
+      "h1": "Fishing trips from Koh Lanta"
+    }
+  },
+  "h1": "Fishing trip off Koh Lanta",
+  "lead": "A half day of fishing the way the island does it: from a longtail off the coast, or from a private wooden raft in the calm waters of Ao Lanta, with lunch cooked on board.",
+  "facts": [
+    {
+      "label": "Duration",
+      "value": "Half day"
+    },
+    {
+      "label": "Raft",
+      "value": "Private wooden raft in Ao Lanta, 09:30–14:00"
+    },
+    {
+      "label": "Raft pier",
+      "value": "Thung Yee Peng pier, check-in 10:00"
+    },
+    {
+      "label": "Longtail",
+      "value": "Off the coast of Koh Lanta with a local captain, half day"
+    }
+  ],
+  "price": {
+    "from": 3900,
+    "currency": "THB",
+    "unit": "per raft, 1 to 2 people"
+  },
+  "options": [
+    {
+      "id": "private-raft",
+      "label": "Private raft, fishing and seafood lunch",
+      "kind": "private",
+      "boat": "raft",
+      "note": "Four hours on the water, fishing gear and bait included.",
+      "prices": [
+        {
+          "label": "1 to 2 people, the raft",
+          "amount": 3900,
+          "group": {
+            "min": 1,
+            "max": 2
+          },
+          "unit": "per raft"
+        },
+        {
+          "label": "3 or more people, per person",
+          "amount": 1800,
+          "group": {
+            "min": 3
+          },
+          "unit": "per person"
+        },
+        {
+          "label": "Child 3 to 9, per person",
+          "amount": 1500,
+          "ages": {
+            "min": 3,
+            "max": 9
+          },
+          "unit": "per person"
+        }
+      ]
+    },
+    {
+      "id": "longtail",
+      "label": "Fishing by longtail, half day",
+      "kind": "private",
+      "boat": "longtail",
+      "priceOnRequest": true,
+      "note": "For the longtail version, ask us for the price."
+    }
+  ],
+  "day": [
+    {
+      "options": [
+        "private-raft"
+      ],
+      "title": "How the raft morning goes",
+      "steps": [
+        {
+          "time": "09:30",
+          "text": "Pickup at your hotel around 9:30, check-in at Thung Yee Peng pier at 10:00."
+        },
+        {
+          "time": "10:15",
+          "text": "The raft crosses the mangrove forest."
+        },
+        {
+          "time": "10:45",
+          "text": "Fishing in Ao Lanta."
+        },
+        {
+          "time": "11:45",
+          "text": "A look at how the local fishermen live and work."
+        },
+        {
+          "time": "12:15",
+          "text": "Seafood lunch cooked on the raft, drinks and fruit."
+        },
+        {
+          "time": "13:15",
+          "text": "More fishing, swimming or photos, back at the pier at 14:00 and transfer to your hotel."
+        }
+      ]
+    }
+  ],
+  "included": [
+    "Hotel transfer both ways",
+    "Fishing gear",
+    "On the raft: seafood lunch, drinks and fruit"
+  ],
+  "beforeYouBook": {
+    "pickup": "Raft: pickup at your hotel around 9:30, check-in at Thung Yee Peng pier at 10:00.",
+    "children": "Children from 3 to 9 have a child rate on the raft."
+  },
+  "faq": [
+    {
+      "q": "Do I need fishing experience?",
+      "a": "No. The captain shows you how to use the gear."
+    },
+    {
+      "q": "Do we eat what we catch?",
+      "a": "On the raft the lunch is fresh seafood cooked on board. On the longtail, ask us."
+    }
+  ],
+  "photos": [
+    {
+      "slot": "hero",
+      "status": "keep",
+      "file": "secret/fishing.webp",
+      "alt": "Fishing from a boat at sunset",
+      "shot": "Catch of the day at sunset, real boat."
+    },
+    {
+      "slot": "gallery",
+      "status": "missing",
+      "shot": "The wooden raft in Ao Lanta, seafood lunch on board."
+    }
+  ],
+  "related": [
+    "/tours/mangroves/",
+    "/tours/kayak/",
+    "/tours/4-islands/"
+  ],
+  "schema": {
+    "type": "TouristTrip",
+    "legacyType": "TouristTrip",
+    "places": [
+      "Ao Lanta",
+      "Thung Yee Peng"
+    ]
+  },
+  "legacyText": {
+    "title": "Fishing Trip from Koh Lanta | Secret Travel & Tour",
+    "h1": "Fishing trip",
+    "h1em": "off Koh Lanta",
+    "intro": [
+      "Two versions. The longtail goes out to sea off Koh Lanta with a local captain. The raft stays in the sheltered bay of Ao Lanta, on the mangrove side, and the crew cooks fresh seafood on board for lunch."
+    ],
+    "cardDescription": "A fishing trip on a longtail off the coast of Koh Lanta.",
+    "cardInfo": [
+      "Raft from 3,900 THB",
+      "Half day"
+    ],
+    "dayTitle": "How the raft morning goes",
+    "goodToKnow": [
+      "The raft is private, from one or two people. From three people the price is per person. Children from 3 to 9 have a child rate.",
+      "The longtail trip is a half day too. Tell us which one you prefer, or ask us which suits your group."
+    ],
+    "priceNote": "For the longtail version, ask us for the price.",
+    "caption": "Sunset catch",
+    "photoPosition": "70% 50%"
+  },
+  "sources": [
+    {
+      "field": "name, legacyText.cardDescription, legacyText.cardInfo, photos[hero]",
+      "from": "secret.json tours[id=fishing-trip]"
+    },
+    {
+      "field": "seo, h1, lead, legacyText",
+      "from": "secretPagesContent.json pages.fishing-trip.title, metaDescription, h1, h1em, lead, intro"
+    },
+    {
+      "field": "facts, price",
+      "from": "secretPagesContent.json pages.fishing-trip (day, prices, goodToKnow, parkFee) et secret.json tours[id=fishing-trip].info, reformulés en lignes de faits"
+    },
+    {
+      "field": "options",
+      "from": "secretPagesContent.json pages.fishing-trip.prices, priceNote"
+    },
+    {
+      "field": "day",
+      "from": "secretPagesContent.json pages.fishing-trip.dayTitle, day"
+    },
+    {
+      "field": "included, notIncluded",
+      "from": "secretPagesContent.json pages.fishing-trip.included, notIncluded"
+    },
+    {
+      "field": "beforeYouBook",
+      "from": "secretPagesContent.json pages.fishing-trip.goodToKnow, intro, parkFee"
+    },
+    {
+      "field": "faq",
+      "from": "secretPagesContent.json pages.fishing-trip.faq"
+    },
+    {
+      "field": "seo.draft",
+      "from": "docs/refonte/02-audit-seo.md §6.2 (points de départ, prix à valider)"
+    },
+    {
+      "field": "photos[].status, photos[].shot",
+      "from": "docs/refonte/01-audit-design.md §4"
+    },
+    {
+      "field": "schema",
+      "from": "secretPagesContent.json pages.fishing-trip.schemaType, places ; type cible : docs/refonte/02-audit-seo.md §6.3"
+    },
+    {
+      "field": "options[priceOnRequest]",
+      "from": "secretPagesContent.json pages.fishing-trip (goodToKnow, priceNote) ; décision client du 02.11.2026 : « Price on WhatsApp »"
+    }
+  ],
+  "todo": [
+    "TODO(client): bateau de la pêche : l'accueil dit « A fishing trip on a longtail off the coast » (secret.json description) mais affiche « Raft from 3,900 THB » (secret.json info) ; la page vend le radeau et donne le longtail sans prix. Prix et horaires du longtail ?",
+    "TODO(client): sur le longtail, mange-t-on sa pêche ? (FAQ actuelle : « On the longtail, ask us. »)"
+  ]
+}

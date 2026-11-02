@@ -1,0 +1,248 @@
+{
+  "slug": "cooking-class",
+  "url": "/tours/cooking-class/",
+  "brand": "secret",
+  "template": "activity",
+  "name": "Thai cooking class",
+  "seo": {
+    "title": "Thai Cooking Class Koh Lanta | Secret Travel & Tour",
+    "metaDescription": "Thai cooking class on Koh Lanta: market visit, then four dishes with homemade curry paste. Transfer and apron included. From 1,650 THB per person.",
+    "draft": {
+      "title": "Thai Cooking Class Koh Lanta – Market & 4 Dishes",
+      "h1": "Thai cooking class on Koh Lanta"
+    }
+  },
+  "h1": "Thai cooking class market and lunch",
+  "lead": "A morning at the market, then four dishes you cook yourself with a local cook: a starter, a soup and two mains with curry paste made from scratch. Then you eat it all.",
+  "facts": [
+    {
+      "label": "Dishes",
+      "value": "Four: a starter, a soup and two mains with curry paste made by hand"
+    },
+    {
+      "label": "Morning class",
+      "value": "Monday, Wednesday, Saturday, 09:00 to about 14:00, market visit first"
+    },
+    {
+      "label": "Evening class",
+      "value": "Tuesday, Thursday, Friday, 16:00–21:00"
+    },
+    {
+      "label": "Carving class",
+      "value": "Monday, Wednesday, Saturday 15:00–18:00; Tuesday, Thursday, Friday 09:00–12:00"
+    },
+    {
+      "label": "Children",
+      "value": "Suitable for children"
+    }
+  ],
+  "price": {
+    "from": 1650,
+    "currency": "THB",
+    "unit": "per person, partner chef"
+  },
+  "options": [
+    {
+      "id": "single-chef",
+      "label": "Single chef",
+      "kind": "join-in",
+      "note": "Your own cooking station, a full meal for one.",
+      "prices": [
+        {
+          "label": "Per person",
+          "amount": 1900,
+          "unit": "per person"
+        }
+      ]
+    },
+    {
+      "id": "partner-chef",
+      "label": "Partner chef",
+      "kind": "join-in",
+      "ages": {
+        "min": 5,
+        "max": 12
+      },
+      "note": "You share a station and make a double portion. Suits children from 5 to 12 cooking with a parent. Suits children from 5 to 12 cooking with a parent.",
+      "prices": [
+        {
+          "label": "Per person",
+          "amount": 1650,
+          "unit": "per person"
+        },
+        {
+          "label": "For 2 people",
+          "amount": 3300,
+          "group": {
+            "min": 2,
+            "max": 2
+          },
+          "unit": "for 2 people"
+        }
+      ]
+    },
+    {
+      "id": "carving",
+      "label": "Fruit and vegetable carving",
+      "kind": "join-in",
+      "prices": [
+        {
+          "label": "Per person",
+          "amount": 1800,
+          "unit": "per person"
+        }
+      ]
+    }
+  ],
+  "day": [
+    {
+      "options": [
+        "single-chef",
+        "partner-chef"
+      ],
+      "title": "How the morning goes",
+      "steps": [
+        {
+          "text": "Pickup at your hotel, welcome drinks and snacks at the school."
+        },
+        {
+          "text": "Visit to the local market to pick the ingredients."
+        },
+        {
+          "text": "Cooking: four dishes, including two mains with a curry paste pounded by hand."
+        },
+        {
+          "text": "Lunch with what you cooked, then transfer back to your hotel around 14:00."
+        }
+      ]
+    }
+  ],
+  "included": [
+    "Hotel transfer both ways",
+    "Market visit and all ingredients",
+    "Apron to keep, recipe booklet, certificate",
+    "Box to take your dishes home",
+    "Welcome drinks and snacks, wifi"
+  ],
+  "beforeYouBook": {
+    "children": "Suitable for children. Partner chef suits children from 5 to 12 cooking with a parent. Tell us their ages.",
+    "pickup": "Hotel transfer both ways, back at your hotel around 14:00 after the morning class."
+  },
+  "faq": [
+    {
+      "q": "What do we cook?",
+      "a": "Four dishes: a starter, a soup and two main courses, with the curry paste made by hand during the class."
+    },
+    {
+      "q": "Can children join?",
+      "a": "Yes. The class is suitable for children. Tell us their ages."
+    },
+    {
+      "q": "Is the market visit included?",
+      "a": "Yes, in the morning class. You go to the local market with the cook before cooking."
+    }
+  ],
+  "photos": [
+    {
+      "slot": "hero",
+      "status": "replace",
+      "file": "secret/cooking-class.webp",
+      "legacyAlt": "A Thai cooking class with a local chef",
+      "shot": "Hands at the mortar, curry paste (current file is a video still with blurred apron logos, likely a third-party image)."
+    },
+    {
+      "slot": "gallery",
+      "status": "missing",
+      "shot": "The local market visit, choosing ingredients."
+    },
+    {
+      "slot": "gallery",
+      "status": "missing",
+      "shot": "The four finished dishes on the table."
+    }
+  ],
+  "related": [
+    "/tours/elephant-sanctuary/",
+    "/tours/batik/",
+    "/tours/kayak/"
+  ],
+  "schema": {
+    "type": "Course",
+    "legacyType": "Course",
+    "places": [
+      "Koh Lanta"
+    ]
+  },
+  "legacyText": {
+    "title": "Thai Cooking Class Koh Lanta | Secret Travel & Tour",
+    "h1": "Thai cooking class",
+    "h1em": "market and lunch",
+    "intro": [
+      "The class is held in a cooking school on Koh Lanta. The morning class runs on Mondays, Wednesdays and Saturdays from 9:00 to about 14:00, market visit first. You leave with your apron, a recipe booklet, a certificate and a box for what you could not finish.",
+      "The school also teaches fruit and vegetable carving, with your creations to take home, on weekday mornings or afternoons depending on the day."
+    ],
+    "cardDescription": "A visit to the local market, then cook Thai dishes with a local cook. Suitable for children.",
+    "cardInfo": [
+      "From 1,650 THB per person",
+      "Half day"
+    ],
+    "dayTitle": "How the morning goes",
+    "goodToKnow": [
+      "Suitable for children.",
+      "Morning class on Mondays, Wednesdays and Saturdays. Evening class on Tuesdays, Thursdays and Fridays, from 16:00 to 21:00.",
+      "Carving class: Mondays, Wednesdays and Saturdays from 15:00 to 18:00, Tuesdays, Thursdays and Fridays from 9:00 to 12:00."
+    ],
+    "priceNote": "Prices in Thai baht. The morning and evening cooking classes cost the same.",
+    "caption": "Market day",
+    "photoPosition": "50% 40%"
+  },
+  "sources": [
+    {
+      "field": "name, legacyText.cardDescription, legacyText.cardInfo, photos[hero]",
+      "from": "secret.json activities[id=cooking-class]"
+    },
+    {
+      "field": "seo, h1, lead, legacyText",
+      "from": "secretPagesContent.json pages.cooking-class.title, metaDescription, h1, h1em, lead, intro"
+    },
+    {
+      "field": "facts, price",
+      "from": "secretPagesContent.json pages.cooking-class (day, prices, goodToKnow, parkFee) et secret.json activities[id=cooking-class].info, reformulés en lignes de faits"
+    },
+    {
+      "field": "options",
+      "from": "secretPagesContent.json pages.cooking-class.prices, priceNote"
+    },
+    {
+      "field": "day",
+      "from": "secretPagesContent.json pages.cooking-class.dayTitle, day"
+    },
+    {
+      "field": "included, notIncluded",
+      "from": "secretPagesContent.json pages.cooking-class.included, notIncluded"
+    },
+    {
+      "field": "beforeYouBook",
+      "from": "secretPagesContent.json pages.cooking-class.goodToKnow, intro, parkFee"
+    },
+    {
+      "field": "faq",
+      "from": "secretPagesContent.json pages.cooking-class.faq"
+    },
+    {
+      "field": "seo.draft",
+      "from": "docs/refonte/02-audit-seo.md §6.2 (points de départ, prix à valider)"
+    },
+    {
+      "field": "photos[].status, photos[].shot",
+      "from": "docs/refonte/01-audit-design.md §4"
+    },
+    {
+      "field": "schema",
+      "from": "secretPagesContent.json pages.cooking-class.schemaType, places ; type cible : docs/refonte/02-audit-seo.md §6.3"
+    }
+  ],
+  "todo": [
+    "TODO(client): cours du soir (mardi, jeudi, vendredi, 16:00–21:00) : même contenu que le matin, marché compris ? La FAQ dit le marché seulement « in the morning class »."
+  ]
+}

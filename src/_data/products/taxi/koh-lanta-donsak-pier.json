@@ -1,0 +1,106 @@
+{
+  "slug": "koh-lanta-donsak-pier",
+  "url": "/taxi/koh-lanta-donsak-pier/",
+  "brand": "vip",
+  "template": "route",
+  "name": "Koh Lanta to Donsak Pier",
+  "seo": {
+    "title": "Koh Lanta to Donsak Pier Minivan Taxi | VIP Taxi Lanta",
+    "metaDescription": "Private minivan taxi between Koh Lanta and Donsak Pier, both directions, timed with your ferry. Cash to the driver, no prepayment. Price on WhatsApp."
+  },
+  "h1": "Koh Lanta to Donsak Pier, private transfer",
+  "lead": "From your hotel on Koh Lanta to Donsak Pier, timed with your ferry, and back. Private vehicle, your group only.",
+  "route": {
+    "from": "Koh Lanta",
+    "to": "Donsak Pier",
+    "bothDirections": true,
+    "drive": "about 5 hours",
+    "points": [
+      "Your hotel on Koh Lanta",
+      "Donsak Pier"
+    ],
+    "region": "Surat Thani and the Gulf"
+  },
+  "facts": [
+    {
+      "label": "Drive time",
+      "value": "About 5 hours, depending on traffic"
+    },
+    {
+      "label": "Pickup and drop-off",
+      "value": "Your hotel on Koh Lanta, Donsak Pier"
+    },
+    {
+      "label": "Directions",
+      "value": "Both directions"
+    },
+    {
+      "label": "Timing",
+      "value": "Pickup time set from your ferry time"
+    }
+  ],
+  "priceOnRequest": true,
+  "faq": [
+    {
+      "q": "Will we make the ferry?",
+      "a": "Give us the ferry time when you book. The team confirms a pickup time that leaves margin for the road."
+    }
+  ],
+  "photos": [
+    {
+      "file": "taxi/van-seats.webp",
+      "alt": "Minivan interior with diamond-stitched tan leather seats and a lit ceiling",
+      "slot": "hero",
+      "status": "keep",
+      "shot": "Real photo of the VIP Taxi Lanta minivan, shared by every route page today: one photo per route later if possible."
+    }
+  ],
+  "related": [
+    "/taxi/surat-thani-koh-lanta/"
+  ],
+  "schema": {
+    "type": "TaxiService",
+    "legacyType": "TaxiService",
+    "serviceType": "Private minivan transfer",
+    "areaServed": [
+      "Koh Lanta",
+      "Donsak Pier"
+    ]
+  },
+  "legacyText": {
+    "title": "Koh Lanta to Donsak Pier Minivan Taxi | VIP Taxi Lanta",
+    "body": [
+      "Give us your ferry time and the team confirms the pickup time on WhatsApp."
+    ]
+  },
+  "sources": [
+    {
+      "field": "name, seo, h1, lead, route, faq, legacyText",
+      "from": "taxiRoutes.json routes[id=koh-lanta-donsak-pier]"
+    },
+    {
+      "field": "route.drive, facts[Drive time]",
+      "from": "taxiRoutes.json routes[id=koh-lanta-donsak-pier].drive (durées approximatives relevées le 30.10.2026, registre de faits)"
+    },
+    {
+      "field": "route.points, facts[Pickup and drop-off]",
+      "from": "taxiRoutes.json routes[id=koh-lanta-donsak-pier].lead, body, faq"
+    },
+    {
+      "field": "route.region, related",
+      "from": "taxiRoutes.json regions"
+    },
+    {
+      "field": "priceOnRequest",
+      "from": "Décision client du 02.11.2026 : prix des transferts privés sur WhatsApp"
+    },
+    {
+      "field": "photos",
+      "from": "src/taxi-route.njk (van-seats.webp) ; docs/refonte/01-audit-design.md §4 (photos du van à garder) ; 00-BRIEF §6.4 (point de rencontre)"
+    },
+    {
+      "field": "schema",
+      "from": "src/_data/taxiRoutesView.js"
+    }
+  ]
+}

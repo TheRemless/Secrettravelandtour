@@ -1,0 +1,105 @@
+{
+  "slug": "koh-lanta-krabi-town",
+  "url": "/taxi/koh-lanta-krabi-town/",
+  "brand": "vip",
+  "template": "route",
+  "name": "Koh Lanta to Krabi Town",
+  "seo": {
+    "title": "Koh Lanta to Krabi Town Minivan Taxi | VIP Taxi Lanta",
+    "metaDescription": "Private minivan taxi between Koh Lanta and Krabi Town, both directions, hotel to hotel or to the bus terminal. Cash to the driver. Price on WhatsApp."
+  },
+  "h1": "Koh Lanta to Krabi Town, private minivan taxi",
+  "lead": "Between your hotel on Koh Lanta and Krabi Town, or the other way, in a private minivan.",
+  "route": {
+    "from": "Koh Lanta",
+    "to": "Krabi Town",
+    "bothDirections": true,
+    "drive": "about 3 hours",
+    "points": [
+      "Your hotel on Koh Lanta",
+      "Hotels in Krabi Town",
+      "Krabi bus terminal"
+    ],
+    "region": "Krabi province"
+  },
+  "facts": [
+    {
+      "label": "Drive time",
+      "value": "About 3 hours, depending on traffic"
+    },
+    {
+      "label": "Pickup and drop-off",
+      "value": "Your hotel on Koh Lanta, Hotels in Krabi Town, Krabi bus terminal"
+    },
+    {
+      "label": "Directions",
+      "value": "Both directions"
+    }
+  ],
+  "priceOnRequest": true,
+  "faq": [
+    {
+      "q": "Can you drop me at Krabi bus terminal?",
+      "a": "Yes. Enter the bus terminal as your destination, with the time of your bus."
+    }
+  ],
+  "photos": [
+    {
+      "file": "taxi/van-seats.webp",
+      "alt": "Minivan interior with diamond-stitched tan leather seats and a lit ceiling",
+      "slot": "hero",
+      "status": "keep",
+      "shot": "Real photo of the VIP Taxi Lanta minivan, shared by every route page today: one photo per route later if possible."
+    }
+  ],
+  "related": [
+    "/taxi/krabi-airport-koh-lanta/",
+    "/taxi/southern-thailand/",
+    "/taxi/koh-lanta-ao-nang/"
+  ],
+  "schema": {
+    "type": "TaxiService",
+    "legacyType": "TaxiService",
+    "serviceType": "Private minivan transfer",
+    "areaServed": [
+      "Koh Lanta",
+      "Krabi Town"
+    ]
+  },
+  "legacyText": {
+    "title": "Koh Lanta to Krabi Town Minivan Taxi | VIP Taxi Lanta",
+    "body": [
+      "Tell us where in Krabi Town you are going, hotel or bus terminal, and the team replies with the price."
+    ]
+  },
+  "sources": [
+    {
+      "field": "name, seo, h1, lead, route, faq, legacyText",
+      "from": "taxiRoutes.json routes[id=koh-lanta-krabi-town]"
+    },
+    {
+      "field": "route.drive, facts[Drive time]",
+      "from": "taxiRoutes.json routes[id=koh-lanta-krabi-town].drive (durées approximatives relevées le 30.10.2026, registre de faits)"
+    },
+    {
+      "field": "route.points, facts[Pickup and drop-off]",
+      "from": "taxiRoutes.json routes[id=koh-lanta-krabi-town].lead, body, faq"
+    },
+    {
+      "field": "route.region, related",
+      "from": "taxiRoutes.json regions"
+    },
+    {
+      "field": "priceOnRequest",
+      "from": "Décision client du 02.11.2026 : prix des transferts privés sur WhatsApp"
+    },
+    {
+      "field": "photos",
+      "from": "src/taxi-route.njk (van-seats.webp) ; docs/refonte/01-audit-design.md §4 (photos du van à garder) ; 00-BRIEF §6.4 (point de rencontre)"
+    },
+    {
+      "field": "schema",
+      "from": "src/_data/taxiRoutesView.js"
+    }
+  ]
+}
