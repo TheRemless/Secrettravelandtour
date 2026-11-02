@@ -1,5 +1,5 @@
-/* Conditions de réservation /booking-terms/ (Secret Travel & Tour et VIP Taxi Lanta).
-   Mise en page neutre, commune aux deux enseignes : un document à lire, rien d'autre. */
+/* Pages légales de Secret Travel & Tour et VIP Taxi Lanta : /terms/, /legal/, /privacy/ et leurs versions /fr/.
+   Mise en page neutre, commune aux deux enseignes : un document à lire, avec un lien de retour vers l'accueil. */
 
 @font-face {
   font-family: 'Open Sans';
@@ -7,6 +7,13 @@
   font-weight: 400 700;
   font-display: swap;
   src: url(fonts/open-sans-variable-normal-latin.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(fonts/open-sans-variable-italic-latin.woff2) format('woff2');
 }
 
 :root {
@@ -31,7 +38,8 @@ a { color: var(--accent); }
 a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 
 .terms { max-width: 720px; margin: 0 auto; padding: 32px 20px 64px; }
-.lang { margin: 0; text-align: right; font-size: 14px; }
+.lang { margin: 0; display: flex; justify-content: space-between; gap: 16px; font-size: 14px; }
+.lang .home { font-weight: 600; }
 h1 { margin: 24px 0 4px; font-size: 32px; line-height: 1.15; }
 .sub { margin: 0; color: var(--ink-soft); font-size: 17px; }
 .updated { margin: 8px 0 0; color: var(--ink-soft); font-size: 14px; }
