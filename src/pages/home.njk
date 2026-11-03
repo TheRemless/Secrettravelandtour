@@ -1,71 +1,95 @@
 ---
 permalink: /
 ---
-{#- Accueil de Secret Travel & Tour (étape 3) : ce que fait le comptoir de Sala Dan, les départs du jour,
-    les excursions, les activités, les transferts, la location et le comptoir. Textes : src/_data/home.json. -#}
-{% import "components/stt.njk" as stt %}
-{%- set h = pages.home -%}
+{#- Accueil, design v3 (PROMPT-DESIGN-V3.md §3.1). Fonds : blanc, sable, blanc, coquille, blanc, sable, blanc, coquille, footer. -#}
+{% import "components/v3.njk" as v3 %}
+{%- set h = v3data.home -%}
+{%- set c = v3data.contact -%}
 {%- set seo = h.seo -%}
 {%- set pageUrl = "/" -%}
 {%- set jsonLd = pages.jsonLd.home -%}
 <!DOCTYPE html>
 <html lang="en-GB" data-refonte>
 <head>
-{% include "stt-head.njk" %}
+{% include "v3-head.njk" %}
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-{{ stt.header("", pages.contact, pages.emblem.header, site) }}
-<main id="main" class="wrap">
-  <div class="grid home-hero">
-    <div class="c-5">
-      <h1>{{ h.h1 }}</h1>
-      <p class="lead">{{ h.lead }}</p>
-      <div class="pg-actions">
-        <a class="btn btn-sea" href="{{ stt.waHref(pages.contact.number) }}">Ask on WhatsApp</a>
-        <a class="link-wa" href="tel:{{ pages.contact.e164 }}">{{ pages.contact.phoneDisplay }}</a>
+{{ v3.header(c, v3data.emblem, site) }}
+<main id="main">
+  <section class="hero" aria-labelledby="h1">
+    <div class="wrap">
+      <div class="hero-text">
+        <h1 id="h1">{{ h.h1 }}</h1>
+        <p class="lead">{{ h.lead }}</p>
+        <div class="hero-actions">
+          <a class="btn btn--lg" href="/tours/#boat-trips">See boat trips {{ v3.arrow() }}</a>
+          <a class="tlink" href="{{ v3.waHref(c.number) }}">Ask on WhatsApp</a>
+        </div>
       </div>
+      <div class="hero-photo">{{ v3.img(h.hero, "(min-width: 1024px) 50vw, 100vw", true) }}</div>
+      <p class="hero-facts">{{ h.facts }}</p>
     </div>
-    <div class="c-7">{{ stt.departures(h.departures, 2) }}</div>
-  </div>
-
-  <section class="pg-sec" id="boat-trips" aria-labelledby="h-boats">
-    <h2 id="h-boats">{{ h.boats.title }}</h2>
-    <ul class="grid cards">{% for c in h.boatCards %}<li>{{ stt.productCard(c, false) }}</li>{% endfor %}</ul>
   </section>
 
-  <section class="pg-sec" id="activities" aria-labelledby="h-acts">
-    <h2 id="h-acts">{{ h.activities.title }}</h2>
-    <ul class="grid cards">{% for c in h.activityCards %}<li>{{ stt.productCard(c, false) }}</li>{% endfor %}</ul>
+  <section class="desk-band" aria-label="Our desk">
+    <div class="wrap"><ul>{% for d in h.desk %}<li>{{ d }}</li>{% endfor %}</ul></div>
   </section>
 
-  {%- if h.transfers.length %}
-  <section class="pg-sec" id="transfers" aria-labelledby="h-transfers">
-    <h2 id="h-transfers">{{ h.transfersTitle }}</h2>
-    <ul class="grid home-list">
-      {%- for i in h.transfers %}
-      <li class="c-4"><h3>{% if i.href %}<a href="{{ i.href }}">{{ i.title }}</a>{% else %}{{ i.title }}{% endif %}</h3><p>{{ i.text }}</p>{% if not i.href %}<p><a class="link-wa" href="{{ stt.waHref(pages.contact.number, 'Transfer request: ' + i.title) }}">Ask on WhatsApp</a></p>{% endif %}</li>
-      {%- endfor %}
-    </ul>
+  <section class="sec" aria-labelledby="h-boats">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="h-boats">Boat trips</h2><a class="tlink" href="/tours/#boat-trips">All {{ v3data.counts.boats | numwords }} boat trips {{ v3.arrow() }}</a></div>
+      {{ v3.cards(h.featured) }}
+    </div>
   </section>
-  {%- endif %}
 
-  <div class="grid pg-sec pg-two">
-    {%- if h.rental %}
-    <section class="c-6" aria-labelledby="h-rental">
-      <h2 id="h-rental"><a href="/tours/rental/">{{ h.rental.title }}</a></h2>
-      <p>{{ h.rental.text }}</p>
-      {%- if h.rentalPrice %}<p class="home-price">from <span class="card-amount">{{ h.rentalPrice.amount }}</span> {{ h.rentalPrice.unit }}</p>{% endif %}
-    </section>
-    {%- endif %}
-    <section class="c-6" aria-labelledby="h-desk">
-      <h2 id="h-desk">{{ h.desk.title if h.desk else "Our desk" }}</h2>
-      {%- if h.desk and h.desk.text %}<p>{{ h.desk.text }}</p>{% endif %}
-      <p class="home-desk">{{ site.brands.secret.address.display }}{% if site.brands.secret.maps %} <a class="foot-link" href="{{ site.brands.secret.maps }}">Open in Google Maps</a>{% endif %}</p>
-    </section>
-  </div>
+  <section class="overlap bg-shell" aria-labelledby="h-transfers">
+    <div class="overlap-photo">{{ v3.img(h.transfers.photo, "(min-width: 1024px) 50vw, 100vw") }}</div>
+    <div class="overlap-panel">
+      <h2 id="h-transfers">{{ h.transfers.title }}</h2>
+      <p>{{ h.transfers.text }}</p>
+      {{ v3.rules(h.transfers.routes) }}
+      <div class="hero-actions"><a class="btn" href="/taxi/">All transfers {{ v3.arrow() }}</a><a class="tlink" href="/tours/speedboat/">Speedboat times</a></div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-acts">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="h-acts">Island activities</h2><a class="tlink" href="/tours/#activities">All {{ v3data.counts.activities | numwords }} activities {{ v3.arrow() }}</a></div>
+      {{ v3.cards(h.activities) }}
+    </div>
+  </section>
+
+  <section class="sec bg-sand" aria-labelledby="h-how">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="h-how">How booking works</h2></div>
+      {{ v3.steps(h.steps) }}
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-desk">
+    <div class="wrap desk">
+      <div>
+        <h2 id="h-desk">Our desk in Sala Dan</h2>
+        <p>{{ h.deskSection.text }}</p>
+        {{ v3.rules(h.deskSection.rules) }}
+        {% if site.brands.secret.maps %}<a class="tlink" href="{{ site.brands.secret.maps }}">Open in Google Maps {{ v3.arrow() }}</a>{% endif %}
+      </div>
+      <div class="desk-photo">{{ v3.img(h.deskSection.photo, "(min-width: 1024px) 640px, 100vw") }}</div>
+    </div>
+  </section>
+
+  <section class="cta-band" aria-labelledby="h-final">
+    <div class="cta-photo">{{ v3.img(h.final.photo, "(min-width: 1024px) 50vw, 100vw") }}</div>
+    <div class="cta-text">
+      <h2 id="h-final">{{ h.final.title }}</h2>
+      <p>{{ h.final.text }}</p>
+      <a class="btn" href="{{ v3.waHref(c.number) }}">Ask on WhatsApp {{ v3.arrow() }}</a>
+    </div>
+  </section>
 </main>
-{{ stt.footer(site, pages.contact, pages.emblem.footer) }}
-<script src="/js/ui.js?v={{ build.v }}" defer></script>
+{{ v3.footer(site, c, v3data.emblem, v3data.boats, v3data.activities) }}
+{{ v3.waPill(c) }}
+<script src="/js/v3.js?v={{ build.v }}" defer></script>
 </body>
 </html>

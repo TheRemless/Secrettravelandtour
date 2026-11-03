@@ -250,7 +250,8 @@
           "fixed": true,
           "place": "Your hotel",
           "detail": "Pickup until 08:30",
-          "kind": "road"
+          "kind": "road",
+          "range": "07:45–08:30"
         },
         {
           "time": "09:00",
@@ -293,7 +294,8 @@
           "text": "Back on Koh Lanta around 15:30 to 16:00, depending on the sea, then transfer to your hotel.",
           "place": "Koh Lanta",
           "detail": "Around 15:30 to 16:00, then your hotel",
-          "kind": "pier"
+          "kind": "pier",
+          "range": "15:30–16:00"
         }
       ],
       "note": "Bold times are fixed. Times with ≈ move with the sea and the season."

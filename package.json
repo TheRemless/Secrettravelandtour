@@ -4,7 +4,7 @@
   "private": true,
   "description": "Site de Secret Travel & Tour et de VIP Taxi Lanta (Koh Lanta), généré avec Eleventy.",
   "scripts": {
-    "build": "eleventy && node scripts/manques.mjs && node scripts/check-dist.mjs",
+    "build": "eleventy && node scripts/manques.mjs && node scripts/photos-v3.mjs && node scripts/check-dist.mjs",
     "serve": "eleventy --serve",
     "test": "node --test",
     "check:dist": "node scripts/check-dist.mjs",

@@ -1,27 +1,120 @@
 ---
 permalink: /tours/4-islands/
 ---
-{#- Page refaite (étape 3), gabarit commun : src/_includes/stt-product.njk. -#}
-{% import "components/stt.njk" as stt %}
+{#- Page 4 Islands, design v3 (PROMPT-DESIGN-V3.md §3.2). Fonds : blanc (hero, galerie), sable, blanc (prix, journée),
+    sable, blanc (avant de réserver, questions), sombre, blanc. -#}
+{% import "components/v3.njk" as v3 %}
 {% from "components/booking.njk" import bookingSheet %}
-{%- set t = pages.fourIslands -%}
-{%- set crumb = { nav: "boat-trips", label: "Boat trips", href: "/#boat-trips", more: "More boat trips" } -%}
+{%- set t = v3data.four -%}
+{%- set c = v3data.contact -%}
 {%- set seo = t.seo -%}
-{%- set pageUrl = t.url -%}
-{%- set ogImage = t.photo -%}
+{%- set pageUrl = "/tours/4-islands/" -%}
 {%- set jsonLd = pages.jsonLd.fourIslands -%}
-{%- set stt_contact = pages.contact -%}
-{%- set stt_emblem = pages.emblem -%}
-{%- set stt_who = pages.who -%}
+{%- set fallback = v3.waHref(c.number, pages.fourIslands.fallback) -%}
 <!DOCTYPE html>
 <html lang="en-GB" data-refonte>
 <head>
-{% include "stt-head.njk" %}
+{% include "v3-head.njk" %}
 </head>
-<body class="has-mbar">
+<body>
 <a class="skip" href="#main">Skip to content</a>
-{% include "stt-product.njk" %}
+{{ v3.header(c, v3data.emblem, site, "boats") }}
+<main id="main">
+  <section class="hero hero--product" aria-labelledby="h1">
+    <div class="wrap">
+      <div class="hero-text">
+        <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/tours/#boat-trips">Boat trips</a></li><li><span aria-current="page">4 Islands</span></li></ol></nav>
+        <h1 id="h1">{{ t.h1 }}</h1>
+        <p class="lead lead--product">{{ t.lead }}</p>
+        <p class="facts">{{ t.facts }}</p>
+        <div class="price-row">
+          <p class="price"><span>from</span><b>{{ t.price.amount }}</b><span>{{ t.price.unit }}</span></p>
+          <a class="btn btn--lg" href="{{ fallback }}" data-book="{{ t.price.option }}">Check availability {{ v3.arrow() }}</a>
+          <a class="tlink" href="{{ v3.waHref(c.number) }}">Ask on WhatsApp</a>
+        </div>
+      </div>
+      <div class="hero-photo">{{ v3.img(t.hero, "(min-width: 1024px) 50vw, 100vw", true) }}</div>
+    </div>
+  </section>
+
+  <section class="sec gallery-sec" aria-label="Photos">
+    <div class="wrap">{{ v3.gallery(t.gallery, "Photos of the 4 Islands") }}</div>
+  </section>
+
+  <section class="sec bg-sand" aria-labelledby="h-versus">
+    <div class="wrap">
+      <div class="inset">
+        <div class="inset-text">
+          <h2 id="h-versus">Longtail or speedboat?</h2>
+          {% for p in t.versus.paragraphs %}<p>{{ p }}</p>{% endfor %}
+          <table class="compare">
+            <thead><tr><td></td><th scope="col">{{ t.versus.rows[0][1] }}</th><th scope="col">{{ t.versus.rows[0][2] }}</th></tr></thead>
+            <tbody>{% for r in t.versus.rows %}{% if not loop.first %}<tr><th scope="row">{{ r[0] }}</th><td>{{ r[1] }}</td><td>{{ r[2] }}</td></tr>{% endif %}{% endfor %}</tbody>
+          </table>
+        </div>
+        <div class="inset-photo">{{ v3.img(t.versus.photo, "(min-width: 1024px) 500px, 100vw") }}</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="prices" aria-labelledby="h-prices">
+    <div class="wrap narrow-wide">
+      <div class="sec-head"><h2 id="h-prices">Prices</h2></div>
+      {{ v3.options(t.options) }}
+      {% if t.notIncluded %}<p class="not-incl">{{ t.notIncluded }}</p>{% endif %}
+    </div>
+  </section>
+
+  <div class="wrap"><hr class="sep"></div>
+
+  <section class="sec sec--after-sep" aria-labelledby="h-day">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="h-day">{{ t.day.title }}</h2></div>
+      {{ v3.day(t.day.steps, t.day.note) }}
+    </div>
+  </section>
+
+  <section class="sec bg-sand" aria-label="Included and not included">
+    <div class="wrap split-2">
+      <div><h3>Included</h3><ul class="rules rules-plain">{% for i in t.included %}<li>{{ i }}</li>{% endfor %}</ul></div>
+      <div><h3>Not included</h3><ul class="rules rules-plain">{% for i in t.notIncludedList %}<li>{{ i }}</li>{% endfor %}</ul></div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-before">
+    <div class="wrap split-2">
+      <div><h2 id="h-before">Before you book</h2><p class="mute">What to know before you send your request.</p></div>
+      <div>{{ v3.rules(t.beforeBook) }}</div>
+    </div>
+  </section>
+
+  <section class="sec sec--tight" aria-labelledby="h-faq">
+    <div class="wrap"><div class="narrow">
+      <div class="sec-head"><h2 id="h-faq">Questions</h2></div>
+      {{ v3.faq(t.faq) }}
+    </div></div>
+  </section>
+
+  <section class="sec dark sec--who" aria-labelledby="h-who">
+    <div class="wrap">
+      <h2 id="h-who">Who runs this trip</h2>
+      <p class="who-text">Booked through our desk at {{ site.brands.secret.address.street }}, Sala Dan.{% if site.brands.secret.licence %} TAT licence {{ site.brands.secret.licence }}.{% endif %}</p>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-more">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="h-more">More boat trips</h2></div>
+      {{ v3.cards(t.related) }}
+      <p class="more-line">Arriving from Krabi Airport? <a class="tlink" href="/taxi/krabi-airport-koh-lanta/">Private transfer to Koh Lanta {{ v3.arrow() }}</a></p>
+    </div>
+  </section>
+</main>
+{{ v3.footer(site, c, v3data.emblem, v3data.boats, v3data.activities) }}
+{{ v3.waPill(c) }}
+{{ v3.mobileBar(t.price.amount, "", fallback, t.price.option) }}
+{{ bookingSheet(t.booking, c) }}
 <script src="/js/booking.js?v={{ build.v }}" defer></script>
-<script src="/js/ui.js?v={{ build.v }}" defer></script>
+<script src="/js/v3.js?v={{ build.v }}" defer></script>
 </body>
 </html>

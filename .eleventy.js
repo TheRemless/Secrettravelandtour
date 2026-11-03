@@ -18,6 +18,10 @@ module.exports = async function (eleventyConfig) {
   // JSON-LD sérialisé sans risque de fermer la balise <script> (components/schema.js).
   eleventyConfig.addFilter("jsonld", (obj) => require("./src/_includes/components/schema.js").toScript(obj));
 
+  // Nombre en toutes lettres (anglais) pour les liens « All six boat trips ».
+  const WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen"];
+  eleventyConfig.addFilter("numwords", (n) => WORDS[n] || String(n));
+
   // Fichiers copiés tels quels, avec les mêmes adresses publiques.
   eleventyConfig.addPassthroughCopy({
     "src/css": "css",

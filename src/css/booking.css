@@ -54,7 +54,7 @@ html.sheet-open { overflow: hidden; }
 .sheet-close {
   flex: none; display: inline-flex; align-items: center; justify-content: center;
   width: 44px; height: 44px; margin: calc(-1 * var(--s0)) calc(-1 * var(--s1)) 0 0; padding: 0;
-  border: 0; border-radius: 4px; background: transparent; color: var(--sheet-ink); cursor: pointer;
+  border: 0; border-radius: 12px; background: transparent; color: var(--sheet-ink); cursor: pointer;
 }
 .sheet-close svg { width: 1.5rem; height: 1.5rem; }
 .sheet-body { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: var(--s3) var(--s3) 0; }
@@ -73,7 +73,7 @@ html.sheet-open { overflow: hidden; }
 .f-hint { margin: 0 0 var(--s1); font-size: var(--t2); line-height: var(--l2); color: var(--sheet-mute); }
 .sheet input[type="text"], .sheet input[type="date"], .sheet input[type="time"], .sheet select {
   width: 100%; min-height: 48px; padding: var(--s1) var(--s2);
-  border: 1.5px solid var(--sheet-field); border-radius: 4px;
+  border: 1.5px solid var(--sheet-field); border-radius: 12px;
   background: var(--sheet-field-bg, var(--sheet-bg)); color: var(--sheet-ink);
   font: 400 var(--t3)/var(--l3) var(--sheet-text); font-variant-numeric: tabular-nums;
 }
@@ -110,7 +110,7 @@ html.sheet-open { overflow: hidden; }
 .choice input { position: absolute; opacity: 0; width: 1px; height: 1px; }
 .choice input + span {
   display: flex; align-items: center; justify-content: center; gap: var(--s1); min-height: 48px; padding: var(--s1) var(--s2);
-  border: 1.5px solid var(--sheet-field); border-radius: 4px; background: var(--sheet-field-bg, var(--sheet-bg));
+  border: 1.5px solid var(--sheet-field); border-radius: 12px; background: var(--sheet-field-bg, var(--sheet-bg));
   font-weight: 700; font-size: var(--t2); line-height: var(--l2); text-align: center; cursor: pointer;
 }
 .choice input + span:hover, .choice .is-hover { border-color: var(--sheet-accent); }
@@ -134,7 +134,7 @@ html.sheet-open { overflow: hidden; }
 .count label small { display: block; font-weight: 400; font-size: var(--t2); line-height: var(--l2); color: var(--sheet-mute); }
 .stepper { display: flex; align-items: center; gap: var(--s0); }
 .stepper button {
-  width: 44px; height: 44px; padding: 0; border: 1.5px solid var(--sheet-field); border-radius: 4px;
+  width: 44px; height: 44px; padding: 0; border: 1.5px solid var(--sheet-field); border-radius: 12px;
   background: var(--sheet-field-bg, var(--sheet-bg)); color: var(--sheet-ink); font: 700 var(--t4)/1 var(--sheet-text); cursor: pointer; touch-action: manipulation;
 }
 .stepper input {
@@ -149,7 +149,7 @@ html.sheet-open { overflow: hidden; }
 /* Boutons de la feuille */
 .sheet-btn {
   display: flex; align-items: center; justify-content: center; gap: var(--s1); width: 100%; min-height: 52px; padding: 0 var(--s2);
-  border: 2px solid transparent; border-radius: 4px; background: var(--sheet-cta); color: var(--sheet-cta-ink);
+  border: 2px solid transparent; border-radius: 14px; background: var(--sheet-cta); color: var(--sheet-cta-ink);
   font: var(--sheet-head-weight) var(--t3)/1 var(--sheet-head); font-stretch: var(--sheet-head-stretch);
   text-decoration: none; cursor: pointer; touch-action: manipulation;
 }
@@ -161,7 +161,7 @@ html.sheet-open { overflow: hidden; }
 
 /* Aperçu : fiche de comptoir. Chaque ligne du message, libellé à gauche ; référence en tête ;
    cash à prévoir pour le parc sous une perforation. */
-.slip { border: 1px solid var(--sheet-rule); border-radius: 4px; background: var(--sheet-soft); }
+.slip { border: 1px solid var(--sheet-rule); border-radius: 12px; background: var(--sheet-soft); }
 .slip-ref { padding: var(--s1) var(--s2); border-bottom: 1px solid var(--sheet-rule); font: 700 var(--t4)/var(--l4) var(--sheet-head); font-stretch: var(--sheet-head-stretch); }
 .slip-lines { margin: 0; padding: var(--s1) var(--s2); }
 .slip-lines div { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: var(--s2); padding: var(--s1) 0; border-top: 1px solid var(--sheet-rule); }
@@ -176,7 +176,7 @@ html.sheet-open { overflow: hidden; }
 .slip-cash-note { font-size: var(--t1); line-height: var(--l1); color: var(--sheet-mute); }
 
 .done-text p { margin: 0 0 var(--s2); }
-.slip-ref--done { border: 1px solid var(--sheet-rule); border-radius: 4px; background: var(--sheet-soft); font-size: var(--t4); line-height: var(--l4); }
+.slip-ref--done { border: 1px solid var(--sheet-rule); border-radius: 12px; background: var(--sheet-soft); font-size: var(--t4); line-height: var(--l4); }
 .sheet-link { justify-self: center; min-height: 44px; padding: 0 var(--s2); border: 0; background: transparent; color: var(--sheet-ink); font: 700 var(--t2)/1 var(--sheet-text); text-decoration: underline; text-underline-offset: .18em; cursor: pointer; }
 .done-num { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; white-space: nowrap; color: inherit; }
 .copy-status { min-height: 1.5em; margin: var(--s1) 0 0; font-weight: 700; }

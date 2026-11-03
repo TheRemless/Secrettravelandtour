@@ -1,0 +1,59 @@
+---
+permalink: /tours/
+---
+{#- Hub des excursions et activités, design v3 (PROMPT-DESIGN-V3.md §3.4). -#}
+{% import "components/v3.njk" as v3 %}
+{%- set d = v3data -%}
+{%- set c = d.contact -%}
+{%- set seo = d.hub.seo -%}
+{%- set pageUrl = "/tours/" -%}
+<!DOCTYPE html>
+<html lang="en-GB" data-refonte>
+<head>
+{% include "v3-head.njk" %}
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+{{ v3.header(c, d.emblem, site, "boats") }}
+<main id="main">
+  <section class="page-head" aria-labelledby="h1">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><span aria-current="page">Tours</span></li></ol></nav>
+      <h1 id="h1">Boat trips and activities from Koh Lanta</h1>
+      <p class="lead">{{ d.counts.all | capitalize }} things we book from our desk in Sala Dan. Prices are per adult unless the line says otherwise. Hotel pickup is included on every boat trip.</p>
+      <p class="anchors"><a class="tlink" href="#boat-trips">Boat trips ({{ d.counts.boats }})</a><a class="tlink" href="#activities">Island activities ({{ d.counts.activities }})</a></p>
+    </div>
+  </section>
+
+  <section class="sec sec--tight" id="boat-trips" aria-labelledby="h-boats">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="h-boats">Boat trips</h2></div>
+      {{ v3.cards(d.boats) }}
+    </div>
+  </section>
+
+  <section class="sand-line" aria-label="Good to know">
+    <div class="wrap"><p>Every boat trip includes hotel pickup, lunch and snorkelling gear. Where a national park fee applies, it is paid in cash on the island.</p></div>
+  </section>
+
+  <section class="sec" id="activities" aria-labelledby="h-acts">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="h-acts">Island activities</h2></div>
+      {{ v3.cards(d.activities) }}
+    </div>
+  </section>
+
+  <section class="cta-band" aria-labelledby="h-final">
+    <div class="cta-photo">{{ v3.img(d.hub.final.photo, "(min-width: 1024px) 50vw, 100vw") }}</div>
+    <div class="cta-text">
+      <h2 id="h-final">{{ d.hub.final.title }}</h2>
+      <p>{{ d.hub.final.text }}</p>
+      <a class="btn" href="{{ v3.waHref(c.number) }}">Ask on WhatsApp {{ v3.arrow() }}</a>
+    </div>
+  </section>
+</main>
+{{ v3.footer(site, c, d.emblem, d.boats, d.activities) }}
+{{ v3.waPill(c) }}
+<script src="/js/v3.js?v={{ build.v }}" defer></script>
+</body>
+</html>

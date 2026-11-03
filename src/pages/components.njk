@@ -1,0 +1,74 @@
+---
+eleventyComputed:
+  permalink: "{{ false if buildContext.production else '/_components/' }}"
+---
+{#- Page de composants du design v3 (PROMPT-DESIGN-V3.md §7.2). Jamais en production. -#}
+{% import "components/v3.njk" as v3 %}
+{%- set d = v3data -%}
+{%- set c = d.contact -%}
+{%- set seo = { title: "Components, design v3", metaDescription: "Component page of the Secret Travel & Tour design v3." } -%}
+{%- set pageUrl = "/_components/" -%}
+<!DOCTYPE html>
+<html lang="en-GB" data-board>
+<head>
+{% include "v3-head.njk" %}
+<meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+{{ v3.header(c, d.emblem, site, "boats") }}
+<main id="main">
+  <section class="sec"><div class="wrap">
+    <h1>Components</h1>
+    <p class="lead">Every piece of the three pages, with real data. Values from PROMPT-DESIGN-V3.md §2.</p>
+
+    <p class="bd-label">Type scale</p>
+    <h1>H1 Boat trips on Koh Lanta</h1>
+    <h2>H2 Longtail or speedboat?</h2>
+    <h3>H3 Koh Rok &amp; Koh Haa</h3>
+    <p class="lead">Lead. A full day south of Koh Lanta, with snorkelling at Koh Chueak.</p>
+    <p>Body. Times shift a little with the tide and the sea.</p>
+    <p class="small mute">Facts. Full day · Longtail or speedboat · Hotel pickup</p>
+
+    <p class="bd-label">Main button, text link</p>
+    <div class="bd-row"><a class="btn" href="#">Check availability {{ v3.arrow() }}</a><a class="btn btn--lg" href="#">See boat trips {{ v3.arrow() }}</a><a class="tlink" href="#">Ask on WhatsApp</a></div>
+
+    <p class="bd-label">Price line and button</p>
+    <div class="price-row"><p class="price"><span>from</span><b>{{ d.four.price.amount }}</b><span>{{ d.four.price.unit }}</span></p><a class="btn btn--lg" href="#">Check availability {{ v3.arrow() }}</a><a class="tlink" href="#">Ask on WhatsApp</a></div>
+  </div></section>
+
+  <section class="sec sec--tight"><div class="wrap">
+    <p class="bd-label">Product cards on white</p>
+    {{ v3.cards(d.home.featured) }}
+  </div></section>
+  <section class="sec bg-sand"><div class="wrap">
+    <p class="bd-label">Product cards on sand</p>
+    {{ v3.cards(d.home.activities.slice(0, 3)) }}
+  </div></section>
+
+  <section class="sec"><div class="wrap split-2">
+    <div><p class="bd-label">List with rules</p>{{ v3.rules(d.four.beforeBook) }}</div>
+    <div><p class="bd-label">Questions</p>{{ v3.faq(d.four.faq) }}</div>
+  </div></section>
+
+  <section class="sec bg-sand"><div class="wrap">
+    <p class="bd-label">Steps</p>
+    {{ v3.steps(d.home.steps) }}
+  </div></section>
+
+  <section class="sec"><div class="wrap">
+    <p class="bd-label">Options and prices</p>
+    {{ v3.options(d.four.options) }}
+    <p class="not-incl">{{ d.four.notIncluded }}</p>
+    <p class="bd-label">The day</p>
+    {{ v3.day(d.four.day.steps, d.four.day.note) }}
+  </div></section>
+
+  <section class="sec bg-sand bd-static"><div class="wrap">
+    <p class="bd-label">Mobile bar and WhatsApp pill</p>
+    <div class="bd-row">{{ v3.mobileBar(d.four.price.amount, "", "#") }}{{ v3.waPill(c) }}</div>
+  </div></section>
+</main>
+{{ v3.footer(site, c, d.emblem, d.boats, d.activities) }}
+<script src="/js/v3.js?v={{ build.v }}" defer></script>
+</body>
+</html>

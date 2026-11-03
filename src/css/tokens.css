@@ -1,0 +1,70 @@
+/* Secret Travel & Tour, design v3 : jetons (docs/refonte/design-v3/PROMPT-DESIGN-V3.md §1 et §2).
+   Valeurs non négociables : palette §2.1, échelle §2.2, un seul rayon de 12 px (boutons 14 px, pastilles 999 px). */
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/css/fonts/cormorant-garamond-latin-600-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/css/fonts/manrope-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/css/fonts/manrope-latin-600-normal.woff2") format("woff2");
+}
+
+:root {
+  /* Palette (§2.1) */
+  --ink: #14262B;
+  --ink-soft: #3B5551;
+  --ink-mute: #546A65;
+  --deep: #0B3B3C;
+  --deep-soft: #124B4C;
+  --sea: #0F6B61;
+  --sand: #F6EFE4;
+  --shell: #EFE2D0;
+  --line: #E3DACB;
+  --field: #7A8884;
+  --on-dark: #EEF3F1;
+  --on-dark-mute: #B5CBC6;
+  --white: #FFFFFF;
+  --wa: #25D366; /* uniquement le point de 8 px de la pastille WhatsApp */
+
+  /* Polices */
+  --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --sans: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Échelle (§2.2), valeurs mobile ; desktop plus bas */
+  --h1: 42px;
+  --h2: 34px;
+  --h3: 24px;
+  --price-big: 32px;
+  --price-card: 22px;
+  --lead: 17px;
+  --body: 17px;
+  --small: 14px;
+  --btn: 15px;
+
+  /* Mise en page (§1) */
+  --container: 1200px;
+  --gutter: 20px;
+  --section: 56px;
+  --gap: 28px;
+  --radius: 12px;
+  --radius-btn: 14px;
+  --header-h: 76px;
+  --bar-h: 64px;
+}
+@media (min-width: 560px) { :root { --gutter: 32px; } }
+@media (min-width: 768px) {
+  :root { --h1: 64px; --h2: 44px; --h3: 26px; --price-big: 40px; --price-card: 24px; --lead: 19px; --small: 15px; --section: 96px; }
+}
