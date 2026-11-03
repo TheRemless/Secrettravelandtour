@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>STT v3 — planche de références</title>
+<style>
+  :root{--ink:#14262B;--mute:#5C726D;--deep:#0B3B3C;--sea:#157F74;--sand:#F6EFE4;--line:#E3DACB;--ok:#1E7A4D;--no:#A33A2A;--warn:#8A5A14}
+  *{box-sizing:border-box}
+  body{margin:0;font:16px/1.6 Manrope,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:#fff}
+  header{padding:48px 32px 24px;max-width:1240px;margin:0 auto}
+  h1{font:600 44px/1.05 "Cormorant Garamond",Georgia,serif;margin:0 0 12px}
+  h2{font:600 32px/1.1 "Cormorant Garamond",Georgia,serif;margin:64px 0 8px}
+  h3{font:600 20px/1.3 Manrope,sans-serif;margin:0 0 6px}
+  p{margin:0 0 10px}
+  .lead{color:var(--mute);max-width:70ch}
+  main{max-width:1240px;margin:0 auto;padding:0 32px 96px}
+  .toc{display:flex;flex-wrap:wrap;gap:8px 18px;padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .toc a{color:var(--sea);text-decoration:none;font-weight:600}
+  .ref{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,0.85fr);gap:28px;padding:28px 0;border-top:1px solid var(--line)}
+  .ref figure{margin:0}
+  .ref img{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:12px}
+  .shots{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .shots.one{grid-template-columns:1fr}
+  .shots.three{grid-template-columns:1fr 1fr 1fr}
+  figcaption{font-size:13px;color:var(--mute);margin-top:6px}
+  .scroll{max-height:720px;overflow:auto;border-radius:12px;border:1px solid var(--line)}
+  .scroll img{border:0;border-radius:0}
+  ul{padding-left:18px;margin:0 0 14px}
+  li{margin:0 0 6px}
+  .take{color:var(--ok)}
+  .drop{color:var(--no)}
+  .tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:var(--sand);color:var(--ink);margin-right:6px}
+  .tag.master{background:var(--deep);color:#fff}
+  .tag.bad{background:#F3DDD7;color:var(--no)}
+  .verdict{background:var(--sand);border-radius:12px;padding:14px 18px;margin:10px 0 0;font-weight:600}
+  table{border-collapse:collapse;width:100%;font-size:14px;margin:12px 0 24px}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-weight:700;background:var(--sand)}
+  code{font:13px/1.4 ui-monospace,Menlo,monospace;background:#F4F1EB;padding:1px 5px;border-radius:4px}
+  .swatches{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0 20px}
+  .sw{width:150px;border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:12px}
+  .sw i{display:block;height:56px}
+  .sw b{display:block;padding:6px 8px 0}
+  .sw span{display:block;padding:0 8px 8px;color:var(--mute)}
+  @media (max-width:900px){.ref{grid-template-columns:1fr}.shots.three{grid-template-columns:1fr}header,main{padding-left:16px;padding-right:16px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Secret Travel &amp; Tour — planche de références v3</h1>
+  <p class="lead">À lire avec <code>PROMPT-DESIGN-V3.md</code>. Pour chaque capture : ce qu'on reprend (vert), ce qu'on ne reprend pas (rouge). ZTP est l'étalon ; les autres sites servent chacun pour un composant précis. En bas : les deux versions rejetées et pourquoi.</p>
+  <nav class="toc">
+    <a href="#ztp">1. ZTP (étalon)</a><a href="#adn">2. ADN ZTP chiffré</a><a href="#sawdays">3. Sawday's</a><a href="#simba">4. Simba Sea Trips</a><a href="#tao">5. Tao Philippines</a><a href="#audley">6. Audley Travel</a><a href="#flashpack">7. Flash Pack</a><a href="#contre">8. Contre-exemples</a><a href="#rejets">9. Versions rejetées</a>
+  </nav>
+</header>
+<main>
+
+<h2 id="ztp">1. Zwald Travel Planner — l'étalon <span class="tag master">niveau à atteindre</span></h2>
+<p class="lead">zwaldtravelplanner.com et /services/. Même société. Le client juge STT par rapport à ce site. On reprend la famille (serif + sans, vert profond, photos droites, beaucoup d'air) ; STT s'en distingue par des tons sable chauds à la place de la menthe, et des cartes produit avec prix.</p>
+
+<section class="ref">
+  <div class="shots">
+    <figure><img src="img/ztp_accueil_desk_0.jpg" alt=""><figcaption>Hero accueil, 1440 px</figcaption></figure>
+    <figure><img src="img/ztp_services_desk_0.jpg" alt=""><figcaption>Hero /services/ : titre + prix « dès 35 CHF / jour » sur la même ligne que le bouton</figcaption></figure>
+  </div>
+  <div>
+    <h3>Hero</h3>
+    <ul>
+      <li class="take">Grille 2 colonnes : texte à gauche (≈ 52 %), photo à droite qui <strong>fuit jusqu'au bord droit</strong> de l'écran, coins gauches arrondis 12 px, hauteur ≈ 760 px. Rien n'est posé sur la photo.</li>
+      <li class="take">H1 Cormorant Garamond 600, ≈ 80 px, interligne 0.98, 3–4 lignes max, pas de surtitre.</li>
+      <li class="take">Texte d'intro Manrope 18 px gris-vert, 46 caractères par ligne max, puis boutons à 34 px sous le texte.</li>
+      <li class="take">Sur /services/ : bouton + « dès 35 CHF / jour » côte à côte. C'est le modèle pour « from 1,000 THB per adult » dans le hero de 4 Islands.</li>
+      <li class="take">Pastille WhatsApp flottante : fond blanc, photo ronde, prénom, numéro, point vert. Pas de gros bouton vert.</li>
+      <li class="drop">Double bouton plein + contour (« Recevoir mon devis » / « Découvrir mes services ») : sur STT, un seul bouton plein + un lien texte souligné.</li>
+      <li class="drop">Petite photo chevauchée avec bord blanc : signature ZTP, pas pour STT.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="ref">
+  <div class="shots">
+    <figure><img src="img/ztp_accueil_desk_1.jpg" alt=""><figcaption>Liste à filets + photo portrait 4:5</figcaption></figure>
+    <figure><img src="img/ztp_accueil_desk_3.jpg" alt=""><figcaption>Bande menthe, cartes de formules avec grand prix serif</figcaption></figure>
+  </div>
+  <div>
+    <h3>Sections de contenu</h3>
+    <ul>
+      <li class="take">Rythme : une section blanche, une section teintée, une section sombre, jamais deux teintées de suite. Respiration verticale 96 px.</li>
+      <li class="take">Listes à filets 1 px (pas de puces, pas d'icônes) : titre serif 23 px + une ligne grise. À reprendre pour « Included / Not included » et « Before you book ».</li>
+      <li class="take">Prix en Cormorant 600 ≈ 48 px, unité en Manrope 15 px à côté (« 40 CHF <small>/ jour</small> »). Chiffres alignés (lining-nums).</li>
+      <li class="take">Carte mise en avant = bordure 2 px vert, pas d'ombre, pas de ruban.</li>
+      <li class="drop">Le mot en italique script « de voyage » dans le titre : pas sur STT.</li>
+      <li class="drop">Bande menthe #EAF4F5 : STT utilise du sable #F6EFE4 à la place.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="ref">
+  <div class="shots">
+    <figure><img src="img/ztp_accueil_desk_4.jpg" alt=""><figcaption>Étapes numérotées + section avis sur fond lagune #083C42</figcaption></figure>
+    <figure><img src="img/ztp_accueil_desk_5.jpg" alt=""><figcaption>Bande sable : photo pleine hauteur + panneau blanc décalé ; tuiles « autres services »</figcaption></figure>
+  </div>
+  <div>
+    <h3>Sombre, sable, tuiles</h3>
+    <ul>
+      <li class="take">Section sombre : fond #083C42, cartes #0F4C53 bordure 1 px rgba(255,255,255,.08), citation en serif 24–30 px, prénom en Manrope 600, contexte en 14 px. Étoiles sable, discrètes. Bouton contour blanc.</li>
+      <li class="take">Composition « photo 4:3 + panneau blanc qui chevauche de 24 px » sur fond beige #F5E9DC : modèle pour la section Transferts de l'accueil STT.</li>
+      <li class="take">Tuiles : photo 16:10 coins 12 px, titre serif souligné 1 px sous la photo, une ligne grise, ligne de prix en 600. Aucun bouton dans la tuile.</li>
+      <li class="take">Étapes : numéro dans un rond 34 px, titre serif 23 px, texte gris. Trois ou quatre étapes maximum, seulement si chaque étape est un fait.</li>
+      <li class="drop">Le petit avion et la ligne pointillée : pas d'ornement sur STT.</li>
+      <li class="drop">Avis : seulement s'ils sont fournis et réels. Sinon la section n'existe pas.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="ref">
+  <div class="shots">
+    <figure><img src="img/ztp_accueil_mob.jpg" alt=""><figcaption>Mobile 390 px : 4 écrans successifs</figcaption></figure>
+    <figure><img src="img/ztp_services_desk_3.jpg" alt=""><figcaption>Encart « appel conseil » : carte sable, texte 55 % + photo 45 % bord à bord</figcaption></figure>
+  </div>
+  <div>
+    <h3>Mobile et encart</h3>
+    <ul>
+      <li class="take">Mobile : H1 ≈ 44 px, texte, boutons pleine largeur 52 px de haut, puis la photo en bandeau 16:9 <strong>pleine largeur sans marge</strong>. Le hero tient dans un écran.</li>
+      <li class="take">Marges latérales 22 px, titres de section ≈ 36 px, listes à filets conservées telles quelles.</li>
+      <li class="take">Encart texte + photo dans une carte 12 px (photo collée au bord droit de la carte, sans marge intérieure) : modèle pour « Longtail or speedboat? » et pour la fiche « Your drivers ».</li>
+      <li class="drop">Rail horizontal de vignettes (galerie) : interdit sur STT, grille uniquement.</li>
+    </ul>
+  </div>
+</section>
+
+<h2 id="adn">2. ADN ZTP chiffré (extrait du CSS en ligne, 3 nov. 2026)</h2>
+<p class="lead">Sources : <code>/css/site.css</code>, <code>/css/system.css</code> (« Système Carnet de lagune, validé le 31.10.2026 »), <code>/css/home.css</code>. Les jetons de <code>system.css</code> écrasent ceux de <code>site.css</code> : ce sont les valeurs réellement affichées.</p>
+<div class="swatches">
+  <div class="sw"><i style="background:#0A828D"></i><b>#0A828D</b><span>teal (logo)</span></div>
+  <div class="sw"><i style="background:#076A73"></i><b>#076A73</b><span>teal-dark (boutons)</span></div>
+  <div class="sw"><i style="background:#083C42"></i><b>#083C42</b><span>lagoon (fonds sombres, footer)</span></div>
+  <div class="sw"><i style="background:#0F4C53"></i><b>#0F4C53</b><span>lagoon-soft (cartes sur sombre)</span></div>
+  <div class="sw"><i style="background:#EAF4F5"></i><b>#EAF4F5</b><span>mint (bande teintée)</span></div>
+  <div class="sw"><i style="background:#F5E9DC"></i><b>#F5E9DC</b><span>beige (bande CTA)</span></div>
+  <div class="sw"><i style="background:#E0A36B"></i><b>#E0A36B</b><span>sand (sous-marque Girls Trips)</span></div>
+  <div class="sw"><i style="background:#16242A"></i><b>#16242A</b><span>ink</span></div>
+  <div class="sw"><i style="background:#4A6761"></i><b>#4A6761</b><span>ink-mute</span></div>
+  <div class="sw"><i style="background:#CBE1E3"></i><b>#CBE1E3</b><span>line</span></div>
+</div>
+<table>
+  <tr><th>Élément</th><th>Valeur mesurée</th></tr>
+  <tr><td>Polices</td><td>Cormorant Garamond 600 (titres) + 500 italique (rare) ; Manrope 400 et 600. <strong>4 fichiers woff2 au total</strong>, auto-hébergés, latin + latin-ext.</td></tr>
+  <tr><td>Corps</td><td>Manrope 17 px / 1.65, couleur #16242A, <code>font-variant-numeric: lining-nums</code> partout.</td></tr>
+  <tr><td>H1</td><td>clamp(2.75rem, 11vw, 5.6rem) → 44 px mobile, 89 px max desktop ; interligne 0.98 ; espacement -0.025em ; max 14ch.</td></tr>
+  <tr><td>H2</td><td>clamp(2.1rem, 4vw, 3.35rem) → 34–54 px ; interligne 1.04 ; -0.015em.</td></tr>
+  <tr><td>H3</td><td>clamp(1.4rem, 2.2vw, 1.85rem) → 22–30 px.</td></tr>
+  <tr><td>Lead</td><td>clamp(1.1rem, 1.6vw, 1.3rem), 1.7, couleur ink-soft, max 46ch.</td></tr>
+  <tr><td>Surtitre (eyebrow)</td><td>Supprimé par règle client. Quand il reste, italique serif 18 px, sans capitales, sans filet.</td></tr>
+  <tr><td>Conteneur</td><td>1200 px, gouttière 32 px (22 px sous 560 px).</td></tr>
+  <tr><td>Section</td><td>padding vertical clamp(80px, 6.7vw, 96px) desktop ; clamp(44px, 9vw, 80px) mobile.</td></tr>
+  <tr><td>Grille</td><td>gap 28 px ; 2, 3 ou 4 colonnes.</td></tr>
+  <tr><td>Rayon</td><td><strong>Un seul : 12 px</strong> (photos, cartes, encarts). Boutons 14 px.</td></tr>
+  <tr><td>Ombre</td><td>Une seule, réservée à la photo chevauchée : 0 28px 60px -32px rgba(8,60,66,.55). Les cartes n'ont pas d'ombre au repos.</td></tr>
+  <tr><td>Bouton</td><td>padding 16 × 30 px, Manrope 600 15 px, min-height 48 px (54 px dans le hero), rayon 14 px, flèche → qui glisse de 4 px au survol. Variante contour 1 px #CBE1E3.</td></tr>
+  <tr><td>Nav</td><td>76 px de haut, logo à gauche, liens Manrope 15 px avec soulignement animé, bouton plein à droite.</td></tr>
+  <tr><td>Hero desktop</td><td>grid 1.08fr / 0.92fr, gap clamp(48px, 6vw, 96px), photo hauteur clamp(560px, 100svh - 136px, 800px), déborde à droite jusqu'au bord de l'écran, rayon 12 px côté gauche, object-position 60% 50%.</td></tr>
+  <tr><td>Hero mobile</td><td>texte puis photo 16:9 pleine largeur (marges négatives), boutons 52 px pleine largeur.</td></tr>
+  <tr><td>Tuile photo</td><td>16:10, rayon 12, zoom 1.04 en 0.6 s au survol ; titre serif souligné 1 px (couleur ligne, teal au survol).</td></tr>
+  <tr><td>Section avis</td><td>fond #083C42, citation serif 500 clamp(1.55rem, 2.6vw, 2.3rem) / 1.28, max 30ch.</td></tr>
+  <tr><td>Bande CTA</td><td>2 colonnes 50/50, min-height 560 px, photo pleine hauteur, panneau texte max 680 px sur fond beige, H2 clamp(2.3rem, 4vw, 3.6rem).</td></tr>
+  <tr><td>Footer</td><td>fond #083C42, 4 colonnes 1.6fr 1fr 1fr 1.2fr, padding 84 px / 32 px, titres de colonnes Manrope 700 12.5 px espacés 0.2em.</td></tr>
+  <tr><td>Règles client écrites dans le CSS</td><td>« pas de texte posé sur une photo, pas de voile sombre ; pas de surtitre ; pas de pastilles, pas de légende sur les vignettes, pas de cartes à icône ; un seul rayon, une seule ombre. »</td></tr>
+</table>
+
+<h2 id="sawdays">3. Sawday's — la carte photo-d'abord <span class="tag">sawdays.co.uk</span></h2>
+<section class="ref">
+  <div class="shots">
+    <figure><div class="scroll"><img src="img/sawdays_home_desk.jpg" alt=""></div><figcaption>Accueil 1440 px (défiler)</figcaption></figure>
+    <figure><div class="scroll"><img src="img/sawdays_home_mob.jpg" alt=""></div><figcaption>Mobile 390 px</figcaption></figure>
+  </div>
+  <div>
+    <h3>Ce qu'on reprend</h3>
+    <ul>
+      <li class="take">La <strong>carte</strong> : photo 4:3 droite, puis un bloc blanc avec titre serif 26–28 px et un chevron. Rien d'écrit sur la photo. Toute la carte est le lien.</li>
+      <li class="take">Grille 3 colonnes à 1440 px, 1 colonne pleine largeur sur mobile, gouttières 24 px. Les photos font le travail, la typo est calme.</li>
+      <li class="take">Alternance de sections : grille blanche, puis une grande photo bord à bord, puis grille sur fond crème.</li>
+    </ul>
+    <h3>Ce qu'on ne reprend pas</h3>
+    <ul>
+      <li class="drop">Les bords déchirés des photos (effet papier) : ornement.</li>
+      <li class="drop">Le texte « Explore London stays » posé sur une photo.</li>
+      <li class="drop">Les 4 icônes dessinées sous le hero.</li>
+    </ul>
+  </div>
+</section>
+
+<h2 id="simba">4. Simba Sea Trips — les faits d'une excursion <span class="tag">simbaseatrips.com</span></h2>
+<section class="ref">
+  <div class="shots">
+    <figure><div class="scroll"><img src="img/simba_home_desk.jpg" alt=""></div><figcaption>Accueil : encart « Why choose Simba » factuel, comparatif Join-in / Private</figcaption></figure>
+    <figure><div class="scroll"><img src="img/simba_tour_desk.jpg" alt=""></div><figcaption>Page excursion : galerie + compteur 01/24, prix, itinéraire</figcaption></figure>
+  </div>
+  <div>
+    <h3>Ce qu'on reprend</h3>
+    <ul>
+      <li class="take">Le <strong>comparatif Join-in / Private</strong> en deux colonnes à lignes : Group size · Itinerary · Pricing · Departure · Best for. À transposer en « Longtail or speedboat? » (4 Islands) et « Join-in or private ».</li>
+      <li class="take">L'encart de faits (max 18 adults, founded 2005, TAT licence n°) : <strong>une liste de faits vérifiables</strong>, pas de promesses. Sur STT, seulement les faits connus (adresse, WhatsApp, prix affichés) + licence et horaires si fournis.</li>
+      <li class="take">Carte produit avec « From ฿5,310 THB » en bas à gauche.</li>
+      <li class="take">Compteur de galerie « 01 / 24 » et flèches Previous / Next textuelles.</li>
+    </ul>
+    <h3>Ce qu'on ne reprend pas</h3>
+    <ul>
+      <li class="drop">Titres en capitales (JOIN IN TOURS, PRIVATE CHARTERS), étiquettes colorées sur les photos, encart noir posé sur la photo.</li>
+      <li class="drop">Carrousel plein écran en hero et sections très denses.</li>
+      <li class="drop">« View Details → » sur chaque carte : la carte entière est le lien.</li>
+    </ul>
+  </div>
+</section>
+
+<h2 id="tao">5. Tao Philippines — l'humain sans mise en scène <span class="tag">taophilippines.com</span></h2>
+<section class="ref">
+  <div class="shots">
+    <figure><div class="scroll"><img src="img/tao_home_desk.jpg" alt=""></div><figcaption>Accueil 1440 px</figcaption></figure>
+    <figure><div class="scroll"><img src="img/tao_home_mob.jpg" alt=""></div><figcaption>Mobile 390 px</figcaption></figure>
+  </div>
+  <div>
+    <h3>Ce qu'on reprend</h3>
+    <ul>
+      <li class="take">La section <strong>« Hosted by islanders »</strong> : texte court à gauche (titre 2 lignes, 2 phrases, un bouton), <strong>portrait documentaire</strong> 4:5 à droite, lumière naturelle, personne qui rit, pas de pose. Modèle pour « Who runs this trip » / « Your drivers » quand les vraies photos arriveront. En attendant : pas de portrait placeholder, section sans photo.</li>
+      <li class="take">Ton : « Welcome to our home, our livelihood, our playground. » Une phrase, pas trois promesses.</li>
+    </ul>
+    <h3>Ce qu'on ne reprend pas</h3>
+    <ul>
+      <li class="drop">Titres blancs posés sur les photos des cartes, bandeau jaune, boutons jaunes.</li>
+      <li class="drop">Hero plein écran avec texte centré sur la photo.</li>
+    </ul>
+  </div>
+</section>
+
+<h2 id="audley">6. Audley Travel — la retenue <span class="tag">audleytravel.com</span></h2>
+<section class="ref">
+  <div class="shots one">
+    <figure><div class="scroll"><img src="img/audley_home_desk.jpg" alt=""></div><figcaption>Accueil 1440 px</figcaption></figure>
+  </div>
+  <div>
+    <h3>Ce qu'on reprend</h3>
+    <ul>
+      <li class="take">La <strong>bande sable</strong> sous le hero (#C9BFA6 chez eux) avec un titre serif et deux lignes : une respiration teintée, sans photo, sans icône. STT : bande sable #F6EFE4 avec les faits du comptoir (adresse, WhatsApp).</li>
+      <li class="take">Cartes d'idées de voyage avec « 20 days from £29,275pp » : la durée et le prix sur une même ligne, petit, mais présent.</li>
+      <li class="take">Ligne Trustpilot sobre : logo + « Excellent » + « Based on 5084 reviews ». Si STT a une note Google, c'est ce format : une ligne, pas une section.</li>
+    </ul>
+    <h3>Ce qu'on ne reprend pas</h3>
+    <ul>
+      <li class="drop">Titres blancs sur les photos de destinations, boutons « I want to explore » posés sur l'image.</li>
+      <li class="drop">Frise décorative ondulée à trois points.</li>
+      <li class="drop">Carrousels d'avis.</li>
+    </ul>
+  </div>
+</section>
+
+<h2 id="flashpack">7. Flash Pack — la carte compacte avec prix <span class="tag">flashpack.com</span></h2>
+<section class="ref">
+  <div class="shots">
+    <figure><div class="scroll"><img src="img/flashpack_home_desk.jpg" alt=""></div><figcaption>Accueil 1440 px</figcaption></figure>
+    <figure><div class="scroll"><img src="img/flashpack_home_mob.jpg" alt=""></div><figcaption>Mobile 390 px</figcaption></figure>
+  </div>
+  <div>
+    <h3>Ce qu'on reprend</h3>
+    <ul>
+      <li class="take">Carte compacte : photo, titre Manrope 600 18 px, ligne « 9 days for £2,155 ». La structure photo → titre → une ligne de faits → prix, sans bouton, est exactement celle de la carte STT (en serif pour le titre).</li>
+      <li class="take">La bande de 4 faits sous le hero (« 90 % travel solo », « Ages 30–49 ») : des <strong>chiffres</strong>, pas des adjectifs. STT ne l'affiche que si les faits existent.</li>
+    </ul>
+    <h3>Ce qu'on ne reprend pas</h3>
+    <ul>
+      <li class="drop">Rail horizontal de cartes avec flèche (carrousel) : grille sur STT.</li>
+      <li class="drop">Avis dans des cartes de couleurs différentes (noir, menthe, rose) : une seule couleur de carte sur STT.</li>
+      <li class="drop">Texte sur la photo du hero, badge « -15 % », émoji 🔥 dans le menu.</li>
+    </ul>
+  </div>
+</section>
+
+<h2 id="contre">8. Contre-exemples (ce que STT ne doit pas devenir)</h2>
+<section class="ref">
+  <div class="shots three">
+    <figure><div class="scroll"><img src="img/lanta_diver_desk.jpg" alt=""></div><figcaption>lantadiver.com (concurrent local)</figcaption></figure>
+    <figure><div class="scroll"><img src="img/pelorus_desk.jpg" alt=""></div><figcaption>pelorusx.com</figcaption></figure>
+    <figure><div class="scroll"><img src="img/mba_home_desk.jpg" alt=""></div><figcaption>muchbetteradventures.com</figcaption></figure>
+  </div>
+  <div>
+    <ul>
+      <li class="drop"><strong>Lanta Diver</strong> : hero bleu dégradé avec vague découpée, titre en deux couleurs, 4 cartes grises à icônes « Why Scuba Diving with… », texte justifié et suroptimisé, bouton WhatsApp vert fluo. C'est l'image du « petit site local » dont STT doit se démarquer.</li>
+      <li class="drop"><strong>Pelorus</strong> : titres condensés en capitales posés sur les photos, voile sombre. Interdit (même famille que la v1 rejetée).</li>
+      <li class="drop"><strong>Much Better Adventures</strong> : marketplace, cartes avec badges, barres de niveau, carrousels partout, titres gras condensés. Un tableau de bord, pas une agence.</li>
+    </ul>
+  </div>
+</section>
+
+<h2 id="rejets">9. Les deux versions rejetées et le site actuel</h2>
+<section class="ref">
+  <div class="shots three">
+    <figure><img src="img/v0_site_actuel_accueil.jpg" alt=""><figcaption>v0 — site actuel</figcaption></figure>
+    <figure><img src="img/v1_accueil_desk.jpg" alt=""><figcaption>v1 — « comptoir / tableau des départs »</figcaption></figure>
+    <figure><img src="img/v1_4islands_desk.jpg" alt=""><figcaption>v1 — page 4 Islands</figcaption></figure>
+  </div>
+  <div>
+    <h3>Pourquoi c'est raté, en une ligne</h3>
+    <ul>
+      <li class="drop"><strong>v0 (site actuel)</strong> : coups de pinceau derrière les titres, polaroïds inclinés, police arrondie, double CTA « Book now / Learn more » : un gabarit Canva.</li>
+      <li class="drop"><strong>v1</strong> : Archivo condensé gras, panneau vert foncé avec heures jaunes, cartes découpées en cases « Pickup / Boat / Day » : le client a vu « un tableau de bord d'administration ». La densité de données a remplacé la photo.</li>
+    </ul>
+    <p class="verdict">Leçon v1 : les faits ne doivent pas être <em>mis en scène</em> (tableau, panneau, voyants) ; ils doivent être posés calmement sous une grande photo, en texte.</p>
+  </div>
+</section>
+<section class="ref">
+  <div class="shots three">
+    <figure><img src="img/v2_accueil_desk_1.jpg" alt=""><figcaption>v2 — hero et cartes</figcaption></figure>
+    <figure><img src="img/v2_accueil_desk_2.jpg" alt=""><figcaption>v2 — transferts et activités</figcaption></figure>
+    <figure><img src="img/v2_4islands_desk.jpg" alt=""><figcaption>v2 — page 4 Islands</figcaption></figure>
+  </div>
+  <div>
+    <ul>
+      <li class="drop"><strong>v2</strong> : rouge brique partout (boutons, points de timeline), <strong>blocs de couleur vides avec un titre dedans</strong> à la place des photos manquantes (rose, beige), serif Source Serif plus lourde que Cormorant, hero correct mais le reste de la page s'écroule dès qu'il n'y a plus de photo. Le client : « les couleurs ne sont pas bien et je n'aime pas comment le site est construit, franchement ce n'est pas beau ».</li>
+      <li class="drop">La même photo de longtail sert au hero de l'accueil, à la carte 4 Islands, au hero de 4 Islands et à la carte mobile : une image par usage, jamais réutilisée.</li>
+      <li class="drop">Timeline horizontale 7 colonnes avec points rouges : illisible, à refaire en liste verticale à filets.</li>
+    </ul>
+    <p class="verdict">Leçon v2 : une section sans photo ne doit pas exister. D'où la règle des placeholders obligatoires pour chaque produit et chaque section, et l'interdiction des aplats de couleur avec un titre dedans.</p>
+    <figure style="margin-top:14px"><img src="img/v2_accueil_mob.jpg" alt=""><figcaption>v2 mobile : les cases roses et beiges à la place des photos</figcaption></figure>
+  </div>
+</section>
+
+</main>
+</body>
+</html>
