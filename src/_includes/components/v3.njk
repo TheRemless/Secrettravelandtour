@@ -49,10 +49,11 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 </dialog>
 {% endmacro %}
 
-{#- Carte produit : toute la carte est le lien ; photo 4:3, titre, promesse, faits, prix. -#}
-{% macro card(c, sizes="(min-width: 1024px) 380px, (min-width: 700px) 50vw, 100vw") %}
+{#- Carte produit : toute la carte est le lien ; photo 4:3, titre, promesse, faits, prix.
+    eager : la première carte d'une page sans photo de hero (hub), visible dès l'ouverture sur mobile. -#}
+{% macro card(c, sizes="(min-width: 1024px) 380px, (min-width: 700px) calc(50vw - 46px), calc(100vw - 40px)", eager=false) %}
 <a class="card" href="{{ c.href }}">
-  <div class="card-media">{{ img(c.photo, sizes) }}</div>
+  <div class="card-media">{{ img(c.photo, sizes, eager) }}</div>
   <div class="card-body">
     <h3 class="card-title">{{ c.title }}</h3>
     {% if c.promise %}<p class="card-promise">{{ c.promise }}</p>{% endif %}
@@ -62,8 +63,8 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 </a>
 {% endmacro %}
 
-{% macro cards(list, sizes) %}
-<ul class="cards">{% for c in list %}<li>{{ card(c, sizes) if sizes else card(c) }}</li>{% endfor %}</ul>
+{% macro cards(list, sizes, eagerFirst=false) %}
+<ul class="cards">{% for c in list %}<li>{{ card(c, sizes, eagerFirst and loop.first) if sizes else card(c, eager=eagerFirst and loop.first) }}</li>{% endfor %}</ul>
 {% endmacro %}
 
 {#- Liste à filets : titre serif et une ligne grise ; lien si href. -#}

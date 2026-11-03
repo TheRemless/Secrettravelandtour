@@ -22,7 +22,7 @@
       "usage": "Carte 4 Islands (accueil, hub, produits liés)",
       "file": "secret/v3/card-4-islands.jpg",
       "ratio": "4:3",
-      "position": "50% 60%",
+      "position": "50% 50%",
       "alt": "Snorkellers in turquoise water at the foot of a limestone cliff",
       "placeholder": false,
       "source": "Zwald Travel Planner (photo de la société)",
@@ -31,7 +31,8 @@
       "url": "https://zwaldtravelplanner.com/",
       "local": "/Users/admin/Desktop/Site_Anais/src/images/girls/snorkeling-falaises.jpeg",
       "shot": "Inner lagoon of the Emerald Cave, Koh Mook.",
-      "downloaded_at": "2026-11-03"
+      "downloaded_at": "2026-11-03",
+      "crop": "Recadrée en 4:3 (centrée à 60 % de la hauteur) pour la carte, 03.11.2026"
     },
     {
       "id": "card-koh-rok",
