@@ -1,6 +1,5 @@
 ---
 boardPermalink: /design/v2/4-islands/
-serif: "a"
 ---
 {#- Maquette de la page 4 Islands, direction « Koh Lanta vue du bateau ». Jamais en production. -#}
 {% import "components/v2.njk" as v2 %}
@@ -10,7 +9,7 @@ serif: "a"
 {%- set fee = t.ticket.stub.fee -%}
 {%- set fallback = v2.waHref(c.number, t.fallback) -%}
 <!DOCTYPE html>
-<html lang="en-GB" data-board data-serif="{{ serif }}">
+<html lang="en-GB" data-board>
 <head>
 <title>{{ t.seo.title }}</title>
 {% include "v2-head.njk" %}

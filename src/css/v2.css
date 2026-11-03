@@ -1,20 +1,13 @@
 /* Secret Travel & Tour, direction « Koh Lanta vue du bateau » (03.11.2026, maquettes).
    Photo d'abord, serif légère pour les titres, sans humaniste pour le texte, base sable, vert-bleu profond
-   pour les blocs sombres, corail des rubans du longtail pour l'accent. Deux serifs à comparer :
-   <html data-serif="a"> Fraunces, <html data-serif="b"> Newsreader. */
+   pour les blocs sombres, corail des rubans du longtail pour l'accent. Serif : Fraunces (choix du client
+   du 03.11.2026, Newsreader écartée). */
 @font-face {
   font-family: "Fraunces";
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
   src: url("/css/fonts/fraunces-latin-full-normal.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Newsreader";
-  font-style: normal;
-  font-weight: 200 800;
-  font-display: swap;
-  src: url("/css/fonts/newsreader-latin-opsz-normal.woff2") format("woff2");
 }
 @font-face {
   font-family: "Source Sans 3";
@@ -78,7 +71,6 @@
   --sheet-backdrop: rgb(14 74 80 / .55);
   --sheet-focus: 0 0 0 2px var(--white), 0 0 0 5px var(--sea);
 }
-html[data-serif="b"] { --serif: "Newsreader", Georgia, "Times New Roman", serif; }
 @media (min-width: 64rem) { :root { --margin: 40px; --t-body: 1.125rem; } }
 
 /* ---------- Base ---------- */
@@ -92,7 +84,7 @@ h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 300; letter-spac
 h1 { font-size: var(--t-h1); line-height: 1.02; }
 h2 { font-size: var(--t-h2); line-height: 1.08; }
 h3 { font-size: var(--t-h3); line-height: 1.15; font-weight: 400; letter-spacing: -.01em; }
-html[data-serif="a"] h1, html[data-serif="a"] h2 { font-variation-settings: "SOFT" 50, "WONK" 0; }
+h1, h2 { font-variation-settings: "SOFT" 50, "WONK" 0; }
 p, ul, ol, dl { margin: 0; }
 p { max-width: var(--measure); }
 a { color: inherit; text-decoration-color: var(--coral); text-decoration-thickness: 2px; text-underline-offset: .22em; }
