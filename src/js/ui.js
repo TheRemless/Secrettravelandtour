@@ -33,8 +33,10 @@
     var t = chip.getAttribute("data-season-to").split("-").map(Number);
     var a = f[0] * 100 + f[1], b = t[0] * 100 + t[1];
     var inSeason = a <= b ? md >= a && md <= b : md >= a || md <= b;
-    if (inSeason) { chip.textContent = "Runs today"; chip.classList.add("is-today"); }
-    else chip.textContent = "From " + f[1] + " " + MONTHS[f[0] - 1];
+    // Une saison propre à une escale (Langkawi) le dit : « Langkawi runs today ».
+    var scope = chip.getAttribute("data-season-scope");
+    if (inSeason) { chip.textContent = scope ? scope + " runs today" : "Runs today"; chip.classList.add("is-today"); }
+    else chip.textContent = (scope ? scope + " from " : "From ") + f[1] + " " + MONTHS[f[0] - 1];
   });
 
   // Galeries : compteur « 1/5 » et boutons précédent / suivant.

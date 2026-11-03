@@ -259,6 +259,11 @@
     {
       "field": "promise",
       "from": "lead du produit, raccourci à 60 caractères pour la carte (03.11.2026)"
+    },
+    {
+      "field": "refPrefix",
+      "from": "code court de la référence WhatsApp (critique, idée 5), 03.11.2026"
     }
-  ]
+  ],
+  "refPrefix": "BA"
 }

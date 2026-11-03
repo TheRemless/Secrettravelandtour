@@ -130,11 +130,13 @@ test("validate : date passée", () => {
   assert.equal(B.validate(TOUR, tourState({ dateChoice: "other", dateOther: "2026-11-02" })).date, "That date has passed.");
 });
 
-test("validate trajet : heure obligatoire, adresse facultative, lieux libres sans trajet fixé", () => {
-  assert.deepEqual(B.validate(TAXI, taxiState({ address: "" })), {});
+test("validate trajet : heure et hôtel obligatoires, lieux libres sans trajet fixé", () => {
+  // Le lieu côté Koh Lanta fait le prix (revue de l'étape 3) : l'adresse est exigée.
+  assert.equal(B.validate(TAXI, taxiState({ address: "" })).address, "Add your hotel or address.");
+  assert.deepEqual(B.validate(TAXI, taxiState({ address: "Lanta Garden Hill" })), {});
   assert.equal(B.validate(TAXI, taxiState({ time: "" })).time, "Choose a pickup time.");
   const free = Object.assign({}, TAXI, { from: "", to: "" });
-  const errors = B.validate(free, taxiState({ from: "", to: "Ao Nang" }));
+  const errors = B.validate(free, taxiState({ from: "", to: "Ao Nang", address: "Lanta Garden Hill" }));
   assert.equal(errors.from, "Tell us where we pick you up.");
   assert.equal(errors.to, undefined);
 });

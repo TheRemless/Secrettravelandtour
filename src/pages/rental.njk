@@ -25,7 +25,7 @@ permalink: /tours/rental/
       <h1>{{ t.h1 }}</h1>
       <p class="lead">{{ t.lead }}</p>
       <div class="pg-actions">
-        <a class="btn btn-primary" href="{{ fallback }}" data-book="">Check availability</a>
+        <a class="btn btn-primary" href="{{ fallback }}" data-book="{{ t.price.option if t.price else '' }}">Check availability</a>
         <a class="link-wa" href="{{ stt.waHref(pages.contact.number) }}">Ask on WhatsApp</a>
       </div>
     </div>
@@ -51,7 +51,7 @@ permalink: /tours/rental/
 
   <div class="grid pg-sec pg-two">
     <div class="c-6">{{ stt.beforeBook(t.beforeBook) }}</div>
-    <div class="c-6">{{ stt.whoRuns(pages.who, 2, "Who you rent from") }}</div>
+    <div class="c-6">{{ stt.whoRuns(pages.who, 2, "Who you rent from", false) }}</div>
   </div>
 </main>
 {{ stt.footer(site, pages.contact, pages.emblem.footer) }}

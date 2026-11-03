@@ -188,11 +188,16 @@
     {
       "field": "promise",
       "from": "lead du produit, raccourci à 60 caractères pour la carte (03.11.2026)"
+    },
+    {
+      "field": "refPrefix",
+      "from": "code court de la référence WhatsApp (critique, idée 5), 03.11.2026"
     }
   ],
   "todo": [
     "TODO(client): prix de Koh Talabeng & Koh Bubu : la page dit « Ask us for a price » ; la page kayak vend Koh Talabeng à 1 000 THB adulte / 700 enfant (« Sea cave kayaking and mangrove, half day », avec Koh Ung) et à 1 300 / 900 avec le déjeuner sur Koh Bubu (« Sea cave kayaking and island hopping, 1 day »). Même produit que l'une de ces sorties ?",
     "TODO(client): tranches d'âge enfant (aucune sur la page).",
     "TODO(client): horaires de la demi-journée (aucun sur la page)."
-  ]
+  ],
+  "refPrefix": "TB"
 }

@@ -79,7 +79,8 @@ test("tableau des départs : grille des speedboats, saison seulement quand elle 
   const b = view.departureBoard(P("secret-transfers/speedboat-ferry"));
   assert.deepEqual(b.rows.map((r) => r.time), ["09:00", "10:30", "13:00", "14:30", "14:30", "15:00"]);
   assert.equal(b.rows[1].to, "Koh Lipe, Langkawi");
-  assert.deepEqual(b.rows[1].season, { from: "11-01", to: "04-15", label: "1 Nov – 15 Apr" });
+  assert.deepEqual(b.rows[1].season, { from: "11-01", to: "04-15", label: "1 Nov – 15 Apr", scope: "Langkawi" });
+  assert.match(b.rows[1].checkIn, /^Langkawi: check in 1 hr 30 min before/);
   assert.equal(b.rows[0].season, null);
 });
 
@@ -92,7 +93,7 @@ test("carte billet : ponton, trois cases Pickup, Boat, Day, liquide du parc", ()
 
 test("ligne de route : lieux, pontons et tronçons en mer", () => {
   const steps = view.day(four)[0].steps;
-  assert.deepEqual(steps.map((s) => s.place), ["Your hotel", "Old Town pier", "Koh Chueak", "Koh Mook", "Koh Ngai", "Koh Ma", "Koh Lanta"]);
+  assert.deepEqual(steps.map((s) => s.place), ["Your hotel", "Lanta Old Town pier", "Koh Chueak", "Koh Mook", "Koh Ngai", "Koh Ma", "Koh Lanta"]);
   assert.equal(steps[0].sea, false);
   assert.ok(steps.slice(1).every((s) => s.sea));
 });

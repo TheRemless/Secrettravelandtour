@@ -184,19 +184,20 @@ test("fil d'Ariane : positions 1 à 3 (2 pour la location), adresses existantes,
     const crumbs = byType(blocks, "BreadcrumbList");
     assert.ok(crumbs, product.url);
     const items = crumbs.itemListElement;
-    assert.equal(items.length, product.template === "rental" ? 2 : 3, product.url);
+    // Location : 2 niveaux ; trajet VIP : 2 niveaux, le fil commence à /taxi/ (marque de Mr. Brown, Q1).
+    assert.equal(items.length, product.template === "rental" || product.template === "route" ? 2 : 3, product.url);
     items.forEach((it, i) => {
       assert.equal(it.position, i + 1);
       assert.ok(it.name, `${product.url} : nom du niveau ${i + 1}`);
     });
-    assert.equal(items[0].item, `${SITE}/`);
+    assert.equal(items[0].item, product.template === "route" ? `${SITE}/taxi/` : `${SITE}/`);
     assert.equal(items.at(-1).item, SITE + product.url);
     for (const it of items.slice(0, -1)) assert.ok(CRUMB_URLS.includes(it.item), `${product.url} : ${it.item}`);
   }
   const level2 = (p) => byType(BUILDER[p.template](p, site), "BreadcrumbList").itemListElement[1].item;
   assert.equal(level2(five.tour), `${SITE}/#boat-trips`);
   assert.equal(level2(five.activity), `${SITE}/#activities`);
-  assert.equal(level2(five.route), `${SITE}/taxi/`);
+  assert.equal(byType(BUILDER.route(five.route, site), "BreadcrumbList").itemListElement[0].item, `${SITE}/taxi/`);
 });
 
 test("FAQPage : seulement avec les questions propres à la page, et seulement s'il y en a", () => {

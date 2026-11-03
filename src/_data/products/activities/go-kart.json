@@ -215,6 +215,10 @@
     {
       "field": "schema",
       "from": "secretPagesContent.json pages.go-kart.schemaType, places ; type cible : docs/refonte/02-audit-seo.md §6.3"
+    },
+    {
+      "field": "refPrefix",
+      "from": "code court de la référence WhatsApp (critique, idée 5), 03.11.2026"
     }
   ],
   "todo": [
@@ -222,5 +226,6 @@
     "TODO(client): âge ou taille minimum pour conduire (et pour le siège passager des karts doubles).",
     "TODO(client): sens de « The price list is for a minimum of 2 programmes » (intro et priceNote) : deux sessions minimum, deux karts, deux personnes ?",
     "TODO(client): l'unité du prix est-elle bien par kart (et non par personne) pour les karts doubles ?"
-  ]
+  ],
+  "refPrefix": "GK"
 }

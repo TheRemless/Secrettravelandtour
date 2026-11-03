@@ -113,9 +113,10 @@ function agencyRef(site) {
   return { "@type": "TravelAgency", "@id": ids(site).agency, name: b.name, url: abs(site, b.url) };
 }
 
-function breadcrumb(site, product, section) {
+// `root` : la page de VIP Taxi Lanta commence son fil à /taxi/, pas à l'accueil de Secret (marque à part, Q1).
+function breadcrumb(site, product, section, root = { name: "Home", path: "/" }) {
   const url = abs(site, product.url);
-  const items = [{ name: "Home", item: abs(site, "/") }];
+  const items = [{ name: root.name, item: abs(site, root.path) }];
   if (section) items.push({ name: section.name, item: abs(site, section.path) });
   items.push({ name: product.name, item: url });
   return block({
@@ -305,8 +306,7 @@ function route(product, site) {
     provider,
     offers: offer(site, product)
   });
-  const section = { name: v.name, path: SECTIONS.route.path };
-  return pageBlocks(main, breadcrumb(site, product, section), faqPage(site, product));
+  return pageBlocks(main, breadcrumb(site, product, null, { name: v.name, path: SECTIONS.route.path }), faqPage(site, product));
 }
 
 // ---------- divers ----------

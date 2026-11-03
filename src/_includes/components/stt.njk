@@ -257,7 +257,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 {%- for g in items %}{% if g.photo or (showSlots and g.slot) %}{% set _n = shown.push(g) %}{% endif %}{% endfor -%}
 {%- if shown.length %}
 <div class="gallery{% if shown.length == 1 %} gallery--single{% endif %}" data-gallery role="region" aria-roledescription="gallery" aria-label="{{ label }}">
-  <ul class="gallery-track" tabindex="0">
+  <ul class="gallery-track"{% if shown.length > 1 %} tabindex="0" aria-label="{{ label }}"{% endif %}>
     {%- for g in shown %}
     <li aria-label="{{ loop.index }} of {{ shown.length }}">{{ photo(g.photo, g.slot, showSlots, "", loop.first, "(min-width: 64rem) 340px, 88vw") }}</li>
     {%- endfor %}
@@ -285,10 +285,11 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 {% endmacro %}
 
 {#- « Who runs this trip » : le comptoir de Sala Dan et la société. Aucun nom de partenaire (réponse Q17). -#}
-{% macro whoRuns(w, level=2, title="Who runs this trip") %}
+{% macro whoRuns(w, level=2, title="Who runs this trip", pickup=true) %}
 <section class="who" aria-labelledby="h-who">
   <h{{ level }} id="h-who">{{ title }}</h{{ level }}>
-  <p>You book with our desk at {{ w.desk }}{% if w.maps %} (<a href="{{ w.maps }}">map</a>){% endif %}. We confirm the time and place of your pickup on WhatsApp.</p>
+  <p>You book with our desk at {{ w.desk }}.{% if pickup %} We confirm the time and place of your pickup on WhatsApp.{% endif %}</p>
+  {%- if w.maps %}<p><a class="foot-link" href="{{ w.maps }}">Open in Google Maps</a></p>{% endif %}
   <p class="who-legal">Operated by {{ w.operator }}, company no. <span class="num">{{ w.registration }}</span>{% if w.licence %}, TAT licence {{ w.licence }}{% endif %}.</p>
 </section>
 {% endmacro %}
@@ -304,21 +305,22 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 {#- Tableau des départs de Sala Dan (maquette m1) : panneau mer profonde, heures en soleil, destination et arrêts.
     La case de saison montre la période ; ui.js la remplace par « Runs today » quand le jour de Bangkok y tombe.
     b : view.departureBoard(product). -#}
-{% macro departures(b) %}
+{% macro departures(b, level=3) %}
 <div class="dep-board">
-  <div class="dep-head"><h3>{{ b.title }}</h3><p>{{ b.pier }}{% if b.season %}, {{ b.season }}{% endif %}{% if b.checkIn %}, {{ b.checkIn }}{% endif %}</p></div>
+  <div class="dep-head"><h{{ level }} class="dep-title">{{ b.title }}</h{{ level }}><p>{{ b.pier }}{% if b.season %}, {{ b.season }}{% endif %}{% if b.checkIn %}, {{ b.checkIn }}{% endif %}</p></div>
   <table class="dep">
     <thead><tr><th scope="col">Leaves</th><th scope="col">To</th><th scope="col" class="dep-st">Season</th></tr></thead>
     <tbody>
       {%- for r in b.rows %}
       <tr>
         <td class="dep-t">{{ r.time }}</td>
-        <td><span class="dep-to">{{ r.to }}</span><span class="dep-via">{{ r.via }}{% if r.onward %}. {{ r.onward }}{% endif %}</span></td>
-        <td class="dep-st">{% if r.season %}<span class="dep-chip" data-season-from="{{ r.season.from }}" data-season-to="{{ r.season.to }}">{{ r.season.label }}</span>{% endif %}</td>
+        <td><span class="dep-to">{{ r.to }}</span><span class="dep-via">{{ r.via }}{% if r.onward %}. {{ r.onward }}{% endif %}{% if r.checkIn %} {{ r.checkIn }}{% endif %}</span></td>
+        <td class="dep-st">{% if r.season %}<span class="dep-chip" data-season-from="{{ r.season.from }}" data-season-to="{{ r.season.to }}"{% if r.season.scope %} data-season-scope="{{ r.season.scope }}"{% endif %}>{% if r.season.scope %}{{ r.season.scope }}: {% endif %}{{ r.season.label }}</span>{% endif %}</td>
       </tr>
       {%- endfor %}
     </tbody>
   </table>
+  {%- if b.note %}<p class="dep-foot">{{ b.note }}</p>{% endif %}
 </div>
 {% endmacro %}
 
@@ -370,12 +372,12 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
   <div class="wrap grid">
     <div class="foot-brand"><span class="pastille">{{ emblem(em) }}</span><p class="foot-name">Secret Travel &amp; Tour<span>Sala Dan, Koh Lanta</span></p></div>
     <div class="foot-col">
-      <h2>Our desk</h2>
+      <p class="foot-title">Our desk</p>
       <p>{{ b.address.display }}</p>
       {% if b.maps %}<p><a class="foot-link" href="{{ b.maps }}">Open in Google Maps</a></p>{% endif %}
     </div>
     <div class="foot-col">
-      <h2>WhatsApp</h2>
+      <p class="foot-title">WhatsApp</p>
       <p><a class="link-wa" href="{{ waHref(contact.number) }}">{{ icon("whatsapp") }}<span>{{ contact.phoneDisplay }}</span></a></p>
       {% if contact.replyTime %}<p class="quiet">{{ contact.replyTime }}</p>{% endif %}
     </div>

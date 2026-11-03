@@ -26,7 +26,7 @@ permalink: /
         <a class="link-wa" href="tel:{{ pages.contact.e164 }}">{{ pages.contact.phoneDisplay }}</a>
       </div>
     </div>
-    <div class="c-7">{{ stt.departures(h.departures) }}</div>
+    <div class="c-7">{{ stt.departures(h.departures, 2) }}</div>
   </div>
 
   <section class="pg-sec" id="boat-trips" aria-labelledby="h-boats">
@@ -44,7 +44,7 @@ permalink: /
     <h2 id="h-transfers">{{ h.transfersTitle }}</h2>
     <ul class="grid home-list">
       {%- for i in h.transfers %}
-      <li class="c-4"><h3>{% if i.href %}<a href="{{ i.href }}">{{ i.title }}</a>{% else %}{{ i.title }}{% endif %}</h3><p>{{ i.text }}</p></li>
+      <li class="c-4"><h3>{% if i.href %}<a href="{{ i.href }}">{{ i.title }}</a>{% else %}{{ i.title }}{% endif %}</h3><p>{{ i.text }}</p>{% if not i.href %}<p><a class="link-wa" href="{{ stt.waHref(pages.contact.number, 'Transfer request: ' + i.title) }}">Ask on WhatsApp</a></p>{% endif %}</li>
       {%- endfor %}
     </ul>
   </section>

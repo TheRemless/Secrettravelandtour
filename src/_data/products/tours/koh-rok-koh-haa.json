@@ -433,11 +433,16 @@
     {
       "field": "promise",
       "from": "lead du produit, raccourci à 60 caractères pour la carte (03.11.2026)"
+    },
+    {
+      "field": "refPrefix",
+      "from": "code court de la référence WhatsApp (critique, idée 5), 03.11.2026"
     }
   ],
   "todo": [
     "TODO(client): Koh Rok en longtail privé, tranches « 7 to 8 people » (8 400 THB) et « 9 to 10 people » (9 400 THB) : déduites de la brochure selon le registre de faits, à confirmer.",
     "TODO(client): version avec arrêt coucher de soleil : le site dit « exists on some days. Ask us », le registre de faits dit 10:00 à 19:00. Jours, programme et prix ?",
     "TODO(client): moins de 4 ans en speedboat : gratuit ? (aucun tarif publié)."
-  ]
+  ],
+  "refPrefix": "KR"
 }

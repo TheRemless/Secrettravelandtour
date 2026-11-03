@@ -63,7 +63,8 @@ function price(product) {
 function optionOfPrice(product) {
   const list = product.options || [];
   const from = product.price && product.price.from;
-  const hit = list.find((o) => o.prices && o.prices[0] && o.prices[0].amount === from);
+  const hit = list.find((o) => o.prices && o.prices[0] && o.prices[0].amount === from)
+    || list.find((o) => (o.prices || []).some((r) => r.amount === from));
   return (hit || list[0] || {}).id || "";
 }
 
@@ -199,7 +200,8 @@ function beforeBook(product, site, { skipParkFee = false } = {}) {
     // La règle météo vaut pour les sorties, pas pour la location.
     if (key === "weather" && product.template === "rental") return null;
     if (key === "weather" && common.weather) v = v ? `${v} ${common.weather}` : common.weather;
-    return v ? { label, text: v } : null;
+    const shown = key === "pickup" && product.template === "rental" ? "How to book" : label;
+    return v ? { label: shown, text: v } : null;
   }).filter(Boolean);
 }
 
@@ -407,7 +409,8 @@ function departureBoard(product) {
       to: last.place + (langkawi ? ", Langkawi" : ""),
       via: r.stops.map((x) => `${x.place} ${x.time}`).join(", "),
       onward: r.onward || "",
-      season: r.seasonRange || null
+      checkIn: langkawi && tt.checkIn && tt.checkIn.langkawi ? `Langkawi: check in ${tt.checkIn.langkawi}.` : "",
+      season: r.seasonRange ? { ...r.seasonRange, scope: langkawi ? "Langkawi" : "" } : null
     };
   });
   return {
@@ -415,6 +418,7 @@ function departureBoard(product) {
     pier: fact(product, "Departure pier"),
     season: tt.season ? `${tt.season.replace("-", "–")} season` : "",
     checkIn: tt.checkIn && tt.checkIn.default ? `check in ${tt.checkIn.default}` : "",
+    note: (tt.seasons || [])[0] || "",
     rows
   };
 }

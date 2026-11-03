@@ -154,11 +154,13 @@
         <p class="slip-ref" data-slip-ref hidden></p>
         <dl class="slip-lines" data-slip></dl>
         <pre class="sr-only" data-message></pre>
+        {%- if cfg.parkFee %}
         <div class="slip-cash" data-cash hidden>
-          <p class="slip-cash-label">{{ cfg.parkFee.label if cfg.parkFee else "" }}, in cash on the day</p>
+          <p class="slip-cash-label">{{ cfg.parkFee.label }}, in cash on the day</p>
           <p class="slip-cash-sum" data-cash-sum></p>
-          <p class="slip-cash-note">Not in the price and not in the message. {{ cfg.parkFee.note if cfg.parkFee else "" }}.</p>
+          <p class="slip-cash-note">Not in the price and not in the message. {{ cfg.parkFee.note }}.</p>
         </div>
+        {%- endif %}
       </div>
     </div>
     <div class="sheet-foot">

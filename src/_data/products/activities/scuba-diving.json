@@ -626,10 +626,15 @@
     {
       "field": "options[].notIncludedFees",
       "from": "secretPagesContent.json pages.scuba-diving.parkFee, priceNote, goodToKnow"
+    },
+    {
+      "field": "refPrefix",
+      "from": "code court de la référence WhatsApp (critique, idée 5), 03.11.2026"
     }
   ],
   "todo": [
     "TODO(client): élèves par moniteur sur la journée découverte : « never more than two students per instructor » (intro) contre « two or three students at most on the one-day dives » (included) ; le registre de faits dit 2.",
     "TODO(client): agence de certification SSI (citée seulement dans l'ancienne meta description) : à confirmer avant de l'afficher."
-  ]
+  ],
+  "refPrefix": "SD"
 }

@@ -469,10 +469,15 @@
     {
       "field": "promise",
       "from": "lead du produit, raccourci à 60 caractères pour la carte (03.11.2026)"
+    },
+    {
+      "field": "refPrefix",
+      "from": "code court de la référence WhatsApp (critique, idée 5), 03.11.2026"
     }
   ],
   "todo": [
     "TODO(client): orthographe de l'île : « Koh Aung » (sortie à la journée) et « Koh Ung » (demi-journée) dans la même liste. Même île ?",
     "TODO(client): horaires de chaque sortie (la page donne des créneaux généraux, et deux horaires seulement pour les journées)."
-  ]
+  ],
+  "refPrefix": "KY"
 }

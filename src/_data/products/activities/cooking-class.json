@@ -240,9 +240,14 @@
     {
       "field": "schema",
       "from": "secretPagesContent.json pages.cooking-class.schemaType, places ; type cible : docs/refonte/02-audit-seo.md §6.3"
+    },
+    {
+      "field": "refPrefix",
+      "from": "code court de la référence WhatsApp (critique, idée 5), 03.11.2026"
     }
   ],
   "todo": [
     "TODO(client): cours du soir (mardi, jeudi, vendredi, 16:00–21:00) : même contenu que le matin, marché compris ? La FAQ dit le marché seulement « in the morning class »."
-  ]
+  ],
+  "refPrefix": "CK"
 }

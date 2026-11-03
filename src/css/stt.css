@@ -290,7 +290,7 @@ a:hover, a.is-hover { text-decoration-thickness: 2px; }
 .price-note { margin-top: var(--s2); color: var(--mute); font-size: var(--t2); line-height: var(--l2); }
 
 /* ---------- Carte produit : billet avec talon (maquette m1). Toute la carte est le lien. ---------- */
-.cards { list-style: none; padding: 0; row-gap: var(--s4); }
+.cards { list-style: none; padding: 0; row-gap: var(--s4); align-items: start; }
 @media (min-width: 40rem) and (max-width: 63.99rem) { .cards > li { grid-column: span 2; } }
 @media (min-width: 64rem) { .cards > li { grid-column: span 4; } }
 .card {
@@ -308,7 +308,6 @@ a:hover, a.is-hover { text-decoration-thickness: 2px; }
 .card-pier { font: 600 var(--t2)/var(--l2) var(--head); font-stretch: var(--narrow); color: var(--sea); }
 .card-title { font-size: var(--t5); line-height: var(--l5); letter-spacing: -.005em; }
 .card-promise { color: var(--mute); font-size: var(--t2); line-height: var(--l2); }
-.card--nophoto { border-top: 6px solid var(--deep); }
 .card--nophoto .card-body { padding-top: var(--s3); }
 /* Talon : perforation (pointillé et deux encoches sable), prix à gauche, liquide du parc à droite. */
 .card-stub {
@@ -507,7 +506,8 @@ a:hover, a.is-hover { text-decoration-thickness: 2px; }
 /* ---------- Tableau des départs (maquette m1) : panneau mer profonde, heures en soleil ---------- */
 .dep-board { border-radius: var(--radius); background: var(--deep); color: var(--white); overflow: hidden; }
 .dep-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: var(--s0) var(--s2); padding: var(--s2) var(--s3); border-bottom: 1px solid var(--rule-dark); }
-.dep-head h3 { font-size: var(--t4); line-height: var(--l4); }
+.dep-head .dep-title { font-size: var(--t4); line-height: var(--l4); letter-spacing: 0; }
+.dep-foot { max-width: none; padding: var(--s2) var(--s3); border-top: 1px solid var(--rule-dark); font-size: var(--t2); line-height: var(--l2); color: var(--lagoon); }
 .dep-head p { font-size: var(--t2); line-height: var(--l2); color: var(--lagoon); }
 .dep { width: 100%; border-collapse: collapse; }
 .dep th { padding: var(--s1) var(--s3); text-align: left; font: 600 var(--t1)/var(--l1) var(--head); font-stretch: var(--narrow); color: var(--lagoon); }
@@ -568,7 +568,7 @@ a:hover, a.is-hover { text-decoration-thickness: 2px; }
 .pastille .emblem img { height: 64px; }
 .foot-name { font: 700 var(--t4)/var(--l4) var(--head); font-stretch: var(--narrow); }
 .foot-name span { display: block; font: 400 var(--t2)/var(--l2) var(--text); color: var(--lagoon); }
-.foot-col h2 { margin-bottom: var(--s1); font-size: var(--t3); line-height: var(--l3); letter-spacing: 0; }
+.foot-col .foot-title { margin-bottom: var(--s1); font: 700 var(--t3)/var(--l3) var(--head); font-stretch: var(--narrow); }
 .foot-col p + p { margin-top: var(--s1); }
 .foot-col .quiet { color: var(--lagoon); font-size: var(--t2); line-height: var(--l2); }
 .foot-legal { display: flex; flex-wrap: wrap; gap: 0 var(--s3); padding-top: var(--s3); border-top: 1px solid var(--rule-dark); font-size: var(--t2); line-height: var(--l2); }

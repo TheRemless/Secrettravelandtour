@@ -205,6 +205,8 @@
         if (!clean(state.to)) errors.to = "Tell us where you're going.";
       }
       if (!clean(state.time)) errors.time = "Choose a pickup time.";
+      // Le lieu côté Koh Lanta fait le prix : sans lui, la demande repart en question.
+      if (!clean(state.address)) errors.address = "Add your hotel or address.";
     } else if (config.pickupRequired !== false && !clean(state.pickup)) {
       errors.pickup = "Add your hotel so we know where to pick you up.";
     }
@@ -380,6 +382,12 @@
       }
       if (el.name === "children") renderChildAges();
       if (el.name === "dateFrom" && field("dateTo")) field("dateTo").min = state.dateFrom;
+      // Location : un modèle de la liste fixe sa catégorie.
+      if (el.name === "vehicle") {
+        (config.options || []).forEach(function (o) {
+          if ((o.rows || []).some(function (r) { return r.label.toLowerCase() === clean(state.vehicle).toLowerCase(); })) { state.option = o.id; setRadio("option", o.id); clearError("option"); }
+        });
+      }
       if (el.name === "direction") updateAddressLabel();
       if (el.name === "option") markOptions();
       clearError(errorKey(el.name));

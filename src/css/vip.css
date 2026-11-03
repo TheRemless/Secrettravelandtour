@@ -101,10 +101,13 @@ a { color: var(--amber); text-underline-offset: .18em; }
 /* ---------- Header : le logo de Mr. Brown sur sa plaque blanche ---------- */
 .vip-header { position: sticky; top: 0; z-index: 40; background: var(--bg); border-bottom: 1px solid var(--line); }
 .vip-header .wrap { display: flex; align-items: center; gap: var(--s2); min-height: var(--header-h); }
-.vip-brand { display: flex; align-items: center; min-height: 44px; color: var(--text); text-decoration: none; }
+.vip-brand { display: flex; align-items: center; gap: var(--s1); min-height: 44px; color: var(--text); text-decoration: none; }
+.vip-head-logo { width: 44px; height: 44px; border-radius: 6px; background: var(--white); }
 .vip-name { font: 400 1.375rem/1.05 var(--serif); }
 .vip-name small { display: block; margin-top: .15rem; font: 400 .875rem/1.2 var(--sans); color: var(--mute); }
-.vip-nav { display: none; }
+.vip-nav { display: block; margin-left: var(--s2); }
+.vip-nav ul { display: flex; gap: var(--s3); list-style: none; margin: 0; padding: 0; }
+.vip-nav a { display: flex; align-items: center; min-height: 44px; color: var(--text); }
 .vip-header .btn { margin-left: auto; min-height: 44px; }
 @media (min-width: 64rem) {
   .vip-nav { display: block; margin-left: var(--s4); }
@@ -226,3 +229,6 @@ a { color: var(--amber); text-underline-offset: .18em; }
 .vip-footer a { display: inline-flex; align-items: center; min-height: 44px; }
 /* Mesure : 66 caractères au plus en Figtree (28em mesurés). */
 .vip-page .lead, .vip-page .faq .answer p, .vip-page .vehicle-text p, .vip-page .route-both { max-width: 28em; }
+.stt-ad p a { display: inline-flex; align-items: center; min-height: 44px; }
+.vip-page .vip-two > section + section { margin-top: var(--s4); }
+@media (min-width: 64rem) { .vip-page .vip-two > section + section { margin-top: 0; } }

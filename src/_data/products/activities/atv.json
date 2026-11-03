@@ -304,9 +304,14 @@
     {
       "field": "promise",
       "from": "lead du produit, raccourci à 60 caractères pour la carte (03.11.2026)"
+    },
+    {
+      "field": "refPrefix",
+      "from": "code court de la référence WhatsApp (critique, idée 5), 03.11.2026"
     }
   ],
   "todo": [
     "TODO(client): annulation du quad (« Cancel at least 24 hours ahead. Later than that, half the ride is charged. ») : toujours valable ? Réponse générale du client : pas de conditions d'annulation fixes."
-  ]
+  ],
+  "refPrefix": "AT"
 }

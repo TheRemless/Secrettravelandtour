@@ -14,7 +14,7 @@
     }
   },
   "h1": "4 Islands boat tour from Koh Lanta",
-  "lead": "Koh Chueak, the Emerald Cave on Koh Mook and Koh Ngai, plus Koh Ma by longtail or Koh Kradan by speedboat. Join-in or private.",
+  "lead": "Koh Chueak, Koh Mook's Emerald Cave and Koh Ngai, plus Koh Ma by longtail or Koh Kradan by speedboat. Join-in or private.",
   "promise": "Emerald Cave and three more islands, lunch on the beach",
   "facts": [
     {
@@ -119,7 +119,7 @@
           "note": "Cash, paid to the ranger on the island"
         }
       ],
-      "pier": "Old Town pier",
+      "pier": "Lanta Old Town pier",
       "stub": "Shared boat"
     },
     {
@@ -169,7 +169,6 @@
           "note": "Cash, paid to the ranger on the island"
         }
       ],
-      "pier": "Separate pier",
       "stub": "Koh Kradan instead of Koh Ma"
     },
     {
@@ -236,7 +235,7 @@
           "note": "Cash, paid to the ranger on the island"
         }
       ],
-      "pier": "Old Town pier",
+      "pier": "Lanta Old Town pier",
       "stub": "Your order of islands"
     }
   ],
@@ -256,7 +255,7 @@
           "time": "09:00",
           "text": "The boat leaves. The longtail takes about 45 minutes to reach the first island.",
           "fixed": true,
-          "place": "Old Town pier",
+          "place": "Lanta Old Town pier",
           "detail": "About 45 minutes to the first island",
           "kind": "pier"
         },

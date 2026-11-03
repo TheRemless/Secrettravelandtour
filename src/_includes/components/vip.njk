@@ -7,12 +7,13 @@
 https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 {%- endmacro %}
 
-{#- Header : le nom en Marcellus, sans le logo (illisible à cette taille) ; le logo complet est dans le pied de page.
-    Bouton WhatsApp toujours visible. -#}
+{#- Header : logo de Mr. Brown et nom en Marcellus ; le logo en grand reste dans le pied de page.
+    Bouton WhatsApp toujours visible ; le lien de navigation reste visible sur téléphone. -#}
 {% macro header(brand, number, nav=[]) %}
 <header class="vip-header">
   <div class="wrap">
-    <a class="vip-brand" href="{{ brand.url }}"><span class="vip-name">{{ brand.name }}<small>{{ brand.owner }}</small></span></a>
+    {#- Logo de Mr. Brown tel quel (images/taxi/logo.webp, 640 × 640), le nom en texte à côté. -#}
+    <a class="vip-brand" href="{{ brand.url }}"><img eleventy:ignore class="vip-head-logo" src="/images/taxi/logo.webp" width="44" height="44" alt="" decoding="async"><span class="vip-name">{{ brand.name }}<small>{{ brand.owner }}</small></span></a>
     {%- if nav.length %}
     <nav class="vip-nav" aria-label="Main">
       <ul>{% for item in nav %}<li><a href="{{ item.href }}">{{ item.label }}</a></li>{% endfor %}</ul>
