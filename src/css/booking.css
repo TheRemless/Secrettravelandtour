@@ -96,7 +96,7 @@ html.sheet-open { overflow: hidden; }
   margin: var(--s1) 0 0; color: var(--sheet-err); font-size: var(--t2); line-height: var(--l2); font-weight: 700;
 }
 .err::before {
-  content: ""; flex: none; width: 1.25rem; height: 1.25rem; margin-top: .125rem;
+  content: ""; flex: none; width: 1.25rem; height: 1.25rem; margin-top: calc(var(--s0) / 2);
   background: currentColor; border-radius: 50%;
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm-1.2 4.8h2.4v7.6h-2.4Zm0 9.2h2.4v2.4h-2.4Z' fill-rule='evenodd'/%3E%3C/svg%3E") center / contain no-repeat;
           mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm-1.2 4.8h2.4v7.6h-2.4Zm0 9.2h2.4v2.4h-2.4Z' fill-rule='evenodd'/%3E%3C/svg%3E") center / contain no-repeat;
