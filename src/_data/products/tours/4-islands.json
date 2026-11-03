@@ -118,7 +118,9 @@
           "unit": "per person",
           "note": "Cash, paid to the ranger on the island"
         }
-      ]
+      ],
+      "pier": "Old Town pier",
+      "stub": "Shared boat"
     },
     {
       "id": "join-in-speedboat",
@@ -166,7 +168,9 @@
           "unit": "per person",
           "note": "Cash, paid to the ranger on the island"
         }
-      ]
+      ],
+      "pier": "Separate pier",
+      "stub": "Koh Kradan instead of Koh Ma"
     },
     {
       "id": "private-longtail",
@@ -231,45 +235,68 @@
           "unit": "per person",
           "note": "Cash, paid to the ranger on the island"
         }
-      ]
+      ],
+      "pier": "Old Town pier",
+      "stub": "Your order of islands"
     }
   ],
   "day": [
     {
-      "title": "How the day goes",
+      "title": "The day, join-in longtail",
       "steps": [
         {
           "time": "07:45",
           "text": "Pickup at your hotel until 08:30, then the pier (the Old Town pier for the longtail, a separate pier for the speedboat).",
-          "fixed": true
+          "fixed": true,
+          "place": "Your hotel",
+          "detail": "Pickup until 08:30",
+          "kind": "road"
         },
         {
           "time": "09:00",
           "text": "The boat leaves. The longtail takes about 45 minutes to reach the first island.",
-          "fixed": true
+          "fixed": true,
+          "place": "Old Town pier",
+          "detail": "About 45 minutes to the first island",
+          "kind": "pier"
         },
         {
           "time": "09:45",
-          "text": "Koh Chueak, snorkelling over the reef, about 45 minutes."
+          "text": "Koh Chueak, snorkelling over the reef, about 45 minutes.",
+          "place": "Koh Chueak",
+          "detail": "Snorkelling over the reef",
+          "kind": "island"
         },
         {
           "time": "11:00",
-          "text": "Koh Mook, swim through the Emerald Cave to the hidden lagoon."
+          "text": "Koh Mook, swim through the Emerald Cave to the hidden lagoon.",
+          "place": "Koh Mook",
+          "detail": "Swim through the Emerald Cave",
+          "kind": "island"
         },
         {
           "time": "12:00",
-          "text": "Lunch buffet on the beach, then time to swim."
+          "text": "Lunch buffet on the beach, then time to swim.",
+          "place": "Koh Ngai",
+          "detail": "Thai buffet on the beach",
+          "kind": "island"
         },
         {
           "time": "13:45",
-          "text": "One more island and one more snorkelling stop: Koh Ma on the longtail, Koh Ngai on the speedboat."
+          "text": "One more island and one more snorkelling stop: Koh Ma on the longtail, Koh Ngai on the speedboat.",
+          "place": "Koh Ma",
+          "detail": "One more snorkelling stop",
+          "kind": "island"
         },
         {
           "time": "15:30",
-          "text": "Back on Koh Lanta by 16:00, transfer to your hotel."
+          "text": "Back on Koh Lanta by 16:00, transfer to your hotel.",
+          "place": "Koh Lanta",
+          "detail": "Back by 16:00, transfer to your hotel",
+          "kind": "pier"
         }
       ],
-      "note": "Times vary a little with the sea and the season."
+      "note": "Bold times are fixed. Times with ≈ move with the sea and the season."
     }
   ],
   "included": [
@@ -442,6 +469,10 @@
     {
       "field": "promise",
       "from": "lead du produit, raccourci à 60 caractères pour la carte (03.11.2026)"
+    },
+    {
+      "field": "day[0].steps[].place, detail, kind ; options[].pier, stub ; refPrefix",
+      "from": "texte des étapes (day[0].steps[].text), facts Lunch et Longtail pier, beforeYouBook.pickup, notes des options ; maquette m2 de la critique du 03.11.2026"
     }
   ],
   "todo": [
@@ -460,5 +491,6 @@
   "notes": [
     "FAQ « Is the national park fee included? » : la phrase affirmant qu'aucun opérateur de l'île n'inclut les frais de parc est retirée (affirmation fausse, décision client du 02.11.2026). Même chose pour l'ancien encadré parkFeeNote, non repris.",
     "Texte alternatif de la photo du longtail corrigé : l'ancien présentait le bateau comme celui de l'agence, or les bateaux appartiennent aux partenaires (réponse client Q18)."
-  ]
+  ],
+  "refPrefix": "4I"
 }

@@ -133,20 +133,20 @@
       var price = priceLine(findOption(config, state.option));
       if (price) lines.push("Price on website: " + price);
     }
-    if (state.ref) lines.push("Ref: " + state.ref);
     if (config.page) lines.push("Page: " + config.page);
+    // La référence ouvre le message : le comptoir trie et retrouve les demandes sur elle.
+    var ref = makeRef(config.refPrefix, date, state.adults, (state.childAges || []).length);
+    if (ref) lines.unshift("Ref: " + ref);
     return lines.join("\n");
   }
 
-  // Référence de la demande : produit, jour et mois (heure de Bangkok), trois signes sans 0/O ni 1/I.
-  // « 4IS-0311-K7P » : l'agence la retrouve dans WhatsApp, le client la cite s'il réécrit.
-  var REF_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  function makeRef(prefix, todayIso, random) {
-    var rnd = random || Math.random;
-    var tail = "";
-    for (var i = 0; i < 3; i++) tail += REF_CHARS.charAt(Math.floor(rnd() * REF_CHARS.length));
-    var d = (todayIso || "").split("-");
-    return (prefix ? prefix + "-" : "") + (d.length === 3 ? d[2] + d[1] + "-" : "") + tail;
+  // Référence courte (critique, idée 5) : code produit, jour et mois de la sortie, adultes et enfants.
+  // « 4I-0411-2A1C » : le comptoir la retrouve dans WhatsApp, le client la cite s'il réécrit. Aucun hasard :
+  // la même demande donne la même référence.
+  function makeRef(prefix, dateIso, adults, children) {
+    if (!prefix || !dateIso) return "";
+    var d = dateIso.split("-");
+    return prefix + "-" + d[2] + d[1] + "-" + (adults || 0) + "A" + (children ? children + "C" : "");
   }
 
   function thb(n) {
@@ -222,7 +222,7 @@
 
   function emptyState(config) {
     return {
-      option: "", dateChoice: "", dateOther: "", adults: 2, childAges: [], pickup: "", name: "", ref: "",
+      option: "", dateChoice: "", dateOther: "", adults: 2, childAges: [], pickup: "", name: "",
       direction: "out", from: "", to: "", time: "", flight: "", bags: 0, childSeats: 0, address: ""
     };
   }
@@ -467,7 +467,7 @@
           var value = cut > 0 ? line.slice(cut + 2) : line;
           if (label === "Ref") { if (refEl) { refEl.textContent = "Ref " + value; refEl.hidden = false; } return; }
           var row = doc.createElement("div");
-          if (i === 0) row.className = "slip-first";
+          if (i === 0 || (i === 1 && text.indexOf("Ref: ") === 0)) row.className = "slip-first";
           var dt = doc.createElement("dt");
           var dd = doc.createElement("dd");
           dt.textContent = label;
@@ -477,6 +477,9 @@
           dl.appendChild(row);
         });
       }
+      var doneRef = dialog.querySelector("[data-done-ref]");
+      var refLine = text.split("\n")[0];
+      if (doneRef) { doneRef.hidden = refLine.indexOf("Ref: ") !== 0; doneRef.textContent = "Ref " + refLine.slice(5); }
       var cash = parkCash(config, state);
       var box = dialog.querySelector("[data-cash]");
       if (box) {
@@ -548,7 +551,6 @@
       state = emptyState(config);
       load();
       if (optionId) state.option = optionId;
-      if (!state.ref) state.ref = makeRef(config.refPrefix, today());
       if (!state.option && (config.options || []).length === 1) state.option = config.options[0].id;
       fillForm();
       showErrors({});

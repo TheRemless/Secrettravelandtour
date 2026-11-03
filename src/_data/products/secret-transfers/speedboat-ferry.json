@@ -154,6 +154,10 @@
     {
       "field": "timetable",
       "from": "secretPagesContent.json pages.speedboat.day, goodToKnow"
+    },
+    {
+      "field": "timetable.outbound[].seasonRange",
+      "from": "timetable.outbound[1].season (Langkawi 1 November to 15 April) et [4].season (From 1 December, texte d'origine December to April), mis en dates pour « Runs today »"
     }
   ],
   "todo": [
@@ -209,7 +213,12 @@
           }
         ],
         "onward": "From Koh Lipe a ferry goes on to Langkawi, arriving at 18:00 Malaysia time.",
-        "season": "Langkawi: 1 November to 15 April"
+        "season": "Langkawi: 1 November to 15 April",
+        "seasonRange": {
+          "from": "11-01",
+          "to": "04-15",
+          "label": "1 Nov – 15 Apr"
+        }
       },
       {
         "departs": "13:00",
@@ -265,7 +274,12 @@
             "note": "Last stretch by shared van"
           }
         ],
-        "season": "From 1 December (legacy text: December to April)"
+        "season": "From 1 December (legacy text: December to April)",
+        "seasonRange": {
+          "from": "12-01",
+          "to": "04-30",
+          "label": "Dec – Apr"
+        }
       },
       {
         "departs": "15:00",

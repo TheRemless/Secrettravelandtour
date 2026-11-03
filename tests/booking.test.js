@@ -158,21 +158,20 @@ test("brouillon : gardé 7 jours, « Tomorrow » d'un autre jour effacé", () =>
 });
 
 // Retour du 03.11.2026 : référence de la demande, cash du parc, option du transfert.
-test("référence : produit, jour et mois de Bangkok, trois signes sans 0, O, 1 ni I", () => {
-  const ref = B.makeRef("4IS", "2026-11-03", () => 0.99);
-  assert.match(ref, /^4IS-0311-[A-HJ-NP-Z2-9]{3}$/);
-  assert.equal(B.makeRef("", "2026-11-03", () => 0), "0311-AAA");
+test("référence : code produit, jour et mois de la sortie, adultes et enfants, sans hasard", () => {
+  assert.equal(B.makeRef("4I", "2026-11-04", 2, 1), "4I-0411-2A1C");
+  assert.equal(B.makeRef("4I", "2026-11-04", 2, 0), "4I-0411-2A");
+  assert.equal(B.makeRef("", "2026-11-04", 2, 0), "");
 });
 
-test("message : la référence part avant l'adresse de la page, seulement si elle existe", () => {
+test("message : la référence ouvre le message quand le produit a un code", () => {
   const cfg = { variant: "tour", product: "4 Islands", page: "secrettravelandtour.com/tours/4-islands/", options: [] };
-  const base = { dateChoice: "today", today: "2026-11-03", adults: 2, childAges: [], name: "Anna" };
+  const base = { dateChoice: "tomorrow", today: "2026-11-03", adults: 2, childAges: [7], name: "Anna" };
   assert.doesNotMatch(B.buildMessage(cfg, base), /Ref:/);
-  const lines = B.buildMessage(cfg, { ...base, ref: "4IS-0311-K7P" }).split("\n");
-  assert.equal(lines[lines.length - 2], "Ref: 4IS-0311-K7P");
-  assert.match(lines[lines.length - 1], /^Page: /);
+  const lines = B.buildMessage({ ...cfg, refPrefix: "4I" }, base).split("\n");
+  assert.equal(lines[0], "Ref: 4I-0411-2A1C");
+  assert.match(lines[1], /^Booking request: 4 Islands/);
 });
-
 test("cash du parc : adultes et enfants au tarif des données, rien sans frais de parc", () => {
   const cfg = { parkFee: { adult: 200, child: 100 } };
   assert.deepEqual(B.parkCash(cfg, { adults: 2, childAges: [7] }), { total: 500, text: "2 × 200 + 1 × 100 = 500 THB" });

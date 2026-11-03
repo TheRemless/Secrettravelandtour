@@ -24,9 +24,16 @@ boardPermalink: /design/
   .bd-intro p { margin-top: var(--s2); }
   .bd-links { display: flex; flex-wrap: wrap; gap: 0 var(--s3); margin-top: var(--s2); padding: 0; list-style: none; }
   .bd-links a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; }
+  /* Annotations dans une colonne de marge (3 colonnes sur 12), composants sur les 9 autres. */
   .bd-sec { padding-top: var(--s6); }
-  .bd-sec > h2 { margin-bottom: var(--s2); }
+  .bd-margin h2 { margin-bottom: var(--s2); }
   .bd-note { margin-bottom: var(--s3); color: var(--mute); font-size: var(--t2); line-height: var(--l2); }
+  @media (min-width: 64rem) {
+    .bd-sec { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: start; }
+    .bd-margin { grid-column: 1 / span 3; position: sticky; top: calc(var(--header-h) + var(--s3)); padding-top: var(--s2); border-top: 2px solid var(--ink); }
+    .bd-body { grid-column: 4 / -1; min-width: 0; }
+    .bd-margin h2 { font-size: var(--t5); line-height: var(--l5); }
+  }
   .bd-note strong { color: var(--ink); }
   .bd-sub { margin: var(--s4) 0 var(--s2); }
 
@@ -134,16 +141,17 @@ boardPermalink: /design/
   </div>
 
   <section class="wrap bd-sec" aria-labelledby="h-decisions" lang="fr">
-    <h2 id="h-decisions">Décisions à valider</h2>
-    <p class="bd-note">À gauche, le site en ligne aujourd'hui (secrettravelandtour.com, relevé le 3 novembre 2026). À droite, la proposition, sur la même largeur.</p>
+    <header class="bd-margin"><h2 id="h-decisions">Décisions à valider</h2>
+    <p class="bd-note">À gauche, le site en ligne aujourd'hui (secrettravelandtour.com, relevé le 3 novembre 2026). À droite, la proposition, sur la même largeur.</p></header>
+    <div class="bd-body">
     <ol class="bd-decisions">
       {%- for d in [
-        { id: "logo", title: "L'emblème d'origine, tel quel", text: "Aucun redessin. 48 px de haut sur ordinateur, 40 px sur téléphone, avec le nom en vrai texte et « Sala Dan, Koh Lanta » dessous." },
-        { id: "haut", title: "Le haut de page devient un billet de ferry", text: "Prise en charge, départ du bateau, ponton, bateau, join-in ou privé. Le prix d'appel et les frais de parc vont dans le talon, et nulle part ailleurs hors FAQ." },
-        { id: "options", title: "Chaque option est un billet", text: "Toute la ligne ouvre la feuille avec l'option déjà choisie. L'option choisie passe en mer profonde, prix en soleil." },
-        { id: "deroule", title: "Le déroulé devient une ligne de route", text: "Heures fixes (prise en charge, départ) en gras, les autres précédées de ≈ parce que la mer décide." },
-        { id: "cartes", title: "Les cartes deviennent des billets avec talon", text: "Une promesse de 60 caractères au plus, trois cases de faits, le prix dans le talon." },
-        { id: "feuille", title: "La feuille s'ouvre avec l'option du prix affiché", text: "Barre mobile ou bouton du haut : 4 touchers et 2 saisies jusqu'à WhatsApp. L'aperçu est une fiche de comptoir avec une référence et le cash à prévoir pour le parc." }
+        { id: "logo", title: "L'emblème d'origine, tel quel", text: "Aucun redessin. 48 px de haut sur ordinateur, 40 px sur téléphone, le nom en vrai texte (20 px) et « Sala Dan, Koh Lanta » dessous." },
+        { id: "haut", title: "Le haut de page devient un billet d'embarquement", text: "Prise en charge et départ en grand, ponton, bateau, join-in ou privé. Le talon porte le prix et le liquide pour le ranger, dits une seule fois hors FAQ. La photo passe à droite, en tête sur téléphone." },
+        { id: "deroule", title: "Le déroulé devient une ligne de route", text: "Trait plein sur la route, pointillé en mer, carré pour les pontons. Heures fixes en gras, les autres précédées de ≈." },
+        { id: "options", title: "Les options sont trois billets", text: "Tout le billet ouvre la feuille avec l'option déjà choisie. Le billet choisi passe en mer profonde, prix en soleil." },
+        { id: "cartes", title: "Les cartes deviennent des billets avec talon", text: "Ponton en tête, promesse d'une ligne, trois cases, prix et liquide du parc dans le talon." },
+        { id: "feuille", title: "La feuille s'ouvre avec l'option du prix affiché", text: "Barre mobile ou bouton du haut : 4 touchers et 2 saisies jusqu'à WhatsApp. L'aperçu est une fiche de comptoir : référence 4I-0411-2A1C en tête du message, cash du parc calculé." }
       ] %}
       <li>
         <h3>{{ d.title }}</h3>
@@ -159,26 +167,28 @@ boardPermalink: /design/
         <p>« We usually reply within the hour » et « We speak Thai, English… » ne s'affichent plus nulle part. Les champs sont vides dans site.json en attendant vos informations.</p>
       </li>
       <li>
-        <h3>« Runs today » : la règle à valider</h3>
-        <p>Le tableau des départs écrit « Runs today » seulement quand la saison est dans les données et couvre le mois en cours à Koh Lanta. Sans saison connue (le 4 Islands aujourd'hui), la case reste vide. Si un bateau ne part pas tous les jours, il faudra le dire dans les données.</p>
+        <h3>Archivo étroit pour les heures et les prix</h3>
+        <p>Les heures et les prix des billets et du tableau des départs sont en Archivo à 75 % de largeur, comme un panneau de quai ; les titres restent à 87,5 %. C'est hors brief : à valider.</p>
       </li>
     </ol>
-  </section>
+  </div></section>
 
   <section class="wrap bd-sec" aria-labelledby="h-phones" lang="fr">
-    <h2 id="h-phones">Sur téléphone, 390 px</h2>
-    <p class="bd-note">Vraies pages dans des cadres de 390 × 844 px. Faites défiler chaque cadre.</p>
+    <header class="bd-margin"><h2 id="h-phones">Sur téléphone, 390 px</h2>
+    <p class="bd-note">Vraies pages dans des cadres de 390 × 844 px. Faites défiler chaque cadre.</p></header>
+    <div class="bd-body">
     <div class="bd-phones">
       <figure><iframe src="/design/4-islands/" title="4 Islands, haut de page" loading="lazy"></iframe><figcaption>4 Islands : haut de page, billet, barre mobile</figcaption></figure>
       <figure><iframe src="/design/4-islands/#prices" title="4 Islands, options et prix" loading="lazy"></iframe><figcaption>Options et prix</figcaption></figure>
       <figure><iframe src="/design/4-islands/#sheet" title="4 Islands, feuille ouverte" loading="lazy"></iframe><figcaption>Feuille ouverte par la barre : option déjà choisie</figcaption></figure>
       <figure><iframe src="/design/transfer/#sheet" title="Transfert, feuille" loading="lazy"></iframe><figcaption>Feuille en version transfert</figcaption></figure>
     </div>
-  </section>
+  </div></section>
 
   <section class="wrap bd-sec" aria-labelledby="h-colours" lang="fr">
-    <h2 id="h-colours">Couleurs et rôles</h2>
-    <p class="bd-note">Trois règles : <strong>mer profonde</strong> pour tous les blocs de faits et l'option choisie, <strong>soleil</strong> pour les heures et les prix sur fond sombre, <strong>rouge bouée</strong> pour le bouton principal et rien d'autre (les erreurs n'utilisent pas le rouge). Contrastes WCAG 2.1 mesurés par les tests.</p>
+    <header class="bd-margin"><h2 id="h-colours">Couleurs et rôles</h2>
+    <p class="bd-note">Trois règles : <strong>mer profonde</strong> pour tous les blocs de faits et l'option choisie, <strong>soleil</strong> pour les heures et les prix sur fond sombre, <strong>rouge bouée</strong> pour le bouton principal et rien d'autre (les erreurs n'utilisent pas le rouge). Contrastes WCAG 2.1 mesurés par les tests.</p></header>
+    <div class="bd-body">
     <ul class="bd-swatches">
       <li><div class="bd-chip c-ink"></div><p>Encre <code>#14282A</code><br>texte, erreurs, 13.5:1 sur sable</p></li>
       <li><div class="bd-chip c-sea"></div><p>Mer d'Andaman <code>#0D5C63</code><br>liens, WhatsApp, 6.8:1</p></li>
@@ -191,11 +201,12 @@ boardPermalink: /design/
       <li><div class="bd-chip c-mute"></div><p>Texte secondaire <code>#56625F</code><br>5.6:1 sur sable</p></li>
       <li><div class="bd-chip c-field"></div><p>Bordure de champ <code>#6F7B78</code><br>4.4:1 sur blanc</p></li>
     </ul>
-  </section>
+  </div></section>
 
   <section class="wrap bd-sec" aria-labelledby="h-type" lang="fr">
-    <h2 id="h-type">Typographie : 7 pas, 2 graisses</h2>
-    <p class="bd-note">Archivo à 87,5 % de largeur en 600 et 700 pour les titres et tous les chiffres ; Atkinson Hyperlegible Next en 400 et 700 pour le texte. Un interligne par pas. Texte courant limité à 66 caractères par ligne.</p>
+    <header class="bd-margin"><h2 id="h-type">Typographie : 7 pas, 2 graisses</h2>
+    <p class="bd-note">Archivo à 87,5 % de largeur en 600 et 700 pour les titres et tous les chiffres ; Atkinson Hyperlegible Next en 400 et 700 pour le texte. Un interligne par pas. Texte courant limité à 66 caractères par ligne.</p></header>
+    <div class="bd-body">
     <div class="table-scroll">
     <table class="bd-scale">
       <thead><tr><th scope="col">Exemple</th><th scope="col">Taille</th><th scope="col">Interligne</th><th scope="col">Usage</th></tr></thead>
@@ -219,36 +230,39 @@ boardPermalink: /design/
       <p><small>Postcode</small>{{ site.brands.secret.address.postalCode }}</p>
       <p><small>Date</small>Wed 4 Nov 2026</p>
     </div>
-  </section>
+  </div></section>
 
   <section class="wrap bd-sec" aria-labelledby="h-space" lang="fr">
-    <h2 id="h-space">Espacements et grille</h2>
-    <p class="bd-note">Seuls ces jetons sont utilisés : 4, 8, 16, 24, 40, 64, 96 px. Grille de 4 colonnes et marges de 20 px sur téléphone, 12 colonnes sur 1 200 px sur ordinateur. Tous les blocs de page s'alignent sur ces colonnes (billet sur 5, texte sur 8, galerie sur 7).</p>
+    <header class="bd-margin"><h2 id="h-space">Espacements et grille</h2>
+    <p class="bd-note">Seuls ces jetons sont utilisés : 4, 8, 16, 24, 40, 64, 96 px. Grille de 4 colonnes et marges de 20 px sur téléphone, 12 colonnes sur 1 200 px sur ordinateur. Tous les blocs de page s'alignent sur ces colonnes (billet sur 5, texte sur 8, galerie sur 7).</p></header>
+    <div class="bd-body">
     <div class="bd-space">
       {% for s in [["4", "s0"], ["8", "s1"], ["16", "s2"], ["24", "s3"], ["40", "s4"], ["64", "s5"], ["96", "s6"]] %}<div><span class="w-{{ s[1] }}"></span>{{ s[0] }} px</div>{% endfor %}
     </div>
     <div class="grid bd-cols" aria-hidden="true">{% for i in range(0, 12) %}<span></span>{% endfor %}</div>
-  </section>
+  </div></section>
 
   <section class="wrap bd-sec" aria-labelledby="h-logo" lang="fr">
-    <h2 id="h-logo">Logo : l'emblème d'origine</h2>
-    <p class="bd-note">Fichier emblem.webp du site, ni redessiné, ni recoloré, ni recadré, servi en 1x, 2x et 3x. Espace de protection d'un quart de sa hauteur (pointillés rouges : 12 px pour 48 px). Sur fond sombre, il est posé sur une pastille sable. À remplacer par le fichier HD de l'enseigne dès réception.</p>
+    <header class="bd-margin"><h2 id="h-logo">Logo : l'emblème d'origine</h2>
+    <p class="bd-note">Fichier emblem.webp du site, ni redessiné, ni recoloré, ni recadré, servi en 1x, 2x et 3x. Espace de protection d'un quart de sa hauteur (pointillés rouges : 12 px pour 48 px). Sur fond sombre, il est posé sur une pastille sable. À remplacer par le fichier HD de l'enseigne dès réception.</p></header>
+    <div class="bd-body">
     <div class="bd-grounds">
       <div class="bd-ground g-sand"><span class="bd-protect"><span class="brand">{{ stt.brandLockup(emblem.header) }}</span></span></div>
       <div class="bd-ground g-white"><span class="brand">{{ stt.brandLockup(emblem.mobile) }}</span></div>
       <div class="bd-ground g-deep"><span class="pastille">{{ stt.emblem(emblem.footer) }}</span><p class="foot-name">Secret Travel &amp; Tour<span>Sala Dan, Koh Lanta</span></p></div>
     </div>
-    <h3 class="bd-sub">Favicons</h3>
+    <h3 class="bd-sub">Favicons, sur fond sable</h3>
     <div class="bd-fav">
       <figure><img eleventy:ignore class="f-512" src="/images/secret/favicon-512.png" width="512" height="512" alt="Favicon 512 px"><figcaption>512 px, affiché à 128</figcaption></figure>
-      <figure><img eleventy:ignore class="f-180" src="/images/secret/favicon-180.png" width="180" height="180" alt="Icône iPhone 180 px"><figcaption>180 px, iPhone (fond sable)</figcaption></figure>
+      <figure><img eleventy:ignore class="f-180" src="/images/secret/favicon-180.png" width="180" height="180" alt="Icône iPhone 180 px"><figcaption>180 px, iPhone</figcaption></figure>
       <figure><img eleventy:ignore class="f-32" src="/images/secret/favicon-32.png" width="32" height="32" alt="Favicon 32 px"><figcaption>32 px</figcaption></figure>
     </div>
-  </section>
+  </div></section>
 
   <section class="wrap bd-sec" aria-labelledby="h-states" lang="fr">
-    <h2 id="h-states">États de chaque composant</h2>
-    <p class="bd-note">Repos, survol, focus clavier, choisi, erreur, désactivé. Un tiret quand l'état n'existe pas pour ce composant. Le focus est un anneau mer sur fond clair, soleil sur fond sombre.</p>
+    <header class="bd-margin"><h2 id="h-states">États de chaque composant</h2>
+    <p class="bd-note">Repos, survol, focus clavier, choisi, erreur, désactivé. Un tiret quand l'état n'existe pas pour ce composant. Le focus est un anneau mer sur fond clair, soleil sur fond sombre.</p></header>
+    <div class="bd-body">
     <div class="table-scroll">
     <table class="bd-states" lang="en">
       <thead><tr><th scope="col"><span lang="fr">Composant</span></th><th scope="col" lang="fr">Repos</th><th scope="col" lang="fr">Survol</th><th scope="col" lang="fr">Focus</th><th scope="col" lang="fr">Choisi</th><th scope="col" lang="fr">Erreur</th><th scope="col" lang="fr">Désactivé</th></tr></thead>
@@ -286,11 +300,18 @@ boardPermalink: /design/
       </tbody>
     </table>
     </div>
-  </section>
+  </div></section>
+
+  <section class="wrap bd-sec" aria-labelledby="h-gallery" lang="fr">
+    <header class="bd-margin"><h2 id="h-gallery">Galerie</h2>
+    <p class="bd-note">Sur la page, seules les vraies photos s'affichent : le 4 Islands n'en a qu'une, donc pas de galerie. Ici, la galerie complète avec ses emplacements, pour juger le compteur : deux photos par vue sur ordinateur, et le compteur va jusqu'à 6/6.</p></header>
+    <div class="bd-body" lang="en">{{ stt.gallery(t.gallery, "Photos, 4 Islands", slots) }}</div>
+  </div></section>
 
   <section class="wrap bd-sec" aria-labelledby="h-cards" lang="fr">
-    <h2 id="h-cards">Cartes produit</h2>
-    <p class="bd-note">Toute la carte est le lien, aucun second bouton. Grille sur téléphone, jamais de carrousel. Une photo n'est jamais affichée plus grande que la moitié de sa taille native : celle des éléphants (635 px) reste à 317 px de large, sur fond lagon, en attendant une photo plus grande.</p>
+    <header class="bd-margin"><h2 id="h-cards">Cartes produit</h2>
+    <p class="bd-note">Toute la carte est le lien, aucun second bouton. Grille sur téléphone, jamais de carrousel. Une photo n'est jamais affichée plus grande que la moitié de sa taille native : celle des éléphants (635 px) reste à 317 px de large, sur fond lagon, en attendant une photo plus grande.</p></header>
+    <div class="bd-body">
     <ul class="grid cards" lang="en">
       {% for c in board.cards %}<li>{{ stt.productCard(c, slots) }}</li>{% endfor %}
     </ul>
@@ -299,20 +320,27 @@ boardPermalink: /design/
       <li>{{ stt.productCard(board.cardNoPhoto, false) }}</li>
       <li>{{ stt.productCard(board.cardNoPrice, false) }}</li>
     </ul>
-  </section>
+  </div></section>
 
   <section class="wrap bd-sec" aria-labelledby="h-dep" lang="fr">
-    <h2 id="h-dep">Tableau des départs et saisons</h2>
-    <p class="bd-note">Pour la page des excursions en bateau. Heures et prix lus dans les données ; une case vide veut dire que l'information manque. « Runs today » suit la règle à valider plus haut.</p>
-    <div lang="en">{{ stt.departures(board.departures, "Boat trips from Koh Lanta") }}</div>
+    <header class="bd-margin"><h2 id="h-dep">Billets, départs et saisons</h2>
+    <p class="bd-note">Cartes billets de la maquette 1 : ponton en tête, trois cases fixes, talon avec le prix et le liquide du parc. Une case sans donnée reste vide.</p></header>
+    <div class="bd-body">
+    <ul class="grid cards" lang="en">
+      {% for c in board.boatCards %}<li>{{ stt.productCard(c, slots) }}</li>{% endfor %}
+    </ul>
+    <h3 class="bd-sub">Tableau des départs de Sala Dan</h3>
+    <p class="bd-note">Horaires et saisons tels qu'ils sont sur la page speedboat actuelle. « Runs today » remplace la période quand le jour de Bangkok tombe dans la saison ; sans saison donnée, la case reste vide.</p>
+    <div lang="en">{{ stt.departures(board.departures) }}</div>
     <h3 class="bd-sub">Réglette des saisons</h3>
-    <p class="bd-note">Exemple avec Koh Rok, ouvert d'octobre à avril. Le 4 Islands n'a pas de saison dans les données : la réglette n'apparaît pas sur sa page.</p>
+    <p class="bd-note">Exemple avec Koh Rok, ouvert d'octobre à avril : mois pleins, mois en cours souligné en soleil. Le 4 Islands n'a pas de saison dans les données : rien ne s'affiche.</p>
     <div class="bd-two" lang="en">{{ stt.seasonRuler(board.seasonKohRok) }}</div>
-  </section>
+  </div></section>
 
   <section class="wrap bd-sec" aria-labelledby="h-route" lang="fr">
-    <h2 id="h-route">Page trajet (brief §6.4)</h2>
-    <p class="bd-note">Pièces d'une page trajet, avec les données de Krabi Airport vers Koh Lanta. Les lignes sans donnée ne s'affichent pas.</p>
+    <header class="bd-margin"><h2 id="h-route">Page trajet (brief §6.4)</h2>
+    <p class="bd-note">Pièces d'une page trajet, avec les données de Krabi Airport vers Koh Lanta. Les lignes sans donnée ne s'affichent pas.</p></header>
+    <div class="bd-body">
     <div class="bd-two">
       <div lang="en">
         {{ stt.routeHead(board.routeParts) }}
@@ -327,27 +355,30 @@ boardPermalink: /design/
         <div lang="en">{{ stt.faq(board.routeParts.faq) }}</div>
       </div>
     </div>
-  </section>
+  </div></section>
 
   <section class="wrap bd-sec" aria-labelledby="h-rental" lang="fr">
-    <h2 id="h-rental">Location (brief §6.3)</h2>
-    <p class="bd-note">Véhicules et prix par jour, un tableau par catégorie. Conditions (permis, caution, passeport, casque, livraison) affichées dès que vous les donnez.</p>
+    <header class="bd-margin"><h2 id="h-rental">Location (brief §6.3)</h2>
+    <p class="bd-note">Véhicules et prix par jour, un tableau par catégorie. Conditions (permis, caution, passeport, casque, livraison) affichées dès que vous les donnez.</p></header>
+    <div class="bd-body">
     <div lang="en">{{ stt.rentalTable(board.rental) }}</div>
-  </section>
+  </div></section>
 
   <section class="wrap bd-sec" aria-labelledby="h-who-board" lang="fr">
-    <h2 id="h-who-board">Qui organise, et produits liés</h2>
-    <p class="bd-note">Le comptoir et la société, sans nom de partenaire ni horaires. La licence TAT s'ajoute seule quand elle arrive.</p>
+    <header class="bd-margin"><h2 id="h-who-board">Qui organise, et produits liés</h2>
+    <p class="bd-note">Le comptoir et la société, sans nom de partenaire ni horaires. La licence TAT s'ajoute seule quand elle arrive.</p></header>
+    <div class="bd-body">
     <div class="grid" lang="en"><div class="c-8">{{ stt.whoRuns(board.who, 3) }}</div></div>
     <h3 class="bd-sub">Produits liés</h3>
     <div lang="en">{{ stt.related(t.related, t.transfer, slots) }}</div>
-  </section>
+  </div></section>
 
   <section class="wrap bd-sec" aria-labelledby="h-sheet" lang="fr">
-    <h2 id="h-sheet">Feuille de réservation</h2>
-    <p class="bd-note">Bas d'écran sur téléphone, panneau à droite sur ordinateur. Erreurs : pictogramme, barre à gauche et texte, et l'erreur quitte tout le groupe dès qu'un choix est fait. Confirmation : numéro cliquable (WhatsApp et téléphone), « Open WhatsApp again » en bouton principal, « Copy message » en secondaire.</p>
+    <header class="bd-margin"><h2 id="h-sheet">Feuille de réservation</h2>
+    <p class="bd-note">Bas d'écran sur téléphone, panneau à droite sur ordinateur. Erreurs : pictogramme, barre à gauche et texte, et l'erreur quitte tout le groupe dès qu'un choix est fait. Confirmation : numéro cliquable (WhatsApp et téléphone), « Open WhatsApp again » en bouton principal, « Copy message » en secondaire.</p></header>
+    <div class="bd-body">
     <button class="btn btn-primary" type="button" data-book="{{ t.price.option }}">Check availability</button>
-  </section>
+  </div></section>
 </main>
 
 {{ stt.footer(site, boardContact, emblem.footer) }}

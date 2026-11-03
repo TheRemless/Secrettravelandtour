@@ -22,53 +22,52 @@ boardPermalink: /design/4-islands/
 {{ stt.header("boat-trips", boardContact, emblem.header, site) }}
 
 <main id="main" class="wrap">
-  {{ stt.breadcrumb([{ label: "Home", href: "/" }, { label: "Boat trips", href: "/tours/#boat-trips" }, { label: t.name }]) }}
-  <div class="grid pg-head">
-    <h1 class="c-8">{{ t.h1 }}</h1>
-    <p class="lead c-7">{{ t.lead }}</p>
-  </div>
-
+  {#- Haut de page de la maquette m2 : texte et billet sur 6 colonnes, photo sur 6 ; sur téléphone, la photo
+      passe en tête, pleine largeur. Seules les vraies photos s'affichent (règle « moins d'images »). -#}
   <div class="grid pg-hero">
-    <div class="c-7">{{ stt.gallery(t.gallery, "Photos, " + t.name, slots) }}</div>
-    <div class="c-5">
+    <div class="c-6">
+      {{ stt.breadcrumb([{ label: "Home", href: "/" }, { label: "Boat trips", href: "/tours/#boat-trips" }, { label: t.name }]) }}
+      <h1>{{ t.h1 }}</h1>
+      <p class="lead">{{ t.lead }}</p>
       {{ stt.ticket(t.ticket, "Key facts, " + t.name) }}
       <div class="pg-actions">
         <a class="btn btn-primary" href="{{ fallback }}" data-book="{{ t.price.option }}">Check availability</a>
         <a class="link-wa" href="{{ stt.waHref(boardContact.number) }}">Ask on WhatsApp</a>
       </div>
     </div>
+    <div class="pg-photo">{{ stt.gallery(t.gallery, "Photos, " + t.name, false) }}</div>
   </div>
 
-  <div class="grid">
-    <section class="pg-sec c-8" id="prices" aria-labelledby="h-prices">
-      <h2 id="h-prices">Options and prices</h2>
-      {{ stt.optionsPrices(t.options) }}
-    </section>
+  <section class="pg-sec" aria-labelledby="h-day">
+    <h2 id="h-day">{{ t.day.title }}</h2>
+    {{ stt.routeLine(t.day.steps, t.day.note) }}
+  </section>
 
-    <section class="pg-sec c-8" aria-labelledby="h-day">
-      <h2 id="h-day">{{ t.day.title }}</h2>
-      {{ stt.routeLine(t.day.steps, t.day.note) }}
-    </section>
+  <section class="pg-sec" id="prices" aria-labelledby="h-prices">
+    <h2 id="h-prices">Choose your boat</h2>
+    {{ stt.optionsPrices(t.options) }}
+  </section>
 
-    <section class="pg-sec c-8" aria-labelledby="h-incl">
+  <div class="grid pg-sec pg-two">
+    <section class="c-6" aria-labelledby="h-incl">
       <h2 id="h-incl">What's in the price</h2>
       {{ stt.included(t.included, t.notIncluded) }}
     </section>
+    <div class="c-6">{{ stt.beforeBook(t.beforeBook) }}</div>
+  </div>
 
-    <div class="pg-sec c-8">{{ stt.beforeBook(t.beforeBook) }}</div>
-
-    <section class="pg-sec c-8" aria-labelledby="h-faq">
+  <div class="grid pg-sec pg-two">
+    <section class="c-7" aria-labelledby="h-faq">
       <h2 id="h-faq">Questions</h2>
       {{ stt.faq(t.faq) }}
     </section>
-
-    <div class="pg-sec c-8">{{ stt.whoRuns(board.who) }}</div>
-
-    <section class="pg-sec" aria-labelledby="h-related">
-      <h2 id="h-related">More boat trips</h2>
-      {{ stt.related(t.related, t.transfer, slots) }}
-    </section>
+    <div class="c-5">{{ stt.whoRuns(board.who) }}</div>
   </div>
+
+  <section class="pg-sec" aria-labelledby="h-related">
+    <h2 id="h-related">More boat trips</h2>
+    {{ stt.related(t.related, t.transfer, false) }}
+  </section>
 </main>
 
 {{ stt.footer(site, boardContact, emblem.footer) }}

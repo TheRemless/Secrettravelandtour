@@ -19,6 +19,24 @@
     if (wide.addEventListener) wide.addEventListener("change", onWide);
   }
 
+  // Saisons à l'heure de Koh Lanta : mois en cours souligné sur la réglette, « Runs today » sur le tableau
+  // des départs quand le jour tombe dans la saison, sinon « From 1 Dec ». Sans script, la période reste écrite.
+  var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  var bkk = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Bangkok", month: "2-digit", day: "2-digit" }).formatToParts(new Date());
+  var part = function (t) { return Number(bkk.filter(function (p) { return p.type === t; })[0].value); };
+  var month = part("month"), md = month * 100 + part("day");
+  Array.prototype.forEach.call(document.querySelectorAll(".season-months [data-month]"), function (li) {
+    if (Number(li.getAttribute("data-month")) === month) li.classList.add("is-now");
+  });
+  Array.prototype.forEach.call(document.querySelectorAll("[data-season-from]"), function (chip) {
+    var f = chip.getAttribute("data-season-from").split("-").map(Number);
+    var t = chip.getAttribute("data-season-to").split("-").map(Number);
+    var a = f[0] * 100 + f[1], b = t[0] * 100 + t[1];
+    var inSeason = a <= b ? md >= a && md <= b : md >= a || md <= b;
+    if (inSeason) { chip.textContent = "Runs today"; chip.classList.add("is-today"); }
+    else chip.textContent = "From " + f[1] + " " + MONTHS[f[0] - 1];
+  });
+
   // Galeries : compteur « 1/5 » et boutons précédent / suivant.
   Array.prototype.forEach.call(document.querySelectorAll("[data-gallery]"), function (g) {
     var track = g.querySelector(".gallery-track");

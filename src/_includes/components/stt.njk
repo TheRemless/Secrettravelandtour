@@ -109,35 +109,46 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 {%- endif -%}
 {%- endmacro %}
 
-{#- Faits d'une carte : trois cases, libellé au-dessus, valeur dessous. -#}
+{#- Faits d'une carte : trois cases fixes, libellé au-dessus, valeur dessous. -#}
 {% macro cardFacts(facts) -%}
 {%- if facts and facts.length -%}
 <dl class="cfacts">{% for f in facts %}<div><dt>{{ f.label }}</dt><dd>{{ f.value }}</dd></div>{% endfor %}</dl>
 {%- endif -%}
 {%- endmacro %}
 
-{#- Carte produit, façon billet : corps et talon séparés par une perforation ; le talon porte le prix.
-    Toute la carte est le lien, aucun second bouton. Sans photo (ni emplacement), le billet commence au titre. -#}
+{#- Carte billet (maquette m1) : ponton en tête, titre, promesse d'une ligne, réglette des saisons si connue,
+    trois cases, puis le talon sous une perforation : prix d'appel à gauche, liquide du parc à droite.
+    Toute la carte est le lien, aucun second bouton. Sans photo : un filet mer profonde en tête. -#}
 {% macro productCard(c, showSlots, headingLevel=3, cls="") %}
 {%- set hasVisual = c.photo or (showSlots and c.slot) -%}
 <a class="card{% if not hasVisual %} card--nophoto{% endif %} {{ cls }}" href="{{ c.href }}">
   {{ photo(c.photo, c.slot, showSlots, "card-photo", false, "(min-width: 64rem) 384px, (min-width: 40rem) 50vw, 100vw") }}
   <div class="card-body">
+    {% if c.pier %}<p class="card-pier">{{ c.pier }}</p>{% endif %}
     <h{{ headingLevel }} class="card-title">{{ c.title }}</h{{ headingLevel }}>
     {% if c.promise %}<p class="card-promise">{{ c.promise }}</p>{% endif %}
-    {{ cardFacts(c.facts) }}
   </div>
-  <div class="card-stub">{{ priceFrom(c.price) }}</div>
+  {{ seasonRuler(c.season, true) }}
+  {{ cardFacts(c.facts) }}
+  <div class="card-stub">
+    {%- if c.price and c.price.amount %}
+    <p class="card-price"><span class="card-from">from</span><span class="card-amount">{{ c.price.amount }}</span><span class="card-unit">{{ c.price.unit }}</span></p>
+    {%- else %}
+    <p class="card-price price-ask">Price on WhatsApp</p>
+    {%- endif %}
+    {%- if c.cash %}<p class="card-cash">Park fee, cash<b>{{ c.cash.amount }}</b>{{ c.cash.unit }}</p>{% endif %}
+  </div>
 </a>
 {% endmacro %}
 
-{#- Bandeau de faits clés, billet de ferry : lignes réglées (heures en soleil), talon avec le prix d'appel
-    et les frais de parc, dits une seule fois sur la page. t : view.ticket(product). -#}
+{#- Bandeau de faits clés, billet d'embarquement (maquette m2) : heures en grand et en soleil, ponton, bateau,
+    places ; talon à droite (dès 40rem) avec le prix d'appel et le liquide pour le parc, dits une seule fois
+    sur la page. t : view.ticket(product). -#}
 {% macro ticket(t, label="Key facts") %}
 <div class="ticket" role="group" aria-label="{{ label }}">
   <dl class="ticket-main">
     {%- for r in t.rows %}
-    <div class="ticket-row"><dt>{{ r.label }}</dt><dd{% if r.time %} class="ticket-time"{% endif %}>{{ r.value }}</dd></div>
+    <div class="ticket-cell{% if r.time %} ticket-cell--time{% elif r.label == 'Longtail pier' or r.label == 'Pier' %} ticket-cell--wide{% endif %}"><dt>{{ r.label }}</dt><dd>{{ r.value }}</dd></div>
     {%- endfor %}
   </dl>
   {%- if t.stub.price or t.stub.fee %}
@@ -146,32 +157,31 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
     <p class="stub-price"><span class="stub-label">From</span><span class="stub-amount">{{ t.stub.price.amount }}</span><span class="stub-unit">{{ t.stub.price.unit }}</span></p>
     {%- endif %}
     {%- if t.stub.fee %}
-    <p class="stub-fee"><span class="stub-label">{{ t.stub.fee.label }}, not included</span>{{ t.stub.fee.adult }} per adult{% if t.stub.fee.child %}, {{ t.stub.fee.child }} per child{% endif %}. {{ t.stub.fee.note }}.{% if t.stub.fee.thai %} {{ t.stub.fee.thai }}.{% endif %}</p>
+    <p class="stub-fee"><span class="stub-label">Cash for the ranger, not in the price</span><b>{{ t.stub.fee.adult }}</b> per adult{% if t.stub.fee.child %}, {{ t.stub.fee.child }} per child{% endif %}.{% if t.stub.fee.thai %} {{ t.stub.fee.thai }}.{% endif %}</p>
     {%- endif %}
   </div>
   {%- endif %}
 </div>
 {% endmacro %}
 
-{#- Options et prix : chaque option est un billet entier (bouton) qui ouvre la feuille, option préremplie.
-    Corps : nom et note ; talon : les tarifs avec leurs âges. Choisie : fond mer profonde, prix en soleil. -#}
+{#- Options et prix, en billets côte à côte (maquette m2) : nom et ponton en tête, tarifs avec leurs âges,
+    talon avec la différence de l'option et « Choose » ou « Selected ». Tout le billet est un bouton qui ouvre
+    la feuille, option préremplie. Choisi : mer profonde, prix en soleil. -#}
 {% macro optionsPrices(options, note, stateCls="") %}
 <ul class="options">
   {%- for o in options %}
   <li>
-    <button class="opt {{ stateCls }}" type="button" data-book="{{ o.id }}" aria-pressed="false" aria-label="Check availability for {{ o.title }}" aria-describedby="opt-{{ o.id }}-d">
-      <span class="opt-main">
-        <span class="opt-title">{{ o.title }}</span>
-        {%- if o.note %}<span class="opt-note">{{ o.note }}</span>{% endif %}
-        {%- if o.fees %}<span class="opt-fee">Not included: {{ o.fees }}</span>{% endif %}
-      </span>
-      <span class="opt-stub" id="opt-{{ o.id }}-d">
+    <button class="opt {{ stateCls }}" type="button" data-book="{{ o.id }}" aria-pressed="{{ 'true' if 'is-chosen' in stateCls else 'false' }}" aria-label="Check availability for {{ o.title }}" aria-describedby="opt-{{ o.id }}-d">
+      <span class="opt-head"><span class="opt-title">{{ o.title }}</span>{% if o.pier %}<span class="opt-pier">{{ o.pier }}</span>{% endif %}</span>
+      <span class="opt-rows" id="opt-{{ o.id }}-d">
         {%- if o.rows and o.rows.length %}
         {%- for r in o.rows %}<span class="opt-row"><span>{{ r.label }}</span><span class="opt-price">{{ r.price }}</span></span>{% endfor %}
         {%- else %}
         <span class="opt-row"><span>Price</span><span class="opt-price">On WhatsApp</span></span>
         {%- endif %}
+        {%- if o.fees %}<span class="opt-fee">Not included: {{ o.fees }}</span>{% endif %}
       </span>
+      <span class="opt-stub"><span>{{ o.stub or o.note }}</span><span class="opt-state" aria-hidden="true"><span class="opt-choose">Choose</span><span class="opt-selected">Selected</span></span></span>
     </button>
   </li>
   {%- endfor %}
@@ -179,11 +189,16 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 {%- if note %}<p class="price-note">{{ note }}</p>{% endif %}
 {% endmacro %}
 
-{#- Ligne de route : heures fixes telles quelles, les autres précédées de « ≈ » (view.day). -#}
+{#- Ligne de route (maquette m2) : horizontale sur ordinateur, verticale sur téléphone. Rond pour l'hôtel et les îles,
+    carré pour les pontons ; trait plein sur la route, pointillé en mer. Heures fixes en gras, les autres avec « ≈ ». -#}
 {% macro routeLine(steps, note) %}
-<ol class="route">
+<ol class="route{% if steps.length <= 7 %} route--h{% endif %}">
   {%- for s in steps %}
-  <li class="{% if s.fixed %}route-fixed{% endif %}"><span class="route-t">{% if s.approx %}<span class="approx" aria-label="about">≈</span>{% endif %}{{ s.t }}</span><span class="route-text">{{ s.text }}</span></li>
+  <li class="{% if s.sea %}is-sea{% endif %}{% if s.fixed %} is-fixed{% endif %}">
+    <span class="route-t">{% if s.approx %}<span class="approx" aria-label="about">≈</span>{% endif %}{{ s.t }}</span>
+    <span class="route-dot{% if s.kind == 'pier' %} route-dot--pier{% endif %}" aria-hidden="true"></span>
+    <span class="route-text">{% if s.place %}<b>{{ s.place }}</b><span>{{ s.detail }}</span>{% else %}{{ s.text }}{% endif %}</span>
+  </li>
   {%- endfor %}
 </ol>
 {%- if note %}<p class="route-note">{{ note }}</p>{% endif %}
@@ -275,38 +290,37 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 {%- if transfer %}<p class="related-transfer"><a href="{{ transfer.href }}">{{ transfer.label }}</a></p>{% endif %}
 {% endmacro %}
 
-{#- Tableau des départs : une ligne par excursion, heures en chiffres tabulaires.
-    « Runs today » seulement si la saison est connue et couvre le mois en cours (view.departures). -#}
-{% macro departures(rows, caption) %}
-<div class="table-scroll">
-<table class="departures">
-  <caption>{{ caption }}</caption>
-  <thead><tr><th scope="col">Trip</th><th scope="col">Pickup</th><th scope="col">Boat leaves</th><th scope="col">Boat</th><th scope="col">From</th><th scope="col">Today</th></tr></thead>
-  <tbody>
-    {%- for r in rows %}
-    <tr>
-      <th scope="row"><a href="{{ r.href }}">{{ r.name }}</a></th>
-      <td class="dep-time">{{ r.pickup }}</td>
-      <td class="dep-time">{{ r.leaves }}</td>
-      <td>{{ r.boat }}</td>
-      <td class="dep-price">{{ r.from }}</td>
-      <td>{% if r.today %}<span class="runs">Runs today</span>{% elif r.today === false %}Out of season{% endif %}</td>
-    </tr>
-    {%- endfor %}
-  </tbody>
-</table>
+{#- Tableau des départs de Sala Dan (maquette m1) : panneau mer profonde, heures en soleil, destination et arrêts.
+    La case de saison montre la période ; ui.js la remplace par « Runs today » quand le jour de Bangkok y tombe.
+    b : view.departureBoard(product). -#}
+{% macro departures(b) %}
+<div class="dep-board">
+  <div class="dep-head"><h3>{{ b.title }}</h3><p>{{ b.pier }}{% if b.season %}, {{ b.season }}{% endif %}{% if b.checkIn %}, {{ b.checkIn }}{% endif %}</p></div>
+  <table class="dep">
+    <thead><tr><th scope="col">Leaves</th><th scope="col">To</th><th scope="col" class="dep-st">Season</th></tr></thead>
+    <tbody>
+      {%- for r in b.rows %}
+      <tr>
+        <td class="dep-t">{{ r.time }}</td>
+        <td><span class="dep-to">{{ r.to }}</span><span class="dep-via">{{ r.via }}{% if r.onward %}. {{ r.onward }}{% endif %}</span></td>
+        <td class="dep-st">{% if r.season %}<span class="dep-chip" data-season-from="{{ r.season.from }}" data-season-to="{{ r.season.to }}">{{ r.season.label }}</span>{% endif %}</td>
+      </tr>
+      {%- endfor %}
+    </tbody>
+  </table>
 </div>
 {% endmacro %}
 
-{#- Réglette des saisons : 12 cases, mois ouverts marqués (view.seasonRuler). Rien si la saison est inconnue. -#}
-{% macro seasonRuler(r) %}
+{#- Réglette des saisons : 12 mois, pleins quand la sortie tourne ; ui.js souligne en soleil le mois en cours
+    (heure de Bangkok). Rien si la saison est inconnue (view.seasonRuler). -#}
+{% macro seasonRuler(r, compact=false) %}
 {%- if r %}
-<figure class="season">
-  <figcaption>Season: {{ r.label }}</figcaption>
-  <ol class="season-months">
-    {%- for m in r.months %}<li class="{% if m.open %}is-open{% endif %}"><abbr title="{{ m.name }}">{{ m.short }}</abbr><span class="sr-only">{{ ", runs" if m.open else ", closed" }}</span></li>{% endfor %}
+<div class="season{% if compact %} season--card{% endif %}" role="img" aria-label="Runs: {{ r.label }}">
+  {%- if not compact %}<p class="season-label">Season: {{ r.label }}</p>{% endif %}
+  <ol class="season-months" aria-hidden="true">
+    {%- for m in r.months %}<li class="{% if m.open %}is-open{% endif %}" data-month="{{ m.n }}">{{ m.letter }}</li>{% endfor %}
   </ol>
-</figure>
+</div>
 {%- endif %}
 {% endmacro %}
 

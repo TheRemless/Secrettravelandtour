@@ -67,29 +67,40 @@ function optionOfPrice(product) {
   return (hit || list[0] || {}).id || "";
 }
 
-// Trois cases de faits d'une carte : libellé court et valeur courte, dans cet ordre de préférence.
-const CARD_FACTS = [
-  ["Duration", "Duration"], ["Hotel pickup", "Pickup"], ["Boat", "Boat"], ["Format", "Format"],
-  ["Sessions", "Sessions"], ["Half days", "Half days"], ["Season", "Season"], ["Riding", "Riding"]
-];
+// Carte billet (maquette m1 de la critique) : ponton en tête, trois cases fixes Pickup, Boat, Day,
+// talon avec le prix d'appel et, à droite, le liquide à prévoir pour le parc. Une case sans donnée reste absente.
+const PIERS = ["Longtail pier", "Raft pier", "Pier", "Start", "Departure pier"];
+const fact = (product, label) => ((product.facts || []).find((x) => x.label === label) || {}).value || "";
+const cap = (v) => (v ? v.charAt(0).toUpperCase() + v.slice(1) : "");
+
 function cardFacts(product) {
   const out = [];
-  for (const [label, short] of CARD_FACTS) {
-    const f = (product.facts || []).find((x) => x.label === label);
-    if (f && f.value.length <= 24 && out.length < 3) out.push({ label: short, value: f.value });
-  }
-  return out;
+  const pickup = fact(product, "Hotel pickup");
+  const sessions = fact(product, "Sessions");
+  if (pickup) out.push({ label: "Pickup", value: pickup.replace(/^(\d{2}:\d{2})[–-]\d{2}:\d{2}$/, "$1") });
+  else if (sessions) out.push({ label: "First session", value: sessions.split(/,| and /)[0].trim() });
+  const opt = (product.options || []).find((o) => o.id === optionOfPrice(product));
+  const boat = (opt && opt.boat) ? cap(opt.boat) : fact(product, "Boat");
+  if (boat && boat.length <= 16) out.push({ label: "Boat", value: boat });
+  const duration = fact(product, "Duration");
+  const day = { "Full day": "Full", "Half day": "Half" }[duration] || "";
+  if (day) out.push({ label: "Day", value: day });
+  return out.filter((f) => f.value.length <= 16).slice(0, 3);
 }
 
-// Carte produit, façon billet : la promesse vient du champ `promise` (60 caractères au plus, distinct de l'accroche).
 function card(product, { allowed } = {}) {
   const hero = heroOf(product, allowed);
+  const pier = PIERS.map((l) => fact(product, l)).find(Boolean) || "";
+  const fee = parkFee(product);
   return {
     href: product.url,
     title: product.name,
+    pier: pier.split(", ")[0],
     promise: product.promise || "",
     facts: cardFacts(product),
     price: price(product),
+    cash: fee ? { amount: thb(fee.adult), unit: "per adult" } : null,
+    season: seasonRuler(product),
     photo: hero.photo,
     slot: hero.slot
   };
@@ -128,6 +139,8 @@ function options(product) {
     note: o.note || "",
     rows: (o.prices || []).map((r) => ({ label: r.label, price: priceText(r) })),
     from: o.prices && o.prices.length ? priceText(o.prices[0]) : "",
+    pier: o.pier || "",
+    stub: o.stub || "",
     unit: firstUnit(o.prices && o.prices[0]),
     fees: feesText(o.notIncludedFees)
   }));
@@ -148,7 +161,12 @@ function day(product) {
       title: b.title,
       options: b.options || [],
       note: b.note || "",
-      steps: b.steps.map((s) => ({ t: s.time || s.label || "", text: s.text, fixed: Boolean(s.fixed), approx: anyFixed && !s.fixed && Boolean(s.time) }))
+      // place, detail et kind (road, pier, island) dessinent la ligne de route ; le tronçon qui suit un ponton
+      // ou une île est en mer (pointillé), celui qui suit l'hôtel est la route (trait plein).
+      steps: b.steps.map((s) => ({
+        t: s.time || s.label || "", text: s.text, fixed: Boolean(s.fixed), approx: anyFixed && !s.fixed && Boolean(s.time),
+        place: s.place || "", detail: s.detail || "", kind: s.kind || "", sea: Boolean(s.kind) && s.kind !== "road"
+      }))
     };
   });
 }
@@ -334,7 +352,7 @@ function seasonRuler(product) {
   const months = seasonMonths(product);
   if (!months) return null;
   const f = product.facts.find((x) => x.label === "Season");
-  return { label: f.value, months: MONTH_NAMES.map((n, i) => ({ short: n.slice(0, 3), name: n, open: months.includes(i + 1) })) };
+  return { label: f.value, months: MONTH_NAMES.map((n, i) => ({ letter: n.charAt(0), short: n.slice(0, 3), name: n, n: i + 1, open: months.includes(i + 1) })) };
 }
 
 // Mois en cours à Koh Lanta (1–12), pour « Runs today ».
@@ -360,6 +378,30 @@ function departures(products, now = new Date()) {
       today: months ? months.includes(month) : null
     };
   });
+}
+
+// Tableau des départs de Sala Dan (maquette m1) : la grille des speedboats, heure, destination, arrêts.
+// La saison (seasonRange) donne « Runs today » côté navigateur, à l'heure de Bangkok (ui.js) ; sans saison, rien.
+function departureBoard(product) {
+  const tt = product.timetable || {};
+  const rows = (tt.outbound || []).map((r) => {
+    const last = r.stops[r.stops.length - 1];
+    const langkawi = /Langkawi/.test(r.onward || "");
+    return {
+      time: r.departs,
+      to: last.place + (langkawi ? ", Langkawi" : ""),
+      via: r.stops.map((x) => `${x.place} ${x.time}`).join(", "),
+      onward: r.onward || "",
+      season: r.seasonRange || null
+    };
+  });
+  return {
+    title: "Departures from Koh Lanta",
+    pier: fact(product, "Departure pier"),
+    season: tt.season ? `${tt.season.replace("-", "–")} season` : "",
+    checkIn: tt.checkIn && tt.checkIn.default ? `check in ${tt.checkIn.default}` : "",
+    rows
+  };
 }
 
 // « Who runs this trip » (03-audit-contenu §6.2.9) : le comptoir et la société. Ni partenaire (Q17), ni horaires (aucun).
@@ -444,7 +486,7 @@ async function emblem(height) {
 
 module.exports = {
   rating, ticket, notIncluded, parkFee, cardFacts, optionOfPrice,
-  seasonMonths, seasonRuler, departures, whoRuns, routeParts, rentalTable, responsive, emblem,
+  seasonMonths, seasonRuler, departures, departureBoard, whoRuns, routeParts, rentalTable, responsive, emblem,
   thb, webpSize, photo, slot, heroOf, price, card, options, feesText, day, beforeBook, gallery,
   replyTime, contact, bookingTour, bookingRoute, fallbackText
 };

@@ -6,13 +6,12 @@ import sharp from "sharp";
 const SRC = "assets/emblem-source.png";
 const OUT = "src/images/secret";
 const SAND = { r: 245, g: 240, b: 230, alpha: 1 };
-const CLEAR = { r: 0, g: 0, b: 0, alpha: 0 };
 
-// iOS remplit la transparence en noir : l'icône 180 px est posée sur le sable du site.
-for (const [size, background] of [[32, CLEAR], [180, SAND], [512, CLEAR]]) {
+// Sur fond sable, comme demandé par la critique (iOS remplirait la transparence en noir).
+for (const size of [32, 180, 512]) {
   await sharp(SRC)
-    .resize(size, size, { fit: "contain", background, kernel: "lanczos3" })
-    .flatten(background.alpha === 1 ? { background } : false)
+    .resize(size, size, { fit: "contain", background: SAND, kernel: "lanczos3" })
+    .flatten({ background: SAND })
     .png({ compressionLevel: 9 })
     .toFile(`${OUT}/favicon-${size}.png`);
 }

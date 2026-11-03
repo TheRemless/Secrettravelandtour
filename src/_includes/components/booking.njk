@@ -154,6 +154,7 @@
       <button class="sheet-close" type="button" data-close>{{ icon("close") }}<span class="sr-only">Close</span></button>
     </div>
     <div class="sheet-body done-text">
+      <p class="slip-ref slip-ref--done" data-done-ref hidden></p>
       {% if facts.replyTime %}<p>{{ facts.replyTime }}</p>{% endif %}
       <p>Nothing opened? Send your message to <a class="done-num" href="https://wa.me/{{ cfg.whatsapp }}" data-again-link>{{ facts.phoneDisplay }}</a> on WhatsApp, or call <a class="done-num" href="tel:{{ facts.e164 }}">{{ facts.phoneDisplay }}</a>.</p>
       <p class="copy-status" data-copy-status role="status"></p>
@@ -161,6 +162,7 @@
     <div class="sheet-foot sheet-foot--stack">
       <a class="sheet-btn" href="https://wa.me/{{ cfg.whatsapp }}" target="_blank" rel="noopener" data-again>{{ icon("whatsapp") }}<span>Open WhatsApp again</span></a>
       <button class="sheet-btn sheet-btn--quiet" type="button" data-copy>Copy message</button>
+      <button class="sheet-link" type="button" data-close>Close</button>
     </div>
   </div>
 </dialog>

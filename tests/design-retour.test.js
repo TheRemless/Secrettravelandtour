@@ -74,3 +74,25 @@ test("une seule graphie : Thung Yee Peng", () => {
   const all = fs.readdirSync(path.join(DATA, "activities")).map((f) => fs.readFileSync(path.join(DATA, "activities", f), "utf8")).join("");
   assert.doesNotMatch(all, /Tungyeepeng/);
 });
+
+test("tableau des départs : grille des speedboats, saison seulement quand elle est donnée", () => {
+  const b = view.departureBoard(P("secret-transfers/speedboat-ferry"));
+  assert.deepEqual(b.rows.map((r) => r.time), ["09:00", "10:30", "13:00", "14:30", "14:30", "15:00"]);
+  assert.equal(b.rows[1].to, "Koh Lipe, Langkawi");
+  assert.deepEqual(b.rows[1].season, { from: "11-01", to: "04-15", label: "1 Nov – 15 Apr" });
+  assert.equal(b.rows[0].season, null);
+});
+
+test("carte billet : ponton, trois cases Pickup, Boat, Day, liquide du parc", () => {
+  const c = view.card(four, {});
+  assert.equal(c.pier, "Lanta Old Town pier");
+  assert.deepEqual(c.facts, [{ label: "Pickup", value: "07:45" }, { label: "Boat", value: "Longtail" }, { label: "Day", value: "Full" }]);
+  assert.equal(c.cash.amount, "200 THB");
+});
+
+test("ligne de route : lieux, pontons et tronçons en mer", () => {
+  const steps = view.day(four)[0].steps;
+  assert.deepEqual(steps.map((s) => s.place), ["Your hotel", "Old Town pier", "Koh Chueak", "Koh Mook", "Koh Ngai", "Koh Ma", "Koh Lanta"]);
+  assert.equal(steps[0].sea, false);
+  assert.ok(steps.slice(1).every((s) => s.sea));
+});

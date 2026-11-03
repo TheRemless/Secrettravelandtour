@@ -20,7 +20,6 @@ const route = P("taxi/krabi-airport-koh-lanta");
 const minivan = P("secret-transfers/shared-minivan");
 const rental = P("rental");
 const vip = site.brands.vip;
-const BOATS = ["tours/4-islands", "tours/koh-rok-koh-haa", "tours/koh-phi-phi", "tours/koh-talabeng-koh-bubu", "tours/fishing-trip", "tours/mangroves"];
 
 // Page 4 Islands complète (/design/4-islands/) : ordre de 00-BRIEF §6.2, frais de parc dits une fois (talon).
 function fourIslands() {
@@ -42,7 +41,7 @@ function fourIslands() {
     fallback: view.fallbackText(four, site),
     related: ["tours/koh-rok-koh-haa", "tours/koh-phi-phi", "tours/koh-talabeng-koh-bubu"].map((r) => card(P(r))),
     transfer: { href: "/taxi/krabi-airport-koh-lanta/", label: "Arriving at Krabi Airport? Private minivan to Koh Lanta" },
-    booking: view.bookingTour({ ...four, refPrefix: "4IS" }, site)
+    booking: view.bookingTour(four, site)
   };
 }
 
@@ -56,7 +55,6 @@ function transfer() {
     options: view.options(minivan).list,
     fallback: view.fallbackText(minivan, site),
     booking: view.bookingRoute({ ...minivan, route: {} }, site, {
-      refPrefix: "TRF",
       options: view.options(minivan).list.map((o) => ({ id: o.id, title: o.title, rows: [], from: "", unit: "" }))
     })
   };
@@ -79,7 +77,8 @@ module.exports = async function () {
       cards: ["tours/4-islands", "tours/fishing-trip", "activities/atv", "activities/elephant-sanctuary", "activities/batik", "activities/kayak"].map((r) => card(P(r))),
       cardNoPhoto: card(P("tours/koh-rok-koh-haa")),
       cardNoPrice: card(P("tours/koh-talabeng-koh-bubu")),
-      departures: view.departures(BOATS.map(P)),
+      departures: view.departureBoard(P("secret-transfers/speedboat-ferry")),
+      boatCards: ["tours/4-islands", "tours/koh-rok-koh-haa", "tours/fishing-trip"].map((r) => card(P(r))),
       seasonKohRok: view.seasonRuler(P("tours/koh-rok-koh-haa")),
       seasonFour: view.seasonRuler(four),
       routeParts: view.routeParts(route),
