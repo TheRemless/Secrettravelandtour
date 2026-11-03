@@ -69,8 +69,8 @@
   --t5: 1.5rem;    --l5: 1.15;  /* 24 px : H2 sur téléphone, titres de carte et d'option */
   --t6: 2.25rem;   --l6: 1.05;  /* 36 px : H2 sur ordinateur, prix du talon, heures du billet */
   --t7: clamp(2.5rem, 1.6rem + 2.8vw, 3.5rem); --l7: 1.05; /* 40 à 56 px : H1 */
-  /* Archivo à 75 % de largeur pour les heures et les prix des billets et tableaux (maquettes de la critique,
-     hors brief : à valider) ; 87,5 % pour les titres. */
+  /* Archivo à 75 % de largeur pour les heures et les prix des billets et tableaux, comme un panneau de quai
+     (proposition de la critique, retenue le 03.11.2026) ; 87,5 % pour les titres. */
   --tight: 75%;
 
   /* Espacements : seuls ces jetons sont permis (base 8, plus un demi-pas de 4 px). */

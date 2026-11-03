@@ -2,12 +2,12 @@
 
 Fichier généré par `scripts/manques.mjs` à chaque `npm run build`, à partir des `TODO(client)` de `src/_data/site.json` et `src/_data/products/`. Ne pas le modifier à la main : corriger la donnée source, puis relancer le build.
 
-52 points sur 17 pages. Une information absente n'est pas affichée sur le site (00-BRIEF §9).
+51 points sur 17 pages. Une information absente n'est pas affichée sur le site (00-BRIEF §9).
 
 | Page | Points |
 |---|---|
 | Commun aux deux marques | 7 |
-| 4 Islands (/tours/4-islands/) | 11 |
+| 4 Islands (/tours/4-islands/) | 10 |
 | Fishing trip (/tours/fishing-trip/) | 2 |
 | Koh Phi Phi (/tours/koh-phi-phi/) | 1 |
 | Koh Rok & Koh Haa (/tours/koh-rok-koh-haa/) | 3 |
@@ -54,7 +54,6 @@ Source : `src/_data/products/tours/4-islands.json`
 - tranche d'âge enfant du longtail : « Child, 4 to 11 » (prix du site) contre « 4 à 10 ans » (registre de faits, brochure du partenaire longtail).
 - îles au programme : l'accueil dit « Koh Ma, Koh Mook and Koh Chueak, plus Koh Kradan or Koh Ngai: your choice » (secret.json tours[0].description), la page dit Koh Ngai toujours, puis Koh Ma (longtail) ou Koh Kradan (speedboat), sans choix du client.
 - speedboat privé pour le 4 Islands (cité par le registre de faits, 9:00 à 16:00, absent du site) : à proposer, prix sur WhatsApp ?
-- la photo du longtail (longtail-4x3.webp) garde le nom peint sur la coque, « HANTHALE PRIVATE TOURS », à la demande de Jérémy (03.11.2026), alors que la réponse Q17 dit de ne pas nommer les partenaires. Confirmer que le nom peut rester visible.
 
 ### Fishing trip (/tours/fishing-trip/)
 

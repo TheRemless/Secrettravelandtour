@@ -157,7 +157,7 @@
     },
     {
       "field": "timetable.outbound[].seasonRange",
-      "from": "timetable.outbound[1].season (Langkawi 1 November to 15 April) et [4].season (From 1 December, texte d'origine December to April), mis en dates pour « Runs today »"
+      "from": "timetable.outbound[1].season (Langkawi 1 November to 15 April) et [4] (« from 1 December » et « From December to April » sur la page actuelle ; fin d'avril prise au 30), mis en dates pour « Runs today »"
     }
   ],
   "todo": [
@@ -274,7 +274,7 @@
             "note": "Last stretch by shared van"
           }
         ],
-        "season": "From 1 December (legacy text: December to April)",
+        "season": "From 1 December to April (page speedboat actuelle : « from 1 December » et « From December to April »)",
         "seasonRange": {
           "from": "12-01",
           "to": "04-30",

@@ -485,12 +485,12 @@
     "TODO(client): moins de 4 ans gratuits aussi en speedboat ? Le site ne le dit que pour le longtail.",
     "TODO(client): tranche d'âge enfant du longtail : « Child, 4 to 11 » (prix du site) contre « 4 à 10 ans » (registre de faits, brochure du partenaire longtail).",
     "TODO(client): îles au programme : l'accueil dit « Koh Ma, Koh Mook and Koh Chueak, plus Koh Kradan or Koh Ngai: your choice » (secret.json tours[0].description), la page dit Koh Ngai toujours, puis Koh Ma (longtail) ou Koh Kradan (speedboat), sans choix du client.",
-    "TODO(client): speedboat privé pour le 4 Islands (cité par le registre de faits, 9:00 à 16:00, absent du site) : à proposer, prix sur WhatsApp ?",
-    "TODO(client): la photo du longtail (longtail-4x3.webp) garde le nom peint sur la coque, « HANTHALE PRIVATE TOURS », à la demande de Jérémy (03.11.2026), alors que la réponse Q17 dit de ne pas nommer les partenaires. Confirmer que le nom peut rester visible."
+    "TODO(client): speedboat privé pour le 4 Islands (cité par le registre de faits, 9:00 à 16:00, absent du site) : à proposer, prix sur WhatsApp ?"
   ],
   "notes": [
     "FAQ « Is the national park fee included? » : la phrase affirmant qu'aucun opérateur de l'île n'inclut les frais de parc est retirée (affirmation fausse, décision client du 02.11.2026). Même chose pour l'ancien encadré parkFeeNote, non repris.",
-    "Texte alternatif de la photo du longtail corrigé : l'ancien présentait le bateau comme celui de l'agence, or les bateaux appartiennent aux partenaires (réponse client Q18)."
+    "Texte alternatif de la photo du longtail corrigé : l'ancien présentait le bateau comme celui de l'agence, or les bateaux appartiennent aux partenaires (réponse client Q18).",
+    "Photo du longtail : le nom peint « HANTHALE PRIVATE TOURS » reste visible, accord de Jérémy du 03.11.2026."
   ],
   "refPrefix": "4I"
 }
