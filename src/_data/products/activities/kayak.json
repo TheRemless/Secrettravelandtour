@@ -12,7 +12,8 @@
     }
   },
   "h1": "Kayaking on Koh Lanta",
-  "lead": "Seven kayak trips from Tungyeepeng pier, from a mangrove half day to a full day with the sea cave of Koh Talabeng.",
+  "lead": "Seven kayak trips from Thung Yee Peng pier, from a mangrove half day to a full day with the sea cave of Koh Talabeng.",
+  "promise": "Mangroves and the Koh Talabeng sea cave by kayak",
   "facts": [
     {
       "label": "Start",
@@ -398,7 +399,7 @@
     "h1": "Kayaking",
     "h1em": "on Koh Lanta",
     "intro": [
-      "Every trip starts at Tungyeepeng pier, on the east coast. The mangrove is calm, with monkeys and birds. Koh Talabeng has a sea cave you reach by kayak after a short ride on a longtail.",
+      "Every trip starts at Thung Yee Peng pier, on the east coast. The mangrove is calm, with monkeys and birds. Koh Talabeng has a sea cave you reach by kayak after a short ride on a longtail.",
       "Half days leave in the morning, 9:30 to 12:30, or in the afternoon, 14:00 to 17:00. Full days run from 9:00 to 15:00 or 15:30."
     ],
     "cardDescription": "Sea caves, mangroves and island hopping by kayak, from a half day to a full day.",
@@ -464,10 +465,13 @@
     {
       "field": "options[].notIncludedFees",
       "from": "secretPagesContent.json pages.kayak.parkFee, priceNote, goodToKnow"
+    },
+    {
+      "field": "promise",
+      "from": "lead du produit, raccourci à 60 caractères pour la carte (03.11.2026)"
     }
   ],
   "todo": [
-    "TODO(client): orthographe du village et du ponton : « Tungyeepeng » (10 fois sur le site) et « Thung Yee Peng » (8 fois). Une seule graphie à retenir.",
     "TODO(client): orthographe de l'île : « Koh Aung » (sortie à la journée) et « Koh Ung » (demi-journée) dans la même liste. Même île ?",
     "TODO(client): horaires de chaque sortie (la page donne des créneaux généraux, et deux horaires seulement pour les journées)."
   ]

@@ -17,13 +17,45 @@
 https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 {%- endmacro %}
 
-{#- Header collant : logo, menu, bouton WhatsApp toujours visible. Sur mobile, le menu s'ouvre en plein écran (<dialog>). -#}
-{#- logo : "a", "b" ou "bv" (piste choisie par le client). Sous 64 px de haut, version compacte sans « Koh Lanta ». -#}
-{% macro header(current, number, logo="b", nav=none) %}
+{#- Image responsive (view.responsive) : AVIF puis WebP. width/height valent la moitié de la taille native,
+    pour qu'aucun écran 2x ne reçoive une image agrandie ; le CSS la laisse rétrécir, jamais grandir. -#}
+{% macro picture(p, sizes, cls="", eager=false) -%}
+<picture>
+  {%- if p.avif %}<source type="image/avif" srcset="{{ p.avif }}" sizes="{{ sizes }}">{% endif %}
+  {%- if p.webp %}<source type="image/webp" srcset="{{ p.webp }}" sizes="{{ sizes }}">{% endif %}
+  <img eleventy:ignore class="{{ cls }}" src="{{ p.fallback or p.src }}" alt="{{ p.alt }}" width="{{ p.cssWidth }}" height="{{ p.cssHeight }}"{% if eager %} fetchpriority="high"{% else %} loading="lazy"{% endif %} decoding="async">
+</picture>
+{%- endmacro %}
+
+{#- Photo, ou emplacement « Photo to supply » hors production, ou rien (la carte passe alors en variante sans photo). -#}
+{% macro photo(p, slot, showSlots, cls="", eager=false, sizes="100vw") -%}
+{%- if p -%}
+{{ picture(p, sizes, cls, eager) }}
+{%- elif showSlots and slot -%}
+<div class="photo-slot {{ cls }}">Photo to supply: {{ slot }}</div>
+{%- endif -%}
+{%- endmacro %}
+
+{#- Emblème d'origine, jamais redessiné ni recoloré (view.emblem : srcset 1x à 3x). -#}
+{% macro emblem(em, alt="") -%}
+<picture class="emblem">
+  <source type="image/avif" srcset="{{ em.avif }}">
+  <img eleventy:ignore src="{{ em.src }}" srcset="{{ em.webp }}" width="{{ em.width }}" height="{{ em.height }}" alt="{{ alt }}" decoding="async">
+</picture>
+{%- endmacro %}
+
+{#- Marque : emblème, nom en texte réel, « Sala Dan, Koh Lanta » dessous. -#}
+{% macro brandLockup(em) -%}
+{{ emblem(em) }}<span class="brand-text"><span class="brand-name">Secret Travel &amp; Tour</span><span class="brand-place">Sala Dan, Koh Lanta</span></span>
+{%- endmacro %}
+
+{#- Header collant : marque, menu, bouton WhatsApp toujours visible. Sur mobile, menu plein écran (<dialog>)
+    avec l'adresse et le numéro en bas. em : emblème 48 px (desktop) et 40 px (mobile), view.emblem. -#}
+{% macro header(current, contact, em, site, nav=none) %}
 {%- set items = nav or NAV -%}
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="/"><img eleventy:ignore data-brand-logo src="/images/brand/stt-{{ logo }}-compact.svg" width="630" height="100" alt="Secret Travel &amp; Tour, home"></a>
+    <a class="brand" href="/">{{ brandLockup(em) }}</a>
     <nav class="nav" aria-label="Main">
       <ul>
         {%- for item in items %}
@@ -32,14 +64,14 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
       </ul>
     </nav>
     <div class="header-actions">
-      <a class="btn btn-sea header-wa" href="{{ waHref(number) }}">{{ icon("whatsapp") }}<span>WhatsApp</span></a>
+      <a class="btn btn-sea header-wa" href="{{ waHref(contact.number) }}">{{ icon("whatsapp") }}<span>WhatsApp</span></a>
       <button class="menu-btn" type="button" aria-haspopup="dialog" aria-controls="menu" data-menu-open>{{ icon("menu") }}<span class="sr-only">Menu</span></button>
     </div>
   </div>
 </header>
 <dialog class="menu" id="menu" aria-label="Menu">
   <div class="menu-top">
-    <img eleventy:ignore data-brand-logo src="/images/brand/stt-{{ logo }}-compact.svg" width="630" height="100" alt="Secret Travel &amp; Tour">
+    <a class="brand" href="/">{{ brandLockup(em) }}</a>
     <button class="menu-btn" type="button" data-menu-close>{{ icon("close") }}<span class="sr-only">Close menu</span></button>
   </div>
   <nav aria-label="Main">
@@ -50,8 +82,9 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
     </ul>
   </nav>
   <div class="menu-foot">
-    <a class="btn btn-sea btn-block" href="{{ waHref(number) }}">{{ icon("whatsapp") }}<span>Ask on WhatsApp</span></a>
-    {{ caller() if caller }}
+    <a class="btn btn-sea btn-block" href="{{ waHref(contact.number) }}">{{ icon("whatsapp") }}<span>Ask on WhatsApp</span></a>
+    <p class="menu-contact"><a href="tel:{{ contact.e164 }}">{{ contact.phoneDisplay }}</a></p>
+    <p class="menu-contact">{{ site.brands.secret.address.display }}</p>
   </div>
 </dialog>
 {% endmacro %}
@@ -67,94 +100,93 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 </nav>
 {% endmacro %}
 
-{#- Photo, ou emplacement « Photo to supply » hors production, ou rien (la carte passe alors en variante sans photo). -#}
-{% macro photo(p, slot, showSlots, cls="", eager=false) -%}
-{%- if p -%}
-<img eleventy:ignore class="{{ cls }}" src="{{ p.src }}" alt="{{ p.alt }}" width="{{ p.width }}" height="{{ p.height }}"{% if eager %} fetchpriority="high"{% else %} loading="lazy"{% endif %} decoding="async"{% if p.position %} style="object-position:{{ p.position }}"{% endif %}>
-{%- elif showSlots and slot -%}
-<div class="photo-slot {{ cls }}">Photo to supply: {{ slot }}</div>
-{%- endif -%}
-{%- endmacro %}
-
 {#- Prix d'appel : « from 1,000 THB per adult », ou « Price on WhatsApp » quand le produit n'a pas de prix. -#}
 {% macro priceFrom(price) -%}
 {%- if price and price.amount -%}
-<p class="price">from <span class="price-amount">{{ price.amount }}</span>{% if price.unit %} {{ price.unit }}{% endif %}</p>
+<p class="price">from <span class="price-amount">{{ price.amount }}</span>{% if price.unit %} <span class="price-unit">{{ price.unit }}</span>{% endif %}</p>
 {%- else -%}
 <p class="price price-ask">Price on WhatsApp</p>
 {%- endif -%}
 {%- endmacro %}
 
-{#- Ligne de faits : une vraie liste, filets fins entre les éléments. -#}
-{% macro factsLine(facts) -%}
+{#- Faits d'une carte : trois cases, libellé au-dessus, valeur dessous. -#}
+{% macro cardFacts(facts) -%}
 {%- if facts and facts.length -%}
-<ul class="facts">{% for f in facts %}<li>{{ f }}</li>{% endfor %}</ul>
+<dl class="cfacts">{% for f in facts %}<div><dt>{{ f.label }}</dt><dd>{{ f.value }}</dd></div>{% endfor %}</dl>
 {%- endif -%}
 {%- endmacro %}
 
-{#- Carte produit : toute la carte est le lien, aucun second bouton. Sans photo (ni emplacement), variante à filet. -#}
-{% macro productCard(c, showSlots, headingLevel=3) %}
+{#- Carte produit, façon billet : corps et talon séparés par une perforation ; le talon porte le prix.
+    Toute la carte est le lien, aucun second bouton. Sans photo (ni emplacement), le billet commence au titre. -#}
+{% macro productCard(c, showSlots, headingLevel=3, cls="") %}
 {%- set hasVisual = c.photo or (showSlots and c.slot) -%}
-<a class="card{% if not hasVisual %} card--nophoto{% endif %}" href="{{ c.href }}">
-  {{ photo(c.photo, c.slot, showSlots, "card-photo") }}
+<a class="card{% if not hasVisual %} card--nophoto{% endif %} {{ cls }}" href="{{ c.href }}">
+  {{ photo(c.photo, c.slot, showSlots, "card-photo", false, "(min-width: 64rem) 384px, (min-width: 40rem) 50vw, 100vw") }}
   <div class="card-body">
     <h{{ headingLevel }} class="card-title">{{ c.title }}</h{{ headingLevel }}>
     {% if c.promise %}<p class="card-promise">{{ c.promise }}</p>{% endif %}
-    {{ factsLine(c.facts) }}
-    <div class="card-price">{{ priceFrom(c.price) }}</div>
+    {{ cardFacts(c.facts) }}
   </div>
+  <div class="card-stub">{{ priceFrom(c.price) }}</div>
 </a>
 {% endmacro %}
 
-{#- Bandeau de faits clés, façon billet de ferry : une grille réglée, libellé à gauche ; seuls les chiffres
-    (prix, heures) sont composés en grand, le texte reste à taille de lecture. facts : view.keyFacts(product). -#}
-{% macro keyFacts(facts, label="Key facts") %}
-<dl class="board" aria-label="{{ label }}">
-  {%- for f in facts %}{% if f.value %}
-  <div class="board-row{% if f.number %} board-row--num{% endif %}{% if f.price %} board-price{% endif %}">
-    <dt>{{ f.label }}</dt>
-    <dd>{% if f.number %}<span class="board-num">{{ f.value }}</span>{% else %}{{ f.value }}{% endif %}{% if f.note %}<span class="board-note">{{ f.note }}</span>{% endif %}</dd>
+{#- Bandeau de faits clés, billet de ferry : lignes réglées (heures en soleil), talon avec le prix d'appel
+    et les frais de parc, dits une seule fois sur la page. t : view.ticket(product). -#}
+{% macro ticket(t, label="Key facts") %}
+<div class="ticket" role="group" aria-label="{{ label }}">
+  <dl class="ticket-main">
+    {%- for r in t.rows %}
+    <div class="ticket-row"><dt>{{ r.label }}</dt><dd{% if r.time %} class="ticket-time"{% endif %}>{{ r.value }}</dd></div>
+    {%- endfor %}
+  </dl>
+  {%- if t.stub.price or t.stub.fee %}
+  <div class="ticket-stub">
+    {%- if t.stub.price %}
+    <p class="stub-price"><span class="stub-label">From</span><span class="stub-amount">{{ t.stub.price.amount }}</span><span class="stub-unit">{{ t.stub.price.unit }}</span></p>
+    {%- endif %}
+    {%- if t.stub.fee %}
+    <p class="stub-fee"><span class="stub-label">{{ t.stub.fee.label }}, not included</span>{{ t.stub.fee.adult }} per adult{% if t.stub.fee.child %}, {{ t.stub.fee.child }} per child{% endif %}. {{ t.stub.fee.note }}.{% if t.stub.fee.thai %} {{ t.stub.fee.thai }}.{% endif %}</p>
+    {%- endif %}
   </div>
-  {%- endif %}{% endfor %}
-</dl>
+  {%- endif %}
+</div>
 {% endmacro %}
 
-{#- Options et prix : chaque option est un bouton entier qui ouvre la feuille de réservation, option préremplie.
-    Nom accessible court (« Check availability for … »), prix et notes lus en description.
-    Les frais non inclus suivent immédiatement les prix. -#}
-{% macro optionsPrices(options, fees, note) %}
+{#- Options et prix : chaque option est un billet entier (bouton) qui ouvre la feuille, option préremplie.
+    Corps : nom et note ; talon : les tarifs avec leurs âges. Choisie : fond mer profonde, prix en soleil. -#}
+{% macro optionsPrices(options, note, stateCls="") %}
 <ul class="options">
   {%- for o in options %}
   <li>
-    <button class="opt" type="button" data-book="{{ o.id }}" aria-pressed="false" aria-label="Check availability for {{ o.title }}" aria-describedby="opt-{{ o.id }}-d">
-      <span class="opt-title">{{ o.title }}</span>
-      <span class="opt-body" id="opt-{{ o.id }}-d">
+    <button class="opt {{ stateCls }}" type="button" data-book="{{ o.id }}" aria-pressed="false" aria-label="Check availability for {{ o.title }}" aria-describedby="opt-{{ o.id }}-d">
+      <span class="opt-main">
+        <span class="opt-title">{{ o.title }}</span>
         {%- if o.note %}<span class="opt-note">{{ o.note }}</span>{% endif %}
+        {%- if o.fees %}<span class="opt-fee">Not included: {{ o.fees }}</span>{% endif %}
+      </span>
+      <span class="opt-stub" id="opt-{{ o.id }}-d">
         {%- if o.rows and o.rows.length %}
-        <span class="opt-rows">{% for r in o.rows %}<span class="opt-row"><span>{{ r.label }}</span><span class="num">{{ r.price }}</span></span>{% endfor %}</span>
+        {%- for r in o.rows %}<span class="opt-row"><span>{{ r.label }}</span><span class="opt-price">{{ r.price }}</span></span>{% endfor %}
         {%- else %}
-        <span class="opt-rows"><span class="opt-row"><span>Price</span><span class="num">On WhatsApp</span></span></span>
+        <span class="opt-row"><span>Price</span><span class="opt-price">On WhatsApp</span></span>
         {%- endif %}
-        {%- if o.fees %}<span class="opt-fee"><b>Not included</b> {{ o.fees }}</span>{% endif %}
       </span>
     </button>
   </li>
   {%- endfor %}
 </ul>
-{%- if fees and fees.text %}
-<p class="fees"><strong>{{ fees.label }}</strong><br>{{ fees.text }}</p>
-{%- endif %}
 {%- if note %}<p class="price-note">{{ note }}</p>{% endif %}
 {% endmacro %}
 
-{#- Déroulé : heure à gauche en chiffres tabulaires, étape à droite (20 mots au plus par étape). -#}
-{% macro timeline(steps, note) %}
-<ol class="timeline">
+{#- Ligne de route : heures fixes telles quelles, les autres précédées de « ≈ » (view.day). -#}
+{% macro routeLine(steps, note) %}
+<ol class="route">
   {%- for s in steps %}
-  <li><span class="t">{{ s.t }}</span><span>{{ s.text }}</span></li>
+  <li class="{% if s.fixed %}route-fixed{% endif %}"><span class="route-t">{% if s.approx %}<span class="approx" aria-label="about">≈</span>{% endif %}{{ s.t }}</span><span class="route-text">{{ s.text }}</span></li>
   {%- endfor %}
 </ol>
-{%- if note %}<p class="timeline-note">{{ note }}</p>{% endif %}
+{%- if note %}<p class="route-note">{{ note }}</p>{% endif %}
 {% endmacro %}
 
 {#- Inclus / non inclus, deux colonnes dès la tablette. -#}
@@ -169,7 +201,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 </div>
 {% endmacro %}
 
-{#- « Before you book » : encadré plat, sans pictogramme ni post-it. items : [{label, text}] (view.beforeBook). -#}
+{#- « Before you book » : bloc de faits sur mer profonde, sans pictogramme. items : [{label, text}] (view.beforeBook). -#}
 {% macro beforeBook(items, id="before-book", level=2) %}
 {%- if items and items.length %}
 <section class="info" aria-labelledby="{{ id }}">
@@ -193,7 +225,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 </div>
 {% endmacro %}
 
-{#- Galerie balayable avec compteur « 1/5 » et boutons. En production, seules les vraies photos restent. -#}
+{#- Galerie balayable avec compteur « 1/5 ». En production, seules les vraies photos restent. -#}
 {% macro gallery(items, label, showSlots) %}
 {%- set shown = [] -%}
 {%- for g in items %}{% if g.photo or (showSlots and g.slot) %}{% set _n = shown.push(g) %}{% endif %}{% endfor -%}
@@ -201,7 +233,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 <div class="gallery{% if shown.length == 1 %} gallery--single{% endif %}" data-gallery role="region" aria-roledescription="gallery" aria-label="{{ label }}">
   <ul class="gallery-track" tabindex="0">
     {%- for g in shown %}
-    <li aria-label="{{ loop.index }} of {{ shown.length }}">{{ photo(g.photo, g.slot, showSlots, "", loop.first) }}</li>
+    <li aria-label="{{ loop.index }} of {{ shown.length }}">{{ photo(g.photo, g.slot, showSlots, "", loop.first, "(min-width: 64rem) 340px, 88vw") }}</li>
     {%- endfor %}
   </ul>
   {%- if shown.length > 1 %}
@@ -217,32 +249,110 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 {%- endif %}
 {% endmacro %}
 
-{#- Barre collante mobile (64 px + zone sûre) : prix d'appel et « Check availability ». Sans JS, le lien ouvre WhatsApp. -#}
+{#- Barre collante mobile (64 px + zone sûre) : « from 1,000 THB / adult » et « Check availability », qui ouvre
+    la feuille avec l'option de ce prix déjà choisie. Sans JS, le lien ouvre WhatsApp. -#}
 {% macro mobileBar(price, fallbackHref, cls="") %}
 <div class="mbar {{ cls }}">
-  <p class="mbar-price">{% if price and price.amount %}From <span class="price-amount">{{ price.amount }}</span>{% else %}<span class="price-ask">Price on WhatsApp</span>{% endif %}</p>
-  <a class="btn btn-primary" href="{{ fallbackHref }}" data-book="">{{ icon("whatsapp") }}<span>Check availability</span></a>
+  <p class="mbar-price">{% if price and price.amount %}from <span class="price-amount">{{ price.amount }}</span>{% if price.short %} / {{ price.short }}{% endif %}{% else %}<span class="price-ask">Price on WhatsApp</span>{% endif %}</p>
+  <a class="btn btn-primary" href="{{ fallbackHref }}" data-book="{{ price.option if price else '' }}">{{ icon("whatsapp") }}<span>Check availability</span></a>
 </div>
 {% endmacro %}
 
-{#- Pied de page : adresse, carte, WhatsApp, délai de réponse, société, pages légales.
-    site : site.json ; contact : view.contact(site). L'emplacement de la licence TAT n'affiche rien tant que licence est null. -#}
-{% macro footer(site, contact, logo="b") %}
+{#- « Who runs this trip » : le comptoir de Sala Dan et la société. Aucun nom de partenaire (réponse Q17). -#}
+{% macro whoRuns(w, level=2) %}
+<section class="who" aria-labelledby="h-who">
+  <h{{ level }} id="h-who">Who runs this trip</h{{ level }}>
+  <p>You book with our desk at {{ w.desk }}{% if w.maps %} (<a href="{{ w.maps }}">map</a>){% endif %}. We confirm the time and place of your pickup on WhatsApp.</p>
+  <p class="who-legal">Operated by {{ w.operator }}, company no. <span class="num">{{ w.registration }}</span>{% if w.licence %}, TAT licence {{ w.licence }}{% endif %}.</p>
+</section>
+{% endmacro %}
+
+{#- Trois produits liés et un lien vers le transfert utile. -#}
+{% macro related(cards, transfer, showSlots) %}
+<ul class="grid cards cards--related">
+  {%- for c in cards %}<li>{{ productCard(c, showSlots, 3) }}</li>{% endfor %}
+</ul>
+{%- if transfer %}<p class="related-transfer"><a href="{{ transfer.href }}">{{ transfer.label }}</a></p>{% endif %}
+{% endmacro %}
+
+{#- Tableau des départs : une ligne par excursion, heures en chiffres tabulaires.
+    « Runs today » seulement si la saison est connue et couvre le mois en cours (view.departures). -#}
+{% macro departures(rows, caption) %}
+<div class="table-scroll">
+<table class="departures">
+  <caption>{{ caption }}</caption>
+  <thead><tr><th scope="col">Trip</th><th scope="col">Pickup</th><th scope="col">Boat leaves</th><th scope="col">Boat</th><th scope="col">From</th><th scope="col">Today</th></tr></thead>
+  <tbody>
+    {%- for r in rows %}
+    <tr>
+      <th scope="row"><a href="{{ r.href }}">{{ r.name }}</a></th>
+      <td class="dep-time">{{ r.pickup }}</td>
+      <td class="dep-time">{{ r.leaves }}</td>
+      <td>{{ r.boat }}</td>
+      <td class="dep-price">{{ r.from }}</td>
+      <td>{% if r.today %}<span class="runs">Runs today</span>{% elif r.today === false %}Out of season{% endif %}</td>
+    </tr>
+    {%- endfor %}
+  </tbody>
+</table>
+</div>
+{% endmacro %}
+
+{#- Réglette des saisons : 12 cases, mois ouverts marqués (view.seasonRuler). Rien si la saison est inconnue. -#}
+{% macro seasonRuler(r) %}
+{%- if r %}
+<figure class="season">
+  <figcaption>Season: {{ r.label }}</figcaption>
+  <ol class="season-months">
+    {%- for m in r.months %}<li class="{% if m.open %}is-open{% endif %}"><abbr title="{{ m.name }}">{{ m.short }}</abbr><span class="sr-only">{{ ", runs" if m.open else ", closed" }}</span></li>{% endfor %}
+  </ol>
+</figure>
+{%- endif %}
+{% endmacro %}
+
+{#- Page trajet (00-BRIEF §6.4) : les deux sens, faits du trajet, FAQ propres. parts : view.routeParts(route). -#}
+{% macro routeHead(parts) %}
+<p class="route-pair"><span>{{ parts.from }}{% if parts.code %} <span class="num">({{ parts.code }})</span>{% endif %}</span><span class="route-pair-sep" aria-hidden="true"></span><span>{{ parts.to }}</span></p>
+{%- if parts.both %}<p class="route-both">Both directions, same price</p>{% endif %}
+{% endmacro %}
+
+{% macro routeFacts(parts) %}
+<dl class="rfacts">
+  {%- for r in parts.rows %}{% if r.value %}<div><dt>{{ r.label }}</dt><dd>{{ r.value }}</dd></div>{% endif %}{% endfor %}
+</dl>
+{% endmacro %}
+
+{#- Location (00-BRIEF §6.3) : véhicules et prix par jour, un tableau par catégorie. -#}
+{% macro rentalTable(groups) %}
+<div class="rental">
+  {%- for g in groups %}
+  <div class="table-scroll">
+  <table class="rent">
+    <caption>{{ g.title }}</caption>
+    <thead><tr><th scope="col">Vehicle</th><th scope="col">Per day</th></tr></thead>
+    <tbody>{% for r in g.rows %}<tr><th scope="row">{{ r.label }}</th><td class="rent-price">{{ r.price }}</td></tr>{% endfor %}</tbody>
+  </table>
+  </div>
+  {%- endfor %}
+</div>
+{% endmacro %}
+
+{#- Pied de page : marque sur pastille sable, comptoir, WhatsApp, société, pages légales.
+    L'emplacement de la licence TAT n'affiche rien tant que licence est null. -#}
+{% macro footer(site, contact, em) %}
 {%- set b = site.brands.secret -%}
 <footer class="site-footer">
   <div class="wrap grid">
-    <div class="foot-brand"><img eleventy:ignore data-brand-logo src="/images/brand/stt-{{ logo }}-horizontal-light.svg" width="543" height="100" alt="Secret Travel &amp; Tour, Koh Lanta" loading="lazy"></div>
+    <div class="foot-brand"><span class="pastille">{{ emblem(em) }}</span><p class="foot-name">Secret Travel &amp; Tour<span>Sala Dan, Koh Lanta</span></p></div>
     <div class="foot-col">
       <h2>Our desk</h2>
       <p>{{ b.address.display }}</p>
-      {% if b.maps %}<p><a href="{{ b.maps }}">Open in Google Maps</a></p>{% endif %}
+      {% if b.maps %}<p><a class="foot-link" href="{{ b.maps }}">Open in Google Maps</a></p>{% endif %}
     </div>
     <div class="foot-col">
       <h2>WhatsApp</h2>
-      <p><a class="link-wa" href="{{ waHref(contact.number) }}">{{ icon("whatsapp") }}<span class="num">{{ contact.phoneDisplay }}</span></a></p>
+      <p><a class="link-wa" href="{{ waHref(contact.number) }}">{{ icon("whatsapp") }}<span>{{ contact.phoneDisplay }}</span></a></p>
       {% if contact.replyTime %}<p class="quiet">{{ contact.replyTime }}</p>{% endif %}
-      {%- set langs = contact.languages %}
-      {% if langs and langs.length %}<p class="quiet">We speak {{ langs.slice(0, -1) | join(", ") }}{% if langs.length > 1 %} and {% endif %}{{ langs | last }}.</p>{% endif %}
     </div>
     <div class="foot-legal">
       <p>Operated by {{ site.operator.name }}</p>

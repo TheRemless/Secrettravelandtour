@@ -14,6 +14,7 @@
   },
   "h1": "Fishing trip off Koh Lanta",
   "lead": "A half day of fishing, from a longtail off the coast, or from a private wooden raft in the calm waters of Ao Lanta, with lunch cooked on board.",
+  "promise": "Half a day fishing from a longtail or a private raft",
   "facts": [
     {
       "label": "Duration",
@@ -231,6 +232,10 @@
     {
       "field": "options[priceOnRequest]",
       "from": "secretPagesContent.json pages.fishing-trip (goodToKnow, priceNote) ; décision client du 02.11.2026 : « Price on WhatsApp »"
+    },
+    {
+      "field": "promise",
+      "from": "lead du produit, raccourci à 60 caractères pour la carte (03.11.2026)"
     }
   ],
   "todo": [

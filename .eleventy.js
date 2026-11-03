@@ -24,6 +24,11 @@ module.exports = async function (eleventyConfig) {
     "src/robots.txt": "robots.txt"
   });
 
+  // Captures avant/après de la planche /design/ : copiées seulement hors production, comme la planche.
+  if (process.env.CONTEXT !== "production") {
+    eleventyConfig.addPassthroughCopy({ "src/design/compare": "design/compare" });
+  }
+
   return {
     dir: {
       input: "src",

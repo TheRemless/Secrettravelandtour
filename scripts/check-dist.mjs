@@ -9,7 +9,8 @@
 //    leur remplacement).
 // 3. `TODO(client)` ou `[À CONFIRMER]` n'importe où dans _site : échec si CONTEXT=production
 //    (Netlify, site en ligne), sinon avertissement avec le nombre d'occurrences.
-// Les planches /design/ sont exclues.
+// 4. Planches /design/ (balise <html data-board>, jamais en production) : contrôle strict, comme les pages
+//    de la refonte (retour du 03.11.2026, point 16).
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -56,7 +57,8 @@ const BANNED_TEXT = [
   ["in Koh Lanta", /\bin Koh Lanta\b/i],
   ["Book now", /\bbook now\b/i],
   ["flèche décorative →", /→/],
-  ["ornement ——", /——/]
+  ["ornement ——", /——/],
+  ["refonte (mot de chantier)", /\brefonte\b/i]
 ];
 // « no hidden fees » toléré une fois par page.
 const HIDDEN_FEES = /\bno hidden fees\b/gi;
@@ -83,7 +85,7 @@ const BANNED_CSS = [
 // Autorisées dans les pages de la marque vip (<html data-brand="vip">) et dans vip.css, interdites ailleurs.
 const VIP_FONTS = /marcellus|figtree/i;
 const VIP_CSS = new Set(["css/vip.css"]);
-const BANNED_JS = BANNED_TEXT.filter(([name]) => !["flèche décorative →", "1h30"].includes(name)).concat([["« Hi …! » en tête de message", /["'`]Hi [^"'`\n]{0,40}!/]]);
+const BANNED_JS = BANNED_TEXT.filter(([name]) => !["flèche décorative →", "1h30", "refonte (mot de chantier)"].includes(name)).concat([["« Hi …! » en tête de message", /["'`]Hi [^"'`\n]{0,40}!/]]);
 
 const PLACEHOLDERS = /TODO\(client\)|\[À CONFIRMER\]/g;
 
@@ -116,7 +118,6 @@ function listFiles(dir, exts, acc = []) {
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, e.name);
     const rel = path.relative(SITE, full).split(path.sep).join("/");
-    if (rel === "design" || rel.startsWith("design/")) continue;
     if (e.isDirectory()) listFiles(full, exts, acc);
     else if (exts.includes(path.extname(e.name))) acc.push(rel);
   }
@@ -177,7 +178,7 @@ let refonteCount = 0;
 
 for (const rel of htmlFiles) {
   const html = fs.readFileSync(path.join(SITE, rel), "utf8");
-  const isRefonte = /<html\b[^>]*\sdata-refonte\b/i.test(html);
+  const isRefonte = /<html\b[^>]*\sdata-(?:refonte|board)\b/i.test(html);
   if (isRefonte) {
     refonteCount++;
     // CSS et JS chargés par une page de la refonte : contrôle strict.
@@ -197,7 +198,7 @@ for (const rel of assetFiles) {
   for (const [rule, detail] of found) (strictAssets.has(rel) ? errors : warnings).push({ file: rel, rule, detail });
 }
 
-// TODO(client) et [À CONFIRMER] : partout dans _site (hors /design/).
+// TODO(client) et [À CONFIRMER] : partout dans _site.
 let placeholderCount = 0;
 const placeholderFiles = [];
 for (const rel of htmlFiles.concat(assetFiles)) {

@@ -1,31 +1,10 @@
-{#- Planches /design/ seulement : réglage du logo affiché (A, B, B avec le van) et ouverture de la feuille par #sheet. -#}
+{#- Planches /design/ seulement : ouverture de la feuille par #sheet (cadres mobiles de la planche). -#}
 <script>
 (function () {
   "use strict";
-  var KEY = "stt-board-logo";
-  var buttons = document.querySelectorAll("[data-logo-choice]");
-  function apply(choice) {
-    Array.prototype.forEach.call(document.querySelectorAll("[data-brand-logo]"), function (el) {
-      var attr = el.tagName === "LINK" ? "href" : "src";
-      el.setAttribute(attr, el.getAttribute(attr).replace(/stt-(?:a|bv|b)-/, "stt-" + choice + "-"));
-    });
-    Array.prototype.forEach.call(buttons, function (b) {
-      b.setAttribute("aria-pressed", b.getAttribute("data-logo-choice") === choice ? "true" : "false");
-    });
-  }
-  Array.prototype.forEach.call(buttons, function (b) {
-    b.addEventListener("click", function () {
-      var choice = b.getAttribute("data-logo-choice");
-      apply(choice);
-      try { localStorage.setItem(KEY, choice); } catch (e) { /* stockage indisponible */ }
-    });
-  });
-  var saved = null;
-  try { saved = localStorage.getItem(KEY); } catch (e) { saved = null; }
-  if (saved === "a" || saved === "b" || saved === "bv") apply(saved);
   if (location.hash === "#sheet") {
     addEventListener("load", function () {
-      var t = document.querySelector(".opt[data-book]") || document.querySelector("main [data-book]");
+      var t = document.querySelector(".mbar [data-book]") || document.querySelector("main [data-book]");
       if (t) t.click();
     });
   }

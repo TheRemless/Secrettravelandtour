@@ -107,7 +107,8 @@
     var date = resolveDate(state.dateChoice, state.dateOther, state.today);
 
     if (config.variant === "taxi") {
-      lines.push("Transfer request: " + routeLabel(config, state) + (config.vehicle ? " (" + config.vehicle + ")" : ""));
+      var vehicle = findOption(config, state.option);
+      lines.push("Transfer request: " + routeLabel(config, state) + (vehicle ? " – " + vehicle.title : config.vehicle ? " (" + config.vehicle + ")" : ""));
       if (date) lines.push("Date: " + formatDate(date));
       if (clean(state.time)) lines.push("Pickup time: " + clean(state.time));
       if (clean(state.flight)) lines.push("Flight or ferry: " + clean(state.flight));
@@ -132,8 +133,38 @@
       var price = priceLine(findOption(config, state.option));
       if (price) lines.push("Price on website: " + price);
     }
+    if (state.ref) lines.push("Ref: " + state.ref);
     if (config.page) lines.push("Page: " + config.page);
     return lines.join("\n");
+  }
+
+  // Référence de la demande : produit, jour et mois (heure de Bangkok), trois signes sans 0/O ni 1/I.
+  // « 4IS-0311-K7P » : l'agence la retrouve dans WhatsApp, le client la cite s'il réécrit.
+  var REF_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  function makeRef(prefix, todayIso, random) {
+    var rnd = random || Math.random;
+    var tail = "";
+    for (var i = 0; i < 3; i++) tail += REF_CHARS.charAt(Math.floor(rnd() * REF_CHARS.length));
+    var d = (todayIso || "").split("-");
+    return (prefix ? prefix + "-" : "") + (d.length === 3 ? d[2] + d[1] + "-" : "") + tail;
+  }
+
+  function thb(n) {
+    return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " THB";
+  }
+
+  // Cash à prévoir pour le parc national : adultes et enfants au tarif des données, rien d'autre.
+  // « 2 × 200 + 1 × 100 = 500 THB ». Null si le produit n'a pas de frais de parc.
+  function parkCash(config, state) {
+    var fee = config.parkFee;
+    if (!fee || !fee.adult) return null;
+    var kids = (state.childAges || []).length;
+    var parts = [];
+    var total = 0;
+    if (state.adults > 0) { parts.push(state.adults + " × " + fee.adult); total += state.adults * fee.adult; }
+    if (kids > 0 && fee.child) { parts.push(kids + " × " + fee.child); total += kids * fee.child; }
+    if (!parts.length) return null;
+    return { total: total, text: parts.join(" + ") + " = " + thb(total) };
   }
 
   function waUrl(message, number) {
@@ -191,7 +222,7 @@
 
   function emptyState(config) {
     return {
-      option: "", dateChoice: "", dateOther: "", adults: 2, childAges: [], pickup: "", name: "",
+      option: "", dateChoice: "", dateOther: "", adults: 2, childAges: [], pickup: "", name: "", ref: "",
       direction: "out", from: "", to: "", time: "", flight: "", bags: 0, childSeats: 0, address: ""
     };
   }
@@ -355,34 +386,46 @@
     });
 
     function errorEl(key) { return dialog.querySelector("#book-e-" + key); }
+    // Contrôles d'une erreur : tout le groupe pour les choix (date, option), le champ seul sinon.
+    function controlsFor(key) {
+      if (key === "date") return form.querySelectorAll('input[name="dateChoice"], input[name="dateOther"]');
+      if (key === "option") return form.querySelectorAll('input[name="option"]');
+      var f = field(key);
+      return f ? [f] : [];
+    }
     function controlFor(key) {
       if (key === "date") return form.querySelector('input[name="dateChoice"]:checked') || form.querySelector('input[name="dateChoice"]');
-      if (key === "option") return form.querySelector('input[name="option"]');
-      return field(key);
+      return controlsFor(key)[0] || null;
     }
+    function groupOf(el) { return el && el.closest ? el.closest(".f, .count") : null; }
 
+    // Dès qu'un choix est fait, l'erreur quitte tout le groupe : message, barre, bordures.
     function clearError(key) {
       var el = errorEl(key);
       if (el) { el.hidden = true; el.textContent = ""; }
-      var c = controlFor(key);
-      if (c && c.removeAttribute) c.removeAttribute("aria-invalid");
+      Array.prototype.forEach.call(controlsFor(key), function (c) { c.removeAttribute("aria-invalid"); });
+      var g = groupOf(el);
+      if (g) g.classList.remove("is-invalid");
     }
 
     function showErrors(errors) {
       var first = null;
       Array.prototype.forEach.call(dialog.querySelectorAll(".err"), function (el) { el.hidden = true; el.textContent = ""; });
       Array.prototype.forEach.call(form.querySelectorAll("[aria-invalid]"), function (el) { el.removeAttribute("aria-invalid"); });
+      Array.prototype.forEach.call(form.querySelectorAll(".is-invalid"), function (el) { el.classList.remove("is-invalid"); });
       // L'ordre des clés suit l'ordre du formulaire à l'écran.
       var order = Array.prototype.map.call(dialog.querySelectorAll(".err[id]"), function (el) { return el.id.replace("book-e-", ""); });
       order.forEach(function (key) {
         if (!errors[key]) return;
         var el = errorEl(key);
         if (el) { el.textContent = errors[key]; el.hidden = false; }
+        var g = groupOf(el);
+        if (g) g.classList.add("is-invalid");
+        Array.prototype.forEach.call(controlsFor(key), function (c) {
+          if (c.name !== "dateOther" || !c.closest("[hidden]")) c.setAttribute("aria-invalid", "true");
+        });
         var c = controlFor(key);
-        if (c) {
-          c.setAttribute("aria-invalid", "true");
-          if (!first) first = c;
-        }
+        if (c && !first) first = c;
       });
       if (first) first.focus();
     }
@@ -402,10 +445,45 @@
       var errors = validate(config, state);
       if (Object.keys(errors).length) { showErrors(errors); return; }
       message = buildMessage(config, state);
-      dialog.querySelector("[data-message]").textContent = message;
-      dialog.querySelector("[data-send]").href = waUrl(message, config.whatsapp);
+      var url = waUrl(message, config.whatsapp);
+      renderSlip(message);
+      dialog.querySelector("[data-send]").href = url;
+      Array.prototype.forEach.call(dialog.querySelectorAll("[data-again], [data-again-link]"), function (a) { a.href = url; });
       show("preview");
     });
+
+    // Fiche de comptoir : une ligne par ligne du message (libellé, valeur), la référence en tête,
+    // puis le cash à prévoir pour le parc, hors message.
+    function renderSlip(text) {
+      var pre = dialog.querySelector("[data-message]");
+      if (pre) pre.textContent = text;
+      var dl = dialog.querySelector("[data-slip]");
+      var refEl = dialog.querySelector("[data-slip-ref]");
+      if (dl) {
+        dl.textContent = "";
+        text.split("\n").forEach(function (line, i) {
+          var cut = line.indexOf(": ");
+          var label = cut > 0 ? line.slice(0, cut) : "";
+          var value = cut > 0 ? line.slice(cut + 2) : line;
+          if (label === "Ref") { if (refEl) { refEl.textContent = "Ref " + value; refEl.hidden = false; } return; }
+          var row = doc.createElement("div");
+          if (i === 0) row.className = "slip-first";
+          var dt = doc.createElement("dt");
+          var dd = doc.createElement("dd");
+          dt.textContent = label;
+          dd.textContent = value;
+          row.appendChild(dt);
+          row.appendChild(dd);
+          dl.appendChild(row);
+        });
+      }
+      var cash = parkCash(config, state);
+      var box = dialog.querySelector("[data-cash]");
+      if (box) {
+        box.hidden = !cash;
+        if (cash) dialog.querySelector("[data-cash-sum]").textContent = cash.text;
+      }
+    }
 
     dialog.querySelector("[data-edit]").addEventListener("click", function () { show("form"); });
 
@@ -470,6 +548,7 @@
       state = emptyState(config);
       load();
       if (optionId) state.option = optionId;
+      if (!state.ref) state.ref = makeRef(config.refPrefix, today());
       if (!state.option && (config.options || []).length === 1) state.option = config.options[0].id;
       fillForm();
       showErrors({});
@@ -499,6 +578,8 @@
     priceLine: priceLine,
     buildMessage: buildMessage,
     validate: validate,
+    makeRef: makeRef,
+    parkCash: parkCash,
     waUrl: waUrl,
     makeDraft: makeDraft,
     restoreDraft: restoreDraft,

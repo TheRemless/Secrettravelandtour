@@ -15,6 +15,7 @@
   },
   "h1": "Koh Phi Phi day trip from Koh Lanta",
   "lead": "Maya Bay, Pileh Lagoon, Viking Cave, Monkey Beach, then lunch on Phi Phi Don and an afternoon on Bamboo Island. By speedboat, join-in or private.",
+  "promise": "Maya Bay, Pileh Lagoon and Bamboo Island by speedboat",
   "facts": [
     {
       "label": "Duration",
@@ -316,6 +317,10 @@
     {
       "field": "options[].notIncludedFees",
       "from": "secretPagesContent.json pages.koh-phi-phi.parkFee, priceNote, goodToKnow"
+    },
+    {
+      "field": "promise",
+      "from": "lead du produit, raccourci à 60 caractères pour la carte (03.11.2026)"
     }
   ],
   "todo": [

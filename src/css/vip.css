@@ -153,7 +153,9 @@ a { color: var(--amber); text-underline-offset: .18em; }
 
 /* ---------- Encart Secret Travel & Tour : discret, à ses couleurs ---------- */
 .stt-ad { display: flex; align-items: center; gap: var(--s2); padding: var(--s2) var(--s3); border-radius: var(--radius); background: var(--stt-deep); color: var(--white); }
-.stt-ad img { flex: none; width: 48px; height: auto; }
+/* Emblème d'origine de Secret, posé tel quel sur une pastille sable (marge = 1/4 de sa hauteur). */
+.stt-ad-pastille { flex: none; display: inline-flex; padding: var(--s1); border-radius: var(--s1); background: #F5F0E6; }
+.stt-ad-pastille img { width: auto; height: 32px; }
 .stt-ad a { color: var(--stt-lagoon); font-weight: 700; }
 .stt-ad a:focus-visible { outline-color: var(--white); }
 

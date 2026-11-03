@@ -1,7 +1,7 @@
 {#- Feuille de réservation (src/js/booking.js) : un seul <dialog id="book"> par page.
     cfg : variant "tour" ou "taxi", brand, product, productId, page, whatsapp, options [{id, title, rows}],
           pickupRequired (excursions), from et to (trajet fixé ; sans eux, deux champs libres).
-    facts : replyTime, languages, phoneDisplay (secret.json). -#}
+    facts : view.contact(site) (number, e164, phoneDisplay ; replyTime et languages vides tant qu'ils ne sont pas confirmés). -#}
 {% from "components/icons.njk" import icon %}
 
 {% macro stepper(name, label, value, min, max, hint) %}
@@ -129,7 +129,17 @@
     </div>
     <div class="sheet-body">
       <p class="f-hint">WhatsApp opens with this text. You can still change it there before sending.</p>
-      <pre class="message" data-message></pre>
+      {#- Fiche de comptoir : chaque ligne du message, libellé à gauche ; la référence en tête. -#}
+      <div class="slip">
+        <p class="slip-ref" data-slip-ref hidden></p>
+        <dl class="slip-lines" data-slip></dl>
+        <pre class="sr-only" data-message></pre>
+        <div class="slip-cash" data-cash hidden>
+          <p class="slip-cash-label">{{ cfg.parkFee.label if cfg.parkFee else "" }}, in cash on the day</p>
+          <p class="slip-cash-sum" data-cash-sum></p>
+          <p class="slip-cash-note">Not in the price and not in the message. {{ cfg.parkFee.note if cfg.parkFee else "" }}.</p>
+        </div>
+      </div>
     </div>
     <div class="sheet-foot">
       <a class="sheet-btn" href="https://wa.me/{{ cfg.whatsapp }}" target="_blank" rel="noopener" data-send>{{ icon("whatsapp") }}<span>Send on WhatsApp</span></a>
@@ -145,14 +155,12 @@
     </div>
     <div class="sheet-body done-text">
       {% if facts.replyTime %}<p>{{ facts.replyTime }}</p>{% endif %}
-      {%- set langs = facts.languages %}
-      {% if langs and langs.length %}<p>We reply in {{ langs.slice(0, -1) | join(", ") }}{% if langs.length > 1 %} or {% endif %}{{ langs | last }}.</p>{% endif %}
-      <p>Nothing opened? Copy your message and send it on WhatsApp to <span class="num">{{ facts.phoneDisplay }}</span>.</p>
-      <button class="sheet-btn sheet-btn--quiet" type="button" data-copy>Copy message</button>
+      <p>Nothing opened? Send your message to <a class="done-num" href="https://wa.me/{{ cfg.whatsapp }}" data-again-link>{{ facts.phoneDisplay }}</a> on WhatsApp, or call <a class="done-num" href="tel:{{ facts.e164 }}">{{ facts.phoneDisplay }}</a>.</p>
       <p class="copy-status" data-copy-status role="status"></p>
     </div>
-    <div class="sheet-foot">
-      <button class="sheet-btn sheet-btn--quiet" type="button" data-close>Close</button>
+    <div class="sheet-foot sheet-foot--stack">
+      <a class="sheet-btn" href="https://wa.me/{{ cfg.whatsapp }}" target="_blank" rel="noopener" data-again>{{ icon("whatsapp") }}<span>Open WhatsApp again</span></a>
+      <button class="sheet-btn sheet-btn--quiet" type="button" data-copy>Copy message</button>
     </div>
   </div>
 </dialog>

@@ -14,6 +14,7 @@
   },
   "h1": "Koh Talabeng and Koh Bubu kayak and longtail",
   "lead": "A half day on the east side of Koh Lanta. You paddle around the limestone islets of Koh Talabeng, then the longtail takes you to the beach of Koh Bubu.",
+  "promise": "Paddle round Koh Talabeng, then the beach on Koh Bubu",
   "facts": [
     {
       "label": "Duration",
@@ -183,6 +184,10 @@
     {
       "field": "options[priceOnRequest]",
       "from": "secretPagesContent.json pages.koh-talabeng-koh-bubu (goodToKnow, priceNote) ; décision client du 02.11.2026 : « Price on WhatsApp »"
+    },
+    {
+      "field": "promise",
+      "from": "lead du produit, raccourci à 60 caractères pour la carte (03.11.2026)"
     }
   ],
   "todo": [

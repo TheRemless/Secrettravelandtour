@@ -14,6 +14,7 @@
   },
   "h1": "Elephant sanctuary",
   "lead": "Walk with the elephants, feed them, join them in the mud bath and the pool. No riding. Three programmes, from an hour and a half to a full day.",
+  "promise": "Feed and bathe the elephants, no riding",
   "facts": [
     {
       "label": "Riding",
@@ -300,6 +301,10 @@
     {
       "field": "schema",
       "from": "secretPagesContent.json pages.elephant-sanctuary.schemaType, places ; type cible : docs/refonte/02-audit-seo.md §6.3"
+    },
+    {
+      "field": "promise",
+      "from": "lead du produit, raccourci à 60 caractères pour la carte (03.11.2026)"
     }
   ],
   "todo": [

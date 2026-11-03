@@ -238,7 +238,9 @@ test("site.json : deux marques, WhatsApp commun, note VIP datée, licence encore
   assert.ok(Number.isInteger(r.count) && r.count > 0);
   assert.match(r.readOn, /^\d{4}-\d{2}-\d{2}$/);
   assert.match(r.url, /^https:\/\//);
-  assert.deepEqual(site.languages, ["Thai", "English", "German", "Italian", "French"]);
+  // Délai de réponse et langues retirés le 03.11.2026 (faits à reconfirmer) : rien ne s'affiche tant qu'ils sont null.
+  assert.equal(site.replyTime, null);
+  assert.equal(site.languages, null);
   for (const t of site.todo) assert.match(t, /^TODO\(client\): \S/);
   for (const b of BRANDS) {
     for (const ph of site.brands[b].photos || []) {

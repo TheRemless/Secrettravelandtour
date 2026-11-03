@@ -11,7 +11,7 @@ boardPermalink: /design/taxi/
 {%- set slots = buildContext.showPhotoSlots -%}
 {%- set fallback = vip.waHref(wa, r.fallback) -%}
 <!DOCTYPE html>
-<html lang="en-GB" data-board>
+<html lang="en-GB" data-board data-brand="vip">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -29,10 +29,6 @@ boardPermalink: /design/taxi/
   .bd-sec > h2 { margin-bottom: var(--s1); }
   .bd-title { font-size: clamp(2rem, 1.5rem + 2vw, 3rem); }
   .bd-desc { margin: var(--s1) 0 var(--s3); color: var(--mute); }
-  .bd-switch { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s1); }
-  .bd-switch p { margin-right: var(--s1); font-weight: 700; }
-  .bd-switch button { min-height: 44px; padding: 0 1rem; border: 1px solid var(--edge-line); border-radius: 10px; background: var(--bg-2); color: var(--text); font: 700 .9375rem/1 var(--sans); cursor: pointer; }
-  .bd-switch button[aria-pressed="true"] { border-color: var(--amber); background: var(--amber); color: var(--ink); }
   .bd-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: var(--s2); list-style: none; padding: 0; }
   .bd-swatches li { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
   .bd-chip { height: 4rem; }
@@ -65,12 +61,6 @@ boardPermalink: /design/taxi/
   <div class="bd-sec">
     <h1 class="bd-title">Design board, VIP Taxi Lanta</h1>
     <p class="bd-desc">Mr. Brown's own identity on the same domain: espresso, gold, Marcellus and Figtree, his logo unchanged. Real content from the data files only.</p>
-    <div class="bd-switch" role="group" aria-label="Secret Travel &amp; Tour emblem shown in the boat trips block">
-      <p>Secret emblem</p>
-      <button type="button" data-logo-choice="a" aria-pressed="false">Option A</button>
-      <button type="button" data-logo-choice="b" aria-pressed="true">Option B</button>
-      <button type="button" data-logo-choice="bv" aria-pressed="false">Option B with the van</button>
-    </div>
   </div>
 
   <section class="bd-sec" aria-labelledby="h-colours">
@@ -131,7 +121,7 @@ boardPermalink: /design/taxi/
         </section>
         <section aria-labelledby="h-ad">
           <h2 id="h-ad">Secret Travel &amp; Tour block</h2>
-          {{ vip.secretAd(tb.secret, "b") }}
+          {{ vip.secretAd(tb.secret, emblem.small) }}
         </section>
         <section aria-labelledby="h-bar">
           <h2 id="h-bar">Mobile bar</h2>

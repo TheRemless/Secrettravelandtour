@@ -28,7 +28,14 @@ function photo(entry, allowed) {
   if (!entry || entry.status !== "keep" || !entry.file) return null;
   if (allowed && !allowed.includes(entry.file)) return null;
   const [width, height] = entry.file.endsWith(".webp") ? webpSize(entry.file) : [entry.width, entry.height];
-  return { src: `/images/${entry.file}`, alt: entry.alt || "", width, height, position: entry.position || null };
+  // Taille d'affichage maximale en pixels CSS : la moitié de la largeur native, pour qu'un écran 2x
+  // ne reçoive jamais une image agrandie. Les macros l'écrivent dans width/height ; le CSS (width: auto,
+  // max-width: 100 %) laisse l'image rétrécir avec son conteneur, jamais grandir au-delà.
+  const cssWidth = Math.floor(width / 2);
+  return {
+    src: `/images/${entry.file}`, file: entry.file, alt: entry.alt || "", width, height,
+    cssWidth, cssHeight: Math.round((cssWidth * height) / width), position: entry.position || null
+  };
 }
 
 // Nom d'un emplacement à remplir : la prise de vue demandée dans les données, et le format.
@@ -46,17 +53,42 @@ function heroOf(product, allowed) {
 
 function price(product) {
   if (product.priceOnRequest || !product.price) return null;
-  return { amount: thb(product.price.from), unit: product.price.unit || "" };
+  const unit = product.price.unit || "";
+  const per = unit.match(/^per ([a-z]+)/);
+  return { amount: thb(product.price.from), unit, short: per ? per[1] : "", option: optionOfPrice(product) };
 }
 
-// Carte produit. `card` permet de donner la promesse et la ligne de faits propres à la carte.
-function card(product, { promise, facts, allowed } = {}) {
+// L'option dont le premier tarif est le prix d'appel : c'est celle que la barre mobile et le bouton du haut
+// ouvrent déjà choisie (sinon la première option).
+function optionOfPrice(product) {
+  const list = product.options || [];
+  const from = product.price && product.price.from;
+  const hit = list.find((o) => o.prices && o.prices[0] && o.prices[0].amount === from);
+  return (hit || list[0] || {}).id || "";
+}
+
+// Trois cases de faits d'une carte : libellé court et valeur courte, dans cet ordre de préférence.
+const CARD_FACTS = [
+  ["Duration", "Duration"], ["Hotel pickup", "Pickup"], ["Boat", "Boat"], ["Format", "Format"],
+  ["Sessions", "Sessions"], ["Half days", "Half days"], ["Season", "Season"], ["Riding", "Riding"]
+];
+function cardFacts(product) {
+  const out = [];
+  for (const [label, short] of CARD_FACTS) {
+    const f = (product.facts || []).find((x) => x.label === label);
+    if (f && f.value.length <= 24 && out.length < 3) out.push({ label: short, value: f.value });
+  }
+  return out;
+}
+
+// Carte produit, façon billet : la promesse vient du champ `promise` (60 caractères au plus, distinct de l'accroche).
+function card(product, { allowed } = {}) {
   const hero = heroOf(product, allowed);
   return {
     href: product.url,
     title: product.name,
-    promise: promise || "",
-    facts: facts || [],
+    promise: product.promise || "",
+    facts: cardFacts(product),
     price: price(product),
     photo: hero.photo,
     slot: hero.slot
@@ -99,20 +131,26 @@ function options(product) {
     unit: firstUnit(o.prices && o.prices[0]),
     fees: feesText(o.notIncludedFees)
   }));
-  // Mêmes frais pour toutes les options : un seul bloc sous la liste, sinon une ligne dans chaque option.
+  // Mêmes frais pour toutes les options : ils sont dits une seule fois, dans le talon du bandeau de faits
+  // (ticket()). Des frais propres à une option restent sur sa ligne.
   const all = list.map((o) => o.fees);
   const common = all.length && all.every((f) => f === all[0]) ? all[0] : "";
   if (common) list.forEach((o) => { o.fees = ""; });
-  return { list, fees: common ? { label: "Not included", text: common } : null };
+  return { list, commonFees: common };
 }
 
+// Déroulé en ligne de route : les heures marquées `fixed` dans les données (prise en charge, départ) sont
+// données telles quelles, les autres précédées de « ≈ » dès qu'au moins une heure est fixe.
 function day(product) {
-  return (product.day || []).map((b) => ({
-    title: b.title,
-    options: b.options || [],
-    note: b.note || "",
-    steps: b.steps.map((s) => ({ t: s.time || s.label || "", text: s.text }))
-  }));
+  return (product.day || []).map((b) => {
+    const anyFixed = b.steps.some((s) => s.fixed);
+    return {
+      title: b.title,
+      options: b.options || [],
+      note: b.note || "",
+      steps: b.steps.map((s) => ({ t: s.time || s.label || "", text: s.text, fixed: Boolean(s.fixed), approx: anyFixed && !s.fixed && Boolean(s.time) }))
+    };
+  });
 }
 
 const BEFORE = [
@@ -127,8 +165,9 @@ const BEFORE = [
 
 // « Before you book » : valeurs du produit, à défaut celles de site.json (booking).
 // La règle météo commune (report ou remboursement) s'affiche toujours, après la précision propre au produit.
-function beforeBook(product, site) {
-  const own = product.beforeYouBook || {};
+function beforeBook(product, site, { skipParkFee = false } = {}) {
+  const own = { ...(product.beforeYouBook || {}) };
+  if (skipParkFee && Array.isArray(own.bring)) own.bring = own.bring.filter((b) => !/park fee/i.test(b));
   const common = (site && site.booking) || {};
   const fallback = {
     payment: Array.isArray(common.payment) && common.payment.length
@@ -149,7 +188,7 @@ function gallery(product, allowed) {
     .map((p) => ({ photo: photo(p, allowed), slot: slot(p) }));
 }
 
-// « We usually reply within the hour, and within 6 hours at most. »
+// « We usually reply within the hour, and within 6 hours at most. » Rien tant que replyTime est null.
 function replyTime(site) {
   const r = site.replyTime || {};
   if (!r.usual) return "";
@@ -160,6 +199,7 @@ function replyTime(site) {
 function contact(site) {
   return {
     number: site.whatsapp.number,
+    e164: site.whatsapp.e164,
     phoneDisplay: site.whatsapp.display,
     replyTime: replyTime(site),
     languages: site.languages || []
@@ -176,13 +216,34 @@ function bookingTour(product, site) {
     page: site.url.replace(/^https?:\/\//, "") + product.url,
     whatsapp: site.whatsapp.number,
     pickupRequired: product.template !== "rental",
+    refPrefix: product.refPrefix || "",
+    parkFee: parkFee(product),
     options: options(product).list.map((o) => ({ id: o.id, title: o.title, rows: o.rows, from: o.from, unit: o.unit }))
   };
 }
 
-function bookingRoute(product, site) {
+// Frais de parc par adulte et par enfant (visiteurs étrangers), lus dans les frais de la première option.
+// Sert au talon du bandeau et au calcul du cash sur la fiche d'aperçu. Null si le produit n'en a pas.
+function parkFee(product) {
+  const fees = ((product.options || [])[0] || {}).notIncludedFees || [];
+  const adult = fees.find((f) => /, adult$/.test(f.label) && !/Thai/.test(f.label));
+  const child = fees.find((f) => /, child$/.test(f.label) && !/Thai/.test(f.label));
+  if (!adult) return null;
+  const thaiA = fees.find((f) => /Thai national adult/.test(f.label));
+  const thaiC = fees.find((f) => /Thai national child/.test(f.label));
+  return {
+    label: adult.label.split(", ")[0],
+    adult: adult.amount,
+    child: child ? child.amount : null,
+    thai: thaiA ? { adult: thaiA.amount, child: thaiC ? thaiC.amount : null } : null,
+    note: adult.note || ""
+  };
+}
+
+function bookingRoute(product, site, extra = {}) {
   const r = product.route || {};
   return {
+    ...extra,
     variant: "taxi",
     brand: site.brands[product.brand].name,
     product: product.name,
@@ -199,16 +260,42 @@ function fallbackText(product, site) {
   return `${product.template === "route" ? "Transfer request" : "Booking request"}: ${product.name}\nPage: ${site.url.replace(/^https?:\/\//, "")}${product.url}`;
 }
 
-// Bandeau de faits : les valeurs chiffrées (prix, heures) sont composées en grand, le texte à taille normale.
-// `labels` limite le bandeau aux faits du brief (prix, durée, prise en charge, bateau, formule, saison).
-function keyFacts(product, labels) {
-  const isNumber = (v) => /^[\d,.:–\- ]+(THB)?$/.test(v);
-  const list = [];
-  if (product.price) list.push({ label: "From", value: thb(product.price.from), note: product.price.unit || "", number: true, price: true });
-  for (const f of product.facts || []) {
-    if (!labels || labels.includes(f.label)) list.push({ label: f.label, value: f.value, number: isNumber(f.value) });
+// Bandeau de faits, façon billet de ferry (00-BRIEF §6.2, retour du 03.11.2026) : prise en charge, départ
+// du bateau, ponton, bateau, join-in ou privé, saison si connue. Le prix d'appel et les frais de parc vont
+// dans le talon. Une ligne sans valeur dans les données n'existe pas.
+const TICKET = [
+  ["Hotel pickup", "Pickup"], ["Sessions", "Sessions"], ["Boat leaves", "Boat leaves"],
+  ["Longtail pier", "Longtail pier"], ["Raft pier", "Raft pier"], ["Pier", "Pier"], ["Start", "Start"],
+  ["Boat", "Boat"], ["Format", "Format"], ["Season", "Season"]
+];
+const isTime = (v) => /^\d{2}:\d{2}(?:[–-]\d{2}:\d{2})?$/.test(v);
+
+function ticket(product) {
+  const rows = [];
+  for (const [label, shown] of TICKET) {
+    const f = (product.facts || []).find((x) => x.label === label);
+    if (f && f.value) rows.push({ label: shown, value: f.value, time: isTime(f.value) });
   }
-  return list.sort((a, b) => Number(b.number) - Number(a.number));
+  const fee = parkFee(product);
+  const p = price(product);
+  return {
+    rows,
+    stub: {
+      price: p ? { amount: p.amount, unit: product.price.unit } : null,
+      fee: fee ? {
+        label: fee.label,
+        adult: thb(fee.adult),
+        child: fee.child !== null ? thb(fee.child) : "",
+        thai: fee.thai ? `Thai nationals ${fee.thai.adult}${fee.thai.child !== null ? ` and ${fee.thai.child}` : ""} THB` : "",
+        note: fee.note
+      } : null
+    }
+  };
+}
+
+// « Not included » sans la ligne des frais de parc quand le talon les donne déjà.
+function notIncluded(product, { skipParkFee = false } = {}) {
+  return (product.notIncluded || []).filter((i) => !(skipParkFee && /park fee/i.test(i)));
 }
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -225,9 +312,139 @@ function rating(r) {
   };
 }
 
+// ---------- Saisons ----------
+const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+// « October to April » → [10, 11, 12, 1, 2, 3, 4] ; « All year » → les 12 mois ; autre chose → null (rien d'affiché).
+function seasonMonths(product) {
+  const f = (product.facts || []).find((x) => x.label === "Season");
+  if (!f) return null;
+  if (/^all year$/i.test(f.value.trim())) return MONTH_NAMES.map((_, i) => i + 1);
+  const m = f.value.match(/^([A-Z][a-z]+) to ([A-Z][a-z]+)$/);
+  if (!m) return null;
+  const a = MONTH_NAMES.indexOf(m[1]) + 1, b = MONTH_NAMES.indexOf(m[2]) + 1;
+  if (!a || !b) return null;
+  const out = [];
+  for (let i = a; ; i = (i % 12) + 1) { out.push(i); if (i === b) break; }
+  return out;
+}
+
+// Réglette des saisons : 12 cases, mois ouverts marqués. Null si la saison n'est pas dans les données.
+function seasonRuler(product) {
+  const months = seasonMonths(product);
+  if (!months) return null;
+  const f = product.facts.find((x) => x.label === "Season");
+  return { label: f.value, months: MONTH_NAMES.map((n, i) => ({ short: n.slice(0, 3), name: n, open: months.includes(i + 1) })) };
+}
+
+// Mois en cours à Koh Lanta (1–12), pour « Runs today ».
+function bangkokMonth(now = new Date()) {
+  return Number(new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Bangkok", month: "numeric" }).format(now));
+}
+
+// Tableau des départs : une ligne par excursion, heure de prise en charge, départ, bateau, prix d'appel.
+// « Runs today » seulement si la saison est dans les données et couvre le mois en cours ; sinon la case reste vide.
+function departures(products, now = new Date()) {
+  const month = bangkokMonth(now);
+  return products.map((p) => {
+    const fact = (label) => ((p.facts || []).find((x) => x.label === label) || {}).value || "";
+    const months = seasonMonths(p);
+    const pr = price(p);
+    return {
+      href: p.url,
+      name: p.name,
+      pickup: fact("Hotel pickup"),
+      leaves: fact("Boat leaves"),
+      boat: fact("Boat"),
+      from: pr ? pr.amount : "",
+      today: months ? months.includes(month) : null
+    };
+  });
+}
+
+// « Who runs this trip » (03-audit-contenu §6.2.9) : le comptoir et la société. Ni partenaire (Q17), ni horaires (aucun).
+function whoRuns(site) {
+  const b = site.brands.secret;
+  return {
+    desk: b.address.display,
+    maps: b.maps || "",
+    operator: site.operator.name,
+    registration: site.operator.registration,
+    licence: b.licence || ""
+  };
+}
+
+// Pièces d'une page trajet (00-BRIEF §6.4). Chaque ligne sans donnée vaut null et n'est pas affichée.
+function routeParts(route) {
+  const r = route.route || {};
+  const fact = (label) => ((route.facts || []).find((x) => x.label === label) || {}).value || null;
+  return {
+    from: r.from, to: r.to, code: r.code || "", both: Boolean(r.bothDirections),
+    rows: [
+      { label: "Price", value: route.priceOnRequest ? "Price on WhatsApp" : null, key: "price" },
+      { label: "Drive time", value: fact("Drive time"), key: "drive" },
+      { label: "Distance", value: fact("Distance"), key: "distance" },
+      { label: "Ferry", value: fact("Ferry"), key: "ferry" },
+      { label: "Meeting point", value: fact("Meeting point"), key: "meeting" },
+      { label: "Seats and bags", value: fact("Capacity"), key: "capacity" },
+      { label: "If your flight is late", value: fact("Waiting time"), key: "waiting" },
+      { label: "Child seats", value: fact("Child seats"), key: "seats" }
+    ],
+    faq: route.faq || []
+  };
+}
+
+// Tableau de location (00-BRIEF §6.3) : un groupe par catégorie, véhicule et prix par jour.
+function rentalTable(product) {
+  return (product.options || []).map((o) => ({
+    id: o.id,
+    title: o.label,
+    rows: (o.prices || []).map((r) => ({ label: r.label, price: priceText(r), unit: r.unit || "" }))
+  }));
+}
+
+// ---------- Images responsives ----------
+// AVIF et WebP de 400 à 1 600 px (00-BRIEF §12), jamais au-delà de la largeur native. À appeler depuis un
+// fichier de données asynchrone : chaque objet { src: "/images/…", width } reçoit `avif` et `webp` (srcset).
+async function responsive(root, { widths = [400, 800, 1200, 1600], only } = {}) {
+  const { default: Image } = await import("@11ty/eleventy-img");
+  const seen = new Set();
+  const visit = async (v) => {
+    if (Array.isArray(v)) { for (const x of v) await visit(x); return; }
+    if (!v || typeof v !== "object" || seen.has(v)) return;
+    seen.add(v);
+    if (typeof v.src === "string" && v.src.startsWith("/images/") && v.width && !v.webp && (!only || only(v))) {
+      const w = widths.filter((x) => x < v.width).concat(v.width);
+      const meta = await Image(path.join(IMAGES, v.src.slice("/images/".length)), {
+        widths: w, formats: ["avif", "webp"], outputDir: "_site/img/", urlPath: "/img/",
+        sharpWebpOptions: { quality: 74 }, sharpAvifOptions: { quality: 55 }
+      });
+      v.avif = meta.avif.map((m) => m.srcset).join(", ");
+      v.webp = meta.webp.map((m) => m.srcset).join(", ");
+      v.fallback = meta.webp[meta.webp.length - 1].url;
+    }
+    for (const x of Object.values(v)) await visit(x);
+  };
+  await visit(root);
+  return root;
+}
+
+// Emblème d'origine (images/secret/emblem.webp, 240 × 198), en srcset 1x à 3x pour une hauteur donnée.
+async function emblem(height) {
+  const { default: Image } = await import("@11ty/eleventy-img");
+  const [w0, h0] = webpSize("secret/emblem.webp");
+  const w = Math.round((height * w0) / h0);
+  const widths = [w, w * 2, w * 3].filter((x) => x <= w0);
+  const meta = await Image(path.join(IMAGES, "secret/emblem.webp"), {
+    widths, formats: ["avif", "webp"], outputDir: "_site/img/", urlPath: "/img/"
+  });
+  const set = (list) => list.map((m, i) => `${m.url} ${i + 1}x`).join(", ");
+  return { width: w, height, avif: set(meta.avif), webp: set(meta.webp), src: meta.webp[0].url };
+}
+
 module.exports = {
-  rating,
-  keyFacts,
+  rating, ticket, notIncluded, parkFee, cardFacts, optionOfPrice,
+  seasonMonths, seasonRuler, departures, whoRuns, routeParts, rentalTable, responsive, emblem,
   thb, webpSize, photo, slot, heroOf, price, card, options, feesText, day, beforeBook, gallery,
   replyTime, contact, bookingTour, bookingRoute, fallbackText
 };

@@ -15,6 +15,7 @@
   },
   "h1": "Koh Rok and Koh Haa snorkelling day trip",
   "lead": "Two islands of the Mu Ko Lanta National Park, open from October to April, by speedboat or private longtail. Snorkelling stops and lunch on the beach of Koh Rok.",
+  "promise": "Snorkelling at Koh Rok and Koh Haa, October to April",
   "facts": [
     {
       "label": "Duration",
@@ -428,6 +429,10 @@
     {
       "field": "options[].notIncludedFees",
       "from": "secretPagesContent.json pages.koh-rok-koh-haa.parkFee, priceNote, goodToKnow"
+    },
+    {
+      "field": "promise",
+      "from": "lead du produit, raccourci à 60 caractères pour la carte (03.11.2026)"
     }
   ],
   "todo": [

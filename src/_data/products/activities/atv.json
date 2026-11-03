@@ -13,6 +13,7 @@
   },
   "h1": "ATV ride on Koh Lanta",
   "lead": "Thirty minutes on a closed track, an hour on the forest trails up to a viewpoint over the sea, or an hour of ATV followed by an hour of kayak in the mangrove.",
+  "promise": "Forest trails up to a sea viewpoint, or a closed track",
   "facts": [
     {
       "label": "Rides",
@@ -299,6 +300,10 @@
     {
       "field": "schema",
       "from": "secretPagesContent.json pages.atv.schemaType, places ; type cible : docs/refonte/02-audit-seo.md §6.3"
+    },
+    {
+      "field": "promise",
+      "from": "lead du produit, raccourci à 60 caractères pour la carte (03.11.2026)"
     }
   ],
   "todo": [

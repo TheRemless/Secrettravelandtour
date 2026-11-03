@@ -13,6 +13,7 @@
   },
   "h1": "Batik painting on Koh Lanta",
   "lead": "Paint your own batik canvas with a local instructor, in the morning or the afternoon, or pair it with a kayak trip to the sea cave of Koh Talabeng.",
+  "promise": "Paint your own batik canvas with a local instructor",
   "facts": [
     {
       "label": "Morning course",
@@ -116,7 +117,7 @@
       "steps": [
         {
           "label": "Kayak",
-          "text": "Pickup at 08:00 to 09:00 for Tungyeepeng pier. A longtail to Koh Talabeng, paddling around the islets, the sea cave and the beach. Lunch at the mangrove restaurant at 12:00, painting from 13:00, back at your hotel at 17:00."
+          "text": "Pickup at 08:00 to 09:00 for Thung Yee Peng pier. A longtail to Koh Talabeng, paddling around the islets, the sea cave and the beach. Lunch at the mangrove restaurant at 12:00, painting from 13:00, back at your hotel at 17:00."
         }
       ]
     }
@@ -254,6 +255,10 @@
     {
       "field": "options[priceOnRequest]",
       "from": "secretPagesContent.json pages.batik (goodToKnow, priceNote) ; décision client du 02.11.2026 : « Price on WhatsApp »"
+    },
+    {
+      "field": "promise",
+      "from": "lead du produit, raccourci à 60 caractères pour la carte (03.11.2026)"
     }
   ]
 }

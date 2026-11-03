@@ -39,15 +39,19 @@
       }
       return best;
     }
+    // En fin de piste, deux photos sont visibles sur desktop : la dernière ne peut pas venir à gauche.
+    // Le compteur passe alors au total, pour qu'il soit juste jusqu'à la dernière photo.
     function update() {
-      var i = current();
-      if (index) index.textContent = i + 1;
       var end = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
+      var i = end ? items.length - 1 : current();
+      if (index) index.textContent = i + 1;
       if (prev) prev.disabled = i === 0;
       if (next) next.disabled = end;
     }
     function go(step) {
-      var i = Math.max(0, Math.min(items.length - 1, current() + step));
+      var end = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
+      var from = end && step < 0 ? Math.max(0, items.length - 1 - Math.round(track.clientWidth / items[0].offsetWidth) + 1) : current();
+      var i = Math.max(0, Math.min(items.length - 1, from + step));
       track.scrollTo({ left: items[i].offsetLeft - track.offsetLeft, behavior: reduced ? "auto" : "smooth" });
     }
     var raf = 0;
