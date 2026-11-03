@@ -76,7 +76,8 @@ const BANNED_HTML = [
 const BANNED_CSS = [
   ["text-stroke", /text-stroke/i],
   ["brush.webp", /brush\.webp/i],
-  ["police interdite", /font-family\s*:[^;}]*\b(?:Inter|Poppins|Montserrat|DM Sans|Space Grotesk|Fraunces|Playfair|Sniglet|Concert One|Kaushan)\b/i],
+  // Fraunces retirée de la liste le 03.11.2026 : la nouvelle direction artistique la propose comme serif A.
+  ["police interdite", /font-family\s*:[^;}]*\b(?:Inter|Poppins|Montserrat|DM Sans|Space Grotesk|Playfair|Sniglet|Concert One|Kaushan)\b/i],
   ["police script", /font-family\s*:[^;}]*\bcursive\b/i],
   ["flèche décorative", /content\s*:\s*"[^"]*(?:\\2192|→)/i],
   ["photo inclinée", /rotate\(\s*-?(?:[1-4](?:\.\d+)?|0?\.\d+)deg\s*\)/i]
@@ -84,7 +85,7 @@ const BANNED_CSS = [
 // Marcellus et Figtree : identité de VIP Taxi Lanta, gardée à la demande du client (02.11.2026).
 // Autorisées dans les pages de la marque vip (<html data-brand="vip">) et dans vip.css, interdites ailleurs.
 const VIP_FONTS = /marcellus|figtree/i;
-const VIP_CSS = new Set(["css/vip.css"]);
+const VIP_CSS = new Set(["css/vip.css", "css/v2-vip.css"]);
 const BANNED_JS = BANNED_TEXT.filter(([name]) => !["flèche décorative →", "1h30", "refonte (mot de chantier)"].includes(name)).concat([["« Hi …! » en tête de message", /["'`]Hi [^"'`\n]{0,40}!/]]);
 
 const PLACEHOLDERS = /TODO\(client\)|\[À CONFIRMER\]/g;

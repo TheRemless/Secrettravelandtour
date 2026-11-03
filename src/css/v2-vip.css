@@ -1,0 +1,70 @@
+/* VIP Taxi Lanta dans la direction « Koh Lanta vue du bateau » (maquette du 03.11.2026) : même mise en page
+   aérée que Secret (v2.css), avec l'identité de Mr. Brown gardée : espresso, crème, or, Marcellus et Figtree. */
+@font-face { font-family: "Marcellus"; font-style: normal; font-weight: 400; font-display: swap; src: url("/css/fonts/marcellus-400-normal-latin.woff2") format("woff2"); }
+@font-face { font-family: "Figtree"; font-style: normal; font-weight: 400; font-display: swap; src: url("/css/fonts/figtree-400-normal-latin.woff2") format("woff2"); }
+@font-face { font-family: "Figtree"; font-style: normal; font-weight: 700; font-display: swap; src: url("/css/fonts/figtree-700-normal-latin.woff2") format("woff2"); }
+
+html[data-brand="vip"] {
+  --sand: #140D09;        /* fond espresso */
+  --ink: #F2E6D2;         /* texte crème, 15.6:1 */
+  --mute: #C2B199;        /* 9.2:1 */
+  --sea: #1F140E;         /* bloc « cabine » */
+  --coral: #F0B13A;       /* or : boutons, soulignements */
+  --coral-dark: #F6C25E;
+  --coral-soft: #2A1C14;
+  --shell: #F0B13A;
+  --line: rgb(240 177 58 / .22);
+  --white: #F2E6D2;
+  --serif: "Marcellus", Georgia, serif;
+  --sans: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --sheet-bg: #F2E6D2;
+  --sheet-field-bg: #FFFFFF;
+  --sheet-ink: #20130A;
+  --sheet-mute: #5A4A3A;
+  --sheet-field: #5A4A3A;
+  --sheet-accent: #20130A;
+  --sheet-accent-ink: #F2E6D2;
+  --sheet-accent-num: #F0B13A;
+  --sheet-cta: #20130A;
+  --sheet-cta-hover: #3A2412;
+  --sheet-cta-ink: #F2E6D2;
+  --sheet-err: #20130A;
+  --sheet-soft: #FFF8EC;
+  --sheet-rule: #D9C7A8;
+  --sheet-head: "Marcellus", Georgia, serif;
+  --sheet-head-weight: 400;
+  --sheet-text: "Figtree", system-ui, sans-serif;
+  --sheet-backdrop: rgb(20 13 9 / .7);
+  --sheet-focus: 0 0 0 2px #FFFFFF, 0 0 0 5px #20130A;
+}
+html[data-brand="vip"] h1, html[data-brand="vip"] h2, html[data-brand="vip"] h3 { font-weight: 400; letter-spacing: 0; }
+html[data-brand="vip"] .hd { background: rgb(20 13 9 / .96); }
+html[data-brand="vip"] .btn { color: #20130A; }
+html[data-brand="vip"] .btn:hover { color: #20130A; }
+html[data-brand="vip"] :focus-visible { outline-color: #F0B13A; }
+.vip-logo-sm { width: 44px; height: 44px; border-radius: 6px; background: #FFFFFF; }
+.vip-hero img { width: 100%; height: 62svh; min-height: 360px; max-height: 760px; object-fit: cover; }
+.vip-head { padding-block: var(--s5) var(--s4); }
+.vip-head h1 { margin-bottom: var(--s3); max-width: 16ch; }
+.vip-head .facts { margin-bottom: var(--s3); }
+.vip-route { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2) var(--s3); font: 400 clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem)/1.2 var(--serif); }
+.vip-route .sep { flex: 1; min-width: 3rem; height: 1px; background: var(--line); }
+.vip-photos { display: grid; gap: var(--s3); }
+@media (min-width: 48rem) { .vip-photos { grid-template-columns: 1fr 1fr; } }
+.vip-photos img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius); }
+.vip-rating { display: inline-flex; align-items: center; min-height: 44px; color: var(--coral); }
+.stt-band { background: #FBF6EE; color: #1E2B2C; }
+.stt-band a { color: #1E2B2C; text-decoration-color: #C2452E; }
+.stt-band .band { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3) var(--s4); }
+.stt-band .pastille { display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 50%; background: #FFFFFF; }
+.stt-band .pastille img { height: 48px; width: auto; }
+.stt-band p { font: 300 1.5rem/1.3 Georgia, serif; }
+.stt-band ul { display: flex; flex-wrap: wrap; gap: 0 var(--s3); padding: 0; list-style: none; }
+.stt-band ul a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; }
+.vip-foot { background: #1F140E; }
+.vip-foot .vip-foot-logo { width: 120px; height: 120px; border-radius: 14px; background: #FFFFFF; }
+html[data-brand="vip"] .dark { color: var(--ink); }
+html[data-brand="vip"] .dark a { color: var(--ink); text-decoration-color: var(--coral); }
+html[data-brand="vip"] .foot { color: var(--ink); }
+html[data-brand="vip"] .foot a { color: var(--ink); text-decoration-color: var(--coral); }
+html[data-brand="vip"] .foot-legal, html[data-brand="vip"] .foot-name span { color: var(--mute); }

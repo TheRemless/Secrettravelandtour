@@ -79,6 +79,45 @@
     {
       "field": "desk.text",
       "from": "site.json booking.channel (WhatsApp), booking.onlinePayment false, booking.payment (cash, bank transfer) ; 04-questions-client Q5 et Q13 (paiement des excursions) ; transferts VIP exclus de la phrase sur le paiement (contradiction ouverte)"
+    },
+    {
+      "field": "transfersLead",
+      "from": "secret-transfers/shared-minivan.json lead (hotel to hotel, airports, piers ; speedboat from one island to another)"
+    },
+    {
+      "field": "faq[0]",
+      "from": "site.json booking.channel, booking.onlinePayment ; terms §2 (price, pickup time and place confirmed)"
+    },
+    {
+      "field": "faq[1]",
+      "from": "site.json booking.payment"
+    },
+    {
+      "field": "faq[2]",
+      "from": "site.json booking.pickup (« All of Koh Lanta in general, case by case »)"
+    },
+    {
+      "field": "faq[3]",
+      "from": "site.json booking.weather"
+    }
+  ],
+  "transfersLead": "Hotel to hotel, airports and piers by minivan, island to island by speedboat.",
+  "faq": [
+    {
+      "q": "How do I book?",
+      "a": "Send us the trip and your date on WhatsApp. We confirm the price and your pickup time. Nothing is paid online."
+    },
+    {
+      "q": "How do I pay?",
+      "a": "In cash or by bank transfer."
+    },
+    {
+      "q": "Do you pick me up at my hotel?",
+      "a": "Yes, almost anywhere on Koh Lanta. We confirm it for your hotel when you book."
+    },
+    {
+      "q": "What if the weather is bad?",
+      "a": "The trip can be moved to another date or refunded, when the conditions make it necessary."
     }
   ]
 }

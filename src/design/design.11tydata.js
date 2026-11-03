@@ -114,6 +114,26 @@ module.exports = async function () {
       booking: view.bookingRoute(route, site)
     }
   };
+  // Maquettes de la direction « Koh Lanta vue du bateau » (/design/v2/).
+  const raw = (file, alt) => { const [w, h] = view.webpSize(file); return { src: `/images/${file}`, width: w, height: h, alt }; };
+  const v2card = (rel) => view.card(P(rel));
+  data.mock = {
+    hero: raw("secret/longtail.webp", "Bow of a longtail boat with garlands and coloured ribbons, moored in clear shallow water"),
+    fourHero: raw("secret/longtail.webp", "Bow of a longtail boat with garlands and coloured ribbons, moored in clear shallow water"),
+    van: raw("taxi/van-exterior.webp", "The silver VIP Taxi Lanta minivan parked in front of a building"),
+    vanWelcome: raw("taxi/van-welcome.webp", "The open side door of the VIP Taxi Lanta minivan"),
+    vipHero: raw("taxi/hero-ceiling-1800.webp", "Inside the VIP Taxi Lanta minivan: tan leather seats under a lit ceiling"),
+    boats: ["tours/4-islands", "tours/koh-rok-koh-haa", "tours/koh-phi-phi"].map(v2card),
+    related: ["tours/koh-rok-koh-haa", "tours/koh-phi-phi", "tours/fishing-trip"].map(v2card),
+    // Ligne de faits clés du 4 Islands : durée, prise en charge, bateau, ponton (données du produit).
+    fourFacts: ["Duration", "Hotel pickup", "Boat", "Pier"].map((l) => (P("tours/4-islands").facts.find((f) => f.label === l) || {}))
+      .filter((f) => f.value).map((f) => ({ label: f.label === "Hotel pickup" ? "Pickup" : f.label, value: f.value })),
+    activities: ["activities/elephant-sanctuary", "activities/atv", "activities/batik", "activities/kayak", "activities/cooking-class", "activities/scuba-diving", "activities/go-kart", "tours/fishing-trip"].map(v2card),
+    routes: ["krabi-airport-koh-lanta", "phuket-airport-koh-lanta", "koh-lanta-ao-nang"].map((id) => P("taxi/" + id))
+      .map((r) => ({ href: r.url, from: r.route.from, to: r.route.to, drive: (r.route.drive || "").replace(/(\d) to (\d)/, "$1–$2") }))
+  };
+  await view.responsive(data.mock, { widths: [480, 800, 1200, 1600] });
+
   // Images Secret en AVIF/WebP (les pages VIP gardent leur propre traitement).
   await view.responsive([data.page, data.board], { only: (p) => p.src.startsWith("/images/secret/") });
   return data;

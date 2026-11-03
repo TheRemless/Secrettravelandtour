@@ -1,0 +1,89 @@
+{#- Accueil, direction « Koh Lanta vue du bateau ». Ordre demandé : grande photo, titre et WhatsApp ; trois excursions
+    phares ; bloc sombre Transfers ; activités ; le comptoir de Sala Dan ; avis (aucun pour l'instant) ; FAQ courte. -#}
+{% import "components/v2.njk" as v2 %}
+{%- set h = pages.home -%}
+{%- set c = pages.contact -%}
+<!DOCTYPE html>
+<html lang="en-GB" data-board data-serif="{{ serif }}">
+<head>
+<title>{{ h.seo.title }}</title>
+{% include "v2-head.njk" %}
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+{{ v2.header(c, pages.emblem.header) }}
+<main id="main">
+  <section class="hero" aria-labelledby="h1">
+    <div class="hero-photo">{{ v2.img(mock.hero, "(min-width: 64rem) 60vw, 100vw", true) }}</div>
+    <div class="hero-text">
+      <h1 id="h1">{{ h.h1 }}</h1>
+      <p class="lead">{{ h.lead }}</p>
+      <div class="hero-actions">
+        <a class="btn" href="{{ v2.waHref(c.number) }}">Ask on WhatsApp</a>
+        <a class="link" href="#boat-trips">See the boat trips</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="boat-trips" aria-labelledby="h-boats">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="h-boats">{{ h.boats.title }}</h2></div>
+      <ul class="cards cards--3">
+        {%- for card in mock.boats %}<li>{{ v2.card(card, loop.index) }}</li>{% endfor %}
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec dark" id="transfers" aria-labelledby="h-transfers">
+    <div class="wrap split">
+      <div class="split-photo">{{ v2.img(mock.van, "(min-width: 64rem) 600px, 100vw") }}</div>
+      <div class="split-text">
+        <h2 id="h-transfers">{{ h.transfersTitle }}</h2>
+        <p class="lead">{{ h.transfersLead }}</p>
+        <ul class="routes">
+          {%- for r in mock.routes %}
+          <li><a href="{{ r.href }}"><span class="routes-name">{{ r.from }} to {{ r.to }}</span>{% if r.drive %}<span class="routes-meta">{{ r.drive }}</span>{% endif %}</a></li>
+          {%- endfor %}
+        </ul>
+        <p class="note mute">Private minivans by VIP Taxi Lanta. <a href="/taxi/">All routes</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="activities" aria-labelledby="h-acts">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="h-acts">{{ h.activities.title }}</h2></div>
+      <ul class="cards cards--4">
+        {%- for card in mock.activities %}<li>{{ v2.card(card, (loop.index % 3) + 1, "(min-width: 64rem) 300px, (min-width: 40rem) 50vw, 100vw") }}</li>{% endfor %}
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec coral" aria-labelledby="h-desk">
+    <div class="wrap desk">
+      <div>
+        <h2 id="h-desk">{{ h.desk.title }}</h2>
+        <p class="lead">{{ h.desk.text }}</p>
+      </div>
+      <div>
+        <address>{{ site.brands.secret.address.display }}</address>
+        <div class="desk-actions">
+          <a class="btn" href="{{ v2.waHref(c.number) }}">Ask on WhatsApp</a>
+          {% if site.brands.secret.maps %}<a class="link" href="{{ site.brands.secret.maps }}">Open in Google Maps</a>{% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- if h.faq %}
+  <section class="sec" aria-labelledby="h-faq">
+    <div class="wrap faq-grid">
+      <h2 id="h-faq">Questions</h2>
+      {{ v2.faq(h.faq) }}
+    </div>
+  </section>
+  {%- endif %}
+</main>
+{{ v2.footer(site, c, pages.emblem.footer) }}
+</body>
+</html>

@@ -1,0 +1,91 @@
+---
+boardPermalink: /design/v2/4-islands/
+serif: "a"
+---
+{#- Maquette de la page 4 Islands, direction « Koh Lanta vue du bateau ». Jamais en production. -#}
+{% import "components/v2.njk" as v2 %}
+{% from "components/booking.njk" import bookingSheet %}
+{%- set t = pages.fourIslands -%}
+{%- set c = pages.contact -%}
+{%- set fee = t.ticket.stub.fee -%}
+{%- set fallback = v2.waHref(c.number, t.fallback) -%}
+<!DOCTYPE html>
+<html lang="en-GB" data-board data-serif="{{ serif }}">
+<head>
+<title>{{ t.seo.title }}</title>
+{% include "v2-head.njk" %}
+</head>
+<body class="has-mbar">
+<a class="skip" href="#main">Skip to content</a>
+{{ v2.header(c, pages.emblem.header, "boats") }}
+<main id="main">
+  <section class="hero p-hero" aria-labelledby="h1">
+    <div class="hero-photo">{{ v2.img(mock.fourHero, "(min-width: 64rem) 58vw, 100vw", true) }}</div>
+    <div class="hero-text">
+      <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/#boat-trips">Boat trips</a></li><li><span aria-current="page">{{ t.name }}</span></li></ol></nav>
+      <h1 id="h1">{{ t.h1 }}</h1>
+      {{ v2.facts(mock.fourFacts) }}
+      <p class="price-line"><span>from</span><b>{{ t.price.amount }}</b><span>{{ t.price.unit }}</span></p>
+      <div class="hero-actions">
+        <a class="btn" href="{{ fallback }}" data-book="{{ t.price.option }}">Check availability</a>
+        <a class="link" href="{{ v2.waHref(c.number) }}">Ask on WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-day">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="h-day">{{ t.days[0].title }}</h2></div>
+      {{ v2.day(t.days[0].steps, t.days[0].note) }}
+    </div>
+  </section>
+
+  <section class="sec sec--tight" id="prices" aria-labelledby="h-prices">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="h-prices">Choose your boat</h2></div>
+      {{ v2.options(t.options) }}
+    </div>
+  </section>
+
+  {%- if fee %}
+  <section class="sec dark" aria-label="National park fee">
+    <div class="wrap">
+      <p class="big-message">Bring cash for the ranger: {{ fee.adult }} per adult{% if fee.child %}, {{ fee.child }} per child{% endif %}.</p>
+      <p class="note mute">{{ fee.label }}, not in the price, paid on the island.{% if fee.thai %} {{ fee.thai }}.{% endif %}</p>
+    </div>
+  </section>
+  {%- endif %}
+
+  <section class="sec" aria-label="What's in the price and before you book">
+    <div class="wrap two">
+      <div>
+        <h2>What's in the price</h2>
+        <ul class="list">{% for i in t.included %}<li>{{ i }}</li>{% endfor %}</ul>
+      </div>
+      <div>
+        <h2>Before you book</h2>
+        <dl class="kv">{% for i in t.beforeBook %}<div><dt>{{ i.label }}</dt><dd>{{ i.text }}</dd></div>{% endfor %}</dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec--tight" aria-labelledby="h-faq">
+    <div class="wrap faq-grid">
+      <h2 id="h-faq">Questions</h2>
+      {{ v2.faq(t.faq) }}
+    </div>
+  </section>
+
+  <section class="sec sec--tight" aria-labelledby="h-more">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="h-more">More boat trips</h2>{% if t.transfer %}<a class="link" href="{{ t.transfer.href }}">{{ t.transfer.label }}</a>{% endif %}</div>
+      <ul class="cards cards--3">{% for card in mock.related %}<li>{{ v2.card(card, loop.index) }}</li>{% endfor %}</ul>
+    </div>
+  </section>
+</main>
+{{ v2.footer(site, c, pages.emblem.footer) }}
+{{ v2.mobileBar(t.price, fallback, t.price.option) }}
+{{ bookingSheet(t.booking, c) }}
+<script src="/js/booking.js?v={{ build.v }}" defer></script>
+</body>
+</html>

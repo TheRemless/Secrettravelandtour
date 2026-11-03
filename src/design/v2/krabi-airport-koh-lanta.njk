@@ -1,0 +1,113 @@
+---
+boardPermalink: /design/v2/krabi-airport-koh-lanta/
+serif: "vip"
+---
+{#- Maquette de la page trajet Krabi Airport et Koh Lanta, VIP Taxi Lanta : mise en page « Koh Lanta vue du bateau »,
+    identité de Mr. Brown gardée (décision client du 02.11.2026). Jamais en production. -#}
+{% import "components/v2.njk" as v2 %}
+{% from "components/booking.njk" import bookingSheet %}
+{% from "components/icons.njk" import icon %}
+{%- set r = pages.route -%}
+{%- set p = r.parts -%}
+{%- set c = pages.contact -%}
+{%- set vip = site.brands.vip -%}
+{%- set fallback = v2.waHref(c.number, r.fallback) -%}
+<!DOCTYPE html>
+<html lang="en-GB" data-board data-brand="vip">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>{{ r.seo.title }}</title>
+<link rel="preload" as="font" type="font/woff2" href="/css/fonts/marcellus-400-normal-latin.woff2" crossorigin>
+<link rel="stylesheet" href="/css/v2.css?v={{ build.v }}">
+<link rel="stylesheet" href="/css/v2-vip.css?v={{ build.v }}">
+<link rel="stylesheet" href="/css/booking.css?v={{ build.v }}">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/taxi/icon-32.png">
+<meta name="theme-color" content="#140D09">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body class="has-mbar">
+<a class="skip" href="#main">Skip to content</a>
+<header class="hd">
+  <div class="wrap">
+    <a class="brand" href="/taxi/"><img eleventy:ignore class="vip-logo-sm" src="/images/taxi/logo.webp" width="44" height="44" alt=""><span><span class="brand-name">{{ vip.name }}</span><span class="brand-place">{{ vip.owner }}</span></span></a>
+    <nav class="nav" aria-label="Main"><ul><li><a href="/taxi/">All routes</a></li></ul></nav>
+    <a class="btn" href="{{ v2.waHref(c.number) }}">{{ icon("whatsapp") }}<span>WhatsApp</span></a>
+  </div>
+</header>
+<main id="main">
+  <div class="vip-hero">{{ v2.img(mock.vipHero, "100vw", true) }}</div>
+  <section class="wrap vip-head" aria-labelledby="h1">
+    <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/taxi/">{{ vip.name }}</a></li><li><span aria-current="page">{{ r.name }}</span></li></ol></nav>
+    <h1 id="h1">{{ r.h1 }}</h1>
+    <ul class="facts">
+      <li>Private minivan, <b>your group only</b></li>
+      {%- for row in p.rows %}{% if row.value and row.key == "drive" %}<li>{{ row.label }} <b>{{ row.value }}</b></li>{% endif %}{% endfor %}
+      {%- if p.both %}<li><b>Both directions</b></li>{% endif %}
+      <li>Child seats <b>on request</b></li>
+    </ul>
+    <p class="price-line"><b>Price on WhatsApp</b></p>
+    <div class="hero-actions">
+      <a class="btn" href="{{ fallback }}" data-book="">Check availability</a>
+      {% if r.rating %}<a class="vip-rating" href="{{ r.rating.url }}">{{ r.rating.value }} on Google, {{ r.rating.count }} reviews</a>{% endif %}
+    </div>
+  </section>
+
+  <section class="sec sec--tight" aria-label="Route">
+    <div class="wrap">
+      <p class="vip-route"><span>{{ p.from }}{% if p.code %} ({{ p.code }}){% endif %}</span><span class="sep" aria-hidden="true"></span><span>{{ p.to }}</span></p>
+      <p class="note">{{ r.lead }}</p>
+    </div>
+  </section>
+
+  <section class="sec sec--tight" aria-labelledby="h-van">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="h-van">Our minivan</h2></div>
+      <div class="vip-photos">{{ v2.img(mock.van, "(min-width: 48rem) 50vw, 100vw") }}{{ v2.img(mock.vanWelcome, "(min-width: 48rem) 50vw, 100vw") }}</div>
+    </div>
+  </section>
+
+  <section class="sec dark" aria-label="Payment">
+    <div class="wrap"><p class="big-message">{{ vip.payment }}</p></div>
+  </section>
+
+  <section class="sec" aria-labelledby="h-faq">
+    <div class="wrap faq-grid">
+      <h2 id="h-faq">Questions about this route</h2>
+      {{ v2.faq(r.faq) }}
+    </div>
+  </section>
+
+  <section class="sec sec--tight" aria-labelledby="h-routes">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="h-routes">Other routes</h2><a class="link" href="/taxi/">All routes</a></div>
+      <ul class="routes">
+        {%- for o in r.others %}<li><a href="{{ o.href }}"><span class="routes-name">{{ o.from }} to {{ o.to }}</span>{% if o.drive %}<span class="routes-meta">{{ o.drive }}</span>{% endif %}</a></li>{% endfor %}
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec stt-band" aria-label="Secret Travel &amp; Tour">
+    <div class="wrap band">
+      <span class="pastille"><picture><source type="image/avif" srcset="{{ pages.emblem.header.avif }}"><img eleventy:ignore src="{{ pages.emblem.header.src }}" srcset="{{ pages.emblem.header.webp }}" width="{{ pages.emblem.header.width }}" height="{{ pages.emblem.header.height }}" alt="" loading="lazy"></picture></span>
+      <p>Boat trips and day tours on Koh Lanta: <a href="/">Secret Travel &amp; Tour</a></p>
+      <ul>{% for t in r.tours %}<li><a href="{{ t.href }}">{{ t.name }}</a></li>{% endfor %}</ul>
+    </div>
+  </section>
+</main>
+<footer class="foot vip-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand"><img eleventy:ignore class="vip-foot-logo" src="/images/taxi/logo.webp" width="640" height="640" alt="{{ vip.name }}, {{ vip.owner }}" loading="lazy"><p class="foot-name">{{ vip.name }}<span>{{ vip.owner }}, based on {{ vip.address.locality }}</span></p></div>
+      <div><p class="foot-title">Google Maps</p><a class="link" href="{{ vip.maps }}">Listing and reviews</a></div>
+      <div><p class="foot-title">WhatsApp</p><a class="link" href="{{ v2.waHref(c.number) }}">{{ c.phoneDisplay }}</a></div>
+    </div>
+    <div class="foot-legal"><p>Bookings sold by {{ site.operator.name }}</p><a href="/terms/">Booking terms</a><a href="/legal/">Legal notice</a><a href="/privacy/">Privacy</a></div>
+  </div>
+</footer>
+{{ v2.mobileBar(null, fallback) }}
+{{ bookingSheet(r.booking, c) }}
+<script src="/js/booking.js?v={{ build.v }}" defer></script>
+</body>
+</html>
