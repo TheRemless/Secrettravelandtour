@@ -8,18 +8,15 @@ const path = require("node:path");
 const SRC = path.join(__dirname, "..", "src");
 const read = (file) => fs.readFileSync(path.join(SRC, file), "utf8");
 
-test("conditions : version anglaise (qui fait foi) et traduction française, non indexées", () => {
+test("conditions : version anglaise seulement, non indexée, sans version française", () => {
   const en = read("terms.njk");
-  const fr = read("terms-fr.njk");
   assert.match(en, /permalink: \/terms\//);
-  assert.match(fr, /permalink: \/terms\/fr\//);
-  for (const page of [en, fr]) {
-    assert.match(page, /<meta name="robots" content="noindex, follow">/);
-    assert.match(page, /Zwald Travel Planner Co\., Ltd\./);
-    assert.doesNotMatch(page, /booking-terms/);
+  assert.match(en, /<meta name="robots" content="noindex, follow">/);
+  assert.match(en, /Zwald Travel Planner Co\., Ltd\./);
+  assert.doesNotMatch(en, /booking-terms/);
+  for (const file of ["terms-fr.njk", "legal-fr.njk", "privacy-fr.njk"]) {
+    assert.ok(!fs.existsSync(path.join(SRC, file)), file + " existe : rien de français sur ce site");
   }
-  assert.match(fr, /la <a href="\/terms\/">version anglaise<\/a> fait foi/);
-  assert.equal((en.match(/<h2>/g) || []).length, (fr.match(/<h2>/g) || []).length, "même nombre d'articles");
 });
 
 test("conditions : liées depuis l'accueil, les pages /tours/ et les pages taxi, plus vers les CGV de Zwald", () => {
@@ -30,8 +27,8 @@ test("conditions : liées depuis l'accueil, les pages /tours/ et les pages taxi,
   }
 });
 
-test("mentions légales et confidentialité propres au site, en anglais (qui fait foi) et en français", () => {
-  const pages = { "legal.njk": "/legal/", "legal-fr.njk": "/legal/fr/", "privacy.njk": "/privacy/", "privacy-fr.njk": "/privacy/fr/" };
+test("mentions légales et confidentialité propres au site, en anglais seulement", () => {
+  const pages = { "legal.njk": "/legal/", "privacy.njk": "/privacy/" };
   for (const [file, url] of Object.entries(pages)) {
     const page = read(file);
     assert.match(page, new RegExp("permalink: " + url.replace(/\//g, "\\/")));
@@ -40,12 +37,16 @@ test("mentions légales et confidentialité propres au site, en anglais (qui fai
     assert.match(page, /292 Moo 2/);
     assert.doesNotMatch(page, /Moo 6|252\/1/, file + " garde l'ancienne adresse");
   }
-  assert.equal((read("privacy.njk").match(/<h2>/g) || []).length, (read("privacy-fr.njk").match(/<h2>/g) || []).length);
-  assert.equal((read("legal.njk").match(/<h2>/g) || []).length, (read("legal-fr.njk").match(/<h2>/g) || []).length);
+});
+
+test("aucune page légale ne renvoie vers une version française", () => {
+  for (const file of ["terms.njk", "legal.njk", "privacy.njk", "secret.njk", "secret-page.njk", "taxi.njk", "taxi-route.njk"]) {
+    assert.doesNotMatch(read(file), /\/(terms|legal|privacy)\/fr\/|hreflang="fr"|Version française/, file);
+  }
 });
 
 test("plus aucun lien vers les pages légales de Zwald depuis Secret et le taxi", () => {
-  for (const file of ["secret.njk", "secret-page.njk", "taxi.njk", "taxi-route.njk", "terms.njk", "terms-fr.njk"]) {
+  for (const file of ["secret.njk", "secret-page.njk", "taxi.njk", "taxi-route.njk", "terms.njk"]) {
     const page = read(file);
     assert.doesNotMatch(page, /zwaldtravelplanner\.com\/(cgv|mentions-legales|politique-confidentialite)\//, file);
   }
@@ -59,7 +60,7 @@ test("licence TAT renseignée (donnée par Jérémy le 03.11.2026) et affichée 
   const secret = JSON.parse(read("_data/secret.json"));
   assert.equal(secret.licence, "69/40285");
   const built = (file) => fs.readFileSync(path.join(__dirname, "..", "_site", file), "utf8");
-  for (const file of ["index.html", "terms/index.html", "terms/fr/index.html", "legal/index.html", "legal/fr/index.html"]) {
+  for (const file of ["index.html", "terms/index.html", "legal/index.html"]) {
     assert.match(built(file), /69\/40285/, file + " n'affiche pas la licence");
   }
 });
