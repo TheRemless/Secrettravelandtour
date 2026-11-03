@@ -17,7 +17,7 @@
   "facts": [
     {
       "label": "Departure pier",
-      "value": "Saladan pier"
+      "value": "Sala Dan pier"
     },
     {
       "label": "Hotel pickup",
@@ -158,6 +158,10 @@
     {
       "field": "timetable.outbound[].seasonRange",
       "from": "timetable.outbound[1].season (Langkawi 1 November to 15 April) et [4] (« from 1 December » et « From December to April » sur la page actuelle ; fin d'avril prise au 30), mis en dates pour « Runs today »"
+    },
+    {
+      "field": "facts[Departure pier]",
+      "from": "graphie de référence « Sala Dan » (03-audit-contenu §6.7) à la place de « Saladan »"
     }
   ],
   "todo": [

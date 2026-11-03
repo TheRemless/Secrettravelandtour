@@ -120,6 +120,12 @@
         var dropOff = config.from && config.to ? state.direction !== "back" : false;
         lines.push((dropOff ? "Drop-off: " : "Pickup: ") + clean(state.address));
       }
+    } else if (config.variant === "rental") {
+      var cat = findOption(config, state.option);
+      lines.push("Rental request: " + (cat ? cat.title : config.product));
+      if (clean(state.vehicle)) lines.push("Vehicle: " + clean(state.vehicle));
+      if (state.dateFrom) lines.push("From: " + formatDate(state.dateFrom));
+      if (state.dateTo) lines.push("To: " + formatDate(state.dateTo));
     } else {
       var option = findOption(config, state.option);
       lines.push("Booking request: " + config.product + (option ? " – " + option.title : ""));
@@ -129,13 +135,13 @@
     }
 
     if (clean(state.name)) lines.push("Name: " + clean(state.name));
-    if (config.variant !== "taxi") {
+    if (config.variant === "tour") {
       var price = priceLine(findOption(config, state.option));
       if (price) lines.push("Price on website: " + price);
     }
     if (config.page) lines.push("Page: " + config.page);
     // La référence ouvre le message : le comptoir trie et retrouve les demandes sur elle.
-    var ref = makeRef(config.refPrefix, date, state.adults, (state.childAges || []).length);
+    var ref = config.variant === "rental" ? "" : makeRef(config.refPrefix, date, state.adults, (state.childAges || []).length);
     if (ref) lines.unshift("Ref: " + ref);
     return lines.join("\n");
   }
@@ -175,6 +181,14 @@
   function validate(config, state) {
     var errors = {};
     if ((config.options || []).length && !findOption(config, state.option)) errors.option = "Choose an option.";
+
+    if (config.variant === "rental") {
+      if (!state.dateFrom || !state.dateTo) errors.dates = "Pick the first and the last day.";
+      else if (state.dateFrom < state.today) errors.dates = "The first day has passed.";
+      else if (state.dateTo < state.dateFrom) errors.dates = "The last day is before the first day.";
+      if (!clean(state.name)) errors.name = "Add your first name.";
+      return errors;
+    }
 
     var date = resolveDate(state.dateChoice, state.dateOther, state.today);
     if (!date) errors.date = "Pick a date.";
@@ -217,12 +231,14 @@
     var relative = state.dateChoice === "today" || state.dateChoice === "tomorrow";
     var stale = relative ? draft.day !== today : state.dateChoice === "other" && (state.dateOther || "") < today;
     if (stale) { state.dateChoice = ""; state.dateOther = ""; }
+    if (state.dateFrom && state.dateFrom < today) { state.dateFrom = ""; state.dateTo = ""; }
     return state;
   }
 
   function emptyState(config) {
     return {
       option: "", dateChoice: "", dateOther: "", adults: 2, childAges: [], pickup: "", name: "",
+      vehicle: "", dateFrom: "", dateTo: "",
       direction: "out", from: "", to: "", time: "", flight: "", bags: 0, childSeats: 0, address: ""
     };
   }
@@ -297,7 +313,7 @@
     }
 
     function fillForm() {
-      ["dateOther", "pickup", "name", "time", "flight", "address", "from", "to"].forEach(function (k) {
+      ["dateOther", "pickup", "name", "time", "flight", "address", "from", "to", "vehicle", "dateFrom", "dateTo"].forEach(function (k) {
         var el = field(k);
         if (el && typeof el.value === "string") el.value = state[k] || "";
       });
@@ -313,6 +329,8 @@
       if (other) other.hidden = state.dateChoice !== "other";
       var min = today();
       if (field("dateOther")) field("dateOther").min = min;
+      if (field("dateFrom")) field("dateFrom").min = min;
+      if (field("dateTo")) field("dateTo").min = state.dateFrom || min;
       updateAddressLabel();
       renderChildAges();
     }
@@ -361,6 +379,7 @@
         if (state.dateChoice === "other" && el.checked && field("dateOther")) field("dateOther").focus();
       }
       if (el.name === "children") renderChildAges();
+      if (el.name === "dateFrom" && field("dateTo")) field("dateTo").min = state.dateFrom;
       if (el.name === "direction") updateAddressLabel();
       if (el.name === "option") markOptions();
       clearError(errorKey(el.name));
@@ -369,6 +388,7 @@
 
     function errorKey(name) {
       if (name === "dateChoice" || name === "dateOther") return "date";
+      if (name === "dateFrom" || name === "dateTo") return "dates";
       return name;
     }
 
@@ -389,6 +409,7 @@
     // Contrôles d'une erreur : tout le groupe pour les choix (date, option), le champ seul sinon.
     function controlsFor(key) {
       if (key === "date") return form.querySelectorAll('input[name="dateChoice"], input[name="dateOther"]');
+      if (key === "dates") return form.querySelectorAll('input[name="dateFrom"], input[name="dateTo"]');
       if (key === "option") return form.querySelectorAll('input[name="option"]');
       var f = field(key);
       return f ? [f] : [];

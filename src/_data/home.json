@@ -1,0 +1,84 @@
+{
+  "seo": {
+    "title": "Koh Lanta Boat Trips and Transfers | Secret Travel & Tour",
+    "metaDescription": "Koh Rok, Phi Phi and the 4 Islands by boat, the elephant sanctuary, scooter rental and transfers. 4 Islands from 1,000 THB. Desk at 292 Moo 2, Sala Dan."
+  },
+  "h1": "Boat trips, activities and transfers on Koh Lanta",
+  "lead": "From our desk in Sala Dan we book Koh Rok, Phi Phi and the 4 Islands, the elephant sanctuary, cooking classes and your transfers.",
+  "boats": {
+    "title": "Boat trips"
+  },
+  "activities": {
+    "title": "Activities"
+  },
+  "transfers": {
+    "title": "Transfers",
+    "items": [
+      {
+        "title": "Minivan, shared or private",
+        "text": "Hotel to hotel, airports, piers and ferries: Krabi, Phuket, Ao Nang, Khao Sok, Surat Thani, Trang and more. A shared minivan may stop for other passengers.",
+        "href": "/transfers/"
+      },
+      {
+        "title": "Speedboat from Sala Dan pier",
+        "text": "Koh Phi Phi, Phuket, Koh Ngai, Koh Mook, Koh Lipe, Langkawi and more, on the 2026–2027 timetable. Hotel pickup on Koh Lanta is included.",
+        "href": "/tours/speedboat/"
+      },
+      {
+        "title": "VIP Taxi Lanta",
+        "text": "Mr. Brown's private minivans across Southern Thailand, for your group only, and taxi rides on Koh Lanta.",
+        "href": "/taxi/"
+      }
+    ]
+  },
+  "rental": {
+    "title": "Car and scooter rental",
+    "text": "35 vehicles, from a 110 cc scooter to a 7-seat Toyota Fortuner. Send us the model and your dates."
+  },
+  "desk": {
+    "title": "Our desk in Sala Dan",
+    "text": "Every booking goes through WhatsApp and nothing is paid online. Boat trips and activities are paid in cash or by bank transfer."
+  },
+  "sources": [
+    {
+      "field": "seo.title, h1",
+      "from": "site.json brands.secret.offer (Boat trips, Island activities, transfers) ; 03-audit-contenu §6.1 et §7.1 (« Boat trips … on Koh Lanta ») ; H1 de 8 mots au plus (§6.3)"
+    },
+    {
+      "field": "seo.metaDescription",
+      "from": "products/tours/koh-rok-koh-haa, koh-phi-phi, 4-islands (price.from 1000), activities/elephant-sanctuary, rental, secret-transfers ; site.json brands.secret.address (292, Moo 2, Sala Dan)"
+    },
+    {
+      "field": "lead",
+      "from": "site.json brands.secret.address.locality (Sala Dan) ; products tours/koh-rok-koh-haa, tours/koh-phi-phi, tours/4-islands, activities/elephant-sanctuary, activities/cooking-class ; site.json brands.secret.offer (transfers)"
+    },
+    {
+      "field": "boats.title, activities.title",
+      "from": "site.json brands.secret.offer (Boat trips, Island activities)"
+    },
+    {
+      "field": "transfers.items[0]",
+      "from": "products/secret-transfers/shared-minivan.json facts Format, Where, Shared transfers ; options[shared].note ; 04-questions-client Q4 (transferts partagés : oui)"
+    },
+    {
+      "field": "transfers.items[1]",
+      "from": "products/secret-transfers/speedboat-ferry.json facts Departure pier (Saladan pier, graphie §6.7 Sala Dan), Destinations, Timetable (2026–2027 season), Hotel pickup (included on Koh Lanta) ; pas de mot « ferry » (aucun ferry publié, TODO client)"
+    },
+    {
+      "field": "transfers.items[2]",
+      "from": "site.json brands.vip (name, owner Mr. Brown, offer, private: true, vehicles : minivans hors de l'île, taxi sur Koh Lanta)"
+    },
+    {
+      "field": "rental.text",
+      "from": "products/rental.json facts Fleet (35 vehicles), legacyText.metaDescription (110 cc scooter, 7-seat Fortuner), legacyText.intro[1] (vehicle and dates)"
+    },
+    {
+      "field": "desk.title",
+      "from": "site.json brands.secret.address (Sala Dan)"
+    },
+    {
+      "field": "desk.text",
+      "from": "site.json booking.channel (WhatsApp), booking.onlinePayment false, booking.payment (cash, bank transfer) ; 04-questions-client Q5 et Q13 (paiement des excursions) ; transferts VIP exclus de la phrase sur le paiement (contradiction ouverte)"
+    }
+  ]
+}

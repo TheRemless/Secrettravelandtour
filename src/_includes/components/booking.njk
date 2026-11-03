@@ -26,6 +26,7 @@
 
 {% macro bookingSheet(cfg, facts) %}
 {%- set taxi = cfg.variant == "taxi" -%}
+{%- set rental = cfg.variant == "rental" -%}
 <dialog class="sheet" id="book" aria-labelledby="book-title">
   <div class="sheet-screen" data-screen="form">
     <form novalidate>
@@ -64,6 +65,22 @@
           {%- endif %}
         {%- endif %}
 
+        {%- if rental %}
+        <div class="f">
+          <label for="book-vehicle">Vehicle</label>
+          <p class="f-hint" id="book-h-vehicle">Optional: the model you saw in the list.</p>
+          <input id="book-vehicle" name="vehicle" type="text" list="book-vehicles" autocomplete="off" aria-describedby="book-h-vehicle">
+          <datalist id="book-vehicles">{% for o in cfg.options %}{% for r in o.rows %}<option value="{{ r.label }}"></option>{% endfor %}{% endfor %}</datalist>
+        </div>
+        <fieldset class="f">
+          <legend>Dates</legend>
+          <div class="dates">
+            <div><label class="f-label" for="book-dateFrom">From</label><input id="book-dateFrom" name="dateFrom" type="date" aria-describedby="book-e-dates"></div>
+            <div><label class="f-label" for="book-dateTo">To</label><input id="book-dateTo" name="dateTo" type="date" aria-describedby="book-e-dates"></div>
+          </div>
+          <p class="err" id="book-e-dates" hidden></p>
+        </fieldset>
+        {%- else %}
         <fieldset class="f">
           <legend>Date</legend>
           <div class="choice choice--3">
@@ -77,6 +94,7 @@
           </div>
           <p class="err" id="book-e-date" hidden></p>
         </fieldset>
+        {%- endif %}
 
         {%- if taxi %}
         <div class="f">
@@ -87,6 +105,7 @@
         {{ text("flight", "Flight number or ferry time", "If we pick you up at an airport or a pier.") }}
         {%- endif %}
 
+        {%- if not rental %}
         <fieldset class="f">
           <legend>Guests</legend>
           {{ stepper("adults", "Adults", 2, 0, 60) }}
@@ -98,6 +117,7 @@
           {{ stepper("bags", "Bags", 0, 0, 30) }}
           {%- endif %}
         </fieldset>
+        {%- endif %}
 
         {%- if taxi %}
           {%- set outLabel = "Drop-off hotel or address" -%}
@@ -107,7 +127,7 @@
           <input id="book-address" name="address" type="text" autocomplete="street-address" aria-describedby="book-e-address">
           <p class="err" id="book-e-address" hidden></p>
         </div>
-        {%- else %}
+        {%- elif not rental %}
         {{ text("pickup", "Hotel or address", "We pick you up here.", cfg.pickupRequired != false, "street-address") }}
         {%- endif %}
 

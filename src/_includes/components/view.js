@@ -78,7 +78,7 @@ function cardFacts(product) {
   const pickup = fact(product, "Hotel pickup");
   const sessions = fact(product, "Sessions");
   if (pickup) out.push({ label: "Pickup", value: pickup.replace(/^(\d{2}:\d{2})[–-]\d{2}:\d{2}$/, "$1") });
-  else if (sessions) out.push({ label: "First session", value: sessions.split(/,| and /)[0].trim() });
+  else if (/^\d{2}:\d{2}/.test(sessions)) out.push({ label: "First session", value: sessions.split(/,| and /)[0].trim() });
   const opt = (product.options || []).find((o) => o.id === optionOfPrice(product));
   const boat = (opt && opt.boat) ? cap(opt.boat) : fact(product, "Boat");
   if (boat && boat.length <= 16) out.push({ label: "Boat", value: boat });
@@ -194,7 +194,10 @@ function beforeBook(product, site, { skipParkFee = false } = {}) {
   };
   return BEFORE.map(([key, label]) => {
     let v = own[key] !== undefined ? own[key] : fallback[key];
-    if (Array.isArray(v)) v = v.join(", ");
+    // Une liste devient une phrase : « Clothes that can get dirty and wet, a towel, flip-flops ».
+    if (Array.isArray(v)) v = v.map((x, i) => (i && /^[A-Z][a-z]/.test(x) ? x.charAt(0).toLowerCase() + x.slice(1) : x)).join(", ");
+    // La règle météo vaut pour les sorties, pas pour la location.
+    if (key === "weather" && product.template === "rental") return null;
     if (key === "weather" && common.weather) v = v ? `${v} ${common.weather}` : common.weather;
     return v ? { label, text: v } : null;
   }).filter(Boolean);
@@ -236,7 +239,13 @@ function bookingTour(product, site) {
     pickupRequired: product.template !== "rental",
     refPrefix: product.refPrefix || "",
     parkFee: parkFee(product),
-    options: options(product).list.map((o) => ({ id: o.id, title: o.title, rows: o.rows, from: o.from, unit: o.unit }))
+    // Location : le « from » d'une catégorie est son tarif le plus bas (les véhicules sont listés du plus cher au moins cher).
+    options: options(product).list.map((o, i) => {
+      const src = product.options[i];
+      const amounts = (src.prices || []).map((r) => r.amount).filter((a) => typeof a === "number");
+      const from = product.template === "rental" && amounts.length ? thb(Math.min(...amounts)) : o.from;
+      return { id: o.id, title: o.title, rows: o.rows, from, unit: product.template === "rental" ? "per day" : o.unit };
+    })
   };
 }
 
@@ -288,9 +297,15 @@ const TICKET = [
 ];
 const isTime = (v) => /^\d{2}:\d{2}(?:[–-]\d{2}:\d{2})?$/.test(v);
 
+// Activités : pas de bateau ni de ponton ; sessions, durée, saison, règles d'âge et ce qui compte pour l'activité.
+const TICKET_ACTIVITY = [
+  ["Hotel pickup", "Pickup"], ["Sessions", "Sessions"], ["Duration", "Duration"], ["Season", "Season"],
+  ["Riding", "Riding"], ["Children", "Children"], ["Ages", "Ages"]
+];
+
 function ticket(product) {
   const rows = [];
-  for (const [label, shown] of TICKET) {
+  for (const [label, shown] of (product.template === "boat" ? TICKET : TICKET_ACTIVITY)) {
     const f = (product.facts || []).find((x) => x.label === label);
     if (f && f.value) rows.push({ label: shown, value: f.value, time: isTime(f.value) });
   }

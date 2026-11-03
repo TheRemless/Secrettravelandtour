@@ -5,11 +5,11 @@
   "template": "route",
   "name": "Krabi Airport to Koh Lanta",
   "seo": {
-    "title": "Krabi Airport to Koh Lanta Minivan Taxi | VIP Taxi Lanta",
-    "metaDescription": "Private minivan taxi between Krabi Airport (KBV) and Koh Lanta, both directions, door to door. Cash to the driver, no prepayment. Price on WhatsApp."
+    "title": "Krabi Airport to Koh Lanta Private Minivan | VIP Taxi Lanta",
+    "metaDescription": "Private minivan between Krabi Airport (KBV) and your hotel on Koh Lanta, both directions, about 2 to 3 hours. Child seats on request. Price on WhatsApp."
   },
   "h1": "Krabi Airport to Koh Lanta by private minivan",
-  "lead": "Door to door between Krabi Airport (KBV) and your hotel on Koh Lanta, in either direction. Your group only, no sharing.",
+  "lead": "Door to door between Krabi Airport (KBV) and your hotel on Koh Lanta, both ways, in a minivan just for your group.",
   "route": {
     "from": "Krabi Airport",
     "to": "Koh Lanta",
@@ -40,11 +40,15 @@
   "faq": [
     {
       "q": "Where does the driver meet me at Krabi Airport?",
-      "a": "At the time you give us, at the airport. Send your flight number and the team confirms the meeting point on WhatsApp."
+      "a": "At the airport, at the time you give us. Send your flight number and we confirm the meeting point on WhatsApp."
     },
     {
       "q": "Can I book the transfer back to Krabi Airport?",
       "a": "Yes. Enter your hotel as the pickup and Krabi Airport as the destination, with your date and pickup time."
+    },
+    {
+      "q": "How long is the drive from Krabi Airport to Koh Lanta?",
+      "a": "About 2 to 3 hours, depending on traffic."
     }
   ],
   "photos": [
@@ -110,6 +114,26 @@
     {
       "field": "schema",
       "from": "src/_data/taxiRoutesView.js"
+    },
+    {
+      "field": "seo.title",
+      "from": "name, route.from/to, schema.serviceType « Private minivan transfer » ; « Minivan Taxi » retiré (§6.6)"
+    },
+    {
+      "field": "seo.metaDescription",
+      "from": "route (code KBV, bothDirections, drive « about 2 to 3 hours »), site.json brands.vip.private et childSeats, priceOnRequest ; mention du paiement retirée (contradiction cash / virement ouverte dans site.json todo)"
+    },
+    {
+      "field": "lead",
+      "from": "ancien lead (door to door, KBV, either direction, your group only), site.json brands.vip.private"
+    },
+    {
+      "field": "faq[0].a",
+      "from": "taxiRoutes.json routes[id=krabi-airport-koh-lanta].faq[0] et body[0], voix « we »"
+    },
+    {
+      "field": "faq[2]",
+      "from": "route.drive « about 2 to 3 hours » ; « depending on traffic » : affichage décidé le 30.10.2026 (registre de faits, src/taxi-route.njk)"
     }
   ]
 }

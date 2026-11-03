@@ -15,6 +15,9 @@ module.exports = async function (eleventyConfig) {
     failOnError: true,
   });
 
+  // JSON-LD sérialisé sans risque de fermer la balise <script> (components/schema.js).
+  eleventyConfig.addFilter("jsonld", (obj) => require("./src/_includes/components/schema.js").toScript(obj));
+
   // Fichiers copiés tels quels, avec les mêmes adresses publiques.
   eleventyConfig.addPassthroughCopy({
     "src/css": "css",

@@ -1,0 +1,89 @@
+---
+permalink: /taxi/krabi-airport-koh-lanta/
+---
+{#- Trajet Krabi Airport et Koh Lanta, identité VIP Taxi Lanta (décision client du 02.11.2026), pièces de 00-BRIEF §6.4.
+    Les lignes sans donnée (distance, ferry, point de rencontre, capacité, attente) ne s'affichent pas. -#}
+{% import "components/vip.njk" as vip %}
+{% from "components/booking.njk" import bookingSheet %}
+{% from "components/icons.njk" import icon %}
+{%- set r = pages.route -%}
+{%- set p = r.parts -%}
+{%- set fallback = vip.waHref(pages.contact.number, r.fallback) -%}
+<!DOCTYPE html>
+<html lang="en-GB" data-refonte data-brand="vip">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{ r.seo.title }}</title>
+<meta name="description" content="{{ r.seo.metaDescription }}">
+<link rel="canonical" href="{{ site.url }}{{ r.url }}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="VIP Taxi Lanta">
+<meta property="og:title" content="{{ r.seo.title }}">
+<meta property="og:description" content="{{ r.seo.metaDescription }}">
+<meta property="og:url" content="{{ site.url }}{{ r.url }}">
+<meta property="og:image" content="{{ site.url }}/images/taxi/og-taxi.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" as="font" type="font/woff2" href="/css/fonts/marcellus-400-normal-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/css/fonts/figtree-400-normal-latin.woff2" crossorigin>
+<link rel="stylesheet" href="/css/vip.css?v={{ build.v }}">
+<link rel="stylesheet" href="/css/booking.css?v={{ build.v }}">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/taxi/icon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/taxi/apple-touch-icon.png">
+<meta name="theme-color" content="#140D09">
+{%- for j in pages.jsonLd.route %}
+<script type="application/ld+json">{{ j | jsonld | safe }}</script>
+{%- endfor %}
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body class="has-vbar">
+<a class="skip" href="#main">Skip to content</a>
+{{ vip.header(site.brands.vip, pages.contact.number, [{ label: "All routes", href: "/taxi/" }]) }}
+<main id="main" class="wrap vip-page">
+  <div class="vip-two">
+    <div>
+      <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/taxi/">VIP Taxi Lanta</a></li><li><span aria-current="page">{{ r.name }}</span></li></ol></nav>
+      <h1>{{ r.h1 }}</h1>
+      <p class="lead">{{ r.lead }}</p>
+      <p class="route-pair-v"><span>{{ p.from }}{% if p.code %} ({{ p.code }}){% endif %}</span><span class="sep" aria-hidden="true"></span><span>{{ p.to }}</span></p>
+      {%- if p.both %}<p class="route-both">Both directions, same page: tell us which way in the form.</p>{% endif %}
+      {%- set rows = [] -%}
+      {%- for row in p.rows %}{% if row.value %}{% set _x = rows.push({ label: row.label, value: row.value }) %}{% endif %}{% endfor %}
+      {{ vip.routeFacts(rows, "Facts, " + r.name) }}
+      <div class="vip-actions">
+        <a class="btn" href="{{ fallback }}" data-book="">{{ icon("whatsapp") }}<span>Check availability</span></a>
+      </div>
+      {{ vip.rating(r.rating) }}
+    </div>
+    {%- if r.hero %}
+    <div class="vip-hero"><img eleventy:ignore src="{{ r.hero.src }}" alt="{{ r.hero.alt }}" width="{{ r.hero.cssWidth }}" height="{{ r.hero.cssHeight }}" fetchpriority="high"></div>
+    {%- endif %}
+  </div>
+
+  {{ vip.vehicle(r.vehicle, false) }}
+
+  <div class="vip-two">
+    {%- if r.faq.length %}
+    <section aria-labelledby="h-faq">
+      <h2 id="h-faq">Questions about this route</h2>
+      <div class="faq">
+        {%- for f in r.faq %}
+        <details><summary>{{ f.q }}{{ icon("chevron-down") }}</summary><div class="answer"><p>{{ f.a }}</p></div></details>
+        {%- endfor %}
+      </div>
+    </section>
+    {%- endif %}
+    <section aria-labelledby="h-routes">
+      <h2 id="h-routes">Other routes</h2>
+      {{ vip.routeList(r.others) }}
+    </section>
+  </div>
+
+  <section aria-label="Secret Travel &amp; Tour">{{ vip.secretAd(site.brands.secret, pages.emblem.small, r.tours) }}</section>
+</main>
+{{ vip.footer(site, pages.contact) }}
+{{ vip.mobileBar(null, fallback) }}
+{{ bookingSheet(r.booking, pages.contact) }}
+<script src="/js/booking.js?v={{ build.v }}" defer></script>
+</body>
+</html>

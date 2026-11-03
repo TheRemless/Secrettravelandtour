@@ -61,6 +61,8 @@ module.exports = function () {
     .concat(secret.activities.map((a) => ({ ...a, kind: "activity" })))
     .concat((secret.transfers || []).map((t) => ({ ...t, kind: "transfer" })));
   const pages = [];
+  // Pages refaites à l'étape 3 (src/pages/) : l'ancien gabarit ne les génère plus.
+  const REBUILT = ["4-islands", "elephant-sanctuary", "rental"];
   for (const item of items) {
     const page = content.pages[item.id];
     if (!page || !item.confirmed) continue;
@@ -71,5 +73,6 @@ module.exports = function () {
   }
   const byKind = { boat: [], activity: [], transfer: [] };
   for (const page of pages) byKind[page.kind].push(page);
-  return { pages, parkFeeNote: content.parkFeeNote, byId: Object.fromEntries(pages.map((p) => [p.id, p])), byKind };
+  // Les listes (autres excursions, liens) gardent toutes les pages ; seule la pagination saute les refaites.
+  return { pages: pages.filter((p) => !REBUILT.includes(p.id)), parkFeeNote: content.parkFeeNote, byId: Object.fromEntries(pages.map((p) => [p.id, p])), byKind };
 };

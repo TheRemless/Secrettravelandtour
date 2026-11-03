@@ -6,7 +6,7 @@
   "name": "4 Islands",
   "seo": {
     "title": "4 Islands Tour from Koh Lanta | Secret Travel & Tour",
-    "metaDescription": "4 Islands tour from Koh Lanta by longtail or speedboat: Emerald Cave, Koh Ngai, Koh Ma or Kradan. Lunch included. Join-in from 1,000 THB.",
+    "metaDescription": "Koh Chueak, the Emerald Cave on Koh Mook, Koh Ngai and Koh Ma or Kradan. Full day, beach lunch and hotel transfer included. Join-in from 1,000 THB.",
     "draft": {
       "title": "4 Islands Tour from Koh Lanta – Emerald Cave",
       "metaDescription": "Longtail or speedboat to the Emerald Cave, Koh Ngai, Koh Chueak and Koh Ma or Kradan. Lunch and snorkel gear included. From 1,000 THB.",
@@ -14,7 +14,7 @@
     }
   },
   "h1": "4 Islands boat tour from Koh Lanta",
-  "lead": "Koh Chueak, Koh Mook and its Emerald Cave, Koh Ngai, then Koh Ma or Koh Kradan. A full day on the water, by longtail or speedboat, private or join-in.",
+  "lead": "Koh Chueak, the Emerald Cave on Koh Mook and Koh Ngai, plus Koh Ma by longtail or Koh Kradan by speedboat. Join-in or private.",
   "promise": "Emerald Cave and three more islands, lunch on the beach",
   "facts": [
     {
@@ -322,7 +322,7 @@
     },
     {
       "q": "Is the 4 Islands tour private?",
-      "a": "Both exist. You can join a group or take the boat for your group only, with a dedicated captain."
+      "a": "It can be. Join a shared boat, or take a private longtail for your group only, with its own captain."
     },
     {
       "q": "Is the national park fee included?",
@@ -473,6 +473,18 @@
     {
       "field": "day[0].steps[].place, detail, kind ; options[].pier, stub ; refPrefix",
       "from": "texte des étapes (day[0].steps[].text), facts Lunch et Longtail pier, beforeYouBook.pickup, notes des options ; maquette m2 de la critique du 03.11.2026"
+    },
+    {
+      "field": "seo.metaDescription",
+      "from": "facts (Islands, longtail ; Islands, speedboat ; Duration ; Lunch), included[0] « Hotel transfer both ways », price.from 1000 (join-in longtail) ; réécrit le 03.11.2026"
+    },
+    {
+      "field": "lead",
+      "from": "facts Islands, longtail et Islands, speedboat ; options[].kind (join-in, private) ; réécrit à 25 mots le 03.11.2026"
+    },
+    {
+      "field": "faq[1].a",
+      "from": "options[id=private-longtail] (seul bateau privé publié), included[4] « the boat and the captain for your group only » ; l'ancienne réponse laissait croire à un speedboat privé (TODO client)"
     }
   ],
   "todo": [

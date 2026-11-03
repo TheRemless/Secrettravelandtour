@@ -42,7 +42,9 @@ function jsonLd(route, url) {
 }
 
 module.exports = function () {
-  const routes = data.routes.map((r) => {
+  // Trajet refait à l'étape 3 (src/pages/krabi-airport-koh-lanta.njk) : l'ancien gabarit ne le génère plus.
+  const REBUILT = ["krabi-airport-koh-lanta"];
+  const all = data.routes.map((r) => {
     const url = `${SITE}/taxi/${r.id}/`;
     const faqAll = r.faq.concat(data.common.faq);
     const formHref = `/taxi/?from=${encodeURIComponent(r.from)}&to=${encodeURIComponent(r.to)}#request`;
@@ -50,7 +52,8 @@ module.exports = function () {
     route.jsonLd = jsonLd(route, url);
     return route;
   });
-  const byId = Object.fromEntries(routes.map((r) => [r.id, r]));
+  const routes = all.filter((r) => !REBUILT.includes(r.id));
+  const byId = Object.fromEntries(all.map((r) => [r.id, r]));
   const regions = (data.regions || []).map((g) => ({ ...g, routes: g.routes.map((id) => byId[id]).filter(Boolean) }));
   return { routes, common: data.common, byId, regions, further: data.further };
 };

@@ -1,0 +1,27 @@
+---
+permalink: /tours/4-islands/
+---
+{#- Page refaite (étape 3), gabarit commun : src/_includes/stt-product.njk. -#}
+{% import "components/stt.njk" as stt %}
+{% from "components/booking.njk" import bookingSheet %}
+{%- set t = pages.fourIslands -%}
+{%- set crumb = { nav: "boat-trips", label: "Boat trips", href: "/#boat-trips", more: "More boat trips" } -%}
+{%- set seo = t.seo -%}
+{%- set pageUrl = t.url -%}
+{%- set ogImage = t.photo -%}
+{%- set jsonLd = pages.jsonLd.fourIslands -%}
+{%- set stt_contact = pages.contact -%}
+{%- set stt_emblem = pages.emblem -%}
+{%- set stt_who = pages.who -%}
+<!DOCTYPE html>
+<html lang="en-GB" data-refonte>
+<head>
+{% include "stt-head.njk" %}
+</head>
+<body class="has-mbar">
+<a class="skip" href="#main">Skip to content</a>
+{% include "stt-product.njk" %}
+<script src="/js/booking.js?v={{ build.v }}" defer></script>
+<script src="/js/ui.js?v={{ build.v }}" defer></script>
+</body>
+</html>

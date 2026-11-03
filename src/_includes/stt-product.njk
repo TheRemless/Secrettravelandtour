@@ -1,0 +1,67 @@
+{#- Page excursion bateau ou activité (00-BRIEF §6.2, maquette m2). Variable : t (stt.js productPage), crumb {label, href}. -#}
+{%- set fallback = stt.waHref(stt_contact.number, t.fallback) -%}
+{{ stt.header(crumb.nav, stt_contact, stt_emblem.header, site) }}
+<main id="main" class="wrap">
+  <div class="grid pg-hero">
+    <div class="c-6">
+      {{ stt.breadcrumb([{ label: "Home", href: "/" }, { label: crumb.label, href: crumb.href }, { label: t.name }]) }}
+      <h1>{{ t.h1 }}</h1>
+      <p class="lead">{{ t.lead }}</p>
+      {{ stt.ticket(t.ticket, "Key facts, " + t.name) }}
+      <div class="pg-actions">
+        <a class="btn btn-primary" href="{{ fallback }}" data-book="{{ t.price.option if t.price else '' }}">Check availability</a>
+        <a class="link-wa" href="{{ stt.waHref(stt_contact.number) }}">Ask on WhatsApp</a>
+      </div>
+    </div>
+    <div class="pg-photo">{{ stt.gallery(t.gallery, "Photos, " + t.name, false) }}</div>
+  </div>
+
+  {%- if t.product.template == "boat" %}
+  {%- for d in t.days %}
+  <section class="pg-sec" aria-labelledby="h-day-{{ loop.index }}">
+    <h2 id="h-day-{{ loop.index }}">{{ d.title }}</h2>
+    {{ stt.routeLine(d.steps, d.note) }}
+  </section>
+  {%- endfor %}
+  {%- endif %}
+
+  <section class="pg-sec" id="prices" aria-labelledby="h-prices">
+    <h2 id="h-prices">{{ "Choose your boat" if t.product.template == "boat" else "Choose your programme" }}</h2>
+    {{ stt.optionsPrices(t.options) }}
+    {%- if t.product.template != "boat" and t.days.length %}
+    <div class="pg-progs">{{ stt.programmes(t.days) }}</div>
+    {%- endif %}
+  </section>
+
+  {%- if t.season %}
+  <section class="pg-sec" aria-labelledby="h-season"><h2 id="h-season" class="sr-only">Season</h2>{{ stt.seasonRuler(t.season) }}</section>
+  {%- endif %}
+
+  <div class="grid pg-sec pg-two">
+    <section class="c-6" aria-labelledby="h-incl">
+      <h2 id="h-incl">What's in the price</h2>
+      {{ stt.included(t.included, t.notIncluded) }}
+    </section>
+    <div class="c-6">{{ stt.beforeBook(t.beforeBook) }}</div>
+  </div>
+
+  <div class="grid pg-sec pg-two">
+    {%- if t.faq.length %}
+    <section class="c-7" aria-labelledby="h-faq">
+      <h2 id="h-faq">Questions</h2>
+      {{ stt.faq(t.faq) }}
+    </section>
+    {%- endif %}
+    <div class="c-5">{{ stt.whoRuns(stt_who) }}</div>
+  </div>
+
+  {%- if t.related.length %}
+  <section class="pg-sec" aria-labelledby="h-related">
+    <h2 id="h-related">{{ crumb.more }}</h2>
+    {{ stt.related(t.related, t.transfer, false) }}
+  </section>
+  {%- endif %}
+</main>
+{{ stt.footer(site, stt_contact, stt_emblem.footer) }}
+{{ stt.mobileBar(t.price, fallback) }}
+{{ bookingSheet(t.booking, stt_contact) }}

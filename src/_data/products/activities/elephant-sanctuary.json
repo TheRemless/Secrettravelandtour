@@ -5,16 +5,16 @@
   "template": "activity",
   "name": "Elephant sanctuary",
   "seo": {
-    "title": "Ethical Elephant Sanctuary Koh Lanta | Secret Travel",
-    "metaDescription": "Ethical elephant sanctuary on Koh Lanta: walk with the elephants, feed them, mud bath, no riding. Transfer included. Adults from 1,800 THB.",
+    "title": "Elephant Sanctuary Koh Lanta | Secret Travel & Tour",
+    "metaDescription": "Walk with the elephants, feed them and join their mud bath. No riding. Three programmes up to a full day, hotel transfer included. From 1,800 THB.",
     "draft": {
       "title": "Ethical Elephant Sanctuary Koh Lanta – No Riding",
       "h1": "Ethical elephant sanctuary on Koh Lanta"
     }
   },
-  "h1": "Elephant sanctuary",
-  "lead": "Walk with the elephants, feed them, join them in the mud bath and the pool. No riding. Three programmes, from an hour and a half to a full day.",
-  "promise": "Feed and bathe the elephants, no riding",
+  "h1": "Elephant sanctuary on Koh Lanta",
+  "lead": "Walk with the elephants, feed them bananas and join them in the mud bath and the pool. No riding and no show.",
+  "promise": "No riding, three programmes up to a full day",
   "facts": [
     {
       "label": "Riding",
@@ -99,7 +99,7 @@
       "id": "programme-c",
       "label": "Programme C, full day",
       "kind": "join-in",
-      "note": "Two people at most, booked ahead.",
+      "note": "Two people per session at most. Book it early.",
       "prices": [
         {
           "label": "Adult",
@@ -130,11 +130,11 @@
       "options": [
         "programme-a"
       ],
-      "title": "The three programmes",
+      "title": "Programme A",
       "steps": [
         {
           "label": "A",
-          "text": "About 1 hr 30 min to 2 hours: walk with the elephants, feeding, mud bath, bathing together in the pool. Fresh fruit and water for you, bananas for them."
+          "text": "About 1 hr 30 min to 2 hours. A walk with the elephants, feeding, the mud bath and the pool."
         }
       ]
     },
@@ -142,11 +142,11 @@
       "options": [
         "programme-b"
       ],
-      "title": "The three programmes",
+      "title": "Programme B",
       "steps": [
         {
           "label": "B",
-          "text": "About 3 hours, at 07:30 or 13:00: everything in A, plus making traditional herbal remedies and paper from elephant dung, which you take home. Coffee and tea."
+          "text": "About 3 hours, 07:30 or 13:00. All of A, plus making herbal remedies and elephant-dung paper. Coffee and tea."
         }
       ]
     },
@@ -154,11 +154,11 @@
       "options": [
         "programme-c"
       ],
-      "title": "The three programmes",
+      "title": "Programme C",
       "steps": [
         {
           "label": "C",
-          "text": "Full day from 07:30: everything in B, plus a Thai set lunch, a swim at the Emerald Pool and the hot spring waterfall. Two people per session at most, booked ahead."
+          "text": "Full day from 07:30. All of B, plus a Thai set lunch, the Emerald Pool and the hot spring waterfall."
         }
       ]
     }
@@ -180,16 +180,16 @@
   },
   "faq": [
     {
-      "q": "Is there any riding?",
-      "a": "No. You walk with the elephants, feed them and wash them. Nobody sits on them."
+      "q": "Can we ride the elephants?",
+      "a": "No. There is no riding and no show. You walk with the elephants, feed them and wash them."
     },
     {
       "q": "How long does it take?",
-      "a": "From an hour and a half for Programme A to a full day for Programme C, plus the transfer from your hotel."
+      "a": "About 1 hr 30 min to 2 hours for Programme A, about 3 hours for B and a full day for C, plus the transfer from your hotel."
     },
     {
       "q": "Is it suitable for small children?",
-      "a": "Yes. Children from 4 pay a child rate and under 4 go free. They stay next to you the whole time."
+      "a": "Yes. Ages 4 to 10 pay the child rate and under 4 go free. Children stay next to you the whole time."
     }
   ],
   "photos": [
@@ -305,6 +305,34 @@
     {
       "field": "promise",
       "from": "lead du produit, raccourci à 60 caractères pour la carte (03.11.2026)"
+    },
+    {
+      "field": "seo.title",
+      "from": "legacyText.title (mot-clé « Ethical Elephant Sanctuary Koh Lanta »), marque courte complète selon 03-audit-contenu §6.3"
+    },
+    {
+      "field": "seo.metaDescription, lead, promise",
+      "from": "legacyText.intro[0] (no riding, no show, bananas, walking, washing), ancien lead (mud bath, pool, trois programmes jusqu'à la journée), included[0], price.from 1800 ; réécrits le 03.11.2026"
+    },
+    {
+      "field": "h1",
+      "from": "legacyText.intro[0] « The sanctuary is on Koh Lanta » ; seo.draft.h1"
+    },
+    {
+      "field": "options[programme-c].note",
+      "from": "legacyText.goodToKnow[1] « Programme C takes two people per session only. Book it early. » (le TODO sur session ou réservation reste ouvert)"
+    },
+    {
+      "field": "day[].title, day[].steps[].text",
+      "from": "secretPagesContent.json pages.elephant-sanctuary.day[A, B, C], raccourcis à 20 mots ; « take home » (B) et « Fresh fruit and water for you, bananas for them » (A, déjà dans included) retirés pour tenir la longueur ; règle des deux personnes du C laissée à options[programme-c].note"
+    },
+    {
+      "field": "faq",
+      "from": "secretPagesContent.json pages.elephant-sanctuary.faq, options[].prices[].ages (4 à 10, moins de 4 gratuits), day (durées) ; « Nobody sits on them » retiré (§6.6)"
+    },
+    {
+      "field": "seo.title",
+      "from": "« Ethical » retiré (affirmation non sourcée, écartée à l'étape 2, 03.11.2026)"
     }
   ],
   "todo": [

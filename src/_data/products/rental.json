@@ -5,15 +5,16 @@
   "template": "rental",
   "name": "Car and scooter rental",
   "seo": {
-    "title": "Car and Scooter Rental Koh Lanta | Secret Travel & Tour",
-    "metaDescription": "Rent a scooter, a big bike, a car or a pick-up on Koh Lanta. 35 vehicles, from a 110 cc scooter at 250 THB to a 7-seat Fortuner. See the daily rates.",
+    "title": "Scooter and Car Rental on Koh Lanta | Secret Travel & Tour",
+    "metaDescription": "35 vehicles to rent on Koh Lanta: scooters from 250 THB a day, big bikes from 600 THB, cars and pick-ups from 1,200 THB, up to a 7-seat Toyota Fortuner.",
     "draft": {
       "title": "Scooter & Car Rental Koh Lanta – Daily Prices",
       "h1": "Scooter and car rental on Koh Lanta"
     }
   },
-  "h1": "Car and scooter rental on Koh Lanta",
-  "lead": "Scooters, big bikes, cars and pick-ups. Pick your vehicle from the list.",
+  "h1": "Scooter and car rental on Koh Lanta",
+  "lead": "17 scooters and small bikes, 10 big bikes, 8 cars and pick-ups. Tell us the model and your dates and we confirm it's free.",
+  "promise": "From a Honda Scoopy to a 7-seat Toyota Fortuner",
   "facts": [
     {
       "label": "Fleet",
@@ -344,6 +345,22 @@
     {
       "field": "schema",
       "from": "secretPagesContent.json pages.rental.schemaType, places ; type cible : docs/refonte/02-audit-seo.md §6.3"
+    },
+    {
+      "field": "seo.title, h1",
+      "from": "seo.draft (« Scooter & Car Rental Koh Lanta », « Scooter and car rental on Koh Lanta »)"
+    },
+    {
+      "field": "seo.metaDescription",
+      "from": "facts Fleet, Cars, Big bikes, Scooters ; options (Honda Click 125 à 250, Kawasaki KLX 150 à 600, Suzuki Swift à 1 200, Toyota Fortuner 7 places) ; legacyText.priceNote « per day » (TODO client ouvert)"
+    },
+    {
+      "field": "lead",
+      "from": "facts Fleet (17, 10, 8) ; legacyText.intro[1] « Tell us the vehicle you want and your dates, and we confirm it is free »"
+    },
+    {
+      "field": "promise",
+      "from": "legacyText.dayItems (Honda Scoopy, 7-seat Toyota Fortuner), 03.11.2026"
     }
   ],
   "todo": [

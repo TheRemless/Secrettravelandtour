@@ -200,3 +200,29 @@ a { color: var(--amber); text-underline-offset: .18em; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
 }
+
+/* Encart Secret sur les pages trajet : trois excursions suggérées (00-BRIEF §6.4). */
+.stt-ad-list { display: flex; flex-wrap: wrap; gap: 0 var(--s3); margin: var(--s1) 0 0; padding: 0; list-style: none; }
+.stt-ad-list a { display: inline-flex; align-items: center; min-height: 44px; }
+/* Page trajet : les deux sens, lieux en Marcellus. */
+.route-pair-v { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s1) var(--s2); margin-top: var(--s3); font-family: var(--serif); font-size: 1.25rem; }
+.route-pair-v .sep { flex: 1; min-width: var(--s4); height: 1px; background: var(--edge-line); }
+.route-both { margin-top: var(--s1); color: var(--mute); }
+.vip-page { padding-bottom: var(--s5); }
+.vip-page > section { margin-top: var(--s5); }
+.vip-page > section > h2 { margin-bottom: var(--s3); }
+.vip-hero img { width: auto; max-width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: var(--radius); }
+.vip-actions { display: flex; flex-wrap: wrap; gap: var(--s2); margin-top: var(--s3); }
+@media (min-width: 64rem) { .vip-two { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--s5); align-items: start; } }
+.vip-page .crumbs ol { display: flex; flex-wrap: wrap; margin: var(--s3) 0 var(--s2); padding: 0; list-style: none; color: var(--mute); }
+.vip-page .crumbs li + li::before { content: "/"; padding-inline: var(--s1); }
+.vip-page .crumbs a { display: inline-flex; align-items: center; min-height: 44px; }
+.vip-page .crumbs [aria-current] { display: inline-flex; align-items: center; min-height: 44px; }
+.vip-page h1 { margin-bottom: var(--s2); }
+.vip-page .lead { font-size: 1.125rem; color: var(--mute); }
+.vip-page .vip-two + .vehicle, .vip-page .vehicle + .vip-two, .vip-page .vip-two + section { margin-top: var(--s5); }
+.vip-page .vip-two { margin-top: var(--s3); }
+.vip-page .vip-two h2 { margin-bottom: var(--s3); }
+.vip-footer a { display: inline-flex; align-items: center; min-height: 44px; }
+/* Mesure : 66 caractères au plus en Figtree (28em mesurés). */
+.vip-page .lead, .vip-page .faq .answer p, .vip-page .vehicle-text p, .vip-page .route-both { max-width: 28em; }

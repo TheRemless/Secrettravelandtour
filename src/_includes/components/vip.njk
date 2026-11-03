@@ -72,10 +72,15 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 
 {#- Encart discret pour Secret Travel & Tour : l'emblème d'origine, tel quel, sur une pastille sable (fond sombre).
     em : view.emblem(32). -#}
-{% macro secretAd(secret, em) %}
+{% macro secretAd(secret, em, tours=[]) %}
 <aside class="stt-ad" aria-label="{{ secret.name }}">
   <span class="stt-ad-pastille"><picture><source type="image/avif" srcset="{{ em.avif }}"><img eleventy:ignore src="{{ em.src }}" srcset="{{ em.webp }}" width="{{ em.width }}" height="{{ em.height }}" alt=""></picture></span>
-  <p>Boat trips and day tours on Koh Lanta: <a href="{{ secret.url }}">{{ secret.name }}</a>.</p>
+  <div>
+    <p>Boat trips and day tours on Koh Lanta: <a href="{{ secret.url }}">{{ secret.name }}</a>.</p>
+    {%- if tours and tours.length %}
+    <ul class="stt-ad-list">{% for t in tours %}<li><a href="{{ t.href }}">{{ t.name }}</a></li>{% endfor %}</ul>
+    {%- endif %}
+  </div>
 </aside>
 {% endmacro %}
 

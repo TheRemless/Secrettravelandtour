@@ -420,6 +420,12 @@ a:hover, a.is-hover { text-decoration-thickness: 2px; }
 }
 .route-note { margin-top: var(--s3); color: var(--mute); font-size: var(--t2); line-height: var(--l2); }
 
+/* ---------- Programmes d'une activité ---------- */
+.progs div { display: grid; grid-template-columns: 3rem minmax(0, 1fr); gap: var(--s2); padding: var(--s2) 0; border-top: 1px solid var(--rule); }
+.progs div:first-child { border-top: 0; padding-top: 0; }
+.progs dt { font: 700 var(--t6)/1 var(--head); font-stretch: var(--tight); color: var(--sea); }
+.progs dd { margin: 0; max-width: var(--measure); }
+
 /* ---------- Inclus / non inclus ---------- */
 .incl { display: grid; gap: var(--s3); }
 .incl h3 { margin-bottom: var(--s1); }
@@ -598,3 +604,17 @@ a:hover, a.is-hover { text-decoration-thickness: 2px; }
 .pg-sec > h2 { margin-bottom: var(--s3); }
 .pg-two { row-gap: var(--s4); }
 .pg-two h2 { margin-bottom: var(--s3); }
+
+/* ---------- Location ---------- */
+@media (min-width: 40rem) { .ticket--rental { grid-template-columns: 1fr; } .ticket--rental::before, .ticket--rental::after { display: none; } .ticket--rental .ticket-stub { border-left: 0; border-top: 2px dashed var(--rule-dark); } }
+.rent-ask { display: flex; flex-wrap: wrap; gap: var(--s1) var(--s2); margin-top: var(--s3); padding: 0; list-style: none; }
+
+/* ---------- Accueil ---------- */
+.home-hero { row-gap: var(--s4); padding-block: var(--s4); align-items: start; }
+.home-list { list-style: none; padding: 0; row-gap: var(--s3); }
+.home-list li { padding-top: var(--s2); border-top: 1px solid var(--rule); }
+.home-list h3 { margin-bottom: var(--s1); }
+.home-list h3 a, .pg-two h2 a { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); }
+.home-price { margin-top: var(--s2); color: var(--mute); }
+.home-desk { margin-top: var(--s2); }
+.pg-progs { margin-top: var(--s4); }

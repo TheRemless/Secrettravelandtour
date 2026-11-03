@@ -4,12 +4,14 @@
     Règle des données manquantes (00-BRIEF §9) : champ vide, ligne ou section non affichée. -#}
 {% from "components/icons.njk" import icon %}
 
+{#- Menu : les rubriques pointent vers les sections de l'accueil tant que les pages /tours/, /transfers/ et
+    /about/ n'existent pas (étape 4). -#}
 {%- set NAV = [
-  { id: "boat-trips", label: "Boat trips", href: "/tours/#boat-trips" },
-  { id: "activities", label: "Activities", href: "/tours/#activities" },
-  { id: "transfers", label: "Transfers", href: "/transfers/" },
+  { id: "boat-trips", label: "Boat trips", href: "/#boat-trips" },
+  { id: "activities", label: "Activities", href: "/#activities" },
+  { id: "transfers", label: "Transfers", href: "/#transfers" },
   { id: "rental", label: "Rental", href: "/tours/rental/" },
-  { id: "about", label: "About", href: "/about/" }
+  { id: "taxi", label: "Private taxi", href: "/taxi/" }
 ] -%}
 
 {#- Lien WhatsApp direct, sans message prérempli, ou avec un texte court. -#}
@@ -204,6 +206,15 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 {%- if note %}<p class="route-note">{{ note }}</p>{% endif %}
 {% endmacro %}
 
+{#- Programmes d'une activité : lettre ou nom du programme, puis ce qu'il comprend (view.day, une étape par programme). -#}
+{% macro programmes(days) %}
+<dl class="progs">
+  {%- for d in days %}{% for s in d.steps %}
+  <div><dt>{{ s.t }}</dt><dd>{{ s.text }}</dd></div>
+  {%- endfor %}{% endfor %}
+</dl>
+{% endmacro %}
+
 {#- Inclus / non inclus, deux colonnes dès la tablette. -#}
 {% macro included(incl, notIncl, level=3) %}
 <div class="incl">
@@ -274,9 +285,9 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 {% endmacro %}
 
 {#- « Who runs this trip » : le comptoir de Sala Dan et la société. Aucun nom de partenaire (réponse Q17). -#}
-{% macro whoRuns(w, level=2) %}
+{% macro whoRuns(w, level=2, title="Who runs this trip") %}
 <section class="who" aria-labelledby="h-who">
-  <h{{ level }} id="h-who">Who runs this trip</h{{ level }}>
+  <h{{ level }} id="h-who">{{ title }}</h{{ level }}>
   <p>You book with our desk at {{ w.desk }}{% if w.maps %} (<a href="{{ w.maps }}">map</a>){% endif %}. We confirm the time and place of your pickup on WhatsApp.</p>
   <p class="who-legal">Operated by {{ w.operator }}, company no. <span class="num">{{ w.registration }}</span>{% if w.licence %}, TAT licence {{ w.licence }}{% endif %}.</p>
 </section>

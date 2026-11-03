@@ -57,7 +57,7 @@ test("/taxi/ : le sitemap la liste une seule fois", () => {
 });
 
 test("liens internes : l'accueil pointe vers /taxi/ et /taxi/ vers l'accueil", () => {
-  assert.match(read("src/secret.njk"), /href="\/taxi\/"/);
+  assert.match(fs.readFileSync(path.join(__dirname, "..", "_site", "index.html"), "utf8"), /href="\/taxi\/"/);
   assert.equal(taxi.tours.link.href, "/");
 });
 

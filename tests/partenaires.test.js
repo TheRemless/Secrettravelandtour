@@ -45,21 +45,29 @@ test("plongée : une page avec les niveaux, de l'essai d'un jour aux cours avanc
   assert.match(home, /href="\/tours\/scuba-diving\/"/);
 });
 
-test("formulaires : la date est obligatoire (radios required) sur l'accueil et sur /taxi/", () => {
-  const home = fs.readFileSync(path.join(site, "index.html"), "utf8");
+test("formulaires : la date est obligatoire, sur la feuille des pages refaites et sur /taxi/", () => {
+  // Depuis l'étape 3, l'accueil n'a plus de formulaire : la feuille de réservation (booking.js) le remplace.
+  const tour = fs.readFileSync(path.join(site, "tours", "4-islands", "index.html"), "utf8");
   const taxi = fs.readFileSync(path.join(site, "taxi", "index.html"), "utf8");
   const radios = (doc, name) => doc.match(new RegExp(`<input type="radio" name="${name}"[^>]*>`, "g")) || [];
-  for (const [doc, name] of [[home, "dateChoice"], [taxi, "date_choice"]]) {
-    const found = radios(doc, name);
-    assert.equal(found.length, 3, name);
-    for (const tag of found) assert.match(tag, /\brequired\b/, tag);
-  }
+  assert.equal(radios(tour, "dateChoice").length, 3);
+  const booking = require("../src/js/booking.js");
+  assert.equal(booking.validate({ variant: "tour", options: [] }, { today: "2026-11-03", adults: 2, childAges: [], pickup: "x", name: "A" }).date, "Pick a date.");
+  const found = radios(taxi, "date_choice");
+  assert.equal(found.length, 3);
+  for (const tag of found) assert.match(tag, /\brequired\b/, tag);
 });
 
 test("prix : affichés sur les pages qui en ont, jamais dans les données structurées, jamais de net ni de commission", () => {
   const pages = require("../src/_data/secretPages.js")();
   const withPrices = pages.pages.filter((p) => p.prices && p.prices.length);
-  assert.ok(withPrices.length >= 12, String(withPrices.length));
+  // 4 Islands, sanctuaire et location sont refaits à l'étape 3 (src/pages/) : vérifiés plus bas.
+  assert.ok(withPrices.length >= 9, String(withPrices.length));
+  for (const id of ["4-islands", "elephant-sanctuary"]) {
+    const doc = fs.readFileSync(path.join(site, "tours", id, "index.html"), "utf8");
+    assert.match(doc, /id="h-prices"/, id);
+    for (const m of doc.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) assert.doesNotMatch(m[1], /"price"|priceCurrency/, id);
+  }
   for (const p of withPrices) {
     const doc = fs.readFileSync(path.join(site, "tours", p.id, "index.html"), "utf8");
     assert.match(doc, /id="h-prices"/, p.id);
@@ -85,9 +93,9 @@ test("nouvelles pages : batik, karting, kayak, location et speedboat existent et
 });
 
 test("formulaires : l'heure de prise en charge est marquée obligatoire", () => {
-  const home = fs.readFileSync(path.join(site, "index.html"), "utf8");
+  const route = fs.readFileSync(path.join(site, "taxi", "krabi-airport-koh-lanta", "index.html"), "utf8");
   const taxi = fs.readFileSync(path.join(site, "taxi", "index.html"), "utf8");
-  assert.match(home, /<input id="f-t-time"[^>]*aria-required="true"/);
+  assert.match(route, /<input id="book-time"[^>]*aria-required="true"/);
   assert.match(taxi, /<input id="f-time"[^>]*aria-required="true"/);
 });
 

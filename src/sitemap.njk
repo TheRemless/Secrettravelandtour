@@ -10,6 +10,11 @@ eleventyExcludeFromCollections: true
   <url>
     <loc>https://secrettravelandtour.com/taxi/</loc>
   </url>
+{%- for u in ["/tours/4-islands/", "/tours/elephant-sanctuary/", "/tours/rental/", "/taxi/krabi-airport-koh-lanta/"] %}
+  <url>
+    <loc>https://secrettravelandtour.com{{ u }}</loc>
+  </url>
+{%- endfor %}
 {%- for p in secretPages.pages %}
   <url>
     <loc>{{ p.url }}</loc>

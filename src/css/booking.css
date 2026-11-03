@@ -125,6 +125,7 @@ html.sheet-open { overflow: hidden; }
 .choice input:focus-visible + span { box-shadow: var(--sheet-focus); }
 .choice input:disabled + span { opacity: .45; cursor: not-allowed; }
 .date-other { margin-top: var(--s1); }
+.dates { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s2); }
 
 /* Compteurs */
 .count { display: flex; align-items: center; justify-content: space-between; gap: var(--s2); min-height: 56px; border-top: 1px solid var(--sheet-rule); }
