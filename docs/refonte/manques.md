@@ -2,11 +2,11 @@
 
 Fichier généré par `scripts/manques.mjs` à chaque `npm run build`, à partir des `TODO(client)` de `src/_data/site.json` et `src/_data/products/`. Ne pas le modifier à la main : corriger la donnée source, puis relancer le build.
 
-45 points sur 16 pages. Une information absente n'est pas affichée sur le site (00-BRIEF §9).
+44 points sur 16 pages. Une information absente n'est pas affichée sur le site (00-BRIEF §9).
 
 | Page | Points |
 |---|---|
-| Commun aux deux marques | 6 |
+| Commun aux deux marques | 5 |
 | 4 Islands (/tours/4-islands/) | 8 |
 | Fishing trip (/tours/fishing-trip/) | 2 |
 | Koh Phi Phi (/tours/koh-phi-phi/) | 1 |
@@ -30,7 +30,6 @@ Fichier généré par `scripts/manques.mjs` à chaque `npm run build`, à partir
 Source : `src/_data/site.json`
 
 - délai de réponse sur WhatsApp et langues parlées : retirés du site le 03.11.2026 à la demande de Jérémy, en attente des vraies informations. Rien ne s'affiche tant que replyTime et languages sont null.
-- numéro de licence TAT et société titulaire (annoncé « dans les prochains jours »).
 - avis Google de Secret Travel & Tour : aucun pour l'instant, à reprendre (note, nombre, date de lecture) dès qu'ils arrivent.
 - « Guide and insurance » / « Insurance » dans les inclusions (4 Islands, Koh Rok, Phi Phi, kayak, éléphants) : le client répond que chaque prestataire a ses propres conditions d'assurance. Garder le mot « insurance » ou le retirer ?
 - adresse et coordonnées de la fiche Google de VIP Taxi Lanta (aujourd'hui seulement « Koh Lanta, Krabi, Thailand ») : à afficher ou à masquer ?

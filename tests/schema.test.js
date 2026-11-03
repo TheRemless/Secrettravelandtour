@@ -126,13 +126,14 @@ test("aucun nom de prestataire, e-mail, réseau social, horaire ni licence absen
   for (const { name, blocks } of everything) {
     const text = JSON.stringify(blocks);
     assert.doesNotMatch(text, PARTENAIRES, name);
-    assert.doesNotMatch(text, /"email"|openingHours|facebook|instagram|tripadvisor|hasCredential/i, name);
+    assert.doesNotMatch(text, /"email"|openingHours|facebook|instagram|tripadvisor/i, name);
   }
-  // Licence : rien tant qu'elle vaut null, la licence dès qu'elle existe.
-  assert.equal(site.brands.secret.licence, null);
-  const licensed = clone(site);
-  licensed.brands.secret.licence = "12/34567";
-  assert.match(JSON.stringify(schema.home(licensed, products)), /12\/34567/);
+  // Licence TAT 69/40285 (donnée le 03.11.2026) : présente sur l'agence ; rien quand elle vaut null.
+  assert.equal(site.brands.secret.licence, "69/40285");
+  assert.match(JSON.stringify(homeBlocks), /69\/40285/);
+  const unlicensed = clone(site);
+  unlicensed.brands.secret.licence = null;
+  assert.doesNotMatch(JSON.stringify(schema.home(unlicensed, products)), /hasCredential/);
 });
 
 test("accueil : TravelAgency @id stable, WebSite publié par l'agence, opérateur en parentOrganization", () => {

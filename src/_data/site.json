@@ -60,7 +60,7 @@
       },
       "maps": "https://maps.google.com/?cid=9417984697980129551",
       "phone": "+66958683846",
-      "licence": null,
+      "licence": "69/40285",
       "opened": 2026,
       "googleRating": null,
       "email": null,
@@ -409,11 +409,18 @@
     {
       "field": "brands.vip.payment",
       "from": "réponse de Jérémy du 03.11.2026 : « seulement cash chauffeur en principe »"
+    },
+    {
+      "field": "brands.secret.licence",
+      "from": "numéro donné par Jérémy le 03.11.2026 (PR 9, secret.json)"
+    },
+    {
+      "field": "faits du comptoir (next to the pier, two minutes on foot from Saladan Pier, pay on the day, nothing online, car ferry inclus sur Krabi Airport)",
+      "from": "confirmés par Jérémy le 03.11.2026 (point 2 du résumé v3)"
     }
   ],
   "todo": [
     "TODO(client): délai de réponse sur WhatsApp et langues parlées : retirés du site le 03.11.2026 à la demande de Jérémy, en attente des vraies informations. Rien ne s'affiche tant que replyTime et languages sont null.",
-    "TODO(client): numéro de licence TAT et société titulaire (annoncé « dans les prochains jours »).",
     "TODO(client): avis Google de Secret Travel & Tour : aucun pour l'instant, à reprendre (note, nombre, date de lecture) dès qu'ils arrivent.",
     "TODO(client): « Guide and insurance » / « Insurance » dans les inclusions (4 Islands, Koh Rok, Phi Phi, kayak, éléphants) : le client répond que chaque prestataire a ses propres conditions d'assurance. Garder le mot « insurance » ou le retirer ?",
     "TODO(client): adresse et coordonnées de la fiche Google de VIP Taxi Lanta (aujourd'hui seulement « Koh Lanta, Krabi, Thailand ») : à afficher ou à masquer ?",
