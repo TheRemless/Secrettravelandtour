@@ -2,12 +2,12 @@
 
 Fichier généré par `scripts/manques.mjs` à chaque `npm run build`, à partir des `TODO(client)` de `src/_data/site.json` et `src/_data/products/`. Ne pas le modifier à la main : corriger la donnée source, puis relancer le build.
 
-51 points sur 17 pages. Une information absente n'est pas affichée sur le site (00-BRIEF §9).
+45 points sur 16 pages. Une information absente n'est pas affichée sur le site (00-BRIEF §9).
 
 | Page | Points |
 |---|---|
-| Commun aux deux marques | 7 |
-| 4 Islands (/tours/4-islands/) | 10 |
+| Commun aux deux marques | 6 |
+| 4 Islands (/tours/4-islands/) | 8 |
 | Fishing trip (/tours/fishing-trip/) | 2 |
 | Koh Phi Phi (/tours/koh-phi-phi/) | 1 |
 | Koh Rok & Koh Haa (/tours/koh-rok-koh-haa/) | 3 |
@@ -15,11 +15,10 @@ Fichier généré par `scripts/manques.mjs` à chaque `npm run build`, à partir
 | Mangroves (/tours/mangroves/) | 3 |
 | ATV (quad bike) (/tours/atv/) | 1 |
 | Thai cooking class (/tours/cooking-class/) | 1 |
-| Elephant sanctuary (/tours/elephant-sanctuary/) | 2 |
+| Elephant sanctuary (/tours/elephant-sanctuary/) | 1 |
 | Electric go-kart (/tours/go-kart/) | 4 |
 | Kayaking (/tours/kayak/) | 2 |
 | Scuba diving (/tours/scuba-diving/) | 2 |
-| Car and scooter rental (/tours/rental/) | 2 |
 | Minivan transfers, private or shared (/transfers/) | 2 |
 | Speedboat and ferry (/tours/speedboat/) | 5 |
 | Long-distance private transfers (/taxi/southern-thailand/) | 1 |
@@ -34,7 +33,6 @@ Source : `src/_data/site.json`
 - numéro de licence TAT et société titulaire (annoncé « dans les prochains jours »).
 - avis Google de Secret Travel & Tour : aucun pour l'instant, à reprendre (note, nombre, date de lecture) dès qu'ils arrivent.
 - « Guide and insurance » / « Insurance » dans les inclusions (4 Islands, Koh Rok, Phi Phi, kayak, éléphants) : le client répond que chaque prestataire a ses propres conditions d'assurance. Garder le mot « insurance » ou le retirer ?
-- paiement des transferts VIP : le site taxi dit « Cash to the driver on the day. No prepayment. » ; réponse générale du client (Q13) : cash ou virement. Le virement vaut-il aussi pour VIP Taxi Lanta ?
 - adresse et coordonnées de la fiche Google de VIP Taxi Lanta (aujourd'hui seulement « Koh Lanta, Krabi, Thailand ») : à afficher ou à masquer ?
 - durées de trajet VIP relevées sur des guides de transport (12go, goasia, geckoroutes, amazinglanta) le 30.10.2026 : à remplacer par les chiffres de Mr. Brown.
 
@@ -44,8 +42,6 @@ Source : `src/_data/site.json`
 
 Source : `src/_data/products/tours/4-islands.json`
 
-- heure de retour du longtail, trois valeurs : « Back on Koh Lanta between 15:30 and 16:00 » (secretPagesContent day[6]), « The return is usually between 14:30 and 16:00 » (goodToKnow[2]), « retour entre 14h30 et 15h30 » (registre de faits, brochure du partenaire).
-- nom ou emplacement du ponton du speedboat (le site dit seulement « a separate pier for the speedboat »).
 - horaires du speedboat : le déroulé publié est celui du longtail, le registre de faits donne 08:00 à 16:00 pour le speedboat sans étapes horaires.
 - nombre maximum de personnes par bateau en join-in.
 - langue du guide.
@@ -108,7 +104,6 @@ Source : `src/_data/products/activities/cooking-class.json`
 
 Source : `src/_data/products/activities/elephant-sanctuary.json`
 
-- programme C : la page dit « The sanctuary is on Koh Lanta » mais le C inclut l'Emerald Pool et la hot spring waterfall, situées à Khlong Thom sur le continent selon l'audit [à vérifier]. Lieu et temps de trajet du C ?
 - programme C « Two people per session at most » : maximum de deux personnes par session, ou par réservation ?
 
 ### Electric go-kart (/tours/go-kart/)
@@ -133,13 +128,6 @@ Source : `src/_data/products/activities/scuba-diving.json`
 
 - élèves par moniteur sur la journée découverte : « never more than two students per instructor » (intro) contre « two or three students at most on the one-day dives » (included) ; le registre de faits dit 2.
 - agence de certification SSI (citée seulement dans l'ancienne meta description) : à confirmer avant de l'afficher.
-
-### Car and scooter rental (/tours/rental/)
-
-Source : `src/_data/products/rental.json`
-
-- conditions de location : permis exigé, caution, passeport, assurance, casque, livraison à l'hôtel, carburant, durée minimum (réponse : « ça se discute sur WhatsApp, en général la même chose partout »).
-- les tarifs sont-ils bien par jour ? (« per day » déduit selon le registre de faits, à confirmer).
 
 ### Minivan transfers, private or shared (/transfers/)
 

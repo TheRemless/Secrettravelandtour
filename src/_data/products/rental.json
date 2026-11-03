@@ -36,7 +36,7 @@
   "price": {
     "from": 250,
     "currency": "THB",
-    "unit": "per day, small scooter"
+    "unit": "per 24 hours, small scooter"
   },
   "options": [
     {
@@ -47,42 +47,42 @@
         {
           "label": "Toyota Fortuner, 7 seats",
           "amount": 2200,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Mitsubishi Xpander",
           "amount": 2000,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Chevrolet Captiva, diesel, 7 seats",
           "amount": 1800,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Chevrolet Colorado pick-up",
           "amount": 1800,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Mitsubishi Triton double cab pick-up",
           "amount": 1800,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Toyota Yaris",
           "amount": 1500,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Toyota Yaris Ativ",
           "amount": 1500,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Suzuki Swift",
           "amount": 1200,
-          "unit": "per day"
+          "unit": "per 24 hours"
         }
       ]
     },
@@ -94,52 +94,52 @@
         {
           "label": "Honda CB 500 F",
           "amount": 1200,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Kawasaki Ninja 650",
           "amount": 1200,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Honda CRF 250",
           "amount": 900,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Honda CBR 300R Repsol",
           "amount": 800,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "GPX Mad 300",
           "amount": 800,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Honda Rebel 300",
           "amount": 700,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Yamaha MT-155",
           "amount": 700,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Kawasaki W175",
           "amount": 700,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Yamaha XSR 155",
           "amount": 700,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Kawasaki KLX 150",
           "amount": 600,
-          "unit": "per day"
+          "unit": "per 24 hours"
         }
       ]
     },
@@ -151,93 +151,96 @@
         {
           "label": "Honda ADV 350",
           "amount": 800,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Honda Forza 350",
           "amount": 800,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Yamaha X-MAX 300",
           "amount": 800,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Yamaha N-MAX",
           "amount": 600,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Honda PCX 160",
           "amount": 550,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Yamaha Aerox 155",
           "amount": 550,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Yamaha Tricity 125, three wheels",
           "amount": 500,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Honda MSX 125",
           "amount": 500,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Honda Click 160",
           "amount": 450,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Honda PCX 150",
           "amount": 450,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Honda Click 125",
           "amount": 250,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Zoomer X 110",
           "amount": 250,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Honda Wave 110",
           "amount": 250,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Honda Scoopy",
           "amount": 250,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Yamaha Fino 125",
           "amount": 250,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Yamaha Fazzio",
           "amount": 250,
-          "unit": "per day"
+          "unit": "per 24 hours"
         },
         {
           "label": "Yamaha Grand Filano Hybrid",
           "amount": 250,
-          "unit": "per day"
+          "unit": "per 24 hours"
         }
       ]
     }
   ],
   "beforeYouBook": {
-    "pickup": "Tell us the vehicle and your dates, we confirm availability."
+    "pickup": "Tell us the vehicle and your dates, we confirm it's available.",
+    "deposit": "Your passport, kept for the length of the rental.",
+    "helmets": "Helmets are provided.",
+    "delivery": "Possible depending on where you stay and how long you rent. We arrange it on WhatsApp."
   },
   "faq": [
     {
@@ -361,10 +364,10 @@
     {
       "field": "promise",
       "from": "legacyText.dayItems (Honda Scoopy, 7-seat Toyota Fortuner), 03.11.2026"
+    },
+    {
+      "field": "beforeYouBook.deposit, helmets, delivery ; prices[].unit",
+      "from": "réponse de Jérémy du 03.11.2026 : location pour 24 h, caution = passeport, casques fournis, livraison selon le lieu et la durée, au cas par cas sur WhatsApp"
     }
-  ],
-  "todo": [
-    "TODO(client): conditions de location : permis exigé, caution, passeport, assurance, casque, livraison à l'hôtel, carburant, durée minimum (réponse : « ça se discute sur WhatsApp, en général la même chose partout »).",
-    "TODO(client): les tarifs sont-ils bien par jour ? (« per day » déduit selon le registre de faits, à confirmer)."
   ]
 }

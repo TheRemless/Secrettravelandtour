@@ -330,5 +330,8 @@
   "todo": [
     "TODO(client): moins de 4 ans : gratuit ? (aucun tarif publié pour les moins de 4 ans)."
   ],
-  "refPrefix": "PP"
+  "refPrefix": "PP",
+  "notes": [
+    "Saison : toute l'année sauf fermeture du parc national (réponse de Jérémy du 03.11.2026) ; pas de saison affichée tant que les mois de fermeture ne sont pas donnés."
+  ]
 }

@@ -174,6 +174,9 @@ function day(product) {
 
 const BEFORE = [
   ["pickup", "Pickup"],
+  ["deposit", "Deposit"],
+  ["helmets", "Helmets"],
+  ["delivery", "Delivery"],
   ["bring", "Bring"],
   ["children", "Children"],
   ["health", "Health"],

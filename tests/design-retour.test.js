@@ -24,7 +24,7 @@ test("barre mobile et bouton du haut : l'option du prix d'appel", () => {
 
 test("bandeau : prise en charge, départ, ponton, bateau, formule ; prix et frais de parc dans le talon", () => {
   const t = view.ticket(four);
-  assert.deepEqual(t.rows.map((r) => r.label), ["Pickup", "Boat leaves", "Longtail pier", "Boat", "Format"]);
+  assert.deepEqual(t.rows.map((r) => r.label), ["Pickup", "Boat leaves", "Pier", "Boat", "Format"]);
   assert.equal(t.stub.price.amount, "1,000 THB");
   assert.equal(t.stub.fee.adult, "200 THB");
   assert.equal(t.stub.fee.child, "100 THB");

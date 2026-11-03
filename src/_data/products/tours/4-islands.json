@@ -38,7 +38,7 @@
       "value": "Join-in or private"
     },
     {
-      "label": "Longtail pier",
+      "label": "Pier",
       "value": "Lanta Old Town pier"
     },
     {
@@ -169,7 +169,8 @@
           "note": "Cash, paid to the ranger on the island"
         }
       ],
-      "stub": "Koh Kradan instead of Koh Ma"
+      "stub": "Koh Kradan instead of Koh Ma",
+      "pier": "Lanta Old Town pier"
     },
     {
       "id": "private-longtail",
@@ -289,9 +290,9 @@
         },
         {
           "time": "15:30",
-          "text": "Back on Koh Lanta by 16:00, transfer to your hotel.",
+          "text": "Back on Koh Lanta around 15:30 to 16:00, depending on the sea, then transfer to your hotel.",
           "place": "Koh Lanta",
-          "detail": "Back by 16:00, transfer to your hotel",
+          "detail": "Around 15:30 to 16:00, then your hotel",
           "kind": "pier"
         }
       ],
@@ -309,7 +310,7 @@
     "National park fee, paid in cash on the island"
   ],
   "beforeYouBook": {
-    "pickup": "From your hotel. The longtail leaves from Lanta Old Town pier, the speedboat from a separate pier.",
+    "pickup": "From your hotel. Boats usually leave from Lanta Old Town pier.",
     "bring": [
       "Cash for the national park fee"
     ]
@@ -484,11 +485,13 @@
     {
       "field": "faq[1].a",
       "from": "options[id=private-longtail] (seul bateau privé publié), included[4] « the boat and the captain for your group only » ; l'ancienne réponse laissait croire à un speedboat privé (TODO client)"
+    },
+    {
+      "field": "day[0].steps[15:30], facts[Pier], options[].pier, beforeYouBook.pickup",
+      "from": "réponse de Jérémy du 03.11.2026 : retour « aux alentours de 15:30-16:00 » selon les conditions ; ponton « Old Town en général »"
     }
   ],
   "todo": [
-    "TODO(client): heure de retour du longtail, trois valeurs : « Back on Koh Lanta between 15:30 and 16:00 » (secretPagesContent day[6]), « The return is usually between 14:30 and 16:00 » (goodToKnow[2]), « retour entre 14h30 et 15h30 » (registre de faits, brochure du partenaire).",
-    "TODO(client): nom ou emplacement du ponton du speedboat (le site dit seulement « a separate pier for the speedboat »).",
     "TODO(client): horaires du speedboat : le déroulé publié est celui du longtail, le registre de faits donne 08:00 à 16:00 pour le speedboat sans étapes horaires.",
     "TODO(client): nombre maximum de personnes par bateau en join-in.",
     "TODO(client): langue du guide.",
@@ -501,7 +504,8 @@
   "notes": [
     "FAQ « Is the national park fee included? » : la phrase affirmant qu'aucun opérateur de l'île n'inclut les frais de parc est retirée (affirmation fausse, décision client du 02.11.2026). Même chose pour l'ancien encadré parkFeeNote, non repris.",
     "Texte alternatif de la photo du longtail corrigé : l'ancien présentait le bateau comme celui de l'agence, or les bateaux appartiennent aux partenaires (réponse client Q18).",
-    "Photo du longtail : le nom peint « HANTHALE PRIVATE TOURS » reste visible, accord de Jérémy du 03.11.2026."
+    "Photo du longtail : le nom peint « HANTHALE PRIVATE TOURS » reste visible, accord de Jérémy du 03.11.2026.",
+    "Saison : toute l'année sauf fermeture du parc national (réponse de Jérémy du 03.11.2026) ; pas de saison affichée tant que les mois de fermeture ne sont pas donnés."
   ],
   "refPrefix": "4I"
 }

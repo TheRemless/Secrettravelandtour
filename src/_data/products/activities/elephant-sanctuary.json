@@ -337,10 +337,13 @@
     {
       "field": "refPrefix",
       "from": "code court de la référence WhatsApp (critique, idée 5), 03.11.2026"
+    },
+    {
+      "field": "options[programme-c].note",
+      "from": "brochure du sanctuaire d'éléphants, page programme C : « Maximum 2 people »"
     }
   ],
   "todo": [
-    "TODO(client): programme C : la page dit « The sanctuary is on Koh Lanta » mais le C inclut l'Emerald Pool et la hot spring waterfall, situées à Khlong Thom sur le continent selon l'audit [à vérifier]. Lieu et temps de trajet du C ?",
     "TODO(client): programme C « Two people per session at most » : maximum de deux personnes par session, ou par réservation ?"
   ],
   "refPrefix": "ES"

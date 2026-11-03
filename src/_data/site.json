@@ -405,6 +405,10 @@
     {
       "field": "booking.weather",
       "from": "réponse Q14 reformulée sans mentionner de prestataire (Q8 : ne pas révéler la sous-traitance), 03.11.2026"
+    },
+    {
+      "field": "brands.vip.payment",
+      "from": "réponse de Jérémy du 03.11.2026 : « seulement cash chauffeur en principe »"
     }
   ],
   "todo": [
@@ -412,7 +416,6 @@
     "TODO(client): numéro de licence TAT et société titulaire (annoncé « dans les prochains jours »).",
     "TODO(client): avis Google de Secret Travel & Tour : aucun pour l'instant, à reprendre (note, nombre, date de lecture) dès qu'ils arrivent.",
     "TODO(client): « Guide and insurance » / « Insurance » dans les inclusions (4 Islands, Koh Rok, Phi Phi, kayak, éléphants) : le client répond que chaque prestataire a ses propres conditions d'assurance. Garder le mot « insurance » ou le retirer ?",
-    "TODO(client): paiement des transferts VIP : le site taxi dit « Cash to the driver on the day. No prepayment. » ; réponse générale du client (Q13) : cash ou virement. Le virement vaut-il aussi pour VIP Taxi Lanta ?",
     "TODO(client): adresse et coordonnées de la fiche Google de VIP Taxi Lanta (aujourd'hui seulement « Koh Lanta, Krabi, Thailand ») : à afficher ou à masquer ?",
     "TODO(client): durées de trajet VIP relevées sur des guides de transport (12go, goasia, geckoroutes, amazinglanta) le 30.10.2026 : à remplacer par les chiffres de Mr. Brown."
   ],

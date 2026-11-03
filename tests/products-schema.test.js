@@ -12,7 +12,7 @@ const IMAGES = path.join(__dirname, "..", "src", "images");
 const FOLDERS = { tours: "boat", activities: "activity", "": "rental", "secret-transfers": "transfer", taxi: "route" };
 const BRANDS = ["secret", "vip"];
 const STATUS = ["keep", "replace", "missing"];
-const BYB = ["pickup", "bring", "children", "health", "weather", "payment", "cancellation"];
+const BYB = ["pickup", "deposit", "helmets", "delivery", "bring", "children", "health", "weather", "payment", "cancellation"];
 // Pages existantes ou prévues (décisions client du 02.11.2026) vers lesquelles related[] peut pointer.
 const PLANNED = ["/", "/tours/", "/transfers/", "/taxi/", "/about/", "/contact/", "/faq/"];
 // Même liste que tests/partenaires.test.js.
