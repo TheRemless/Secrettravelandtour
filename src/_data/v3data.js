@@ -181,6 +181,6 @@ module.exports = async function () {
   };
 
   // AVIF et WebP de 480 à 2 000 px, jamais au-delà de la largeur native.
-  await view.responsive([data.home, data.four, data.hub, data.boats, data.activities], { widths: [480, 720, 960, 1200, 1600, 2000] });
+  await view.responsive([data.home, data.four, data.hub, data.boats, data.activities], { widths: [480, 720, 960, 1200, 1600, 2000], avif: 45, webp: 70 });
   return data;
 };

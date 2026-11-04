@@ -470,7 +470,7 @@ function rentalTable(product) {
 // ---------- Images responsives ----------
 // AVIF et WebP de 400 à 1 600 px (00-BRIEF §12), jamais au-delà de la largeur native. À appeler depuis un
 // fichier de données asynchrone : chaque objet { src: "/images/…", width } reçoit `avif` et `webp` (srcset).
-async function responsive(root, { widths = [400, 800, 1200, 1600], only } = {}) {
+async function responsive(root, { widths = [400, 800, 1200, 1600], only, avif = 55, webp = 74 } = {}) {
   const { default: Image } = await import("@11ty/eleventy-img");
   const seen = new Set();
   const visit = async (v) => {
@@ -481,7 +481,7 @@ async function responsive(root, { widths = [400, 800, 1200, 1600], only } = {}) 
       const w = widths.filter((x) => x < v.width).concat(v.width);
       const meta = await Image(path.join(IMAGES, v.src.slice("/images/".length)), {
         widths: w, formats: ["avif", "webp"], outputDir: "_site/img/", urlPath: "/img/",
-        sharpWebpOptions: { quality: 74 }, sharpAvifOptions: { quality: 55 }
+        sharpWebpOptions: { quality: webp }, sharpAvifOptions: { quality: avif }
       });
       v.avif = meta.avif.map((m) => m.srcset).join(", ");
       v.webp = meta.webp.map((m) => m.srcset).join(", ");
