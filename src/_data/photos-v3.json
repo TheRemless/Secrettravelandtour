@@ -235,22 +235,6 @@
       "downloaded_at": "2026-11-03"
     },
     {
-      "id": "home-desk",
-      "usage": "Accueil, le comptoir de Sala Dan",
-      "file": "placeholders/home-desk.jpg",
-      "ratio": "4:5",
-      "position": "45% 50%",
-      "alt": "The channel and wooden piers of Sala Dan, Koh Lanta",
-      "placeholder": true,
-      "source": "Wikimedia Commons",
-      "author": "Максим Улитин",
-      "licence": "CC BY 3.0",
-      "url": "https://commons.wikimedia.org/wiki/File:4245,_Tambon_Sala_Dan,_Amphoe_Ko_Lanta,_Chang_Wat_Krabi_81150,_Thailand_-_panoramio_(7).jpg",
-      "download": "https://upload.wikimedia.org/wikipedia/commons/7/78/4245%2C_Tambon_Sala_Dan%2C_Amphoe_Ko_Lanta%2C_Chang_Wat_Krabi_81150%2C_Thailand_-_panoramio_%287%29.jpg",
-      "shot": "Front of the desk at 292 Moo 2, Sala Dan.",
-      "downloaded_at": "2026-11-03"
-    },
-    {
       "id": "home-final",
       "usage": "Accueil, bande finale",
       "file": "placeholders/home-final.jpg",

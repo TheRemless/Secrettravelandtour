@@ -30,7 +30,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 ] -%}
 <header class="hd" data-hd>
   <div class="wrap">
-    <a class="brand" href="/"><picture><source type="image/avif" srcset="{{ em.avif }}"><img eleventy:ignore src="{{ em.src }}" srcset="{{ em.webp }}" width="{{ em.width }}" height="{{ em.height }}" alt=""></picture><span><span class="brand-name">Secret Travel &amp; Tour</span><span class="brand-place">Sala Dan, Koh Lanta</span></span></a>
+    <a class="brand" href="/"><picture><source type="image/avif" srcset="{{ em.avif }}"><img eleventy:ignore src="{{ em.src }}" srcset="{{ em.webp }}" width="{{ em.width }}" height="{{ em.height }}" alt=""></picture><span><span class="brand-name">Secret Travel &amp; Tour</span><span class="brand-place">Koh Lanta</span></span></a>
     <nav class="nav" aria-label="Main"><ul>{% for i in items %}<li><a href="{{ i.href }}"{% if i.id == current %} aria-current="page"{% endif %}>{{ i.label }}</a></li>{% endfor %}</ul></nav>
     <a class="btn hd-wa" href="{{ waHref(contact.number) }}">{{ icon("whatsapp") }}<span>WhatsApp</span></a>
     <button class="menu-btn" type="button" aria-haspopup="dialog" aria-controls="menu" data-menu-open>{{ icon("menu") }}<span class="sr-only">Menu</span></button>
@@ -38,12 +38,11 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 </header>
 <dialog class="menu" id="menu" aria-label="Menu">
   <div class="menu-top">
-    <a class="brand" href="/"><picture><source type="image/avif" srcset="{{ em.avif }}"><img eleventy:ignore src="{{ em.src }}" srcset="{{ em.webp }}" width="{{ em.width }}" height="{{ em.height }}" alt=""></picture><span><span class="brand-name">Secret Travel &amp; Tour</span><span class="brand-place">Sala Dan, Koh Lanta</span></span></a>
+    <a class="brand" href="/"><picture><source type="image/avif" srcset="{{ em.avif }}"><img eleventy:ignore src="{{ em.src }}" srcset="{{ em.webp }}" width="{{ em.width }}" height="{{ em.height }}" alt=""></picture><span><span class="brand-name">Secret Travel &amp; Tour</span><span class="brand-place">Koh Lanta</span></span></a>
     <button class="menu-btn" type="button" data-menu-close>{{ icon("close") }}<span class="sr-only">Close menu</span></button>
   </div>
   <nav aria-label="Main"><ul>{% for i in items %}<li><a href="{{ i.href }}">{{ i.label }}</a></li>{% endfor %}</ul></nav>
   <div class="menu-foot">
-    <p>{{ site.brands.secret.address.display }}</p>
     <a href="{{ waHref(contact.number) }}">WhatsApp {{ contact.phoneDisplay }}</a>
   </div>
 </dialog>
@@ -145,8 +144,6 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
     <div class="foot-grid">
       <div class="foot-col">
         <div class="foot-brand"><span class="pastille"><picture><source type="image/avif" srcset="{{ em.avif }}"><img eleventy:ignore src="{{ em.src }}" srcset="{{ em.webp }}" width="{{ em.width }}" height="{{ em.height }}" alt="" loading="lazy"></picture></span><span class="foot-name">Secret Travel &amp; Tour</span></div>
-        <p>{{ b.address.display }}</p>
-        {% if b.maps %}<a href="{{ b.maps }}">Open in Google Maps</a><br>{% endif %}
         <a href="{{ waHref(contact.number) }}">WhatsApp {{ contact.phoneDisplay }}</a>
       </div>
       <div><p class="foot-title">Boat trips</p><ul>{% for c in boats %}<li><a href="{{ c.href }}">{{ c.title }}</a></li>{% endfor %}</ul></div>

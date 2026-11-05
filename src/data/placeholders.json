@@ -110,17 +110,6 @@
     "shot": "The VIP Taxi Lanta minivan, 1,600 px or more."
   },
   {
-    "id": "home-desk",
-    "usage": "Accueil, le comptoir de Sala Dan",
-    "file": "placeholders/home-desk.jpg",
-    "source": "Wikimedia Commons",
-    "author": "Максим Улитин",
-    "licence": "CC BY 3.0",
-    "url": "https://commons.wikimedia.org/wiki/File:4245,_Tambon_Sala_Dan,_Amphoe_Ko_Lanta,_Chang_Wat_Krabi_81150,_Thailand_-_panoramio_(7).jpg",
-    "downloaded_at": "2026-11-03",
-    "shot": "Front of the desk at 292 Moo 2, Sala Dan."
-  },
-  {
     "id": "home-final",
     "usage": "Accueil, bande finale",
     "file": "placeholders/home-final.jpg",

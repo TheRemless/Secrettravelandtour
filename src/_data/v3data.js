@@ -100,12 +100,11 @@ module.exports = async function () {
     activities,
     counts: { boats: boats.length, activities: activities.length, all: WORDS[boats.length + activities.length] || String(boats.length + activities.length) },
     home: {
-      seo: { title: "Koh Lanta Boat Trips, Activities and Transfers | Secret Travel & Tour", metaDescription: "Boat trips, island activities and transfers from our desk in Sala Dan, Koh Lanta. 4 Islands from 1,000 THB, Koh Rok from 2,000 THB. Book on WhatsApp." },
+      seo: { title: "Koh Lanta Boat Trips, Activities and Transfers | Secret Travel & Tour", metaDescription: "Boat trips, island activities and transfers on Koh Lanta. 4 Islands from 1,000 THB, Koh Rok from 2,000 THB. Book on WhatsApp." },
       hero: photo("home-hero"),
       h1: "Boat trips, activities and transfers on Koh Lanta",
-      lead: "Book at our desk in Sala Dan or on WhatsApp. Prices are on the site and hotel pickup is included on every boat trip.",
+      lead: "Book on WhatsApp. Prices are on the site and hotel pickup is included on every boat trip.",
       facts: `4 Islands from ${byslug["4-islands"].price.amount} · Koh Rok from ${byslug["koh-rok-koh-haa"].price.amount} · Private airport transfers`,
-      desk: [`Our desk: ${b.address.street}, Sala Dan, next to the pier`, `WhatsApp ${site.whatsapp.display}`, "Pay on the day, nothing online"],
       featured: ["4-islands", "koh-rok-koh-haa", "koh-phi-phi"].map((s) => byslug[s]),
       transfers: {
         photo: photo("home-transfers"),
@@ -122,17 +121,8 @@ module.exports = async function () {
       steps: [
         { title: "Pick a trip, a date and your pickup", text: "On the page you choose the option and the number of people." },
         { title: "Send it on WhatsApp", text: "The message is written for you. We reply with the total and the pickup time." },
-        { title: "Pay on the day", text: "Cash at the desk or on the day. The park fee goes to the ranger." }
+        { title: "Pay on the day", text: "Cash on the day. The park fee goes to the ranger." }
       ],
-      deskSection: {
-        photo: photo("home-desk"),
-        text: `${b.address.street}, Sala Dan, Koh Lanta Yai. Two minutes on foot from Sala Dan pier.`,
-        rules: [
-          { title: "Address", text: b.address.display },
-          { title: "WhatsApp", text: site.whatsapp.display },
-          { title: "Operated by", text: site.operator.name + (b.licence ? `, TAT licence ${b.licence}` : "") }
-        ]
-      },
       final: { photo: photo("home-final"), title: "Not sure which trip?", text: "Tell us your dates, who's coming and where you're staying. We'll tell you what runs that day and what it costs." }
     },
     four: {
@@ -174,7 +164,7 @@ module.exports = async function () {
       booking: view.bookingTour(four, site)
     },
     hub: {
-      seo: { title: "Boat Trips and Activities from Koh Lanta | Secret Travel & Tour", metaDescription: "All the boat trips and island activities we book from our desk in Sala Dan, Koh Lanta, with prices: 4 Islands, Koh Rok, Phi Phi, kayak, diving, elephants." },
+      seo: { title: "Boat Trips and Activities from Koh Lanta | Secret Travel & Tour", metaDescription: "All the boat trips and island activities we book on Koh Lanta, with prices: 4 Islands, Koh Rok, Phi Phi, kayak, diving, elephants." },
       final: { photo: photo("hub-final"), title: "Can't decide?", text: "Send us your dates and we'll say what runs that day." }
     },
     credits: PHOTOS.filter((p) => p.placeholder).map((p) => ({ usage: p.usage, author: p.author, licence: p.licence, url: p.url, source: p.source }))

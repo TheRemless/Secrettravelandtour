@@ -32,10 +32,6 @@ permalink: /
     </div>
   </section>
 
-  <section class="desk-band" aria-label="Our desk">
-    <div class="wrap"><ul>{% for d in h.desk %}<li>{{ d }}</li>{% endfor %}</ul></div>
-  </section>
-
   <section class="sec" aria-labelledby="h-boats">
     <div class="wrap">
       <div class="sec-head"><h2 id="h-boats">Boat trips</h2><a class="tlink" href="/tours/#boat-trips">All {{ v3data.counts.boats | numwords }} boat trips {{ v3.arrow() }}</a></div>
@@ -64,18 +60,6 @@ permalink: /
     <div class="wrap">
       <div class="sec-head"><h2 id="h-how">How booking works</h2></div>
       {{ v3.steps(h.steps) }}
-    </div>
-  </section>
-
-  <section class="sec" aria-labelledby="h-desk">
-    <div class="wrap desk">
-      <div>
-        <h2 id="h-desk">Our desk in Sala Dan</h2>
-        <p>{{ h.deskSection.text }}</p>
-        {{ v3.rules(h.deskSection.rules) }}
-        {% if site.brands.secret.maps %}<a class="tlink" href="{{ site.brands.secret.maps }}">Open in Google Maps {{ v3.arrow() }}</a>{% endif %}
-      </div>
-      <div class="desk-photo">{{ v3.img(h.deskSection.photo, "(min-width: 1024px) 640px, 100vw") }}</div>
     </div>
   </section>
 
