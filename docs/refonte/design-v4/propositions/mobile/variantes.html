@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Variantes, proposition mobile | Secret Travel &amp; Tour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+<style>
+  .proto { position: sticky; top: 0; z-index: 60; }
+  .v { padding: 0 0 56px; border-top: 6px solid #222; }
+  .v > .wrap { padding-top: 28px; }
+  .phone { position: relative; max-width: 390px; margin: 0 auto; border: 1px solid var(--line); border-radius: 28px; overflow: hidden; min-height: 640px; background: #fff; }
+  .phone .wrap { padding-inline: 20px; }
+  .ph { aspect-ratio: 4 / 3; border-radius: 12px; overflow: hidden; background: var(--mist); }
+  .ph img { width: 100%; height: 100%; object-fit: cover; }
+  .note { font: 13px/1.5 ui-monospace, Menlo, monospace; color: #444; margin-top: 14px; }
+
+  /* Navigation B */
+  .fab { position: absolute; right: 16px; bottom: 18px; width: 64px; height: 64px; border-radius: 50%; border: 0; background: var(--deep); color: #fff; display: grid; place-items: center; box-shadow: 0 2px 6px rgba(11, 59, 60, .35); z-index: 3; }
+  .fab svg { width: 26px; height: 26px; }
+  .fab-menu { position: absolute; left: 12px; right: 12px; bottom: 94px; background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 8px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; z-index: 3; }
+  .fab-menu a, .fab-menu button { min-height: 76px; border-radius: 12px; border: 1px solid var(--line); background: var(--mist); display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 10px 14px; text-decoration: none; color: var(--ink); font-weight: 700; }
+  .fab-menu svg { width: 22px; height: 22px; margin-bottom: 4px; }
+
+  /* Hero B */
+  .launch-photo { aspect-ratio: 4 / 3; overflow: hidden; }
+  .launch-photo img { width: 100%; height: 100%; object-fit: cover; }
+  .launch { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+  .launch a { min-height: 108px; border-radius: 16px; border: 1px solid var(--line); padding: 14px; text-decoration: none; color: var(--ink); display: flex; flex-direction: column; justify-content: space-between; }
+  .launch a b { font-family: var(--serif); font-weight: 400; font-size: 21px; line-height: 1.15; }
+  .launch a span { font-size: 14px; color: var(--mute); }
+  .launch a:first-child { background: var(--deep); color: #fff; border-color: var(--deep); }
+  .launch a:first-child span { color: var(--on-deep-mute); }
+
+  /* Hero C, boat rail B : cartes au doigt */
+  .deck { display: grid; grid-auto-flow: column; grid-auto-columns: 82%; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: 20px; padding: 6px 20px 10px; margin-inline: -20px; scrollbar-width: none; list-style: none; margin-block: 0; }
+  .deck li { scroll-snap-align: start; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
+  .deck .ph { border-radius: 0; }
+  .deck .in { padding: 12px 14px 14px; display: grid; gap: 6px; flex: 1; }
+  .deck h3 { font-size: 20px; }
+  .deck p { font-size: 15px; color: var(--mute); line-height: 1.45; }
+  .deck .btn { min-height: 46px; margin-top: auto; }
+  @media (min-width: 1024px) { .deck { grid-auto-columns: calc((100% - 36px) / 4); margin: 0; padding-inline: 0; } }
+
+  /* Activités B : carte façon menu */
+  .menu { list-style: none; margin: 0; padding: 0; max-width: 640px; }
+  .menu li button { width: 100%; display: flex; align-items: baseline; gap: 8px; min-height: 56px; border: 0; border-bottom: 1px solid var(--line); background: none; padding: 10px 0; text-align: left; }
+  .menu li b { font-family: var(--serif); font-weight: 400; font-size: 20px; }
+  .menu li i { flex: 1; border-bottom: 1px dotted var(--field); transform: translateY(-4px); min-width: 20px; }
+  .menu li span { white-space: nowrap; font-weight: 700; }
+
+  /* Transferts B */
+  .tabpanel { padding-top: 16px; max-width: 640px; }
+
+  /* FAQ B : bulles */
+  .chat { display: grid; gap: 10px; max-width: 520px; }
+  .bub { max-width: 85%; padding: 10px 14px; border-radius: 16px; font-size: 16px; line-height: 1.5; }
+  .bub.q { justify-self: end; background: var(--deep); color: #fff; border-bottom-right-radius: 4px; }
+  .bub.a { background: var(--mist); border-bottom-left-radius: 4px; }
+  .qchips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+
+  /* Hub filtres B : trois questions */
+  .quiz { max-width: 560px; }
+  .quiz .step { font-size: 14px; color: var(--mute); font-weight: 600; }
+  .quiz h3 { font-size: 26px; margin: 6px 0 14px; }
+  .quiz .opt-list .opt { min-height: 60px; font-size: 17px; }
+
+  /* Comparateur B */
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .duo select { width: 100%; min-height: 48px; border-radius: var(--r-ctl); border: 1px solid var(--field); padding: 0 8px; background: #fff; font-weight: 600; }
+  .duo-rows > div { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; border-top: 1px solid var(--line); padding: 10px 0; font-size: 15px; }
+  .duo-rows h4 { grid-column: 1 / -1; margin: 0; font-size: 13.5px; color: var(--mute); }
+  .duo-rows .better { font-weight: 700; }
+
+  /* Galerie B */
+  .mosaic { display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; gap: 6px; aspect-ratio: 3 / 2; border-radius: 16px; overflow: hidden; max-width: 720px; }
+  .mosaic button { border: 0; padding: 0; position: relative; background: var(--mist); cursor: zoom-in; }
+  .mosaic button:first-child { grid-row: 1 / span 2; }
+  .mosaic img { width: 100%; height: 100%; object-fit: cover; }
+  .mosaic .more { position: absolute; inset: 0; background: rgba(20, 38, 43, .62); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 18px; }
+  .gridall { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .gridall img { aspect-ratio: 1; object-fit: cover; border-radius: 8px; width: 100%; }
+
+  /* Calendrier B */
+  .cal { max-width: 380px; }
+  .cal-head { display: flex; align-items: center; justify-content: space-between; }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-top: 8px; text-align: center; }
+  .cal-grid span { font-size: 13px; color: var(--mute); font-weight: 600; padding: 4px 0; }
+  .cal-grid button { aspect-ratio: 1; min-height: 44px; border-radius: 10px; border: 1px solid transparent; background: none; font-weight: 600; }
+  .cal-grid button[disabled] { color: #a5b2af; }
+  .cal-grid button[aria-pressed="true"] { background: var(--deep); color: #fff; }
+  .cal-grid button.today { border-color: var(--line); }
+
+  /* Personnes B */
+  .presets { display: flex; flex-wrap: wrap; gap: 8px; }
+  .presets .chip { min-height: 48px; font-size: 16px; }
+
+  /* Déroulé B : règle horaire */
+  .ruler { position: relative; height: 64px; margin: 18px 6px 0; }
+  .ruler::before { content: ""; position: absolute; left: 0; right: 0; top: 30px; height: 2px; background: var(--deep); }
+  .ruler .h { position: absolute; top: 46px; font-size: 12px; color: var(--mute); transform: translateX(-50%); }
+  .ruler button { position: absolute; top: 21px; width: 20px; height: 20px; margin-left: -10px; border-radius: 50%; border: 2px solid var(--deep); background: #fff; padding: 0; }
+  .ruler button::after { content: ""; position: absolute; inset: -12px -4px; }
+  .ruler button[aria-pressed="true"] { background: var(--deep); }
+  .rdetail { min-height: 70px; margin-top: 8px; }
+  .rdetail b { font-family: var(--serif); font-weight: 400; font-size: 22px; display: block; }
+
+  /* Barre B : tiroir */
+  .drawer { position: absolute; left: 0; right: 0; bottom: 0; background: #fff; border-top: 1px solid var(--line); border-radius: 20px 20px 0 0; box-shadow: 0 -2px 8px rgba(20, 38, 43, .12); }
+  .drawer .grab { padding: 10px 0 2px; display: grid; place-items: center; border: 0; background: none; width: 100%; min-height: 28px; }
+  .drawer .grab::before { content: ""; width: 40px; height: 5px; border-radius: 3px; background: var(--line); }
+  .drawer .row1 { display: flex; align-items: center; gap: 12px; padding: 4px 20px 14px; }
+  .drawer .row1 b { font-size: 20px; margin-right: auto; }
+  .drawer .more-d { padding: 0 20px 16px; }
+  .drawer .more-d .bk-total { margin-bottom: 10px; }
+</style>
+</head>
+<body>
+<div class="proto" style="display:block;position:static">Proposition « mobile », variantes. Chaque bloc est une version alternative à la version retenue dans <a href="home.html">home.html</a>, <a href="tours.html">tours.html</a> et <a href="4-islands.html">4-islands.html</a>. Données lues dans data.js.</div>
+<main id="variants"></main>
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+(() => {
+  const A = App, D = A.D, { $, $$, esc } = A;
+  const root = $("#variants");
+  const add = (title, html, init, phone) => {
+    const s = document.createElement("section"); s.className = "v";
+    s.innerHTML = `<div class="proto">${esc(title)}</div><div class="wrap">${phone ? `<div class="phone">${html}</div>` : html}</div>`;
+    root.append(s); init?.(s);
+  };
+  const four = A.bySlug["4-islands"];
+  const boats = A.products.filter((p) => p.folder === "tours"), acts = A.products.filter((p) => p.folder === "activities");
+  const tomorrow = A.iso(A.addDays(A.today(), 1));
+  document.addEventListener("click", (e) => { const q = e.target.closest("[data-ql]"); if (q) A.quickLook(q.dataset.ql, tomorrow); });
+
+  /* 1. Navigation B */
+  add("Toutes pages, navigation, version B : bouton unique au pouce qui ouvre quatre grandes cases", `
+    <div class="wrap" style="padding-top:20px"><h2>Koh Lanta</h2><p class="small" style="margin-top:8px">Le contenu de la page défile ici. Le bouton reste sous le pouce droit et remplace la barre d'onglets.</p></div>
+    <div class="fab-menu" hidden id="fabm">
+      <a href="home.html">${A.icon("explore")}Explore</a><a href="tours.html">${A.icon("trips")}Trips</a>
+      <button type="button" data-week>${A.icon("week")}My week</button><a href="${D.site.whatsapp.link}" target="_blank" rel="noopener">${A.icon("wa")}WhatsApp</a>
+    </div>
+    <button class="fab" type="button" aria-expanded="false" aria-controls="fabm" aria-label="Menu">${A.icon("menu")}</button>`,
+    (s) => { const b = $(".fab", s), m = $("#fabm", s); b.onclick = () => { m.hidden = !m.hidden; b.setAttribute("aria-expanded", !m.hidden); b.innerHTML = A.icon(m.hidden ? "menu" : "close"); }; document.addEventListener("click", (e) => { if (e.target.closest("[data-week]")) A.openWeek(); }); }, true);
+
+  /* 2. Hero B */
+  add("Accueil, hero, version B : lanceur au pouce, quatre cases dans la moitié basse de l'écran", `
+    <div class="launch-photo">${A.photo("home-hero", { eager: true })}</div>
+    <div class="wrap" style="padding-block:20px 24px"><h1 style="font-size:32px">${esc(D.home.h1)}</h1>
+    <nav class="launch" aria-label="Start">
+      <a href="tours.html?f=boat"><b>${esc(D.home.boats.title)}</b><span>${boats.length} trips, from ${A.thb(Math.min(...boats.filter((p) => p.price).map((p) => p.price.from)))}</span></a>
+      <a href="tours.html?f=activity"><b>${esc(D.home.activities.title)}</b><span>${acts.length} activities, from ${A.thb(Math.min(...acts.filter((p) => p.price).map((p) => p.price.from)))}</span></a>
+      <a href="#" data-out="${esc(D.home.transfers.items[0].href)}"><b>${esc(D.home.transfers.title)}</b><span>${esc(D.home.transfers.items[0].title)}</span></a>
+      <a href="#" data-out="${esc(D.rental.url)}"><b>Rental</b><span>from ${A.thb(D.rental.price.from)} ${esc(D.rental.price.unit)}</span></a>
+    </nav></div>`, null, true);
+
+  /* 3. Hero C */
+  add("Accueil, hero, version C : « Tomorrow on Koh Lanta », les sorties qui tournent demain, au doigt, ajout direct à la semaine", `
+    <h2>Tomorrow, ${A.short(A.fromIso(tomorrow))}</h2><p class="small" style="margin:6px 0 14px">Swipe, then add to your week. Two adults by default, you change it in My week.</p>
+    <ul class="deck">${A.products.filter((p) => A.availability(p, A.fromIso(tomorrow)).ok && !p.priceOnRequest).map((p) => `<li><div class="ph">${A.photo(p.photo)}</div><div class="in"><h3>${esc(p.name)}</h3><p>${esc(p.promise || p.lead)}</p>${A.priceFrom(p)}<button class="btn ghost" type="button" data-tom="${p.slug}">${A.icon("plus")}Add to tomorrow</button></div></li>`).join("")}</ul>`,
+    (s) => s.addEventListener("click", (e) => { const b = e.target.closest("[data-tom]"); if (!b) return; const p = A.bySlug[b.dataset.tom]; A.store.add({ slug: p.slug, option: p.options[0].id, date: tomorrow, pax: { adults: 2, kids: [] }, addons: [] }); A.toast(`${p.name} added to ${A.short(A.fromIso(tomorrow))}`); }));
+
+  /* 4. Boat trips B */
+  add("Accueil, sorties en bateau, version B : rail de cartes qui laisse voir la suivante", `
+    <h2>${esc(D.home.boats.title)}</h2><ul class="deck" style="margin-top:14px">${boats.map((p) => `<li><div class="ph">${A.photo(p.photo)}</div><div class="in"><h3>${esc(p.name)}</h3><p>${esc(p.promise || p.lead)}</p>${A.priceFrom(p)}${A.pageUrl(p) ? `<a class="btn ghost" href="${A.pageUrl(p)}">See the day</a>` : `<button class="btn ghost" type="button" data-ql="${p.slug}">See the day</button>`}</div></li>`).join("")}</ul>`);
+
+  /* 5. Activities B */
+  add("Accueil, activités, version B : liste façon carte de restaurant, le prix en face du nom", `
+    <h2>${esc(D.home.activities.title)}</h2><ul class="menu" style="margin-top:12px">${acts.map((p) => `<li><button type="button" data-ql="${p.slug}"><b>${esc(p.name)}</b><i aria-hidden="true"></i><span class="num">${p.price ? "from " + A.thb(p.price.from) : "Price on WhatsApp"}</span></button></li>`).join("")}</ul>`);
+
+  /* 6. Week B */
+  add("Accueil, ma semaine, version B : le message WhatsApp se construit sous vos yeux", `
+    <div style="max-width:560px"><h2>One message for the whole week</h2><p class="small" style="margin-top:6px">Tap the trips to add them to the days. The message updates.</p>
+    <div class="chips" style="margin-top:12px;flex-wrap:wrap" id="w6">${["4-islands", "elephant-sanctuary", "cooking-class", "koh-rok-koh-haa"].map((s, i) => `<button type="button" class="chip" data-w6="${s}" data-day="${i + 1}" aria-pressed="false">${esc(A.bySlug[s].name)}, ${A.short(A.addDays(A.today(), i + 1))}</button>`).join("")}</div>
+    <div class="msg" id="w6m" aria-live="polite"></div></div>`,
+    (s) => { const sel = new Set(); const draw = () => { const items = [...sel].map((k) => { const [slug, d] = k.split("|"); return { slug, option: A.bySlug[slug].options[0].id, date: A.iso(A.addDays(A.today(), +d)), pax: { adults: 2, kids: [] }, addons: [] }; }).sort((a, b) => a.date.localeCompare(b.date)); $("#w6m", s).textContent = items.length ? A.message(items) : "Your message appears here."; }; s.addEventListener("click", (e) => { const b = e.target.closest("[data-w6]"); if (!b) return; const k = b.dataset.w6 + "|" + b.dataset.day; sel.has(k) ? sel.delete(k) : sel.add(k); b.setAttribute("aria-pressed", sel.has(k)); draw(); }); draw(); });
+
+  /* 7. Transfers B */
+  const TT = D.home.transfers.items.concat([{ title: D.home.rental.title, text: D.home.rental.text, href: D.rental.url }]);
+  add("Accueil, transferts et location, version B : contrôle segmenté, un seul bloc à la fois", `
+    <h2>${esc(D.home.transfers.title)}</h2><div class="seg" style="margin-top:14px;max-width:640px" role="tablist">${TT.map((t, i) => `<button type="button" role="tab" data-t="${i}" aria-pressed="${i === 0}" aria-selected="${i === 0}">${esc(t.title.split(",")[0].replace("Speedboat from Sala Dan pier", "Speedboat").replace("Car and scooter rental", "Rental").replace("Minivan", "Minivan"))}</button>`).join("")}</div><div class="tabpanel" role="tabpanel" id="t7"></div>`,
+    (s) => { const show = (i) => { const t = TT[i]; $("#t7", s).innerHTML = `<h3>${esc(t.title)}</h3><p style="margin-top:6px">${esc(t.text)}</p><p style="margin-top:12px"><a href="#" data-out="${esc(t.href)}">Open ${esc(t.title)}</a></p>`; $$("[data-t]", s).forEach((b) => { b.setAttribute("aria-pressed", +b.dataset.t === i); b.setAttribute("aria-selected", +b.dataset.t === i); }); }; s.addEventListener("click", (e) => { const b = e.target.closest("[data-t]"); if (b) show(+b.dataset.t); }); show(0); });
+
+  /* 8. FAQ B */
+  add("Accueil, questions, version B : questions en bulles, la réponse arrive comme dans WhatsApp", `
+    <h2>Before you write to us</h2><div class="chat" id="chat" aria-live="polite" style="margin-top:14px"></div><div class="qchips">${D.home.faq.map((f, i) => `<button type="button" class="chip" data-q="${i}">${esc(f.q)}</button>`).join("")}</div>`,
+    (s) => s.addEventListener("click", (e) => { const b = e.target.closest("[data-q]"); if (!b) return; const f = D.home.faq[+b.dataset.q]; $("#chat", s).insertAdjacentHTML("beforeend", `<div class="bub q">${esc(f.q)}</div><div class="bub a">${esc(f.a)}</div>`); b.remove(); }));
+
+  /* 9. Hub filters B */
+  const QZ = [
+    { q: "On the sea or on land?", o: [["boat", D.home.boats.title], ["activity", D.home.activities.title], ["", "Either"]] },
+    { q: "How long?", o: [["full", "Full day"], ["half", "Half day"], ["", "Any length"]] },
+    { q: "Children with you?", o: [["kids", "Yes, show child rates"], ["", "No"]] },
+  ];
+  add("Hub, filtres, version B : trois questions, une par écran, au lieu des puces", `<div class="quiz" id="quiz" aria-live="polite"></div>`, (s) => {
+    let step = 0; const pick = [];
+    const tr = (p) => ({ ...A.traits(p), activity: p.folder === "activities" });
+    const match = () => A.products.filter((p) => pick.every((k) => !k || tr(p)[k]));
+    const draw = () => {
+      const z = $("#quiz", s);
+      if (step >= QZ.length) { const n = match().length, f = pick.filter(Boolean); z.innerHTML = `<p class="step">Done</p><h3>${n} trip${n === 1 ? "" : "s"} for you</h3><a class="btn" href="tours.html${f.length ? "?f=" + f.join(",") : ""}">Show the ${n} trip${n === 1 ? "" : "s"}</a> <button class="link-btn" type="button" data-re>Start again</button>`; return; }
+      const Q = QZ[step];
+      z.innerHTML = `<p class="step">Question ${step + 1} of ${QZ.length}</p><h3>${Q.q}</h3><div class="opt-list">${Q.o.map(([k, l]) => { pick[step] = k; const n = match().length; pick.length = step; return `<button type="button" class="opt" data-k="${k}"><span>${esc(l)}</span><small class="num">${n} trip${n === 1 ? "" : "s"}</small></button>`; }).join("")}</div>${step ? `<button class="link-btn" type="button" data-bk style="margin-top:8px">Back</button>` : ""}`;
+    };
+    s.addEventListener("click", (e) => { const o = e.target.closest("[data-k]"); if (o) { pick[step] = o.dataset.k; step++; draw(); } if (e.target.closest("[data-bk]")) { step--; pick.length = step; draw(); } if (e.target.closest("[data-re]")) { step = 0; pick.length = 0; draw(); } });
+    draw();
+  });
+
+  /* 10. Compare B */
+  add("Hub, comparateur, version B : deux menus, comparaison en ligne sur la page, sans quitter la page", `
+    <div style="max-width:640px"><h2>Compare two trips</h2><div class="duo" style="margin-top:14px"><select id="ca" aria-label="First trip">${A.products.map((p) => `<option value="${p.slug}">${esc(p.name)}</option>`).join("")}</select><select id="cb" aria-label="Second trip">${A.products.map((p, i) => `<option value="${p.slug}" ${i === 2 ? "selected" : ""}>${esc(p.name)}</option>`).join("")}</select></div><div class="duo-rows" id="cr" aria-live="polite" style="margin-top:10px"></div></div>`,
+    (s) => { const draw = () => { const a = A.bySlug[$("#ca", s).value], b = A.bySlug[$("#cb", s).value]; const pa = a.price?.from, pb = b.price?.from; const row = (h, x, y, bx, by) => `<div><h4>${h}</h4><span class="${bx ? "better" : ""}">${esc(x || "Not given")}</span><span class="${by ? "better" : ""}">${esc(y || "Not given")}</span></div>`;
+      $("#cr", s).innerHTML = `<div><div class="ph">${A.photo(a.photo)}</div><div class="ph">${A.photo(b.photo)}</div></div>` + row("From", pa ? A.thb(pa) + ", " + a.price.unit : "Price on WhatsApp", pb ? A.thb(pb) + ", " + b.price.unit : "Price on WhatsApp", false, false) + row("Length", A.traits(a).duration, A.traits(b).duration) + row("Pickup", A.traits(a).pickup, A.traits(b).pickup) + row("Season", A.traits(a).season, A.traits(b).season) + row("Private option", A.traits(a).private ? "Yes" : "No", A.traits(b).private ? "Yes" : "No") + row("Child rate", A.traits(a).kids ? "Yes" : "No", A.traits(b).kids ? "Yes" : "No"); };
+      s.addEventListener("change", draw); draw(); });
+
+  /* 11. Gallery B */
+  const GAL = ["four-hero", "four-gallery-reef", "four-gallery-ngai", "four-gallery-kradan", "four-gallery-pier"];
+  add("4 Islands, galerie, version B : mosaïque une grande et deux petites, toutes les photos dans une feuille", `
+    <div class="mosaic">${GAL.slice(0, 3).map((id, i) => `<button type="button" data-g aria-label="${i === 2 ? "See all " + GAL.length + " photos" : "Open the photos"}">${A.photo(id)}${i === 2 ? `<span class="more">+${GAL.length - 2}</span>` : ""}</button>`).join("")}</div>`,
+    (s) => s.addEventListener("click", (e) => { if (!e.target.closest("[data-g]")) return; const sh = A.makeSheet("allph", `${GAL.length} photos`); $(".body", sh).innerHTML = `<div class="gridall">${GAL.map((id) => A.photo(id)).join("")}</div>`; A.openSheet(sh); }));
+
+  /* 12. Options B */
+  add("4 Islands, options et prix, version B : options en cartes empilées avec le prix d'appel de chacune", `<div style="max-width:520px" id="b12"></div>`, (s) => A.booker($("#b12", s), four, { compact: true }));
+
+  /* 13. Calendar B */
+  add("4 Islands, date, version B : calendrier du mois au lieu du ruban", `<div class="cal" id="cal"></div><p class="small" id="cal-o" aria-live="polite" style="margin-top:8px"></p>`, (s) => {
+    let m = A.today(); m.setDate(1); let sel = tomorrow;
+    const draw = () => { const y = m.getFullYear(), mo = m.getMonth(), first = (new Date(y, mo, 1).getDay() + 6) % 7, n = new Date(y, mo + 1, 0).getDate(), t = A.iso(A.today());
+      $("#cal", s).innerHTML = `<div class="cal-head"><button class="icon-btn" type="button" data-m="-1" aria-label="Previous month" ${y === A.today().getFullYear() && mo === A.today().getMonth() ? "disabled" : ""}>${A.icon("back")}</button><b>${A.MONTHS[mo]} ${y}</b><button class="icon-btn" type="button" data-m="1" aria-label="Next month"><span style="transform:rotate(180deg);display:grid">${A.icon("back")}</span></button></div><div class="cal-grid">${["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"].map((d) => `<span>${d}</span>`).join("")}${"<i></i>".repeat(first)}${Array.from({ length: n }, (_, i) => { const k = A.iso(new Date(y, mo, i + 1, 12)); return `<button type="button" data-d="${k}" ${k < t ? "disabled" : ""} class="${k === t ? "today" : ""}" aria-pressed="${k === sel}" aria-label="${A.long(A.fromIso(k))}">${i + 1}</button>`; }).join("")}</div>`;
+      $("#cal-o", s).textContent = `Chosen: ${A.long(A.fromIso(sel))}`; };
+    s.addEventListener("click", (e) => { const b = e.target.closest("[data-m]"); if (b && !b.disabled) { m.setMonth(m.getMonth() + +b.dataset.m); draw(); } const d = e.target.closest("[data-d]"); if (d) { sel = d.dataset.d; draw(); } }); draw();
+  });
+
+  /* 14. People B */
+  const PRE = [["Two of us", 2, []], ["Family, two children", 2, [6, 9]], ["Four friends", 4, []], ["Just me", 1, []]];
+  add("4 Islands, personnes, version B : réglages rapides, puis le détail seulement si besoin", `
+    <div style="max-width:520px"><div class="presets" role="group" aria-label="Who is going">${PRE.map((p, i) => `<button type="button" class="chip" data-p="${i}" aria-pressed="${i === 0}">${p[0]}</button>`).join("")}</div><p class="small" style="margin-top:8px">Children ages here are an example, you set them in the next step.</p><div class="bk-total" style="margin-top:14px" id="p14" aria-live="polite"></div></div>`,
+    (s) => { const o = four.options[0]; const draw = (i) => { const [, a, k] = PRE[i]; const q = A.quote(o, { adults: a, kids: k }); $("#p14", s).innerHTML = `<div class="tt" style="border:0;margin:0;padding:0"><span>${esc(o.label)}, ${esc(A.paxText({ adults: a, kids: k }))}</span><b class="num">${q.total != null ? A.thb(q.total) : "Price on WhatsApp"}</b></div>`; $$("[data-p]", s).forEach((b) => b.setAttribute("aria-pressed", +b.dataset.p === i)); }; s.addEventListener("click", (e) => { const b = e.target.closest("[data-p]"); if (b) draw(+b.dataset.p); }); draw(0); });
+
+  /* 15. Day B */
+  add("4 Islands, déroulé, version B : règle horaire, on touche une heure pour voir l'étape", `<div style="max-width:720px"><h2>The day, join-in longtail</h2><div class="ruler" id="ruler"></div><div class="rdetail" id="rdet" aria-live="polite"></div></div>`, (s) => {
+    const steps = four.day[0].steps, toMin = (t) => { const [h, m] = t.split(":").map(Number); return h * 60 + m; };
+    const a = toMin("07:00"), b = toMin("16:30"), pos = (t) => ((toMin(t) - a) / (b - a)) * 100;
+    $("#ruler", s).innerHTML = [7, 9, 11, 13, 15].map((h) => `<span class="h" style="left:${pos(String(h).padStart(2, "0") + ":00")}%">${String(h).padStart(2, "0")}:00</span>`).join("") + steps.map((st, i) => `<button type="button" data-st="${i}" style="left:${pos(st.time)}%" aria-label="${esc(st.time + ", " + st.place)}" aria-pressed="${i === 0}"></button>`).join("");
+    const show = (i) => { const st = steps[i]; $("#rdet", s).innerHTML = `<span class="num">${st.fixed ? "" : "≈ "}${esc(st.range || st.time)}</span><b>${esc(st.place)}</b><span class="small">${esc(st.detail)}</span>`; $$("[data-st]", s).forEach((x) => x.setAttribute("aria-pressed", +x.dataset.st === i)); };
+    s.addEventListener("click", (e) => { const x = e.target.closest("[data-st]"); if (x) show(+x.dataset.st); }); show(0);
+  });
+
+  /* 16. Booking bar B */
+  add("4 Islands, barre de réservation, version B : tiroir qui montre le détail du prix quand on le tire", `
+    <div class="wrap" style="padding-top:20px"><h2 style="font-size:28px">${esc(four.h1)}</h2><p class="small" style="margin-top:8px">${esc(four.lead)}</p></div>
+    <div class="drawer" id="drw"><button class="grab" type="button" aria-expanded="false" aria-controls="drw-more" aria-label="Show the price detail"></button>
+      <div class="row1"><b class="num" id="drw-p"></b><button class="btn" type="button" id="drw-send">Book on WhatsApp</button></div>
+      <div class="more-d" id="drw-more" hidden></div></div>`,
+    (s) => { const o = four.options[0], pax = { adults: 2, kids: [7] }, q = A.quote(o, pax), f = A.fees(o, pax);
+      $("#drw-p", s).textContent = A.thb(q.total);
+      $("#drw-more", s).innerHTML = `<div class="bk-total"><div class="tl">${q.lines.map((l) => `<div><span>${esc(l[0])}</span><span class="num">${A.thb(l[1])}</span></div>`).join("")}</div><div class="tf"><span>Cash on the day, not included</span>${f.map((x) => `<div><span>${esc(x[0])}</span><span class="num">${A.thb(x[1])}</span></div>`).join("")}</div></div><p class="small">${esc(o.label)}, ${esc(A.paxText(pax))}, ${A.short(A.fromIso(tomorrow))}.</p>`;
+      const g = $(".grab", s); g.onclick = () => { const m = $("#drw-more", s); m.hidden = !m.hidden; g.setAttribute("aria-expanded", !m.hidden); };
+      $("#drw-send", s).onclick = () => open(A.waLink(A.message([{ slug: four.slug, option: o.id, date: tomorrow, pax, addons: [] }])), "_blank"); }, true);
+
+  /* 17. Share B */
+  add("4 Islands, partage, version B : feuille de partage avec aperçu de ce que l'ami recevra", `
+    <div style="max-width:520px"><button class="btn ghost" type="button" id="sh17">${A.icon("share")}Share this trip</button></div>`,
+    (s) => { $("#sh17", s).onclick = () => { const sh = A.makeSheet("share17", "Share this trip"); const url = D.site.url + four.url; const txt = `${four.name}: ${four.promise}. From ${A.thb(four.price.from)} ${four.price.unit}. ${url}`;
+      $(".body", sh).innerHTML = `<p class="bk-l">Your friend receives</p><div class="msg">${esc(txt)}</div>`; const f = $("footer", sh); f.hidden = false;
+      f.innerHTML = `<a class="btn block" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(txt)}">${A.icon("wa")}Send on WhatsApp</a><button class="btn ghost block" type="button" id="cp17">${A.icon("copy")}Copy the link</button>`;
+      $("#cp17", f).onclick = async () => { try { await navigator.clipboard.writeText(url); A.toast("Link copied"); } catch { A.toast(url); } }; A.openSheet(sh); }; });
+})();
+</script>
+</body>
+</html>

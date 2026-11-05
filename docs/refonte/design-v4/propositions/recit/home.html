@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boat trips and activities on Koh Lanta | Secret Travel & Tour</title>
+<meta name="description" content="Six boat trips and seven activities on Koh Lanta, with prices. Choose an option and a date, and the page writes your WhatsApp message.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/recit.css">
+<style>
+/* ----- Hero : photo franche, puis la journée 4 Islands en règle horaire ----- */
+.hero { padding: clamp(28px, 5vw, 64px) 0 0; }
+.hero__grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 0 28px; align-items: end; }
+.hero h1 { grid-column: 1 / 9; font-size: var(--fs-hero); line-height: .98; letter-spacing: -0.015em; }
+.hero__side { grid-column: 9 / 13; padding-bottom: 10px; display: grid; gap: 22px; }
+.hero__acts { display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center; }
+.hero__photo { margin-top: clamp(28px, 4vw, 48px); }
+.hero__photo .ph { height: clamp(320px, 64vh, 760px); }
+.hero__cap { display: flex; justify-content: flex-end; }
+@media (max-width: 960px) {
+  .hero h1, .hero__side { grid-column: 1 / -1; }
+  .hero__side { margin-top: 20px; }
+  .hero__photo .ph { height: auto; aspect-ratio: 4 / 3; }
+  .hero__cap { justify-content: flex-start; }
+}
+
+.day { padding: 40px 0 clamp(64px, 8vw, 112px); }
+.day__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px 32px; }
+.day__head h2 { font-size: var(--fs-h3); }
+.ruler { position: relative; margin-top: 28px; height: 160px; }
+.ruler__axis { position: absolute; left: 0; right: 0; top: 74px; height: 2px; background: var(--line); }
+.ruler__seg { position: absolute; top: 72px; height: 6px; border-radius: 3px; }
+.ruler__seg--road { background: var(--ink); height: 2px; top: 74px; }
+.ruler__seg--sea { background: var(--ribbon); }
+.ruler__stop { position: absolute; top: 0; height: 160px; width: 0; }
+.ruler__stop::before { content: ""; position: absolute; left: -6px; top: 69px; width: 12px; height: 12px; border-radius: 50%; background: var(--paper); border: 2px solid var(--ink); }
+.ruler__stop.sea::before { border-color: var(--ribbon); background: var(--white); }
+.ruler__stop b { position: absolute; left: 0; transform: translateX(-50%); white-space: nowrap; font: 400 1.25rem/1 var(--display); }
+.ruler__stop span { position: absolute; left: 0; top: 40px; transform: translateX(-50%); white-space: nowrap; font-weight: 600; font-size: .9375rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.ruler__stop.up b { top: 98px; } .ruler__stop.down b { top: 126px; }
+.ruler__stop.down::after { content: ""; position: absolute; left: 0; top: 82px; height: 40px; border-left: 1px solid var(--line); }
+.ruler__stop:first-child b, .ruler__stop:first-child span { transform: none; }
+.ruler__stop:last-child b, .ruler__stop:last-child span { transform: translateX(-100%); }
+.ruler__legend { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px 24px; font-size: .9375rem; color: var(--ink-2); }
+.ruler__legend i { display: inline-block; width: 26px; height: 6px; border-radius: 3px; background: var(--ribbon); vertical-align: middle; margin-right: 8px; }
+.ruler__legend i.road { height: 2px; background: var(--ink); }
+.ruler-list { display: none; }
+@media (max-width: 760px) {
+  .ruler, .ruler__legend { display: none; }
+  .ruler-list { display: grid; margin-top: 24px; border-left: 2px solid var(--ribbon); padding-left: 18px; gap: 14px; }
+  .ruler-list li { display: grid; grid-template-columns: 5.4em 1fr; gap: 10px; align-items: baseline; }
+  .ruler-list time { font-weight: 600; color: var(--ink-2); }
+  .ruler-list b { font: 400 1.25rem/1.15 var(--display); }
+}
+
+/* ----- Sorties en bateau : une double page, pas une grille ----- */
+.boats { padding: clamp(40px, 6vw, 88px) 0 clamp(72px, 9vw, 128px); }
+.sec-head { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px 28px; align-items: end; margin-bottom: clamp(32px, 4vw, 56px); }
+.sec-head h2 { grid-column: 1 / 8; font-size: var(--fs-h2); }
+.sec-head p { grid-column: 8 / 13; color: var(--ink-2); }
+.spread { display: grid; grid-template-columns: repeat(12, 1fr); gap: 28px; }
+.feat { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(12, 1fr); gap: 28px; text-decoration: none; align-items: end; }
+.feat .ph { grid-column: 1 / 9; aspect-ratio: 4 / 3; }
+.feat__txt { grid-column: 9 / 13; display: grid; gap: 14px; padding-bottom: 6px; }
+.feat h3 { font-size: var(--fs-place); line-height: .95; }
+.feat:hover h3, .tile:hover h3, .row:hover b { color: var(--lagoon); }
+.go { font-weight: 600; color: var(--lagoon); text-decoration: underline; text-underline-offset: 5px; }
+.tile { text-decoration: none; display: grid; gap: 14px; align-content: start; }
+.tile h3 { font-size: var(--fs-h3); }
+.tile p.muted { max-width: 40ch; }
+.tile--rok { grid-column: 1 / 6; margin-top: clamp(40px, 9vw, 140px); }
+.tile--rok .ph { aspect-ratio: 3 / 2; }
+.tile--phi { grid-column: 7 / 13; margin-top: clamp(40px, 5vw, 72px); }
+.tile--phi .ph { aspect-ratio: 5 / 4; }
+.halves { grid-column: 1 / -1; margin-top: clamp(48px, 6vw, 88px); display: grid; grid-template-columns: repeat(12, 1fr); gap: 28px; }
+.halves h3 { grid-column: 1 / 4; font-size: var(--fs-h3); }
+.halves ul { grid-column: 4 / 13; }
+.row { display: grid; grid-template-columns: 112px 1fr auto; gap: 20px; align-items: center; padding: 16px 0; border-top: 1px solid var(--line); text-decoration: none; }
+.halves li:last-child .row { border-bottom: 1px solid var(--line); }
+.row .ph { width: 112px; aspect-ratio: 1; }
+.row b { font: 400 1.5rem/1.1 var(--display); display: block; }
+.row .price { justify-content: flex-end; text-align: right; }
+@media (max-width: 960px) {
+  .sec-head h2, .sec-head p { grid-column: 1 / -1; }
+  .feat .ph, .feat__txt { grid-column: 1 / -1; }
+  .tile--rok, .tile--phi { grid-column: 1 / -1; margin-top: 28px; }
+  .halves h3, .halves ul { grid-column: 1 / -1; }
+}
+@media (max-width: 560px) {
+  .row { grid-template-columns: 84px 1fr; }
+  .row .ph { width: 84px; }
+  .row .price { grid-column: 2; justify-content: flex-start; text-align: left; }
+}
+
+/* ----- Activités : planche contact ----- */
+.acts { padding: clamp(72px, 9vw, 128px) 0; }
+.sheetgrid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 44px 28px; align-items: start; }
+.sheetgrid .intro { grid-column: span 4; display: grid; gap: 16px; align-self: end; }
+.sheetgrid .intro h2 { font-size: var(--fs-h2); }
+.shot { text-decoration: none; display: grid; gap: 10px; }
+.shot h3 { font-size: 1.5rem; }
+.shot .price__amt { font-size: 1.25rem; }
+@media (max-width: 860px) {
+  .sheetgrid { grid-template-columns: 1fr 1fr; gap: 32px 16px; }
+  .sheetgrid > * { grid-column: span 1 !important; }
+  .sheetgrid .intro, .sheetgrid .wide-m { grid-column: 1 / -1 !important; }
+}
+
+/* ----- Réservation : le message lui-même ----- */
+.how { padding: clamp(72px, 9vw, 120px) 0; background: var(--ink); color: #E8EFEE; }
+.how__grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 96px); align-items: center; }
+.how h2 { font-size: var(--fs-h2); color: var(--white); }
+.how ol { margin-top: 32px; display: grid; gap: 22px; counter-reset: s; }
+.how li { display: grid; grid-template-columns: 2.2rem 1fr; gap: 12px; }
+.how li::before { counter-increment: s; content: counter(s); font: 400 1.75rem/1 var(--display); color: #F48FB4; }
+.how li b { display: block; color: var(--white); font-weight: 600; }
+.how li p { color: #C3D3D1; }
+.phone { background: #E9F2EE; color: var(--ink); border-radius: 18px; padding: 18px; max-width: 460px; justify-self: end; width: 100%; }
+.phone__top { display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid #CFDDD8; font-weight: 600; font-size: .9375rem; }
+.phone__top img { width: 36px; height: 36px; border-radius: 50%; background: #fff; object-fit: contain; }
+.phone .bubble { margin: 16px 0 0 auto; max-width: 92%; background: #D3F2DD; border-color: #BCE3C8; border-radius: 14px 4px 14px 14px; font-size: .9375rem; }
+.phone__note { margin-top: 12px; font-size: .8125rem; color: var(--ink-2); }
+@media (max-width: 860px) { .how__grid { grid-template-columns: 1fr; } .phone { justify-self: start; } }
+
+/* ----- Trouver sa sortie ----- */
+.find { padding: clamp(72px, 9vw, 128px) 0; }
+.find__grid { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(32px, 5vw, 80px); align-items: start; }
+.find h2 { font-size: var(--fs-h2); }
+.q { margin-top: 28px; border: 0; padding: 0; }
+.q legend { font-weight: 600; margin-bottom: 10px; padding: 0; }
+.find .ph { aspect-ratio: 3 / 4; margin-top: 36px; }
+.results { display: grid; gap: 0; }
+.results__n { font: 400 1.75rem/1.2 var(--display); margin-bottom: 18px; }
+.res { display: grid; grid-template-columns: 96px 1fr; gap: 18px; align-items: center; padding: 14px 0; border-top: 1px solid var(--line); text-decoration: none; }
+.res .ph { width: 96px; aspect-ratio: 4 / 3; }
+.res b { font: 400 1.375rem/1.1 var(--display); display: block; }
+.res:hover b { color: var(--lagoon); }
+.res .price { margin-top: 6px; } .results { grid-template-columns: 1fr 1fr; column-gap: 28px; } @media (max-width: 1100px) { .results { grid-template-columns: 1fr; } }
+.empty { padding: 24px 0; border-top: 1px solid var(--line); }
+@media (max-width: 860px) { .find__grid { grid-template-columns: 1fr; } .find .ph { display: none; } }
+@media (max-width: 560px) { .res { grid-template-columns: 72px 1fr; } .res .ph { width: 72px; }  }
+
+/* ----- Transferts ----- */
+.moves { padding: clamp(72px, 9vw, 120px) 0; background: var(--shallow); }
+.moves__grid { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(28px, 5vw, 72px); align-items: start; }
+.moves .ph { aspect-ratio: 4 / 5; }
+.moves h2 { font-size: var(--fs-h2); margin-bottom: 24px; }
+.moves li a { display: block; padding: 20px 0; border-top: 1px solid #9FCFC5; text-decoration: none; }
+.moves li:last-child a { border-bottom: 1px solid #9FCFC5; }
+.moves li b { font: 400 1.625rem/1.15 var(--display); display: block; }
+.moves li a:hover b { color: var(--lagoon); }
+.moves li span { color: var(--ink-2); display: block; margin-top: 4px; max-width: 60ch; }
+@media (max-width: 860px) { .moves__grid { grid-template-columns: 1fr; } .moves .ph { aspect-ratio: 3 / 2; } }
+</style>
+</head>
+<body>
+<div class="proto">Prototype « récit » : accueil. <a href="4-islands.html">4 Islands</a> <a href="tours.html">Hub</a> <a href="variantes.html">Variantes</a></div>
+<div data-chrome="home"></div>
+
+<main id="main">
+  <section class="hero" aria-labelledby="h1">
+    <div class="wrap hero__grid">
+      <h1 id="h1">Boat trips and activities on Koh Lanta</h1>
+      <div class="hero__side">
+        <p class="lead" id="hero-lead">Choose a trip, an option and a date. The page writes the WhatsApp message for you, and nothing is paid online.</p>
+        <div class="hero__acts"><a class="btn btn--big" href="#boats">See the boat trips</a><a class="link" data-wa="Hello, I have a question about a trip." href="#">Ask on WhatsApp</a></div>
+      </div>
+    </div>
+    <figure class="hero__photo" style="margin:clamp(28px,4vw,48px) 0 0">
+      <div id="hero-photo"></div>
+      <figcaption class="wrap hero__cap"><p class="cap" id="hero-cap"></p></figcaption>
+    </figure>
+  </section>
+
+  <section class="day" aria-labelledby="day-h">
+    <div class="wrap">
+      <div class="day__head">
+        <h2 id="day-h">The 4 Islands by join-in longtail, hour by hour</h2>
+        <div id="day-price"></div>
+      </div>
+      <div class="ruler" id="ruler" aria-hidden="true"></div>
+      <p class="ruler__legend"><span><i class="road"></i>By road and at the pier</span><span><i></i>At sea and on the islands</span><span>Times after 09:00 move with the sea and the season.</span></p>
+      <ol class="ruler-list" id="ruler-list"></ol>
+      <p style="margin-top:22px"><a class="go" href="4-islands.html#route">Follow the day on the map</a></p>
+    </div>
+  </section>
+
+  <section class="boats" id="boats" aria-labelledby="boats-h">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="boats-h">Boat trips</h2><p id="boats-note"></p></div>
+      <div class="spread" id="spread"></div>
+    </div>
+  </section>
+
+  <section class="acts" id="activities" aria-labelledby="acts-h">
+    <div class="wrap sheetgrid" id="sheetgrid">
+      <div class="intro"><h2 id="acts-h">On the island</h2><p class="muted" id="acts-note"></p></div>
+    </div>
+  </section>
+
+  <section class="how on-dark" aria-labelledby="how-h">
+    <div class="wrap how__grid">
+      <div>
+        <h2 id="how-h">Booking is a WhatsApp message</h2>
+        <ol>
+          <li><div><b>Pick the option, the date and who's coming</b><p>Prices for adults and children come from the trip page.</p></div></li>
+          <li><div><b>Read the message, then send it</b><p>The page writes it with a reference, the total and the page link.</p></div></li>
+          <li><div><b>Pay in cash or by bank transfer</b><p id="how-pay">Nothing is paid online.</p></div></li>
+        </ol>
+        <p style="margin-top:28px;color:#C3D3D1" id="how-weather"></p>
+      </div>
+      <div class="phone" aria-label="Example of the message the page writes">
+        <div class="phone__top"><img src="../../../../../src/images/secret/emblem.webp" alt="">Secret Travel &amp; Tour</div>
+        <div class="bubble" id="sample"></div>
+        <p class="phone__note">Example built from the 4 Islands page: 2 adults and a child of 7.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="find" aria-labelledby="find-h">
+    <div class="wrap find__grid">
+      <div>
+        <h2 id="find-h">Which trip fits your day?</h2>
+        <fieldset class="q"><legend>How much time do you have?</legend><div class="seg" data-q="length"><button type="button" aria-pressed="true" data-v="any">Any</button><button type="button" aria-pressed="false" data-v="short">A few hours</button><button type="button" aria-pressed="false" data-v="half">Half a day</button><button type="button" aria-pressed="false" data-v="full">A full day</button></div></fieldset>
+        <fieldset class="q"><legend>Where?</legend><div class="seg" data-q="where"><button type="button" aria-pressed="true" data-v="any">Anywhere</button><button type="button" aria-pressed="false" data-v="water">On the water</button><button type="button" aria-pressed="false" data-v="land">On land</button></div></fieldset>
+        <div id="find-photo"></div>
+      </div>
+      <div><p class="results__n" id="find-n" aria-live="polite"></p><div class="results" id="find-list"></div></div>
+    </div>
+  </section>
+
+  <section class="moves" id="transfers" aria-labelledby="moves-h">
+    <div class="wrap moves__grid">
+      <div id="moves-photo"></div>
+      <div><h2 id="moves-h">Getting here and getting around</h2><ul id="moves-list"></ul></div>
+    </div>
+  </section>
+</main>
+<div data-foot></div>
+
+<script src="assets/data.js"></script>
+<script src="assets/recit.js"></script>
+<script>
+(function () {
+  var S = STT, R = RECIT, $ = function (id) { return document.getElementById(id); };
+  var four = S.four, steps = four.day[0].steps, fourCard = R.product("4-islands");
+
+  // Hero
+  $("hero-photo").innerHTML = R.img("home-hero", { eager: true });
+  var lunch = R.fact(fourCard, "Lunch"); // « Thai buffet on the beach: Koh Ngai by longtail, Koh Kradan by speedboat »
+  $("hero-cap").innerHTML = "<b>Koh Ngai.</b> " + (lunch && /Koh Ngai by longtail/.test(lunch) ? "The 4 Islands longtail stops here for a Thai buffet lunch on the beach." : "");
+
+  // Règle horaire : positions proportionnelles aux heures des données.
+  var mins = function (t) { var p = t.split(":").map(Number); return p[0] * 60 + p[1]; };
+  var first = mins(steps[0].time), lastStep = steps[steps.length - 1], last = mins((lastStep.range || lastStep.time).split("–").pop());
+  var pos = function (t) { return ((mins(t) - first) / (last - first) * 100).toFixed(2) + "%"; };
+  var leave = steps.filter(function (s) { return s.kind === "pier"; })[0].time;
+  var html = '<div class="ruler__axis"></div><div class="ruler__seg ruler__seg--road" style="left:0;width:' + pos(leave) + '"></div><div class="ruler__seg ruler__seg--sea" style="left:' + pos(leave) + ";right:calc(100% - " + pos(lastStep.time) + ')"></div>';
+  html += steps.map(function (s, i) {
+    var sea = i > 0 && i < steps.length - 1;
+    return '<div class="ruler__stop ' + (sea ? "sea " : "") + (i % 2 ? "down" : "up") + '" style="left:' + pos(s.time) + '"><b>' + R.esc(s.place) + "</b><span>" + R.esc(s.range || s.time) + "</span></div>";
+  }).join("");
+  $("ruler").innerHTML = html;
+  $("ruler-list").innerHTML = steps.map(function (s) { return "<li><time>" + R.esc(s.range || s.time) + "</time><div><b>" + R.esc(s.place) + "</b><p class=\"muted small\">" + R.esc(s.detail) + "</p></div></li>"; }).join("");
+  $("day-price").innerHTML = R.priceHTML(fourCard);
+
+  // Sorties en bateau
+  var boats = S.products.filter(function (p) { return p.kind === "boat"; });
+  var allTransfer = boats.every(function (p) { return p.included.indexOf("Hotel transfer both ways") > -1; });
+  $("boats-note").textContent = boats.length + " trips from Koh Lanta" + (allTransfer ? ", with hotel transfer both ways on every one." : ".");
+  var facts = function (p, labels) { return labels.map(function (l) { var v = R.fact(p, l); return v ? "<li><span class=\"muted\">" + l + "</span> " + R.esc(v) + "</li>" : ""; }).join(""); };
+  var rok = R.product("koh-rok-koh-haa"), phi = R.product("koh-phi-phi");
+  var sp = '<a class="feat" href="' + R.href(fourCard) + '">' + R.img(fourCard.photo) + '<div class="feat__txt"><h3>' + R.esc(fourCard.name) + '</h3><p class="muted">' + R.esc(fourCard.promise) + '</p><ul class="small">' + facts(fourCard, ["Duration", "Boat", "Format"]) + "</ul>" + R.priceHTML(fourCard, true) + '<span class="go">See the day and the prices</span></div></a>';
+  sp += '<a class="tile tile--rok" href="' + R.href(rok) + '">' + R.img(rok.photo) + "<h3>" + R.esc(rok.name) + '</h3><p class="muted">' + R.esc(rok.promise) + "</p>" + R.priceHTML(rok) + "</a>";
+  sp += '<a class="tile tile--phi" href="' + R.href(phi) + '">' + R.img(phi.photo) + "<h3>" + R.esc(phi.name) + '</h3><p class="muted">' + R.esc(phi.promise) + "</p>" + R.priceHTML(phi) + "</a>";
+  var halves = boats.filter(function (p) { return p.length.indexOf("half") > -1; });
+  sp += '<div class="halves"><h3>' + (halves.length === 3 ? "Three half days" : "Half days") + "</h3><ul>" + halves.map(function (p) {
+    return '<li><a class="row" href="' + R.href(p) + '">' + R.img(p.photo) + "<div><b>" + R.esc(p.name) + '</b><span class="muted small">' + R.esc(p.promise || p.lead.split(". ")[0]) + "</span></div>" + R.priceHTML(p) + "</a></li>";
+  }).join("") + "</ul></div>";
+  $("spread").innerHTML = sp;
+
+  // Activités : planche contact, chaque photo garde un format proche de l'original.
+  var acts = S.products.filter(function (p) { return p.kind === "activity"; });
+  var layout = { "elephant-sanctuary": [4, "4 / 5"], "kayak": [4, "1 / 1"], "cooking-class": [3, "1 / 1"], "scuba-diving": [6, "3 / 2"], "atv": [3, "4 / 5"], "batik": [5, "3 / 2"], "go-kart": [3, "3 / 4", "wide-m"] };
+  var withT = acts.filter(function (p) { return p.included.join(" ").indexOf("Hotel transfer both ways") > -1; });
+  var without = acts.filter(function (p) { return withT.indexOf(p) < 0; }).map(function (p) { return p.name.toLowerCase(); });
+  $("acts-note").textContent = acts.length + " activities. Hotel transfer both ways on all of them" + (without.length ? " except the " + without.join(" and ") + "." : ".");
+  $("sheetgrid").insertAdjacentHTML("beforeend", acts.map(function (p) {
+    var l = layout[p.slug] || [4, "4 / 3"];
+    return '<a class="shot ' + (l[2] || "") + '" style="grid-column:span ' + l[0] + '" href="' + R.href(p) + '">' + R.img(p.photo, { cls: "", position: null }).replace('class="ph ', 'style="aspect-ratio:' + l[1] + '" class="ph ') + "<h3>" + R.esc(p.name) + "</h3>" + R.priceHTML(p) + "</a>";
+  }).join("") + '<p class="small muted" style="grid-column:span 4;align-self:end"><a class="go" href="tours.html#activity">Compare all activities</a></p>');
+
+  // Message d'exemple, construit par la même fonction que la page 4 Islands.
+  var opt = fourCard.options[0], date = R.addDays(R.today(), 2), q = R.quote(opt, 2, [7]), park = R.parkCash(opt, 2, [7]);
+  $("sample").textContent = R.message(fourCard, opt, { adults: 2, ages: [7], date: date, pickup: "Your hotel", total: q.total, park: park && park.total });
+  $("how-pay").textContent = "Nothing is paid online. You pay in " + S.site.payment.join(" or ") + ".";
+  $("how-weather").textContent = S.site.weather;
+
+  // Trouver sa sortie : durée d'après les faits, eau ou terre d'après le type de produit.
+  var water = function (p) { return p.kind === "boat" || p.slug === "kayak" || p.slug === "scuba-diving"; };
+  var f = { length: "any", where: "any" };
+  var render = function () {
+    var list = S.products.filter(function (p) {
+      return (f.length === "any" || p.length.indexOf(f.length) > -1) && (f.where === "any" || (f.where === "water") === water(p));
+    });
+    $("find-n").textContent = list.length ? list.length + (list.length === 1 ? " trip fits" : " trips fit") : "Nothing fits both answers";
+    $("find-list").innerHTML = list.length ? list.map(function (p) {
+      return '<a class="res" href="' + R.href(p) + '">' + R.img(p.photo, { decorative: true }) + "<div><b>" + R.esc(p.name) + "</b>" + R.priceHTML(p) + "</div></a>";
+    }).join("") : '<p class="empty">Try another length, or <a class="link" data-wa-dyn href="' + R.wa("Hello, which trip would you suggest for us?") + '">ask on WhatsApp</a>.</p>';
+  };
+  document.querySelectorAll("[data-q]").forEach(function (g) {
+    g.addEventListener("click", function (e) {
+      var b = e.target.closest("button"); if (!b) return;
+      g.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      f[g.getAttribute("data-q")] = b.getAttribute("data-v"); render();
+    });
+  });
+  render();
+  $("find-photo").innerHTML = R.img("home-final");
+
+  // Transferts et location
+  $("moves-photo").innerHTML = R.img("home-transfers", { position: "40% 55%" });
+  var fv = function (p, l) { return ((p.facts || []).filter(function (x) { return x.label === l; })[0] || {}).value || ""; };
+  var mv = S.transfers[0], sb = S.transfers[1];
+  $("moves-list").innerHTML = [
+    [R.liveHref(mv.url), mv.name, fv(mv, "Where")],
+    [R.liveHref(sb.url), sb.name, fv(sb, "Destinations")],
+    [R.liveHref(S.taxi.url), S.taxi.name + ", " + S.taxi.byline, S.taxi.offer.join(". ") + "."],
+    [R.liveHref(S.rental.url), S.rental.name, S.rental.promise + ". From " + R.thb(S.rental.price.from) + " " + S.rental.price.unit + "."]
+  ].map(function (r) { return '<li><a href="' + r[0] + '"><b>' + R.esc(r[1]) + "</b><span>" + R.esc(r[2]) + "</span></a></li>"; }).join("");
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Boat Trips and Activities on Koh Lanta | Secret Travel &amp; Tour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Manrope:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="mouvement.css">
+<!-- La page n'est peinte qu'une fois les sections rendues : la transition entre pages capture le vrai hero -->
+<link rel="expect" href="#ready" blocking="render">
+<script type="speculationrules">{"prefetch":[{"where":{"selector_matches":"a.card"},"eagerness":"moderate"}]}</script>
+<style>
+.top { padding-block: 48px 28px; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 32px; align-items: end; }
+.top h1 { max-width: 13ch; }
+.top .lead { justify-self: end; }
+@media (max-width: 899px) { .top { grid-template-columns: minmax(0, 1fr); padding-top: 28px; } .top .lead { justify-self: start; } }
+
+/* Barre d'outils : collée sous l'en-tête, remonte avec lui quand il se cache */
+.bar { position: sticky; top: var(--hd); z-index: 30; background: var(--white); border-block: 1px solid var(--line); transition: top var(--t3) var(--out); }
+.hd-off .bar { top: 0; }
+.bar__in { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; padding-block: 12px; }
+.q { flex: 1 1 220px; display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 14px; border: 1px solid var(--field); border-radius: 12px; }
+.q svg { width: 18px; height: 18px; color: var(--ink-mute); flex: none; }
+.q input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; font-size: 16px; min-height: 46px; }
+.q:focus-within { outline: 2px solid var(--sea); outline-offset: 1px; border-color: var(--sea); }
+.sort { min-height: 48px; border: 1px solid var(--field); border-radius: 12px; padding: 0 40px 0 14px; appearance: none; background: var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2314262B' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") right 12px center / 18px no-repeat; font-size: 15px; }
+.count { font-size: 15px; color: var(--ink-mute); margin-left: auto; white-space: nowrap; }
+.count .odo { color: var(--ink); font-weight: 700; }
+/* Sur téléphone la barre fait trois lignes : elle reste dans le flux pour ne pas manger l'écran */
+@media (max-width: 699px) { .bar { position: static; } .bar .seg { order: -1; width: 100%; } .count { margin-left: 0; } .sort { flex: 1; } }
+
+.hub { padding-block: 40px 96px; }
+.hcard { view-transition-class: card; position: relative; }
+.cmp { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; margin-top: 8px; font: 600 15px/1 var(--sans); color: var(--ink-soft); cursor: pointer; }
+.cmp input { width: 20px; height: 20px; accent-color: var(--sea); margin: 0; }
+.cmp input:disabled + span { color: var(--ink-mute); }
+.empty { padding: 48px 0; }
+.empty p { margin: 8px 0 16px; color: var(--ink-mute); }
+
+/* Aperçu : la photo de la carte grandit jusqu'à la fiche, sans quitter la liste */
+.ql { border: 0; padding: 0; width: min(1080px, calc(100% - 48px)); max-height: calc(100dvh - 48px); border-radius: 18px; background: var(--white); color: var(--ink); overflow: hidden; }
+.ql::backdrop { background: rgb(11 59 60 / .45); }
+.ql[open]::backdrop { animation: fade var(--t2) var(--out); }
+.ql__in { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); max-height: calc(100dvh - 48px); }
+.ql__ph { position: relative; }
+.ql__ph .ph { height: 100%; min-height: 100%; border-radius: 0; }
+.ql__body { overflow-y: auto; padding: 32px 36px 28px; overscroll-behavior: contain; }
+.ql__body h2 { padding-right: 52px; }
+.ql__body .lead { margin-top: 12px; font-size: 17px; }
+.ql .x { position: absolute; top: 16px; right: 16px; z-index: 2; }
+.ql dl { margin: 20px 0 0; display: grid; grid-template-columns: max-content 1fr; gap: 8px 20px; font-size: 15px; }
+.ql dt { color: var(--ink-mute); }
+.ql dd { margin: 0; }
+.ql h3 { margin-top: 26px; font-size: 24px; }
+.qopt { padding: 12px 0; border-top: 1px solid var(--line); }
+.qopt b { display: block; font-weight: 600; }
+.qopt ul { list-style: none; margin: 4px 0 0; padding: 0; font-size: 15px; color: var(--ink-mute); }
+.qopt li { display: flex; justify-content: space-between; gap: 12px; }
+.ql__go { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; margin-top: 28px; }
+@media (max-width: 760px) {
+  .ql { width: 100%; max-width: none; height: 100dvh; max-height: none; margin: 0; border-radius: 0; }
+  .ql__in { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; height: 100%; max-height: none; }
+  .ql__ph .ph { aspect-ratio: 3 / 2; height: auto; }
+  .ql__body { padding: 24px var(--gut) 32px; }
+  .ql .x { background: var(--white); }
+}
+::view-transition-group(ql-photo) { animation-duration: 420ms; animation-timing-function: var(--out); }
+::view-transition-old(ql-photo), ::view-transition-new(ql-photo) { height: 100%; object-fit: cover; }
+
+/* Comparateur : les vignettes s'envolent vers le tiroir du bas */
+.tray { position: fixed; z-index: 45; left: 50%; bottom: 16px; translate: -50% 0; width: min(720px, calc(100% - 24px)); background: var(--deep); color: var(--on-dark); border-radius: 16px; padding: 10px 10px 10px 16px; display: flex; align-items: center; gap: 12px; transform: translateY(140%); transition: transform var(--t3) var(--spring); margin-bottom: env(safe-area-inset-bottom); }
+.tray:not(.is-on) { visibility: hidden; transition: transform var(--t3) var(--out), visibility 0s var(--t3); }
+.tray.is-on { transform: none; }
+.tray__slots { display: flex; gap: 8px; flex: 1; min-width: 0; }
+.tray__slot { width: 56px; height: 42px; border-radius: 8px; border: 1px dashed rgb(238 243 241 / .4); flex: none; overflow: hidden; }
+.tray__slot .ph { width: 100%; height: 100%; border-radius: 0; }
+.tray__txt { font-size: 14px; color: var(--on-dark-mute); flex: 1; min-width: 0; }
+.tray .btn--light:disabled { opacity: .5; cursor: default; }
+.tray .x { background: rgb(238 243 241 / .14); color: var(--on-dark); flex: none; }
+@media (max-width: 560px) { .tray__txt { display: none; } .tray__slot { width: 44px; height: 36px; } }
+.fly { position: fixed; z-index: 60; pointer-events: none; border-radius: 12px; overflow: hidden; }
+.fly img { width: 100%; height: 100%; object-fit: cover; }
+
+.cmpd { border: 0; padding: 0; width: min(1080px, calc(100% - 32px)); max-height: calc(100dvh - 48px); border-radius: 18px; background: var(--white); }
+.cmpd::backdrop { background: rgb(11 59 60 / .45); }
+.cmpd[open] { animation: pop var(--t3) var(--out); }
+.cmpd__head { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--white); }
+.cmpd__scroll { overflow: auto; max-height: calc(100dvh - 140px); }
+.cmpd table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 15px; }
+.cmpd th, .cmpd td { text-align: left; vertical-align: top; padding: 14px 20px; border-bottom: 1px solid var(--line); }
+.cmpd thead th { font: 600 22px/1.2 var(--serif); }
+.cmpd thead .ph { width: 100%; max-width: 220px; margin-bottom: 10px; }
+.cmpd tbody th { color: var(--ink-mute); font-weight: 400; width: 160px; }
+.cmpd td.none { color: var(--ink-mute); }
+.cmpd tbody tr { transition: background-color var(--t2); }
+.cmpd tbody tr:hover { background: var(--sand); }
+
+.endb { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 56px; align-items: center; }
+.endb .ph { aspect-ratio: 4 / 3; }
+.endb p { margin-top: 14px; color: var(--ink-soft); }
+.endb .btn { margin-top: 24px; }
+@media (max-width: 760px) { .endb { grid-template-columns: minmax(0, 1fr); gap: 24px; } }
+</style>
+</head>
+<body>
+<div id="top"></div>
+<main id="main">
+  <div class="wrap top">
+    <h1>Boat trips and activities on Koh Lanta</h1>
+    <p class="lead" id="lead"></p>
+  </div>
+  <div class="bar" id="bar">
+    <div class="wrap bar__in">
+      <div class="seg" id="type" role="group" aria-label="Show">
+        <button type="button" value="all" aria-pressed="true">All</button>
+        <button type="button" value="boat" aria-pressed="false">Boat trips</button>
+        <button type="button" value="activity" aria-pressed="false">Activities</button>
+      </div>
+      <label class="q"><span class="sr">Search the trips</span><span id="q-ico"></span><input id="q" type="search" placeholder="Emerald Cave, kayak, children" autocomplete="off"></label>
+      <label class="sr" for="sort">Sort</label>
+      <select class="sort" id="sort"><option value="">Suggested order</option><option value="asc">Lowest price first</option><option value="desc">Highest price first</option></select>
+      <p class="count" aria-live="polite"><span class="odo" id="n"></span> <span id="n-l">trips</span></p>
+    </div>
+  </div>
+  <section class="wrap hub" aria-label="Trips">
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty" hidden><h2>No trip matches</h2><p id="empty-t"></p><button class="btn btn--ghost" type="button" id="clear">Clear the search</button></div>
+  </section>
+  <section class="sec sec--sand" aria-labelledby="endb-h">
+    <div class="wrap endb">
+      <div id="endb-ph"></div>
+      <div><h2 id="endb-h">Not sure which trip?</h2><p>Send us your dates and who is coming, on WhatsApp.</p><a class="btn btn--lg press" id="endb-go" target="_blank" rel="noopener"></a></div>
+    </div>
+  </section>
+</main>
+<div id="foot"></div>
+
+<dialog class="ql" id="ql" aria-labelledby="ql-h"></dialog>
+<div class="tray" id="tray" aria-live="polite"><div class="tray__slots" id="slots"></div><p class="tray__txt" id="tray-t"></p><button class="btn btn--light press" type="button" id="cmp-go"></button><button class="x" type="button" id="cmp-clear" aria-label="Clear the comparison"></button></div>
+<dialog class="cmpd" id="cmpd" aria-labelledby="cmpd-h"><div class="cmpd__head"><h2 id="cmpd-h">Compare</h2><button class="x" type="button" data-close aria-label="Close">×</button></div><div class="cmpd__scroll" id="cmpd-t"></div></dialog>
+
+<script src="data.js"></script>
+<script src="mouvement.js"></script>
+<script>
+(function () {
+  var S = STT, $ = M.$, $$ = M.$$;
+  var params = new URLSearchParams(location.search);
+  var st = { type: params.get("type") || "all", q: params.get("q") || "", sort: params.get("sort") || "", picked: [] };
+  M.boot(st.type === "all" ? "" : st.type);
+  var boats = S.products.filter(function (p) { return p.kind === "boat"; }).length;
+  $("#lead").textContent = boats + " boat trips and " + (S.products.length - boats) + " activities, with their prices. Open one for its options, or tick up to three to compare them.";
+  $("#q-ico").outerHTML = M.icon.search;
+  $("#cmp-clear").innerHTML = M.icon.close;
+  $("#cmpd [data-close]").innerHTML = M.icon.close;
+  $("#q").value = st.q; $("#sort").value = st.sort;
+
+  // ----- cartes : chacune garde son nom de transition, la grille se réorganise en glissant -----
+  $("#grid").innerHTML = S.products.map(function (p) {
+    return '<article class="hcard" data-slug="' + p.slug + '">' + M.card(p).replace('<a class="card press"', '<a class="card press" data-ql') +
+      '<label class="cmp"><input type="checkbox" value="' + p.slug + '"><span>Compare</span></label></article>';
+  }).join("");
+  var cards = $$(".hcard");
+  var words = function (p) { return [p.name, p.line, p.lead].concat(p.facts.map(function (f) { return f.value; }), p.options.map(function (o) { return o.label; })).join(" ").toLowerCase(); };
+  function visible() {
+    var q = st.q.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    var list = S.products.filter(function (p) {
+      if (st.type !== "all" && p.kind !== st.type) return false;
+      var w = words(p);
+      return q.every(function (x) { return w.indexOf(x) > -1; });
+    });
+    if (st.sort) list = list.slice().sort(function (a, b) {
+      var pa = a.price ? a.price.from : Infinity, pb = b.price ? b.price.from : Infinity;
+      if (pa === pb) return 0;
+      return st.sort === "asc" ? pa - pb : (pa === Infinity ? 1 : pb === Infinity ? -1 : pb - pa);
+    });
+    return list;
+  }
+  function render() {
+    var list = visible(), grid = $("#grid");
+    var bySlug = {}; cards.forEach(function (c) { bySlug[c.dataset.slug] = c; });
+    cards.forEach(function (c) { c.hidden = true; });
+    list.forEach(function (p) { var c = bySlug[p.slug]; c.hidden = false; grid.appendChild(c); });
+    M.odo($("#n"), list.length);
+    $("#n-l").textContent = list.length === 1 ? "trip" : "trips";
+    $("#empty").hidden = !!list.length;
+    $("#empty-t").textContent = "Nothing in " + (st.type === "boat" ? "boat trips" : st.type === "activity" ? "activities" : "the list") + " mentions “" + st.q + "”. Ask us on WhatsApp, or clear the search.";
+    var u = new URLSearchParams();
+    if (st.type !== "all") u.set("type", st.type); if (st.q) u.set("q", st.q); if (st.sort) u.set("sort", st.sort);
+    history.replaceState(null, "", location.pathname + (u.toString() ? "?" + u : "") + location.hash);
+  }
+  // Noms de transition posés le temps du réagencement seulement (sinon les 13 cartes s'animeraient en quittant la page)
+  function reflow() {
+    var name = function (on) { cards.forEach(function (c) { c.style.viewTransitionName = on ? "c-" + c.dataset.slug : ""; }); };
+    name(true);
+    return M.vt(render).then(function () { name(false); });
+  }
+  var typeSeg = M.seg($("#type"), function (v) { st.type = v; reflow(); });
+  typeSeg.select(st.type, true);
+  var qt;
+  $("#q").addEventListener("input", function (e) { clearTimeout(qt); qt = setTimeout(function () { st.q = e.target.value; reflow(); }, 140); });
+  $("#sort").addEventListener("change", function (e) { st.sort = e.target.value; reflow(); });
+  $("#clear").addEventListener("click", function () { st.q = ""; $("#q").value = ""; reflow(); $("#q").focus(); });
+  render();
+
+  // ----- aperçu -----
+  var ql = $("#ql"), cur = null;
+  function qlHTML(p) {
+    var opts = p.options.map(function (o) {
+      var rows = o.priceOnRequest ? '<li><span>Price on WhatsApp</span></li>' : o.prices.slice(0, 5).map(function (r) {
+        return "<li><span>" + M.esc(r.label) + "</span><span>" + (r.amount != null ? (r.amount ? M.thb(r.amount) : "free") : M.esc(r.text || "")) + "</span></li>";
+      }).join("") + (o.prices.length > 5 ? "<li><span>and " + (o.prices.length - 5) + " more lines on the trip page</span></li>" : "");
+      return '<div class="qopt"><b>' + M.esc(o.label) + "</b><ul>" + rows + "</ul></div>";
+    }).join("");
+    var go = p.page ? '<a class="btn btn--lg press" href="' + p.page + '" data-photo="#ql .ph">Open the ' + M.esc(p.name) + " page</a>" : "";
+    return '<div class="ql__in"><div class="ql__ph">' + M.img(p.photo, { cls: "" }) + '</div><div class="ql__body">' +
+      '<h2 id="ql-h">' + M.esc(p.name) + '</h2><p class="lead">' + M.esc(p.lead) + "</p>" +
+      "<dl>" + p.facts.slice(0, 6).map(function (f) { return "<dt>" + M.esc(f.label) + "</dt><dd>" + M.esc(f.value) + "</dd>"; }).join("") + "</dl>" +
+      "<h3>Options and prices</h3>" + opts +
+      '<div class="ql__go">' + go + '<a class="' + (p.page ? "link" : "btn btn--lg press") + '" target="_blank" rel="noopener" href="' + M.wa("Hello, I'd like to book " + p.name + ".\nDate: \nWho is coming: ") + '">' + (p.page ? "" : M.icon.wa) + "Ask about " + M.esc(p.name) + " on WhatsApp</a></div></div></div>" +
+      '<button class="x" type="button" data-close aria-label="Close" autofocus>' + M.icon.close + "</button>";
+  }
+  function openQL(slug, from) {
+    var p = M.product(slug); if (!p) return;
+    cur = slug;
+    var src = from && from.querySelector(".ph");
+    var fill = function () {
+      if (src) src.style.viewTransitionName = "";
+      ql.innerHTML = qlHTML(p);
+      $(".ql__body", ql).scrollTop = 0;
+      if (!ql.open) ql.showModal();
+      if (src) $(".ph", ql).style.viewTransitionName = "ql-photo";
+      M.bindImgs(ql);
+    };
+    if (src && document.startViewTransition && !M.reduce.matches) {
+      src.style.viewTransitionName = "ql-photo";
+      document.startViewTransition(fill).finished.finally(function () { var x = $(".ph", ql); if (x) x.style.viewTransitionName = ""; });
+    } else fill();
+    history.replaceState(null, "", location.pathname + location.search + "#" + slug);
+  }
+  function closeQL() {
+    var card = $('.hcard[data-slug="' + cur + '"] .ph'), big = $(".ph", ql);
+    var done = function () { ql.close(); if (card) card.style.viewTransitionName = "ql-photo"; };
+    if (card && big && document.startViewTransition && !M.reduce.matches) {
+      big.style.viewTransitionName = "ql-photo";
+      document.startViewTransition(function () { big.style.viewTransitionName = ""; done(); }).finished.finally(function () { card.style.viewTransitionName = ""; });
+    } else ql.close();
+    history.replaceState(null, "", location.pathname + location.search);
+    var a = $('.hcard[data-slug="' + cur + '"] a'); if (a) a.focus({ preventScroll: true });
+  }
+  $("#grid").addEventListener("click", function (e) {
+    var a = e.target.closest("a[data-ql]"); if (!a || e.metaKey || e.ctrlKey) return;
+    e.preventDefault();
+    openQL(a.closest(".hcard").dataset.slug, a);
+  });
+  ql.addEventListener("click", function (e) { if (e.target === ql || e.target.closest("[data-close]")) closeQL(); });
+  ql.addEventListener("cancel", function (e) { e.preventDefault(); closeQL(); });
+  if (location.hash.length > 1) { var h = location.hash.slice(1), c = $('.hcard[data-slug="' + h + '"] a'); if (c) setTimeout(function () { c.scrollIntoView({ block: "center" }); openQL(h, c); }, 200); }
+
+  // ----- comparateur -----
+  var tray = $("#tray"), slots = $("#slots"), MAX = 3;
+  function drawTray() {
+    slots.innerHTML = Array.from({ length: MAX }, function (_, i) {
+      var s = st.picked[i];
+      return '<span class="tray__slot" data-i="' + i + '">' + (s ? M.img(M.product(s).photo, { cls: "", decorative: true }) : "") + "</span>";
+    }).join("");
+    M.bindImgs(slots);
+    var n = st.picked.length;
+    tray.classList.toggle("is-on", n > 0);
+    $("#tray-t").textContent = n === 1 ? "Tick one more trip to compare." : n === MAX ? "Three trips is the most you can compare." : n + " trips ticked.";
+    var go = $("#cmp-go"); go.disabled = n < 2; go.textContent = n < 2 ? "Compare" : "Compare " + n + " trips";
+    $$(".cmp input").forEach(function (i) { i.checked = st.picked.indexOf(i.value) > -1; i.disabled = !i.checked && n >= MAX; });
+  }
+  // La vignette de la carte vole jusqu'à sa place dans le tiroir : on voit où le choix est allé.
+  function fly(slug) {
+    if (M.reduce.matches) return;
+    var from = $('.hcard[data-slug="' + slug + '"] .ph'), to = $('.tray__slot[data-i="' + st.picked.indexOf(slug) + '"]');
+    if (!from || !to) return;
+    var a = from.getBoundingClientRect(), b = to.getBoundingClientRect();
+    var f = document.createElement("div");
+    f.className = "fly"; f.innerHTML = from.innerHTML;
+    Object.assign(f.style, { left: a.left + "px", top: a.top + "px", width: a.width + "px", height: a.height + "px" });
+    document.body.appendChild(f);
+    var dx = b.left - a.left, dy = b.top - a.top, sx = b.width / a.width, sy = b.height / a.height;
+    f.animate([{ transform: "none", borderRadius: "12px" }, { transform: "translate(" + dx + "px," + dy + "px) scale(" + sx + "," + sy + ")", borderRadius: "40px" }],
+      { duration: 520, easing: "cubic-bezier(.5,0,.2,1)", transformOrigin: "0 0" }).finished.then(function () { f.remove(); });
+    f.style.transformOrigin = "0 0";
+    to.animate([{ opacity: 0 }, { opacity: 0, offset: .8 }, { opacity: 1 }], { duration: 560 });
+  }
+  $("#grid").addEventListener("change", function (e) {
+    var i = e.target.closest(".cmp input"); if (!i) return;
+    if (i.checked) { st.picked.push(i.value); drawTray(); requestAnimationFrame(function () { fly(i.value); }); }
+    else { st.picked = st.picked.filter(function (s) { return s !== i.value; }); drawTray(); }
+  });
+  $("#cmp-clear").addEventListener("click", function () { st.picked = []; drawTray(); });
+  var cmpd = $("#cmpd");
+  $("#cmp-go").addEventListener("click", function () {
+    var ps = st.picked.map(M.product);
+    var labels = ["Duration", "Season", "Hotel pickup", "Boat", "Crossing", "Sessions", "Children", "Ages", "National park fee", "Village entrance fee"];
+    var rows = [["Price", function (p) { return p.price ? "from " + M.thb(p.price.from) + ", " + p.price.unit : "Price on WhatsApp"; }]]
+      .concat(labels.filter(function (l) { return ps.some(function (p) { return M.fact(p, l); }); }).map(function (l) { return [l, function (p) { return M.fact(p, l); }]; }))
+      .concat([["Options", function (p) { return p.options.map(function (o) { return o.label; }).join(", "); }], ["Included", function (p) { return p.included.slice(0, 4).join(", "); }]]);
+    $("#cmpd-t").innerHTML = '<table><thead><tr><td></td>' + ps.map(function (p) { return '<th scope="col">' + M.img(p.photo, { decorative: true }) + M.esc(p.name) + "</th>"; }).join("") + "</tr></thead><tbody>" +
+      rows.map(function (r) { return '<tr><th scope="row">' + r[0] + "</th>" + ps.map(function (p) { var v = r[1](p); return v ? "<td>" + M.esc(v) + "</td>" : '<td class="none">Not listed</td>'; }).join("") + "</tr>"; }).join("") + "</tbody></table>";
+    M.bindImgs(cmpd);
+    cmpd.showModal();
+  });
+  $("#cmpd [data-close]").addEventListener("click", function () { cmpd.close(); });
+  cmpd.addEventListener("click", function (e) { if (e.target === cmpd) cmpd.close(); });
+  drawTray();
+
+  $("#endb-ph").innerHTML = M.img("hub-final");
+  var eg = $("#endb-go"); eg.innerHTML = M.icon.wa + "Ask on WhatsApp"; eg.href = M.wa("Hello, we are not sure which trip to choose.\nOur dates: \nWho is coming: ");
+  M.bindImgs(document);
+})();
+</script>
+<div id="ready" hidden></div>
+</body>
+</html>

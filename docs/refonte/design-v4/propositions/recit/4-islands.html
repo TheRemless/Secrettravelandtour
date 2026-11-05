@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4 Islands Tour from Koh Lanta | Secret Travel & Tour</title>
+<meta name="description" content="Koh Chueak, the Emerald Cave on Koh Mook, Koh Ngai and Koh Ma or Kradan. Full day, beach lunch and hotel transfer included. Join-in from 1,000 THB.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/recit.css">
+<style>
+/* ----- Hero ----- */
+.p-hero { padding: clamp(20px, 3vw, 40px) 0 0; }
+.p-hero__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 4vw, 64px); align-items: center; }
+.crumbs { font-size: .9375rem; color: var(--ink-2); display: flex; gap: 8px; flex-wrap: wrap; }
+.crumbs a { color: var(--ink-2); padding: 10px 0; }
+.p-hero h1 { font-size: var(--fs-h1); line-height: 1; margin-top: 14px; }
+.p-hero .lead { margin-top: 20px; }
+.facts { margin: 28px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px; }
+.facts div { border-top: 2px solid var(--ink); padding-top: 10px; }
+.facts dt { font-size: .875rem; color: var(--ink-2); }
+.facts dd { margin: 2px 0 0; font-weight: 600; font-size: 1.0625rem; font-variant-numeric: tabular-nums; }
+.buy { margin-top: 30px; display: flex; flex-wrap: wrap; align-items: center; gap: 18px 24px; }
+.buy .price { flex-basis: 100%; }
+.p-hero__photo { margin-right: calc(-1 * max(var(--gut), (100vw - var(--max)) / 2 + var(--gut))); }
+.p-hero__photo .ph { height: clamp(420px, 78vh, 820px); }
+.p-hero__photo .cap { padding-right: var(--gut); }
+@media (max-width: 960px) {
+  .p-hero__grid { grid-template-columns: 1fr; }
+  .p-hero__photo { margin: 0 calc(-1 * var(--gut)); }
+  .p-hero__photo .ph { height: auto; aspect-ratio: 4 / 3; }
+  .p-hero__photo .cap { padding: 0 var(--gut); }
+}
+
+/* ----- Le trajet : carte collante et étapes ----- */
+.route { padding: clamp(72px, 9vw, 128px) 0 clamp(48px, 6vw, 88px); }
+.route__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 20px 40px; margin-bottom: clamp(28px, 4vw, 48px); }
+.route__head h2 { font-size: var(--fs-h2); max-width: 14ch; }
+.route__head .seg { margin-top: 8px; }
+.route__grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(28px, 5vw, 80px); align-items: start; }
+.route__map { position: sticky; top: 88px; }
+.route__map .map { background: var(--shallow); }
+.route__map .map__note { padding: 0 0 6px; background: var(--paper); }
+.route__todo { margin-bottom: 18px; }
+.stops { display: grid; }
+.stopx { padding: 0 0 clamp(56px, 8vw, 104px); }
+.stopx__time { font: 600 1rem/1 var(--text); color: var(--ink-2); font-variant-numeric: tabular-nums; display: flex; gap: 10px; align-items: center; }
+.stopx__time::before { content: ""; width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--ink); background: var(--paper); }
+.stopx.is-on .stopx__time::before { background: var(--ribbon); border-color: var(--ribbon); }
+.stopx h3 { font-size: var(--fs-place); line-height: .95; margin-top: 12px; transition: color .25s; }
+.stopx.is-on h3 { color: var(--ribbon); }
+.stopx p.t { margin-top: 12px; max-width: 42ch; font-size: 1.125rem; }
+.stopx .ph { margin-top: 22px; aspect-ratio: 4 / 3; }
+.stopx--road h3 { font-size: var(--fs-h2); }
+.route__note { color: var(--ink-2); font-size: .9375rem; margin-top: -24px; }
+@media (max-width: 860px) {
+  .route__grid { grid-template-columns: 1fr; }
+  .route__map { top: 72px; z-index: 5; margin: 0 calc(-1 * var(--gut)); background: var(--shallow); }
+  .route__map .map svg { height: 36vh; width: 100%; }
+  .route__map .map__note { padding: 4px var(--gut) 6px; }
+  .stopx h3 { font-size: 2.5rem; }
+  .stopx { padding-bottom: 56px; }
+  .stopx:first-child { padding-top: 28px; }
+}
+
+/* ----- Longtail ou speedboat ----- */
+.cmp { padding: clamp(72px, 9vw, 120px) 0; background: var(--white); }
+.cmp h2 { font-size: var(--fs-h2); max-width: 16ch; }
+.cmp__cols { margin-top: 40px; display: grid; grid-template-columns: 11rem 1fr 1fr; gap: 0 28px; }
+.cmp__cols > .hd { padding-bottom: 20px; }
+.cmp__cols .hd h3 { font-size: var(--fs-h3); margin-top: 14px; }
+.cmp__cols .hd .ph { aspect-ratio: 3 / 2; }
+.cmp__cols .mini { margin-top: 12px; }
+.cmp__cols .mini { max-width: 280px; }
+.cmp__cols .r { padding: 14px 0; border-top: 1px solid var(--line); }
+.cmp__cols .r.k { color: var(--ink-2); font-size: .9375rem; }
+.cmp__cols .r.diff { font-weight: 600; }
+@media (max-width: 760px) {
+  .cmp__cols { grid-template-columns: 1fr 1fr; gap: 0 16px; }
+  .cmp__cols .k { grid-column: 1 / -1; padding-bottom: 0; border-top: 1px solid var(--line); }
+  .cmp__cols .r:not(.k) { border-top: 0; padding-top: 4px; }
+  .cmp__cols .blank { display: none; }
+}
+
+/* ----- Prix et demande ----- */
+.book { padding: clamp(72px, 9vw, 128px) 0; }
+.book__grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
+.book h2 { font-size: var(--fs-h2); }
+.step { margin-top: 40px; border: 0; padding: 0; }
+.step legend { font: 400 1.625rem/1.1 var(--display); padding: 0; margin-bottom: 16px; }
+.opts { display: grid; gap: 12px; }
+.opt { position: relative; display: grid; grid-template-columns: 1fr auto; gap: 6px 24px; padding: 20px 22px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); cursor: pointer; }
+.opt:has(input:checked) { border: 2px solid var(--ribbon); padding: 19px 21px; }
+.opt:has(input:focus-visible) { outline: 2px solid var(--ribbon); outline-offset: 3px; }
+.opt input { position: absolute; opacity: 0; }
+.opt b { font: 400 1.5rem/1.1 var(--display); }
+.opt .rows { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: .9375rem; color: var(--ink-2); }
+.opt .rows span b { font: 600 .9375rem/1 var(--text); color: var(--ink); }
+.opt .price__amt { font-size: 1.5rem; }
+.days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; }
+.day-b { min-height: 64px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); cursor: pointer; display: grid; place-content: center; gap: 2px; text-align: center; line-height: 1.1; }
+.day-b small { font-size: .8125rem; color: var(--ink-2); }
+.day-b b { font: 400 1.375rem/1 var(--display); }
+.day-b[aria-pressed="true"] { background: var(--ink); color: var(--white); border-color: var(--ink); }
+.day-b[aria-pressed="true"] small { color: #C9D8D5; }
+.other-date { margin-top: 12px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+.other-date .input { width: auto; }
+.who { display: grid; gap: 16px; }
+.addon { display: flex; gap: 12px; align-items: center; min-height: 48px; margin-top: 12px; font-weight: 600; cursor: pointer; }
+.addon input { width: 22px; height: 22px; accent-color: var(--ribbon); }
+.who__row { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+.who__row p { font-weight: 600; } .who__row p span { display: block; font-weight: 400; font-size: .9375rem; color: var(--ink-2); }
+.ages { display: flex; flex-wrap: wrap; gap: 10px; }
+.ages label { display: grid; gap: 4px; font-size: .875rem; font-weight: 600; }
+.ages select { min-height: 48px; border: 1px solid #7C8E8B; border-radius: var(--radius); padding: 0 10px; background: var(--white); }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.sum { position: sticky; top: 96px; background: var(--ink); color: #E3ECEA; border-radius: 14px; padding: 28px; }
+.sum h3 { font-size: 1.75rem; color: var(--white); }
+.sum dl { margin: 18px 0 0; display: grid; gap: 10px; }
+.sum dl div { display: grid; grid-template-columns: 6rem 1fr; gap: 12px; }
+.sum dt { color: #A9C0BC; font-size: .9375rem; }
+.sum dd { margin: 0; font-weight: 600; }
+.sum ul { margin-top: 18px; padding-top: 14px; border-top: 1px solid #2C4A5E; display: grid; gap: 6px; font-size: .9375rem; }
+.sum ul li { display: flex; justify-content: space-between; gap: 12px; }
+.sum__total { margin-top: 16px; display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.sum__total b { font: 400 2.5rem/1 var(--display); color: var(--white); }
+.sum__park { margin-top: 10px; font-size: .9375rem; color: #C9D8D5; }
+.sum .todo { margin-top: 12px; }
+.sum .btn { width: 100%; margin-top: 22px; }
+.sum .err { color: #FFB3CB; margin-top: 10px; }
+@media (max-width: 960px) { .book__grid { grid-template-columns: 1fr; } .sum { position: static; } }
+#dock .price__unit { display: none; } #dock .btn { white-space: nowrap; }
+@media (max-width: 520px) { .days { grid-template-columns: repeat(4, minmax(0, 1fr)); } .two { grid-template-columns: 1fr; } .opt { grid-template-columns: 1fr; } .opt .price { order: 3; } .sum__total { flex-wrap: wrap; } .sum__total b { font-size: 2rem; } .sum { padding: 22px; } }
+
+/* ----- Inclus, avant de réserver, questions ----- */
+.know { padding: clamp(72px, 9vw, 120px) 0; background: var(--shallow); }
+.know__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(24px, 4vw, 56px); }
+.know h2 { font-size: var(--fs-h3); margin-bottom: 14px; }
+.know li { padding: 12px 0; border-top: 1px solid #9FCFC5; }
+.know li:last-child { border-bottom: 1px solid #9FCFC5; }
+.know li span { display: block; font-size: .9375rem; color: var(--ink-2); }
+@media (max-width: 860px) { .know__grid { grid-template-columns: 1fr; } }
+.faq { padding: clamp(72px, 9vw, 120px) 0; }
+.faq__grid { display: grid; grid-template-columns: 4fr 8fr; gap: 28px; }
+.faq h2 { font-size: var(--fs-h2); }
+.faq details { border-top: 1px solid var(--line); }
+.faq details:last-child { border-bottom: 1px solid var(--line); }
+.faq summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 20px; padding: 20px 0; font: 400 1.5rem/1.2 var(--display); min-height: 44px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; font: 400 1.75rem/1 var(--text); color: var(--ribbon); transition: transform .2s; }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq details p { padding: 0 0 22px; max-width: 62ch; color: var(--ink-2); }
+@media (max-width: 860px) { .faq__grid { grid-template-columns: 1fr; } }
+
+/* ----- Autres sorties ----- */
+.more { padding: 0 0 clamp(72px, 9vw, 128px); }
+.more h2 { font-size: var(--fs-h2); margin-bottom: 36px; }
+.more__grid { display: grid; grid-template-columns: 7fr 5fr; gap: 28px; }
+.more__side { display: grid; gap: 28px; align-content: start; }
+.more a.t { text-decoration: none; display: grid; gap: 10px; }
+.more a.t:hover h3 { color: var(--lagoon); }
+.more .big .ph { aspect-ratio: 4 / 3; }
+.more .big h3 { font-size: var(--fs-h3); }
+.more .sm { grid-template-columns: 160px 1fr; align-items: center; gap: 18px !important; }
+.more .sm .ph { aspect-ratio: 1; }
+.more .sm h3 { font-size: 1.5rem; }
+.more__taxi { margin-top: 36px; font-size: 1.0625rem; }
+@media (max-width: 860px) { .more__grid { grid-template-columns: 1fr; } .more .sm { grid-template-columns: 112px 1fr; } }
+</style>
+</head>
+<body>
+<div class="proto">Prototype « récit » : 4 Islands. <a href="home.html">Accueil</a> <a href="tours.html">Hub</a> <a href="variantes.html">Variantes</a></div>
+<div data-chrome="boat"></div>
+
+<main id="main">
+  <section class="p-hero" aria-labelledby="h1">
+    <div class="wrap p-hero__grid">
+      <div>
+        <nav class="crumbs" aria-label="Breadcrumb"><a href="home.html">Home</a><span aria-hidden="true">/</span><a href="tours.html#boat">Boat trips</a><span aria-hidden="true">/</span><span aria-current="page">4 Islands</span></nav>
+        <h1 id="h1"></h1>
+        <p class="lead" id="lead"></p>
+        <dl class="facts" id="facts"></dl>
+        <div class="buy"><div id="hero-price"></div><a class="btn btn--big" href="#book">Check availability</a><a class="link" data-wa="Hello, I have a question about the 4 Islands tour." href="#">Ask on WhatsApp</a></div>
+      </div>
+      <figure class="p-hero__photo" style="margin-top:0;margin-bottom:0"><div id="hero-photo"></div><figcaption class="cap" id="hero-cap"></figcaption></figure>
+    </div>
+  </section>
+
+  <section class="route" id="route" aria-labelledby="route-h">
+    <div class="wrap">
+      <div class="route__head">
+        <h2 id="route-h">The day, island by island</h2>
+        <div><p class="small muted">Which boat?</p><div class="seg" role="group" aria-label="Boat" id="boat-seg"><button type="button" aria-pressed="true" data-boat="longtail">Longtail</button><button type="button" aria-pressed="false" data-boat="speedboat">Speedboat</button></div></div>
+      </div>
+      <div class="route__grid">
+        <div class="route__map"><div class="map" id="map"></div></div>
+        <div><div id="route-todo"></div><div class="stops" id="stops"></div><p class="route__note" id="route-note"></p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cmp" aria-labelledby="cmp-h">
+    <div class="wrap">
+      <h2 id="cmp-h">Longtail or speedboat?</h2>
+      <div class="cmp__cols" id="cmp"></div>
+    </div>
+  </section>
+
+  <section class="book" id="book" aria-labelledby="book-h">
+    <div class="wrap book__grid">
+      <form id="form" novalidate>
+        <h2 id="book-h">Prices and your request</h2>
+        <fieldset class="step"><legend>Your boat</legend><div class="opts" id="opts"></div><label class="addon" id="kradan-wrap" hidden><input type="checkbox" id="kradan"> <span id="kradan-l"></span></label></fieldset>
+        <fieldset class="step"><legend>Your day</legend><div class="days" id="days"></div>
+          <div class="other-date"><label for="other" class="lbl-txt">Another date</label><input class="input" type="date" id="other"></div>
+          <p class="err" id="err-date" hidden></p>
+        </fieldset>
+        <fieldset class="step"><legend>Who's coming</legend>
+          <div class="who">
+            <div class="who__row"><p id="ad-l">Adults<span>12 and over</span></p><div class="stepper" aria-labelledby="ad-l"><button type="button" data-n="ad" data-d="-1" aria-label="One adult less">−</button><output id="ad" aria-live="polite">2</output><button type="button" data-n="ad" data-d="1" aria-label="One adult more">+</button></div></div>
+            <div class="who__row"><p id="ch-l">Children<span>Under 12. Give each age.</span></p><div class="stepper" aria-labelledby="ch-l"><button type="button" data-n="ch" data-d="-1" aria-label="One child less">−</button><output id="ch" aria-live="polite">0</output><button type="button" data-n="ch" data-d="1" aria-label="One child more">+</button></div></div>
+            <div class="ages" id="ages"></div>
+          </div>
+        </fieldset>
+        <fieldset class="step"><legend>Pickup and name</legend>
+          <div class="two">
+            <div class="field"><label for="pickup">Your hotel on Koh Lanta</label><input class="input" id="pickup" autocomplete="off"><p class="err" id="err-pickup" hidden></p></div>
+            <div class="field"><label for="name">Your first name</label><input class="input" id="name" autocomplete="given-name"><p class="err" id="err-name" hidden></p></div>
+          </div>
+        </fieldset>
+      </form>
+      <aside class="sum on-dark" aria-labelledby="sum-h">
+        <h3 id="sum-h">Your request</h3>
+        <dl id="sum-dl"></dl>
+        <ul id="sum-lines"></ul>
+        <div class="sum__total"><span>Total on the website</span><b id="sum-total">–</b></div>
+        <p class="sum__park" id="sum-park"></p>
+        <div id="sum-todo"></div>
+        <button class="btn btn--light btn--big" type="button" id="write">Write my WhatsApp message</button>
+        <p class="err" id="err-all" hidden></p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="know" aria-label="What's included and what to bring">
+    <div class="wrap know__grid">
+      <div><h2>Included</h2><ul id="inc"></ul></div>
+      <div><h2>Not included</h2><ul id="notinc"></ul></div>
+      <div><h2>Before you book</h2><ul id="before"></ul></div>
+    </div>
+  </section>
+
+  <section class="faq" aria-labelledby="faq-h">
+    <div class="wrap faq__grid"><h2 id="faq-h">Questions</h2><div id="faq"></div></div>
+  </section>
+
+  <section class="more" aria-labelledby="more-h">
+    <div class="wrap"><h2 id="more-h">More boat trips</h2><div class="more__grid" id="more"></div><p class="more__taxi" id="taxi-line"></p></div>
+  </section>
+</main>
+<div data-foot></div>
+
+<div class="dock" id="dock"><div id="dock-price"></div><a class="btn" href="#book" id="dock-btn">Check availability</a></div>
+
+<dialog class="sheet" id="sheet" aria-labelledby="sheet-h">
+  <div class="sheet__in">
+    <div class="sheet__head"><h2 id="sheet-h">Your message</h2><button class="x" type="button" data-close aria-label="Close"></button></div>
+    <p class="muted small" style="margin-top:6px">Read it, then send it from WhatsApp. Nothing is sent before you press send there.</p>
+    <div class="bubble" id="msg"></div>
+    <div class="sheet__actions"><a class="btn btn--big" id="send" target="_blank" rel="noopener"></a><button class="btn btn--line" type="button" id="copy">Copy the message</button><button class="btn btn--line" type="button" data-close>Change something</button></div>
+  </div>
+</dialog>
+
+<script src="assets/data.js"></script>
+<script src="assets/recit.js"></script>
+<script>
+(function () {
+  var S = STT, R = RECIT, $ = function (id) { return document.getElementById(id); };
+  var F = S.four, P = R.product("4-islands"), steps = F.day[0].steps;
+  var fact = function (l) { return R.fact(F, l); };
+
+  // ---------- Hero ----------
+  $("h1").textContent = F.h1; $("lead").textContent = F.lead;
+  var back = steps[steps.length - 1];
+  $("facts").innerHTML = [["Duration", fact("Duration")], ["Hotel pickup", fact("Hotel pickup")], ["Boat leaves", fact("Boat leaves")], ["Back on Koh Lanta", "≈ " + back.range]]
+    .map(function (f) { return "<div><dt>" + f[0] + "</dt><dd>" + R.esc(f[1]) + "</dd></div>"; }).join("");
+  $("hero-price").innerHTML = R.priceHTML(P, true);
+  $("hero-photo").innerHTML = R.img("four-hero", { eager: true });
+  $("hero-cap").textContent = S.photos["four-hero"].alt + ".";
+
+  // ---------- Trajet ----------
+  var G = function (k) { return [S.geo[k].lon, S.geo[k].lat]; };
+  var pierPt = [99.0985, 7.5305];
+  var place = { "Lanta Old Town pier": "old-town", "Koh Chueak": "chueak", "Koh Mook": "muk", "Koh Ngai": "ngai", "Koh Ma": "ma", "Koh Kradan": "kradan", "Koh Lanta": "old-town", "Your hotel": "old-town" };
+  var photoFor = { "Lanta Old Town pier": "four-gallery-pier", "Koh Chueak": "four-gallery-reef", "Koh Mook": "card-4-islands", "Koh Ngai": "four-gallery-ngai", "Koh Kradan": "four-gallery-kradan" };
+  var pt = function (name) { var k = place[name]; return k === "old-town" ? pierPt : G(k); };
+  var detail = {}; steps.forEach(function (s) { detail[s.place] = s; });
+
+  // Le speedboat : îles et déjeuner d'après les faits « Islands, speedboat » et « Lunch » ; pas d'horaires dans les données.
+  var speedIslands = fact("Islands, speedboat").split(", ").map(function (s) { return s.replace(/ \(.*\)/, ""); });
+  var routes = {
+    longtail: steps.map(function (s) { var t = s.text.indexOf(s.place + ", ") === 0 ? s.text.slice(s.place.length + 2) : s.text; return { time: s.range || s.time, fixed: s.fixed, place: s.place, text: t.charAt(0).toUpperCase() + t.slice(1), kind: s.kind }; }),
+    speedboat: [
+      { time: fact("Hotel pickup"), fixed: true, place: "Your hotel", text: "Pickup at your hotel.", kind: "road" },
+      { time: null, place: "The speedboat pier", text: "The speedboat leaves from its own pier.", kind: "pier", todo: "nom du ponton du speedboat (le déroulé dit « a separate pier », l'option dit Lanta Old Town pier)" }
+    ].concat(speedIslands.map(function (n) {
+      var t = n === "Koh Kradan" ? "Thai buffet lunch on the beach." : n === "Koh Ngai" ? "One more island and one more snorkelling stop." : detail[n].detail + ".";
+      return { time: null, place: n, text: t, kind: "island" };
+    })).concat([{ time: null, place: "Koh Lanta", text: "Back on Koh Lanta, then the transfer to your hotel.", kind: "pier" }])
+  };
+  var lanes = {
+    longtail: [pierPt, [99.19, 7.475], G("chueak"), G("muk"), G("ngai"), G("ma"), [99.135, 7.49], pierPt],
+    speedboat: [pierPt, [99.19, 7.475], G("chueak"), G("muk"), G("kradan"), G("ngai"), [99.135, 7.49], pierPt]
+  };
+  // Segments : chaque île est atteinte au bout d'un segment.
+  var segsFor = function (boat) {
+    var l = lanes[boat];
+    return [[l[0], l[1], l[2]], [l[2], l[3]], [l[3], l[4]], [l[4], l[5]], [l[5], l[6], l[7]]];
+  };
+  var frame = { lon0: 99.0, lon1: 99.335, lat0: 7.29, lat1: 7.555 };
+  var boat = "longtail", map;
+  var labels = function (b) {
+    var L = [{ place: "lanta-yai", at: [99.05, 7.505], text: "Koh Lanta", big: true, anchor: "middle" },
+      { place: "old-town", at: pierPt, text: "Lanta Old Town", dx: 12, dy: -10 },
+      { place: "chueak", text: "Koh Chueak", dx: 12, dy: 18, id: "Koh Chueak" },
+      { place: "muk", text: "Koh Mook", dx: 0, dy: -28, anchor: "middle", id: "Koh Mook" },
+      { place: "ngai", text: "Koh Ngai", dx: -14, dy: 5, anchor: "end", id: "Koh Ngai" },
+      { place: "kradan", text: "Koh Kradan", dx: -14, dy: 5, anchor: "end", id: "Koh Kradan" }];
+    if (b === "longtail") L.push({ place: "ma", text: "Koh Ma", dx: 4, dy: -16, id: "Koh Ma" });
+    return L;
+  };
+  var drawMap = function () {
+    var segs = segsFor(boat);
+    map = R.map($("map"), {
+      id: "m4", title: "Sketch map of the 4 Islands route by " + boat + " from Lanta Old Town", frame: frame, width: 640, scaleKm: 5, boat: true,
+      routes: segs.map(function (s, i) { return { id: "s" + i, cls: "route--ghost", d: function (Pj) { return R.curve(s, Pj); } }; }).concat(segs.map(function (s, i) { return { id: "a" + i, cls: "route--lit", d: function (Pj) { return R.curve(s, Pj); } }; })),
+      stops: [{ id: "old-town", place: "old-town", at: pierPt }].concat((boat === "longtail" ? ["chueak", "muk", "ngai", "ma"] : ["chueak", "muk", "kradan", "ngai"]).map(function (k) { return { id: k, place: k }; })),
+      labels: labels(boat),
+      note: "Sketch map, not for navigation. Positions are approximate. Island outlines © OpenStreetMap contributors."
+    });
+    $("map").querySelectorAll("[data-route^=a]").forEach(function (p) { var L = p.getTotalLength(); p.style.strokeDasharray = L; p.style.strokeDashoffset = L; p.dataset.len = L; p.style.transition = R.reduced ? "none" : "stroke-dashoffset .7s cubic-bezier(.2,.7,.2,1)"; });
+  };
+  var setActive = function (i) {
+    var list = routes[boat], s = list[i];
+    document.querySelectorAll(".stopx").forEach(function (el, n) { el.classList.toggle("is-on", n === i); });
+    // Segments allumés jusqu'à l'île courante (étape 2 = première île).
+    var lit = s.place === "Koh Lanta" ? 5 : Math.max(0, i - 1);
+    $("map").querySelectorAll("[data-route^=a]").forEach(function (p, n) { p.style.strokeDashoffset = n < lit ? 0 : p.dataset.len; });
+    var key = place[s.place] || "old-town";
+    $("map").querySelectorAll("[data-stop]").forEach(function (c) { c.classList.toggle("is-on", c.getAttribute("data-stop") === key && i > 0); });
+    $("map").querySelectorAll("[data-lbl]").forEach(function (t) { t.classList.toggle("is-on", t.getAttribute("data-lbl") === s.place); });
+    map.boatTo(s.place === "The speedboat pier" || s.place === "Your hotel" ? pierPt : pt(s.place));
+  };
+  var renderStops = function () {
+    var list = routes[boat];
+    $("route-todo").innerHTML = boat === "speedboat" ? '<p class="route__todo"><span class="todo">[DONNÉE À FOURNIR : horaires du speedboat, les données ne donnent que le déroulé du longtail]</span></p>' : "";
+    $("stops").innerHTML = list.map(function (s, i) {
+      var ph = photoFor[s.place] ? '<figure style="margin:0" data-zoom="' + R.esc(s.place) + '">' + R.img(photoFor[s.place]) + "</figure>" : (s.kind === "island" ? R.img(null, { missing: s.place }) : "");
+      var time = s.time ? (s.fixed ? "" : "≈ ") + s.time : "Time to confirm";
+      return '<article class="stopx' + (s.kind === "road" ? " stopx--road" : "") + '" data-i="' + i + '"><p class="stopx__time">' + R.esc(time) + "</p><h3>" + R.esc(s.place) + '</h3><p class="t">' + R.esc(s.text) + "</p>" + (s.todo ? '<p style="margin-top:10px"><span class="todo">[DONNÉE À FOURNIR : ' + R.esc(s.todo) + "]</span></p>" : "") + (s.kind === "island" ? ph : "") + "</article>";
+    }).join("");
+    $("route-note").textContent = boat === "longtail" ? F.day[0].note.replace("Bold times are fixed. ", "Pickup and departure times are fixed. ") : "";
+    observe();
+  };
+  var io;
+  var observe = function () {
+    if (io) io.disconnect();
+    io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) setActive(Number(e.target.getAttribute("data-i"))); });
+    }, { rootMargin: window.innerWidth < 860 ? "-55% 0px -40% 0px" : "-45% 0px -50% 0px" });
+    document.querySelectorAll(".stopx").forEach(function (el) { io.observe(el); });
+    setActive(0);
+  };
+  $("boat-seg").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    boat = b.getAttribute("data-boat");
+    this.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+    drawMap(); renderStops();
+  });
+  drawMap(); renderStops();
+
+  // ---------- Comparatif ----------
+  var opt = function (id) { return P.options.filter(function (o) { return o.id === id; })[0]; };
+  var amt = function (o, label) { var r = o.prices.filter(function (x) { return x.label === label; })[0]; return r ? (r.amount ? R.thb(r.amount) : "Free") : null; };
+  var jl = opt("join-in-longtail"), js = opt("join-in-speedboat"), pl = opt("private-longtail");
+  var faqBoat = F.faq[0].a; // « The longtail is the traditional wooden boat, slower and open, ... The speedboat is faster ... »
+  var lunchF = fact("Lunch");
+  var rows = [
+    ["The boat", "Traditional wooden boat, slower and open", "Faster"],
+    ["Islands", fact("Islands, longtail"), fact("Islands, speedboat")],
+    ["Lunch on the beach", /Koh Ngai by longtail/.test(lunchF) ? "Koh Ngai" : "", /Koh Kradan by speedboat/.test(lunchF) ? "Koh Kradan" : ""],
+    ["Adult, join-in", amt(jl, "Adult"), amt(js, "Adult")],
+    ["Child, 4 to 11", amt(jl, "Child, 4 to 11"), amt(js, "Child, 4 to 11")],
+    ["Child under 4", amt(jl, "Child under 4"), '<span class="todo">[DONNÉE À FOURNIR : gratuit aussi en speedboat ?]</span>'],
+    ["Private boat", pl ? "From " + R.thb(pl.prices[0].amount) + " per boat" : "", '<span class="todo">[DONNÉE À FOURNIR : speedboat privé, prix ?]</span>']
+  ];
+  if (faqBoat.indexOf("slower and open") < 0) rows.shift();
+  var c = '<div class="blank"></div><div class="hd"><figure style="margin:0" data-zoom="Longtail">' + R.img("four-longtail") + '</figure><h3>Longtail</h3><div class="mini"><div class="map" id="mini-l"></div></div></div><div class="hd">' + R.img(null, { missing: "le speedboat du 4 Islands à son ponton, embarquement" }).replace('class="ph ph--missing ', 'style="aspect-ratio:3/2" class="ph ph--missing ') + '<h3>Speedboat</h3><div class="mini"><div class="map" id="mini-s"></div></div></div>';
+  rows.forEach(function (r) { var d = r[1] !== r[2] ? " diff" : ""; c += '<div class="r k">' + r[0] + '</div><div class="r' + d + '">' + r[1] + '</div><div class="r' + d + '">' + r[2] + "</div>"; });
+  $("cmp").innerHTML = c;
+  ["longtail", "speedboat"].forEach(function (b) {
+    R.map($("mini-" + b[0]), { id: "mini" + b, title: "Route by " + b, frame: frame, width: 320, note: false,
+      routes: [{ id: "r", d: function (Pj) { return R.curve(lanes[b], Pj); } }] });
+  });
+
+  // ---------- Prix et demande ----------
+  var st = { opt: "join-in-longtail", date: "", adults: 2, ages: [], pickup: "", name: "" };
+  try { var saved = JSON.parse(localStorage.getItem("recit-4i") || "null"); if (saved && saved.date >= R.today()) st = Object.assign(st, saved); } catch (e) {}
+  $("opts").innerHTML = P.options.map(function (o) {
+    // « from » : le prix adulte en join-in, le plus petit prix de groupe en privé.
+    var low = o.kind === "private" ? o.prices.filter(function (r) { return r.group; }).map(function (r) { return r.amount; }) : o.prices.filter(function (r) { return r.label === "Adult"; }).map(function (r) { return r.amount; });
+    var unit = o.kind === "private" ? "per boat" : "per adult";
+    return '<label class="opt"><input type="radio" name="opt" value="' + o.id + '"' + (st.opt === o.id ? " checked" : "") + '><div><b>' + R.esc(o.label) + '</b><p class="small muted">' + R.esc(o.note || o.stub || "") + '</p></div><p class="price"><span class="price__from">from</span> <span class="price__amt">' + R.thb(Math.min.apply(null, low)) + '</span> <span class="price__unit">' + unit + '</span></p><p class="rows">' +
+      o.prices.map(function (r) { return "<span>" + R.esc(r.label) + " <b>" + (r.amount ? (r.supplement ? "+" : "") + R.thb(r.amount) : "free") + "</b></span>"; }).join("") + "</p></label>";
+  }).join("");
+  var today = R.today();
+  $("days").innerHTML = Array.apply(null, Array(window.innerWidth < 520 ? 8 : 14)).map(function (_, i) {
+    var iso = R.addDays(today, i + 1), d = R.dayParts(iso);
+    return '<button type="button" class="day-b" data-date="' + iso + '" aria-pressed="false" aria-label="' + R.fmtDate(iso) + '"><small>' + d.dow + "</small><b>" + d.d + "</b><small>" + d.m + "</small></button>";
+  }).join("");
+  $("other").min = R.addDays(today, 1);
+  var ageSel = function () {
+    $("ages").innerHTML = st.ages.map(function (a, i) {
+      var o = '<option value="">Age</option>'; for (var n = 0; n < 12; n++) o += '<option value="' + n + '"' + (String(a) === String(n) ? " selected" : "") + ">" + (n === 0 ? "under 1" : n) + "</option>";
+      return '<label>Child ' + (i + 1) + '<select data-age="' + i + '">' + o + "</select></label>";
+    }).join("");
+  };
+  var update = function () {
+    try { localStorage.setItem("recit-4i", JSON.stringify(st)); } catch (e) {}
+    $("ad").textContent = st.adults; $("ch").textContent = st.ages.length;
+    document.querySelector('[data-n="ad"][data-d="-1"]').disabled = st.adults <= 1;
+    document.querySelector('[data-n="ch"][data-d="-1"]').disabled = st.ages.length === 0;
+    document.querySelectorAll(".day-b").forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-date") === st.date ? "true" : "false"); });
+    var o = opt(st.opt), ages = st.ages.filter(function (a) { return a !== ""; }).map(Number);
+    var q = R.quote(o, st.adults, ages), park = R.parkCash(o, st.adults, ages);
+    // Supplément Koh Kradan : seulement sur l'option qui le publie.
+    var add = o.prices.filter(function (r) { return r.supplement && /Kradan/.test(r.label); })[0];
+    $("kradan-wrap").hidden = !add;
+    if (add) { $("kradan-l").textContent = add.label.replace(", per boat", "") + ", +" + R.thb(add.amount) + " per boat"; $("kradan").checked = !!st.kradan; }
+    if (add && st.kradan && q.total) { q.lines.push([add.label.replace(", per boat", ""), add.amount]); q.total += add.amount; }
+    var g = st.adults + " adult" + (st.adults > 1 ? "s" : "") + (st.ages.length ? ", " + st.ages.length + " child" + (st.ages.length > 1 ? "ren" : "") : "");
+    $("sum-dl").innerHTML = "<div><dt>Boat</dt><dd>" + R.esc(o.label) + "</dd></div><div><dt>Date</dt><dd>" + (st.date ? R.fmtDate(st.date) : "Not chosen yet") + "</dd></div><div><dt>Guests</dt><dd>" + g + "</dd></div>";
+    $("sum-lines").innerHTML = q.lines.map(function (l) { return "<li><span>" + R.esc(l[0]) + "</span><span>" + R.thb(l[1]) + "</span></li>"; }).join("");
+    var waiting = st.ages.some(function (a) { return a === ""; });
+    $("sum-total").textContent = q.total ? R.thb(q.total) : "–";
+    $("sum-park").textContent = park ? "Plus the national park fee in cash on the island: " + park.text + "." : "";
+    var todos = q.missing.map(function (m) { return '<p><span class="todo">[DONNÉE À FOURNIR : ' + R.esc(m) + "]</span></p>"; });
+    if (waiting) todos.unshift('<p class="small" style="margin-top:10px;color:#C9D8D5">Choose the age of each child to see the total.</p>');
+    $("sum-todo").innerHTML = todos.join("");
+    $("dock-price").innerHTML = q.total && st.date ? '<p class="price"><span class="price__from">Total</span> <span class="price__amt">' + R.thb(q.total) + "</span></p>" : R.priceHTML(P);
+    return { o: o, q: q, park: park, ages: ages, extra: add && st.kradan ? add.label.replace(", per boat", "") : "" };
+  };
+  $("opts").addEventListener("change", function (e) { st.opt = e.target.value; update(); });
+  $("kradan").addEventListener("change", function () { st.kradan = this.checked; update(); });
+  $("days").addEventListener("click", function (e) { var b = e.target.closest(".day-b"); if (!b) return; st.date = b.getAttribute("data-date"); $("other").value = ""; $("err-date").hidden = true; update(); });
+  $("other").addEventListener("change", function () { st.date = this.value; $("err-date").hidden = true; update(); });
+  document.querySelectorAll("[data-n]").forEach(function (b) { b.addEventListener("click", function () {
+    var d = Number(b.getAttribute("data-d"));
+    if (b.getAttribute("data-n") === "ad") st.adults = Math.max(1, Math.min(20, st.adults + d));
+    else { if (d > 0 && st.ages.length < 10) st.ages.push(""); if (d < 0) st.ages.pop(); ageSel(); }
+    update();
+  }); });
+  $("ages").addEventListener("change", function (e) { st.ages[Number(e.target.getAttribute("data-age"))] = e.target.value; update(); });
+  ["pickup", "name"].forEach(function (k) { $(k).value = st[k] || ""; $(k).addEventListener("input", function () { st[k] = this.value.trim(); $("err-" + k).hidden = true; update(); }); });
+  ageSel(); update();
+
+  var show = function (id, msg) { $(id).textContent = msg; $(id).hidden = false; };
+  $("write").addEventListener("click", function () {
+    var bad = [];
+    if (!st.date) { show("err-date", "Pick a date."); bad.push("days"); }
+    if (st.ages.some(function (a) { return a === ""; })) bad.push("ages");
+    if (!st.pickup) { show("err-pickup", "Add your hotel so we know where to pick you up."); bad.push("pickup"); }
+    if (!st.name) { show("err-name", "Add your first name."); bad.push("name"); }
+    if (bad.length) { show("err-all", "Some details are missing above."); var first = $(bad[0]); (first.querySelector("button, select") || first).focus(); return; }
+    $("err-all").hidden = true;
+    var r = update();
+    var text = R.message(P, r.o, { extra: r.extra, adults: st.adults, ages: r.ages, date: st.date, pickup: st.pickup, name: st.name, total: r.q.total, park: r.park && r.park.total });
+    $("msg").textContent = text;
+    $("send").innerHTML = R.WA_ICON + "Open WhatsApp to send";
+    $("send").href = R.wa(text);
+    $("sheet").showModal();
+  });
+  document.querySelectorAll("#sheet [data-close]").forEach(function (b) { if (!b.innerHTML.trim()) b.innerHTML = R.X_ICON; b.addEventListener("click", function () { $("sheet").close(); }); });
+  $("copy").addEventListener("click", function () { var b = this; (navigator.clipboard ? navigator.clipboard.writeText($("msg").textContent) : Promise.reject()).then(function () { b.textContent = "Copied"; }, function () { b.textContent = "Select the text above to copy it"; }); setTimeout(function () { b.textContent = "Copy the message"; }, 2500); });
+
+  // Barre mobile : visible après le hero, cachée sur le formulaire.
+  var dock = $("dock");
+  var onScroll = function () { var b = $("book").getBoundingClientRect(); dock.classList.toggle("is-on", window.scrollY > 520 && !(b.top < window.innerHeight && b.bottom > 0)); };
+  window.addEventListener("scroll", onScroll, { passive: true }); onScroll();
+
+  // ---------- Inclus, avant de réserver, questions ----------
+  $("inc").innerHTML = F.included.map(function (t) { return "<li>" + R.esc(t) + "</li>"; }).join("");
+  var fees = jl.fees.map(function (f) { return "<li>" + R.esc(f.label.replace("National park fee, ", "Park fee, ")) + " <b>" + R.thb(f.amount) + "</b><span>" + R.esc(f.note) + "</span></li>"; });
+  $("notinc").innerHTML = fees.join("");
+  var bb = F.beforeYouBook;
+  $("before").innerHTML = "<li>Pickup<span>" + R.esc(bb.pickup) + "</span></li>" + bb.bring.map(function (b) { return "<li>Bring<span>" + R.esc(b) + "</span></li>"; }).join("") + "<li>Weather<span>" + R.esc(S.site.weather) + "</span></li><li>Payment<span>Nothing online. " + R.esc(S.site.payment.join(" or ").replace(/^./, function (c) { return c.toUpperCase(); })) + ".</span></li>";
+  $("faq").innerHTML = F.faq.map(function (f) { return "<details><summary>" + R.esc(f.q) + "</summary><p>" + R.esc(f.a) + "</p></details>"; }).join("");
+
+  // ---------- Autres sorties (champ related des données) ----------
+  var rel = F.related.map(function (u) { return S.products.filter(function (p) { return p.url === u; })[0]; }).filter(Boolean);
+  var card = function (p, cls) { return '<a class="t ' + cls + '" href="' + R.href(p) + '">' + R.img(p.photo) + "<div><h3>" + R.esc(p.name) + '</h3><p class="muted small">' + R.esc(p.promise || "") + "</p>" + R.priceHTML(p) + "</div></a>"; };
+  $("more").innerHTML = card(rel[0], "big") + '<div class="more__side">' + rel.slice(1).map(function (p) { return card(p, "sm"); }).join("") + "</div>";
+  var taxi = F.related.filter(function (u) { return u.indexOf("/taxi/") === 0; })[0];
+  if (taxi) $("taxi-line").innerHTML = 'Arriving at Krabi Airport? <a class="link" href="' + R.liveHref(taxi) + '">Private minivan to Koh Lanta with ' + R.esc(S.taxi.name) + "</a>";
+})();
+</script>
+</body>
+</html>

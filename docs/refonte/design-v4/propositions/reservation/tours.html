@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Boat trips and activities on Koh Lanta | Secret Travel &amp; Tour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+<style>
+.h-top { padding-block: 40px 32px; display: grid; gap: 14px; }
+.h-top h1 { max-width: 24ch; }
+
+/* Bloc « votre groupe » : la donnée qui transforme chaque prix en total */
+.plan { background: var(--sand); border-block: 1px solid var(--line); }
+.plan .wrap { display: grid; grid-template-columns: 1.1fr 1fr 1.4fr; gap: 32px; padding-block: 24px; align-items: start; }
+.plan h2 { font-size: 26px; margin-bottom: 4px; }
+.plan .help { font-size: 14px; color: var(--ink-mute); }
+.plan .stepper { padding: 2px 0; }
+.plan .when { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 960px) { .plan .wrap { grid-template-columns: 1fr 1fr; } .plan .intro { grid-column: 1 / -1; } }
+@media (max-width: 640px) { .plan .wrap { grid-template-columns: 1fr; gap: 18px; } }
+
+/* Filtres */
+.fbar { position: sticky; top: 72px; z-index: 30; background: #fff; border-bottom: 1px solid var(--line); }
+.fbar .wrap { display: flex; gap: 10px; align-items: center; padding-block: 12px; flex-wrap: wrap; }
+.fgrp { position: relative; }
+.fbtn { min-height: 44px; padding: 8px 14px; border: 1px solid var(--line); border-radius: var(--r-btn); background: #fff; font: 600 15px/1.2 var(--sans); display: inline-flex; gap: 8px; align-items: center; }
+.fbtn[aria-expanded="true"] { border-color: var(--ink); }
+.fbtn .n[hidden] { display: none; }
+.fbtn .n { background: var(--deep); color: #fff; border-radius: 10px; min-width: 20px; height: 20px; font-size: 12px; display: inline-grid; place-items: center; padding: 0 5px; }
+.fbtn::after { content: ""; width: 10px; height: 6px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%2314262B' stroke-width='1.5'/%3E%3C/svg%3E"); }
+.fpop { position: absolute; top: calc(100% + 6px); left: 0; background: #fff; border: 1px solid var(--line); border-radius: var(--r); padding: 14px; min-width: 260px; display: grid; gap: 8px; z-index: 40; box-shadow: 0 8px 24px rgba(20, 38, 43, .12); }
+.fpop[hidden] { display: none; }
+.res-head .sort { margin-left: auto; display: flex; gap: 8px; align-items: center; font-size: 15px; }
+.res-head .sort select { min-height: 44px; width: auto; }
+.mob-f { display: none; }
+@media (max-width: 760px) {
+  .fbar .fgrp, .res-head .sort { display: none; }
+  .mob-f { display: flex; width: 100%; gap: 10px; }
+  .type-tabs { display: none; }
+  .mob-f .fbtn { flex: 1; justify-content: center; }
+  .mob-f .fbtn::after { display: none; }
+  .fbar { top: 64px; }
+}
+.type-tabs { display: flex; gap: 6px; }
+
+.res-head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding-block: 24px 8px; }
+.res-head .count { font: 600 22px/1.2 var(--serif); }
+.active { display: flex; flex-wrap: wrap; gap: 8px; }
+.active button { min-height: 40px; padding: 6px 12px; border-radius: var(--r-btn); border: 1px solid var(--ink); background: #fff; font: 600 14px/1 var(--sans); display: inline-flex; gap: 8px; align-items: center; }
+.active button svg { width: 12px; height: 12px; }
+.season-note { font-size: 15px; color: var(--ink-soft); padding-bottom: 8px; }
+.grid-sec { padding-block: 16px 88px; }
+.grp-title { font-size: 30px; margin: 32px 0 20px; display: flex; align-items: baseline; gap: 12px; }
+.grp-title small { font: 400 15px var(--sans); color: var(--ink-mute); }
+
+.empty { border: 1px solid var(--line); border-radius: var(--r); padding: 32px; display: grid; gap: 14px; max-width: 720px; }
+.empty .sugg { display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* Barre du comparateur */
+.cbar { visibility: hidden; position: fixed; left: 50%; bottom: 20px; transform: translate(-50%, 140%); z-index: 70; background: var(--deep); color: #fff; border-radius: var(--r); padding: 10px 10px 10px 18px; display: flex; gap: 14px; align-items: center; transition: transform .2s ease; max-width: calc(100vw - 32px); }
+.cbar.show { transform: translate(-50%, 0); visibility: visible; }
+.cbar .btn { background: #fff; color: var(--deep); }
+.cbar .link { color: var(--on-dark); }
+table.ct { border-collapse: collapse; width: 100%; font-size: 15px; min-width: 520px; }
+.ct th, .ct td { text-align: left; vertical-align: top; padding: 10px 12px 10px 0; border-top: 1px solid var(--line); }
+.ct thead th { border-top: 0; font: 600 22px/1.2 var(--serif); }
+.ct tbody th { color: var(--ink-mute); font-weight: 600; width: 22%; }
+.ct .gt { font: 600 22px/1 var(--serif); }
+dialog.drawer.wide { width: min(980px, 100vw); }
+</style>
+</head>
+<body>
+<main id="main">
+  <div class="wrap h-top">
+    <ol class="crumbs"><li><a href="home.html">Home</a></li><li aria-current="page">Tours</li></ol>
+    <h1>Boat trips and activities on Koh Lanta</h1>
+    <p class="lead" id="lead"></p>
+  </div>
+
+  <section class="plan" aria-labelledby="plan-title">
+    <div class="wrap">
+      <div class="intro"><h2 id="plan-title">Your group and your dates</h2><p class="help">Every price on this page becomes the total for your group. Kept on this phone for the trip pages and your trip list.</p></div>
+      <div class="when">
+        <div class="field"><label for="month">Month</label><select class="input" id="month"></select></div>
+        <div class="field"><label for="pdate">Or a day</label><input class="input" type="date" id="pdate"></div>
+      </div>
+      <div id="grp"></div>
+    </div>
+  </section>
+
+  <div class="fbar" id="fbar">
+    <div class="wrap">
+      <div class="type-tabs" role="group" aria-label="Type" id="types"></div>
+      <div class="fgrp"><button type="button" class="fbtn" aria-expanded="false" aria-controls="pop-dur" data-pop="dur">Duration <span class="n" hidden></span></button><div class="fpop" id="pop-dur" hidden></div></div>
+      <div class="fgrp"><button type="button" class="fbtn" aria-expanded="false" aria-controls="pop-boat" data-pop="boat">On the water <span class="n" hidden></span></button><div class="fpop" id="pop-boat" hidden></div></div>
+      <div class="fgrp"><button type="button" class="fbtn" aria-expanded="false" aria-controls="pop-price" data-pop="price">Price per adult <span class="n" hidden></span></button><div class="fpop" id="pop-price" hidden></div></div>
+      <div class="fgrp"><button type="button" class="fbtn" aria-expanded="false" aria-controls="pop-kids" data-pop="kids">Children <span class="n" hidden></span></button><div class="fpop" id="pop-kids" hidden></div></div>
+      <div class="mob-f"><button type="button" class="fbtn" id="open-f">Filters and sort <span class="n" hidden id="mob-n"></span></button></div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="res-head"><p class="count" id="count" aria-live="polite"></p><div class="active" id="active"></div><label class="sort" for="sort">Sort <select class="input" id="sort"><option value="rec">Boat trips first</option><option value="price">Lowest total for your group</option><option value="dur">Shortest first</option></select></label></div>
+    <p class="season-note" id="season-note"></p>
+  </div>
+  <section class="wrap grid-sec" aria-label="Trips" id="results"></section>
+</main>
+
+<div class="cbar" id="cbar" aria-live="polite"><span id="cbar-t"></span><button type="button" class="link" id="cbar-clear">Clear</button><button type="button" class="btn" id="cbar-go">Compare</button></div>
+
+<dialog class="drawer" id="fdlg" aria-labelledby="fdlg-t">
+  <div class="dr-in"><div class="dr-head"><h2 id="fdlg-t">Filters and sort</h2><button type="button" class="x" data-close aria-label="Close filters"></button></div>
+  <div class="dr-body" id="fdlg-body"></div>
+  <div class="dr-foot"><button type="button" class="btn big block" id="fdlg-go"></button><button type="button" class="link" id="fdlg-clear" style="justify-self:center">Clear all filters</button></div></div>
+</dialog>
+<dialog class="drawer wide" id="cdlg" aria-labelledby="cdlg-t">
+  <div class="dr-in"><div class="dr-head"><h2 id="cdlg-t">Compare</h2><button type="button" class="x" data-close aria-label="Close the comparison"></button></div>
+  <div class="dr-body" style="overflow-x:auto" id="cdlg-body"></div></div>
+</dialog>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+(function () {
+  var $ = R.$, $$ = R.$$, esc = R.esc, thb = R.thb, D = R.D;
+  R.chrome({ title: "hub /tours/", current: location.hash.indexOf("type=activity") !== -1 ? "activity" : "boat" });
+  $$("dialog .x").forEach(function (b) { b.innerHTML = R.ICON.x; });
+  var ALL = D.products;
+  $("#lead").textContent = ALL.length + " trips with their prices. Tell us who is coming and when, and each price becomes the total for your group.";
+
+  // ---------- Données dérivées pour les filtres ----------
+  var WATER = ["longtail", "speedboat", "raft", "kayak"];
+  ALL.forEach(function (p) {
+    var t = {};
+    p.options.forEach(function (o) {
+      String(o.boat || "").split(/ or /).forEach(function (b) { if (WATER.indexOf(b) !== -1) t[b] = 1; });
+      WATER.forEach(function (w) { if (new RegExp(w, "i").test(o.label)) t[w] = 1; });
+    });
+    p._water = Object.keys(t);
+    p._durRank = p.duration ? { short: 1, half: 2, full: 3 }[p.duration.tags.slice().sort(function (a, b) { return { short: 1, half: 2, full: 3 }[a] - { short: 1, half: 2, full: 3 }[b]; })[0]] : 9;
+  });
+  var DUR = { short: "Up to 3 hours", half: "Half day", full: "Full day" };
+  var PRICE = [1000, 1500, 2000, 3000];
+
+  // ---------- État (dans l'adresse, pour partager une recherche) ----------
+  var g = R.loadGroup();
+  var f = { type: "all", dur: [], water: [], max: 0, kids: false, sort: "rec", cmp: [] };
+  function readHash() {
+    var h = new URLSearchParams(location.hash.slice(1));
+    if (h.get("type")) f.type = h.get("type");
+    if (h.get("dur")) f.dur = h.get("dur").split(",");
+    if (h.get("water")) f.water = h.get("water").split(",");
+    if (h.get("max")) f.max = +h.get("max");
+    if (h.get("kids")) f.kids = h.get("kids") === "1";
+    if (h.get("sort")) f.sort = h.get("sort");
+    if (h.get("a")) g.adults = Math.max(1, +h.get("a"));
+    if (h.has("c")) g.ages = h.get("c") ? h.get("c").split(".").map(function (x) { return x === "" ? "" : +x; }) : [];
+    if (h.get("m")) g.month = +h.get("m");
+    if (h.get("d")) { g.date = h.get("d"); g.month = R.monthOf(g.date); }
+    if (h.get("q")) f.q = h.get("q");
+  }
+  function writeHash() {
+    var h = new URLSearchParams();
+    if (f.type !== "all") h.set("type", f.type);
+    if (f.dur.length) h.set("dur", f.dur.join(","));
+    if (f.water.length) h.set("water", f.water.join(","));
+    if (f.max) h.set("max", f.max);
+    if (f.kids) h.set("kids", "1");
+    if (f.sort !== "rec") h.set("sort", f.sort);
+    h.set("a", g.adults); if (g.ages.length) h.set("c", g.ages.join("."));
+    if (g.date) h.set("d", g.date); else if (g.month) h.set("m", g.month);
+    history.replaceState(null, "", "#" + h.toString());
+  }
+  readHash();
+  R.saveGroup(g);
+
+  // ---------- Bloc groupe et dates ----------
+  var today = R.todayIso();
+  var m0 = R.monthOf(today), y0 = +today.slice(0, 4);
+  var mo = '<option value="">Any month</option>';
+  for (var i = 0; i < 12; i++) { var mm = ((m0 - 1 + i) % 12) + 1; mo += '<option value="' + mm + '">' + R.MONTHS[mm - 1] + " " + (y0 + Math.floor((m0 - 1 + i) / 12)) + "</option>"; }
+  $("#month").innerHTML = mo;
+  $("#month").value = g.month || "";
+  $("#pdate").min = today; $("#pdate").value = g.date || "";
+  $("#month").onchange = function () { g.month = this.value ? +this.value : null; g.date = null; $("#pdate").value = ""; R.saveGroup(g); render(); R.track("hub_month", { month: g.month }); };
+  $("#pdate").onchange = function () { g.date = this.value || null; g.month = g.date ? R.monthOf(g.date) : g.month; $("#month").value = g.month || ""; R.saveGroup(g); render(); R.track("hub_date", { date: g.date }); };
+  var gc = R.groupControl($("#grp"), g, function () { R.saveGroup(g); render(); R.track("hub_group", { adults: g.adults, children: g.ages.length }); }, "hub");
+
+  // ---------- Filtres ----------
+  function pass(p, skip) {
+    if (skip !== "type" && f.type !== "all" && p.kind !== f.type) return false;
+    if (skip !== "dur" && f.dur.length && !(p.duration && p.duration.tags.some(function (t) { return f.dur.indexOf(t) !== -1; }))) return false;
+    if (skip !== "water" && f.water.length && !p._water.some(function (w) { return f.water.indexOf(w) !== -1; })) return false;
+    if (skip !== "max" && f.max && !(p.price && p.price.from <= f.max)) return false;
+    if (skip !== "kids" && f.kids && validAges().length) { var b = R.bestFor(p, g); if (!b || b.q.status !== "ok") return false; }
+    if (skip !== "season" && g.month && R.runsInMonth(p, g.month) === false) return false;
+    return true;
+  }
+  function validAges() { return g.ages.filter(function (a) { return a !== "" && a != null; }); }
+  function countWith(mut) { var save = JSON.stringify(f); mut(); var n = ALL.filter(function (p) { return pass(p); }).length; f = Object.assign(f, JSON.parse(save)); return n; }
+
+  function popHtml(key) {
+    if (key === "dur") return Object.keys(DUR).map(function (k) { return chk("dur", k, DUR[k], f.dur.indexOf(k) !== -1, ALL.filter(function (p) { return pass(p, "dur") && p.duration && p.duration.tags.indexOf(k) !== -1; }).length); }).join("");
+    if (key === "water") return WATER.map(function (k) { return chk("water", k, k[0].toUpperCase() + k.slice(1), f.water.indexOf(k) !== -1, ALL.filter(function (p) { return pass(p, "water") && p._water.indexOf(k) !== -1; }).length); }).join("");
+    if (key === "price") return '<p class="tiny mute">The “from” price of each trip, per adult.</p>' + [0].concat(PRICE).map(function (v) {
+      var n = ALL.filter(function (p) { return pass(p, "max") && (!v || (p.price && p.price.from <= v)); }).length;
+      return '<label class="chk"><input type="radio" name="max" value="' + v + '"' + (f.max === v ? " checked" : "") + "> " + (v ? "Up to " + thb(v) : "Any price") + '<span class="c">' + n + "</span></label>";
+    }).join("");
+    if (key === "kids") {
+      var has = validAges().length;
+      return '<label class="chk' + (has ? "" : " dis") + '"><input type="checkbox" data-k="kids"' + (f.kids ? " checked" : "") + (has ? "" : " disabled") + "> A price for every child's age</label>" +
+        '<p class="tiny mute">' + (has ? "Hides trips with no published price for one of the ages: " + validAges().join(", ") + "." : "Add children and their ages in “Your group and your dates” first.") + "</p>";
+    }
+  }
+  function chk(name, v, label, on, n) { return '<label class="chk' + (n || on ? "" : " dis") + '"><input type="checkbox" data-k="' + name + '" value="' + v + '"' + (on ? " checked" : "") + (n || on ? "" : " disabled") + "> " + esc(label) + '<span class="c">' + n + "</span></label>"; }
+
+  var POP = { dur: "dur", boat: "water", price: "price", kids: "kids" };
+  function renderPops() {
+    Object.keys(POP).forEach(function (k) { var el = $("#pop-" + k); if (!el.hidden) el.innerHTML = popHtml(POP[k]); });
+    var n = { dur: f.dur.length, boat: f.water.length, price: f.max ? 1 : 0, kids: f.kids ? 1 : 0 };
+    $$("[data-pop]").forEach(function (b) { var c = n[b.getAttribute("data-pop")]; var s = $(".n", b); s.hidden = !c; s.textContent = c; });
+    var tot = n.dur + n.boat + n.price + n.kids + (f.type !== "all" ? 1 : 0);
+    $("#mob-n").hidden = !tot; $("#mob-n").textContent = tot;
+    var cB = ALL.filter(function (p) { return pass(p, "type") && p.kind === "boat"; }).length, cA = ALL.filter(function (p) { return pass(p, "type") && p.kind === "activity"; }).length;
+    $("#types").innerHTML = [["all", "All", cA + cB], ["boat", "Boat trips", cB], ["activity", "Activities", cA]].map(function (t) { return '<button type="button" class="tg" data-type="' + t[0] + '" aria-pressed="' + (f.type === t[0]) + '">' + t[1] + " <span class=\"mute\">" + t[2] + "</span></button>"; }).join("");
+  }
+  $("#fbar").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-pop]");
+    if (b) {
+      var k = b.getAttribute("data-pop"), pop = $("#pop-" + k), open = pop.hidden;
+      $$(".fpop").forEach(function (p) { p.hidden = true; }); $$("[data-pop]").forEach(function (x) { x.setAttribute("aria-expanded", "false"); });
+      if (open) { pop.innerHTML = popHtml(POP[k]); pop.hidden = false; b.setAttribute("aria-expanded", "true"); var first = $("input:not(:disabled)", pop); if (first) first.focus(); }
+      return;
+    }
+    var t = e.target.closest("[data-type]");
+    if (t) { f.type = t.getAttribute("data-type"); render(); R.track("filter", { type: f.type }); }
+  });
+  document.addEventListener("click", function (e) { if (!e.target.closest(".fgrp")) { $$(".fpop").forEach(function (p) { p.hidden = true; }); $$("[data-pop]").forEach(function (x) { x.setAttribute("aria-expanded", "false"); }); } });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") { var open = $(".fpop:not([hidden])"); if (open) { open.hidden = true; var b = open.previousElementSibling; b.setAttribute("aria-expanded", "false"); b.focus(); } } });
+  function onFilterChange(e) {
+    var t = e.target; var k = t.getAttribute("data-k");
+    if (k === "dur" || k === "water") { var arr = f[k]; var i = arr.indexOf(t.value); if (t.checked && i === -1) arr.push(t.value); if (!t.checked && i !== -1) arr.splice(i, 1); }
+    if (t.name === "max") f.max = +t.value;
+    if (k === "kids") f.kids = t.checked;
+    if (t.id === "sort" || t.id === "msort") f.sort = t.value;
+    render();
+    R.track("filter", { key: k || t.name || t.id, value: t.type === "checkbox" ? (t.checked ? t.value || true : "off") : t.value });
+  }
+  $("#fbar").addEventListener("change", onFilterChange);
+  $("#sort").addEventListener("change", onFilterChange);
+  $("#sort").value = f.sort;
+
+  // ---------- Filtres sur mobile : feuille avec le nombre de résultats sur le bouton ----------
+  var fd = $("#fdlg");
+  function renderMob() {
+    $("#fdlg-body").innerHTML =
+      '<fieldset style="border:0;padding:0;margin:0"><legend class="lbl">Type</legend><div class="toggles">' + [["all", "All"], ["boat", "Boat trips"], ["activity", "Activities"]].map(function (t) { return '<button type="button" class="tg" data-type="' + t[0] + '" aria-pressed="' + (f.type === t[0]) + '">' + t[1] + "</button>"; }).join("") + "</div></fieldset>" +
+      '<fieldset style="border:0;padding:0;margin:0"><legend class="lbl">Duration</legend>' + popHtml("dur") + "</fieldset>" +
+      '<fieldset style="border:0;padding:0;margin:0"><legend class="lbl">On the water</legend>' + popHtml("water") + "</fieldset>" +
+      '<fieldset style="border:0;padding:0;margin:0"><legend class="lbl">Price per adult</legend>' + popHtml("price") + "</fieldset>" +
+      '<fieldset style="border:0;padding:0;margin:0"><legend class="lbl">Children</legend>' + popHtml("kids") + "</fieldset>" +
+      '<div class="field"><label for="msort">Sort</label><select class="input" id="msort"><option value="rec">Boat trips first</option><option value="price">Lowest total for your group</option><option value="dur">Shortest first</option></select></div>';
+    $("#msort").value = f.sort;
+    var n = ALL.filter(function (p) { return pass(p); }).length;
+    $("#fdlg-go").textContent = n ? "Show " + R.plural(n, "trip", "trips") : "No trip matches, change a filter";
+    $("#fdlg-go").disabled = !n;
+  }
+  $("#open-f").onclick = function () { renderMob(); fd.showModal(); R.track("filters_open_mobile", {}); };
+  fd.addEventListener("click", function (e) {
+    if (e.target === fd || e.target.closest("[data-close]")) return fd.close();
+    var t = e.target.closest("[data-type]"); if (t) { f.type = t.getAttribute("data-type"); render(); renderMob(); }
+  });
+  $("#fdlg-body").addEventListener("change", function (e) { onFilterChange(e); renderMob(); });
+  $("#fdlg-go").onclick = function () { fd.close(); $("#count").focus && $("#results").scrollIntoView(); };
+  $("#fdlg-clear").onclick = function () { clearAll(); renderMob(); };
+  function clearAll() { f.type = "all"; f.dur = []; f.water = []; f.max = 0; f.kids = false; render(); R.track("filter_clear_all", {}); }
+
+  // ---------- Résultats ----------
+  function chipList() {
+    var c = [];
+    if (f.type !== "all") c.push(["type", null, f.type === "boat" ? "Boat trips" : "Activities"]);
+    f.dur.forEach(function (d) { c.push(["dur", d, DUR[d]]); });
+    f.water.forEach(function (w) { c.push(["water", w, w[0].toUpperCase() + w.slice(1)]); });
+    if (f.max) c.push(["max", null, "Up to " + thb(f.max)]);
+    if (f.kids) c.push(["kids", null, "A price for every child's age"]);
+    return c;
+  }
+  function removeChip(k, v) {
+    if (k === "type") f.type = "all";
+    if (k === "dur" || k === "water") f[k] = f[k].filter(function (x) { return x !== v; });
+    if (k === "max") f.max = 0;
+    if (k === "kids") f.kids = false;
+  }
+  $("#active").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-rm]"); if (b) { removeChip(b.getAttribute("data-rm"), b.getAttribute("data-v")); render(); R.track("filter_remove", { key: b.getAttribute("data-rm") }); }
+    if (e.target.closest("#clear-all")) clearAll();
+  });
+
+  function refQ(p) { var o = R.refOption(p); var q = o ? R.quote(o, g) : null; return q && (q.status === "ok" || q.status === "partial") ? { opt: o, q: q } : null; }
+  function totalFor(p) { var b = refQ(p); return b ? b.q.total : Infinity; }
+  function render() {
+    renderPops();
+    writeHash();
+    var list = ALL.filter(function (p) { return pass(p); });
+    if (f.sort === "price") list.sort(function (a, b) { return totalFor(a) - totalFor(b); });
+    if (f.sort === "dur") list.sort(function (a, b) { return a._durRank - b._durRank; });
+    $("#count").textContent = list.length === ALL.length ? "All " + ALL.length + " trips" : list.length + " of " + ALL.length + " trips";
+    var chips = chipList();
+    $("#active").innerHTML = chips.map(function (c) { return '<button type="button" data-rm="' + c[0] + '"' + (c[1] ? ' data-v="' + c[1] + '"' : "") + ' aria-label="Remove filter: ' + esc(c[2]) + '">' + esc(c[2]) + " " + R.ICON.x + "</button>"; }).join("") + (chips.length > 1 ? '<button type="button" class="link" id="clear-all" style="border:0">Clear all</button>' : "");
+
+    // Saison : ce qu'on sait, ce qui manque.
+    var hidden = g.month ? ALL.filter(function (p) { return pass(p, "season") && R.runsInMonth(p, g.month) === false; }) : [];
+    var known = ALL.filter(function (p) { return p.season; }).length;
+    $("#season-note").innerHTML = g.month
+      ? (hidden.length ? esc(R.listJoin(hidden.map(function (p) { return p.name; }))) + " " + (hidden.length > 1 ? "do" : "does") + " not run in " + R.MONTHS[g.month - 1] + ". " : "") +
+        "Season published for " + known + " of " + ALL.length + " trips. " + '<span class="data-todo">[DONNÉE À FOURNIR : saison ou fermeture du parc pour les ' + (ALL.length - known) + " autres sorties]</span>"
+      : "";
+
+    if (!list.length) { $("#results").innerHTML = empty(); return; }
+    var opts = { group: g, month: g.month, compare: true };
+    function cards(ps) { return '<div class="cards">' + ps.map(function (p, i) { opts.compareOn = f.cmp.indexOf(p.slug) !== -1; opts.eager = i < 3; return R.card(p, opts); }).join("") + "</div>"; }
+    if (f.sort === "rec" && f.type === "all") {
+      var b = list.filter(function (p) { return p.kind === "boat"; }), a = list.filter(function (p) { return p.kind === "activity"; });
+      $("#results").innerHTML = (b.length ? '<h2 class="grp-title">Boat trips <small>' + b.length + "</small></h2>" + cards(b) : "") + (a.length ? '<h2 class="grp-title">Island activities <small>' + a.length + "</small></h2>" + cards(a) : "");
+    } else $("#results").innerHTML = cards(list);
+    syncCbar();
+  }
+  // État vide : quel filtre retirer pour retrouver des sorties.
+  function empty() {
+    var s = chipList().map(function (c) {
+      var n = countWith(function () { removeChip(c[0], c[1]); });
+      return { c: c, n: n };
+    }).filter(function (x) { return x.n; }).sort(function (a, b) { return b.n - a.n; });
+    var seasonOnly = g.month && countWith(function () {}) === 0 && ALL.filter(function (p) { return pass(p, "season"); }).length;
+    R.track("hub_empty", { filters: chipList().length });
+    return '<div class="empty"><h2 style="font-size:30px">No trip matches all these filters</h2>' +
+      (s.length ? '<p class="mute">Remove one filter to see trips again:</p><div class="sugg">' + s.slice(0, 3).map(function (x) { return '<button type="button" class="btn line" data-rm2="' + x.c[0] + '"' + (x.c[1] ? ' data-v="' + x.c[1] + '"' : "") + ">Remove “" + esc(x.c[2]) + "”: " + R.plural(x.n, "trip", "trips") + "</button>"; }).join("") + "</div>" : "") +
+      (seasonOnly ? '<p class="mute">The trips that match do not run in ' + R.MONTHS[g.month - 1] + '. <button type="button" class="link" id="any-month">Show any month</button></p>' : "") +
+      '<p class="mute">Or ask us on WhatsApp what runs for your group: <a href="' + R.WA.link + '" target="_blank" rel="noopener">' + esc(R.WA.display) + "</a></p></div>";
+  }
+  $("#results").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-rm2]"); if (b) { removeChip(b.getAttribute("data-rm2"), b.getAttribute("data-v")); render(); R.track("empty_suggestion", { key: b.getAttribute("data-rm2") }); }
+    if (e.target.closest("#any-month")) { g.month = null; g.date = null; $("#month").value = ""; $("#pdate").value = ""; R.saveGroup(g); render(); }
+  });
+
+  // ---------- Comparateur ----------
+  $("#results").addEventListener("change", function (e) {
+    var c = e.target.closest("[data-cmp]"); if (!c) return;
+    var s = c.getAttribute("data-cmp");
+    if (c.checked) { if (f.cmp.length >= 3) { c.checked = false; R.toast("Compare up to 3 trips. Untick one first."); return; } f.cmp.push(s); }
+    else f.cmp = f.cmp.filter(function (x) { return x !== s; });
+    syncCbar(); R.track("compare_toggle", { product: s, on: c.checked, size: f.cmp.length });
+  });
+  function syncCbar() {
+    var n = f.cmp.length;
+    $("#cbar").classList.toggle("show", n > 0);
+    $("#cbar-t").textContent = n === 1 ? "1 trip ticked. Tick one more to compare." : R.plural(n, "trip", "trips") + " ticked";
+    $("#cbar-go").disabled = n < 2;
+  }
+  $("#cbar-clear").onclick = function () { f.cmp = []; render(); };
+  $("#cbar-go").onclick = function () {
+    var ps = f.cmp.map(R.bySlug);
+    var rows = [
+      ["Duration", function (p) { return p.duration ? R.fact(p, p.duration.from) : "—"; }],
+      ["Pickup", function (p) { return R.fact(p, "Hotel pickup") || (p.beforeYouBook.pickup || "—"); }],
+      ["Boat", function (p) { return R.fact(p, "Boat") || R.fact(p, "Ways to go") || "—"; }],
+      ["Season", function (p) { return p.season ? p.season.text : '<span class="data-todo">[DONNÉE À FOURNIR : saison]</span>'; }],
+      ["Children", function (p) {
+        var t = p.beforeYouBook.children || R.fact(p, "Children") || R.fact(p, "Ages");
+        if (t) return t;
+        var c = null, free = null;
+        p.options.forEach(function (o) { (o.prices || []).forEach(function (r) { if (!c && r.ages && r.ages.min != null && r.ages.max != null && r.amount > 0) c = r.ages; if (!free && r.ages && r.amount === 0) free = { o: o.label, max: r.ages.max }; }); });
+        return c ? "Child rate " + c.min + " to " + c.max + (free ? ". Under " + (free.max + 1) + " free on the " + free.o.toLowerCase() : "") : "—";
+      }],
+      ["Included", function (p) { return p.included.join(", ") || "—"; }],
+      ["Not included", function (p) { return p.notIncluded.join(", ") || "—"; }],
+      ["Price", function (p) { return p.priceOnRequest ? "On WhatsApp" : "from " + thb(p.price.from) + " " + esc(p.price.unit); }],
+      ["For " + R.guestsLine(g.adults, g.ages), function (p) { var b = refQ(p); return b ? '<span class="gt num">' + thb(b.q.total) + '</span><br><span class="tiny mute">' + esc(b.opt.label) + "</span>" : "On WhatsApp"; }],
+    ];
+    $("#cdlg-body").innerHTML = '<table class="ct"><thead><tr><th><span class="vh">Detail</span></th>' + ps.map(function (p) { return '<th scope="col">' + esc(p.name) + "</th>"; }).join("") + "</tr></thead><tbody>" +
+      rows.map(function (r) { return '<tr><th scope="row">' + esc(r[0]) + "</th>" + ps.map(function (p) { var v = r[1](p); return "<td>" + (/<span/.test(v) ? v : esc(v)) + "</td>"; }).join("") + "</tr>"; }).join("") +
+      "</tbody><tfoot><tr><td></td>" + ps.map(function (p) { return '<td><button type="button" class="btn line" data-add="' + p.slug + '">Add to trip list</button></td>'; }).join("") + "</tr></tfoot></table>";
+    $("#cdlg").showModal();
+    R.track("compare_open", { products: f.cmp.join(",") });
+  };
+  $("#cdlg").addEventListener("click", function (e) { if (e.target === this || e.target.closest("[data-close]")) this.close(); });
+
+  if (f.q) { setTimeout(function () { var el = document.querySelector('[data-slug="' + f.q + '"]'); if (el) el.scrollIntoView(); }, 50); }
+  render();
+})();
+</script>
+</body>
+</html>

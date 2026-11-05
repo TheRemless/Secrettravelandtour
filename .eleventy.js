@@ -34,6 +34,15 @@ module.exports = async function (eleventyConfig) {
   // Captures avant/après de la planche /design/ : copiées seulement hors production, comme la planche.
   if (process.env.CONTEXT !== "production") {
     eleventyConfig.addPassthroughCopy({ "src/design/compare": "design/compare" });
+    // Propositions du design v4 (prototypes autonomes des agents) sur la preview, sous /_v4/.
+    // Leurs images pointent vers /src/images/ : on copie aussi les originaux, mais pas les captures.
+    eleventyConfig.on("eleventy.after", ({ dir }) => {
+      const fs = require("node:fs");
+      const path = require("node:path");
+      const skip = /[\\/](shots|tools|_build)([\\/]|$)|\.mjs$/;
+      fs.cpSync("docs/refonte/design-v4", path.join(dir.output, "_v4"), { recursive: true, filter: (f) => !skip.test(f) });
+      fs.cpSync("src/images", path.join(dir.output, "src/images"), { recursive: true });
+    });
   }
 
   return {

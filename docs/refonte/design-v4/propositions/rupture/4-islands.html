@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4 Islands Tour from Koh Lanta | Secret Travel &amp; Tour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=Literata:ital,opsz,wght@1,7..72,400..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+<style>
+  .crumbs { font-size: .9rem; color: var(--ink-2); padding-top: 22px; }
+  .crumbs a { color: var(--ink-2); }
+  .hero { display: grid; grid-template-columns: minmax(360px, 500px) 1fr; grid-template-areas: 'title chart' 'body chart'; grid-template-rows: auto 1fr; gap: 0 48px; padding-block: 16px 64px; align-items: start; }
+  .hero-title { grid-area: title; } .hero-body { grid-area: body; } .hero-chart { grid-area: chart; }
+  .hero h1 { font-size: clamp(2.5rem, 4.4vw, 4rem); margin-top: 12px; }
+  .hero .lead { margin-top: 16px; }
+  .boats { margin-top: 28px; }
+  .boats legend { margin-bottom: 4px; }
+  .radio-cards label { grid-template-columns: auto 56px 1fr auto; }
+  .radio-cards img { width: 56px; height: 42px; object-fit: cover; border-radius: 3px; }
+  .radio-cards .noimg { width: 56px; height: 42px; border-radius: 3px; background: var(--water); }
+  .radio-cards .sub { grid-column: 3 / 5; }
+  .radio-cards .pr { font-weight: 650; white-space: nowrap; }
+  .facts { margin-top: 20px; display: grid; grid-template-columns: max-content 1fr; gap: 6px 18px; font-size: .95rem; }
+  .facts dt { color: var(--ink-2); }
+  .facts dd { margin: 0; font-weight: 550; }
+  .buy { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 26px; }
+  .buy .big { font-size: 2.2rem; font-weight: 750; line-height: 1; font-variation-settings: 'wdth' 80; }
+  .order { margin-top: 18px; padding: 16px; border: 1.5px dashed var(--route); border-radius: var(--radius); display: grid; gap: 10px; }
+  .order ol { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+  .order li { display: grid; grid-template-columns: 28px 1fr auto auto; gap: 6px; align-items: center; }
+  .order li b { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--route); color: #fff; font-size: .85rem; }
+  .order li button { min-width: 44px; min-height: 44px; border: 1.5px solid var(--line); background: #fff; border-radius: var(--radius); }
+  .order li button[disabled] { opacity: .35; cursor: not-allowed; }
+  .order .check { display: flex; gap: 10px; align-items: center; min-height: 44px; }
+  .order .check input { width: 20px; height: 20px; accent-color: var(--route); }
+  .hero-chart { position: sticky; top: calc(var(--head) + 16px); }
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; grid-template-areas: 'title' 'chart' 'body'; }
+    .hero-chart { position: static; margin: 20px calc(var(--gut) * -1) 0; }
+    .hero-chart .chart-box { border-radius: 0; }
+  }
+
+  .unroll { position: relative; margin: 8px 0 18px; }
+  .unroll svg { width: 100%; height: 70px; display: block; overflow: visible; }
+  .stops { display: flex; flex-wrap: wrap; gap: 6px; }
+  .stops button { min-height: 44px; padding: 6px 12px; border: 1.5px solid var(--line); border-radius: var(--radius); background: #fff; text-align: left; line-height: 1.15; }
+  .stops button small { display: block; color: var(--ink-2); font-size: .78rem; }
+  .stops button[aria-current='step'] { border-color: var(--route); background: var(--route-tint); }
+  .now { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center; margin-top: 28px; min-height: 120px; }
+  .now figure { margin: 0; }
+  .now img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius); }
+  .now figcaption { font-size: .85rem; color: var(--ink-2); margin-top: 8px; }
+  .now .t { font-size: clamp(2.6rem, 5vw, 4.2rem); font-weight: 750; line-height: 1; font-variation-settings: 'wdth' 75; }
+  .now .t.approx::before { content: '≈ '; color: var(--ink-2); font-weight: 500; }
+  .now h3 { font-size: 1.7rem; margin-top: 10px; }
+  .now p { margin-top: 10px; font-size: 1.1rem; max-width: 40ch; }
+  .u-dot, .u-boat { position: absolute; border-radius: 50%; transform: translateX(-50%); }
+  .u-dot { top: 27px; width: 16px; height: 16px; border: 2px solid var(--ink); background: #fff; }
+  .u-dot.on { background: var(--route); border-color: var(--route); }
+  .u-boat { top: 21px; width: 28px; height: 28px; background: var(--route); border: 3px solid #fff; box-shadow: 0 0 0 1.5px var(--route); transition: left .25s ease-out; }
+  @media (prefers-reduced-motion: reduce) { .u-boat { transition: none; } }
+  .range { position: absolute; inset: 13px 0 auto 0; width: 100%; height: 44px; margin: 0; opacity: 0; cursor: pointer; }
+  .unroll:has(.range:focus-visible) { outline: 3px solid var(--route); outline-offset: 4px; border-radius: 4px; }
+  .now.text-only { grid-template-columns: 1fr; }
+  @media (max-width: 760px) { .now { grid-template-columns: 1fr; gap: 18px; } }
+
+  .calc { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+  .bill { border: 1.5px solid var(--ink); border-radius: var(--radius); padding: 26px; display: grid; gap: 14px; position: sticky; top: calc(var(--head) + 20px); }
+  .bill table { width: 100%; border-collapse: collapse; }
+  .bill td { padding: 7px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .bill td:last-child { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .bill .sum td { border-bottom: 0; font-weight: 750; font-size: 1.5rem; padding-top: 12px; }
+  .bill .cash { background: var(--water); padding: 12px 14px; border-radius: var(--radius); }
+  @media (max-width: 900px) { .calc { grid-template-columns: 1fr; gap: 28px; } .bill { position: static; } }
+
+  .incl { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+  .incl ul { margin: 12px 0 0; padding: 0; list-style: none; }
+  .incl li { padding: 9px 0; border-bottom: 1px solid var(--line); }
+  @media (max-width: 900px) { .incl { grid-template-columns: 1fr; gap: 28px; } }
+
+  .faq-wrap { display: grid; grid-template-columns: 1fr 2fr; gap: 48px; }
+  @media (max-width: 900px) { .faq-wrap { grid-template-columns: 1fr; gap: 16px; } }
+
+  .near { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+  @media (max-width: 900px) { .near { grid-template-columns: 1fr; } }
+  .band { background: var(--water); }
+</style>
+</head>
+<body class="has-stick">
+<div id="site-head"></div>
+<main id="main">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="home.html">Home</a> / <a href="tours.html#boats">Boat trips</a> / <span aria-current="page">4 Islands</span></nav>
+    <section class="hero" aria-labelledby="h1">
+      <div class="hero-title">
+        <h1 id="h1"></h1>
+        <p class="lead" id="lead"></p>
+      </div>
+      <div class="hero-body">
+        <fieldset class="boats"><legend>Pick your boat</legend><div class="radio-cards" id="opts"></div></fieldset>
+        <div id="order"></div>
+        <dl class="facts" id="facts"></dl>
+        <div class="buy"><div><span class="mute small" id="from-l"></span><div class="big num" id="from"></div><span class="mute small" id="from-u"></span></div>
+          <button type="button" class="btn route" id="book">Check a date</button>
+          <button type="button" class="link" id="add">Add to my list</button></div>
+      </div>
+      <div class="hero-chart"><div id="chart"></div></div>
+    </section>
+  </div>
+
+  <section class="section band" aria-labelledby="day-h">
+    <div class="wrap">
+      <div class="section-head"><h2 id="day-h">The day</h2><p id="day-note"></p></div>
+      <div class="unroll"><div id="unroll"></div>
+        <label class="vh" for="range">Move through the day</label>
+        <input class="range" id="range" type="range" min="0" step="1" value="0"></div>
+      <div class="stops" id="stops" role="list"></div>
+      <div class="now" id="now" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="section wrap" aria-labelledby="calc-h">
+    <div class="section-head"><h2 id="calc-h">Price for your group</h2><p>Prices from the site, in Thai baht. The park fee is paid in cash on the island.</p></div>
+    <div class="calc">
+      <div>
+        <fieldset><legend>Boat</legend><div class="chips" id="c-opt" role="radiogroup" aria-label="Boat"></div></fieldset>
+        <fieldset class="mt"><legend>Who's coming</legend>
+          <div class="guest-row"><span>Adults</span><span id="c-ad"></span></div>
+          <div class="guest-row"><span>Children</span><span id="c-kid"></span></div>
+          <div class="kids" id="c-ages"></div>
+          <label class="kid check"><input type="checkbox" id="c-thai">Thai nationals (park fee rate)</label>
+        </fieldset>
+      </div>
+      <div class="bill" aria-live="polite" id="bill"></div>
+    </div>
+  </section>
+
+  <section class="section wrap" aria-labelledby="incl-h">
+    <div class="section-head"><h2 id="incl-h">What's in the price</h2></div>
+    <div class="incl" id="incl"></div>
+  </section>
+
+  <section class="section band" aria-labelledby="faq-h">
+    <div class="wrap faq-wrap">
+      <h2 id="faq-h">Questions about the 4 Islands</h2>
+      <div class="faq" id="faq"></div>
+    </div>
+  </section>
+
+  <section class="section wrap" aria-labelledby="near-h">
+    <div class="near">
+      <div><h2 id="near-h">Other boat trips on the chart</h2><div id="near-list" class="mt"></div><p class="mt" id="taxi"></p></div>
+      <div id="near-chart"></div>
+    </div>
+  </section>
+</main>
+<div class="stickbar"><div><span class="small mute">from</span> <strong class="num" id="sb-price"></strong></div><button type="button" class="btn route" id="sb-book">Check a date</button></div>
+<div id="site-foot"></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+(() => {
+  const { S, L, $, $$, esc, P, fmt, thb, photo, cardPhoto, fromText, chart, party, saveParty, stepper, priceFor, cashFees, openRequest, addToList, priceSummary, pageOf } = R;
+  R.boot('Boat trips');
+  const p = P('4-islands');
+  $('#h1').textContent = p.h1; $('#lead').textContent = p.lead;
+
+  const steps = p.day[0].steps;
+  const longtailStops = ['chueak', 'mook', 'ngai', 'ma'];
+  const st = { opt: 'join-in-longtail', order: [...longtailStops], kradan: false, step: 0 };
+  const thumbs = { 'join-in-longtail': photo('four-longtail'), 'join-in-speedboat': photo('four-gallery-kradan'), 'private-longtail': null };
+
+  /* --- choix du bateau --- */
+  $('#opts').innerHTML = p.options.map((o) => {
+    const t = thumbs[o.id]; const first = o.prices[0];
+    return `<label><input type="radio" name="opt" value="${o.id}" ${o.id === st.opt ? 'checked' : ''}>
+      ${t ? `<img src="${t.src}" alt="" width="56" height="42">` : '<span class="noimg" aria-hidden="true"></span>'}
+      <span><strong>${esc(o.label)}</strong></span><span class="pr num">${thb(first.amount)}</span>
+      <span class="sub">${esc(o.stub)}, ${esc(first.label.toLowerCase())} ${esc(first.unit)}</span></label>`;
+  }).join('');
+  $('#opts').onchange = (e) => setOpt(e.target.value);
+
+  const route = () => {
+    if (st.opt === 'join-in-speedboat') return { via: ['koh-lanta-se', 'chueak', 'mook', 'kradan', 'ngai', 'koh-lanta-se'], stops: ['chueak', 'mook', 'kradan', 'ngai'] };
+    const stops = [...st.order, ...(st.opt === 'private-longtail' && st.kradan ? ['kradan'] : [])];
+    return { via: ['old-town', ...stops, 'old-town'], stops };
+  };
+  const ch = chart($('#chart'), { bounds: 'four', places: ['old-town', 'koh-lanta', 'chueak', 'mook', 'ngai', 'ma', 'kradan'], label: 'Chart of the 4 Islands route', routes: [{ key: 'r', via: route().via }], routesOn: ['r'], stops: route().stops });
+
+  function setOpt(id) {
+    st.opt = id;
+    $$('#opts input').forEach((i) => { i.checked = i.value === id; });
+    $$('#c-opt [data-o]').forEach((b) => b.setAttribute('aria-checked', b.dataset.o === id));
+    renderAll();
+  }
+  function orderBox() {
+    if (st.opt !== 'private-longtail') { $('#order').innerHTML = ''; return; }
+    const kr = p.options.find((o) => o.id === 'private-longtail').prices.find((r) => /Kradan/.test(r.label));
+    $('#order').innerHTML = `<div class="order"><strong>Your order of islands</strong>
+      <ol>${st.order.map((id, i) => `<li><b>${i + 1}</b><span>${esc(L.places[id].name)}</span>
+        <button type="button" data-up="${i}" ${i === 0 ? 'disabled' : ''} aria-label="Move ${esc(L.places[id].name)} earlier">↑</button>
+        <button type="button" data-down="${i}" ${i === st.order.length - 1 ? 'disabled' : ''} aria-label="Move ${esc(L.places[id].name)} later">↓</button></li>`).join('')}</ol>
+      <label class="check"><input type="checkbox" id="kradan" ${st.kradan ? 'checked' : ''}>Add Koh Kradan, ${thb(kr.amount)} ${esc(kr.unit)}</label></div>`;
+  }
+  $('#order').addEventListener('click', (e) => {
+    const b = e.target.closest('button'); if (!b) return;
+    const i = Number(b.dataset.up ?? b.dataset.down); const j = b.dataset.up != null ? i - 1 : i + 1;
+    [st.order[i], st.order[j]] = [st.order[j], st.order[i]];
+    renderAll(); const again = $(`#order [data-${b.dataset.up != null ? 'up' : 'down'}="${j}"]`) || $(`#order [data-${b.dataset.up != null ? 'down' : 'up'}="${j}"]`); again?.focus();
+  });
+  $('#order').addEventListener('change', (e) => { if (e.target.id === 'kradan') { st.kradan = e.target.checked; renderAll(); $('#kradan').focus(); } });
+
+  const extra = () => (st.opt === 'private-longtail' ? `Island order: ${[...st.order, ...(st.kradan ? ['kradan'] : [])].map((id) => L.places[id].name).join(', ')}${st.kradan ? ' (Koh Kradan added)' : ''}` : null);
+
+  function facts() {
+    const o = p.options.find((x) => x.id === st.opt);
+    const rows = [
+      ['Duration', R.fact(p, 'Duration')],
+      ['Hotel pickup', st.opt === 'join-in-speedboat' ? '[DONNÉE À FOURNIR : horaire speedboat]' : R.fact(p, 'Hotel pickup')],
+      ['Leaves from', st.opt === 'join-in-speedboat' ? '[DONNÉE À FOURNIR : nom du ponton du speedboat]' : o.pier],
+      ['Islands', R.fact(p, st.opt === 'join-in-speedboat' ? 'Islands, speedboat' : 'Islands, longtail')],
+      ['Lunch', st.opt === 'join-in-speedboat' ? 'Thai buffet on the beach, Koh Kradan' : 'Thai buffet on the beach, Koh Ngai'],
+      ['Not included', R.fact(p, 'National park fee')],
+    ];
+    $('#facts').innerHTML = rows.map(([k, v]) => `<dt>${k}</dt><dd>${/^\[DONNÉE/.test(v) ? `<span class="todo">${esc(v)}</span>` : esc(v)}</dd>`).join('');
+    const first = o.prices[0];
+    $('#from-l').textContent = 'from'; $('#from').textContent = thb(first.amount); $('#from-u').textContent = `${first.label.toLowerCase()}, ${first.unit}`;
+    $('#sb-price').textContent = thb(first.amount);
+  }
+
+  /* --- la journée déroulée --- */
+  const stepPhoto = ['', 'four-gallery-pier', 'four-gallery-reef', 'four-hero', 'four-gallery-ngai', 'card-4-islands', ''];
+  function daySteps() {
+    if (st.opt === 'join-in-longtail') return steps.map((s, i) => ({ time: s.range || s.time, fixed: s.fixed, place: s.place, text: s.text, ph: stepPhoto[i] }));
+    const r = route().stops;
+    const text = { chueak: steps[2].text, mook: steps[3].text, ngai: st.opt === 'join-in-speedboat' ? 'One more island and one more snorkelling stop.' : steps[4].text, ma: steps[5].text, kradan: st.opt === 'join-in-speedboat' ? 'Lunch buffet on the beach, then time to swim.' : 'Koh Kradan, added to your route.' };
+    const ph = { chueak: 'four-gallery-reef', mook: 'four-hero', ngai: 'four-gallery-ngai', ma: 'card-4-islands', kradan: '' };
+    const start = st.opt === 'join-in-speedboat' ? { place: 'Pier', text: 'Pickup at your hotel, then the speedboat pier.', ph: '' } : { place: steps[1].place, text: 'Hotel pickup, then the boat leaves from the Old Town pier. The schedule is flexible.', ph: 'four-gallery-pier' };
+    return [start, ...r.map((id) => ({ place: L.places[id].name, text: text[id], ph: ph[id] })), { place: 'Koh Lanta', text: 'Back to Koh Lanta, then transfer to your hotel.', ph: '' }].map((x) => ({ time: null, ...x }));
+  }
+  function renderDay() {
+    const ds = daySteps(); st.step = Math.min(st.step, ds.length - 1);
+    $('#day-note').innerHTML = st.opt === 'join-in-longtail' ? esc(p.day[0].note.split('. ').slice(1).join('. '))
+      : st.opt === 'join-in-speedboat' ? 'The times published on the site are for the longtail. <span class="todo">[DONNÉE À FOURNIR : horaires du speedboat]</span>'
+      : esc(p.options.find((o) => o.id === 'private-longtail').note);
+    const n = ds.length; const W = 1000;
+    const xs = ds.map((d, i) => (d.time ? 20 + ((R.toMin(d.time.slice(0, 5)) - R.toMin('07:45')) / (R.toMin('15:30') - R.toMin('07:45'))) * (W - 40) : 20 + (i / (n - 1)) * (W - 40)));
+    const bx = xs[st.step];
+    $('#unroll').innerHTML = `<svg viewBox="0 0 ${W} 70" preserveAspectRatio="none" aria-hidden="true"><line x1="20" y1="35" x2="${W - 20}" y2="35" stroke="#6f949f" stroke-width="2" stroke-dasharray="6 6" vector-effect="non-scaling-stroke"/>
+      <line x1="20" y1="35" x2="${bx}" y2="35" stroke="var(--route)" stroke-width="4" vector-effect="non-scaling-stroke"/></svg>`;
+    // repères en HTML pour garder des cercles ronds
+    $('#unroll').insertAdjacentHTML('beforeend', ds.map((d, i) => `<span class="u-dot${i <= st.step ? ' on' : ''}" style="left:${(xs[i] / W) * 100}%"></span>`).join('') + `<span class="u-boat" aria-hidden="true" style="left:${(bx / W) * 100}%"></span>`);
+    $('#range').max = n - 1; $('#range').value = st.step;
+    $('#range').setAttribute('aria-valuetext', `${ds[st.step].time ? `${ds[st.step].time}, ` : ''}${ds[st.step].place}`);
+    $('#stops').innerHTML = ds.map((d, i) => `<button type="button" role="listitem" data-s="${i}" ${i === st.step ? 'aria-current="step"' : ''}><strong>${esc(d.place)}</strong><small class="num">${d.time ? `${d.fixed ? '' : '≈ '}${d.time}` : `Stop ${i}`}</small></button>`).join('');
+    const d = ds[st.step]; const ph = d.ph ? photo(d.ph) : null;
+    $('#now').className = `now${ph ? '' : ' text-only'}`;
+    $('#now').innerHTML = `${ph ? `<figure><img src="${ph.src}" alt="${esc(ph.alt)}" style="object-position:${ph.pos}" width="800" height="600"><figcaption>${esc(ph.alt)}</figcaption></figure>` : ''}
+      <div>${d.time ? `<div class="t num ${d.fixed ? '' : 'approx'}">${esc(d.time)}</div>` : ''}<h3>${esc(d.place)}</h3><p>${esc(d.text)}</p></div>`;
+  }
+  $('#range').oninput = (e) => { st.step = Number(e.target.value); renderDay(); };
+  $('#stops').onclick = (e) => { const b = e.target.closest('[data-s]'); if (!b) return; st.step = Number(b.dataset.s); renderDay(); $(`#stops [data-s="${st.step}"]`).focus(); };
+
+  /* --- calculateur --- */
+  $('#c-opt').innerHTML = p.options.map((o) => `<button type="button" class="chip" role="radio" data-o="${o.id}" aria-checked="${o.id === st.opt}">${esc(o.label)}</button>`).join('');
+  $('#c-opt').onclick = (e) => { const b = e.target.closest('[data-o]'); if (b) setOpt(b.dataset.o); };
+  let thai = false;
+  function guests() {
+    $('#c-ad').innerHTML = ''; $('#c-ad').append(stepper('adult', party.adults, 1, 30, (v) => { party.adults = v; saveParty(); bill(); }));
+    $('#c-kid').innerHTML = ''; $('#c-kid').append(stepper('child', party.ages.length, 0, 10, (v) => { while (party.ages.length < v) party.ages.push(6); party.ages.length = v; saveParty(); ages(); bill(); }));
+    ages();
+  }
+  function ages() { $('#c-ages').innerHTML = party.ages.map((a, k) => `<label class="kid">Child ${k + 1}, age <select data-age="${k}">${Array.from({ length: 18 }, (_, v) => `<option ${v === a ? 'selected' : ''}>${v}</option>`).join('')}</select></label>`).join(''); }
+  $('#c-ages').onchange = (e) => { party.ages[Number(e.target.dataset.age)] = Number(e.target.value); saveParty(); bill(); };
+  $('#c-thai').onchange = (e) => { thai = e.target.checked; bill(); };
+  document.addEventListener('party', () => { if (!document.querySelector('.sheet')) return; guests(); bill(); });
+  function bill() {
+    const o = p.options.find((x) => x.id === st.opt);
+    const r = priceFor(o, party.adults, party.ages) || { total: 0, lines: [], unknown: [] };
+    const lines = [...r.lines];
+    let total = r.total;
+    if (st.opt === 'private-longtail' && st.kradan) { const kr = o.prices.find((x) => /Kradan/.test(x.label)); lines.push([kr.label, kr.amount]); total += kr.amount; }
+    const fee = cashFees(o, party.adults, party.ages, thai);
+    $('#bill').innerHTML = `<strong>${esc(o.label)}</strong>
+      <table><tbody>${lines.map(([l, a]) => `<tr><td>${esc(l)}</td><td>${thb(a)}</td></tr>`).join('')}
+      <tr class="sum"><td>To pay us</td><td>${thb(total)}</td></tr></tbody></table>
+      ${r.unknown.length ? `<p class="small">Age ${r.unknown.join(', ')}: no price on the site for this boat. <span class="todo">[DONNÉE À FOURNIR : moins de 4 ans en speedboat]</span></p>` : ''}
+      ${fee ? `<div class="cash"><strong class="num">${thb(fee.total)} in cash</strong><br><span class="small">${esc(fee.label)} for ${party.adults + party.ages.length} people. ${esc(fee.note)}.</span></div>` : ''}
+      <p class="small mute">Payment in ${S.site.booking.payment.join(' or ')}. Nothing is paid online.</p>
+      <button type="button" class="btn route" data-book>Check a date for this group</button>`;
+  }
+  $('#bill').addEventListener('click', (e) => { if (e.target.closest('[data-book]')) book(); });
+
+  /* --- inclus, à prévoir --- */
+  const bb = p.beforeYouBook || {};
+  $('#incl').innerHTML = `<div><h3>Included</h3><ul>${p.included.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div>
+    <div><h3>Not included</h3><ul><li>${esc(R.fact(p, 'National park fee'))}, paid in cash on the island</li></ul>
+      <h3 class="mt">Bring</h3><ul>${(bb.bring || []).map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div>
+    <div><h3>Before you book</h3><ul><li>${esc(bb.pickup)}</li><li>${esc(S.site.booking.weather)}</li><li>Payment in ${S.site.booking.payment.join(' or ')}, nothing online.</li></ul></div>`;
+
+  /* --- questions --- */
+  $('#faq').innerHTML = p.faq.map((f) => `<details><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join('');
+
+  /* --- autres sorties --- */
+  const rel = ['koh-rok-koh-haa', 'koh-phi-phi', 'koh-talabeng-koh-bubu'];
+  $('#near-list').innerHTML = rel.map((s) => { const q = P(s); const ph = cardPhoto(s); return `<article class="trip" data-slug="${s}"><img src="${ph.src}" alt="${esc(ph.alt)}" width="112" height="84" loading="lazy"><div><h3><a href="${pageOf(s)}">${esc(q.name)}</a></h3><p class="meta">${esc(q.promise || q.lead)}</p><p class="price">${fromText(q)}</p></div></article>`; }).join('');
+  const taxi = S.taxi.find((t) => t.slug === 'krabi-airport-koh-lanta');
+  $('#taxi').innerHTML = `Arriving from Krabi? <a href="https://secrettravelandtour.com${taxi.url}">${esc(taxi.name)}, with ${esc(S.site.vip.name)}</a>`;
+  const nc = chart($('#near-chart'), { routesOn: rel, label: 'Chart of the other boat trips' });
+  $('#near-list').addEventListener('mouseover', (e) => { const a = e.target.closest('.trip'); if (a) nc.set({ routesOn: [a.dataset.slug] }); });
+  $('#near-list').addEventListener('mouseleave', () => nc.set({ routesOn: rel }));
+
+  /* --- réservation --- */
+  function book() { openRequest({ items: [{ slug: '4-islands', option: st.opt, date: null, extra: extra() }] }); }
+  $('#book').onclick = book; $('#sb-book').onclick = book;
+  $('#add').onclick = () => addToList('4-islands', st.opt, null, extra());
+
+  function renderAll() { orderBox(); facts(); const r = route(); ch.update({ routes: [{ key: 'r', via: r.via }], stops: r.stops }); ch.set({ stops: r.stops }); renderDay(); bill(); }
+  guests(); renderAll();
+})();
+</script>
+</body>
+</html>

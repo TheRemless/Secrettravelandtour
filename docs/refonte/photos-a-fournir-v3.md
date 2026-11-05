@@ -14,7 +14,6 @@ Fichier généré par `scripts/photos-v3.mjs` à chaque build. Chaque ligne est 
 | Carte Scuba diving | Diver above a reef, blue water. | Varakorn Kuldilok, CC BY-SA 3.0 |
 | Carte Electric go-kart | Kart on an outdoor track, helmet. | KengSiri, CC BY-SA 3.0 |
 | Accueil, transferts | The VIP Taxi Lanta minivan, 1,600 px or more. | Patiparn.Nice2002bkk, CC BY-SA 4.0 |
-| Accueil, le comptoir de Sala Dan | Front of the desk at 292 Moo 2, Sala Dan. | Максим Улитин, CC BY 3.0 |
 | Accueil, bande finale | View from a boat, passengers from behind, islands ahead. | Peter Emmett, Unsplash License |
 | Hub, bande finale | Longtail from above on turquoise water. | Yannick Apollon, Unsplash License |
 | 4 Islands, hero | Emerald Cave passage seen from the inner lagoon. | Uncharted25, CC BY-SA 4.0 |
