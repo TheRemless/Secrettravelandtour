@@ -340,4 +340,22 @@ function toScript(obj) {
   return JSON.stringify(obj).replace(/</g, "\\u003c");
 }
 
-module.exports = { home, tour, activity, rental, route, toScript, clean, mainId, ids };
+// Hub /tours/ : fil d'Ariane et liste des fiches, noms et adresses seulement (rien d'autre n'est affirmé).
+function hub(site, products) {
+  const url = abs(site, "/tours/");
+  return [
+    block({
+      "@type": "BreadcrumbList",
+      "@id": `${url}#breadcrumb`,
+      itemListElement: [{ name: "Home", item: abs(site, "/") }, { name: "Tours", item: url }]
+        .map((it, i) => ({ "@type": "ListItem", position: i + 1, name: it.name, item: it.item }))
+    }),
+    block({
+      "@type": "ItemList",
+      "@id": `${url}#list`,
+      itemListElement: products.map((pr, i) => ({ "@type": "ListItem", position: i + 1, name: pr.name, url: abs(site, pr.url) }))
+    })
+  ];
+}
+
+module.exports = { home, tour, activity, rental, route, hub, toScript, clean, mainId, ids };

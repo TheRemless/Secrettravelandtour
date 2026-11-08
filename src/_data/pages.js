@@ -131,7 +131,8 @@ module.exports = async function () {
       fourIslands: schema.tour ? schema.tour(four, site) : [],
       elephant: schema.activity ? schema.activity(elephant, site) : [],
       rental: schema.rental ? schema.rental(rental, site) : [],
-      route: schema.route ? schema.route(route, site) : []
+      route: schema.route ? schema.route(route, site) : [],
+      hub: schema.hub ? schema.hub(site, products) : []
     };
   } else data.jsonLd = {};
 
