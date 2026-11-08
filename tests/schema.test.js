@@ -128,9 +128,9 @@ test("aucun nom de prestataire, e-mail, réseau social, horaire ni licence absen
     assert.doesNotMatch(text, PARTENAIRES, name);
     assert.doesNotMatch(text, /"email"|openingHours|facebook|instagram|tripadvisor/i, name);
   }
-  // Licence TAT 69/40285 (donnée le 03.11.2026) : présente sur l'agence ; rien quand elle vaut null.
-  assert.equal(site.brands.secret.licence, "69/40285");
-  assert.match(JSON.stringify(homeBlocks), /69\/40285/);
+  // Licence TAT 34/04000 (donnée le 06.11.2026) : présente sur l'agence ; rien quand elle vaut null.
+  assert.equal(site.brands.secret.licence, "34/04000");
+  assert.match(JSON.stringify(homeBlocks), /34\/04000/);
   const unlicensed = clone(site);
   unlicensed.brands.secret.licence = null;
   assert.doesNotMatch(JSON.stringify(schema.home(unlicensed, products)), /hasCredential/);
