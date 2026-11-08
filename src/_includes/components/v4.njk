@@ -72,7 +72,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 <a class="skip" href="#main">Skip to content</a>
 <header class="hd" id="hd">
   <div class="wrap hd__in">
-    <a class="brand" href="/"><picture><source type="image/avif" srcset="{{ em.avif }}"><img eleventy:ignore src="{{ em.src }}" srcset="{{ em.webp }}" width="{{ em.width }}" height="{{ em.height }}" alt=""></picture><b>Secret Travel &amp; Tour</b></a>
+    <a class="brand" href="/"><picture><source type="image/avif" srcset="{{ em.avif }}"><img eleventy:ignore src="{{ em.src }}" srcset="{{ em.webp }}" width="{{ em.width }}" height="{{ em.height }}" alt=""></picture><b>Secret Travel <span>&amp; Tour</span></b></a>
     <nav class="nav" aria-label="Main"><ul>{% for i in items %}<li><a href="{{ i.href }}"{% if i.id == current %} aria-current="page"{% endif %}>{{ i.label }}</a></li>{% endfor %}</ul></nav>
     <div class="hd__tools">
       <button class="tl-btn" type="button" data-trips-open aria-haspopup="dialog" hidden>{{ glyph("list") }}<span class="tl-btn__l">Trip list</span><span class="tl-btn__n" data-trips-count>0</span><span class="sr"> trips</span></button>
@@ -83,7 +83,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 </header>
 <dialog class="drawer" id="menu" aria-label="Menu">
   <div class="drawer__top wrap">
-    <a class="brand" href="/"><picture><source type="image/avif" srcset="{{ em.avif }}"><img eleventy:ignore src="{{ em.src }}" srcset="{{ em.webp }}" width="{{ em.width }}" height="{{ em.height }}" alt=""></picture><b>Secret Travel &amp; Tour</b></a>
+    <a class="brand" href="/"><picture><source type="image/avif" srcset="{{ em.avif }}"><img eleventy:ignore src="{{ em.src }}" srcset="{{ em.webp }}" width="{{ em.width }}" height="{{ em.height }}" alt=""></picture><b>Secret Travel <span>&amp; Tour</span></b></a>
     <button class="x" type="button" data-menu-close>{{ icon("close") }}<span class="sr">Close the menu</span></button>
   </div>
   <nav class="wrap" aria-label="Menu"><ul>{% for i in items %}<li><a href="{{ i.href }}">{{ i.label }}</a></li>{% endfor %}</ul></nav>

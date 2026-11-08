@@ -128,7 +128,8 @@ figure { margin: 0; }
   .hd__tools { gap: 6px; }
   .brand { gap: 8px; flex: 0 1 auto; }
   .brand img { height: 38px; }
-  .brand b { font-size: 18px; max-width: 7.2em; }
+  .brand b { font-size: 18px; }
+  .brand b span { display: block; }
   .hd__wa { padding: 0; width: 44px; min-height: 44px; }
   .hd__wa-l, .tl-btn__l { display: none; }
   .tl-btn { padding: 0 10px; }

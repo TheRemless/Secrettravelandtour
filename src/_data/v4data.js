@@ -67,10 +67,14 @@ function product(slug) {
   return BOATS.includes(slug) ? P("tours/" + slug) : P("activities/" + slug);
 }
 
-// Deux faits courts lus tels quels ; « All year » n'apprend rien sur une carte.
+// « Koh Chueak, snorkelling over the reef » sous le titre « Koh Chueak » : le nom n'est pas répété.
+const dropPlace = (text, place) => (place && text.startsWith(place + ", ") ? text.charAt(place.length + 2).toUpperCase() + text.slice(place.length + 3) : text);
+
+// Deux faits courts lus tels quels ; « All year » n'apprend rien sur une carte, ni un fait déjà dit par la promesse.
 function cardMeta(p) {
+  const promise = (p.promise || "").toLowerCase();
   return ["Duration", "Season", "Boat", "Sessions"].map((l) => fact(p, l))
-    .filter((v) => v && v !== "All year" && v.length <= 40).slice(0, 2);
+    .filter((v) => v && v !== "All year" && v.length <= 40 && !promise.includes(v.toLowerCase())).slice(0, 2);
 }
 
 async function card(slug) {
@@ -281,7 +285,7 @@ module.exports = async function () {
       title: "Koh Lanta Boat Trips, Activities and Transfers | Secret Travel & Tour",
       metaDescription: `Boat trips, island activities and transfers on Koh Lanta. 4 Islands from ${bySlug["4-islands"].price.amount}, Koh Rok from ${bySlug["koh-rok-koh-haa"].price.amount}. Book on WhatsApp.`
     },
-    h1: home.h1,
+    h1: home.h1.replace("Koh Lanta", "Koh\u00a0Lanta"),
     // home.json lead sans le comptoir de Sala Dan (décision client) ; réservation WhatsApp et paiement : site.json booking.
     lead: `Koh Rok, Phi Phi and the 4 Islands by boat, the elephant sanctuary, cooking classes and your transfers. You book on ${site.booking.channel}${site.booking.onlinePayment === false ? " and nothing is paid online" : ""}.`,
     // Les trois sorties du haut : photos de leurs cartes, en plus grand (elles ne reparaissent pas plus bas).
@@ -327,7 +331,7 @@ module.exports = async function () {
       title: `4 Islands Tour from Koh Lanta, from ${view.thb(four.price.from)} | Secret Travel & Tour`,
       metaDescription: `Emerald Cave, Koh Ngai and two snorkelling stops, by longtail or speedboat. Join-in from ${view.thb(four.price.from)}, private longtail from ${view.thb(four.options.find((o) => o.kind === "private").prices[0].amount)}, hotel pickup included.`
     },
-    h1: four.h1,
+    h1: four.h1.replace("Koh Lanta", "Koh\u00a0Lanta"),
     lead: four.lead,
     keyFacts: ["Duration", "Hotel pickup", "Boat leaves"].map((l) => ({ label: l, value: fact(four, l) })).filter((f) => f.value),
     price: { amount: view.thb(four.price.from), unit: four.price.unit, option: view.optionOfPrice(four) },
@@ -361,7 +365,7 @@ module.exports = async function () {
       title: "How the day goes",
       longtailTitle: day.title.replace(/^The day, /, "Times for the "),
       note: day.note,
-      steps: day.steps.map((s) => ({ t: s.range || s.time, fixed: Boolean(s.fixed), place: s.place, text: s.text, kind: s.kind })),
+      steps: day.steps.map((s) => ({ t: s.range || s.time, fixed: Boolean(s.fixed), place: s.place, text: dropPlace(s.text, s.place), kind: s.kind })),
       speedboat: speedStops,
       speedboatNote: four.faq[0].a.split(". ").find((x) => /speedboat/.test(x)) + "."
     },
@@ -397,7 +401,7 @@ module.exports = async function () {
   const nBoats = boats.length, nActs = activities.length;
   const hubData = {
     seo: { title: "Boat Trips and Activities from Koh Lanta | Secret Travel & Tour", metaDescription: "All the boat trips and island activities we book on Koh Lanta, with prices: 4 Islands, Koh Rok, Phi Phi, kayak, diving, elephants." },
-    h1: "Boat trips and activities on Koh Lanta",
+    h1: "Boat trips and activities on Koh\u00a0Lanta",
     lead: `${cap(WORDS[nBoats])} boat trips and ${WORDS[nActs]} activities, with their prices. Tick up to three to compare them.`,
     final: { photo: await photo("hub-final"), title: "Not sure which trip?", text: "Send us your dates and who is coming, on WhatsApp.", message: homeData.final.message }
   };
