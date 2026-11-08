@@ -316,7 +316,8 @@ function speedboatRoutes(p) {
   const add = (id, label, group, dep) => {
     if (!routes.has(id)) routes.set(id, { id, label, group, deps: [] });
     const r = routes.get(id);
-    dep.id = dep.time.replace(":", "");
+    // Identifiant unique sur toute la grille (« to-koh-ngai@1500 ») : les boutons radio d'un même groupe ne se confondent pas.
+    dep.id = id + "@" + dep.time.replace(":", "");
     if (!r.deps.some((d) => d.id === dep.id)) r.deps.push(dep);
   };
   const board = (tt.outbound || []).map((run) => {
@@ -326,7 +327,7 @@ function speedboatRoutes(p) {
       const pl = placeOf(s.place);
       const route = "to-" + slugify(pl.name);
       add(route, `Koh Lanta to ${pl.name}`, "out", { time: run.departs, arrives: s.time, detail: [pl.note, publicText(s.note || ""), season].filter(Boolean).join(". ") });
-      return { place: pl.name, note: [pl.note, publicText(s.note || "")].filter(Boolean).join(", "), time: s.time, route, dep: run.departs.replace(":", "") };
+      return { place: pl.name, note: [pl.note, publicText(s.note || "")].filter(Boolean).join(", "), time: s.time, route, dep: route + "@" + run.departs.replace(":", "") };
     });
     let onward = null;
     if (langkawi) {
@@ -334,7 +335,7 @@ function speedboatRoutes(p) {
       const at = (run.onward.match(/arriving at (\d{2}:\d{2}[^.]*)/) || [])[1] || "";
       const lk = (run.season || "").replace(/^Langkawi:\s*/, "");
       add("to-langkawi", "Koh Lanta to Langkawi", "out", { time: run.departs, arrives: at, detail: ["Change of boat at Koh Lipe", lk ? "Runs " + lk : ""].filter(Boolean).join(". ") });
-      onward = { text: run.onward, season: lk, route: "to-langkawi", dep: run.departs.replace(":", ""), checkIn: tt.checkIn && tt.checkIn.langkawi ? tt.checkIn.langkawi : "" };
+      onward = { text: run.onward, season: lk, route: "to-langkawi", dep: "to-langkawi@" + run.departs.replace(":", ""), checkIn: tt.checkIn && tt.checkIn.langkawi ? tt.checkIn.langkawi : "" };
     }
     return { time: run.departs, stops, season, onward };
   });
@@ -345,7 +346,7 @@ function speedboatRoutes(p) {
       const route = "from-" + slugify(o.name);
       const deps = o.times.map((t, i) => {
         add(route, `${o.name} to Koh Lanta`, "in", { time: t, arrives: (run.arrivesKohLanta || [])[i] || "", detail: season });
-        return { time: t, arrives: (run.arrivesKohLanta || [])[i] || "", dep: t.replace(":", "") };
+        return { time: t, arrives: (run.arrivesKohLanta || [])[i] || "", dep: route + "@" + t.replace(":", "") };
       });
       return { place: o.name, route, deps };
     });

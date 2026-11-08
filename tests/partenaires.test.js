@@ -91,7 +91,7 @@ test("nouvelles pages : batik, karting, kayak, location et speedboat existent et
   }
   const speed = fs.readFileSync(path.join(site, "tours", "speedboat", "index.html"), "utf8");
   // Plus de formulaire d'accueil : chaque arrêt de la grille ouvre la feuille sur son trajet et son heure.
-  assert.match(speed, /data-sb-route="to-koh-phi-phi" data-sb-dep="0900"/);
+  assert.match(speed, /data-sb-route="to-koh-phi-phi" data-sb-dep="to-koh-phi-phi@0900"/);
   // Aucun prix de billet (aucun dans les données) : ni dans le haut de page ni dans la grille. Les cartes des sorties
   // voisines, plus bas, gardent leur prix d'appel.
   assert.doesNotMatch(speed.split('aria-labelledby="rel-h"')[0], /\d\s?THB/);

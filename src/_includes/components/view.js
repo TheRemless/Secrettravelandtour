@@ -129,7 +129,7 @@ function feesText(fees) {
 function firstUnit(row) {
   if (!row) return "";
   if (row.group) return `${row.unit || ""}${row.unit ? ", " : ""}${row.group.min}–${row.group.max} people`;
-  if (row.unit === "per person" && /^[A-Za-z ]+$/.test(row.label)) return `per ${row.label.toLowerCase()}`;
+  if (row.unit === "per person" && /^[A-Za-z ]+$/.test(row.label) && !/^per /i.test(row.label)) return `per ${row.label.toLowerCase()}`;
   return row.unit || "";
 }
 
@@ -199,7 +199,7 @@ function beforeBook(product, site, { skipParkFee = false } = {}) {
   return BEFORE.map(([key, label]) => {
     let v = own[key] !== undefined ? own[key] : fallback[key];
     // Une liste devient une phrase : « Clothes that can get dirty and wet, a towel, flip-flops ».
-    if (Array.isArray(v)) v = v.map((x, i) => (i && /^[A-Z][a-z]/.test(x) ? x.charAt(0).toLowerCase() + x.slice(1) : x)).join(", ");
+    if (Array.isArray(v)) v = v.map((x, i) => (i && /^(?:[A-Z][a-z]|A )/.test(x) ? x.charAt(0).toLowerCase() + x.slice(1) : x)).join(", ");
     // La règle météo vaut pour les sorties, pas pour la location.
     if (key === "weather" && product.template === "rental") return null;
     if (key === "weather" && common.weather) v = v ? `${v} ${common.weather}` : common.weather;

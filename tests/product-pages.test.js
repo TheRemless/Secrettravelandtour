@@ -173,15 +173,15 @@ test("speedboat : chaque arrêt de la grille ouvre la feuille, trajet, horaire, 
     const place = s.place.replace(/ \(.*\)$/, "");
     const route = cfg.routes.find((r) => r.label === `Koh Lanta to ${place}`);
     assert.ok(route && route.deps.some((d) => d.time === run.departs && d.arrives === s.time), `${run.departs} ${place}`);
-    assert.match(doc, new RegExp(`data-sb-route="${route.id}" data-sb-dep="${run.departs.replace(":", "")}"`), `${run.departs} ${place} : bouton`);
+    assert.match(doc, new RegExp(`data-sb-route="${route.id}" data-sb-dep="${route.id}@${run.departs.replace(":", "")}"`), `${run.departs} ${place} : bouton`);
   }
-  const st = Object.assign(B.emptyState({}), { today: TODAY, route: "to-koh-ngai", departure: "1500", dateChoice: "other", dateOther: "2026-11-20", adults: 2, childAges: [], pickup: "Lanta Sand Resort", name: "Anna" });
+  const st = Object.assign(B.emptyState({}), { today: TODAY, route: "to-koh-ngai", departure: "to-koh-ngai@1500", dateChoice: "other", dateOther: "2026-11-20", adults: 2, childAges: [], pickup: "Lanta Sand Resort", name: "Anna" });
   assert.equal(B.validate(cfg, st).tripType, "Choose one way or return.");
   st.tripType = "return";
   assert.equal(B.validate(cfg, st).returnTrip, "Pick the date of the return.");
   st.returnDate = "2026-11-23";
   assert.equal(B.validate(cfg, st).returnTrip, "Choose the time of the return boat.");
-  st.returnDeparture = "1130";
+  st.returnDeparture = "from-koh-ngai@1130";
   assert.deepEqual(B.validate(cfg, st), {});
   const msg = B.buildMessage(cfg, st);
   assert.match(msg, /^Ref: SB-2011-2A\nSpeedboat request: Koh Lanta to Koh Ngai\nDeparture: 15:00, arrives 15:40\nDate: Fri 20 Nov 2026\nTicket: return, Koh Ngai to Koh Lanta\nReturn: Mon 23 Nov 2026, 11:30, arrives 12:00\n/);
