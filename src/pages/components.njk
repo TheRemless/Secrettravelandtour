@@ -2,73 +2,59 @@
 eleventyComputed:
   permalink: "{{ false if buildContext.production else '/_components/' }}"
 ---
-{#- Page de composants du design v3 (PROMPT-DESIGN-V3.md §7.2). Jamais en production. -#}
-{% import "components/v3.njk" as v3 %}
-{%- set d = v3data -%}
+{#- Page de composants du design v4, avec les vraies données. Jamais en production. -#}
+{% import "components/v4.njk" as v4 %}
+{% from "components/icons.njk" import icon %}
+{%- set d = v4data -%}
 {%- set c = d.contact -%}
-{%- set seo = { title: "Components, design v3", metaDescription: "Component page of the Secret Travel & Tour design v3." } -%}
+{%- set seo = { title: "Components, design v4", metaDescription: "Component page of the Secret Travel & Tour design v4." } -%}
 {%- set pageUrl = "/_components/" -%}
 <!DOCTYPE html>
-<html lang="en-GB" data-board>
+<html lang="en-GB" data-board data-page="components">
 <head>
-{% include "v3-head.njk" %}
+{% include "v4-head.njk" %}
 <meta name="robots" content="noindex, nofollow">
 </head>
 <body>
-{{ v3.header(c, d.emblem, site, "boats") }}
+{{ v4.header(c, d.emblem, "boats") }}
 <main id="main">
-  <section class="sec"><div class="wrap">
+  <section class="sec"><div class="wrap bd">
     <h1>Components</h1>
-    <p class="lead">Every piece of the three pages, with real data. Values from PROMPT-DESIGN-V3.md §2.</p>
+    <p class="lead">Every piece of the three pages, with real data from src/_data.</p>
 
-    <p class="bd-label">Type scale</p>
-    <h1>H1 Boat trips on Koh Lanta</h1>
-    <h2>H2 Longtail or speedboat?</h2>
-    <h3>H3 Koh Rok &amp; Koh Haa</h3>
-    <p class="lead">Lead. A full day south of Koh Lanta, with snorkelling at Koh Chueak.</p>
-    <p>Body. Times shift a little with the tide and the sea.</p>
-    <p class="small mute">Facts. Full day · Longtail or speedboat · Hotel pickup</p>
+    <h2 class="bd__l">Type scale</h2>
+    <p class="bd__h1">Boat trips on Koh Lanta</p>
+    <p class="bd__h2">Longtail or speedboat?</p>
+    <p class="bd__h3">Koh Rok &amp; Koh Haa</p>
+    <p class="lead">Lead. {{ d.four.lead }}</p>
+    <p>Body. {{ d.four.day.note }}</p>
 
-    <p class="bd-label">Main button, text link</p>
-    <div class="bd-row"><a class="btn" href="#">Check availability {{ v3.arrow() }}</a><a class="btn btn--lg" href="#">See boat trips {{ v3.arrow() }}</a><a class="tlink" href="#">Ask on WhatsApp</a></div>
+    <h2 class="bd__l">Buttons and links</h2>
+    <div class="bd__row"><a class="btn press" href="#">Choose a date</a><a class="btn btn--lg press" href="#">{{ icon("whatsapp") }}Ask on WhatsApp</a><button class="btn btn--ghost press" type="button">Choose this boat</button><a class="link" href="#">Ask a question on WhatsApp</a></div>
 
-    <p class="bd-label">Price line and button</p>
-    <div class="price-row"><p class="price"><span>from</span><b>{{ d.four.price.amount }}</b><span>{{ d.four.price.unit }}</span></p><a class="btn btn--lg" href="#">Check availability {{ v3.arrow() }}</a><a class="tlink" href="#">Ask on WhatsApp</a></div>
+    <h2 class="bd__l">Price</h2>
+    {{ v4.price(d.four.price) }}
+    {{ v4.price(null) }}
+
+    <h2 class="bd__l">Segmented control and steppers</h2>
+    <div class="bd__row">
+      <div class="seg" role="group" aria-label="Show" data-seg="demo"><button type="button" value="a" aria-pressed="true">All</button><button type="button" value="b" aria-pressed="false">Boat trips</button><button type="button" value="c" aria-pressed="false">Activities</button></div>
+      <div class="stp-row"><span><b id="bd-a">Adults</b><small>{{ d.four.calc.adultFrom }} and over</small></span><span class="stp" role="group" aria-labelledby="bd-a"><button type="button">−<span class="sr">One adult less</span></button><output>2</output><button type="button">+<span class="sr">One adult more</span></button></span></div>
+    </div>
   </div></section>
 
-  <section class="sec sec--tight"><div class="wrap">
-    <p class="bd-label">Product cards on white</p>
-    {{ v3.cards(d.home.featured) }}
-  </div></section>
-  <section class="sec bg-sand"><div class="wrap">
-    <p class="bd-label">Product cards on sand</p>
-    {{ v3.cards(d.home.activities.slice(0, 3)) }}
+  <section class="sec sec--sand"><div class="wrap">
+    <h2 class="bd__l">Cards with the trip list button</h2>
+    <div class="grid">{% for t in d.home.moreBoats %}{{ v4.card(t, compare=loop.last) }}{% endfor %}</div>
   </div></section>
 
-  <section class="sec"><div class="wrap split-2">
-    <div><p class="bd-label">List with rules</p>{{ v3.rules(d.four.beforeBook) }}</div>
-    <div><p class="bd-label">Questions</p>{{ v3.faq(d.four.faq) }}</div>
-  </div></section>
-
-  <section class="sec bg-sand"><div class="wrap">
-    <p class="bd-label">Steps</p>
-    {{ v3.steps(d.home.steps) }}
-  </div></section>
-
-  <section class="sec"><div class="wrap">
-    <p class="bd-label">Options and prices</p>
-    {{ v3.options(d.four.options) }}
-    <p class="not-incl">{{ d.four.notIncluded }}</p>
-    <p class="bd-label">The day</p>
-    {{ v3.day(d.four.day.steps, d.four.day.note) }}
-  </div></section>
-
-  <section class="sec bg-sand bd-static"><div class="wrap">
-    <p class="bd-label">Mobile bar and WhatsApp pill</p>
-    <div class="bd-row">{{ v3.mobileBar(d.four.price.amount, "", "#") }}{{ v3.waPill(c) }}</div>
+  <section class="sec"><div class="wrap byb">
+    <div><h2 class="bd__l">Rules</h2><dl>{% for b in d.four.beforeBook %}<div><dt>{{ b.label }}</dt><dd>{{ b.text }}</dd></div>{% endfor %}</dl></div>
+    <div class="faq"><h2 class="bd__l">Questions</h2>{% for f in d.four.faq %}<details><summary>{{ f.q }}</summary><p>{{ f.a }}</p></details>{% endfor %}</div>
   </div></section>
 </main>
-{{ v3.footer(site, c, d.emblem, d.boats, d.activities) }}
-<script src="/js/v3.js?v={{ build.v }}" defer></script>
+{{ v4.footer(site, c, d.emblem, d.boats, d.activities) }}
+{{ v4.tripsRoot() }}
+{{ v4.scripts(build) }}
 </body>
 </html>

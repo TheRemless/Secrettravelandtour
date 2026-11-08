@@ -2,30 +2,31 @@
 permalink: /credits/
 ---
 {#- Crédits des photos sous licence (CC BY, CC BY-SA, Unsplash), tirés de src/_data/photos-v3.json. -#}
-{% import "components/v3.njk" as v3 %}
-{%- set d = v3data -%}
+{% import "components/v4.njk" as v4 %}
+{%- set d = v4data -%}
 {%- set seo = { title: "Photo credits | Secret Travel & Tour", metaDescription: "Credits and licences for the photos used on the Secret Travel & Tour website." } -%}
 {%- set pageUrl = "/credits/" -%}
 <!DOCTYPE html>
-<html lang="en-GB" data-refonte>
+<html lang="en-GB" data-refonte data-page="credits">
 <head>
-{% include "v3-head.njk" %}
+{% include "v4-head.njk" %}
 <meta name="robots" content="noindex, follow">
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a>
-{{ v3.header(d.contact, d.emblem, site) }}
-<main id="main" class="page-head">
-  <div class="wrap narrow">
+{{ v4.header(d.contact, d.emblem) }}
+<main id="main" class="sec">
+  <div class="wrap credits">
     <h1>Photo credits</h1>
     <p class="lead">Some photos on this site are temporary and come from other photographers, under the licences below.</p>
-    <ul class="rules credits-list">
+    <dl>
       {%- for p in d.credits %}
-      <li><span class="rule-title">{{ p.usage }}</span><span class="rule-text">{{ p.author }}, {{ p.source }}, {{ p.licence }}. <a href="{{ p.url }}">Source</a></span></li>
+      <div><dt>{{ p.usage }}</dt><dd>{{ p.author }}, {{ p.source }}, {{ p.licence }}. <a class="link" href="{{ p.url }}">Source</a></dd></div>
       {%- endfor %}
-    </ul>
+    </dl>
   </div>
 </main>
-{{ v3.footer(site, d.contact, d.emblem, d.boats, d.activities) }}
+{{ v4.footer(site, d.contact, d.emblem, d.boats, d.activities) }}
+{{ v4.tripsRoot() }}
+{{ v4.scripts(build) }}
 </body>
 </html>

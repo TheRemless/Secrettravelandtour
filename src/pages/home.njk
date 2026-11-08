@@ -1,79 +1,204 @@
 ---
 permalink: /
 ---
-{#- Accueil, design v3 (PROMPT-DESIGN-V3.md §3.1). Fonds : blanc, sable, blanc, coquille, blanc, sable, blanc, coquille, footer. -#}
-{% import "components/v3.njk" as v3 %}
-{%- set h = v3data.home -%}
-{%- set c = v3data.contact -%}
+{#- Accueil, design v4 (prototype « mouvement » + « What runs on … » et liste de sorties). Tout est rendu au build ;
+    v4.js et v4-home.js n'ajoutent que le comportement. -#}
+{% import "components/v4.njk" as v4 %}
+{% from "components/icons.njk" import icon %}
+{%- set d = v4data -%}
+{%- set h = d.home -%}
+{%- set c = d.contact -%}
 {%- set seo = h.seo -%}
 {%- set pageUrl = "/" -%}
 {%- set jsonLd = pages.jsonLd.home -%}
+{%- set heroSizes = "(min-width: 900px) 58vw, 100vw" -%}
+{%- set preloadImg = h.heroTrips[0].photo -%}
+{%- set preloadSizes = heroSizes -%}
 <!DOCTYPE html>
-<html lang="en-GB" data-refonte>
+<html lang="en-GB" data-refonte data-page="home">
 <head>
-{% include "v3-head.njk" %}
+{% include "v4-head.njk" %}
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a>
-{{ v3.header(c, v3data.emblem, site) }}
+{{ v4.header(c, d.emblem) }}
 <main id="main">
-  <section class="hero" aria-labelledby="h1">
+
+  <section class="wrap hero" aria-labelledby="h1">
+    <div class="hero__text">
+      <h1 id="h1">{{ h.h1 }}</h1>
+      <p class="lead">{{ h.lead }}</p>
+    </div>
+    <figure class="hero__ph">
+      <div class="hero__stack" data-hero-stack>
+        {{ v4.photo(h.heroTrips[0].photo, heroSizes, true, "is-on", "trip-photo") }}
+        {%- for t in h.heroTrips %}{% if not loop.first %}
+        <template data-hero-tpl="{{ loop.index0 }}">{{ v4.photo(t.photo, heroSizes) }}</template>
+        {%- endif %}{% endfor %}
+      </div>
+      <figcaption class="hero__cap" data-hero-cap>{{ h.heroTrips[0].promise }}</figcaption>
+    </figure>
+    <div class="hero__ctl">
+      <div class="switch" role="radiogroup" aria-label="Choose a boat trip" data-switch>
+        <span class="switch__pill" aria-hidden="true"></span>
+        {%- for t in h.heroTrips %}
+        <button type="button" role="radio" aria-checked="{{ 'true' if loop.first else 'false' }}" tabindex="{{ 0 if loop.first else -1 }}" data-href="{{ t.href }}" data-name="{{ t.title }}" data-cap="{{ t.promise }}"><b>{{ t.title }}</b><span>from {{ t.price.amount }}</span></button>
+        {%- endfor %}
+      </div>
+      <div class="hero__go">
+        <a class="btn btn--lg press" href="{{ h.heroTrips[0].href }}" data-hero-go>See the {{ h.heroTrips[0].title }} trip</a>
+        <a class="link" href="/tours/">All {{ d.counts.all | numwords }} trips and activities</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec--sand" id="boat-trips" aria-labelledby="boats-h">
     <div class="wrap">
-      <div class="hero-text">
-        <h1 id="h1">{{ h.h1 }}</h1>
-        <p class="lead">{{ h.lead }}</p>
-        <div class="hero-actions">
-          <a class="btn btn--lg" href="/tours/#boat-trips">See boat trips {{ v3.arrow() }}</a>
-          <a class="tlink" href="{{ v3.waHref(c.number) }}">Ask on WhatsApp</a>
+      <div class="sec__head"><h2 id="boats-h">More boat trips</h2><a class="link" href="/tours/#boat-trips">Compare all {{ d.counts.boats | numwords }} boat trips</a></div>
+      <div class="grid">{% for t in h.moreBoats %}{{ v4.card(t) }}{% endfor %}</div>
+    </div>
+  </section>
+
+  <section class="sec" id="activities" aria-labelledby="acts-h">
+    <div class="wrap rail-wrap">
+      <div class="sec__head"><h2 id="acts-h">Activities</h2><a class="link" href="/tours/#activities">See all {{ d.counts.activities | numwords }}</a></div>
+      <div class="rail" data-rail tabindex="0" role="region" aria-label="Activities, scroll sideways">
+        {%- for t in h.activities %}{{ v4.card(t, "(min-width: 1024px) 360px, (min-width: 700px) 45vw, 82vw") }}{% endfor %}
+      </div>
+      <div class="rail-ctl" data-rail-ctl hidden>
+        <div class="rail-bar" aria-hidden="true"><i></i></div>
+        <div class="arrows">
+          <button class="arrow" type="button" data-rail-prev>{{ icon("chevron-left") }}<span class="sr">Previous activities</span></button>
+          <button class="arrow" type="button" data-rail-next>{{ icon("chevron-right") }}<span class="sr">Next activities</span></button>
         </div>
       </div>
-      <div class="hero-photo">{{ v3.img(h.hero, "(min-width: 1024px) 50vw, 100vw", true) }}</div>
-      <p class="hero-facts">{{ h.facts }}</p>
     </div>
   </section>
 
-  <section class="sec" aria-labelledby="h-boats">
+  {#- « What runs on … » : horaires lus dans les fiches ; le ruban de dates (heure de Bangkok) est ajouté par v4-home.js. -#}
+  <section class="sec sec--sand runs" id="runs" aria-labelledby="runs-h">
     <div class="wrap">
-      <div class="sec-head"><h2 id="h-boats">Boat trips</h2><a class="tlink" href="/tours/#boat-trips">All {{ v3data.counts.boats | numwords }} boat trips {{ v3.arrow() }}</a></div>
-      {{ v3.cards(h.featured) }}
+      <div class="runs__head">
+        <h2 id="runs-h" data-runs-title>Set times, trip by trip</h2>
+        <p class="runs__sub" data-runs-sub>As written on each trip page, at Koh Lanta time.</p>
+      </div>
+      <div class="ribbon" data-ribbon hidden>
+        <div class="ribbon__days" role="group" aria-label="Pick a day" data-ribbon-days></div>
+        <label class="ribbon__other"><span>Other date</span><input type="date" data-ribbon-date></label>
+      </div>
+      <div class="runs__board">
+        <div class="axis" aria-hidden="true">{% for t in h.runs.ticks %}<span style="--x: {{ t.at }}%">{{ t.label }}</span>{% endfor %}</div>
+        {%- for g in h.runs.parts %}
+        <div class="runs__part" data-part="{{ g.id }}">
+          <h3 class="runs__ph">{{ g.title }}</h3>
+          <ul>
+            {%- for e in g.entries %}
+            <li class="run" data-slug="{{ e.slug }}"{% if e.days %} data-days="{{ e.days | join(',') }}" data-days-text="{{ e.daysText }}"{% endif %}{% if e.months %} data-months="{{ e.months | join(',') }}" data-season="{{ e.seasonText }}"{% endif %} style="--a: {{ e.a }}%; --b: {{ e.b }}%">
+              <span class="run__t">{{ e.time }}</span>
+              <span class="run__n"><a href="{{ e.href }}">{{ e.name }}</a><span class="run__l">{{ e.label }}</span>{% if e.daysText or e.seasonText %}<span class="run__r">{% if e.daysText %}{{ e.daysText }}{% endif %}{% if e.daysText and e.seasonText %}, {% endif %}{% if e.seasonText %}{{ e.seasonText }}{% endif %}</span>{% endif %}</span>
+              <span class="run__bar" aria-hidden="true">{% if e.dots.length %}{% for x in e.dots %}<b style="--x: {{ x }}%"></b>{% endfor %}{% else %}<i></i>{% endif %}</span>
+            </li>
+            {%- endfor %}
+          </ul>
+        </div>
+        {%- endfor %}
+        <p class="runs__empty" data-runs-empty hidden>Nothing with a set time runs that day. Ask us on WhatsApp what is possible.</p>
+      </div>
+      <div class="runs__foot">
+        <div class="runs__off" data-runs-off hidden>
+          <h3>Not on this day</h3>
+          <ul data-runs-off-list></ul>
+        </div>
+        <div class="runs__none">
+          <h3>No set time on the site</h3>
+          <ul>{% for n in h.runs.noTime %}<li><a href="{{ n.href }}">{{ n.name }}</a>{% if n.season %}<span>{{ n.season }}</span>{% endif %}</li>{% endfor %}</ul>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="overlap bg-shell" aria-labelledby="h-transfers">
-    <div class="overlap-photo">{{ v3.img(h.transfers.photo, "(min-width: 1024px) 50vw, 100vw") }}</div>
-    <div class="overlap-panel">
-      <h2 id="h-transfers">{{ h.transfers.title }}</h2>
-      <p>{{ h.transfers.text }}</p>
-      {{ v3.rules(h.transfers.routes) }}
-      <div class="hero-actions"><a class="btn" href="/taxi/">All transfers {{ v3.arrow() }}</a><a class="tlink" href="/tours/speedboat/">Speedboat times</a></div>
+  <section class="sec" id="transfers" aria-labelledby="tr-h">
+    <div class="wrap tr">
+      <div>
+        <h2 id="tr-h">Getting to and from Koh Lanta</h2>
+        <p class="tr__lead">{{ h.transfers.lead }}</p>
+        <form class="finder" data-finder aria-label="Find a private transfer">
+          <div class="finder__row">
+            <div class="finder__pair">
+              <div class="field" data-f="from"><label for="tr-from">From</label><select id="tr-from" data-from>{% for p in h.transfers.places %}<option{% if p == h.transfers.first.from %} selected{% endif %}>{{ p }}</option>{% endfor %}</select></div>
+              <div class="field" data-f="to"><label for="tr-to">To</label><select id="tr-to" data-to>{% for r in h.transfers.routes %}{% if r.from == h.transfers.first.from %}<option{% if r.to == h.transfers.first.to %} selected{% endif %}>{{ r.to }}</option>{% elif r.to == h.transfers.first.from %}<option>{{ r.from }}</option>{% endif %}{% endfor %}</select></div>
+            </div>
+            <button class="x x--swap" type="button" data-swap>{{ v4.glyph("swap") }}<span class="sr">Swap the two places</span></button>
+          </div>
+          <div class="finder__out" data-route aria-live="polite">
+            <b>{{ h.transfers.first.from }} to {{ h.transfers.first.to }}</b>
+            <p>{{ h.transfers.first.drive }} by private minivan, both directions. Run by {{ site.brands.vip.name }}.</p>
+            <a class="link" href="{{ h.transfers.first.url }}">See the {{ h.transfers.first.name }} transfer</a>
+          </div>
+        </form>
+      </div>
+      <ul class="ways">
+        {%- for w in h.transfers.ways %}
+        <li><h3>{{ w.title }}</h3><p>{{ w.text }}</p>{% if w.href and w.link %}<a class="link" href="{{ w.href }}">{{ w.link }}</a>{% endif %}</li>
+        {%- endfor %}
+      </ul>
+    </div>
+    <script type="application/json" id="routes-data">{{ h.transfers.routes | dump | safe }}</script>
+  </section>
+
+  <section class="sec sec--sand" id="rental" aria-labelledby="rent-h">
+    {%- set r0 = h.rental.cats[0] -%}
+    <div class="wrap rent">
+      <div><h2 id="rent-h">{{ h.rental.title }}</h2><p class="lead">{{ h.rental.text }}</p><a class="link" href="{{ h.rental.href }}">Every vehicle and its price</a></div>
+      <div class="rent__card">
+        <div class="seg" role="group" aria-label="Vehicle type" data-seg="rent">
+          {%- for k in h.rental.cats %}
+          <button type="button" aria-pressed="{{ 'true' if loop.first else 'false' }}" value="{{ k.id }}" data-lo="{{ k.lo }}" data-hi="{{ k.hi }}" data-models="{{ k.count }} {{ k.title | lower }}{% if k.models %}, {{ k.models }}{% endif %}" data-wa="{{ v4.waHref(c.number, k.message) }}" data-ask="Ask about {{ k.label | lower }} on WhatsApp">{{ k.label }}</button>
+          {%- endfor %}
+        </div>
+        <p class="rent__range" aria-live="polite"><span class="odo" data-odo="lo">{{ r0.lo$ }}</span><span aria-hidden="true">–</span><span class="sr">to</span><span class="odo" data-odo="hi">{{ r0.hi$ }}</span><small>THB per day</small></p>
+        <p class="rent__models" data-rent-models>{{ r0.count }} {{ r0.title | lower }}{% if r0.models %}, {{ r0.models }}{% endif %}</p>
+        <a class="btn press" href="{{ v4.waHref(c.number, r0.message) }}" data-rent-go>{{ icon("whatsapp") }}<span>Ask about {{ r0.label | lower }} on WhatsApp</span></a>
+      </div>
     </div>
   </section>
 
-  <section class="sec" aria-labelledby="h-acts">
-    <div class="wrap">
-      <div class="sec-head"><h2 id="h-acts">Island activities</h2><a class="tlink" href="/tours/#activities">All {{ v3data.counts.activities | numwords }} activities {{ v3.arrow() }}</a></div>
-      {{ v3.cards(h.activities) }}
+  {#- « How booking works » : on essaie, le message se compose ligne à ligne (même fonction que la feuille de réservation). -#}
+  <section class="sec" id="how" aria-labelledby="how-h">
+    <div class="wrap how">
+      <div>
+        <h2 id="how-h">How booking works</h2>
+        <p class="lead">Choose a trip, a day and who is coming. This is the message WhatsApp opens with. You read it and send it yourself.</p>
+        <form class="try" data-try>
+          <div class="field"><label for="try-trip">Trip</label>
+            <select id="try-trip" name="trip">{% for t in h.how.trips %}<option value="{{ t.slug }}"{% if t.slug == h.how.sampleTrip %} selected{% endif %}>{{ t.name }}</option>{% endfor %}</select>
+          </div>
+          <fieldset class="try__day"><legend>Day</legend>
+            <label class="chip"><input type="radio" name="day" value="today"><span>Today</span></label>
+            <label class="chip"><input type="radio" name="day" value="tomorrow" checked><span>Tomorrow</span></label>
+            <label class="chip"><input type="radio" name="day" value="other"><span>Other date</span></label>
+            <input type="date" name="date" aria-label="Date" hidden>
+          </fieldset>
+          <div class="try__who">
+            <div class="stp-row"><span id="try-a">Adults</span><span class="stp" role="group" aria-labelledby="try-a"><button type="button" data-step="adults" data-d="-1">−<span class="sr">One adult less</span></button><output data-out="adults">2</output><button type="button" data-step="adults" data-d="1">+<span class="sr">One adult more</span></button></span></div>
+            <div class="stp-row"><span id="try-c">Children</span><span class="stp" role="group" aria-labelledby="try-c"><button type="button" data-step="children" data-d="-1">−<span class="sr">One child less</span></button><output data-out="children">0</output><button type="button" data-step="children" data-d="1">+<span class="sr">One child more</span></button></span></div>
+            <div class="try__ages" data-ages></div>
+          </div>
+        </form>
+        <p class="how__pay">{{ h.how.payment }}</p>
+      </div>
+      <figure class="msg">
+        <p class="msg__to">{{ icon("whatsapp") }}To Secret Travel &amp; Tour, {{ c.phoneDisplay }}</p>
+        <div class="msg__bubble" data-try-msg>{% for l in h.how.sample.split("\n") %}<span class="msg__l">{{ l }}</span>{% endfor %}</div>
+        <figcaption class="msg__note">Each trip page writes this message from your choices, with a reference for the day.</figcaption>
+        <a class="btn press" href="{{ v4.waHref(c.number, h.how.sample) }}" data-try-send>{{ icon("whatsapp") }}<span>Open this message in WhatsApp</span></a>
+      </figure>
     </div>
   </section>
 
-  <section class="sec bg-sand" aria-labelledby="h-how">
-    <div class="wrap">
-      <div class="sec-head"><h2 id="h-how">How booking works</h2></div>
-      {{ v3.steps(h.steps) }}
-    </div>
-  </section>
-
-  <section class="cta-band" aria-labelledby="h-final">
-    <div class="cta-photo">{{ v3.img(h.final.photo, "(min-width: 1024px) 50vw, 100vw") }}</div>
-    <div class="cta-text">
-      <h2 id="h-final">{{ h.final.title }}</h2>
-      <p>{{ h.final.text }}</p>
-      <a class="btn" href="{{ v3.waHref(c.number) }}">Ask on WhatsApp {{ v3.arrow() }}</a>
-    </div>
-  </section>
+  {{ v4.endBand(h.final, c) }}
 </main>
-{{ v3.footer(site, c, v3data.emblem, v3data.boats, v3data.activities) }}
-{{ v3.waPill(c) }}
-<script src="/js/v3.js?v={{ build.v }}" defer></script>
+{{ v4.footer(site, c, d.emblem, d.boats, d.activities) }}
+{{ v4.tripsRoot() }}
+{{ v4.scripts(build, "home") }}
 </body>
 </html>
