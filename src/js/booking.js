@@ -131,6 +131,8 @@
       lines.push("Booking request: " + config.product + (option ? " – " + option.title : ""));
       if (date) lines.push("Date: " + formatDate(date));
       lines.push("Guests: " + guestsLine(state.adults, state.childAges));
+      var extras = addonsOf(option, state.addons);
+      if (extras.length) lines.push("Extras: " + extras.join(", "));
       if (clean(state.pickup)) lines.push("Pickup: " + clean(state.pickup));
     }
 
@@ -144,6 +146,59 @@
     var ref = config.variant === "rental" ? "" : makeRef(config.refPrefix, date, state.adults, (state.childAges || []).length);
     if (ref) lines.unshift("Ref: " + ref);
     return lines.join("\n");
+  }
+
+  // Suppléments choisis sur la page (Koh Kradan sur le longtail privé) : seulement ceux que l'option propose,
+  // pour qu'un changement d'option dans la feuille ne laisse pas un supplément d'une autre option.
+  function addonsOf(option, addons) {
+    if (!option || !addons || !addons.length) return [];
+    var labels = (option.rows || []).map(function (r) { return r.label; });
+    return addons.filter(function (a) { return labels.indexOf(a) > -1; });
+  }
+
+  // Liste de sorties (design v4) : un seul message pour plusieurs sorties, classées par jour, une référence
+  // par sortie. catalog : { slug: { name, page, refPrefix, options: [{id, title, rows}] } } ;
+  // list : { items: [{slug, option, date, addons}], adults, childAges, pickup, name }.
+  function buildTripList(catalog, list) {
+    var items = (list.items || []).filter(function (it) { return catalog[it.slug]; }).slice();
+    items.sort(function (a, b) { return (a.date || "9999") < (b.date || "9999") ? -1 : (a.date || "9999") > (b.date || "9999") ? 1 : 0; });
+    var lines = [];
+    var kids = (list.childAges || []).length;
+    lines.push("Trip list: " + plural(items.length, "trip", "trips"));
+    lines.push("Guests: " + guestsLine(list.adults, list.childAges));
+    if (clean(list.pickup)) lines.push("Pickup: " + clean(list.pickup));
+    if (clean(list.name)) lines.push("Name: " + clean(list.name));
+    var day = null;
+    items.forEach(function (it) {
+      var p = catalog[it.slug];
+      // Sortie ajoutée depuis une carte sans option : la première de la fiche, comme dans la liste à l'écran.
+      var option = findOption(p, it.option) || (p.options || [])[0] || null;
+      if (it.date !== day) {
+        day = it.date;
+        lines.push("");
+        lines.push(day ? formatDate(day) : "Date to choose");
+      }
+      var ref = makeRef(p.refPrefix, it.date, list.adults, kids);
+      if (ref) lines.push("Ref: " + ref);
+      lines.push(p.name + (option ? " – " + option.title : ""));
+      var extras = addonsOf(option, it.addons);
+      if (extras.length) lines.push("Extras: " + extras.join(", "));
+      var price = priceLine(option);
+      if (price) lines.push("Price on website: " + price);
+      if (p.page) lines.push("Page: " + p.page);
+    });
+    return lines.join("\n");
+  }
+
+  // Deux sorties d'une journée entière le même jour : signalé dans la liste.
+  function sameDayClashes(catalog, items) {
+    var byDate = {};
+    (items || []).forEach(function (it) {
+      var p = catalog[it.slug];
+      if (!p || !p.fullDay || !it.date) return;
+      (byDate[it.date] = byDate[it.date] || []).push(p.name);
+    });
+    return Object.keys(byDate).sort().filter(function (d) { return byDate[d].length > 1; }).map(function (d) { return { date: d, names: byDate[d] }; });
   }
 
   // Référence courte (critique, idée 5) : code produit, jour et mois de la sortie, adultes et enfants.
@@ -241,7 +296,7 @@
     return {
       option: "", dateChoice: "", dateOther: "", adults: 2, childAges: [], pickup: "", name: "",
       vehicle: "", dateFrom: "", dateTo: "",
-      direction: "out", from: "", to: "", time: "", flight: "", bags: 0, childSeats: 0, address: ""
+      direction: "out", from: "", to: "", time: "", flight: "", bags: 0, childSeats: 0, address: "", addons: []
     };
   }
 
@@ -277,6 +332,12 @@
 
     function save() {
       try { localStorage.setItem(storageKey, makeDraft(state, new Date())); } catch (e) { /* stockage indisponible */ }
+      // La page (calculateur, bande du bas) suit la feuille : même état, des deux côtés.
+      emit("stt-book-change", { productId: config.productId, state: state });
+    }
+
+    function emit(name, detail) {
+      if (typeof CustomEvent === "function") doc.dispatchEvent(new CustomEvent(name, { detail: JSON.parse(JSON.stringify(detail)) }));
     }
 
     function load() {
@@ -519,6 +580,20 @@
 
     dialog.querySelector("[data-edit]").addEventListener("click", function () { show("form"); });
 
+    // « Add to my trip list » : option, date et voyageurs suffisent ; l'hôtel et le prénom se donnent dans la liste.
+    var tripBtn = dialog.querySelector("[data-trip]");
+    if (tripBtn) tripBtn.addEventListener("click", function () {
+      state.today = today();
+      var errors = validate(config, state);
+      ["pickup", "name"].forEach(function (k) { delete errors[k]; });
+      if (Object.keys(errors).length) { showErrors(errors); return; }
+      emit("stt-trip-add", {
+        slug: config.productId, option: state.option, date: resolveDate(state.dateChoice, state.dateOther, state.today),
+        adults: state.adults, childAges: state.childAges, addons: state.addons || []
+      });
+      close();
+    });
+
     dialog.querySelector("[data-send]").addEventListener("click", function () {
       if (window.dataLayer && typeof window.dataLayer.push === "function") {
         var option = findOption(config, state.option);
@@ -610,6 +685,8 @@
     buildMessage: buildMessage,
     validate: validate,
     makeRef: makeRef,
+    buildTripList: buildTripList,
+    sameDayClashes: sameDayClashes,
     parkCash: parkCash,
     waUrl: waUrl,
     makeDraft: makeDraft,

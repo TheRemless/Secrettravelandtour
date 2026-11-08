@@ -180,3 +180,7 @@ html.sheet-open { overflow: hidden; }
 .sheet-link { justify-self: center; min-height: 44px; padding: 0 var(--s2); border: 0; background: transparent; color: var(--sheet-ink); font: 700 var(--t2)/1 var(--sheet-text); text-decoration: underline; text-underline-offset: .18em; cursor: pointer; }
 .done-num { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; white-space: nowrap; color: inherit; }
 .copy-status { min-height: 1.5em; margin: var(--s1) 0 0; font-weight: 700; }
+
+/* Poignée de la feuille : affichée par les pages du design v4 (v4.css), qui ajoutent le geste de fermeture. */
+.sheet-grab { display: none; }
+.sheet-foot--pair { display: grid; gap: var(--s1); }

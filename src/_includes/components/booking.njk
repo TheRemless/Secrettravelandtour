@@ -28,6 +28,7 @@
 {%- set taxi = cfg.variant == "taxi" -%}
 {%- set rental = cfg.variant == "rental" -%}
 <dialog class="sheet" id="book" aria-labelledby="book-title">
+  <div class="sheet-grab" aria-hidden="true"></div>
   <div class="sheet-screen" data-screen="form">
     <form novalidate>
       <div class="sheet-head">
@@ -133,8 +134,11 @@
 
         {{ text("name", "First name", "", true, "given-name") }}
       </div>
-      <div class="sheet-foot">
+      <div class="sheet-foot{% if cfg.tripList %} sheet-foot--pair{% endif %}">
         <button class="sheet-btn" type="submit">Preview message</button>
+        {%- if cfg.tripList %}
+        <button class="sheet-btn sheet-btn--quiet" type="button" data-trip>Add to my trip list</button>
+        {%- endif %}
       </div>
     </form>
   </div>
