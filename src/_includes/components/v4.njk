@@ -1,0 +1,141 @@
+{#- Composants du design v4 (prototype « mouvement » porté dans Eleventy). Importer avec :
+      {% import "components/v4.njk" as v4 %}
+    Données en paramètres uniquement (src/_data/v4data.js). Rien n'est jamais posé sur une photo. -#}
+{% from "components/icons.njk" import icon %}
+
+{% macro waHref(number, text) -%}
+https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
+{%- endmacro %}
+
+{#- Pictogrammes propres au v4 (ajout, coche, inversion, liste). Les autres viennent de icons.njk. -#}
+{% macro glyph(name) -%}
+{%- if name == "plus" -%}
+<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>
+{%- elif name == "check" -%}
+<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m5 12.5 4.5 4.5L19 7.5"/></svg>
+{%- elif name == "swap" -%}
+<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M7 4v16M7 20l-3-3M7 20l3-3M17 20V4M17 4l-3 3M17 4l3 3"/></svg>
+{%- elif name == "list" -%}
+<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 6.5h2M4 12h2M4 17.5h2M9.5 6.5H20M9.5 12H20M9.5 17.5H20"/></svg>
+{%- elif name == "map" -%}
+<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M3 6.5 9 4l6 2.5L21 4v13.5L15 20l-6-2.5L3 20Z M9 4v13.5M15 6.5V20"/></svg>
+{%- elif name == "arrow" -%}
+<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></svg>
+{%- else -%}{{ icon(name) }}{%- endif -%}
+{%- endmacro %}
+
+{#- Photo : couleur moyenne et vignette floue tout de suite, la vraie image en fondu quand elle est décodée.
+    eager : la photo du haut (LCP), sans fondu et en priorité. AVIF puis WebP, srcset, width/height réels. -#}
+{% macro photo(p, sizes, eager=false, cls="", name="") -%}
+<div class="ph {{ cls }}"{% if p.lq %} style="--c: {{ p.color }}; --lq: url({{ p.lq }})"{% endif %}{% if name %} data-vt="{{ name }}"{% endif %}>
+  <picture>
+    {%- if p.avif %}<source type="image/avif" srcset="{{ p.avif }}" sizes="{{ sizes }}">{% endif %}
+    {%- if p.webp %}<source type="image/webp" srcset="{{ p.webp }}" sizes="{{ sizes }}">{% endif %}
+    <img eleventy:ignore src="{{ p.fallback or p.src }}" alt="{{ p.alt }}" width="{{ p.width }}" height="{{ p.height }}" style="object-position: {{ p.position }}"{% if eager %} fetchpriority="high"{% else %} class="fade" loading="lazy"{% endif %} decoding="async">
+  </picture>
+</div>
+{%- endmacro %}
+
+{% macro price(pr) -%}
+{%- if pr %}<p class="price"><span>from</span><b>{{ pr.amount }}</b><span>{{ pr.unit }}</span></p>
+{%- else %}<p class="price price--req"><b>Price on WhatsApp</b></p>{% endif -%}
+{%- endmacro %}
+
+{#- Carte : toute la carte est le lien ; à côté, l'ajout à la liste de sorties (et la case de comparaison sur le hub). -#}
+{% macro card(c, sizes="(min-width: 1024px) 380px, (min-width: 700px) calc(50vw - 46px), calc(100vw - 40px)", eager=false, compare=false, hx="h3", anchor="") %}
+<article class="card"{% if anchor %} id="{{ anchor }}"{% endif %} data-slug="{{ c.slug }}" data-kind="{{ c.kind }}"{% if c.price %} data-from="{{ c.price.from }}"{% endif %}>
+  <a class="card__link press" href="{{ c.href }}">
+    {{ photo(c.photo, sizes, eager, "ph--43") }}
+    <span class="card__body">
+      <{{ hx }} class="card__title">{{ c.title }}</{{ hx }}>
+      {%- if c.promise %}<span class="card__line">{{ c.promise }}</span>{% endif %}
+      {%- if c.meta.length %}<span class="card__meta">{% for m in c.meta %}<span>{{ m }}</span>{% endfor %}</span>{% endif %}
+      {%- if c.price %}<span class="price"><span>from</span><b>{{ c.price.amount }}</b><span>{{ c.price.unit }}</span></span>{% else %}<span class="price price--req"><b>Price on WhatsApp</b></span>{% endif %}
+    </span>
+  </a>
+  <div class="card__acts">
+    <button class="add" type="button" data-trip-add="{{ c.slug }}" aria-pressed="false" hidden><span class="add__on">{{ glyph("check") }}In your trip list</span><span class="add__off">{{ glyph("plus") }}Add to trip list</span><span class="sr"> : {{ c.title }}</span></button>
+    {%- if compare %}
+    <label class="cmp"><input type="checkbox" value="{{ c.slug }}" data-compare><span>Compare<span class="sr"> {{ c.title }}</span></span></label>
+    {%- endif %}
+  </div>
+</article>
+{% endmacro %}
+
+{% macro header(contact, em, current="") %}
+{%- set items = [
+  { id: "boats", label: "Boat trips", href: "/tours/#boat-trips" },
+  { id: "activities", label: "Activities", href: "/tours/#activities" },
+  { id: "transfers", label: "Transfers", href: "/taxi/" },
+  { id: "rental", label: "Rental", href: "/tours/rental/" }
+] -%}
+<a class="skip" href="#main">Skip to content</a>
+<header class="hd" id="hd">
+  <div class="wrap hd__in">
+    <a class="brand" href="/"><picture><source type="image/avif" srcset="{{ em.avif }}"><img eleventy:ignore src="{{ em.src }}" srcset="{{ em.webp }}" width="{{ em.width }}" height="{{ em.height }}" alt=""></picture><b>Secret Travel &amp; Tour</b></a>
+    <nav class="nav" aria-label="Main"><ul>{% for i in items %}<li><a href="{{ i.href }}"{% if i.id == current %} aria-current="page"{% endif %}>{{ i.label }}</a></li>{% endfor %}</ul></nav>
+    <div class="hd__tools">
+      <button class="tl-btn" type="button" data-trips-open aria-haspopup="dialog" hidden>{{ glyph("list") }}<span class="tl-btn__l">Trip list</span><span class="tl-btn__n" data-trips-count>0</span><span class="sr"> trips</span></button>
+      <a class="btn hd__wa" href="{{ waHref(contact.number) }}">{{ icon("whatsapp") }}<span class="hd__wa-l">WhatsApp</span><span class="sr"> {{ contact.phoneDisplay }}</span></a>
+      <button class="menu-btn" type="button" aria-haspopup="dialog" aria-controls="menu" data-menu-open>{{ icon("menu") }}<span class="sr">Menu</span></button>
+    </div>
+  </div>
+</header>
+<dialog class="drawer" id="menu" aria-label="Menu">
+  <div class="drawer__top wrap">
+    <a class="brand" href="/"><picture><source type="image/avif" srcset="{{ em.avif }}"><img eleventy:ignore src="{{ em.src }}" srcset="{{ em.webp }}" width="{{ em.width }}" height="{{ em.height }}" alt=""></picture><b>Secret Travel &amp; Tour</b></a>
+    <button class="x" type="button" data-menu-close>{{ icon("close") }}<span class="sr">Close the menu</span></button>
+  </div>
+  <nav class="wrap" aria-label="Menu"><ul>{% for i in items %}<li><a href="{{ i.href }}">{{ i.label }}</a></li>{% endfor %}</ul></nav>
+  <p class="wrap drawer__wa"><a class="link" href="{{ waHref(contact.number) }}">WhatsApp {{ contact.phoneDisplay }}</a></p>
+</dialog>
+{% endmacro %}
+
+{% macro footer(site, contact, em, boats, activities) %}
+{%- set b = site.brands.secret -%}
+<footer class="ft on-dark" id="ft">
+  <div class="wrap">
+    <div class="ft__grid">
+      <div>
+        <p class="ft__brand"><picture><source type="image/avif" srcset="{{ em.avif }}"><img eleventy:ignore src="{{ em.src }}" srcset="{{ em.webp }}" width="{{ em.width }}" height="{{ em.height }}" alt="" loading="lazy"></picture>Secret Travel &amp; Tour</p>
+        <p class="ft__wa"><a class="link link--light" href="{{ waHref(contact.number) }}">WhatsApp {{ contact.phoneDisplay }}</a></p>
+      </div>
+      <div><h2 class="ft__h">Boat trips</h2><ul>{% for c in boats %}<li><a href="{{ c.href }}">{{ c.title }}</a></li>{% endfor %}</ul></div>
+      <div><h2 class="ft__h">Activities</h2><ul>{% for c in activities %}<li><a href="{{ c.href }}">{{ c.title }}</a></li>{% endfor %}</ul></div>
+      <div><h2 class="ft__h">More</h2><ul><li><a href="/taxi/">Private transfers</a></li><li><a href="/tours/speedboat/">Speedboat times</a></li><li><a href="/tours/rental/">Car and scooter rental</a></li><li><a href="/credits/">Photo credits</a></li></ul></div>
+    </div>
+    <div class="ft__meta">
+      <span>{{ b.name }} is operated by {{ site.operator.name }}</span>
+      {% if b.licence %}<span>TAT licence {{ b.licence }}</span>{% endif %}
+      <span>Prices in Thai baht. Nothing is paid online.</span>
+      <span class="ft__legal"><a href="/legal/">Legal</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></span>
+    </div>
+  </div>
+</footer>
+{% endmacro %}
+
+{#- Bande finale : photo à gauche qui sort de la grille, question et WhatsApp prérempli. -#}
+{% macro endBand(f, contact, id="end-h") %}
+<section class="sec end-sec" aria-labelledby="{{ id }}">
+  <div class="wrap end">
+    {{ photo(f.photo, "(min-width: 900px) 55vw, 100vw", false, "ph--43") }}
+    <div>
+      <h2 id="{{ id }}">{{ f.title }}</h2>
+      <p>{{ f.text }}</p>
+      <a class="btn btn--lg press" href="{{ waHref(contact.number, f.message) }}">{{ icon("whatsapp") }}Ask on WhatsApp</a>
+    </div>
+  </div>
+</section>
+{% endmacro %}
+
+{#- Toast et racine de la liste de sorties (v4-trips.js, chargé au premier usage). -#}
+{% macro tripsRoot() %}
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+{% endmacro %}
+
+{% macro scripts(build, page="") %}
+<script src="/js/v4.js?v={{ build.v }}" defer></script>
+{%- if page %}
+<script src="/js/v4-{{ page }}.js?v={{ build.v }}" defer></script>
+{%- endif %}
+{% endmacro %}
