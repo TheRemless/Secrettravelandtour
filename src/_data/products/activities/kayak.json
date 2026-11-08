@@ -33,7 +33,7 @@
     },
     {
       "label": "Village entrance fee",
-      "value": "40 THB per person, not included"
+      "value": "40 THB per adult, 20 THB per child from 4 to 11, not included"
     }
   ],
   "price": {
@@ -64,10 +64,14 @@
       ],
       "notIncludedFees": [
         {
-          "label": "Village entrance fee",
+          "label": "Village entrance fee, adults",
           "amount": 40,
-          "unit": "per person",
-          "note": "Not included (legacy price note)"
+          "unit": "per person"
+        },
+        {
+          "label": "Village entrance fee, children 4 to 11",
+          "amount": 20,
+          "unit": "per person"
         }
       ]
     },
@@ -93,10 +97,14 @@
       ],
       "notIncludedFees": [
         {
-          "label": "Village entrance fee",
+          "label": "Village entrance fee, adults",
           "amount": 40,
-          "unit": "per person",
-          "note": "Not included (legacy price note)"
+          "unit": "per person"
+        },
+        {
+          "label": "Village entrance fee, children 4 to 11",
+          "amount": 20,
+          "unit": "per person"
         }
       ]
     },
@@ -122,10 +130,30 @@
       ],
       "notIncludedFees": [
         {
-          "label": "Village entrance fee",
+          "label": "Village entrance fee, adults",
           "amount": 40,
-          "unit": "per person",
-          "note": "Not included (legacy price note)"
+          "unit": "per person"
+        },
+        {
+          "label": "Village entrance fee, children 4 to 11",
+          "amount": 20,
+          "unit": "per person"
+        }
+      ],
+      "choices": [
+        {
+          "id": "slot",
+          "label": "Time",
+          "values": [
+            {
+              "id": "morning",
+              "label": "Morning, 09:30–12:30"
+            },
+            {
+              "id": "afternoon",
+              "label": "Afternoon, 14:00–17:00"
+            }
+          ]
         }
       ]
     },
@@ -151,10 +179,30 @@
       ],
       "notIncludedFees": [
         {
-          "label": "Village entrance fee",
+          "label": "Village entrance fee, adults",
           "amount": 40,
-          "unit": "per person",
-          "note": "Not included (legacy price note)"
+          "unit": "per person"
+        },
+        {
+          "label": "Village entrance fee, children 4 to 11",
+          "amount": 20,
+          "unit": "per person"
+        }
+      ],
+      "choices": [
+        {
+          "id": "slot",
+          "label": "Time",
+          "values": [
+            {
+              "id": "morning",
+              "label": "Morning, 09:30–12:30"
+            },
+            {
+              "id": "afternoon",
+              "label": "Afternoon, 14:00–17:00"
+            }
+          ]
         }
       ]
     },
@@ -180,10 +228,30 @@
       ],
       "notIncludedFees": [
         {
-          "label": "Village entrance fee",
+          "label": "Village entrance fee, adults",
           "amount": 40,
-          "unit": "per person",
-          "note": "Not included (legacy price note)"
+          "unit": "per person"
+        },
+        {
+          "label": "Village entrance fee, children 4 to 11",
+          "amount": 20,
+          "unit": "per person"
+        }
+      ],
+      "choices": [
+        {
+          "id": "slot",
+          "label": "Time",
+          "values": [
+            {
+              "id": "morning",
+              "label": "Morning, 09:30–12:30"
+            },
+            {
+              "id": "afternoon",
+              "label": "Afternoon, 14:00–17:00"
+            }
+          ]
         }
       ]
     },
@@ -209,10 +277,30 @@
       ],
       "notIncludedFees": [
         {
-          "label": "Village entrance fee",
+          "label": "Village entrance fee, adults",
           "amount": 40,
-          "unit": "per person",
-          "note": "Not included (legacy price note)"
+          "unit": "per person"
+        },
+        {
+          "label": "Village entrance fee, children 4 to 11",
+          "amount": 20,
+          "unit": "per person"
+        }
+      ],
+      "choices": [
+        {
+          "id": "slot",
+          "label": "Time",
+          "values": [
+            {
+              "id": "morning",
+              "label": "Morning, 09:30–12:30"
+            },
+            {
+              "id": "afternoon",
+              "label": "Afternoon, 14:00–17:00"
+            }
+          ]
         }
       ]
     },
@@ -238,10 +326,44 @@
       ],
       "notIncludedFees": [
         {
-          "label": "Village entrance fee",
+          "label": "Village entrance fee, adults",
           "amount": 40,
-          "unit": "per person",
-          "note": "Not included (legacy price note)"
+          "unit": "per person"
+        },
+        {
+          "label": "Village entrance fee, children 4 to 11",
+          "amount": 20,
+          "unit": "per person"
+        }
+      ],
+      "choices": [
+        {
+          "id": "slot",
+          "label": "Time",
+          "values": [
+            {
+              "id": "morning",
+              "label": "Morning, 09:30–12:30"
+            },
+            {
+              "id": "afternoon",
+              "label": "Afternoon, 14:00–17:00"
+            }
+          ]
+        },
+        {
+          "id": "way",
+          "label": "By",
+          "values": [
+            {
+              "id": "kayak",
+              "label": "Kayak"
+            },
+            {
+              "id": "longtail",
+              "label": "Longtail"
+            }
+          ]
         }
       ]
     }
@@ -267,7 +389,7 @@
       "steps": [
         {
           "label": "1 day",
-          "text": "Love kayak, two places. Paddling in the mangrove, then Koh Talabeng by longtail, the sea cave by kayak, lunch on the beach and Koh Phee by longtail. 09:00 to 15:30."
+          "text": "Love kayak, two places. Paddling in the mangrove, then Koh Talabeng by longtail, the sea cave by kayak, a look at Skull Island, lunch on the beach and Koh Phee by longtail. 09:00 to 15:30."
         }
       ]
     },
@@ -279,7 +401,7 @@
       "steps": [
         {
           "label": "Half day",
-          "text": "Sea cave kayaking and mangrove. Mangrove forest, longtail to Koh Talabeng and Koh Ung, the sea cave by kayak and the monkey point."
+          "text": "Sea cave kayaking and mangrove. Mangrove forest, longtail to Koh Talabeng and Koh Ung, the sea cave by kayak and the monkey point. 09:30 to 12:30 or 14:00 to 17:00."
         }
       ]
     },
@@ -291,7 +413,7 @@
       "steps": [
         {
           "label": "Half day",
-          "text": "Mangrove boat trip with lunch. A longtail around the mangrove forest, then lunch, fruit and a soft drink at the mangrove restaurant."
+          "text": "Mangrove boat trip with lunch. A longtail around the mangrove forest, then lunch, fruit and a soft drink at the mangrove restaurant. 09:30 to 12:30 or 14:00 to 17:00."
         }
       ]
     },
@@ -303,7 +425,7 @@
       "steps": [
         {
           "label": "Half day",
-          "text": "Mangrove kayaking with lunch. You paddle around the mangrove forest, then eat at the mangrove restaurant."
+          "text": "Mangrove kayaking with lunch. You paddle around the mangrove forest, then eat at the mangrove restaurant. 09:30 to 12:30 or 14:00 to 17:00."
         }
       ]
     },
@@ -315,7 +437,7 @@
       "steps": [
         {
           "label": "Half day",
-          "text": "Mangrove, Old Town and viewpoint. A longtail through the narrow canals, with monkeys and birds, then lunch and a visit of Lanta Old Town."
+          "text": "Mangrove, Old Town and viewpoint. A longtail through the narrow canals, with monkeys and birds, then lunch and a visit of Lanta Old Town. 09:30 to 12:30 or 14:00 to 17:00."
         }
       ]
     },
@@ -327,7 +449,7 @@
       "steps": [
         {
           "label": "Half day",
-          "text": "Mangrove and fishing park. The mangrove by kayak or longtail, lunch at the mangrove restaurant, then the fishing park."
+          "text": "Mangrove and fishing park. The mangrove by kayak or longtail, lunch at the mangrove restaurant, then the fishing park. 09:30 to 12:30 or 14:00 to 17:00."
         }
       ]
     }
@@ -335,7 +457,8 @@
   "included": [
     "Hotel transfer both ways",
     "Experienced local guide",
-    "Lunch, drinks and seasonal fruit"
+    "Lunch, drinks and seasonal fruit",
+    "Insurance"
   ],
   "faq": [
     {
@@ -413,7 +536,7 @@
       "Children from 4 to 11 pay the child rate.",
       "Times can change with the tide and the weather."
     ],
-    "priceNote": "Prices in Thai baht. The village entrance fee, 40 THB per person, is not included.",
+    "priceNote": "Prices in Thai baht. The village entrance fee, 40 THB per adult and 20 THB per child from 4 to 11, is not included.",
     "caption": "Sea cave",
     "photoPosition": "50% 50%"
   },
@@ -473,11 +596,18 @@
     {
       "field": "refPrefix",
       "from": "code court de la référence WhatsApp (critique, idée 5), 03.11.2026"
+    },
+    {
+      "field": "options[].choices, day[].steps[].text, included[Insurance]",
+      "from": "brochure kayak (audit B § 1.1) p. 2 à 5 : horaires de chaque sortie (journées 09:00 à 15:00 et 09:00 à 15:30, demi-journées 09:30 à 12:30 ou 14:00 à 17:00), programme 7 en kayak ou en longtail, Skull Island au programme 2, « Insurance » dans les inclus"
+    },
+    {
+      "field": "options[].notIncludedFees, facts[Village entrance fee], legacyText.priceNote",
+      "from": "décision client du 08.11.2026 : entrée de Thung Yee Peng 40 THB adulte, 20 THB enfant de 4 à 11 ans (frais publics, tarif kayak du dossier agence, audit D § 7) ; brochure kayak (audit B § 1.1) « Village Entrance Fee 40 baht » ; note interne « legacy price note » retirée"
     }
   ],
   "todo": [
-    "TODO(client): orthographe de l'île : « Koh Aung » (sortie à la journée) et « Koh Ung » (demi-journée) dans la même liste. Même île ?",
-    "TODO(client): horaires de chaque sortie (la page donne des créneaux généraux, et deux horaires seulement pour les journées)."
+    "TODO(client): orthographe de l'île : « Koh Aung » (sortie à la journée) et « Koh Ung » (demi-journée) dans la même liste. Même île ?"
   ],
   "refPrefix": "KY"
 }

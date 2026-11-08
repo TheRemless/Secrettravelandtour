@@ -189,8 +189,8 @@ function routeNodes(four, opt, kradan) {
   const list = islandsOf(four, opt.boat);
   if (opt.kind === "private" && kradan) list.push({ name: "Koh Kradan", tag: "" });
   const lunch = lunchOf(four, opt.boat);
-  // Ponton du speedboat : « a separate pier » dans le déroulé, « Lanta Old Town pier » dans l'option (TODO client) : non affiché.
-  return [{ name: "Koh Lanta", tag: opt.boat === "longtail" ? opt.pier || "" : "", end: true }]
+  // Ponton de chaque bateau, lu dans son option (Lanta Old Town pier, Koh Lanta Noi pier).
+  return [{ name: "Koh Lanta", tag: opt.pier || "", end: true }]
     .concat(list.map((i) => ({ ...i, lunch: i.name === lunch })))
     .concat([{ name: "Koh Lanta", tag: "Back to your hotel", end: true }]);
 }
@@ -322,13 +322,8 @@ module.exports = async function () {
     return e ? { amount: view.thb(e.total), lines: e.lines.map(([l, a]) => ({ label: l, amount: view.thb(a) })) } : null;
   };
   const day = four.day[0];
-  const speedStops = islandsOf(four, "speedboat").map((i) => {
-    // Texte de chaque arrêt du speedboat lu dans le déroulé (le même arrêt en longtail) et dans les faits « Lunch ».
-    const step = day.steps.find((s) => s.place === i.name);
-    const lunch = lunchOf(four, "speedboat") === i.name;
-    const text = lunch ? `${fact(four, "Lunch").split(":")[0]}.` : i.name === "Koh Ngai" ? (day.steps.find((s) => /on the speedboat/.test(s.text)) || {}).detail + "." : step ? step.detail + "." : "";
-    return { place: i.name, tag: i.tag, text, lunch };
-  });
+  // Journée du speedboat join-in : son propre déroulé (brochure du prestataire), heures approximatives.
+  const speedDay = four.day.find((b) => (b.options || []).includes("join-in-speedboat"));
   const fourData = {
     product: four,
     seo: {
@@ -346,7 +341,7 @@ module.exports = async function () {
     options: opts.map((o) => ({ ...o, from: R0(o) })),
     route: routeNodes(four, opts[0], false),
     kradan: kradan ? { label: kradan.label, text: `Add Koh Kradan to the private longtail, +${view.thb(kradan.amount)} ${kradan.unit}` } : null,
-    calc: { adultFrom, kidMax: adultFrom - 1, default: groupTotal(opts[0]), park: price.parkCash(fee, group.adults, 0) },
+    calc: { adultFrom, kidMax: adultFrom - 1, default: groupTotal(opts[0]), park: price.parkCash(fee, group.adults, []) },
     compare: {
       cols: opts.map((o) => {
         const islands = islandsOf(four, o.boat).map((i) => i.name).join(", ");
@@ -357,7 +352,7 @@ module.exports = async function () {
             ["On board", o.kind === "private" ? o.note : "A shared boat with other travellers"],
             ["Islands", islands + (o.kind === "private" && kradan ? `, Koh Kradan as an extra (+${view.thb(kradan.amount)} ${kradan.unit})` : "")],
             ["Lunch", `Thai buffet on the beach of ${lunchOf(four, o.boat)}`],
-            ["Pier", o.boat === "longtail" ? o.pier : ""]
+            ["Pier", o.pier || ""]
           ].filter((r) => r[1]),
           prices: (o.prices || []).filter((r) => !(r.supplement && /Koh Kradan/.test(r.label))).map((r) => ({ label: r.label, amount: r.amount === 0 ? "Free" : (r.supplement ? "+" : "") + view.thb(r.amount) })),
           group: groupTotal(o)
@@ -370,13 +365,14 @@ module.exports = async function () {
       longtailTitle: day.title.replace(/^The day, /, "Times for the "),
       note: day.note,
       steps: day.steps.map((s) => ({ t: s.range || s.time, fixed: Boolean(s.fixed), place: s.place, text: dropPlace(s.text, s.place), kind: s.kind })),
-      speedboat: speedStops,
-      speedboatNote: four.faq[0].a.split(". ").find((x) => /speedboat/.test(x)) + "."
+      speedboat: speedDay ? speedDay.steps.map((s) => ({ t: s.range || s.time, fixed: Boolean(s.fixed), place: s.place, text: dropPlace(s.text, s.place), kind: s.kind })) : [],
+      speedboatTitle: speedDay ? speedDay.title.replace(/^The day, /, "Times for the ") : "",
+      speedboatNote: speedDay ? speedDay.note || "" : ""
     },
     map: fourMap(four),
     included: four.included,
     notIncluded: view.notIncluded(four, { skipParkFee: true }),
-    parkFee: fee ? `${view.thb(fee.adult)} per adult, ${view.thb(fee.child)} per child, ${fee.thai.adult} and ${view.thb(fee.thai.child)} for Thai nationals. ${fee.note}.` : "",
+    parkFee: fee ? `${view.thb(fee.adult)} per adult, ${view.thb(fee.child)} per child${fee.childAges ? ` from ${fee.childAges.min} to ${fee.childAges.max}, free under ${fee.childAges.min}` : ""}, ${fee.thai.adult} and ${view.thb(fee.thai.child)} for Thai nationals. ${fee.note}.` : "",
     beforeBook: view.beforeBook(four, site, { skipParkFee: true }),
     faq: four.faq,
     related: ["koh-rok-koh-haa", "koh-phi-phi", "koh-talabeng-koh-bubu"].map((s) => bySlug[s]),
@@ -388,7 +384,7 @@ module.exports = async function () {
     booking: { ...view.bookingTour(four, site), tripList: true },
     fallback: view.fallbackText(four, site),
     json: {
-      slug: four.slug, name: four.name, adultFrom, fee: fee ? { adult: fee.adult, child: fee.child } : null,
+      slug: four.slug, name: four.name, adultFrom, fee: fee ? { adult: fee.adult, child: fee.child, childAges: fee.childAges } : null,
       kradan: kradan ? kradan.label : "",
       options: opts.map((o) => ({ id: o.id, label: o.label, kind: o.kind, boat: o.boat, note: o.note, stub: o.stub, pier: o.pier, prices: o.prices })),
       islands: { longtail: islandsOf(four, "longtail"), speedboat: islandsOf(four, "speedboat") },

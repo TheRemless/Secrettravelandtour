@@ -30,6 +30,10 @@
       "value": "Speedboat, join-in or private"
     },
     {
+      "label": "Speedboat pier",
+      "value": "Koh Lanta Noi, join-in speedboat"
+    },
+    {
       "label": "Crossing",
       "value": "About 1 hr by speedboat"
     },
@@ -67,6 +71,13 @@
             "max": 11
           },
           "unit": "per person"
+        },
+        {
+          "label": "Child under 4",
+          "amount": 0,
+          "ages": {
+            "max": 3
+          }
         }
       ],
       "notIncludedFees": [
@@ -102,7 +113,7 @@
       "kind": "private",
       "boat": "speedboat",
       "priceOnRequest": true,
-      "note": "Private speedboat option, 09:00 to 16:00, your group only, with a guide.",
+      "note": "Private speedboat option, 09:00 to 16:00, your group only, with a guide. Children from 4 count in the group size, under 4 do not.",
       "notIncludedFees": [
         {
           "label": "National park fee, adult",
@@ -140,7 +151,7 @@
       "steps": [
         {
           "time": "08:00",
-          "text": "Pickup at your hotel between 08:00 and 09:00, light breakfast at the pier."
+          "text": "Pickup at your hotel between 08:00 and 09:00, light breakfast at the pier on Koh Lanta Noi."
         },
         {
           "time": "09:00",
@@ -152,19 +163,15 @@
         },
         {
           "time": "12:00",
-          "text": "Lunch buffet on Phi Phi Don, free time on the beach."
+          "text": "Lunch buffet on Phi Phi Don and time on the beach, then Bamboo Island: swimming and snorkelling from the beach."
         },
         {
           "time": "13:30",
-          "text": "Bamboo Island, swimming and snorkelling from the beach."
+          "text": "The boat leaves Bamboo Island for a snorkelling stop at Loh Mudee."
         },
         {
           "time": "14:15",
-          "text": "Snorkelling at Loh Mudee Bay."
-        },
-        {
-          "time": "16:00",
-          "text": "Back towards Koh Lanta, at your hotel around 16:30."
+          "text": "Free time on Phi Phi Don until 16:00, then back to Koh Lanta and the transfer to your hotel by car or by boat."
         }
       ]
     }
@@ -172,14 +179,16 @@
   "included": [
     "Hotel transfer both ways",
     "Thai buffet lunch, water and fruit",
+    "Light breakfast at the pier on the join-in speedboat",
     "Masks, snorkels and life jackets",
-    "Guide"
+    "Guide, English-speaking on the join-in speedboat",
+    "Insurance"
   ],
   "notIncluded": [
     "National park fee, paid in cash"
   ],
   "beforeYouBook": {
-    "pickup": "Pickup at your hotel between 08:00 and 09:00, light breakfast at the pier.",
+    "pickup": "Pickup at your hotel between 08:00 and 09:00, light breakfast at the pier on Koh Lanta Noi.",
     "bring": [
       "Cash for the national park fee"
     ],
@@ -325,10 +334,15 @@
     {
       "field": "refPrefix",
       "from": "code court de la référence WhatsApp (critique, idée 5), 03.11.2026"
+    },
+    {
+      "field": "facts[Speedboat pier], day[0].steps[3..5], included, beforeYouBook.pickup",
+      "from": "brochure publique des sorties en speedboat join-in (audit A § 1.3) p. 2, Phi Phi + Bamboo : 12:00 à 13:30 déjeuner à Phi Phi Don puis Bamboo, 13:30 à 14:15 Loh Mudee, 14:15 à 16:00 temps libre à Phi Phi Don puis retour (« at your hotel around 16:30 » retiré), « All tour include » p. 3 (décision client du 08.11.2026)"
+    },
+    {
+      "field": "options[join-in-speedboat].prices[Child under 4] ; options[private-speedboat].note",
+      "from": "décision client du 08.11.2026 (second message) : moins de 4 ans gratuits en speedboat join-in ; en privé les enfants comptent dès 4 ans"
     }
-  ],
-  "todo": [
-    "TODO(client): moins de 4 ans : gratuit ? (aucun tarif publié pour les moins de 4 ans)."
   ],
   "refPrefix": "PP",
   "notes": [

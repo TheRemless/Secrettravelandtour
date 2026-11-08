@@ -6,76 +6,226 @@
   "name": "Koh Talabeng & Koh Bubu",
   "seo": {
     "title": "Koh Talabeng Kayak & Koh Bubu | Secret Travel & Tour",
-    "metaDescription": "Half-day longtail trip from Koh Lanta: kayaking around the limestone islets of Koh Talabeng, then a beach stop on Koh Bubu. Lunch included. Ask us for a price.",
+    "metaDescription": "Kayak into the sea cave of Koh Talabeng from Koh Lanta, then lunch on Koh Bubu. Half day from 1,000 THB, full day from 1,300 THB, hotel transfer included.",
     "draft": {
       "title": "Koh Talabeng Kayak & Koh Bubu, Koh Lanta Half Day",
       "h1": "Koh Talabeng kayaking and Koh Bubu"
     }
   },
-  "h1": "Koh Talabeng and Koh Bubu kayak and longtail",
-  "lead": "A half day on the east side of Koh Lanta. You paddle around the limestone islets of Koh Talabeng, then the longtail takes you to the beach of Koh Bubu.",
+  "h1": "Koh Talabeng and Koh Bubu by kayak and longtail",
+  "lead": "The sea cave of Koh Talabeng by kayak, from Thung Yee Peng pier: a half day with the mangrove, or a full day with lunch on Koh Bubu or a stop at Koh Phee.",
   "promise": "Paddle round Koh Talabeng, then the beach on Koh Bubu",
   "facts": [
     {
       "label": "Duration",
-      "value": "Half day"
+      "value": "Half day or full day"
+    },
+    {
+      "label": "Start",
+      "value": "Thung Yee Peng pier, east coast"
     },
     {
       "label": "Boat",
-      "value": "Longtail, then two-seater kayaks"
+      "value": "Longtail, then kayaks"
+    },
+    {
+      "label": "Half days",
+      "value": "09:30–12:30 or 14:00–17:00"
+    },
+    {
+      "label": "Full days",
+      "value": "09:00–15:00 or 09:00–15:30"
     },
     {
       "label": "Where",
       "value": "East coast of Koh Lanta: Koh Talabeng, Koh Bubu"
+    },
+    {
+      "label": "Village entrance fee",
+      "value": "40 THB per adult, 20 THB per child from 4 to 11, not included"
     }
   ],
-  "priceOnRequest": true,
   "options": [
     {
-      "id": "half-day",
-      "label": "Half day, kayak and longtail",
+      "id": "sea-cave-island-hopping-1-day",
+      "label": "Sea cave kayaking and island hopping, 1 day",
       "kind": "join-in",
-      "boat": "longtail",
-      "priceOnRequest": true,
-      "note": "Ask us for a price (legacy meta description)."
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 1300,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 11",
+          "amount": 900,
+          "ages": {
+            "min": 4,
+            "max": 11
+          },
+          "unit": "per person"
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "Village entrance fee, adults",
+          "amount": 40,
+          "unit": "per person"
+        },
+        {
+          "label": "Village entrance fee, children 4 to 11",
+          "amount": 20,
+          "unit": "per person"
+        }
+      ],
+      "boat": "longtail and kayak"
+    },
+    {
+      "id": "love-kayak-1-day",
+      "label": "Love kayak, two places, 1 day",
+      "kind": "join-in",
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 1500,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 11",
+          "amount": 1000,
+          "ages": {
+            "min": 4,
+            "max": 11
+          },
+          "unit": "per person"
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "Village entrance fee, adults",
+          "amount": 40,
+          "unit": "per person"
+        },
+        {
+          "label": "Village entrance fee, children 4 to 11",
+          "amount": 20,
+          "unit": "per person"
+        }
+      ],
+      "boat": "longtail and kayak"
+    },
+    {
+      "id": "sea-cave-mangrove-half-day",
+      "label": "Sea cave kayaking and mangrove, half day",
+      "kind": "join-in",
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 1000,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 11",
+          "amount": 700,
+          "ages": {
+            "min": 4,
+            "max": 11
+          },
+          "unit": "per person"
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "Village entrance fee, adults",
+          "amount": 40,
+          "unit": "per person"
+        },
+        {
+          "label": "Village entrance fee, children 4 to 11",
+          "amount": 20,
+          "unit": "per person"
+        }
+      ],
+      "choices": [
+        {
+          "id": "slot",
+          "label": "Time",
+          "values": [
+            {
+              "id": "morning",
+              "label": "Morning, 09:30–12:30"
+            },
+            {
+              "id": "afternoon",
+              "label": "Afternoon, 14:00–17:00"
+            }
+          ]
+        }
+      ],
+      "boat": "longtail and kayak"
     }
   ],
   "day": [
     {
-      "title": "How the half day goes",
+      "options": [
+        "sea-cave-island-hopping-1-day"
+      ],
+      "title": "The three trips",
       "steps": [
         {
-          "text": "Pickup at your hotel, then the longtail from the east coast."
-        },
+          "label": "1 day",
+          "text": "Sea cave kayaking and island hopping. Mangrove and monkeys, Koh Aung, then Koh Talabeng by longtail with kayaking and the sea cave. Lunch and a swim on Koh Bubu. 09:00 to 15:00."
+        }
+      ]
+    },
+    {
+      "options": [
+        "love-kayak-1-day"
+      ],
+      "title": "The three trips",
+      "steps": [
         {
-          "text": "Kayaking around the limestone islets of Koh Talabeng."
-        },
+          "label": "1 day",
+          "text": "Love kayak, two places. Paddling in the mangrove, then Koh Talabeng by longtail, the sea cave by kayak, a look at Skull Island, lunch on the beach and Koh Phee by longtail. 09:00 to 15:30."
+        }
+      ]
+    },
+    {
+      "options": [
+        "sea-cave-mangrove-half-day"
+      ],
+      "title": "The three trips",
+      "steps": [
         {
-          "text": "Longtail to Koh Bubu, lunch and time on the beach."
-        },
-        {
-          "text": "Back to Koh Lanta and your hotel."
+          "label": "Half day",
+          "text": "Sea cave kayaking and mangrove. Mangrove forest, longtail to Koh Talabeng and Koh Ung, the sea cave by kayak and the monkey point. 09:30 to 12:30 or 14:00 to 17:00."
         }
       ]
     }
   ],
   "included": [
     "Hotel transfer both ways",
-    "Lunch",
-    "Kayaks, masks, snorkels and life jackets"
+    "Experienced local guide",
+    "Lunch, drinks and seasonal fruit",
+    "Insurance"
   ],
   "beforeYouBook": {
-    "pickup": "Pickup at your hotel, then the longtail from the east coast.",
-    "health": "Tell us if you have never kayaked. The kayaks are two-seaters."
+    "pickup": "Pickup at your hotel, then Thung Yee Peng pier on the east coast.",
+    "health": "Tell us if you have never kayaked.",
+    "children": "Children from 4 to 11 have their own rate."
   },
   "faq": [
     {
-      "q": "How long is the Koh Talabeng trip?",
-      "a": "Half a day, with hotel pickup and return."
+      "q": "Which trip goes to Koh Bubu?",
+      "a": "The full day with island hopping: Koh Talabeng and its sea cave by kayak, then lunch and a swim on Koh Bubu, from 09:00 to 15:00."
+    },
+    {
+      "q": "Is there a half day?",
+      "a": "Yes. The mangrove, Koh Talabeng and its sea cave by kayak, Koh Ung and the monkey point, from 09:30 to 12:30 or from 14:00 to 17:00."
     },
     {
       "q": "Do I need kayaking experience?",
-      "a": "No. Tell us if it is your first time and you will share a two-seater kayak."
+      "a": "No. Tell us if it is your first time."
     }
   ],
   "photos": [
@@ -182,22 +332,25 @@
       "from": "secretPagesContent.json pages.koh-talabeng-koh-bubu.schemaType, places ; type cible : docs/refonte/02-audit-seo.md §6.3"
     },
     {
-      "field": "options[priceOnRequest]",
-      "from": "secretPagesContent.json pages.koh-talabeng-koh-bubu (goodToKnow, priceNote) ; décision client du 02.11.2026 : « Price on WhatsApp »"
-    },
-    {
       "field": "promise",
       "from": "lead du produit, raccourci à 60 caractères pour la carte (03.11.2026)"
     },
     {
       "field": "refPrefix",
       "from": "code court de la référence WhatsApp (critique, idée 5), 03.11.2026"
+    },
+    {
+      "field": "options, price, facts, day, included, beforeYouBook, faq, lead, h1, seo.metaDescription",
+      "from": "brochure kayak (audit B § 1.1) p. 2 et 3 (programmes 1 à 3, prix 1 300 / 900, 1 500 / 1 000, 1 000 / 700, enfant 4 à 11 ans), repris de activities/kayak.json ; décision client du 08.11.2026 (second message)"
     }
   ],
-  "todo": [
-    "TODO(client): prix de Koh Talabeng & Koh Bubu : la page dit « Ask us for a price » ; la page kayak vend Koh Talabeng à 1 000 THB adulte / 700 enfant (« Sea cave kayaking and mangrove, half day », avec Koh Ung) et à 1 300 / 900 avec le déjeuner sur Koh Bubu (« Sea cave kayaking and island hopping, 1 day »). Même produit que l'une de ces sorties ?",
-    "TODO(client): tranches d'âge enfant (aucune sur la page).",
-    "TODO(client): horaires de la demi-journée (aucun sur la page)."
-  ],
-  "refPrefix": "TB"
+  "refPrefix": "TB",
+  "price": {
+    "from": 1000,
+    "currency": "THB",
+    "unit": "per adult, half day"
+  },
+  "notes": [
+    "Fiche refaite le 08.11.2026 (décision client) : plus de « Price on WhatsApp ». Elle présente les trois sorties de la brochure kayak (audit B § 1.1) qui vont à Koh Talabeng (programmes 1, 2 et 3), avec les mêmes identifiants, prix, horaires et frais que activities/kayak.json, qui reste la fiche de référence. tests/product-pages.test.js vérifie que les deux fiches ne divergent pas."
+  ]
 }

@@ -112,16 +112,25 @@
         },
         {
           "time": "13:15",
-          "text": "More fishing, swimming or photos, back at the pier at 14:00 and transfer to your hotel."
+          "text": "More fishing, photos or time to relax."
+        },
+        {
+          "time": "13:45",
+          "text": "The raft cruises back through the mangrove."
+        },
+        {
+          "time": "14:00",
+          "text": "At the pier, then the transfer to your hotel."
         }
       ],
       "note": "Pickup times are approximate."
     }
   ],
   "included": [
-    "Hotel transfer both ways",
+    "Hotel transfer both ways, within the Koh Lanta area",
     "Fishing gear",
-    "On the raft: seafood lunch, drinks and fruit"
+    "On the raft: bait, a local guide, life jackets and insurance",
+    "On the raft: seafood lunch, drinking water, soft drinks and seasonal fruit"
   ],
   "beforeYouBook": {
     "pickup": "Raft: pickup at your hotel around 09:30, check-in at Thung Yee Peng pier at 10:00."
@@ -240,6 +249,10 @@
     {
       "field": "refPrefix",
       "from": "code court de la référence WhatsApp (critique, idée 5), 03.11.2026"
+    },
+    {
+      "field": "day[0].steps[5..7], included",
+      "from": "affiche Private Fishing Experience.jpg : 13:15 « More fishing / Take photos / Relax » (la baignade n'y est pas), 13:45 retour par la mangrove, 14:00 ponton ; « Price includes » dont guide, gilets, assurance, appâts, transfert « (Koh Lanta area) » (décision client du 08.11.2026)"
     }
   ],
   "todo": [

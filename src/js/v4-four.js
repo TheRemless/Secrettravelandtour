@@ -50,7 +50,7 @@
   function routeHTML(opt) {
     var list = D.islands[opt.boat].slice();
     if (opt.kind === "private" && st.addons.indexOf(D.kradan) > -1) list.push({ name: "Koh Kradan", tag: "" });
-    var nodes = [{ name: "Koh Lanta", tag: opt.boat === "longtail" ? opt.pier : "", end: true, id: "isl-start" }]
+    var nodes = [{ name: "Koh Lanta", tag: opt.pier || "", end: true, id: "isl-start" }]
       .concat(list.map(function (i) { return { name: i.name, tag: i.tag, lunch: i.name === D.lunch[opt.boat], id: "isl-" + i.name.toLowerCase().replace(/[^a-z]+/g, "-") }; }))
       .concat([{ name: "Koh Lanta", tag: "Back to your hotel", end: true, id: "isl-end" }]);
     return nodes.map(function (n) {
@@ -206,7 +206,7 @@
     var un = $("[data-calc-unpriced]", calc);
     un.hidden = !(est && est.unpriced.length);
     un.textContent = est ? unpricedText(est.unpriced) : "";
-    var park = PR.parkCash(D.fee, st.adults, st.childAges.length), pk = $("[data-calc-park]", calc);
+    var park = PR.parkCash(D.fee, st.adults, st.childAges), pk = $("[data-calc-park]", calc);
     if (pk) { pk.hidden = !park; if (park) pk.textContent = "Plus the national park fee, in cash on the island: " + park.text + "."; }
     $$("[data-calc-book], [data-dock-book]").forEach(function (b) { b.setAttribute("data-book", opt.id); });
 

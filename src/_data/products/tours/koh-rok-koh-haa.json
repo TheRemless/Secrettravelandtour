@@ -14,8 +14,8 @@
     }
   },
   "h1": "Koh Rok and Koh Haa snorkelling day trip",
-  "lead": "Two islands of the Mu Ko Lanta National Park, open from October to April, by speedboat or private longtail. Snorkelling stops and lunch on the beach of Koh Rok.",
-  "promise": "Snorkelling at Koh Rok and Koh Haa, October to April",
+  "lead": "Two islands of the Mu Ko Lanta National Park, open from mid-October to mid-May, by speedboat or private longtail. Snorkelling stops and lunch on the beach of Koh Rok.",
+  "promise": "Snorkelling at Koh Rok and Koh Haa, mid-October to mid-May",
   "facts": [
     {
       "label": "Duration",
@@ -23,7 +23,7 @@
     },
     {
       "label": "Season",
-      "value": "October to April"
+      "value": "Mid-October to mid-May"
     },
     {
       "label": "Hotel pickup",
@@ -32,6 +32,10 @@
     {
       "label": "Boat",
       "value": "Speedboat (join-in) or longtail (private)"
+    },
+    {
+      "label": "Speedboat pier",
+      "value": "Koh Lanta Noi, join-in speedboat"
     },
     {
       "label": "Islands",
@@ -47,7 +51,7 @@
     },
     {
       "label": "National park fee",
-      "value": "400 THB per adult, 200 THB per child, not included"
+      "value": "400 THB per adult from 12, 200 THB per child from 4 to 11, free under 4, not included"
     }
   ],
   "price": {
@@ -75,6 +79,13 @@
             "max": 11
           },
           "unit": "per person"
+        },
+        {
+          "label": "Child under 4",
+          "amount": 0,
+          "ages": {
+            "max": 3
+          }
         }
       ],
       "notIncludedFees": [
@@ -82,25 +93,20 @@
           "label": "National park fee, adult",
           "amount": 400,
           "unit": "per person",
-          "note": "Cash, paid to the ranger on the island"
+          "note": "Cash, paid to the ranger on the island",
+          "ages": {
+            "min": 12
+          }
         },
         {
           "label": "National park fee, child",
           "amount": 200,
           "unit": "per person",
-          "note": "Cash, paid to the ranger on the island"
-        },
-        {
-          "label": "National park fee, Thai national adult",
-          "amount": 40,
-          "unit": "per person",
-          "note": "Cash, paid to the ranger on the island"
-        },
-        {
-          "label": "National park fee, Thai national child",
-          "amount": 20,
-          "unit": "per person",
-          "note": "Cash, paid to the ranger on the island"
+          "note": "Cash, paid to the ranger on the island",
+          "ages": {
+            "min": 4,
+            "max": 11
+          }
         }
       ]
     },
@@ -109,7 +115,7 @@
       "label": "Private longtail to Koh Rok",
       "kind": "private",
       "boat": "longtail",
-      "note": "The whole boat for your group. Koh Rok only, 08:00 to 16:00, about 1 hr 30 min each way, your group only.",
+      "note": "The whole boat for your group. Koh Rok only, 08:00 to 16:00, about 1 hr 30 min each way, your group only. Children from 4 count in the group size, under 4 do not.",
       "prices": [
         {
           "label": "1 to 3 people",
@@ -153,25 +159,20 @@
           "label": "National park fee, adult",
           "amount": 400,
           "unit": "per person",
-          "note": "Cash, paid to the ranger on the island"
+          "note": "Cash, paid to the ranger on the island",
+          "ages": {
+            "min": 12
+          }
         },
         {
           "label": "National park fee, child",
           "amount": 200,
           "unit": "per person",
-          "note": "Cash, paid to the ranger on the island"
-        },
-        {
-          "label": "National park fee, Thai national adult",
-          "amount": 40,
-          "unit": "per person",
-          "note": "Cash, paid to the ranger on the island"
-        },
-        {
-          "label": "National park fee, Thai national child",
-          "amount": 20,
-          "unit": "per person",
-          "note": "Cash, paid to the ranger on the island"
+          "note": "Cash, paid to the ranger on the island",
+          "ages": {
+            "min": 4,
+            "max": 11
+          }
         }
       ]
     },
@@ -181,31 +182,26 @@
       "kind": "private",
       "boat": "speedboat",
       "priceOnRequest": true,
-      "note": "Private speedboat option: your group only, 09:00 to 16:00.",
+      "note": "Private speedboat option: your group only, 09:00 to 16:00. Children from 4 count in the group size, under 4 do not.",
       "notIncludedFees": [
         {
           "label": "National park fee, adult",
           "amount": 400,
           "unit": "per person",
-          "note": "Cash, paid to the ranger on the island"
+          "note": "Cash, paid to the ranger on the island",
+          "ages": {
+            "min": 12
+          }
         },
         {
           "label": "National park fee, child",
           "amount": 200,
           "unit": "per person",
-          "note": "Cash, paid to the ranger on the island"
-        },
-        {
-          "label": "National park fee, Thai national adult",
-          "amount": 40,
-          "unit": "per person",
-          "note": "Cash, paid to the ranger on the island"
-        },
-        {
-          "label": "National park fee, Thai national child",
-          "amount": 20,
-          "unit": "per person",
-          "note": "Cash, paid to the ranger on the island"
+          "note": "Cash, paid to the ranger on the island",
+          "ages": {
+            "min": 4,
+            "max": 11
+          }
         }
       ]
     },
@@ -221,25 +217,20 @@
           "label": "National park fee, adult",
           "amount": 400,
           "unit": "per person",
-          "note": "Cash, paid to the ranger on the island"
+          "note": "Cash, paid to the ranger on the island",
+          "ages": {
+            "min": 12
+          }
         },
         {
           "label": "National park fee, child",
           "amount": 200,
           "unit": "per person",
-          "note": "Cash, paid to the ranger on the island"
-        },
-        {
-          "label": "National park fee, Thai national adult",
-          "amount": 40,
-          "unit": "per person",
-          "note": "Cash, paid to the ranger on the island"
-        },
-        {
-          "label": "National park fee, Thai national child",
-          "amount": 20,
-          "unit": "per person",
-          "note": "Cash, paid to the ranger on the island"
+          "note": "Cash, paid to the ranger on the island",
+          "ages": {
+            "min": 4,
+            "max": 11
+          }
         }
       ]
     }
@@ -253,18 +244,27 @@
       "steps": [
         {
           "time": "08:00",
-          "text": "Pickup at your hotel around 08:00, light breakfast at the pier."
+          "text": "Pickup at your hotel, then the pier on Koh Lanta Noi and a light breakfast."
         },
         {
           "time": "09:30",
           "text": "The speedboat leaves for Koh Rok."
         },
         {
-          "text": "Two snorkelling stops over the coral around Koh Rok."
+          "time": "10:00",
+          "text": "A short snorkelling lesson, then the first snorkelling stop and time for photos."
+        },
+        {
+          "time": "11:00",
+          "text": "The second snorkelling stop."
         },
         {
           "time": "12:00",
-          "text": "Lunch buffet on the beach of Koh Rok, swimming, and the monitor lizards that live on the island."
+          "text": "Thai buffet lunch on the beach of Koh Rok, where monitor lizards live."
+        },
+        {
+          "time": "13:00",
+          "text": "Time on the beach: swimming, sunbathing or snorkelling from the shore."
         },
         {
           "time": "14:00",
@@ -272,7 +272,7 @@
         },
         {
           "time": "15:30",
-          "text": "Back on Koh Lanta around 15:30, at your hotel by 16:30."
+          "text": "The speedboat leaves Koh Haa for Koh Lanta, then the transfer to your hotel by car or by boat."
         }
       ]
     }
@@ -280,23 +280,25 @@
   "included": [
     "Hotel transfer both ways",
     "Thai buffet lunch on the beach, water and fruit",
+    "Light breakfast at the pier on the join-in speedboat",
     "Masks, snorkels and life jackets",
-    "Guide"
+    "Guide, English-speaking on the join-in speedboat",
+    "Insurance"
   ],
   "notIncluded": [
     "National park fee, paid in cash on the island"
   ],
   "beforeYouBook": {
-    "pickup": "Pickup at your hotel around 08:00, light breakfast at the pier.",
+    "pickup": "Pickup at your hotel around 08:00, light breakfast at the pier on Koh Lanta Noi.",
     "bring": [
       "Cash for the national park fee"
     ],
-    "weather": "The park is closed in the rainy season. Tours run from October to April."
+    "weather": "Mid-October to mid-May. The national park closes Koh Rok and Koh Haa from 16 May for the monsoon."
   },
   "faq": [
     {
       "q": "When can you go to Koh Rok?",
-      "a": "From October to April. The national park closes the islands during the rainy season."
+      "a": "From mid-October to mid-May. The national park closes Koh Rok and Koh Haa from 16 May for the monsoon."
     },
     {
       "q": "How long is the boat ride to Koh Rok?",
@@ -304,7 +306,7 @@
     },
     {
       "q": "Is the national park fee included?",
-      "a": "No. You pay 400 THB per adult and 200 THB per child in cash to the ranger on Koh Rok."
+      "a": "No. You pay 400 THB per adult and 200 THB per child from 4 to 11 in cash to the ranger on Koh Rok. Children under 4 do not pay."
     },
     {
       "q": "Speedboat or longtail?",
@@ -373,7 +375,7 @@
       "Children from 4 to 11 pay a child rate on the speedboat."
     ],
     "priceNote": "Prices in Thai baht. The national park fee is paid on the island and is not included.",
-    "parkFee": "400 THB per adult and 200 THB per child (Thai nationals 40 and 20 THB)",
+    "parkFee": "400 THB per adult and 200 THB per child",
     "caption": "Koh Rok",
     "photoPosition": "45% 60%"
   },
@@ -437,12 +439,27 @@
     {
       "field": "refPrefix",
       "from": "code court de la référence WhatsApp (critique, idée 5), 03.11.2026"
+    },
+    {
+      "field": "facts[Speedboat pier], day[0].steps, included, beforeYouBook.pickup",
+      "from": "brochure publique des sorties en speedboat join-in (audit A § 1.3) p. 2, Rok + Ha : 10:00 et 11:00 aux deux premiers spots, 13:00 plage, 15:30 départ de Koh Ha (et non arrivée à Lanta ; « at your hotel by 16:30 » retiré), « All tour include » p. 3 (décision client du 08.11.2026)"
+    },
+    {
+      "field": "options[join-in-speedboat].prices[Child under 4] ; options[private-*].note ; options[].notIncludedFees[].ages ; facts[National park fee] ; faq",
+      "from": "décision client du 08.11.2026 (second message) : moins de 4 ans gratuits en speedboat join-in ; frais de parc gratuits sous 4 ans, enfant de 4 à 11 ans, adulte dès 12 ans (montants inchangés) ; en privé les enfants comptent dès 4 ans"
+    },
+    {
+      "field": "facts[Season], lead, promise, beforeYouBook.weather, faq[0]",
+      "from": "données transmises le 08.11.2026 (troisième message du coordinateur, vérifiées en ligne ou fournies par le client) : fermeture annuelle de Koh Rok et Koh Haa à partir du 16 mai pour 5 mois (annonce DMCR, dmcr.go.th ; Bangkokbiznews) ; « October to April » sans source retiré"
+    },
+    {
+      "field": "options[].notIncludedFees",
+      "from": "données transmises le 08.11.2026 (troisième message du coordinateur, vérifiées en ligne ou fournies par le client) : 400 / 200 THB concordants (brochure des sorties en speedboat, parc Mu Ko Lanta) ; tarif thaï 40 / 20 sans source pour Koh Rok, retiré"
     }
   ],
   "todo": [
     "TODO(client): Koh Rok en longtail privé, tranches « 7 to 8 people » (8 400 THB) et « 9 to 10 people » (9 400 THB) : déduites de la brochure selon le registre de faits, à confirmer.",
-    "TODO(client): version avec arrêt coucher de soleil : le site dit « exists on some days. Ask us », le registre de faits dit 10:00 à 19:00. Jours, programme et prix ?",
-    "TODO(client): moins de 4 ans en speedboat : gratuit ? (aucun tarif publié)."
+    "TODO(client): version avec arrêt coucher de soleil : le site dit « exists on some days. Ask us », le registre de faits dit 10:00 à 19:00. Jours, programme et prix ?"
   ],
   "refPrefix": "KR"
 }

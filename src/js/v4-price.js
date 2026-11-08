@@ -32,7 +32,8 @@
     var total = 0;
     var tiers = rows.filter(function (r) { return r.group && typeof r.amount === "number"; });
     if (tiers.length) {
-      var n = adults + kids.length;
+      // Bateau privé : les enfants comptent dans le groupe dès 4 ans, les moins de 4 ans ne comptent pas (client, 08.11.2026).
+      var n = adults + kids.filter(function (a) { return a >= 4; }).length;
       var tier = tiers.filter(function (r) { return n >= r.group.min && n <= r.group.max; })[0];
       var top = tiers[tiers.length - 1];
       var extra = rows.filter(function (r) { return r.supplement && /extra person/i.test(r.label); })[0];
@@ -71,8 +72,15 @@
   }
 
   // Frais de parc en espèces, comme parkCash() de booking.js : adultes et enfants au tarif des données.
+  // kids : un nombre d'enfants, ou la liste de leurs âges. Avec une liste et fee.childAges (4 à 11), les plus
+  // jeunes ne paient pas et les plus âgés paient le tarif adulte.
   function parkCash(fee, adults, kids) {
     if (!fee || !fee.adult) return null;
+    if (Array.isArray(kids)) {
+      var ages = kids.filter(function (a) { return a !== "" && a !== null && a !== undefined; }).map(Number), ca = fee.childAges;
+      kids = ca ? ages.filter(function (a) { return a >= ca.min && a <= ca.max; }).length : ages.length;
+      if (ca) adults += ages.filter(function (a) { return a > ca.max; }).length;
+    }
     var parts = [];
     var total = 0;
     if (adults > 0) { parts.push(adults + " × " + fee.adult); total += adults * fee.adult; }

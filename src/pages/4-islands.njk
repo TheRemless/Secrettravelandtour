@@ -117,7 +117,7 @@ permalink: /tours/4-islands/
       <div class="day__side">
         <h2 id="day-h">{{ t.day.title }}</h2>
         <p class="day__for" data-day-for>{{ t.day.longtailTitle }}. {{ t.day.note }}</p>
-        <p class="day__for" data-day-speed hidden>{{ t.day.speedboatNote }} The speedboat times are not on the site yet, ask us on WhatsApp.</p>
+        <p class="day__for" data-day-speed hidden>{{ t.day.speedboatTitle }}. {{ t.day.speedboatNote }}</p>
         <button class="map-fold" type="button" aria-expanded="false" aria-controls="route-map" data-map-fold>{{ v4.glyph("map") }}<span>Show the route map</span></button>
         <figure class="map" id="route-map" data-map>
           {%- set m = t.map -%}
@@ -147,12 +147,10 @@ permalink: /tours/4-islands/
           <li class="tl__step" data-place="{{ s.place }}"><time class="{{ 'fixed' if s.fixed }}">{% if not s.fixed %}≈ {% endif %}{{ s.t }}</time><b>{{ s.place }}</b><p>{{ s.text }}</p></li>
           {%- endfor %}
         </ol>
-        <ol class="tl tl--plain" data-tl="speedboat" hidden>
-          <li class="tl__step" data-place="Your hotel"><b>Your hotel</b><p>Pickup at your hotel.</p></li>
+        <ol class="tl" data-tl="speedboat" hidden>
           {%- for s in t.day.speedboat %}
-          <li class="tl__step" data-place="{{ s.place }}"><b>{{ s.place }}</b><p>{{ s.text }}</p></li>
+          <li class="tl__step" data-place="{{ s.place }}"><time class="{{ 'fixed' if s.fixed }}">{% if not s.fixed %}≈ {% endif %}{{ s.t }}</time><b>{{ s.place }}</b><p>{{ s.text }}</p></li>
           {%- endfor %}
-          <li class="tl__step" data-place="Koh Lanta"><b>Koh Lanta</b><p>Back on Koh Lanta, then the transfer to your hotel.</p></li>
         </ol>
       </div>
     </div>

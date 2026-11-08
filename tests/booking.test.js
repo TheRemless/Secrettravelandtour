@@ -12,7 +12,7 @@ const TOUR = {
   productId: "4-islands",
   page: "secrettravelandtour.com/tours/4-islands/",
   options: [
-    { id: "join-in-longtail", title: "Join-in longtail", rows: [{ label: "Adult", price: "1,000 THB" }, { label: "Child, 4 to 11", price: "700 THB" }] },
+    { id: "join-in-longtail", title: "Join-in longtail", rows: [{ label: "Adult", price: "1,000 THB" }, { label: "Child, 4 to 11", price: "600 THB" }] },
     { id: "private-longtail", title: "Private longtail", rows: [{ label: "1 to 2 people", price: "5,900 THB" }] },
     { id: "on-request", title: "Custom day", rows: [] }
   ]
@@ -66,7 +66,7 @@ test("buildMessage excursion : la demande en première ligne, sans formule d'app
       "Guests: 2 adults, 1 child (age 7)",
       "Pickup: Lanta Sand Resort (Klong Dao)",
       "Name: Anna",
-      "Price on website: Adult: 1,000 THB / Child, 4 to 11: 700 THB",
+      "Price on website: Adult: 1,000 THB / Child, 4 to 11: 600 THB",
       "Page: secrettravelandtour.com/tours/4-islands/"
     ].join("\n")
   );

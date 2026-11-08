@@ -364,10 +364,15 @@
   function parkCash(config, state) {
     var fee = config.parkFee;
     if (!fee || !fee.adult) return null;
-    var kids = (state.childAges || []).length;
+    // Tarif enfant pour les âges de fee.childAges (4 à 11) : plus jeune, gratuit ; plus âgé, tarif adulte.
+    var ages = state.childAges || [], ca = fee.childAges, kids = ages.length, adults = state.adults;
+    if (ca) {
+      kids = ages.filter(function (a) { return Number(a) >= ca.min && Number(a) <= ca.max; }).length;
+      adults += ages.filter(function (a) { return Number(a) > ca.max; }).length;
+    }
     var parts = [];
     var total = 0;
-    if (state.adults > 0) { parts.push(state.adults + " × " + fee.adult); total += state.adults * fee.adult; }
+    if (adults > 0) { parts.push(adults + " × " + fee.adult); total += adults * fee.adult; }
     if (kids > 0 && fee.child) { parts.push(kids + " × " + fee.child); total += kids * fee.child; }
     if (!parts.length) return null;
     return { total: total, text: parts.join(" + ") + " = " + thb(total) };

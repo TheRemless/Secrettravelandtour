@@ -12,7 +12,7 @@ const IMAGES = path.join(__dirname, "..", "src", "images");
 const FOLDERS = { tours: "boat", activities: "activity", "": "rental", "secret-transfers": "transfer", taxi: "route" };
 const BRANDS = ["secret", "vip"];
 const STATUS = ["keep", "replace", "missing"];
-const BYB = ["pickup", "deposit", "helmets", "delivery", "bring", "children", "health", "weather", "payment", "cancellation"];
+const BYB = ["pickup", "deposit", "licence", "insurance", "helmets", "delivery", "bring", "children", "health", "weather", "payment", "cancellation"];
 // Pages existantes ou prévues (décisions client du 02.11.2026) vers lesquelles related[] peut pointer.
 const PLANNED = ["/", "/tours/", "/transfers/", "/taxi/", "/about/", "/contact/", "/faq/"];
 // Même liste que tests/partenaires.test.js.
@@ -200,17 +200,30 @@ test("produits : les 17 trajets taxi sont repris (10 pages Koh Lanta + 7 regroup
   for (const p of own) assert.ok(p.route && isStr(p.route.from) && isStr(p.route.to) && p.route.points.length, p.slug);
 });
 
+// Écarts voulus avec l'ancien site (mise à jour d'après les brochures, décisions du client du 08.11.2026,
+// docs/refonte/design-v4/build/NOTES.md) : la nouvelle valeur est exigée à la place de l'ancienne.
+const CORRIGES = {
+  "4-islands|Join-in longtail|Child, 4 to 11|700": "Join-in longtail|Child, 4 to 11|600",
+  "mangroves|Private raft at sunrise|3 or more people, per person|1500": "Private raft at sunrise|Each extra person|1500",
+  "scuba-diving|One-day experience, 2 dives|Kids Scuba Explorer, from age 8|4500": "One-day experience, 2 dives|Scuba Explorer, from age 8|4500",
+  "scuba-diving|One-day experience, 2 dives|Basic Diver, from age 10|4500": "One-day experience, 2 dives|Discover Basic Diver, from age 10|4500"
+};
+// Partenaire remplacé : les prix de l'ancien partenaire ne sont plus vendus.
+const REMPLACES = ["elephant-sanctuary"];
+
 test("produits : tous les prix de l'ancien site sont repris à l'identique", () => {
   const content = require("../src/_data/secretPagesContent.json");
   const byUrl = Object.fromEntries(files.map((f) => [f.data.url, f.data]));
   for (const [id, page] of Object.entries(content.pages)) {
+    if (REMPLACES.includes(id)) continue;
     const p = byUrl[`/tours/${id}/`];
     const rows = (p.options || []).flatMap((o) => (o.prices || []).map((r) => `${o.label}|${r.label}|${r.amount !== undefined ? r.amount : r.text}`));
     for (const g of page.prices || []) {
       for (const r of g.rows) {
         const m = /^\+?([\d,]+) THB$/.exec(r.price);
         const value = m ? Number(m[1].replace(/,/g, "")) : r.price === "Free" ? 0 : r.price;
-        assert.ok(rows.includes(`${g.title}|${r.label}|${value}`), `${id} : ${g.title} / ${r.label}`);
+        const key = `${g.title}|${r.label}|${value}`;
+        assert.ok(rows.includes(CORRIGES[`${id}|${key}`] || key), `${id} : ${g.title} / ${r.label}`);
       }
     }
   }
@@ -238,8 +251,9 @@ test("site.json : deux marques, WhatsApp commun, note VIP datée, licence encore
   assert.ok(Number.isInteger(r.count) && r.count > 0);
   assert.match(r.readOn, /^\d{4}-\d{2}-\d{2}$/);
   assert.match(r.url, /^https:\/\//);
-  // Délai de réponse et langues retirés le 03.11.2026 (faits à reconfirmer) : rien ne s'affiche tant qu'ils sont null.
-  assert.equal(site.replyTime, null);
+  // Langues retirées le 03.11.2026 (faits à reconfirmer) : rien ne s'affiche tant qu'elles sont null.
+  // Délai de réponse donné par le client le 08.11.2026.
+  assert.equal(site.replyTime.usual, "within 6 hours, Thailand time");
   assert.equal(site.languages, null);
   for (const t of site.todo) assert.match(t, /^TODO\(client\): \S/);
   for (const b of BRANDS) {

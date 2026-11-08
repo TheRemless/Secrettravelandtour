@@ -42,7 +42,7 @@ test("« What runs on … » : chaque horaire affiché est écrit dans la fiche 
     for (const time of [t].concat(label.match(/\b\d{2}:\d{2}\b/g) || [])) assert.ok(raw.includes(time), `${slug} : ${time}`);
   }
   // Règles écrites : saison de Koh Rok, jours des cours de cuisine.
-  assert.match(h, /data-slug="koh-rok-koh-haa"[^>]*data-months="10,11,12,1,2,3,4"/);
+  assert.match(h, /data-slug="koh-rok-koh-haa"[^>]*data-months="10,11,12,1,2,3,4,5"/);
   const cooking = P("activities/cooking-class").facts.find((f) => f.label === "Morning class").value;
   assert.match(cooking, /Monday, Wednesday, Saturday/);
   assert.match(h, /data-slug="cooking-class" data-days="1,3,6"/);
@@ -54,12 +54,14 @@ test("« What runs on … » : chaque horaire affiché est écrit dans la fiche 
 
 test("calculateur 4 Islands : total ligne par ligne, rien de deviné", () => {
   const a = price.estimate(opt("join-in-longtail"), 2, [7, 2], []);
-  assert.equal(a.total, 2 * 1000 + 700 + 0);
+  assert.equal(a.total, 2 * 1000 + 600 + 0, "enfant 600 THB, brochure Lanta Longtail (08.11.2026)");
   assert.deepEqual(a.unpriced, []);
   const s = price.estimate(opt("join-in-speedboat"), 2, [2], []);
   assert.equal(s.total, 4000);
-  assert.deepEqual(s.unpriced, [2], "moins de 4 ans en speedboat : pas de tarif sur le site");
+  assert.deepEqual(s.unpriced, [], "moins de 4 ans gratuits en speedboat join-in (client, 08.11.2026)");
   assert.equal(price.estimate(opt("private-longtail"), 2, [7], []).total, 6400);
+  assert.equal(price.estimate(opt("private-longtail"), 2, [2], []).total, 5900, "bateau privé : les moins de 4 ans ne comptent pas dans le groupe");
+  assert.equal(price.parkCash({ adult: 200, child: 100, childAges: { min: 4, max: 11 } }, 2, [2, 7, 12]).total, 3 * 200 + 100, "frais de parc : gratuit sous 4 ans, enfant de 4 à 11, adulte dès 12");
   assert.equal(price.estimate(opt("private-longtail"), 5, [], []).total, 6400 + 400);
   assert.equal(price.estimate(opt("private-longtail"), 2, [], ["Add Koh Kradan, per boat"]).total, 5900 + 500);
   assert.equal(price.estimate({ priceOnRequest: true }, 2, [], []), null);

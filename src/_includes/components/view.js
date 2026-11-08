@@ -175,6 +175,8 @@ function day(product) {
 const BEFORE = [
   ["pickup", "Pickup"],
   ["deposit", "Deposit"],
+  ["licence", "Driving licence"],
+  ["insurance", "Insurance"],
   ["helmets", "Helmets"],
   ["delivery", "Delivery"],
   ["bring", "Bring"],
@@ -261,12 +263,14 @@ function parkFee(product) {
   const adult = fees.find((f) => /, adult$/.test(f.label) && !/Thai/.test(f.label));
   const child = fees.find((f) => /, child$/.test(f.label) && !/Thai/.test(f.label));
   if (!adult) return null;
+  // Âges du tarif enfant (4 à 11 ans) : plus jeune, gratuit ; plus âgé, tarif adulte.
   const thaiA = fees.find((f) => /Thai national adult/.test(f.label));
   const thaiC = fees.find((f) => /Thai national child/.test(f.label));
   return {
     label: adult.label.split(", ")[0],
     adult: adult.amount,
     child: child ? child.amount : null,
+    childAges: child && child.ages ? { min: child.ages.min || 0, max: child.ages.max } : null,
     thai: thaiA ? { adult: thaiA.amount, child: thaiC ? thaiC.amount : null } : null,
     note: adult.note || ""
   };
@@ -353,12 +357,13 @@ function rating(r) {
 // ---------- Saisons ----------
 const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-// « October to April » → [10, 11, 12, 1, 2, 3, 4] ; « All year » → les 12 mois ; autre chose → null (rien d'affiché).
+// « October to April » ou « Mid-October to mid-May » → les mois entamés ; « All year » → les 12 mois ;
+// autre chose → null (rien d'affiché).
 function seasonMonths(product) {
   const f = (product.facts || []).find((x) => x.label === "Season");
   if (!f) return null;
   if (/^all year$/i.test(f.value.trim())) return MONTH_NAMES.map((_, i) => i + 1);
-  const m = f.value.match(/^([A-Z][a-z]+) to ([A-Z][a-z]+)$/);
+  const m = f.value.match(/^(?:Mid-)?([A-Z][a-z]+) to (?:mid-)?([A-Z][a-z]+)$/);
   if (!m) return null;
   const a = MONTH_NAMES.indexOf(m[1]) + 1, b = MONTH_NAMES.indexOf(m[2]) + 1;
   if (!a || !b) return null;
@@ -409,7 +414,7 @@ function departureBoard(product) {
     const langkawi = /Langkawi/.test(r.onward || "");
     return {
       time: r.departs,
-      to: last.place + (langkawi ? ", Langkawi" : ""),
+      to: last.place.replace(/ \(.*\)$/, "") + (langkawi ? ", Langkawi" : ""),
       via: r.stops.map((x) => `${x.place} ${x.time}`).join(", "),
       onward: r.onward || "",
       checkIn: langkawi && tt.checkIn && tt.checkIn.langkawi ? `Langkawi: check in ${tt.checkIn.langkawi}.` : "",

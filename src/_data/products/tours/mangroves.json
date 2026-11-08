@@ -24,6 +24,10 @@
       "value": "Half day, or a sunrise"
     },
     {
+      "label": "Half days",
+      "value": "09:30–12:30 or 14:00–17:00 by longtail or kayak"
+    },
+    {
       "label": "Ways to go",
       "value": "Longtail, private wooden raft or kayak"
     },
@@ -33,7 +37,7 @@
     },
     {
       "label": "Village entrance fee",
-      "value": "40 THB per person on the longtail and kayak trips, not included"
+      "value": "40 THB per adult, 20 THB per child from 4 to 11, on the longtail and kayak trips, not included"
     }
   ],
   "price": {
@@ -59,11 +63,9 @@
           "unit": "per raft"
         },
         {
-          "label": "3 or more people, per person",
+          "label": "Each extra person",
           "amount": 1500,
-          "group": {
-            "min": 3
-          },
+          "supplement": true,
           "unit": "per person"
         },
         {
@@ -170,10 +172,30 @@
       ],
       "notIncludedFees": [
         {
-          "label": "Village entrance fee",
+          "label": "Village entrance fee, adults",
           "amount": 40,
-          "unit": "per person",
-          "note": "Not included (legacy price note)"
+          "unit": "per person"
+        },
+        {
+          "label": "Village entrance fee, children 4 to 11",
+          "amount": 20,
+          "unit": "per person"
+        }
+      ],
+      "choices": [
+        {
+          "id": "slot",
+          "label": "Time",
+          "values": [
+            {
+              "id": "morning",
+              "label": "Morning, 09:30–12:30"
+            },
+            {
+              "id": "afternoon",
+              "label": "Afternoon, 14:00–17:00"
+            }
+          ]
         }
       ]
     },
@@ -200,10 +222,30 @@
       ],
       "notIncludedFees": [
         {
-          "label": "Village entrance fee",
+          "label": "Village entrance fee, adults",
           "amount": 40,
-          "unit": "per person",
-          "note": "Not included (legacy price note)"
+          "unit": "per person"
+        },
+        {
+          "label": "Village entrance fee, children 4 to 11",
+          "amount": 20,
+          "unit": "per person"
+        }
+      ],
+      "choices": [
+        {
+          "id": "slot",
+          "label": "Time",
+          "values": [
+            {
+              "id": "morning",
+              "label": "Morning, 09:30–12:30"
+            },
+            {
+              "id": "afternoon",
+              "label": "Afternoon, 14:00–17:00"
+            }
+          ]
         }
       ]
     },
@@ -230,10 +272,30 @@
       ],
       "notIncludedFees": [
         {
-          "label": "Village entrance fee",
+          "label": "Village entrance fee, adults",
           "amount": 40,
-          "unit": "per person",
-          "note": "Not included (legacy price note)"
+          "unit": "per person"
+        },
+        {
+          "label": "Village entrance fee, children 4 to 11",
+          "amount": 20,
+          "unit": "per person"
+        }
+      ],
+      "choices": [
+        {
+          "id": "slot",
+          "label": "Time",
+          "values": [
+            {
+              "id": "morning",
+              "label": "Morning, 09:30–12:30"
+            },
+            {
+              "id": "afternoon",
+              "label": "Afternoon, 14:00–17:00"
+            }
+          ]
         }
       ]
     },
@@ -260,10 +322,44 @@
       ],
       "notIncludedFees": [
         {
-          "label": "Village entrance fee",
+          "label": "Village entrance fee, adults",
           "amount": 40,
-          "unit": "per person",
-          "note": "Not included (legacy price note)"
+          "unit": "per person"
+        },
+        {
+          "label": "Village entrance fee, children 4 to 11",
+          "amount": 20,
+          "unit": "per person"
+        }
+      ],
+      "choices": [
+        {
+          "id": "slot",
+          "label": "Time",
+          "values": [
+            {
+              "id": "morning",
+              "label": "Morning, 09:30–12:30"
+            },
+            {
+              "id": "afternoon",
+              "label": "Afternoon, 14:00–17:00"
+            }
+          ]
+        },
+        {
+          "id": "way",
+          "label": "By",
+          "values": [
+            {
+              "id": "kayak",
+              "label": "Kayak"
+            },
+            {
+              "id": "longtail",
+              "label": "Longtail"
+            }
+          ]
         }
       ]
     }
@@ -277,7 +373,7 @@
       "steps": [
         {
           "time": "04:40",
-          "text": "Sunrise raft. On the water by 05:30, sunrise around 06:00 over the mountains, light breakfast on the raft (coffee, tea, snacks), back at the hotel by 07:30."
+          "text": "Sunrise raft. On the water by 05:30, sunrise around 06:00 over the mountains, light breakfast on the raft (coffee, tea, snacks), back at the pier at 07:30."
         }
       ]
     },
@@ -301,18 +397,22 @@
       "steps": [
         {
           "time": "16:30",
-          "text": "Sunset raft. Sunset on the river, seafood dinner by candlelight, then the bioluminescent plankton in the dark water, back by 20:00."
+          "text": "Sunset raft. Check-in at Thung Yee Peng pier at 16:50, a cruise through the mangrove to see the wildlife and feed the monkeys, the sunset at 17:30, a seafood dinner by candlelight at 18:15, then the bioluminescent plankton in the dark water. Back at the pier at 19:30, at 20:00 the transfer to your hotel."
         }
       ]
     }
   ],
   "included": [
-    "Hotel transfer both ways",
+    "Hotel transfer both ways, within the Koh Lanta area on the fishing and sunset rafts",
     "On the raft: breakfast, lunch or dinner depending on the programme, drinks and fruit",
-    "Kayaks and life jackets on the kayak trip"
+    "On the longtail and kayak half days: lunch, drinks and seasonal fruit",
+    "Local guide on the fishing and sunset rafts and on the longtail and kayak half days",
+    "Fishing gear and life jackets on the fishing and sunset rafts",
+    "Kayaks and life jackets on the kayak trip",
+    "Insurance on the fishing raft and on the longtail and kayak half days"
   ],
   "beforeYouBook": {
-    "pickup": "Sunrise raft: pickup around 04:40, back at the hotel by 07:30.",
+    "pickup": "Sunrise raft: pickup around 04:40, back at the pier at 07:30.",
     "bring": [
       "Mosquito repellent for sunrise and sunset"
     ],
@@ -329,7 +429,7 @@
     },
     {
       "q": "How early is the sunrise trip?",
-      "a": "Pickup is around 04:40 and you are back at the hotel by 07:30, in time for a second breakfast."
+      "a": "Pickup is around 04:40 and the raft is back at the pier at 07:30, in time for a second breakfast."
     }
   ],
   "photos": [
@@ -455,12 +555,26 @@
     {
       "field": "refPrefix",
       "from": "code court de la référence WhatsApp (critique, idée 5), 03.11.2026"
+    },
+    {
+      "field": "options[raft-sunrise].prices[1]",
+      "from": "affiche Sunrise View Mangrove.jpg « Next person 1,500 THB/person » : supplément au-delà du forfait 3 500 pour 1 ou 2 (décision client du 08.11.2026 ; avant : « 3 or more people, per person »)"
+    },
+    {
+      "field": "day[0], day[2], beforeYouBook.pickup, faq[2], included",
+      "from": "affiches Sunrise View Mangrove.jpg (07:30 retour au ponton), Private Fishing Experience.jpg et Sunset Diner Mangrove.jpeg (16:50 check-in, singes, 19:30 ponton, 20:00 transfert ; inclus, transfert « Koh Lanta area ») ; brochure kayak (audit B § 1.1) (déjeuner, guide, assurance des demi-journées)"
+    },
+    {
+      "field": "options[longtail-half-day, kayak-half-day, longtail-old-town-viewpoint, fishing-park].choices ; facts[Half days]",
+      "from": "brochure kayak (audit B § 1.1) p. 3 à 5 : « Morning 09:30 - 12:30, Afternoon 14:00 - 17:00 », programme 7 « by kayaking or longtail boat »"
+    },
+    {
+      "field": "options[].notIncludedFees, facts[Village entrance fee]",
+      "from": "décision client du 08.11.2026 : entrée de Thung Yee Peng 40 THB adulte, 20 THB enfant de 4 à 11 ans (frais publics, tarif kayak du dossier agence, audit D § 7) ; brochure kayak (audit B § 1.1) « Village Entrance Fee 40 baht » ; note interne « legacy price note » retirée"
     }
   ],
   "todo": [
-    "TODO(client): âges enfant sur la même page : « Child 3 to 9 » (radeaux privés) et « Child, 4 to 11 » (longtail et kayak). Les deux tranches sont-elles justes, chacune pour sa formule ?",
-    "TODO(client): l'accueil dit « Through the mangroves by longtail, gondola or kayak » (secret.json activities mangroves.description) ; la page parle d'un radeau en bois (« wooden raft »), jamais de gondole. Quel mot ?",
-    "TODO(client): horaires des demi-journées en longtail et en kayak (la page ne donne que ceux des radeaux)."
+    "TODO(client): l'accueil dit « Through the mangroves by longtail, gondola or kayak » (secret.json activities mangroves.description) ; la page parle d'un radeau en bois (« wooden raft »), jamais de gondole. Quel mot ?"
   ],
   "notes": [
     "Les formules 4 à 7 (longtail, kayak, Old Town, fishing park) sont les mêmes que les sorties 4 à 7 de la page kayak, aux mêmes prix : risque de cannibalisation, à arbitrer dans la structure (rédaction)."

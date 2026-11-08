@@ -24,7 +24,7 @@ test("barre mobile et bouton du haut : l'option du prix d'appel", () => {
 
 test("bandeau : prise en charge, départ, ponton, bateau, formule ; prix et frais de parc dans le talon", () => {
   const t = view.ticket(four);
-  assert.deepEqual(t.rows.map((r) => r.label), ["Pickup", "Boat leaves", "Pier", "Boat", "Format"]);
+  assert.deepEqual(t.rows.map((r) => r.label), ["Pickup", "Boat leaves", "Longtail pier", "Boat", "Format"]);
   assert.equal(t.stub.price.amount, "1,000 THB");
   assert.equal(t.stub.fee.adult, "200 THB");
   assert.equal(t.stub.fee.child, "100 THB");
@@ -57,7 +57,7 @@ test("cartes : promesse de 60 caractères au plus, distincte de l'accroche ; tro
 test("saisons : réglette seulement si la saison est connue", () => {
   assert.equal(view.seasonRuler(four), null);
   const rok = view.seasonRuler(P("tours/koh-rok-koh-haa"));
-  assert.deepEqual(rok.months.filter((m) => m.open).map((m) => m.short), ["Jan", "Feb", "Mar", "Apr", "Oct", "Nov", "Dec"]);
+  assert.deepEqual(rok.months.filter((m) => m.open).map((m) => m.short), ["Jan", "Feb", "Mar", "Apr", "May", "Oct", "Nov", "Dec"]);
   const deps = view.departures([four, P("tours/koh-rok-koh-haa")], new Date("2026-06-15T05:00:00Z"));
   assert.equal(deps[0].today, null);
   assert.equal(deps[1].today, false);
