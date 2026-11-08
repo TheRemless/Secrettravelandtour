@@ -161,13 +161,13 @@
     (option.choices || []).forEach(function (c) {
       var v = choiceValue(state, option, c);
       var key = choiceKey(option, c);
-      if (!v) { if (c.required !== false) errors[key] = c.type === "text" ? "Tell us your " + c.label.toLowerCase() + "." : "Choose the " + c.label.toLowerCase() + "."; return; }
+      if (!v) { if (c.required !== false) errors[key] = c.error || (c.type === "text" ? "Tell us your " + c.label.toLowerCase() + "." : "Choose the " + c.label.toLowerCase() + "."); return; }
       if (v.days && v.days.length && date) {
         var wd = toUTC(date).getUTCDay();
         if (v.days.indexOf(wd) < 0) errors[key] = v.label.split(",")[0] + " runs on " + listJoin(v.days.map(function (d) { return DAY_NAMES[d]; })) + ". Pick one of those days or another " + c.label.toLowerCase() + ".";
       }
     });
-    if (option.counts && !countsOf(state, option).length) errors["n-" + option.id] = "Choose how many: " + option.counts.label.toLowerCase() + ".";
+    if (option.counts && !countsOf(state, option).length) errors["n-" + option.id] = option.counts.error || "Choose how many " + option.counts.label.toLowerCase() + ".";
   }
 
   // Speedboat : un trajet (« Koh Lanta to Koh Phi Phi ») et l'un de ses départs, lus dans la grille.

@@ -354,6 +354,7 @@
         {
           "id": "way",
           "label": "By",
+          "error": "Choose kayak or longtail.",
           "values": [
             {
               "id": "kayak",
