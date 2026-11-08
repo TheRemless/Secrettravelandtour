@@ -281,6 +281,8 @@
     var n = l.items.length;
     V.$$("[data-trips-count]").forEach(function (el) { el.textContent = n; });
     root.classList.toggle("has-trips", n > 0);
+    // Une liste non vide sera ouverte : ses scripts se chargent au calme pour que la feuille s'ouvre sans attendre.
+    if (n > 0) (window.requestIdleCallback || setTimeout)(function () { tripsScripts().catch(function () {}); });
     V.$$("[data-trips-open]").forEach(function (b) {
       b.hidden = n === 0 && !b.hasAttribute("data-always");
       if (bump && !reduce.matches) { b.classList.remove("is-bump"); b.offsetWidth; b.classList.add("is-bump"); }
@@ -290,8 +292,13 @@
       b.setAttribute("aria-pressed", l.items.some(function (i) { return i.slug === b.getAttribute("data-trip-add"); }) ? "true" : "false");
     });
   }
+  // booking.js est déjà là sur les pages produit (balise avec ?v=) : le recharger brancherait deux fois la feuille.
+  function tripsScripts() {
+    var b = window.STT_BOOKING ? Promise.resolve() : V.load("/js/booking.js");
+    return b.then(function () { return V.load("/js/v4-trips.js"); });
+  }
   V.openTrips = function (trigger) {
-    return V.load("/js/booking.js").then(function () { return V.load("/js/v4-trips.js"); }).then(function () { window.V4_TRIPS.open(trigger); });
+    return tripsScripts().then(function () { window.V4_TRIPS.open(trigger); });
   };
   doc.addEventListener("trips-change", function () { paint(true); });
   doc.addEventListener("click", function (e) {
