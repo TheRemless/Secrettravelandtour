@@ -9,6 +9,7 @@ permalink: /tours/4-islands/
 {%- set d = v4data -%}
 {%- set t = d.four -%}
 {%- set c = d.contact -%}
+{%- set waText = "Question about " + t.product.name + " (" + site.url.replace("https://", "") + "/tours/4-islands/): " -%}
 {%- set seo = t.seo -%}
 {%- set pageUrl = "/tours/4-islands/" -%}
 {%- set jsonLd = pages.jsonLd.fourIslands -%}
@@ -23,7 +24,7 @@ permalink: /tours/4-islands/
 {% include "v4-head.njk" %}
 </head>
 <body>
-{{ v4.header(c, d.emblem, "boats") }}
+{{ v4.header(c, d.emblem, "boats", waText) }}
 <main id="main">
   <nav class="wrap crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/tours/#boat-trips">Boat trips</a></li><li><span aria-current="page">4 Islands</span></li></ol></nav>
 
@@ -35,7 +36,7 @@ permalink: /tours/4-islands/
       <p class="price price--big"><span>from</span><b>{{ t.price.amount }}</b><span>{{ t.price.unit }}</span></p>
       <div class="phero__go">
         <a class="btn btn--lg press" href="{{ fallback }}" data-book="{{ t.price.option }}" data-cta>Choose a date</a>
-        <a class="link" href="{{ v4.waHref(c.number, 'Hello, I have a question about the ' + t.product.name + ' trip: ') }}">Ask a question on WhatsApp</a>
+        <a class="link" href="{{ v4.waHref(c.number, waText) }}">Ask a question on WhatsApp</a>
       </div>
     </div>
     <div class="phero__ph">{{ v4.photo(t.hero, "(min-width: 900px) 58vw, 100vw", true, "", "trip-photo") }}</div>
@@ -181,7 +182,7 @@ permalink: /tours/4-islands/
     </div>
   </section>
 </main>
-{{ v4.footer(site, c, d.emblem, d.boats, d.activities) }}
+{{ v4.footer(site, c, d.emblem, d.boats, d.activities, waText) }}
 <div class="dock" data-dock aria-hidden="true">
   <p class="dock__p" data-dock-p><span>from</span><b>{{ t.price.amount }}</b></p>
   <a class="btn press" href="{{ fallback }}" data-book="{{ t.price.option }}" tabindex="-1" data-dock-book>Choose a date</a>

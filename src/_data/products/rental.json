@@ -369,5 +369,6 @@
       "field": "beforeYouBook.deposit, helmets, delivery ; prices[].unit",
       "from": "réponse de Jérémy du 03.11.2026 : location pour 24 h, caution = passeport, casques fournis, livraison selon le lieu et la durée, au cas par cas sur WhatsApp"
     }
-  ]
+  ],
+  "refPrefix": "RN"
 }

@@ -6,7 +6,10 @@
 // ailleurs. Palette, polices, mots et faits : règles inchangées.
 import fs from "node:fs";
 const CSS = ["css/tokens.css", "css/v4.css", "css/booking.css"].map((f) => [f, fs.readFileSync("_site/" + f, "utf8")]);
-const PAGES = ["index.html", "tours/4-islands/index.html", "tours/index.html"];
+// Pages produit v4 (08.11.2026) : toutes les fiches /tours/<slug>/, la location et le speedboat.
+const PRODUCT_PAGES = ["koh-rok-koh-haa", "koh-phi-phi", "koh-talabeng-koh-bubu", "mangroves", "fishing-trip", "elephant-sanctuary", "kayak",
+  "cooking-class", "scuba-diving", "atv", "batik", "go-kart", "rental", "speedboat"].map((s) => `tours/${s}/index.html`);
+const PAGES = ["index.html", "tours/4-islands/index.html", "tours/index.html"].concat(PRODUCT_PAGES);
 const ALLOWED = ["#14262B", "#3B5551", "#546A65", "#0B3B3C", "#124B4C", "#0F6B61", "#F6EFE4", "#EFE2D0", "#E3DACB", "#7A8884", "#EEF3F1", "#B5CBC6", "#FFFFFF", "#25D366"];
 const out = [];
 let failed = false;

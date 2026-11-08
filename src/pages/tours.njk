@@ -7,6 +7,7 @@ permalink: /tours/
 {% from "components/icons.njk" import icon %}
 {%- set d = v4data -%}
 {%- set c = d.contact -%}
+{%- set waText = "Hello, a question from " + site.url.replace("https://", "") + "/tours/: " -%}
 {%- set seo = d.hub.seo -%}
 {%- set pageUrl = "/tours/" -%}
 {%- set jsonLd = pages.jsonLd.hub -%}
@@ -16,7 +17,7 @@ permalink: /tours/
 {% include "v4-head.njk" %}
 </head>
 <body>
-{{ v4.header(c, d.emblem, "boats") }}
+{{ v4.header(c, d.emblem, "boats", waText) }}
 <main id="main">
   <nav class="wrap crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><span aria-current="page">Tours</span></li></ol></nav>
   <div class="wrap top">
@@ -44,7 +45,7 @@ permalink: /tours/
   </section>
   {{ v4.endBand(d.hub.final, c) }}
 </main>
-{{ v4.footer(site, c, d.emblem, d.boats, d.activities) }}
+{{ v4.footer(site, c, d.emblem, d.boats, d.activities, waText) }}
 <div class="tray" data-tray aria-label="Trips to compare" role="region" hidden>
   <div class="tray__slots" data-slots></div>
   <p class="tray__txt" data-tray-t aria-live="polite"></p>

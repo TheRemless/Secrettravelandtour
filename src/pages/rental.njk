@@ -1,0 +1,58 @@
+---
+permalink: /tours/rental/
+---
+{#- Location, design v4 : une catégorie par colonne, chaque véhicule est une ligne qui ouvre la feuille avec ce modèle.
+    Même ordre que les autres fiches (pas de photo déclarée, pas de déroulé, pas d'inclus dans la donnée). -#}
+{% import "components/v4.njk" as v4 %}
+{% import "components/v4-product.njk" as vp %}
+{% from "components/booking.njk" import bookingSheet %}
+{%- set d = v4data -%}
+{%- set t = d.rentalPage -%}
+{%- set c = d.contact -%}
+{%- set seo = t.seo -%}
+{%- set pageUrl = t.url -%}
+{%- set jsonLd = t.jsonLd -%}
+{%- set waText = t.ask -%}
+{%- set fallback = v4.waHref(c.number, t.fallback) -%}
+<!DOCTYPE html>
+<html lang="en-GB" data-refonte data-page="product">
+<head>
+{% include "v4-head.njk" %}
+</head>
+<body>
+{{ v4.header(c, d.emblem, t.nav, waText) }}
+<main id="main">
+  {{ vp.crumbs([{ label: "Home", href: "/" }, { label: t.name }]) }}
+  {{ vp.hero(t, c, fallback, "", "Choose a vehicle") }}
+
+  <section class="sec sec--sand" id="options" aria-labelledby="opt-h">
+    <div class="wrap">
+      <div class="sec__head"><h2 id="opt-h">Options and prices</h2>{% if t.fleet %}<p class="sec__note">{{ t.fleet }}</p>{% endif %}</div>
+      <div class="opts opts--rent" data-opts>
+        {%- for g in t.cats %}
+        <article class="opts__col" id="opt-{{ g.id }}" aria-labelledby="opt-{{ g.id }}-h">
+          <h3 id="opt-{{ g.id }}-h">{{ g.label }}</h3>
+          <p class="opts__note">{{ g.count }} models, {{ g.lo }} to {{ g.hi }} {{ g.unit }}. Choose a model to ask for it.</p>
+          <ul class="vrows">
+            {%- for r in g.rows %}
+            <li><a class="vrow press" href="{{ v4.waHref(c.number, r.fallback) }}" data-book="{{ g.id }}" data-vehicle="{{ r.label }}"><span>{{ r.label }}</span><span class="opts__amt"><b>{{ r.amount }}</b>{% if r.unit %} <small>{{ r.unit }}</small>{% endif %}</span></a></li>
+            {%- endfor %}
+          </ul>
+          <a class="btn btn--ghost press" href="{{ v4.waHref(c.number, g.fallback) }}" data-book="{{ g.id }}">Ask for {{ g.label | lower }}</a>
+        </article>
+        {%- endfor %}
+      </div>
+    </div>
+  </section>
+
+  {%- if t.beforeBook.length or t.faq.length %}{{ vp.bybFaq(t.beforeBook, t.faq) }}{% endif %}
+  {{ vp.related(t.related) }}
+</main>
+{{ v4.footer(site, c, d.emblem, d.boats, d.activities, waText) }}
+{{ vp.dock(t.price, fallback, "", "Choose a vehicle") }}
+{{ bookingSheet(t.booking, c) }}
+{{ v4.tripsRoot() }}
+<script src="/js/booking.js?v={{ build.v }}" defer></script>
+{{ v4.scripts(build, "product") }}
+</body>
+</html>

@@ -1,0 +1,47 @@
+---
+pagination:
+  data: v4data.productPages
+  size: 1
+  alias: t
+permalink: "{{ t.url }}"
+eleventyComputed:
+  eleventyExcludeFromCollections: true
+---
+{#- Page produit v4 (bateaux et activités, sauf la 4 Islands qui a sa page) : données de components/v4-product.js.
+    Même ordre que la 4 Islands ; une section sans donnée n'est pas rendue. -#}
+{% import "components/v4.njk" as v4 %}
+{% import "components/v4-product.njk" as vp %}
+{% from "components/booking.njk" import bookingSheet %}
+{%- set d = v4data -%}
+{%- set c = d.contact -%}
+{%- set seo = t.seo -%}
+{%- set pageUrl = t.url -%}
+{%- set jsonLd = t.jsonLd -%}
+{%- set waText = t.ask -%}
+{%- set fallback = v4.waHref(c.number, t.fallback) -%}
+{%- set preloadImg = t.hero -%}
+{%- set preloadSizes = "(min-width: 900px) 58vw, 100vw" -%}
+<!DOCTYPE html>
+<html lang="en-GB" data-refonte data-page="product">
+<head>
+{% include "v4-head.njk" %}
+</head>
+<body>
+{{ v4.header(c, d.emblem, t.nav, waText) }}
+<main id="main">
+  {{ vp.crumbs([{ label: "Home", href: "/" }, t.crumb, { label: t.name }]) }}
+  {{ vp.hero(t, c, fallback, t.single) }}
+  {{ vp.options(t, c) }}
+  {%- if t.programme %}{{ vp.programme(t) }}{% endif %}
+  {%- if t.included.length or t.notIncluded.length %}{{ vp.included(t) }}{% endif %}
+  {%- if t.beforeBook.length or t.faq.length %}{{ vp.bybFaq(t.beforeBook, t.faq) }}{% endif %}
+  {{ vp.related(t.related) }}
+</main>
+{{ v4.footer(site, c, d.emblem, d.boats, d.activities, waText) }}
+{{ vp.dock(t.price, fallback, t.single) }}
+{{ bookingSheet(t.booking, c) }}
+{{ v4.tripsRoot() }}
+<script src="/js/booking.js?v={{ build.v }}" defer></script>
+{{ v4.scripts(build, "product") }}
+</body>
+</html>

@@ -1,0 +1,159 @@
+{#- Sections des pages produit v4 (src/_includes/components/v4-product.js), dans l'ordre de la 4 Islands :
+    hero, photos, options et prix, déroulé, inclus, avant de réserver, questions, autres sorties.
+    Importer avec : {% import "components/v4-product.njk" as vp %} -#}
+{% import "components/v4.njk" as v4 %}
+
+{% macro crumbs(items) %}
+<nav class="wrap crumbs" aria-label="Breadcrumb"><ol>
+  {%- for i in items %}<li>{% if loop.last %}<span aria-current="page">{{ i.label }}</span>{% else %}<a href="{{ i.href }}">{{ i.label }}</a>{% endif %}</li>{% endfor %}
+</ol></nav>
+{% endmacro %}
+
+{#- Hero : titre, promesse, faits clés, prix d'appel, bouton. Sans photo déclarée, la colonne de droite porte un autre contenu (cta). -#}
+{% macro hero(t, c, fallback, book, cta="Choose a date", side="") %}
+<section class="wrap phero{% if not t.hero %} phero--np{% endif %}" aria-labelledby="h1">
+  <div class="phero__text">
+    <h1 id="h1">{{ t.h1 }}</h1>
+    <p class="lead">{{ t.lead }}</p>
+    {%- if t.keyFacts.length %}
+    <dl class="keyf{% if t.kind == 'rental' or t.kind == 'speedboat' %} keyf--rows{% endif %}">{% for f in t.keyFacts %}<div><dt>{{ f.label }}</dt><dd>{{ f.value }}</dd></div>{% endfor %}</dl>
+    {%- endif %}
+    {%- if t.price %}
+    <p class="price price--big"><span>from</span><b>{{ t.price.amount }}</b><span>{{ t.price.unit }}</span></p>
+    {%- else %}
+    <p class="price price--big price--req"><b>Price on WhatsApp</b></p>
+    {%- endif %}
+    <div class="phero__go">
+      <a class="btn btn--lg press" href="{{ fallback }}" data-book="{{ book }}" data-cta>{{ cta }}</a>
+      <a class="link" href="{{ v4.waHref(c.number, t.ask) }}">Ask a question on WhatsApp</a>
+    </div>
+  </div>
+  {%- if t.hero %}
+  <div class="phero__ph">{{ v4.photo(t.hero, "(min-width: 900px) 58vw, 100vw", true, "", "trip-photo") }}</div>
+  {%- elif side %}
+  <div class="phero__side">{{ side | safe }}</div>
+  {%- endif %}
+</section>
+{% endmacro %}
+
+{#- Une ligne de prix : libellé, montant, unité. -#}
+{% macro row(r) -%}
+<li><span>{{ r.label }}</span><span class="opts__amt"><b>{{ r.amount }}</b>{% if r.unit %} <small>{{ r.unit }}</small>{% endif %}</span></li>
+{%- endmacro %}
+
+{% macro feeList(fees) -%}
+<ul class="opts__fees">
+  {%- for f in fees %}<li><span>{{ f.label }}{% if f.note %}<small>{{ f.note }}</small>{% endif %}</span><span class="opts__amt"><b>{{ f.amount }}</b>{% if f.unit %} <small>{{ f.unit }}</small>{% endif %}</span></li>{% endfor %}
+</ul>
+{%- endmacro %}
+
+{#- Options et prix : une colonne par option, toutes ses lignes, son bouton qui ouvre la feuille sur elle ; les frais sur place à part. -#}
+{% macro options(t, c) %}
+<section class="sec sec--sand" id="options" aria-labelledby="opt-h">
+  <div class="wrap">
+    <div class="sec__head"><h2 id="opt-h">Options and prices</h2></div>
+    <div class="opts{% if t.options.length == 1 %} opts--one{% endif %}" data-opts>
+      {%- for o in t.options %}
+      <article class="opts__col" id="opt-{{ o.id }}" aria-labelledby="opt-{{ o.id }}-h">
+        <h3 id="opt-{{ o.id }}-h">{{ o.label }}</h3>
+        {%- if o.note %}<p class="opts__note">{{ o.note }}</p>{% endif %}
+        {%- if o.onRequest %}
+        <p class="opts__req">Price on WhatsApp</p>
+        {%- else %}
+        <ul class="opts__prices">{% for r in o.rows %}{{ row(r) }}{% endfor %}</ul>
+        {%- endif %}
+        {%- if o.fees.length %}<div class="opts__fee"><h4>Not in the price</h4>{{ feeList(o.fees) }}</div>{% endif %}
+        {%- if o.bookable %}
+        <a class="btn btn--ghost press" href="{{ v4.waHref(c.number, o.fallback) }}" data-book="{{ o.id }}">Choose this option<span class="sr">: {{ o.label }}</span></a>
+        {%- endif %}
+      </article>
+      {%- endfor %}
+    </div>
+    {%- if t.fees.length %}
+    <div class="fees" id="fees">
+      <h3>Not in the price{% if t.feesCash %}, paid in cash on the day{% endif %}</h3>
+      {{ feeList(t.fees) }}
+    </div>
+    {%- endif %}
+  </div>
+</section>
+{% endmacro %}
+
+{#- Déroulé : une ligne de temps (« How the day goes ») ou un programme par option. -#}
+{% macro programme(t) %}
+{%- set pg = t.programme -%}
+<section class="sec" id="day" aria-labelledby="day-h">
+  <div class="wrap day day--p">
+    <div class="day__side">
+      <h2 id="day-h">{{ pg.title }}</h2>
+      {%- if t.sideFacts.length %}
+      <dl class="sidef">{% for f in t.sideFacts %}<div><dt>{{ f.label }}</dt><dd>{{ f.value }}</dd></div>{% endfor %}</dl>
+      {%- endif %}
+    </div>
+    <div class="day__main">
+      {%- if pg.mode == "list" %}
+      <div class="prog">
+        {%- for it in pg.items %}
+        <div class="prog__it">
+          <h3><a href="#opt-{{ it.id }}">{{ it.title }}</a></h3>
+          <div>
+            {%- for s in it.steps %}<p>{% if s.t %}<b>{{ s.t }}</b> {% endif %}{{ s.text }}</p>{% endfor %}
+            {%- if it.note %}<p class="prog__note">{{ it.note }}</p>{% endif %}
+          </div>
+        </div>
+        {%- endfor %}
+      </div>
+      {%- else %}
+      {%- for b in pg.blocks %}
+      {%- if b.title %}<p class="day__for">{{ b.title }}{% if b.note %}. {{ b.note }}{% endif %}</p>{% elif b.note %}<p class="day__for">{{ b.note }}</p>{% endif %}
+      <ol class="tl tl--p">
+        {%- for s in b.steps %}
+        <li class="tl__step">{% if s.t %}<time class="{{ 'fixed' if s.fixed }}">{% if s.approx %}≈ {% endif %}{{ s.t }}</time>{% else %}<span class="tl__t"></span>{% endif %}<p>{{ s.text }}</p></li>
+        {%- endfor %}
+      </ol>
+      {%- endfor %}
+      {%- endif %}
+    </div>
+  </div>
+</section>
+{% endmacro %}
+
+{% macro included(t) %}
+<section class="sec{% if not t.programme %} sec--plain{% endif %}" aria-label="What is included">
+  <div class="wrap inc">
+    {%- if t.included.length %}<div><h2>Included</h2><ul class="rules">{% for x in t.included %}<li>{{ x }}</li>{% endfor %}</ul></div>{% endif %}
+    {%- if t.notIncluded.length %}<div><h2>Not included</h2><ul class="rules">{% for x in t.notIncluded %}<li>{% if "Options and prices" in x %}<a class="link" href="#fees">{{ x }}</a>{% else %}{{ x }}{% endif %}</li>{% endfor %}</ul></div>{% endif %}
+  </div>
+</section>
+{% endmacro %}
+
+{#- Avant de réserver et questions : même bloc que la 4 Islands. -#}
+{% macro bybFaq(byb, faq) %}
+<section class="sec sec--sand" aria-labelledby="{{ 'byb-h' if byb.length else 'faq-h' }}">
+  <div class="wrap">
+    {%- if byb.length %}<div class="byb"><h2 id="byb-h">Before you book</h2><dl>{% for b in byb %}<div><dt>{{ b.label }}</dt><dd>{{ b.text }}</dd></div>{% endfor %}</dl></div>{% endif %}
+    {%- if faq.length %}<div class="byb faq{% if not byb.length %} faq--first{% endif %}"><h2 id="faq-h">Questions</h2><div>{% for f in faq %}<details><summary>{{ f.q }}</summary><p>{{ f.a }}</p></details>{% endfor %}</div></div>{% endif %}
+  </div>
+</section>
+{% endmacro %}
+
+{% macro related(r) %}
+{%- if r %}
+<section class="sec" aria-labelledby="rel-h">
+  <div class="wrap">
+    <div class="sec__head"><h2 id="rel-h">{{ r.title }}</h2><a class="link" href="{{ r.all.href }}">{{ r.all.label }}</a></div>
+    {%- if r.cards.length %}<div class="grid">{% for x in r.cards %}{{ v4.card(x) }}{% endfor %}</div>{% endif %}
+    {%- if r.transfer %}<p class="also">Arriving at {{ r.transfer.from }}? <a class="link" href="{{ r.transfer.href }}">See the {{ r.transfer.name }} transfer</a></p>{% endif %}
+    {%- if r.links.length %}<ul class="also also--list">{% for l in r.links %}<li><a class="link" href="{{ l.href }}">{{ l.label }}</a></li>{% endfor %}</ul>{% endif %}
+  </div>
+</section>
+{%- endif %}
+{% endmacro %}
+
+{#- Bande du bas : prix d'appel et bouton, quand le bouton du haut est sorti de l'écran (v4-product.js). -#}
+{% macro dock(price, fallback, book, label="Choose a date") %}
+<div class="dock" data-dock aria-hidden="true">
+  {%- if price %}<p class="dock__p"><span>from</span><b>{{ price.amount }}</b></p>{% else %}<p class="dock__p"><b>Price on WhatsApp</b></p>{% endif %}
+  <a class="btn press" href="{{ fallback }}" data-book="{{ book }}" tabindex="-1" data-dock-book>{{ label }}</a>
+</div>
+{% endmacro %}

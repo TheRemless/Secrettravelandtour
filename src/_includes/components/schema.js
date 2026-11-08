@@ -16,11 +16,12 @@ const CONTEXT = "https://schema.org";
 const IN_STOCK = "https://schema.org/InStock";
 
 // Fil d'Ariane : niveau 2 par gabarit, vers des adresses qui existent (hub /tours/ et ses sections, /taxi/).
+// Mêmes adresses que le fil visible des pages v4 (08.11.2026 : sections du hub, plus les ancres de l'accueil).
 // La location n'a pas de rubrique parente distincte (elle est elle-même la rubrique « Rental » du menu) :
 // fil sur 2 niveaux, Accueil > page.
 const SECTIONS = {
-  boat: { name: "Boat trips", path: "/#boat-trips" },
-  activity: { name: "Activities", path: "/#activities" },
+  boat: { name: "Boat trips", path: "/tours/#boat-trips" },
+  activity: { name: "Activities", path: "/tours/#activities" },
   route: { name: null, path: "/taxi/" } // nom : celui de la marque VIP (site.brands.vip.name)
 };
 
@@ -269,6 +270,16 @@ function rental(product, site) {
   return pageBlocks(main, breadcrumb(site, product, null), faqPage(site, product));
 }
 
+// Speedboat (et futurs transferts Secret) : Service, zones desservies lues dans schema.places, fil sur 2 niveaux.
+function transfer(product, site) {
+  const s = product.schema || {};
+  const main = secretMain(product, site, () => ({
+    serviceType: s.serviceType || product.name,
+    areaServed: (s.areaServed || s.places || []).map(place)
+  }));
+  return pageBlocks(main, breadcrumb(site, product, null), faqPage(site, product));
+}
+
 // Trajet VIP Taxi Lanta : TaxiService (les deux extrémités en areaServed), fourni par l'organisation VIP
 // (@id …/taxi/#vip), décrite en entier ici puisque aucune page Secret ne la définit.
 function route(product, site) {
@@ -358,4 +369,4 @@ function hub(site, products) {
   ];
 }
 
-module.exports = { home, tour, activity, rental, route, hub, toScript, clean, mainId, ids };
+module.exports = { home, tour, activity, rental, transfer, route, hub, toScript, clean, mainId, ids };

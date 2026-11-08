@@ -9,6 +9,8 @@ const view = require("../_includes/components/view.js");
 const price = require("../js/v4-price.js");
 const booking = require("../js/booking.js");
 const site = require("./site.json");
+const vp = require("../_includes/components/v4-product.js");
+const schema = require("../_includes/components/schema.js");
 
 const DATA = __dirname;
 const IMAGES = path.join(DATA, "..", "images");
@@ -102,7 +104,9 @@ function catalogEntry(p, kind) {
     fullDay: fact(p, "Duration") === "Full day",
     season: view.seasonMonths(p) && fact(p, "Season") !== "All year" ? { text: fact(p, "Season"), months: view.seasonMonths(p) } : null,
     from: view.price(p) ? view.price(p).amount : "",
-    options: opts.map((o) => ({ id: o.id, title: o.title, rows: o.rows })),
+    // Sous-variantes (créneau, cours, karts…) : la liste de sorties les fait choisir comme la feuille.
+    options: opts.filter((o) => ((p.options || []).find((x) => x.id === o.id) || {}).kind !== "extra")
+      .map((o) => ({ id: o.id, title: o.title, rows: o.rows, ...vp.formOf(p, (p.options || []).find((x) => x.id === o.id) || {}) })),
     compare
   };
 }
@@ -268,7 +272,7 @@ module.exports = async function () {
       id: o.id, label: factLabel, title: o.label, count: o.prices.length, models,
       lo: Math.min(...amounts), hi: Math.max(...amounts),
       lo$: view.thb(Math.min(...amounts)).replace(" THB", ""), hi$: view.thb(Math.max(...amounts)).replace(" THB", ""),
-      message: `Rental request: ${o.label}\nVehicle: \nFrom: \nTo: \nName: `
+      message: `Rental request: ${o.label}\nVehicle: \nFrom: \nTo: \nName: \nPage: ${host}/`
     };
   }).reverse();
   const taxi = fs.readdirSync(path.join(DATA, "products", "taxi")).map((f) => P("taxi/" + f.replace(/\.json$/, "")))
@@ -305,7 +309,7 @@ module.exports = async function () {
       sample, sampleTrip: "4-islands",
       trips: BOATS.concat(ACTIVITIES).map((s) => ({ slug: s, name: catalog[s].name }))
     },
-    final: { photo: await photo("home-final"), title: "Not sure which trip?", text: "Send us your dates and who is coming, on WhatsApp.", message: "Hello, we are not sure which trip to choose.\nOur dates: \nWho is coming: " }
+    final: { photo: await photo("home-final"), title: "Not sure which trip?", text: "Send us your dates and who is coming, on WhatsApp.", message: `Hello, we are not sure which trip to choose.\nOur dates: \nWho is coming: \nPage: ${host}/` }
   };
 
   // ----- 4 Islands -----
@@ -403,10 +407,22 @@ module.exports = async function () {
     seo: { title: "Boat Trips and Activities from Koh Lanta | Secret Travel & Tour", metaDescription: "All the boat trips and island activities we book on Koh Lanta, with prices: 4 Islands, Koh Rok, Phi Phi, kayak, diving, elephants." },
     h1: "Boat trips and activities on Koh\u00a0Lanta",
     lead: `${cap(WORDS[nBoats])} boat trips and ${WORDS[nActs]} activities, with their prices. Tick up to three to compare them.`,
-    final: { photo: await photo("hub-final"), title: "Not sure which trip?", text: "Send us your dates and who is coming, on WhatsApp.", message: homeData.final.message }
+    final: { photo: await photo("hub-final"), title: "Not sure which trip?", text: "Send us your dates and who is coming, on WhatsApp.", message: homeData.final.message.replace(/Page: .*$/, `Page: ${host}/tours/`) }
   };
 
+  // ----- Pages produit (bateaux et activités sauf la 4 Islands, location, speedboat) -----
+  // Photo du haut : celle de la carte de la sortie (photos-v3.json n'en déclare pas d'autre), en plus grand.
+  const cardsByUrl = Object.fromEntries(boats.concat(activities).map((c) => [c.href, c]));
+  const ctx = { site, schema, cardsByUrl, taxi, live: new Set([...LIVE, ...boats.concat(activities).map((c) => c.href)]) };
+  const productPages = [];
+  for (const slug of BOATS.concat(ACTIVITIES).filter((x) => x !== "4-islands")) {
+    productPages.push(vp.productPage(product(slug), { ...ctx, hero: await photo(CARD_PHOTO[slug]) }));
+  }
+  const rentalPage = vp.rentalPage(rentalP, ctx);
+  const speedboatPage = vp.speedboatPage(P("secret-transfers/speedboat-ferry"), ctx);
+
   const data = {
+    productPages, rentalPage, speedboatPage,
     contact,
     emblem: await view.emblem(44),
     whatsapp: site.whatsapp,
@@ -423,5 +439,6 @@ module.exports = async function () {
   await view.responsive([data.boats, data.activities], { widths: [400, 560, 720, 960], avif: 40, webp: 68 });
   await view.responsive([homeData.heroTrips], { widths: [480, 640, 768, 960, 1280, 1600], avif: 45, webp: 68 });
   await view.responsive([homeData.final, hubData.final, fourData.hero, fourData.gallery, fourData.longtail], { widths: [480, 640, 768, 960, 1280, 1600, 2000], avif: 45, webp: 68 });
+  await view.responsive(productPages.map((x) => x.hero), { widths: [480, 640, 768, 960, 1280, 1600], avif: 45, webp: 68 });
   return data;
 };

@@ -62,7 +62,8 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 </article>
 {% endmacro %}
 
-{% macro header(contact, em, current="") %}
+{#- waText : le message prérempli du bouton WhatsApp, qui dit de quelle page il part (produit et adresse sur une fiche). -#}
+{% macro header(contact, em, current="", waText="") %}
 {%- set items = [
   { id: "boats", label: "Boat trips", href: "/tours/#boat-trips" },
   { id: "activities", label: "Activities", href: "/tours/#activities" },
@@ -76,7 +77,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
     <nav class="nav" aria-label="Main"><ul>{% for i in items %}<li><a href="{{ i.href }}"{% if i.id == current %} aria-current="page"{% endif %}>{{ i.label }}</a></li>{% endfor %}</ul></nav>
     <div class="hd__tools">
       <button class="tl-btn" type="button" data-trips-open aria-haspopup="dialog" hidden>{{ glyph("list") }}<span class="tl-btn__l">Trip list</span><span class="tl-btn__n" data-trips-count>0</span><span class="sr"> trips</span></button>
-      <a class="btn hd__wa" href="{{ waHref(contact.number) }}">{{ icon("whatsapp") }}<span class="hd__wa-l">WhatsApp</span><span class="sr"> {{ contact.phoneDisplay }}</span></a>
+      <a class="btn hd__wa" href="{{ waHref(contact.number, waText) }}">{{ icon("whatsapp") }}<span class="hd__wa-l">WhatsApp</span><span class="sr"> {{ contact.phoneDisplay }}</span></a>
       <button class="menu-btn" type="button" aria-haspopup="dialog" aria-controls="menu" data-menu-open>{{ icon("menu") }}<span class="sr">Menu</span></button>
     </div>
   </div>
@@ -87,18 +88,18 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
     <button class="x" type="button" data-menu-close>{{ icon("close") }}<span class="sr">Close the menu</span></button>
   </div>
   <nav class="wrap" aria-label="Menu"><ul>{% for i in items %}<li><a href="{{ i.href }}">{{ i.label }}</a></li>{% endfor %}</ul></nav>
-  <p class="wrap drawer__wa"><a class="link" href="{{ waHref(contact.number) }}">WhatsApp {{ contact.phoneDisplay }}</a></p>
+  <p class="wrap drawer__wa"><a class="link" href="{{ waHref(contact.number, waText) }}">WhatsApp {{ contact.phoneDisplay }}</a></p>
 </dialog>
 {% endmacro %}
 
-{% macro footer(site, contact, em, boats, activities) %}
+{% macro footer(site, contact, em, boats, activities, waText="") %}
 {%- set b = site.brands.secret -%}
 <footer class="ft on-dark" id="ft">
   <div class="wrap">
     <div class="ft__grid">
       <div>
         <p class="ft__brand"><picture><source type="image/avif" srcset="{{ em.avif }}"><img eleventy:ignore src="{{ em.src }}" srcset="{{ em.webp }}" width="{{ em.width }}" height="{{ em.height }}" alt="" loading="lazy"></picture>Secret Travel &amp; Tour</p>
-        <p class="ft__wa"><a class="link link--light" href="{{ waHref(contact.number) }}">WhatsApp {{ contact.phoneDisplay }}</a></p>
+        <p class="ft__wa"><a class="link link--light" href="{{ waHref(contact.number, waText) }}">WhatsApp {{ contact.phoneDisplay }}</a></p>
       </div>
       <div><h2 class="ft__h">Boat trips</h2><ul>{% for c in boats %}<li><a href="{{ c.href }}">{{ c.title }}</a></li>{% endfor %}</ul></div>
       <div><h2 class="ft__h">Activities</h2><ul>{% for c in activities %}<li><a href="{{ c.href }}">{{ c.title }}</a></li>{% endfor %}</ul></div>

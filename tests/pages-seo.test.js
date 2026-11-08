@@ -5,7 +5,12 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
-const secretPages = require("../src/_data/secretPages.js")();
+// Fiches produit /tours/<slug>/ du design v4 (08.11.2026) : lues dans products/**, la source des pages.
+const P = (rel) => JSON.parse(fs.readFileSync(path.join(__dirname, "..", "src/_data/products", rel + ".json"), "utf8"));
+const PRODUCTS = ["tours/4-islands", "tours/koh-rok-koh-haa", "tours/koh-phi-phi", "tours/koh-talabeng-koh-bubu", "tours/mangroves", "tours/fishing-trip",
+  "activities/elephant-sanctuary", "activities/kayak", "activities/cooking-class", "activities/scuba-diving", "activities/atv", "activities/batik", "activities/go-kart",
+  "rental", "secret-transfers/speedboat-ferry"].map(P);
+const ldOf = (doc) => [...doc.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((m) => JSON.parse(m[1]));
 const taxiRoutes = require("../src/_data/taxiRoutesView.js")();
 
 const root = path.join(__dirname, "..");
@@ -13,11 +18,12 @@ const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
 const decode = (s) => s.replace(/&amp;/g, "&").replace(/&#39;/g, "'").replace(/&quot;/g, '"');
 const html = (url) => read(path.join("_site", url, "index.html"));
 
-const all = secretPages.pages.map((p) => ({ url: `tours/${p.id}`, title: p.title, desc: p.metaDescription, jsonLd: p.jsonLd }))
+// La 4 Islands garde son titre validé avec le prix d'appel (v4data.js), contrôlé par design-v4.test.js.
+const all = PRODUCTS.filter((p) => p.slug !== "4-islands").map((p) => ({ url: p.url.replace(/^\/|\/$/g, ""), title: p.seo.title, desc: p.seo.metaDescription, jsonLd: ldOf(html(p.url)) }))
   .concat(taxiRoutes.routes.map((r) => ({ url: `taxi/${r.id}`, title: r.title, desc: r.metaDescription, jsonLd: r.jsonLd })));
 
 test("pages : au moins 9 excursions et 9 trajets", () => {
-  assert.ok(secretPages.pages.length >= 9);
+  assert.ok(PRODUCTS.length >= 9);
   assert.ok(taxiRoutes.routes.length >= 9);
 });
 
@@ -49,11 +55,15 @@ test("pages taxi : ni prix, ni téléphone, ni e-mail affichés", () => {
   }
 });
 
-test("pages secret : lien vers le formulaire prérempli et JSON-LD", () => {
-  for (const p of secretPages.pages) {
-    const doc = html(`tours/${p.id}`);
-    assert.match(doc, /href="\/\?(tour|activity|transfer)=/, `${p.id} : lien formulaire`);
-    assert.match(doc, /application\/ld\+json/, `${p.id} : JSON-LD`);
+// Depuis la v4, plus de formulaire sur l'accueil : chaque fiche a sa feuille de réservation et un repli WhatsApp
+// qui nomme déjà le produit et la page.
+test("pages secret : feuille de réservation, repli WhatsApp prérempli et JSON-LD", () => {
+  for (const p of PRODUCTS) {
+    const doc = html(p.url);
+    assert.match(doc, /<dialog class="sheet" id="book"/, `${p.slug} : feuille`);
+    assert.match(doc, /data-book="/, `${p.slug} : bouton qui ouvre la feuille`);
+    assert.match(doc, new RegExp(`href="https://wa\\.me/66958683846\\?text=(Booking|Rental|Speedboat)%20request[^"]*${encodeURIComponent(p.url)}"`), `${p.slug} : repli`);
+    assert.match(doc, /application\/ld\+json/, `${p.slug} : JSON-LD`);
   }
 });
 
@@ -74,7 +84,7 @@ test("sitemap : chaque page listée une seule fois", () => {
 
 test("liens croisés : l'accueil mène aux pages d'excursion, /taxi/ aux pages de trajet", () => {
   const secret = fs.readFileSync(path.join(root, "_site", "index.html"), "utf8");
-  for (const p of secretPages.pages) assert.match(secret, new RegExp(`href="/tours/${p.id}/"`), p.id);
+  for (const p of PRODUCTS) assert.match(secret, new RegExp(`href="${p.url}"`), p.slug);
   const taxi = html("taxi");
   for (const r of taxiRoutes.routes) assert.match(taxi, new RegExp(`href="/taxi/${r.id}/"`), r.id);
   // Pas de bloc « Popular private transfers » ni de pastilles sur /taxi/ (refus de Jérémy, 28.10.2026).

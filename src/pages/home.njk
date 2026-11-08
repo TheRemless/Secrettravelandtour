@@ -8,6 +8,7 @@ permalink: /
 {%- set d = v4data -%}
 {%- set h = d.home -%}
 {%- set c = d.contact -%}
+{%- set waText = "Hello, a question from " + site.url.replace("https://", "") + "/: " -%}
 {%- set seo = h.seo -%}
 {%- set pageUrl = "/" -%}
 {%- set jsonLd = pages.jsonLd.home -%}
@@ -20,7 +21,7 @@ permalink: /
 {% include "v4-head.njk" %}
 </head>
 <body>
-{{ v4.header(c, d.emblem) }}
+{{ v4.header(c, d.emblem, "", waText) }}
 <main id="main">
 
   <section class="wrap hero" aria-labelledby="h1">
@@ -197,7 +198,7 @@ permalink: /
 
   {{ v4.endBand(h.final, c) }}
 </main>
-{{ v4.footer(site, c, d.emblem, d.boats, d.activities) }}
+{{ v4.footer(site, c, d.emblem, d.boats, d.activities, waText) }}
 {{ v4.tripsRoot() }}
 {{ v4.scripts(build, "home") }}
 </body>

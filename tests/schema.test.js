@@ -16,7 +16,7 @@ const VIP = `${SITE}/taxi/#vip`;
 // Même liste que tests/products-schema.test.js (elle-même reprise de tests/partenaires.test.js).
 const PARTENAIRES = /rattana|lacha ?ru|sukho|lanta ?atv|atv adventure|lanta elephant|lanta longtail|lanta batik|lanta kayaking|lanta ?e-?gokart|noom|bundhaya|satun|pakbara|blue ?planet|octopusea/i;
 // Adresses de niveau 1 et 2 du fil d'Ariane qui existent (accueil, sections du hub /tours/, /taxi/).
-const CRUMB_URLS = ["/", "/#boat-trips", "/#activities", "/taxi/"].map((p) => SITE + p);
+const CRUMB_URLS = ["/", "/tours/#boat-trips", "/tours/#activities", "/taxi/"].map((p) => SITE + p);
 
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(DIR, rel), "utf8"));
 const clone = (o) => JSON.parse(JSON.stringify(o));
@@ -35,7 +35,7 @@ function loadProducts() {
 const products = loadProducts();
 const all = [products.rental].concat(...["tours", "activities", "secret-transfers", "taxi"].map((f) => Object.values(products[f])));
 
-const BUILDER = { boat: schema.tour, activity: schema.activity, rental: schema.rental, route: schema.route };
+const BUILDER = { boat: schema.tour, activity: schema.activity, rental: schema.rental, transfer: schema.transfer, route: schema.route };
 const pages = all.filter((p) => BUILDER[p.template]).map((p) => ({ product: p, blocks: BUILDER[p.template](p, site) }));
 
 const five = {
@@ -186,7 +186,7 @@ test("fil d'Ariane : positions 1 à 3 (2 pour la location), adresses existantes,
     assert.ok(crumbs, product.url);
     const items = crumbs.itemListElement;
     // Location : 2 niveaux ; trajet VIP : 2 niveaux, le fil commence à /taxi/ (marque de Mr. Brown, Q1).
-    assert.equal(items.length, product.template === "rental" || product.template === "route" ? 2 : 3, product.url);
+    assert.equal(items.length, ["rental", "transfer", "route"].includes(product.template) ? 2 : 3, product.url);
     items.forEach((it, i) => {
       assert.equal(it.position, i + 1);
       assert.ok(it.name, `${product.url} : nom du niveau ${i + 1}`);
@@ -196,8 +196,8 @@ test("fil d'Ariane : positions 1 à 3 (2 pour la location), adresses existantes,
     for (const it of items.slice(0, -1)) assert.ok(CRUMB_URLS.includes(it.item), `${product.url} : ${it.item}`);
   }
   const level2 = (p) => byType(BUILDER[p.template](p, site), "BreadcrumbList").itemListElement[1].item;
-  assert.equal(level2(five.tour), `${SITE}/#boat-trips`);
-  assert.equal(level2(five.activity), `${SITE}/#activities`);
+  assert.equal(level2(five.tour), `${SITE}/tours/#boat-trips`);
+  assert.equal(level2(five.activity), `${SITE}/tours/#activities`);
   assert.equal(byType(BUILDER.route(five.route, site), "BreadcrumbList").itemListElement[0].item, `${SITE}/taxi/`);
 });
 

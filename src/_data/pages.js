@@ -1,4 +1,5 @@
-// Données des pages refaites (étape 3) : accueil, 4 Islands, sanctuaire d'éléphants, location, trajet Krabi Airport.
+// Données des pages refaites (étape 3) : trajet Krabi Airport, JSON-LD de l'accueil, de la 4 Islands et du hub, planches /design/.
+// Les fiches produit v4 (bateaux, activités, location, speedboat) sont dans v4data.js (components/v4-product.js).
 // Tout vient de site.json, home.json et products/** ; ce fichier met en forme avec components/view.js et
 // produit les images AVIF/WebP. Les gabarits sont dans src/pages/.
 const fs = require("node:fs");
@@ -53,7 +54,6 @@ function productPage(product, related, transfer) {
 
 module.exports = async function () {
   const four = P("tours/4-islands");
-  const elephant = P("activities/elephant-sanctuary");
   const rental = P("rental");
   const route = P("taxi/krabi-airport-koh-lanta");
   const speedboat = P("secret-transfers/speedboat-ferry");
@@ -74,24 +74,6 @@ module.exports = async function () {
     fourIslands: productPage(four,
       ["tours/koh-rok-koh-haa", "tours/koh-phi-phi", "tours/koh-talabeng-koh-bubu"],
       { href: "/taxi/krabi-airport-koh-lanta/", label: "Arriving at Krabi Airport? Private minivan to Koh Lanta" }),
-    elephant: productPage(elephant,
-      ["activities/atv", "activities/batik", "activities/kayak"],
-      null),
-    rental: {
-      product: rental,
-      url: rental.url,
-      name: rental.name,
-      seo: rental.seo,
-      h1: rental.h1,
-      lead: rental.lead,
-      price: view.price(rental),
-      facts: rental.facts,
-      groups: view.rentalTable(rental),
-      beforeBook: view.beforeBook(rental, site),
-      faq: rental.faq || [],
-      fallback: view.fallbackText(rental, site),
-      booking: { ...view.bookingTour(rental, site), variant: "rental" }
-    },
     route: {
       product: route,
       url: route.url,
@@ -129,14 +111,12 @@ module.exports = async function () {
     data.jsonLd = {
       home: schema.home ? schema.home(site, products, { live: LIVE }) : [],
       fourIslands: schema.tour ? schema.tour(four, site) : [],
-      elephant: schema.activity ? schema.activity(elephant, site) : [],
-      rental: schema.rental ? schema.rental(rental, site) : [],
       route: schema.route ? schema.route(route, site) : [],
       hub: schema.hub ? schema.hub(site, products) : []
     };
   } else data.jsonLd = {};
 
   // Images Secret en AVIF/WebP, plafonnées à la moitié de leur taille native.
-  await view.responsive([data.home, data.fourIslands, data.elephant], { only: (p) => p.src.startsWith("/images/secret/") });
+  await view.responsive([data.home, data.fourIslands], { only: (p) => p.src.startsWith("/images/secret/") });
   return data;
 };
