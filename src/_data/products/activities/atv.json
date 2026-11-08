@@ -20,6 +20,10 @@
       "value": "30 min closed track, 1 hr forest and sea viewpoint, or 1 hr ATV plus 1 hr kayak"
     },
     {
+      "label": "Level",
+      "value": "30-minute track for beginners; forest rides for experienced riders only"
+    },
+    {
       "label": "Season",
       "value": "All year"
     },
@@ -71,7 +75,17 @@
           },
           "unit": "per person"
         }
-      ]
+      ],
+      "note": "Beginner level: you learn to drive on an enclosed track.",
+      "counts": {
+        "label": "Riders and passengers",
+        "rows": [
+          "Adult rider",
+          "Adult passenger",
+          "Child rider, 6 to 12",
+          "Child passenger, 4 to 12"
+        ]
+      }
     },
     {
       "id": "forest-1-hr",
@@ -106,7 +120,25 @@
           },
           "unit": "per person"
         }
-      ]
+      ],
+      "note": "For experienced ATV riders only.",
+      "choices": [
+        {
+          "id": "experience",
+          "label": "Riding experience",
+          "type": "text",
+          "hint": "How much ATV riding has each rider done?"
+        }
+      ],
+      "counts": {
+        "label": "Riders and passengers",
+        "rows": [
+          "Adult rider",
+          "Adult passenger",
+          "Child rider, 6 to 12",
+          "Child passenger, 4 to 12"
+        ]
+      }
     },
     {
       "id": "atv-kayak-2-hr",
@@ -141,7 +173,25 @@
           },
           "unit": "per person"
         }
-      ]
+      ],
+      "note": "For experienced ATV riders only.",
+      "choices": [
+        {
+          "id": "experience",
+          "label": "Riding experience",
+          "type": "text",
+          "hint": "How much ATV riding has each rider done?"
+        }
+      ],
+      "counts": {
+        "label": "Riders and passengers",
+        "rows": [
+          "Adult rider",
+          "Adult passenger",
+          "Child rider, 6 to 12",
+          "Child passenger, 4 to 12"
+        ]
+      }
     }
   ],
   "day": [
@@ -203,7 +253,7 @@
     },
     {
       "q": "Which ride should I pick?",
-      "a": "The 30-minute track is for a first try. The one-hour forest ride gets you to the viewpoint. The two-hour ride adds the mangrove by kayak."
+      "a": "The 30-minute track is for beginners and a first try. The one-hour forest ride gets you to the viewpoint and the two-hour ride adds the mangrove by kayak: both are for experienced ATV riders only."
     }
   ],
   "photos": [
@@ -308,10 +358,15 @@
     {
       "field": "refPrefix",
       "from": "code court de la référence WhatsApp (critique, idée 5), 03.11.2026"
+    },
+    {
+      "field": "options[].note, options[].choices, options[].counts, facts[Level], faq[1]",
+      "from": "brochure quad (audit B § 1.6) p. 2 et 3 : programme A « Beginner level », B et C « for experienced ATV drivers » ; tarifs pilote et passager (décision client du 08.11.2026)"
+    },
+    {
+      "field": "facts[Cancellation], beforeYouBook.cancellation",
+      "from": "décision client du 08.11.2026 : annulation au moins 24 heures avant, sinon 50 % (contrat du prestataire, audit D § 4) ; TODO levé"
     }
-  ],
-  "todo": [
-    "TODO(client): annulation du quad (« Cancel at least 24 hours ahead. Later than that, half the ride is charged. ») : toujours valable ? Réponse générale du client : pas de conditions d'annulation fixes."
   ],
   "refPrefix": "AT"
 }

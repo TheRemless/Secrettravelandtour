@@ -21,7 +21,7 @@
     },
     {
       "label": "Morning class",
-      "value": "Monday, Wednesday, Saturday, 09:00 to about 14:00, market visit first"
+      "value": "Monday, Wednesday, Saturday, 09:00–14:00, market visit first"
     },
     {
       "label": "Evening class",
@@ -53,17 +53,39 @@
           "amount": 1900,
           "unit": "per person"
         }
+      ],
+      "choices": [
+        {
+          "id": "class",
+          "label": "Class",
+          "values": [
+            {
+              "id": "lunch",
+              "label": "Market tour and lunch, Monday, Wednesday, Saturday, 09:00–14:00",
+              "days": [
+                "Monday",
+                "Wednesday",
+                "Saturday"
+              ]
+            },
+            {
+              "id": "dinner",
+              "label": "Dinner, Tuesday, Thursday, Friday, 16:00–21:00",
+              "days": [
+                "Tuesday",
+                "Thursday",
+                "Friday"
+              ]
+            }
+          ]
+        }
       ]
     },
     {
       "id": "partner-chef",
       "label": "Partner chef",
       "kind": "join-in",
-      "ages": {
-        "min": 5,
-        "max": 12
-      },
-      "note": "You share a station and make a double portion. Suits children from 5 to 12 cooking with a parent.",
+      "note": "You share a station and make a double portion. Recommended for children from 5 to 12 cooking with a parent.",
       "prices": [
         {
           "label": "Per person",
@@ -79,6 +101,32 @@
           },
           "unit": "for 2 people"
         }
+      ],
+      "choices": [
+        {
+          "id": "class",
+          "label": "Class",
+          "values": [
+            {
+              "id": "lunch",
+              "label": "Market tour and lunch, Monday, Wednesday, Saturday, 09:00–14:00",
+              "days": [
+                "Monday",
+                "Wednesday",
+                "Saturday"
+              ]
+            },
+            {
+              "id": "dinner",
+              "label": "Dinner, Tuesday, Thursday, Friday, 16:00–21:00",
+              "days": [
+                "Tuesday",
+                "Thursday",
+                "Friday"
+              ]
+            }
+          ]
+        }
       ]
     },
     {
@@ -91,6 +139,32 @@
           "amount": 1800,
           "unit": "per person"
         }
+      ],
+      "choices": [
+        {
+          "id": "class",
+          "label": "Class",
+          "values": [
+            {
+              "id": "afternoon",
+              "label": "Afternoon carving, Monday, Wednesday, Saturday, 15:00–18:00",
+              "days": [
+                "Monday",
+                "Wednesday",
+                "Saturday"
+              ]
+            },
+            {
+              "id": "morning",
+              "label": "Morning carving, Tuesday, Thursday, Friday, 09:00–12:00",
+              "days": [
+                "Tuesday",
+                "Thursday",
+                "Friday"
+              ]
+            }
+          ]
+        }
       ]
     }
   ],
@@ -100,7 +174,7 @@
         "single-chef",
         "partner-chef"
       ],
-      "title": "How the morning goes",
+      "title": "Market tour and lunch class: Monday, Wednesday, Saturday",
       "steps": [
         {
           "text": "Pickup at your hotel, welcome drinks and snacks at the school."
@@ -115,18 +189,39 @@
           "text": "Lunch with what you cooked, then transfer back to your hotel around 14:00."
         }
       ]
+    },
+    {
+      "options": [
+        "single-chef",
+        "partner-chef"
+      ],
+      "title": "Dinner class: Tuesday, Thursday, Friday, 16:00 to 21:00",
+      "steps": [
+        {
+          "text": "Pickup at your hotel, welcome drink and snack at the school."
+        },
+        {
+          "text": "The story of the ingredients, herbs and spices of Thai cooking."
+        },
+        {
+          "text": "Cooking: four dishes, including two mains with a curry paste made by hand."
+        },
+        {
+          "text": "Dinner with what you cooked. The class ends at 21:00, then the transfer back to your hotel."
+        }
+      ]
     }
   ],
   "included": [
     "Hotel transfer both ways",
-    "Market visit and all ingredients",
-    "Apron to keep, recipe booklet, certificate",
+    "Market visit on the lunch class, and all ingredients",
+    "Apron to keep, recipe book and pen, certificate",
     "Box to take your dishes home",
-    "Welcome drinks and snacks, wifi"
+    "Welcome drink and snack, coffee, tea, drinking water, wifi"
   ],
   "beforeYouBook": {
-    "children": "Suitable for children. Partner chef suits children from 5 to 12 cooking with a parent. Tell us their ages.",
-    "pickup": "Hotel transfer both ways, back at your hotel around 14:00 after the morning class."
+    "children": "Suitable for children. Partner chef is recommended for children from 5 to 12 cooking with a parent. Tell us their ages.",
+    "pickup": "Hotel transfer both ways. Back at your hotel around 14:00 after the lunch class. The dinner class ends at 21:00."
   },
   "faq": [
     {
@@ -139,7 +234,7 @@
     },
     {
       "q": "Is the market visit included?",
-      "a": "Yes, in the morning class. You go to the local market with the cook before cooking."
+      "a": "Yes, on the lunch class (Monday, Wednesday, Saturday). You go to the local market with the cook before cooking. The dinner class starts with the story of the ingredients instead."
     }
   ],
   "photos": [
@@ -178,7 +273,7 @@
     "h1": "Thai cooking class",
     "h1em": "market and lunch",
     "intro": [
-      "The class is held in a cooking school on Koh Lanta. The morning class runs on Mondays, Wednesdays and Saturdays from 9:00 to about 14:00, market visit first. You leave with your apron, a recipe booklet, a certificate and a box for what you could not finish.",
+      "The class is held in a cooking school on Koh Lanta. The morning class runs on Mondays, Wednesdays and Saturdays from 9:00 to 14:00, market visit first. You leave with your apron, a recipe booklet, a certificate and a box for what you could not finish.",
       "The school also teaches fruit and vegetable carving, with your creations to take home, on weekday mornings or afternoons depending on the day."
     ],
     "cardDescription": "A visit to the local market, then cook Thai dishes with a local cook. Suitable for children.",
@@ -244,10 +339,11 @@
     {
       "field": "refPrefix",
       "from": "code court de la référence WhatsApp (critique, idée 5), 03.11.2026"
+    },
+    {
+      "field": "options[single-chef, partner-chef, carving].choices ; day[1] ; included ; beforeYouBook ; faq[2] ; options[partner-chef].ages retiré",
+      "from": "brochure du cours de cuisine (audit B § 1.3) p. 2 et 3 : Market Tour Lunch lundi, mercredi, samedi ; Dinner Program 16:00 à 21:00 mardi, jeudi, vendredi (histoire des aliments, herbes et épices, sans marché) ; « Class include » ; partner chef « particularly suitable for children 5-12 », une recommandation et non une borne (décision client du 08.11.2026). Fin du cours du midi à 14:00 et sculpture lundi, mercredi, samedi 15:00 à 18:00, mardi, jeudi, vendredi 09:00 à 12:00 : page 2 de la brochure, tranché par le client le 08.11.2026 (la page 3 disait 14:30 et « Monday-Saturday 3-6 pm »)"
     }
-  ],
-  "todo": [
-    "TODO(client): cours du soir (mardi, jeudi, vendredi, 16:00–21:00) : même contenu que le matin, marché compris ? La FAQ dit le marché seulement « in the morning class »."
   ],
   "refPrefix": "CK"
 }

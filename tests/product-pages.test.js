@@ -106,7 +106,7 @@ test("message : chaque option donne le produit, l'option, ses sous-variantes, se
       if ((src.prices || []).length) {
         const priced = (o.choices || []).find((c) => c.values && c.values.some((v) => v.row));
         const shown = priced ? src.prices.filter((r) => r.label === priced.values[0].row) : o.counts ? src.prices.slice(0, 1) : src.prices;
-        for (const r of shown) assert.ok(msg.includes(`${r.label}: ${r.amount === 0 ? "Free" : thb(r.amount)}`), `${p.slug} ${o.id} : prix « ${r.label} »`);
+        for (const r of shown) assert.ok(msg.includes(`${r.label}: ${r.amount === 0 ? "Free" : (r.supplement ? "+" : "") + thb(r.amount)}`), `${p.slug} ${o.id} : prix « ${r.label} »`);
       }
     }
   }
@@ -138,7 +138,7 @@ test("sous-variantes : un message sans créneau, cours, site, karts ou pilotes e
 test("cours de cuisine : le cours du soir est réservable, et la date doit tomber l'un de ses jours", () => {
   const cfg = cfgOf(html("/tours/cooking-class/"));
   const o = cfg.options.find((x) => x.id === "single-chef");
-  const evening = o.choices[0].values.find((v) => /^Evening class/.test(v.label));
+  const evening = o.choices[0].values.find((v) => /^Dinner/.test(v.label));
   assert.deepEqual(evening.days, [2, 4, 5]);
   const st = fullState(o);
   st.choices[o.id + "/class"] = evening.id;
@@ -146,7 +146,20 @@ test("cours de cuisine : le cours du soir est réservable, et la date doit tombe
   assert.match(B.validate(cfg, st)["c-single-chef-class"], /runs on Tuesday, Thursday and Friday/);
   st.dateOther = "2026-11-24"; // un mardi
   assert.deepEqual(B.validate(cfg, st), {});
-  assert.match(B.buildMessage(cfg, st), /\nClass: Evening class, Tuesday, Thursday, Friday, 16:00–21:00\n/);
+  assert.match(B.buildMessage(cfg, st), /\nClass: Dinner, Tuesday, Thursday, Friday, 16:00–21:00\n/);
+  // Sculpture : chaque créneau a ses jours (brochure p. 2, client 08.11.2026), la date est contrôlée.
+  const carving = cfg.options.find((x) => x.id === "carving");
+  const [afternoon, morning] = carving.choices[0].values;
+  assert.deepEqual([afternoon.days, morning.days], [[1, 3, 6], [2, 4, 5]]);
+  const sc = fullState(carving);
+  sc.choices["carving/class"] = morning.id;
+  sc.dateOther = "2026-11-21"; // un samedi
+  assert.match(B.validate(cfg, sc)["c-carving-class"], /runs on Tuesday, Thursday and Friday/);
+  sc.dateOther = "2026-11-24";
+  assert.deepEqual(B.validate(cfg, sc), {});
+  sc.choices["carving/class"] = afternoon.id;
+  assert.match(B.validate(cfg, sc)["c-carving-class"], /runs on Monday, Wednesday and Saturday/);
+  assert.doesNotMatch(html("/tours/cooking-class/"), /14:30/);
 });
 
 test("location : catégorie, véhicule, nombre de véhicules, dates et heures, prix du modèle", () => {
@@ -193,9 +206,9 @@ test("liste de sorties : une sortie sans sa sous-variante obligatoire ne part pa
   const cat = JSON.parse(fs.readFileSync(path.join(root, "_site/data/catalog.json"), "utf8"));
   const list = { adults: 2, childAges: [], pickup: "Lanta Sand Resort", name: "Anna", items: [{ id: "a", slug: "elephant-sanctuary", option: "programme-b", date: "2026-11-20" }] };
   assert.match(B.validateTripList(cat, list, TODAY).items.a["c-programme-b-session"], /Choose the session \(Elephant sanctuary\)/);
-  list.items[0].choices = { "programme-b/session": "1300" };
+  list.items[0].choices = { "programme-b/session": "1200" };
   assert.equal(B.validateTripList(cat, list, TODAY).count, 0);
-  assert.match(B.buildTripList(cat, list), /Elephant sanctuary – Programme B, about 3 hours\nSession: 13:00\n/);
+  assert.match(B.buildTripList(cat, list), /Elephant sanctuary – Programme B, the elephants and Klong Jark beach\nSession: 12:00\n/);
 });
 
 test("WhatsApp : chaque lien d'une fiche nomme le produit et la page ; ailleurs, la page d'où il part", () => {
@@ -213,4 +226,17 @@ test("WhatsApp : chaque lien d'une fiche nomme le produit et la page ; ailleurs,
     const links = [...outsideSheet(html(url)).matchAll(/href="https:\/\/wa\.me\/66958683846([^"]*)"/g)].map((m) => decodeURIComponent(m[1].replace(/^\?text=/, "")));
     for (const l of links) assert.ok(/secrettravelandtour\.com\//.test(l), `${url} : « ${l.slice(0, 60)} »`);
   }
+});
+
+test("Koh Talabeng : les sorties de la brochure kayak qui y vont, mêmes prix, horaires et frais que la page kayak", () => {
+  const tb = P("tours/koh-talabeng-koh-bubu"), kayak = P("activities/kayak");
+  assert.ok(!tb.priceOnRequest && tb.options.length === 3);
+  for (const o of tb.options) {
+    const k = kayak.options.find((x) => x.id === o.id);
+    assert.ok(k, o.id);
+    for (const key of ["label", "prices", "notIncludedFees", "choices"]) assert.deepEqual(o[key], k[key], `${o.id} ${key}`);
+    assert.deepEqual(tb.day.find((b) => b.options[0] === o.id).steps, kayak.day.find((b) => b.options[0] === o.id).steps, `${o.id} déroulé`);
+  }
+  const doc = html(tb.url);
+  assert.doesNotMatch(outsideSheet(doc).split('id="opt-h"')[1].split("</section>")[0], /Price on WhatsApp/);
 });

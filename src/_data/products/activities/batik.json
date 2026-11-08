@@ -61,6 +61,22 @@
           },
           "unit": "per person"
         }
+      ],
+      "choices": [
+        {
+          "id": "course",
+          "label": "Course",
+          "values": [
+            {
+              "id": "morning",
+              "label": "Morning course, pickup 08:00–09:00, back around 13:00"
+            },
+            {
+              "id": "afternoon",
+              "label": "Afternoon course, pickup 12:00–13:00, back by 17:00"
+            }
+          ]
+        }
       ]
     },
     {
@@ -263,6 +279,10 @@
     {
       "field": "refPrefix",
       "from": "code court de la référence WhatsApp (critique, idée 5), 03.11.2026"
+    },
+    {
+      "field": "options[morning-or-afternoon].choices",
+      "from": "brochure batik (audit B § 1.2) p. 2 : Morning Program 08:00 à 13:00, Afternoon Program 12:00 à 17:00 ; âges 3 à 10 ans confirmés par la brochure (décision client du 08.11.2026)"
     }
   ],
   "refPrefix": "BA"

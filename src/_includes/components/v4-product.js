@@ -76,72 +76,19 @@ function optionsOf(p) {
 }
 
 // ---------- Sous-variantes que la feuille fait choisir (créneau, cours, karts, pilotes…) ----------
-// Structure lue dans chaque option de la fiche (à remplir dans products/**, voir NOTES.md « Pages produit ») :
+// Structure lue dans chaque option de la fiche (products/**, voir NOTES.md « Pages produit ») :
 //   "choices": [{ "id": "session", "label": "Session", "type": "one" | "text", "required": true, "hint": "…",
-//                 "values": [{ "id": "0730", "label": "07:30", "row": "libellé d'une ligne de prix", "days": ["Tuesday"] }] }],
+//                 "values": [{ "id": "0900", "label": "09:00", "row": "libellé d'une ligne de prix", "days": ["Tuesday"] }] }],
 //   "counts": { "label": "Karts", "rows": ["Small single seat", …] },   un nombre par ligne de prix
 //   "extras": ["Extra dive, decided on the day"]                         lignes de prix à cocher
-// Tant qu'une option n'en déclare pas, FALLBACK les déduit des faits et du déroulé déjà écrits dans la fiche :
-// aucune valeur n'est inventée, seuls les noms des champs (« Session », « Class ») sont du texte d'interface.
-const TIME_RE = /\b([01]\d|2[0-3]):([0-5]\d)\b/g;
+// Les choix sont lus dans la fiche, jamais déduits (décision client du 08.11.2026).
 const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-const timesIn = (str) => [...String(str || "").matchAll(TIME_RE)].map((m) => m[0]);
-const daysIn = (str) => DAY_NAMES.map((d, i) => (new RegExp("\\b" + d + "\\b").test(str) ? i : -1)).filter((i) => i > -1);
 const rowPrice = (r) => (r ? rowAmount(r) + (r.unit && r.amount !== 0 ? " " + r.unit : "") : "");
-const dayText = (p, o) => (p.day || []).filter((b) => (b.options || []).includes(o.id)).flatMap((b) => b.steps.map((st) => st.text)).join(" ");
-const lc = (v) => (v ? v.charAt(0).toLowerCase() + v.slice(1) : "");
-const byWay = (p, o) => (/kayak or longtail/i.test(o.label + " " + dayText(p, o))
-  ? [{ id: "way", label: "By", values: [{ id: "kayak", label: "Kayak" }, { id: "longtail", label: "Longtail" }] }] : []);
-const EXTRA_RE = /^(Extra dive|Refresher|Nanny)/;
-const pickRows = (o, id, label) => ({
-  id, label,
-  values: (o.prices || []).filter((r) => !EXTRA_RE.test(r.label)).map((r, i) => ({ id: "r" + i, label: r.label, row: r.label, price: rowPrice(r) }))
-});
-const extrasOf = (o) => (o.prices || []).filter((r) => EXTRA_RE.test(r.label)).map((r) => r.label);
-
-const FALLBACK = {
-  "elephant-sanctuary": (p, o) => {
-    const own = timesIn(dayText(p, o));
-    const times = own.length ? own : timesIn(fact(p, "Sessions"));
-    return times.length > 1 ? { choices: [{ id: "session", label: "Session", values: times.map((t) => ({ id: t.replace(":", ""), label: t })) }] } : {};
-  },
-  kayak: (p, o) => {
-    const slots = /half day/i.test(o.label) ? fact(p, "Half days").split(" or ").filter(Boolean) : [];
-    const slot = slots.length > 1 ? [{
-      id: "slot", label: "Time",
-      values: slots.map((v) => { const t = timesIn(v)[0] || ""; const am = t && t < "12:00"; return { id: am ? "morning" : "afternoon", label: (am ? "Morning, " : "Afternoon, ") + v }; })
-    }] : [];
-    return { choices: slot.concat(byWay(p, o)) };
-  },
-  mangroves: (p, o) => ({ choices: byWay(p, o) }),
-  batik: (p, o) => (o.id === "morning-or-afternoon" ? {
-    choices: [{ id: "course", label: "Course", values: ["Morning course", "Afternoon course"].filter((l) => fact(p, l)).map((l) => ({ id: l.split(" ")[0].toLowerCase(), label: `${l}, ${lc(fact(p, l))}` })) }]
-  } : {}),
-  "cooking-class": (p, o) => {
-    if (o.id === "carving") {
-      const segs = fact(p, "Carving class").split(";").map((x) => x.trim()).filter(Boolean);
-      return segs.length > 1 ? { choices: [{ id: "class", label: "Class", values: segs.map((v, i) => ({ id: "s" + i, label: v, days: daysIn(v) })) }] } : {};
-    }
-    const classes = ["Morning class", "Evening class"].filter((l) => fact(p, l));
-    return classes.length > 1 ? { choices: [{ id: "class", label: "Class", values: classes.map((l) => ({ id: l.split(" ")[0].toLowerCase(), label: `${l}, ${fact(p, l)}`, days: daysIn(fact(p, l)) })) }] } : {};
-  },
-  "scuba-diving": (p, o) => {
-    const cert = { id: "cert", label: "Certification and last dive", type: "text", hint: "Your level and the month of your last dive." };
-    if (o.id === "one-day-experience") return { choices: [pickRows(o, "programme", "Programme")] };
-    if (o.id === "fun-dives") return { choices: [pickRows(o, "sites", "Dive sites"), cert], extras: extrasOf(o) };
-    if (o.id === "catamaran-special-trips") return { choices: [pickRows(o, "trip", "Trip"), cert] };
-    if (o.id === "courses") return { choices: [pickRows(o, "course", "Course")] };
-    if (o.id === "snorkelling-on-dive-boat") return { extras: extrasOf(o) };
-    return {};
-  },
-  "go-kart": (p, o) => ({ counts: { label: "Karts", rows: (o.prices || []).map((r) => r.label) } }),
-  atv: (p, o) => ({ counts: { label: "Riders and passengers", rows: (o.prices || []).map((r) => r.label) } })
-};
 
 // Forme finale pour booking.js : jours en numéros, prix des lignes affichés à côté des valeurs, rien de vide.
 function formOf(p, o) {
   const declared = o.choices || o.counts || o.extras;
-  const raw = declared ? { choices: o.choices, counts: o.counts, extras: o.extras } : (FALLBACK[p.slug] ? FALLBACK[p.slug](p, o) : {});
+  const raw = declared ? { choices: o.choices, counts: o.counts, extras: o.extras } : {};
   const rowOf = (label) => (o.prices || []).find((r) => r.label === label);
   const out = {};
   const choices = (raw.choices || []).filter((c) => c.type === "text" || (c.values || []).length > 1).map((c) => ({
@@ -183,11 +130,13 @@ function programme(p, optLabels) {
       }))
     };
   }
+  const sameOpts = blocks.length > 1 && blocks.every((b) => b.options.length && b.options.join() === blocks[0].options.join());
   return {
     mode: "day",
     title: "How the day goes",
     blocks: blocks.map((b) => ({
-      title: b.options.length && b.options.length < Object.keys(optLabels).length ? "For " + listJoin(b.options.map((id) => optLabels[id]).filter(Boolean)) : "",
+      // Deux blocs pour les mêmes options (cours du midi et du soir) : chacun garde son titre.
+      title: sameOpts ? b.title : b.options.length && b.options.length < Object.keys(optLabels).length ? "For " + listJoin(b.options.map((id) => optLabels[id]).filter(Boolean)) : "",
       note: publicText(b.note),
       steps: b.steps.map((s) => ({ t: s.t, approx: s.approx, fixed: s.fixed, text: s.text }))
     }))
@@ -282,7 +231,7 @@ function rentalPage(p, ctx) {
       id: o.id, label: o.label, count: (o.prices || []).length,
       lo: view.thb(Math.min(...amounts)), hi: view.thb(Math.max(...amounts)),
       unit: ((o.prices || [])[0] || {}).unit || "",
-      rows: (o.prices || []).map((r) => ({ ...priceRow(r), fallback: `Rental request: ${o.label} – ${r.label}\nFrom: \nTo: \nPage: ${host}${p.url}` })),
+      rows: (o.prices || []).map((r) => ({ ...priceRow(r), spec: r.spec || "", fallback: `Rental request: ${o.label} – ${r.label}\nFrom: \nTo: \nPage: ${host}${p.url}` })),
       fallback: `Rental request: ${o.label}\nFrom: \nTo: \nPage: ${host}${p.url}`
     };
   });
@@ -340,15 +289,16 @@ function speedboatRoutes(p) {
     return { time: run.departs, stops, season, onward };
   });
   const back = (tt.inbound || []).map((run) => {
-    const origins = [{ name: run.from, times: run.departs }].concat((run.stops || []).map((s) => ({ name: s.place, times: s.times })));
+    const origins = [{ name: run.from, times: run.departs }].concat((run.stops || []).map((s) => ({ name: s.place, times: s.times })))
+      .map((o) => ({ ...placeOf(o.name), times: o.times }));
     const season = publicText(run.season || "");
     const rows = origins.map((o) => {
       const route = "from-" + slugify(o.name);
       const deps = o.times.map((t, i) => {
-        add(route, `${o.name} to Koh Lanta`, "in", { time: t, arrives: (run.arrivesKohLanta || [])[i] || "", detail: season });
+        add(route, `${o.name} to Koh Lanta`, "in", { time: t, arrives: (run.arrivesKohLanta || [])[i] || "", detail: [o.note, season].filter(Boolean).join(". ") });
         return { time: t, arrives: (run.arrivesKohLanta || [])[i] || "", dep: route + "@" + t.replace(":", "") };
       });
-      return { place: o.name, route, deps };
+      return { place: o.name, note: o.note, route, deps };
     });
     return { from: run.from, via: run.via || [], season, rows };
   });

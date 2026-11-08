@@ -35,10 +35,10 @@ test("aucun nom de prestataire dans les noms de fichiers d'images", () => {
 
 test("plongée : une page avec les niveaux, de l'essai d'un jour aux cours avancés", () => {
   const doc = fs.readFileSync(path.join(site, "tours", "scuba-diving", "index.html"), "utf8");
-  for (const level of ["Kids Scuba Explorer", "Basic Diver", "Open Water Diver", "Advanced Open Water Diver", "React Right", "Stress and Rescue Diver", "Deep Diver", "Nitrox"]) {
+  for (const level of ["Scuba Explorer", "Discover Basic Diver", "Open Water Diver", "Advanced Open Water Diver", "React Right", "Stress and Rescue Diver", "Deep Diver", "Nitrox"]) {
     assert.ok(doc.includes(level), level);
   }
-  assert.match(doc, /Koh Haa or Koh Bida/);
+  assert.match(doc, /Koh Haa, or Phi Phi and Koh Bida/);
   assert.match(doc, /medically fit/);
   assert.doesNotMatch(doc, /฿|CHF|€|per person\s*:?\s*\d/);
   const home = fs.readFileSync(path.join(site, "index.html"), "utf8");

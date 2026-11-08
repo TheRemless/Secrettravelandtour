@@ -62,7 +62,16 @@
           "amount": 599,
           "unit": "per kart"
         }
-      ]
+      ],
+      "counts": {
+        "label": "Karts",
+        "rows": [
+          "Small single seat",
+          "Small double seat",
+          "Large single seat",
+          "Large double seat"
+        ]
+      }
     },
     {
       "id": "15-minutes",
@@ -89,7 +98,16 @@
           "amount": 799,
           "unit": "per kart"
         }
-      ]
+      ],
+      "counts": {
+        "label": "Karts",
+        "rows": [
+          "Small single seat",
+          "Small double seat",
+          "Large single seat",
+          "Large double seat"
+        ]
+      }
     }
   ],
   "included": [
@@ -219,6 +237,10 @@
     {
       "field": "refPrefix",
       "from": "code court de la référence WhatsApp (critique, idée 5), 03.11.2026"
+    },
+    {
+      "field": "options[].counts",
+      "from": "brochure kart (audit B § 1.5) p. 3 : quatre karts, prix par durée (décision client du 08.11.2026 : sous-variantes lues dans la fiche)"
     }
   ],
   "todo": [

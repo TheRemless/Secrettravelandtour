@@ -16,11 +16,11 @@
   "facts": [
     {
       "label": "One-day sites",
-      "value": "Koh Haa or Koh Bida"
+      "value": "Koh Haa, or Phi Phi and Koh Bida"
     },
     {
       "label": "First dive",
-      "value": "No experience needed: Kids Scuba Explorer from 8, Basic Diver from 10"
+      "value": "No experience needed: Scuba Explorer from 8, Discover Basic Diver from 10"
     },
     {
       "label": "Courses",
@@ -32,7 +32,7 @@
     },
     {
       "label": "Certification agency",
-      "value": "SSI (legacy meta description only)"
+      "value": "SSI"
     },
     {
       "label": "Not included",
@@ -52,7 +52,7 @@
       "note": "No experience needed, local sites only. Price per person.",
       "prices": [
         {
-          "label": "Kids Scuba Explorer, from age 8",
+          "label": "Scuba Explorer, from age 8",
           "amount": 4500,
           "ages": {
             "min": 8
@@ -60,7 +60,7 @@
           "unit": "per person"
         },
         {
-          "label": "Basic Diver, from age 10",
+          "label": "Discover Basic Diver, from age 10",
           "amount": 4500,
           "ages": {
             "min": 10
@@ -95,6 +95,24 @@
           "label": "Diving insurance, optional",
           "amount": 150,
           "unit": "per day"
+        }
+      ],
+      "choices": [
+        {
+          "id": "programme",
+          "label": "Programme",
+          "values": [
+            {
+              "id": "explorer",
+              "label": "Scuba Explorer, from age 8",
+              "row": "Scuba Explorer, from age 8"
+            },
+            {
+              "id": "basic",
+              "label": "Discover Basic Diver, from age 10",
+              "row": "Discover Basic Diver, from age 10"
+            }
+          ]
         }
       ]
     },
@@ -153,13 +171,41 @@
           "amount": 150,
           "unit": "per day"
         }
+      ],
+      "choices": [
+        {
+          "id": "sites",
+          "label": "Dive sites",
+          "values": [
+            {
+              "id": "kohhaa",
+              "label": "2 dives, Koh Haa",
+              "row": "2 dives, Koh Haa"
+            },
+            {
+              "id": "phiphi",
+              "label": "2 dives, Phi Phi and Koh Bida",
+              "row": "2 dives, Phi Phi and Koh Bida"
+            }
+          ]
+        },
+        {
+          "id": "cert",
+          "label": "Certification and last dive",
+          "type": "text",
+          "hint": "Your level and the month of your last dive."
+        }
+      ],
+      "extras": [
+        "Extra dive, decided on the day",
+        "Refresher, added to a local trip, compulsory after a year without diving"
       ]
     },
     {
       "id": "catamaran-special-trips",
       "label": "Special trips by catamaran, 3 dives",
       "kind": "join-in",
-      "note": "Adventure Diver to 30 metres at least, last dive within six months. A deep adventure dive can be added for 1,000 THB.",
+      "note": "Adventure Diver to 30 metres at least, last dive within six months.",
       "prices": [
         {
           "label": "Northern trip, back at 4.30 pm",
@@ -169,6 +215,12 @@
         {
           "label": "Southern trip, back at 5 pm",
           "amount": 5300,
+          "unit": "per person"
+        },
+        {
+          "label": "Deep adventure dive, on top of a special trip",
+          "amount": 1000,
+          "supplement": true,
           "unit": "per person"
         }
       ],
@@ -200,6 +252,33 @@
           "amount": 150,
           "unit": "per day"
         }
+      ],
+      "choices": [
+        {
+          "id": "trip",
+          "label": "Trip",
+          "values": [
+            {
+              "id": "north",
+              "label": "Northern trip, back at 4.30 pm",
+              "row": "Northern trip, back at 4.30 pm"
+            },
+            {
+              "id": "south",
+              "label": "Southern trip, back at 5 pm",
+              "row": "Southern trip, back at 5 pm"
+            }
+          ]
+        },
+        {
+          "id": "cert",
+          "label": "Certification and last dive",
+          "type": "text",
+          "hint": "Your level and the month of your last dive."
+        }
+      ],
+      "extras": [
+        "Deep adventure dive, on top of a special trip"
       ]
     },
     {
@@ -261,6 +340,39 @@
           "label": "Diving insurance, optional",
           "amount": 150,
           "unit": "per day"
+        }
+      ],
+      "choices": [
+        {
+          "id": "course",
+          "label": "Course",
+          "values": [
+            {
+              "id": "ow",
+              "label": "Open Water Diver, 3 days, 4 dives",
+              "row": "Open Water Diver, 3 days, 4 dives"
+            },
+            {
+              "id": "aow",
+              "label": "Advanced Open Water Diver, 2 days, 5 dives",
+              "row": "Advanced Open Water Diver, 2 days, 5 dives"
+            },
+            {
+              "id": "rescue",
+              "label": "React Right and Stress and Rescue Diver, 3 days, 4 dives",
+              "row": "React Right and Stress and Rescue Diver, 3 days, 4 dives"
+            },
+            {
+              "id": "deep",
+              "label": "Deep Diver specialty, 2 days, 5 dives",
+              "row": "Deep Diver specialty, 2 days, 5 dives"
+            },
+            {
+              "id": "nitrox",
+              "label": "Nitrox specialty, theory only",
+              "row": "Nitrox specialty, theory only"
+            }
+          ]
         }
       ]
     },
@@ -327,6 +439,9 @@
           "amount": 150,
           "unit": "per day"
         }
+      ],
+      "extras": [
+        "Nanny on board for your children"
       ]
     },
     {
@@ -415,11 +530,11 @@
       "steps": [
         {
           "label": "1 day",
-          "text": "Kids Scuba Explorer. Two supervised dives to 5 metres, from age 8, with two children per instructor at most. No experience needed."
+          "text": "Scuba Explorer. Two supervised dives to 5 metres, from age 8, with two students per instructor at most. No experience needed."
         },
         {
           "label": "1 day",
-          "text": "Basic Diver. Breakfast and a briefing on the basic theory and safety rules, then the equipment and a few skills in shallow water, then two dives to 12 metres. From age 10, no experience needed."
+          "text": "Discover Basic Diver. Breakfast and a briefing on the basic theory and safety rules, then the equipment and a few skills in shallow water, then two dives to 12 metres. From age 10, two or three students per instructor, no experience needed."
         }
       ]
     },
@@ -495,7 +610,7 @@
   "included": [
     "Hotel transfer both ways, breakfast, lunch, snacks, fruit and drinks on the day",
     "All the diving equipment, with mask, fins, wetsuit and BCD, and a guide",
-    "A professional instructor, two or three students at most on the one-day dives",
+    "A professional instructor: two students at most on the Scuba Explorer, two or three on the Discover Basic Diver",
     "Maximum four divers per group on the fun dives and the courses",
     "Courses: the digital learning materials and a dive computer"
   ],
@@ -508,13 +623,13 @@
       "Sunglasses",
       "A change of clothes"
     ],
-    "children": "8 for the Kids Scuba Explorer, 10 for the Basic Diver, 12 for Open Water and 15 for the advanced courses and specialties. On the dive boat, snorkelling children under 5 come free and a nanny can stay on board.",
+    "children": "8 for the Scuba Explorer, 10 for the Discover Basic Diver, 12 for Open Water and 15 for the advanced courses and specialties. On the dive boat, snorkelling children under 5 come free and a nanny can stay on board.",
     "weather": "Every day depends on the weather and the sea, and you follow your instructor's safety instructions from start to finish."
   },
   "faq": [
     {
       "q": "Do I need to have dived before?",
-      "a": "No. The Kids Scuba Explorer and the one-day Basic Diver are made for people who have never dived."
+      "a": "No. The Scuba Explorer and the one-day Discover Basic Diver are made for people who have never dived."
     },
     {
       "q": "How deep do we go?",
@@ -522,11 +637,11 @@
     },
     {
       "q": "Which course should I pick?",
-      "a": "With one day, the Basic Diver. To dive on your own holidays for years, the three-day Open Water. Tell us your dates, your ages and who is already certified, and we will suggest the right one."
+      "a": "With one day, the Discover Basic Diver. To dive on your own holidays for years, the three-day Open Water. Tell us your dates, your ages and who is already certified, and we will suggest the right one."
     },
     {
       "q": "What is the minimum age?",
-      "a": "8 for the Kids Scuba Explorer, 10 for the Basic Diver, 12 for Open Water and 15 for the advanced courses and specialties."
+      "a": "8 for the Scuba Explorer, 10 for the Discover Basic Diver, 12 for Open Water and 15 for the advanced courses and specialties."
     }
   ],
   "photos": [
@@ -561,8 +676,8 @@
     "h1": "Scuba diving",
     "h1em": "off Koh Lanta",
     "intro": [
-      "Nobody needs experience for the one-day Basic Diver. You learn the basics in shallow water, then make two dives with your instructor, never more than two students per instructor. The courses go on from there, up to Advanced Open Water, rescue and specialties, with four students at most per class.",
-      "The one-day dives are at Koh Haa or Koh Bida. Every day depends on the weather and the sea, and you follow your instructor's safety instructions from start to finish."
+      "Nobody needs experience for the one-day Discover Basic Diver. You learn the basics in shallow water, then make two dives with your instructor, two or three students per instructor (two at most on the Scuba Explorer, from age 8). The courses go on from there, up to Advanced Open Water, rescue and specialties, with four students at most per class.",
+      "The one-day dives are at Koh Haa, or Phi Phi and Koh Bida. Every day depends on the weather and the sea, and you follow your instructor's safety instructions from start to finish."
     ],
     "cardDescription": "Try diving for a day, or train from Open Water up to advanced and rescue. Small groups.",
     "cardInfo": [
@@ -630,11 +745,11 @@
     {
       "field": "refPrefix",
       "from": "code court de la référence WhatsApp (critique, idée 5), 03.11.2026"
+    },
+    {
+      "field": "options[one-day-experience].prices[].label, facts[First dive, Certification agency, One-day sites], day, included[2], legacyText.intro, options[].choices, extras, options[catamaran-special-trips].prices[Deep adventure dive]",
+      "from": "brochure Scuba Diving.pdf p. 1 et 2 : « Scuba Explorer » (dès 8 ans, 2 élèves par moniteur au plus) et « Discover Basic Diver » (dès 10 ans, 2 à 3 élèves), SSI, sites locaux Koh Haa ou Phi Phi & Koh Bida, Deep Adventure Dive 1 000 THB en plus d'un special trip (décision client du 08.11.2026 ; note interne « legacy meta description only » retirée)"
     }
-  ],
-  "todo": [
-    "TODO(client): élèves par moniteur sur la journée découverte : « never more than two students per instructor » (intro) contre « two or three students at most on the one-day dives » (included) ; le registre de faits dit 2.",
-    "TODO(client): agence de certification SSI (citée seulement dans l'ancienne meta description) : à confirmer avant de l'afficher."
   ],
   "refPrefix": "SD"
 }

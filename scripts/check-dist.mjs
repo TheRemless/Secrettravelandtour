@@ -22,7 +22,8 @@ const PRODUCTION = process.env.CONTEXT === "production";
 
 // Mots et tournures bannis (03-audit-contenu §6.6), plus « Book now » (00-BRIEF §3).
 const BANNED_TEXT = [
-  ["discover", /\bdiscover\w*/i],
+  // Sauf « Discover Basic Diver », nom exact du programme d'initiation SSI (brochure de plongée, client 08.11.2026).
+  ["discover", /\bdiscover(?! basic diver)\w*/i],
   ["explore", /\bexplor(?:e|es|ed|ing|ation)\b/i],
   ["unforgettable", /\bunforgettable\b/i],
   ["breathtaking", /\bbreathtaking\b/i],
