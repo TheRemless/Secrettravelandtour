@@ -164,7 +164,7 @@ Total : 140 lignes de prix dans le JSON, 140 affichées. Le test `prix : chaque 
 
 ### Structure des sous-variantes, à remplir dans les JSON
 
-Tant qu'une option ne déclare rien, `FALLBACK` (dans `v4-product.js`) déduit les sous-variantes des faits et du déroulé déjà écrits dans la fiche, sans inventer de valeur. Dès qu'une option déclare un de ces champs, il remplace la déduction pour cette option.
+Depuis le 08.11.2026 les sous-variantes sont lues dans les JSON et plus déduites : `FALLBACK` est supprimé de `v4-product.js`. Une option qui ne déclare rien n'a pas de sous-variante.
 
 ```json
 "options": [{
@@ -182,7 +182,7 @@ Tant qu'une option ne déclare rien, `FALLBACK` (dans `v4-product.js`) déduit l
 
 - `choices[].values[].row` : libellé exact d'une ligne de `prices[]` de l'option (le message ne garde que ce prix) ; `days` : jours où la valeur a lieu (la date est vérifiée) ; `required: false` pour un choix facultatif ; `id` sans tiret.
 - `counts.rows` et `extras` : libellés exacts de lignes de `prices[]` de l'option.
-- Proposé, pas encore lu par le code faute de donnée : expérience du pilote pour les tours ATV B et C (`choices` texte), créneau des demi-journées longtail et kayak des mangroves, suppléments de location de matériel de plongée sur chaque plongée (aujourd'hui une colonne « Rentals and discounts » sans bouton, `kind: "extra"`), passeports pour Langkawi, zone de l'hôtel pour le speedboat, boîte AT ou MT et lieu de remise pour la location.
+- Rempli le 08.11.2026 : expérience du pilote pour les tours ATV B et C (`choices` texte), créneau des demi-journées longtail et kayak des mangroves. Pas encore fait : suppléments de location de matériel de plongée sur chaque plongée (aujourd'hui une colonne « Rentals and discounts » sans bouton, `kind: "extra"`), passeports pour Langkawi, zone de l'hôtel pour le speedboat, boîte AT ou MT et lieu de remise pour la location.
 
 ### Écarts de données entre les sources (non tranchés : la page affiche `products/**`)
 
@@ -252,3 +252,97 @@ Comparaison ligne par ligne par script : aucun montant, aucun libellé de prix e
 
 - Données des sous-variantes : déduites des faits tant que les JSON ne les déclarent pas (structure ci-dessus) ; les créneaux exacts des brochures (07:30–08:00…) attendent la mise à jour des données.
 - Safari et Firefox non testés. Rien n'est poussé.
+
+## Mise à jour d'après les brochures (08.11.2026)
+
+Sources : les quatre rapports d'audit (A bateaux, B activités, C transport, D faits du dossier agence, sans aucun prix net), les brochures publiques de `Secret Travel & Tour 3/` relues page par page, puis trois messages du client relayés le même jour. Les brochures publiques font foi pour les prix de vente. Aucun prix net, aucune commission. Les citations de `sources[]` ne nomment jamais un prestataire (`tests/products-schema.test.js`) : une brochure y est désignée par son sujet et le paragraphe de l'audit.
+
+Deux choix de forme :
+- **Ponton du speedboat join-in** : la brochure dit « Rattana Pier ». Le nom est celui du prestataire, interdit sur le site (`tests/partenaires.test.js`). Le site écrit « Koh Lanta Noi pier » ou « a pier on Koh Lanta Noi ». Si Jérémy veut le nom exact, il faut d'abord lever la règle.
+- **« Discover Basic Diver »** : nom exact du programme SSI. `scripts/check-dist.mjs` bannit « discover » ; l'exception vaut pour ce seul nom.
+
+### Koh Talabeng & Koh Bubu : une fiche qui présente les sorties concernées
+
+La fiche n'affiche plus « Price on WhatsApp ». Elle présente les trois sorties de la brochure kayak qui vont à Koh Talabeng : programme 1 « Sea cave kayaking and island hopping » (09:00 à 15:00, déjeuner sur Koh Bubu, 1 300 / 900 THB), programme 2 « Love kayak » (09:00 à 15:30, 1 500 / 1 000 THB) et programme 3 « Sea cave kayaking and mangrove » (demi-journée, 1 000 / 700 THB). Mêmes identifiants, libellés, prix, frais, créneaux et déroulés que `activities/kayak.json`, qui reste la fiche de référence. Choix retenu plutôt qu'un simple renvoi : le visiteur qui cherche Koh Talabeng trouve les prix et réserve sur place ; celui qui cherche « kayak » voit les sept sorties. Un test (`Koh Talabeng : …` dans `tests/product-pages.test.js`) échoue si les deux fiches divergent.
+
+### Valeurs changées
+
+| Produit | Champ | Avant | Après | Source |
+|---|---|---|---|---|
+| 4 Islands | Prix enfant join-in longtail | 700 THB | 600 THB | brochure longtail join-in p. 2 |
+| 4 Islands | Moins de 4 ans en speedboat join-in | pas de tarif | gratuit (ligne « Child under 4 ») | client |
+| 4 Islands | Ponton du speedboat join-in | Lanta Old Town pier ; « a separate pier » dans le déroulé | Koh Lanta Noi pier ; fait « Longtail pier » et nouveau fait « Speedboat pier » | brochure speedboat p. 3 |
+| 4 Islands | Déroulé du speedboat join-in | aucun (« not on the site yet ») | 08:00 à 16:00 en 6 étapes (Chueak, Mook, Kradan avec déjeuner, Ngai, retour par voiture ou bateau) ; affiché sur la page 4 Islands | brochure speedboat p. 3 |
+| 4 Islands | Déroulé du longtail | Ngai sans fin ; Koh Ma sans durée ; retour 15:30 à 16:00 | Ngai 12:00 à 13:30 ; Koh Ma 45 min ; retour 14:30 à 15:30 | brochure longtail p. 2 (client) |
+| 4 Islands | Inclus | « Guide » | guide local, anglophone en speedboat ; petit-déjeuner au ponton (speedboat) ; « Insurance » | brochures longtail p. 3 et speedboat p. 3 |
+| 4 Islands | Bring | « Cash for the national park fee » | swimwear, sun cream, a hat, sunglasses, a towel, a camera, plus le cash | brochure longtail p. 2 |
+| 4 Islands | Frais de parc | 200 / 100 THB sans âge | 200 THB dès 12 ans, 100 THB de 4 à 11, gratuit sous 4 ; thaï 40 / 20 gardé | client ; montants vérifiés (Hat Chao Mai) |
+| 4 Islands | Before you book, météo | rien | fermeture possible d'une île au dernier moment (méduses), itinéraire ou date changés | client (Koh Ngai fermé en juin et octobre 2026) |
+| 4 Islands | Private longtail, note | — | les enfants comptent dès 4 ans, pas en dessous | client |
+| Koh Rok & Koh Haa | Déroulé | 10:00 et 11:00 sans heure ; « Back on Koh Lanta around 15:30, at your hotel by 16:30 » | 10:00 leçon et 1er spot, 11:00 2e spot, 13:00 plage ; 15:30 départ de Koh Haa puis transfert | brochure speedboat p. 2 |
+| Koh Rok & Koh Haa | Moins de 4 ans en speedboat | pas de tarif | gratuit | client |
+| Koh Rok & Koh Haa | Inclus, ponton | « Guide » | guide anglophone en speedboat, petit-déjeuner, assurance ; fait « Speedboat pier » | brochure speedboat p. 3 |
+| Koh Rok & Koh Haa | Saison | October to April | Mid-October to mid-May, fermeture du parc dès le 16 mai (accroche, promesse, météo, FAQ, réglette des mois) | client (DMCR, Bangkokbiznews) |
+| Koh Rok & Koh Haa | Frais de parc | 400 / 200 et thaï 40 / 20 | 400 dès 12 ans, 200 de 4 à 11, gratuit sous 4 ; tarif thaï retiré (sans source) | client |
+| Koh Rok & Koh Haa | Privés (longtail, speedboat), note | — | les enfants comptent dès 4 ans | client |
+| Koh Phi Phi | Après-midi | 13:30 Bamboo, 14:15 Loh Mudee, 16:00 retour, hôtel vers 16:30 | 12:00 déjeuner à Phi Phi Don puis Bamboo ; 13:30 Loh Mudee ; 14:15 à 16:00 temps libre à Phi Phi Don, puis retour | brochure speedboat p. 2 |
+| Koh Phi Phi | Moins de 4 ans, inclus, ponton | — | gratuit ; guide anglophone, petit-déjeuner, assurance ; Koh Lanta Noi | client ; brochure speedboat p. 3 |
+| Koh Talabeng & Koh Bubu | Toute la fiche | une option « Price on WhatsApp » | trois sorties, 1 000 à 1 500 THB adulte (voir plus haut), horaires, frais du village, inclus de la brochure | brochure kayak p. 2 et 3 (client) |
+| Mangroves | Radeau du lever du soleil | « 3 or more people, per person » 1 500 | « Each extra person » +1 500 (supplément au forfait de 1 ou 2) | affiche Sunrise View |
+| Mangroves | Fin du lever du soleil | back at the hotel by 07:30 (déroulé, pickup, FAQ) | back at the pier at 07:30 | affiche Sunrise View |
+| Mangroves | Radeau du coucher de soleil | back by 20:00 | check-in 16:50, singes, 17:30 coucher de soleil, 18:15 dîner, ponton 19:30, transfert 20:00 (« by candlelight » gardé) | affiche Sunset Dinner |
+| Mangroves | Inclus | 3 lignes | transfert limité à la Koh Lanta area (radeaux de pêche et du soir), guide, matériel de pêche et gilets, déjeuner des demi-journées, assurance | affiches B et C ; brochure kayak |
+| Mangroves | Demi-journées longtail et kayak | aucun horaire | créneau matin 09:30 à 12:30 ou après-midi 14:00 à 17:00 (choix) ; kayak ou longtail pour le parc de pêche | brochure kayak p. 3 à 5 |
+| Mangroves, kayak, Talabeng | Frais du village de Thung Yee Peng | 40 THB par personne, note « Not included (legacy price note) » | 40 THB adulte, 20 THB enfant de 4 à 11 ; note interne retirée | client |
+| Pêche | Déroulé | 13:15 « More fishing, swimming or photos » | 13:15 pêche, photos ou repos ; 13:45 retour par la mangrove ; 14:00 ponton | affiche Private Fishing |
+| Pêche | Inclus | 3 lignes | transfert (Koh Lanta area), appâts, guide, gilets, assurance, eau, sodas, fruits | affiche Private Fishing |
+| Kayak | Inclus, déroulé | sans assurance ; programme 2 sans Skull Island ; demi-journées sans horaire | « Insurance » ; Skull Island ; « 09:30 to 12:30 or 14:00 to 17:00 » sur les programmes 3 à 7, créneau à choisir | brochure kayak |
+| Cuisine | Cours du midi | 09:00 to about 14:00 | 09:00–14:00 | brochure p. 2 (client) |
+| Cuisine | Cours du soir | dans les faits seulement | réservable sur single et partner chef, mardi, jeudi, vendredi 16:00 à 21:00, déroulé propre (sans marché) | brochure p. 2 et 3 |
+| Cuisine | Partner chef | `ages` 5 à 12 sur l'option | recommandation dans la note et « Before you book », plus de borne | client |
+| Cuisine | Sculpture | créneaux déduits des faits | deux créneaux nommés, jours contrôlés (lundi, mercredi, samedi 15:00 à 18:00 ; mardi, jeudi, vendredi 09:00 à 12:00) | brochure p. 2 (client) |
+| Cuisine | Inclus | « Welcome drinks and snacks, wifi » | ajout café, thé, eau, stylo ; marché seulement au cours du midi | brochure p. 3 |
+| Batik | Cours | une option « Morning or afternoon » sans choix lu | choix du matin (prise 08:00 à 09:00) ou de l'après-midi (12:00 à 13:00) ; âges 3 à 10 confirmés | brochure batik p. 2 (client) |
+| Plongée | Noms | Kids Scuba Explorer ; Basic Diver | Scuba Explorer ; Discover Basic Diver (prix, faits, déroulé, FAQ) | brochure plongée p. 1 |
+| Plongée | Élèves par moniteur | « two or three » partout, « never more than two » dans l'intro | 2 au plus en Scuba Explorer, 2 ou 3 en Discover Basic Diver | brochure plongée p. 1 |
+| Plongée | Agence | « SSI (legacy meta description only) » | SSI | brochure plongée |
+| Plongée | Sites des one-day | Koh Haa or Koh Bida | Koh Haa, or Phi Phi and Koh Bida | brochure plongée p. 2 |
+| Plongée | Deep adventure dive | phrase dans la note | ligne de prix +1 000 THB, supplément à cocher | brochure plongée p. 2 |
+| ATV | Niveau | rien | A pour débutants ; B et C pour pilotes expérimentés (notes, fait « Level », FAQ, champ « Riding experience ») | brochure quad p. 2 et 3 |
+| ATV | Annulation | TODO ouvert | 24 h avant, sinon 50 % (gardé, TODO levé) | client |
+| Éléphants | Toute la fiche | ancien partenaire : A, B, C, séances 07:30, 10:00, 13:00, 1 800 à 4 000 THB | nouveau partenaire : A 1 800 / 1 400 (09:00, 12:00, 15:00), B plage 2 000 / 1 600, C cascade et grotte 2 200 / 1 800 (09:00, 12:00), D journée 4 500 / 3 000 ; adulte dès 11 ans, enfant 4 à 10, gratuit sous 4 ; inclus, à apporter, terrain, photos en vente | site du nouveau partenaire, page des programmes (client) |
+| Location | 32 véhicules | nom et prix | cylindrée, boîte automatique ou manuelle, « new » pour les deux Yaris (champ `spec`, affiché sous le nom) | fiche du loueur |
+| Location | Before you book | caution passeport, casques fournis | caution passeport ou montant selon la catégorie ; permis à la charge du loueur, fortement conseillé ; aucune assurance accident ; loueur non responsable en cas de contrôle ; casque obligatoire en Thaïlande | client |
+| Speedboat | Saison | « Some departures run all year, others from 15 October to 30 April » | « Departures from Koh Lanta run from 15 October to 30 April » | client |
+| Speedboat | Enfants | rien | enfant de 3 à 9 ans, gratuit sous 3 ans (fait et Before you book) | client |
+| Speedboat | Langkawi | arrivée 18:00 | ferry de 16:00 depuis Koh Lipe, arrivée 18:30 heure de Malaisie, changement de bateau dit | brochure horaires p. 2, tableau Ferry Service (client) |
+| Speedboat | Pontons | Rassada sur un seul départ | Tonsai, Rassada, Koh Mook pier, prise à l'hôtel à Koh Ngai et Ao Nang, devant le parc à Kradan, Bulon Resort ou Pansand Resort, Pattaya Beach à Lipe, Telaga Harbour, Klong Jilad, Railay Sunrise Beach, Manoah, Klong Hear | brochure horaires p. 2 |
+| Speedboat | Retours vers Koh Lanta | Phuket (Phi Phi en « via »), Kradan, Ao Nang, Koh Yao | ajout de Phi Phi comme départ, Koh Lipe, Koh Bulon, Langkawi 09:30 heure de Malaisie | brochure horaires p. 2 |
+| Site | `replyTime` | null | « within 6 hours, Thailand time » | client |
+
+Code touché pour porter ces données : `view.js` (saison « Mid-October to mid-May », âges du tarif enfant des frais de parc, clés `licence` et `insurance` de « Before you book »), `v4-price.js` et `booking.js` (frais de parc par âge, moins de 4 ans hors du groupe en privé), `v4-product.js` (plus de déduction, pontons des retours, `spec` de la location, titres des deux journées de la cuisine), `v4data.js`, `4-islands.njk` et `v4-four.js` (journée du speedboat et ponton de chaque bateau), `rental.njk`, `speedboat.njk`, `v4.css` (une ligne).
+
+### En attente d'un partenaire
+
+| Point | À demander à |
+|---|---|
+| Cylindrée et boîte de la Honda ADV 350, de la Honda Forza 350 et du Yamaha X-MAX 300 : la fiche porte « 300 cc MT », « 350 cc MT » et « 300 cc MT » (boîte manuelle sur des scooters automatiques). Rien d'affiché pour ces trois-là | loueur de véhicules |
+| Langue du guide du longtail join-in (rien sur la brochure) | prestataire du 4 Islands en longtail |
+| Tranches « 7 to 8 » et « 9 to 10 people » du Koh Rok en longtail privé (la brochure écrit « 6-8 » et « 8-10 ») | prestataire du longtail |
+| Photos de galerie des éléphants : elles montrent encore l'ancien partenaire (statut replace, non affichées) | nouveau partenaire des éléphants |
+
+### Ce qui reste caché ou sans prix
+
+- Prix des billets de speedboat (la page reste « Price on WhatsApp ») ; bagages autorisés.
+- Koh Rok en speedboat privé et version coucher de soleil, Phi Phi en speedboat privé, pêche en longtail, cours privé de batik : « Price on WhatsApp ».
+- Nouvelles sorties non ajoutées (décision du client) : Aquaman Catamaran, Rok Haa avec coucher de soleil à 2 500 THB, lignes Bundhaya (départs de 10:00, 12:30, 15:30, Koh Jum, heures de prise en charge par plage).
+- Gardés sans source, en attente du client : ordre des îles au choix en privé, dîner « by candlelight » du radeau, nom « Mu Ko Lanta National Park » sur la fiche Koh Rok.
+- Kart : âge, lieu de la piste, unité du prix, sens de « minimum 2 programs ». Radeaux : règle des moins de 3 ans. Join-in : nombre maximum de personnes par bateau.
+
+### Contrôles
+
+- `STT_ALLOW_PLACEHOLDERS=1 npm run build` : OK, `check-dist` OK.
+- `npm test` : 240 tests, 240 verts. Tests mis à jour vers les valeurs des brochures, intention gardée : prix enfant 600 et moins de 4 ans gratuits en speedboat (`design-v4`), réglette de Koh Rok avec mai et fait « Longtail pier » (`design-retour`), noms de plongée (`partenaires`), écarts voulus avec l'ancien site listés dans `CORRIGES` et `REMPLACES` (`products-schema`), `replyTime` rempli, séance de 12:00 des éléphants et cours « Dinner » (`product-pages`). Ajoutés : Talabeng identique à la fiche kayak, jours de chaque créneau de sculpture, aucun « 14:30 » sur la page cuisine, moins de 4 ans hors du groupe en privé, frais de parc par âge.
+- `node scripts/check-v3.mjs` : 106 contrôles OK.
+- Vérifié dans `_site` : 600 THB et « Koh Lanta Noi pier » (4 Islands), « Each extra person » (mangroves), 1 000 / 1 300 / 1 500 THB sans « Price on WhatsApp » (Talabeng), 2 200 et 4 500 THB sans 07:30 (éléphants), 18:30 et Telaga Harbour (speedboat), « 1200 cc, automatic, new » (location), « Mid-October to mid-May » sans 16:30 (Koh Rok).
+- Playwright (Chrome, 390 px, cuisine aussi à 1 440 px), serveur local sur `_site`, jusqu'à l'URL `wa.me` : kayak programme 7 (« Time: Afternoon, 14:00–17:00 », « By: Longtail ») ; cuisine single chef, cours du soir refusé un samedi puis envoyé un mardi ; sculpture du matin refusée un samedi (« Morning carving runs on Tuesday, Thursday and Friday ») puis envoyée un jeudi ; éléphants A séance de 15:00. 4 Islands : le bouton speedboat affiche les six étapes et le ponton de Koh Lanta Noi. Speedboat : le retour depuis Langkawi ouvre la feuille avec son départ. Aucune erreur console, aucun défilement horizontal.
