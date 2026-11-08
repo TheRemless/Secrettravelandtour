@@ -5,3 +5,4 @@ _site/
 .env.*
 /.claude/
 docs/refonte/design-v4/propositions/*/shots/
+docs/refonte/design-v4/build/shots/
