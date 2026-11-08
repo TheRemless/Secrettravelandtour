@@ -131,6 +131,8 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 {#- Toast et racine de la liste de sorties (v4-trips.js, chargé au premier usage). -#}
 {% macro tripsRoot() %}
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+{#- La liste reste à portée quand l'en-tête s'est caché en descendant : même compteur, ancré en bas d'écran. -#}
+<button class="tl-dock" type="button" data-trips-open aria-haspopup="dialog" hidden>{{ glyph("list") }}<span>Trip list</span><span class="tl-btn__n" data-trips-count>0</span><span class="sr"> trips</span></button>
 {% endmacro %}
 
 {% macro scripts(build, page="") %}

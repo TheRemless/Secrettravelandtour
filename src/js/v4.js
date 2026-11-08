@@ -280,6 +280,7 @@
     var l = V.trips.get();
     var n = l.items.length;
     V.$$("[data-trips-count]").forEach(function (el) { el.textContent = n; });
+    root.classList.toggle("has-trips", n > 0);
     V.$$("[data-trips-open]").forEach(function (b) {
       b.hidden = n === 0 && !b.hasAttribute("data-always");
       if (bump && !reduce.matches) { b.classList.remove("is-bump"); b.offsetWidth; b.classList.add("is-bump"); }

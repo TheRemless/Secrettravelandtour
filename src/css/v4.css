@@ -107,7 +107,22 @@ figure { margin: 0; }
 .tl-btn:active { transform: scale(.97); }
 .tl-btn svg { width: 18px; height: 18px; }
 .tl-btn__n { min-width: 22px; height: 22px; padding: 0 6px; border-radius: 999px; background: var(--deep); color: var(--white); font: 600 13px/22px var(--sans); text-align: center; font-variant-numeric: tabular-nums; }
-.tl-btn.is-bump .tl-btn__n { animation: bump 420ms var(--spring); }
+.tl-btn.is-bump .tl-btn__n, .tl-dock.is-bump .tl-btn__n { animation: bump 420ms var(--spring); }
+/* Liste en bas d'écran : seulement quand l'en-tête est caché ; au-dessus de la barre de réservation des pages
+   produit sur mobile, et le toast monte d'un cran pour ne pas la recouvrir. */
+.tl-dock { --tl-b: calc(16px + env(safe-area-inset-bottom)); position: fixed; z-index: 45; right: var(--gut); bottom: var(--tl-b); display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 12px 0 14px; border: 1px solid var(--field); border-radius: var(--r); background: var(--white); color: var(--ink); font: 600 15px/1 var(--sans); visibility: hidden; opacity: 0; transform: translateY(12px); transition: opacity var(--t2) var(--out), transform var(--t2) var(--out), visibility 0s linear var(--t2), bottom var(--t3) var(--out); }
+.tl-dock svg { width: 18px; height: 18px; }
+.tl-dock:active { transform: scale(.97); }
+.hd-off .tl-dock { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
+html:has(.dock.is-on) .tl-dock { --tl-b: calc(78px + env(safe-area-inset-bottom)); }
+html.sheet-open .tl-dock { visibility: hidden; opacity: 0; }
+.has-trips.hd-off .toast { bottom: calc(76px + env(safe-area-inset-bottom)); }
+html.has-trips.hd-off:has(.dock.is-on) .toast { bottom: calc(138px + env(safe-area-inset-bottom)); }
+@media (min-width: 900px) {
+  .tl-dock, html:has(.dock.is-on) .tl-dock { right: auto; left: 24px; --tl-b: 24px; }
+  .has-trips.hd-off .toast, html.has-trips.hd-off:has(.dock.is-on) .toast { bottom: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { .tl-dock { transform: none; transition: opacity var(--t1) linear, visibility 0s; } }
 @keyframes bump { 40% { transform: scale(1.3); } }
 .menu-btn { display: none; }
 @supports (animation-timeline: scroll()) {
