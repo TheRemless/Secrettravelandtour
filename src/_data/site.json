@@ -11,7 +11,9 @@
       "vip"
     ]
   },
-  "replyTime": null,
+  "replyTime": {
+    "usual": "within 6 hours, Thailand time"
+  },
   "languages": null,
   "openingHours": "none",
   "booking": {
@@ -351,6 +353,10 @@
       "from": "04-questions-client.md Q9"
     },
     {
+      "field": "replyTime",
+      "from": "réponse du client du 08.11.2026 : le plus vite possible, en général en moins de 6 heures, heure de Thaïlande"
+    },
+    {
       "field": "booking.payment",
       "from": "04-questions-client.md Q13"
     },
@@ -420,9 +426,8 @@
     }
   ],
   "todo": [
-    "TODO(client): délai de réponse sur WhatsApp et langues parlées : retirés du site le 03.11.2026 à la demande de Jérémy, en attente des vraies informations. Rien ne s'affiche tant que replyTime et languages sont null.",
+    "TODO(client): langues parlées : retirées du site le 03.11.2026 à la demande de Jérémy, en attente des vraies informations. Rien ne s'affiche tant que languages est null. Le délai de réponse est rempli depuis le 08.11.2026 (réponse du client : le plus vite possible, en général moins de 6 heures, heure de Thaïlande).",
     "TODO(client): avis Google de Secret Travel & Tour : aucun pour l'instant, à reprendre (note, nombre, date de lecture) dès qu'ils arrivent.",
-    "TODO(client): « Guide and insurance » / « Insurance » dans les inclusions (4 Islands, Koh Rok, Phi Phi, kayak, éléphants) : le client répond que chaque prestataire a ses propres conditions d'assurance. Garder le mot « insurance » ou le retirer ?",
     "TODO(client): adresse et coordonnées de la fiche Google de VIP Taxi Lanta (aujourd'hui seulement « Koh Lanta, Krabi, Thailand ») : à afficher ou à masquer ?",
     "TODO(client): durées de trajet VIP relevées sur des guides de transport (12go, goasia, geckoroutes, amazinglanta) le 30.10.2026 : à remplacer par les chiffres de Mr. Brown."
   ],

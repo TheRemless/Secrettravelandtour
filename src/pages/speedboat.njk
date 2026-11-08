@@ -49,7 +49,7 @@ permalink: /tours/speedboat/
         {%- for run in t.back %}
         {%- for r in run.rows %}
         <li class="sb__run">
-          <p class="sb__t"><b>{{ r.place }}</b>{% if loop.first and run.via.length %}<small>via {{ run.via | join(", ") }}</small>{% endif %}{% if run.season %}<small>{{ run.season }}</small>{% endif %}</p>
+          <p class="sb__t"><b>{{ r.place }}</b>{% if r.note %}<small>{{ r.note }}</small>{% endif %}{% if loop.first and run.via.length %}<small>via {{ run.via | join(", ") }}</small>{% endif %}{% if run.season %}<small>{{ run.season }}</small>{% endif %}</p>
           <ul class="sb__stops">
             {%- for dp in r.deps %}
             <li><a class="sb__stop press" href="{{ v4.waHref(c.number, 'Speedboat request: ' + r.place + ' to Koh Lanta\nDeparture: ' + dp.time + '\nDate: \nPage: ' + t.booking.page) }}" data-book="" data-sb-route="{{ r.route }}" data-sb-dep="{{ dp.dep }}"><b>{{ dp.time }}</b><span>Koh Lanta {{ dp.arrives }}</span><span class="sr">: book the {{ dp.time }} boat from {{ r.place }}</span></a></li>

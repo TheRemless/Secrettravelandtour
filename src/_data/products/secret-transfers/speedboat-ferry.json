@@ -34,12 +34,17 @@
     {
       "label": "Destinations",
       "value": "Koh Phi Phi, Phuket, Koh Ngai, Koh Mook, Koh Kradan, Koh Bulon, Koh Lipe, Langkawi; in high season Krabi, Railay, Koh Yao Noi, Koh Yao Yai, Ao Nang"
+    },
+    {
+      "label": "Children",
+      "value": "Child fare from 3 to 9, under 3 free"
     }
   ],
   "priceOnRequest": true,
   "beforeYouBook": {
     "pickup": "Boats leave from Saladan pier. We book your seat and arrange the hotel pickup on Koh Lanta, at a time that depends on your beach.",
-    "weather": "Times are for the 2026-2027 season and change with the weather and the sea."
+    "weather": "Times are for the 2026-2027 season and change with the weather and the sea.",
+    "children": "Children from 3 to 9 pay the child fare. Children under 3 travel free."
   },
   "faq": [
     {
@@ -48,7 +53,7 @@
     },
     {
       "q": "Can I go to Langkawi?",
-      "a": "Yes, from Koh Lanta with a change of boat at Koh Lipe. The day starts at 10:30 and you arrive at 18:00 on Malaysian time."
+      "a": "Yes, from Koh Lanta with a change of boat at Koh Lipe. The speedboat leaves at 10:30, and the 16:00 ferry from Koh Lipe arrives in Langkawi at 18:30 Malaysia time."
     },
     {
       "q": "How do I book a seat?",
@@ -162,14 +167,23 @@
     {
       "field": "facts[Departure pier]",
       "from": "graphie de référence « Sala Dan » (03-audit-contenu §6.7) à la place de « Saladan »"
+    },
+    {
+      "field": "timetable.outbound[].stops[].place (pontons), timetable.inbound (Phi Phi, Koh Lipe, Koh Bulon, Langkawi)",
+      "from": "brochure horaires speedboat et ferry (audit C § 1.2) p. 2 : pontons de chaque arrêt et trajets retour (décision client du 08.11.2026). Le bureau de Koh Lipe est écrit « Pattaya Beach », sans le nom de la compagnie"
+    },
+    {
+      "field": "timetable.outbound[10:30].onward, faq[Langkawi]",
+      "from": "brochure horaires speedboat et ferry p. 2, tableau « Ferry Service » : Koh Lipe 16:00 THT, Langkawi 18:30 MYT (données transmises le 08.11.2026 (second message du coordinateur, vérifiées en ligne ou fournies par le client) : 18:30 et non 18:00)"
+    },
+    {
+      "field": "timetable.seasons[0], facts[Children], beforeYouBook.children",
+      "from": "décision client du 08.11.2026 : départs de Koh Lanta du 15 octobre au 30 avril (« Some departures run all year » retiré), enfant de 3 à 9 ans, gratuit sous 3 ans (contrats des deux compagnies, audit D § 10 et 11)"
     }
   ],
   "todo": [
     "TODO(client): tarifs des billets par trajet, au moins « à partir de » (aucun tarif sur le site actuel ; en attendant : « Price on WhatsApp »).",
-    "TODO(client): quels départs circulent toute l'année et lesquels du 15 octobre au 30 avril ? (le site dit seulement « Some departures run all year, others from 15 October to 30 April »).",
-    "TODO(client): ferry : la page s'appelle « Speedboat and ferry » mais ne cite aucun ferry. Trajets et horaires des ferries vendus ?",
-    "TODO(client): bagages autorisés sur le speedboat.",
-    "TODO(client): âges enfant et tarif enfant sur les billets."
+    "TODO(client): bagages autorisés sur le speedboat."
   ],
   "notes": [
     "URL actuelle /tours/speedboat/ conservée (décision client : garder toutes les URL). Le brief prévoyait /transfers/speedboat-ferry/."
@@ -182,7 +196,7 @@
         "from": "Koh Lanta",
         "stops": [
           {
-            "place": "Koh Phi Phi",
+            "place": "Koh Phi Phi (Tonsai pier)",
             "time": "09:30"
           },
           {
@@ -196,27 +210,27 @@
         "from": "Koh Lanta",
         "stops": [
           {
-            "place": "Koh Ngai",
+            "place": "Koh Ngai (pickup at your hotel)",
             "time": "11:10"
           },
           {
-            "place": "Koh Mook",
+            "place": "Koh Mook (Koh Mook pier)",
             "time": "11:20"
           },
           {
-            "place": "Koh Kradan",
+            "place": "Koh Kradan (pier in front of the national park)",
             "time": "11:35"
           },
           {
-            "place": "Koh Bulon",
+            "place": "Koh Bulon (Bulon Resort or Pansand Resort)",
             "time": "12:35"
           },
           {
-            "place": "Koh Lipe",
+            "place": "Koh Lipe (Pattaya Beach)",
             "time": "13:30"
           }
         ],
-        "onward": "From Koh Lipe a ferry goes on to Langkawi, arriving at 18:00 Malaysia time.",
+        "onward": "At Koh Lipe, change to the 16:00 ferry to Langkawi (Telaga Harbour), arriving at 18:30 Malaysia time.",
         "season": "Langkawi: 1 November to 15 April",
         "seasonRange": {
           "from": "11-01",
@@ -229,11 +243,11 @@
         "from": "Koh Lanta",
         "stops": [
           {
-            "place": "Koh Phi Phi",
+            "place": "Koh Phi Phi (Tonsai pier)",
             "time": "13:30"
           },
           {
-            "place": "Phuket",
+            "place": "Phuket (Rassada pier)",
             "time": "14:30"
           }
         ]
@@ -243,11 +257,11 @@
         "from": "Koh Lanta",
         "stops": [
           {
-            "place": "Koh Phi Phi",
+            "place": "Koh Phi Phi (Tonsai pier)",
             "time": "15:00"
           },
           {
-            "place": "Phuket",
+            "place": "Phuket (Rassada pier)",
             "time": "16:00"
           }
         ]
@@ -257,25 +271,24 @@
         "from": "Koh Lanta",
         "stops": [
           {
-            "place": "Krabi",
+            "place": "Krabi (Klong Jilad pier)",
             "time": "15:35"
           },
           {
-            "place": "Railay",
+            "place": "Railay (Railay Sunrise Beach pier)",
             "time": "15:50"
           },
           {
-            "place": "Koh Yao Noi",
+            "place": "Koh Yao Noi (Manoah pier)",
             "time": "16:15"
           },
           {
-            "place": "Koh Yao Yai",
+            "place": "Koh Yao Yai (Klong Hear pier)",
             "time": "16:25"
           },
           {
-            "place": "Ao Nang",
-            "time": "16:35",
-            "note": "Last stretch by shared van"
+            "place": "Ao Nang (your hotel, last stretch by shared van)",
+            "time": "16:35"
           }
         ],
         "season": "From 1 December to April (page speedboat actuelle : « from 1 December » et « From December to April »)",
@@ -290,15 +303,15 @@
         "from": "Koh Lanta",
         "stops": [
           {
-            "place": "Koh Ngai",
+            "place": "Koh Ngai (pickup at your hotel)",
             "time": "15:40"
           },
           {
-            "place": "Koh Mook",
+            "place": "Koh Mook (Koh Mook pier)",
             "time": "15:50"
           },
           {
-            "place": "Koh Kradan",
+            "place": "Koh Kradan (pier in front of the national park)",
             "time": "16:10"
           }
         ]
@@ -306,14 +319,21 @@
     ],
     "inbound": [
       {
-        "from": "Phuket",
+        "from": "Phuket (Rassada pier)",
         "departs": [
           "08:30",
           "11:00",
           "12:30"
         ],
-        "via": [
-          "Koh Phi Phi"
+        "stops": [
+          {
+            "place": "Koh Phi Phi (Tonsai pier)",
+            "times": [
+              "09:30",
+              "12:00",
+              "13:30"
+            ]
+          }
         ],
         "arrivesKohLanta": [
           "10:00",
@@ -322,21 +342,48 @@
         ]
       },
       {
-        "from": "Koh Kradan",
+        "from": "Langkawi (Telaga Harbour)",
+        "departs": [
+          "09:30"
+        ],
+        "arrivesKohLanta": [
+          "13:30"
+        ],
+        "season": "09:30 Malaysia time, ferry to Koh Lipe, then a change of boat. Langkawi: 1 November to 15 April"
+      },
+      {
+        "from": "Koh Lipe (Pattaya Beach)",
+        "departs": [
+          "10:30"
+        ],
+        "stops": [
+          {
+            "place": "Koh Bulon (Bulon Resort or Pansand Resort)",
+            "times": [
+              "11:30"
+            ]
+          }
+        ],
+        "arrivesKohLanta": [
+          "13:30"
+        ]
+      },
+      {
+        "from": "Koh Kradan (pier in front of the national park)",
         "departs": [
           "10:45",
           "12:15"
         ],
         "stops": [
           {
-            "place": "Koh Mook",
+            "place": "Koh Mook (Koh Mook pier)",
             "times": [
               "11:00",
               "12:30"
             ]
           },
           {
-            "place": "Koh Ngai",
+            "place": "Koh Ngai (pickup at your hotel)",
             "times": [
               "11:30",
               "12:50"
@@ -349,7 +396,7 @@
         ]
       },
       {
-        "from": "Ao Nang",
+        "from": "Ao Nang (pickup at your hotel)",
         "departs": [
           "07:50"
         ],
@@ -359,25 +406,25 @@
         "season": "High season"
       },
       {
-        "from": "Koh Yao Yai",
+        "from": "Koh Yao Yai (Klong Hear pier)",
         "departs": [
           "08:00"
         ],
         "stops": [
           {
-            "place": "Koh Yao Noi",
+            "place": "Koh Yao Noi (Manoah pier)",
             "times": [
               "08:10"
             ]
           },
           {
-            "place": "Railay",
+            "place": "Railay (Railay Sunrise Beach pier)",
             "times": [
               "08:35"
             ]
           },
           {
-            "place": "Krabi",
+            "place": "Krabi (Klong Jilad pier)",
             "times": [
               "08:50"
             ]
@@ -390,7 +437,7 @@
       }
     ],
     "seasons": [
-      "Some departures run all year, others from 15 October to 30 April.",
+      "Departures from Koh Lanta run from 15 October to 30 April.",
       "Langkawi runs from 1 November to 15 April.",
       "Krabi, Ao Nang, Railay and Koh Yao from 1 December."
     ],

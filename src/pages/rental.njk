@@ -35,7 +35,7 @@ permalink: /tours/rental/
           <p class="opts__note">{{ g.count }} models, {{ g.lo }} to {{ g.hi }} {{ g.unit }}. Choose a model to ask for it.</p>
           <ul class="vrows">
             {%- for r in g.rows %}
-            <li><a class="vrow press" href="{{ v4.waHref(c.number, r.fallback) }}" data-book="{{ g.id }}" data-vehicle="{{ r.label }}"><span>{{ r.label }}</span><span class="opts__amt"><b>{{ r.amount }}</b>{% if r.unit %} <small>{{ r.unit }}</small>{% endif %}</span></a></li>
+            <li><a class="vrow press" href="{{ v4.waHref(c.number, r.fallback) }}" data-book="{{ g.id }}" data-vehicle="{{ r.label }}"><span>{{ r.label }}{% if r.spec %}<small class="vrow__spec">{{ r.spec }}</small>{% endif %}</span><span class="opts__amt"><b>{{ r.amount }}</b>{% if r.unit %} <small>{{ r.unit }}</small>{% endif %}</span></a></li>
             {%- endfor %}
           </ul>
           <a class="btn btn--ghost press" href="{{ v4.waHref(c.number, g.fallback) }}" data-book="{{ g.id }}">Ask for {{ g.label | lower }}</a>

@@ -719,6 +719,7 @@ html.sheet-open .dock { transform: translateY(110%); }
 .vrows li + li .vrow { box-shadow: 0 -1px 0 var(--line); }
 @media (hover: hover) { .vrow:hover { background: var(--sand); } }
 .vrow .opts__amt b { font-size: 19px; }
+.vrow__spec { display: block; font-size: 13px; line-height: 1.35; color: var(--ink-mute); }
 .day--p { grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); }
 .day--p .day__side { position: static; }
 .sidef { margin: 24px 0 0; }
