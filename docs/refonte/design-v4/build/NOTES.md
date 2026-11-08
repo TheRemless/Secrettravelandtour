@@ -97,3 +97,158 @@ Captures (non commitées, `docs/refonte/design-v4/build/shots/`) : pleine page d
 - LCP de l'accueil à 2,4 s : sous la cible, avec peu de marge ; la photo de la 4 Islands du hero (57 Ko en AVIF 768 px) est la plus lourde à arriver.
 - Données client toujours ouvertes : horaires et ponton du speedboat, moins de 4 ans en speedboat, enfants dans le groupe du privé, mois de fermeture du parc, délai de réponse, vraies photos.
 - Rien n'est poussé.
+
+## Pages produit (08.11.2026)
+
+Toutes les fiches qui ont une URL dans `src/_data/products/**` sont passées sur le design v4, sauf `/transfers/` (la page n'existe pas aujourd'hui : rien n'a été créé, le lien reste caché). Les pages `/taxi/` n'ont pas bougé.
+
+### Fichiers
+
+| Rôle | Fichier |
+|---|---|
+| Mise en forme des fiches (sections, prix, frais, déroulé, sous-variantes, grille du speedboat) | `src/_includes/components/v4-product.js` |
+| Sections communes (hero, options et prix, déroulé, inclus, avant de réserver et questions, autres sorties, bande du bas) | `src/_includes/components/v4-product.njk` |
+| Gabarit générique bateaux et activités (paginé sur `v4data.productPages`) | `src/pages/product.njk` |
+| Variante location, variante speedboat | `src/pages/rental.njk`, `src/pages/speedboat.njk` |
+| Bande du bas des fiches | `src/js/v4-product.js` |
+| Feuille de réservation (sous-variantes, location, speedboat) et liste de sorties | `src/js/booking.js`, `src/_includes/components/booking.njk`, `src/js/v4-trips.js` |
+| JSON-LD (Service pour le speedboat, fil d'Ariane vers `/tours/#boat-trips` et `/tours/#activities`) | `src/_includes/components/schema.js` |
+| Tests | `tests/product-pages.test.js` (10 tests), plus `pages-seo`, `partenaires`, `terms`, `schema`, `design-v4` adaptés |
+
+Supprimés car morts : `src/secret-page.njk`, `src/_data/secretPages.js`, `src/_includes/stt-product.njk`, l'ancienne `src/pages/rental.njk` et `src/pages/elephant-sanctuary.njk`, les entrées `elephant` et `rental` de `pages.js`. `secret.json` et `secretPagesContent.json` restent : des tests de faits les lisent et ils servent de point de comparaison. `stt.njk`, `stt.css` et `ui.js` restent pour `/taxi/krabi-airport-koh-lanta/` et les planches `/design/`.
+
+### Ordre des sections, le même partout
+
+1. Hero : fil d'Ariane, H1, accroche, faits clés courts (40 caractères au plus, 4 au plus), prix d'appel ou « Price on WhatsApp », bouton qui ouvre la feuille, lien « Ask a question on WhatsApp ».
+2. Photos (galerie) : seulement la 4 Islands en a dans `photos-v3.json`.
+3. Options et prix (« Options and prices », « Times and prices » pour le speedboat) : une colonne par option, toutes ses lignes avec montant et unité, « Price on WhatsApp » si l'option n'a pas de prix, un bouton « Choose this option » qui ouvre la feuille sur elle ; les frais sur place à part (« Not in the price, paid in cash on the day » quand la donnée dit cash).
+4. Déroulé : « How the day goes » (ligne de temps) ou « What you do, option by option » (un bloc par option), avec à côté les faits descriptifs de la fiche.
+5. Inclus et non inclus.
+6. Avant de réserver (« Before you book »), puis questions.
+7. Autres sorties : cartes des fiches citées dans `related`, lien vers le hub, transfert ou speedboat quand la fiche les cite.
+
+Le menu marque la rubrique (Boat trips, Activities, Rental, Transfers pour le speedboat) ; le fil d'Ariane dit Home / Boat trips ou Activities / la fiche (Home / la page pour la location et le speedboat). Le JSON-LD reprend les mêmes niveaux.
+
+### Page par page
+
+Lignes affichées = lignes de prix visibles dans « Options and prices » ; JSON = lignes `prices[]` des options. Frais = lignes `notIncludedFees` affichées à part.
+
+| Page | Photo du haut | Options et prix | Déroulé | Inclus | Avant de réserver | Questions | Autres sorties | Options | Lignes affichées / JSON | Frais | Options sans prix |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| `/tours/koh-rok-koh-haa/` | carte | oui | journée (join-in speedboat) | oui | oui | oui | oui | 4 | 6 / 6 | 4 | 2 |
+| `/tours/koh-phi-phi/` | carte | oui | journée (join-in speedboat) | oui | oui | oui | oui | 2 | 2 / 2 | 4 | 1 |
+| `/tours/koh-talabeng-koh-bubu/` | carte | oui | journée | oui | oui | oui | oui | 1 | 0 / 0 | 0 | 1 |
+| `/tours/mangroves/` | carte | oui | par option (3 radeaux) | oui | oui | oui | oui | 7 | 17 / 17 | 4 (par option) | 0 |
+| `/tours/fishing-trip/` | carte | oui | journée (radeau) | oui | oui | oui | oui | 2 | 3 / 3 | 0 | 1 |
+| `/tours/elephant-sanctuary/` | carte | oui | par option (A, B, C) | oui | oui | oui | oui | 3 | 9 / 9 | 0 | 0 |
+| `/tours/kayak/` | carte | oui | par option (7) | oui | oui | oui | oui | 7 | 14 / 14 | 1 | 0 |
+| `/tours/cooking-class/` | carte | oui | journée (single et partner chef) | oui | oui | oui | oui | 3 | 4 / 4 | 0 | 0 |
+| `/tours/scuba-diving/` | carte | oui | par option (5) | oui | oui | oui | oui | 6 | 26 / 26 | 5 | 0 |
+| `/tours/atv/` | carte | oui | par option (3) | oui | oui | oui | oui | 3 | 12 / 12 | 0 | 0 |
+| `/tours/batik/` | carte | oui | par option (2) | oui | oui | oui | oui | 3 | 4 / 4 | 0 | 1 |
+| `/tours/go-kart/` | carte | oui | absent (pas de `day`) | oui | oui | oui | oui | 2 | 8 / 8 | 0 | 0 |
+| `/tours/rental/` | absente | oui (un véhicule = une ligne qui ouvre la feuille) | absent | absent | oui | oui | oui (liens) | 3 | 35 / 35 | 0 | 0 |
+| `/tours/speedboat/` | absente | grille des départs (19 arrêts au départ de Koh Lanta, 14 vers Koh Lanta) | absent | absent | oui | oui | oui | 0 | 0 / 0 | 0 | prix des billets |
+
+Total : 140 lignes de prix dans le JSON, 140 affichées. Le test `prix : chaque ligne de chaque option du JSON est sur la page` vérifie le libellé, le montant et l'unité de chacune dans `_site`.
+
+### Aucune demande vague
+
+- Chaque fiche : la feuille s'ouvre sur l'option du bouton cliqué ; depuis le haut de page ou la bande du bas, une fiche à plusieurs options ouvre la feuille sans option et refuse l'envoi (« Choose an option. » sur le champ). Une fiche à une seule option la prend d'office.
+- Message : `Ref`, `Booking request: produit – option`, une ligne par sous-variante, date, groupe avec l'âge de chaque enfant, prise en charge, prénom, `Price on website` (lignes de l'option avec leur unité ; seulement la ligne choisie quand la sous-variante désigne une ligne de prix), adresse de la page.
+- Sous-variantes obligatoires dans la feuille et dans la liste de sorties : séance des éléphants (A : 07:30, 10:00, 13:00 ; B : 07:30, 13:00, lu dans le déroulé ; C : 07:30 seul, rien à choisir), créneau des demi-journées de kayak (matin 09:30–12:30, après-midi 14:00–17:00) et kayak ou longtail pour le parc de pêche (kayak et mangroves), cours de batik du matin ou de l'après-midi, cours de cuisine du matin ou du soir (le soir est réservable ; la date doit tomber un mardi, jeudi ou vendredi, sinon erreur sur le champ) et créneau de sculpture, plongée (programme d'essai, sites des fun dives, trajet du catamaran, cours, niveau et dernière plongée pour les certifiés, suppléments à cocher : plongée en plus, refresher, nounou), nombre de karts par type, nombre de pilotes et de passagers par catégorie (ATV).
+- Location : catégorie (obligatoire), modèle (prérempli depuis la ligne cliquée), nombre de véhicules, date et heure de début, date et heure de fin, prix du modèle ou fourchette de la catégorie, référence `RN-jjmm-jjmm`.
+- Speedboat : trajet (sens compris : « Koh Lanta to … » ou « … to Koh Lanta »), départ de la grille, date, aller simple ou retour ; pour un retour, date et bateau du trajet inverse quand la grille l'a, sinon une heure libre. Référence `SB-…`.
+- Liste de sorties : plus d'option par défaut ; l'envoi est bloqué tant qu'une sortie n'a pas son option (fiche à plusieurs options), sa date et ses sous-variantes ; chaque manque est dit sur son champ et résumé au-dessus du bouton (« 4 things are missing: … »).
+- Liens WhatsApp : sur une fiche, « Question about Koh Phi Phi (secrettravelandtour.com/tours/koh-phi-phi/): » dans l'en-tête, le menu, le haut de page et le pied ; le repli sans JavaScript de chaque bouton nomme le produit, l'option et la page. Accueil, hub et 4 Islands : « Hello, a question from secrettravelandtour.com/… » ; les messages de la location et de la bande finale de l'accueil et du hub finissent par `Page: …`.
+
+### Structure des sous-variantes, à remplir dans les JSON
+
+Tant qu'une option ne déclare rien, `FALLBACK` (dans `v4-product.js`) déduit les sous-variantes des faits et du déroulé déjà écrits dans la fiche, sans inventer de valeur. Dès qu'une option déclare un de ces champs, il remplace la déduction pour cette option.
+
+```json
+"options": [{
+  "id": "programme-b",
+  "choices": [
+    { "id": "session", "label": "Session", "values": [{ "id": "0730", "label": "07:30–08:00" }, { "id": "1300", "label": "13:00–13:30" }] },
+    { "id": "class", "label": "Class", "values": [{ "id": "evening", "label": "Dinner class, 16:00–21:00", "days": ["Tuesday", "Thursday", "Friday"] }] },
+    { "id": "course", "label": "Course", "values": [{ "id": "ow", "label": "Open Water Diver", "row": "Open Water Diver, 3 days, 4 dives" }] },
+    { "id": "cert", "label": "Certification and last dive", "type": "text", "hint": "Your level and the month of your last dive." }
+  ],
+  "counts": { "label": "Karts", "rows": ["Small single seat", "Large double seat"] },
+  "extras": ["Extra dive, decided on the day"]
+}]
+```
+
+- `choices[].values[].row` : libellé exact d'une ligne de `prices[]` de l'option (le message ne garde que ce prix) ; `days` : jours où la valeur a lieu (la date est vérifiée) ; `required: false` pour un choix facultatif ; `id` sans tiret.
+- `counts.rows` et `extras` : libellés exacts de lignes de `prices[]` de l'option.
+- Proposé, pas encore lu par le code faute de donnée : expérience du pilote pour les tours ATV B et C (`choices` texte), créneau des demi-journées longtail et kayak des mangroves, suppléments de location de matériel de plongée sur chaque plongée (aujourd'hui une colonne « Rentals and discounts » sans bouton, `kind: "extra"`), passeports pour Langkawi, zone de l'hôtel pour le speedboat, boîte AT ou MT et lieu de remise pour la location.
+
+### Écarts de données entre les sources (non tranchés : la page affiche `products/**`)
+
+Comparaison ligne par ligne par script : aucun montant, aucun libellé de prix et aucune tranche d'âge ne diffère entre `products/**` et `secretPagesContent.json` (137 lignes contre 140, les 3 en plus sont « Child under 4 » des éléphants). Différences de faits :
+
+| Produit | Sujet | `products/**` | Autre source |
+|---|---|---|---|
+| Koh Rok, Phi Phi, éléphants, kayak | Assurance | `included` sans assurance (« Guide ») | `secretPagesContent.json` : « Guide and insurance » ou « Insurance » (TODO déjà ouvert dans `site.json`) |
+| Koh Rok | Options | `private-speedboat` (09:00 à 16:00) et `sunset`, sans prix | `secretPagesContent.json` : seulement dans `goodToKnow` |
+| Phi Phi, batik | Options | `private-speedboat`, `private-course`, sans prix | `secretPagesContent.json` : phrase « ask us », pas d'option |
+| Koh Talabeng | Formule | `half-day` en « join-in » | `secretPagesContent.json` : rien sur join-in ou privé |
+| Mangroves | Kayak et ATV | rien | `secretPagesContent.json` `goodToKnow[1]` : kayak combinable avec une heure d'ATV, deux heures en tout |
+| Mangroves | Frais du village | 40 THB sur 4 options, dont Old Town et parc de pêche | `secretPagesContent.json` : « on the longtail and kayak trips » seulement |
+| Fishing trip | Longtail | option `longtail` privée | `secretPagesContent.json` : rien sur le longtail ; l'accueil dit longtail, la carte radeau (TODO) |
+| Éléphants | Programme C | « Two people per session at most » | `secretPagesContent.json` : « Two people at most, booked ahead » (TODO) |
+| Éléphants | Durée | « About 1 hr 30 min to a full day » | `secret.json` : « Half day » |
+| Éléphants | Séances | B à 07:30 ou 13:00, C à 07:30 (déroulé) | Brochure (audit B) : A 07:30, 10:00 ou 13:00, B 07:30 ou 13:00, C 07:30, créneaux d'une demi-heure |
+| Kayak, batik | Réserve sur les horaires | rien | `secretPagesContent.json` : « Times can change with the tide and the weather » |
+| Cuisine | Prix du soir | rien | `secretPagesContent.json` : « The morning and evening cooking classes cost the same » |
+| Cuisine | Âges partner chef | `ages` 5 à 12 sur l'option | `secretPagesContent.json` : recommandation, pas une limite |
+| Plongée | Élèves par moniteur | « two or three students at most » | `secretPagesContent.json` : « never more than two » (TODO) |
+| Plongée | Frais de parc | 5 frais sur les 6 options, cours compris | `secretPagesContent.json` : condition « Koh Haa, Hin Daeng or Phi Phi » sur les seules lignes plongeur |
+| Plongée | Unités | 8 lignes sans unité (ordinateur, Nitrox, GoPro, nounou, forfaits) | `secretPagesContent.json` : « per person » pour toute la page |
+| Plongée, batik | Durée | React Right « Half day » ; kayak et peinture jusqu'à 17:00 | `secret.json` : « From one day » ; « Half day » |
+| Karting | Unité, minimum | « per kart » ; minimum seulement en TODO | `secretPagesContent.json` : sans unité ; « for a minimum of 2 programmes » |
+| Location | Unité | lignes et prix d'appel « per 24 hours » | faits, FAQ et méta-description de la même fiche, `secretPagesContent.json`, `secret.json` : « per day » |
+| Location | Conditions | caution passeport, casques, livraison | rien ailleurs (source : Jérémy, 03.11) |
+| Speedboat | Fin de saison Krabi, Railay, Koh Yao, Ao Nang | `seasonRange` jusqu'au 30 avril | `secretPagesContent.json` : « From December to April », « from 1 December » |
+| Speedboat | Saison du départ de 10:30 | `seasonRange` 1er novembre au 15 avril sur tout le départ | `secretPagesContent.json` : la saison vaut pour Langkawi seulement (la page l'affiche pour Langkawi seulement) |
+| Koh Rok, Phi Phi, plongée, speedboat | Règle météo | `beforeYouBook.weather` propre à la fiche | `site.json` `booking.weather` (report ou remboursement), ajoutée après sur la page |
+| ATV | Annulation | 24 h, moitié due ensuite | `site.json` `booking.cancellationPolicy` « none » (TODO) |
+
+### Lignes cachées faute de donnée
+
+- Photos : aucune fiche n'a de galerie dans `photos-v3.json` ; la section « Photos » est absente partout sauf sur la 4 Islands. Photo du haut = photo de la carte de la sortie (12 fiches) ; aucune pour la location et le speedboat (pas de carte, pas de photo déclarée).
+- « Price on WhatsApp » : Koh Rok privé en speedboat et version coucher de soleil, Phi Phi privé, Koh Talabeng, pêche en longtail, batik privé, billets du speedboat.
+- Unités absentes du JSON, donc non affichées : 8 lignes de la plongée.
+- Notes internes jamais affichées : « (legacy meta description) » (Koh Talabeng, plongée SSI), « Not included (legacy price note) » (frais du village), la parenthèse en français de la saison du speedboat.
+- Déroulé absent : karting, location, speedboat. Inclus absent : location, speedboat. Séance du programme C des éléphants : une seule heure dans la donnée, rien à choisir.
+- Créneaux des demi-journées longtail et kayak des mangroves, horaires du longtail de pêche, horaires et ponton du speedboat de la 4 Islands : pas dans les données.
+
+### Changements de données faits ici (aucun prix ni fait)
+
+- `cooking-class.json` : la phrase « Suits children from 5 to 12 cooking with a parent. » était écrite deux fois dans la note de `partner-chef`.
+- `kayak.json`, FAQ : « a bit of everything » (refusé par `check-dist`) devient « The fishing park, with the mangrove and lunch on the same half day, is the one for families. »
+- `rental.json` et `speedboat-ferry.json` : `refPrefix` `RN` et `SB` (code des références des messages).
+
+### Contrôles et résultats
+
+- `STT_ALLOW_PLACEHOLDERS=1 npm run build` : OK, `check-dist` OK, `photos-v3` OK (23 usages, 17 temporaires).
+- `npm test` : 239 tests, 239 verts (229 d'avant plus 10 dans `tests/product-pages.test.js`). Adaptés sans retirer de fait : `pages-seo` (fiches lues dans `products/**`, la 4 Islands hors contrôle de longueur de titre comme avant), `partenaires` (prix lus dans `products/**`, grille du speedboat au lieu du formulaire d'accueil, galeries d'avant vérifiées comme fichiers et photo déclarée vérifiée sur chaque fiche), `terms` (pied de page de `v4.njk` au lieu de `secret-page.njk`), `schema` (fil d'Ariane vers les sections du hub, speedboat en Service), `design-v4` (plus d'option par défaut dans la liste de sorties, demande du client).
+- `node scripts/check-v3.mjs` : 106 contrôles OK sur 17 pages (les 3 d'avant plus les 14 fiches).
+- Playwright (Chrome) à 390 px (DPR 2) et 1440 px, 14 fiches plus l'accueil, le hub et la 4 Islands : aucune erreur console, aucun défilement horizontal, axe-core 0 violation (page, et feuille de réservation ouverte à 390 px). Sur chaque fiche : refus sans option depuis le bouton du haut (« Choose an option. ») et deux parcours jusqu'à l'URL `wa.me` (première et dernière option ; deux véhicules ; deux trajets dont un aller-retour Krabi), textes des messages vérifiés. Liste de sorties depuis le hub : envoi refusé, « 4 things are missing: … ». 4 Islands : message inchangé hormis les unités des prix.
+- Lighthouse 12 mobile, serveur local en gzip :
+
+| Page | Performance | LCP | CLS | TBT | Poids | Accessibilité, bonnes pratiques, SEO |
+|---|---|---|---|---|---|---|
+| `/tours/koh-rok-koh-haa/` | 99 | 1,8 s | 0 | 0 ms | 135 Ko | 100, 100, 100 |
+| `/tours/elephant-sanctuary/` | 99 | 2,1 s | 0 | 0 ms | 163 Ko | 100, 100, 100 |
+| `/tours/kayak/` | 99 | 1,8 s | 0 | 0 ms | 138 Ko | 100, 100, 100 |
+| `/tours/rental/` | 100 | 1,7 s | 0 | 0 ms | 104 Ko | 100, 100, 100 |
+| `/tours/speedboat/` | 100 | 1,7 s | 0 | 0 ms | 107 Ko | 100, 100, 100 |
+
+- Captures pleine page 1440 (DPR 1) et 390 (DPR 2) des 17 pages : `docs/refonte/design-v4/build/shots/produits/` (non commitées).
+
+### Pas fini ou pas vérifié
+
+- Données des sous-variantes : déduites des faits tant que les JSON ne les déclarent pas (structure ci-dessus) ; les créneaux exacts des brochures (07:30–08:00…) attendent la mise à jour des données.
+- Safari et Firefox non testés. Rien n'est poussé.
