@@ -138,7 +138,7 @@ function options(product) {
     id: o.id,
     title: o.label,
     note: o.note || "",
-    rows: (o.prices || []).map((r) => ({ label: r.label, price: priceText(r) })),
+    rows: (o.prices || []).map((r) => ({ label: r.label, price: priceText(r), unit: r.unit || "", ...(typeof r.amount === "number" ? { amount: r.amount } : {}) })),
     from: o.prices && o.prices.length ? priceText(o.prices[0]) : "",
     pier: o.pier || "",
     stub: o.stub || "",

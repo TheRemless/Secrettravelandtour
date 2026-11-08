@@ -103,7 +103,10 @@ test("liste de sorties : un message classé par jour, une référence par sortie
   assert.equal(lines[0], "Trip list: 3 trips");
   assert.equal(lines[1], "Guests: 2 adults, 1 child (age 7)");
   assert.ok(text.indexOf("Fri 20 Nov 2026") < text.indexOf("Sat 21 Nov 2026"));
-  assert.match(text, /Ref: 4I-2011-2A1C\n4 Islands – Join-in longtail\n/, "option par défaut : la première de la fiche");
+  // Plus d'option par défaut (demande du client, 08.11.2026) : la sortie à trois bateaux attend son choix et la liste ne part pas.
+  assert.match(text, /Ref: 4I-2011-2A1C\n4 Islands – option to choose\n/);
+  const v = B.validateTripList(cat, { ...list, items: list.items.map((it, i) => ({ ...it, id: "t" + i })) }, "2026-11-08");
+  assert.deepEqual(v.items, { t1: { option: "Choose an option for 4 Islands." } });
   assert.match(text, /Ref: PP-2011-2A1C/);
   assert.match(text, /Ref: KR-2111-2A1C/);
   assert.match(text, /Page: secrettravelandtour\.com\/tours\/koh-rok-koh-haa\//);
@@ -111,7 +114,8 @@ test("liste de sorties : un message classé par jour, une référence par sortie
   // Les prix du catalogue sont ceux des fiches.
   for (const s of SLUGS) {
     const p = P(s);
-    for (const o of p.options || []) {
+    // « Rentals and discounts » de la plongée (kind "extra") n'est pas une sortie de la liste : affiché sur la fiche seulement.
+    for (const o of (p.options || []).filter((x) => x.kind !== "extra")) {
       const c = cat[p.slug].options.find((x) => x.id === o.id);
       assert.equal(c.rows.length, (o.prices || []).length, `${p.slug} ${o.id}`);
     }

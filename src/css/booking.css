@@ -184,3 +184,10 @@ html.sheet-open { overflow: hidden; }
 /* Poignée de la feuille : affichée par les pages du design v4 (v4.css), qui ajoutent le geste de fermeture. */
 .sheet-grab { display: none; }
 .sheet-foot--pair { display: grid; gap: var(--s1); }
+
+/* Sous-variantes d'une option (créneau, cours, karts) et suppléments à cocher */
+.opt-more { display: grid; gap: var(--s2); }
+.tick-row { display: flex; align-items: center; gap: 12px; min-height: 44px; cursor: pointer; }
+.tick-row input { width: 20px; height: 20px; margin: 0; flex: none; accent-color: var(--sheet-accent); }
+.tick-row small { color: var(--sheet-mute); }
+.dates--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }

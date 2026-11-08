@@ -50,8 +50,8 @@
       foot.innerHTML = "";
       return;
     }
-    // Option par défaut : la première de la fiche, comme la feuille de réservation.
-    l.items.forEach(function (it) { var p = cat[it.slug]; if (p && !it.option && p.options.length) it.option = p.options[0].id; });
+    // Une fiche à une seule option la prend d'office ; à plusieurs, le visiteur choisit (rien ne part sans).
+    l.items.forEach(function (it) { var p = cat[it.slug]; if (p && !it.option && p.options.length === 1) it.option = p.options[0].id; });
     l.items = l.items.filter(function (it) { return cat[it.slug]; });
     var sorted = l.items.slice().sort(function (a, b) { return (a.date || "9999") < (b.date || "9999") ? -1 : (a.date || "9999") > (b.date || "9999") ? 1 : 0; });
     var groups = [];
@@ -68,20 +68,43 @@
           (clash ? '<p class="trips__warn">' + ICON.alert + "<span>" + V.esc(listJoin(clash.names)) + " are both full-day trips on the same day. Move one of them to another day.</span></p>" : "") +
           g.items.map(function (it) {
             var p = cat[it.slug];
-            var opts = p.options.length > 1 ? '<div class="f"><label class="f-label" for="tl-o-' + it.id + '">Option</label><span class="select"><select id="tl-o-' + it.id + '" data-topt="' + it.id + '">' + p.options.map(function (o) { return '<option value="' + o.id + '"' + (o.id === it.option ? " selected" : "") + ">" + V.esc(o.title) + "</option>"; }).join("") + "</select></span></div>" : "";
+            var opts = p.options.length > 1 ? '<div class="f"><label class="f-label" for="tl-o-' + it.id + '">Option</label><span class="select"><select id="tl-o-' + it.id + '" data-topt="' + it.id + '" aria-describedby="tl-eo-' + it.id + '"><option value="">Choose an option</option>' + p.options.map(function (o) { return '<option value="' + o.id + '"' + (o.id === it.option ? " selected" : "") + ">" + V.esc(o.title) + "</option>"; }).join("") + '</select></span><p class="err" id="tl-eo-' + it.id + '" hidden></p></div>' : "";
             var season = p.season && it.date && p.season.months.indexOf(Number(it.date.slice(5, 7))) < 0;
             return '<div class="trips__item"><div class="trips__top"><a href="' + p.url + '">' + V.esc(p.name) + '</a><button type="button" data-trm="' + it.id + '">Remove<span class="sr"> ' + V.esc(p.name) + "</span></button></div>" +
               '<div class="trips__pair">' + opts + '<div class="f"><label class="f-label" for="tl-d-' + it.id + '">Date</label><input type="date" id="tl-d-' + it.id + '" min="' + today + '" value="' + (it.date || "") + '" data-tdate="' + it.id + '" aria-describedby="tl-e-' + it.id + '"><p class="err" id="tl-e-' + it.id + '" hidden></p></div></div>' +
+              (optOf(p, it) ? subFields(it, optOf(p, it)) : "") +
               (season ? '<p class="trips__warn">' + ICON.alert + "<span>" + V.esc(p.name) + " runs " + V.esc(p.season.text) + ". Pick a date in that season.</span></p>" : "") + "</div>";
           }).join("") + "</section>";
       }).join("") +
       '<div class="trips__who"><div class="f"><label for="tl-pickup">Hotel or address on Koh Lanta</label><input id="tl-pickup" type="text" autocomplete="street-address" value="' + V.esc(l.pickup || "") + '" data-ttext="pickup" aria-describedby="tl-e-pickup"><p class="err" id="tl-e-pickup" hidden></p></div>' +
       '<div class="f"><label for="tl-name">First name</label><input id="tl-name" type="text" autocomplete="given-name" value="' + V.esc(l.name || "") + '" data-ttext="name" aria-describedby="tl-e-name"><p class="err" id="tl-e-name" hidden></p></div></div>' +
       '<details><summary>Read the message before you send it</summary><pre class="trips__msg" data-tmsg></pre></details>';
-    foot.innerHTML = '<a class="sheet-btn" href="#" target="_blank" rel="noopener" data-tsend>' + ICON.wa + "<span>" + (l.items.length === 1 ? "Send this trip on WhatsApp" : "Send the " + l.items.length + " trips in one message") + "</span></a>" +
+    foot.innerHTML = '<p class="err trips__miss" role="alert" data-tmiss hidden></p><a class="sheet-btn" href="#" target="_blank" rel="noopener" data-tsend>' + ICON.wa + "<span>" + (l.items.length === 1 ? "Send this trip on WhatsApp" : "Send the " + l.items.length + " trips in one message") + "</span></a>" +
       '<p class="sheet-note">Nothing is booked until we confirm. Nothing is paid online.</p>';
     message();
     if (focusId) { var f = document.getElementById(focusId); if (f) f.focus(); }
+  }
+  // Sous-variantes de l'option (créneau, cours, karts…), mêmes champs que la feuille de réservation.
+  function optOf(p, it) {
+    return p.options.filter(function (o) { return o.id === it.option; })[0] || (p.options.length === 1 ? p.options[0] : null);
+  }
+  function subFields(it, o) {
+    var html = (o.choices || []).map(function (c) {
+      var id = "tl-c-" + it.id + "-" + c.id, err = "tl-e-" + it.id + "-c-" + o.id + "-" + c.id;
+      var val = (it.choices || {})[o.id + "/" + c.id] || "";
+      var attrs = ' id="' + id + '" data-tch="' + it.id + '" data-opt="' + o.id + '" data-choice="' + c.id + '" aria-describedby="' + err + '"';
+      var ctl = c.type === "text"
+        ? '<input type="text"' + attrs + ' value="' + V.esc(val) + '">'
+        : '<span class="select"><select' + attrs + '><option value="">Choose</option>' + c.values.map(function (v) { return '<option value="' + V.esc(v.id) + '"' + (v.id === val ? " selected" : "") + ">" + V.esc(v.label + (v.price ? ", " + v.price : "")) + "</option>"; }).join("") + "</select></span>";
+      return '<div class="f"><label class="f-label" for="' + id + '">' + V.esc(c.label) + "</label>" + ctl + '<p class="err" id="' + err + '" hidden></p></div>';
+    }).join("");
+    if (o.counts) {
+      html += '<fieldset class="f"><legend class="f-label">' + V.esc(o.counts.label) + "</legend>" + o.counts.rows.map(function (r, i) {
+        var id = "tl-n-" + it.id + "-" + i;
+        return '<div class="trips__n"><label for="' + id + '">' + V.esc(r) + (o.counts.prices[i] ? " <small>" + V.esc(o.counts.prices[i]) + "</small>" : "") + '</label><input type="number" min="0" max="20" inputmode="numeric" id="' + id + '" value="' + (Number((it.counts || {})[o.id + "/" + i]) || 0) + '" data-tcnt="' + it.id + '" data-opt="' + o.id + '" data-row="' + i + '" aria-describedby="tl-e-' + it.id + "-n-" + o.id + '"></div>';
+      }).join("") + '<p class="err" id="tl-e-' + it.id + "-n-" + o.id + '" hidden></p></fieldset>';
+    }
+    return html ? '<div class="trips__subs">' + html + "</div>" : "";
   }
   function listJoin(a) { return a.length < 2 ? a.join("") : a.slice(0, -1).join(", ") + " and " + a[a.length - 1]; }
   function message() {
@@ -123,7 +146,18 @@
       if (it) { it.date = t.value; save(l); render(t.id); }
     } else if (t.hasAttribute("data-topt")) {
       l.items.forEach(function (x) { if (x.id === t.getAttribute("data-topt")) x.option = t.value; });
+      save(l); render(t.id);
+      var eo = $("#tl-eo-" + t.getAttribute("data-topt"));
+      if (eo && t.value) { eo.hidden = true; t.removeAttribute("aria-invalid"); }
+    } else if (t.hasAttribute("data-tch") || t.hasAttribute("data-tcnt")) {
+      var item = l.items.filter(function (x) { return x.id === (t.getAttribute("data-tch") || t.getAttribute("data-tcnt")); })[0];
+      if (!item) return;
+      var o = t.getAttribute("data-opt");
+      if (t.hasAttribute("data-tch")) { item.choices = item.choices || {}; item.choices[o + "/" + t.getAttribute("data-choice")] = t.value; }
+      else { item.counts = item.counts || {}; item.counts[o + "/" + t.getAttribute("data-row")] = V.clamp(parseInt(t.value, 10) || 0, 0, 20); }
       save(l); message();
+      var ed = $("#" + t.getAttribute("aria-describedby"));
+      if (ed) { ed.hidden = true; t.removeAttribute("aria-invalid"); }
     } else if (t.hasAttribute("data-tage")) {
       l.childAges[Number(t.getAttribute("data-tage"))] = t.value === "" ? "" : Number(t.value);
       save(l); message();
@@ -148,17 +182,29 @@
     var send = e.target.closest("[data-tsend]");
     if (!send) return;
     var l = list(), today = V.today(), first = null;
-    var fail = function (el, errId, text) { var er = $("#" + errId); if (er) { er.textContent = text; er.hidden = false; } el.setAttribute("aria-invalid", "true"); if (!first) first = el; };
+    var missing = [];
+    var fail = function (el, errId, text) { var er = $("#" + errId); if (er) { er.textContent = text; er.hidden = false; } if (el) { el.setAttribute("aria-invalid", "true"); if (!first) first = el; } missing.push(text); };
     $$(".err", body).forEach(function (er) { er.hidden = true; });
     $$("[aria-invalid]", body).forEach(function (x) { x.removeAttribute("aria-invalid"); });
+    // Mêmes règles que le test (booking.js validateTripList) : option quand la fiche en a plusieurs, date, âges, hôtel, prénom.
+    var v = B.validateTripList(cat, l, today);
     l.items.forEach(function (it) {
-      var el = $("#tl-d-" + it.id);
-      if (!it.date) fail(el, "tl-e-" + it.id, "Pick a date for " + cat[it.slug].name + ".");
-      else if (it.date < today) fail(el, "tl-e-" + it.id, "That date has passed.");
+      var e = v.items[it.id];
+      if (!e) return;
+      if (e.option) fail($("#tl-o-" + it.id), "tl-eo-" + it.id, e.option);
+      if (e.date) fail($("#tl-d-" + it.id), "tl-e-" + it.id, e.date);
+      Object.keys(e).forEach(function (k) {
+        if (k === "option" || k === "date") return;
+        var m = /^c-(.+)-([^-]+)$/.exec(k);
+        var el = m ? $("#tl-c-" + it.id + "-" + m[2]) : $("#tl-n-" + it.id + "-0");
+        fail(el, "tl-e-" + it.id + "-" + k, e[k]);
+      });
     });
-    l.childAges.forEach(function (a, i) { if (a === "") fail($("#tl-age-" + i), "tl-e-age-" + i, "Choose the age of child " + (i + 1) + "."); });
-    if (!(l.pickup || "").trim()) fail($("#tl-pickup"), "tl-e-pickup", "Add your hotel so we know where to pick you up.");
-    if (!(l.name || "").trim()) fail($("#tl-name"), "tl-e-name", "Add your first name.");
+    Object.keys(v.ages).forEach(function (i) { fail($("#tl-age-" + i), "tl-e-age-" + i, v.ages[i]); });
+    if (v.pickup) fail($("#tl-pickup"), "tl-e-pickup", v.pickup);
+    if (v.name) fail($("#tl-name"), "tl-e-name", v.name);
+    var miss = $("[data-tmiss]", foot);
+    if (miss) { miss.hidden = !missing.length; miss.textContent = missing.length ? (missing.length === 1 ? "One thing is missing: " : missing.length + " things are missing: ") + missing.map(function (m) { return m.replace(/\.$/, "").replace(/^./, function (c) { return c.toLowerCase(); }); }).join("; ") + "." : ""; }
     if (first) {
       e.preventDefault();
       if (!V.reduce.matches) send.animate([{ transform: "translateX(0)" }, { transform: "translateX(-6px)" }, { transform: "translateX(5px)" }, { transform: "translateX(-3px)" }, { transform: "none" }], { duration: 320 });

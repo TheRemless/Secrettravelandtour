@@ -88,10 +88,98 @@
     return null;
   }
 
-  // Prix vu sur la page, recopié tel quel depuis les données : « Adult: 1,000 THB / Child, 4 to 11: 700 THB »
+  // Prix vu sur la page, recopié tel quel depuis les données, avec l'unité quand elle est écrite :
+  // « Adult: 1,000 THB per person / Child, 4 to 11: 700 THB per person »
   function priceLine(option) {
     if (!option || !option.rows || !option.rows.length) return "";
-    return option.rows.map(function (r) { return r.label + ": " + r.price; }).join(" / ");
+    return option.rows.map(function (r) { return r.label + ": " + r.price + (r.unit && r.price !== "Free" && r.unit.toLowerCase() !== r.label.toLowerCase() ? " " + r.unit : ""); }).join(" / ");
+  }
+
+  // Location : le prix du véhicule choisi s'il est dans la liste, sinon la fourchette de la catégorie.
+  function rentalPrice(cat, vehicle) {
+    if (!cat || !cat.rows || !cat.rows.length) return "";
+    var v = clean(vehicle).toLowerCase();
+    var row = v ? cat.rows.filter(function (r) { return r.label.toLowerCase() === v; })[0] : null;
+    if (row) return row.label + ": " + row.price + (row.unit ? " " + row.unit : "");
+    var amounts = cat.rows.map(function (r) { return r.amount; }).filter(function (a) { return typeof a === "number"; });
+    if (!amounts.length) return "";
+    var lo = Math.min.apply(null, amounts), hi = Math.max.apply(null, amounts);
+    var unit = cat.rows[0].unit ? " " + cat.rows[0].unit : "";
+    return cat.title + ": " + (lo === hi ? thb(lo) : thb(lo).replace(" THB", "") + " to " + thb(hi)) + unit;
+  }
+
+  // ---------- Sous-variantes d'une option (créneau, cours, karts, pilotes…) ----------
+  // option.choices : [{ id, label, type: "one" | "text", required, values: [{ id, label, days?, row? }] }]
+  //   une valeur avec `row` désigne une ligne de prix (cours de plongée, site) : le prix du message n'en garde que celle-là ;
+  //   `days` (0 = dimanche) : la date doit tomber l'un de ces jours (cours de cuisine).
+  // option.counts : { label, rows: [libellés de lignes de prix] } : un nombre par ligne (karts, pilotes et passagers).
+  // option.extras : [libellés de lignes de prix] : suppléments à cocher (state.addons).
+  // L'état garde chaque choix sous « option/choix » et chaque nombre sous « option/ligne ».
+  var DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  function choiceKey(option, choice) { return "c-" + option.id + "-" + choice.id; }
+  function choiceValue(state, option, choice) {
+    var v = ((state.choices || {})[option.id + "/" + choice.id]);
+    if (choice.type === "text") return clean(v);
+    for (var i = 0; i < (choice.values || []).length; i++) if (choice.values[i].id === v) return choice.values[i];
+    return null;
+  }
+  function countsOf(state, option) {
+    if (!option || !option.counts) return [];
+    return option.counts.rows.map(function (label, i) {
+      return { label: label, n: Number((state.counts || {})[option.id + "/" + i]) || 0 };
+    }).filter(function (c) { return c.n > 0; });
+  }
+  function choiceLines(option, state) {
+    var out = [];
+    if (!option) return out;
+    (option.choices || []).forEach(function (c) {
+      var v = choiceValue(state, option, c);
+      if (v) out.push(c.label + ": " + (c.type === "text" ? v : v.label));
+    });
+    var counts = countsOf(state, option);
+    if (counts.length) out.push(option.counts.label + ": " + counts.map(function (c) { return c.n + " × " + c.label; }).join(", "));
+    return out;
+  }
+  // Lignes de prix du message : celle de la valeur choisie quand le choix désigne une ligne, sinon toutes.
+  function pricedOption(option, state) {
+    if (!option) return option;
+    var keep = null;
+    (option.choices || []).forEach(function (c) {
+      var v = choiceValue(state, option, c);
+      if (v && v.row) keep = v.row;
+    });
+    if (option.counts) {
+      var used = countsOf(state, option).map(function (c) { return c.label; });
+      if (used.length) return { rows: (option.rows || []).filter(function (r) { return used.indexOf(r.label) > -1; }) };
+    }
+    if (!keep) return option;
+    var extras = state.addons || [];
+    return { rows: (option.rows || []).filter(function (r) { return r.label === keep || extras.indexOf(r.label) > -1; }) };
+  }
+  function validateChoices(option, state, date, errors) {
+    if (!option) return;
+    (option.choices || []).forEach(function (c) {
+      var v = choiceValue(state, option, c);
+      var key = choiceKey(option, c);
+      if (!v) { if (c.required !== false) errors[key] = c.type === "text" ? "Tell us your " + c.label.toLowerCase() + "." : "Choose the " + c.label.toLowerCase() + "."; return; }
+      if (v.days && v.days.length && date) {
+        var wd = toUTC(date).getUTCDay();
+        if (v.days.indexOf(wd) < 0) errors[key] = v.label.split(",")[0] + " runs on " + listJoin(v.days.map(function (d) { return DAY_NAMES[d]; })) + ". Pick one of those days or another " + c.label.toLowerCase() + ".";
+      }
+    });
+    if (option.counts && !countsOf(state, option).length) errors["n-" + option.id] = "Choose how many: " + option.counts.label.toLowerCase() + ".";
+  }
+
+  // Speedboat : un trajet (« Koh Lanta to Koh Phi Phi ») et l'un de ses départs, lus dans la grille.
+  function findRoute(config, id) {
+    var list = config.routes || [];
+    for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i];
+    return null;
+  }
+  function findDeparture(route, id) {
+    var list = (route && route.deps) || [];
+    for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i];
+    return null;
   }
 
   function routeLabel(config, state) {
@@ -124,11 +212,29 @@
       var cat = findOption(config, state.option);
       lines.push("Rental request: " + (cat ? cat.title : config.product));
       if (clean(state.vehicle)) lines.push("Vehicle: " + clean(state.vehicle));
-      if (state.dateFrom) lines.push("From: " + formatDate(state.dateFrom));
-      if (state.dateTo) lines.push("To: " + formatDate(state.dateTo));
+      if (state.vehicles > 0) lines.push("Vehicles: " + state.vehicles);
+      if (state.dateFrom) lines.push("From: " + formatDate(state.dateFrom) + (clean(state.timeFrom) ? ", " + clean(state.timeFrom) : ""));
+      if (state.dateTo) lines.push("To: " + formatDate(state.dateTo) + (clean(state.timeTo) ? ", " + clean(state.timeTo) : ""));
+    } else if (config.variant === "speedboat") {
+      var route = findRoute(config, state.route);
+      var dep = findDeparture(route, state.departure);
+      lines.push("Speedboat request: " + (route ? route.label : config.product));
+      if (dep) lines.push("Departure: " + dep.time + (dep.arrives ? ", arrives " + dep.arrives : ""));
+      if (date) lines.push("Date: " + formatDate(date));
+      if (state.tripType === "one-way") lines.push("Ticket: one way");
+      if (state.tripType === "return") {
+        var back = findRoute(config, route && route.back);
+        var bdep = findDeparture(back, state.returnDeparture);
+        var bdate = state.returnDate ? formatDate(state.returnDate) : "";
+        lines.push("Ticket: return" + (back ? ", " + back.label : ""));
+        lines.push("Return: " + [bdate, bdep ? bdep.time + (bdep.arrives ? ", arrives " + bdep.arrives : "") : clean(state.returnTime)].filter(Boolean).join(", "));
+      }
+      lines.push("Guests: " + guestsLine(state.adults, state.childAges));
+      if (clean(state.pickup)) lines.push("Hotel on Koh Lanta: " + clean(state.pickup));
     } else {
       var option = findOption(config, state.option);
       lines.push("Booking request: " + config.product + (option ? " – " + option.title : ""));
+      choiceLines(option, state).forEach(function (l) { lines.push(l); });
       if (date) lines.push("Date: " + formatDate(date));
       lines.push("Guests: " + guestsLine(state.adults, state.childAges));
       var extras = addonsOf(option, state.addons);
@@ -138,12 +244,17 @@
 
     if (clean(state.name)) lines.push("Name: " + clean(state.name));
     if (config.variant === "tour") {
-      var price = priceLine(findOption(config, state.option));
+      var price = priceLine(pricedOption(findOption(config, state.option), state));
       if (price) lines.push("Price on website: " + price);
+    }
+    if (config.variant === "rental") {
+      var rp = rentalPrice(findOption(config, state.option), state.vehicle);
+      if (rp) lines.push("Price on website: " + rp);
     }
     if (config.page) lines.push("Page: " + config.page);
     // La référence ouvre le message : le comptoir trie et retrouve les demandes sur elle.
-    var ref = config.variant === "rental" ? "" : makeRef(config.refPrefix, date, state.adults, (state.childAges || []).length);
+    // Location : premier et dernier jour (« RN-1211-1511 »), il n'y a pas de groupe.
+    var ref = config.variant === "rental" ? makeRentalRef(config.refPrefix, state.dateFrom, state.dateTo) : makeRef(config.refPrefix, date, state.adults, (state.childAges || []).length);
     if (ref) lines.unshift("Ref: " + ref);
     return lines.join("\n");
   }
@@ -171,8 +282,8 @@
     var day = null;
     items.forEach(function (it) {
       var p = catalog[it.slug];
-      // Sortie ajoutée depuis une carte sans option : la première de la fiche, comme dans la liste à l'écran.
-      var option = findOption(p, it.option) || (p.options || [])[0] || null;
+      // Une sortie à une seule option la prend d'office ; à plusieurs, l'envoi attend le choix (validateTripList).
+      var option = findOption(p, it.option) || ((p.options || []).length === 1 ? p.options[0] : null);
       if (it.date !== day) {
         day = it.date;
         lines.push("");
@@ -180,14 +291,42 @@
       }
       var ref = makeRef(p.refPrefix, it.date, list.adults, kids);
       if (ref) lines.push("Ref: " + ref);
-      lines.push(p.name + (option ? " – " + option.title : ""));
+      lines.push(p.name + (option ? " – " + option.title : (p.options || []).length > 1 ? " – option to choose" : ""));
+      choiceLines(option, it).forEach(function (l) { lines.push(l); });
       var extras = addonsOf(option, it.addons);
       if (extras.length) lines.push("Extras: " + extras.join(", "));
-      var price = priceLine(option);
+      var price = priceLine(pricedOption(option, it));
       if (price) lines.push("Price on website: " + price);
       if (p.page) lines.push("Page: " + p.page);
     });
     return lines.join("\n");
+  }
+
+  // Liste de sorties : rien ne part tant qu'une sortie n'a pas sa date, et son option quand la fiche en a
+  // plusieurs. Renvoie { items: { id: { option?, date? } }, ages: { i: texte }, pickup?, name? } ; vide si tout va.
+  function validateTripList(catalog, list, today) {
+    var out = { items: {}, ages: {} };
+    var n = 0;
+    (list.items || []).forEach(function (it) {
+      var p = catalog[it.slug];
+      if (!p) return;
+      var e = {};
+      if ((p.options || []).length > 1 && !findOption(p, it.option)) e.option = "Choose an option for " + p.name + ".";
+      if (!it.date) e.date = "Pick a date for " + p.name + ".";
+      else if (today && it.date < today) e.date = "That date has passed.";
+      var option = findOption(p, it.option) || ((p.options || []).length === 1 ? p.options[0] : null);
+      var sub = {};
+      validateChoices(option, { choices: it.choices || {}, counts: it.counts || {} }, it.date, sub);
+      Object.keys(sub).forEach(function (k) { e[k] = sub[k].replace(/\.$/, "") + " (" + p.name + ")."; });
+      if (Object.keys(e).length) { out.items[it.id] = e; n += Object.keys(e).length; }
+    });
+    (list.childAges || []).forEach(function (a, i) {
+      if (a === "" || a === null || a === undefined) { out.ages[i] = "Choose the age of child " + (i + 1) + "."; n++; }
+    });
+    if (!clean(list.pickup)) { out.pickup = "Add your hotel so we know where to pick you up."; n++; }
+    if (!clean(list.name)) { out.name = "Add your first name."; n++; }
+    out.count = n;
+    return out;
   }
 
   // Deux sorties d'une journée entière le même jour : signalé dans la liste.
@@ -208,6 +347,12 @@
     if (!prefix || !dateIso) return "";
     var d = dateIso.split("-");
     return prefix + "-" + d[2] + d[1] + "-" + (adults || 0) + "A" + (children ? children + "C" : "");
+  }
+
+  function makeRentalRef(prefix, from, to) {
+    if (!prefix || !from) return "";
+    var a = from.split("-"), b = (to || "").split("-");
+    return prefix + "-" + a[2] + a[1] + (to ? "-" + b[2] + b[1] : "");
   }
 
   function thb(n) {
@@ -241,13 +386,33 @@
       if (!state.dateFrom || !state.dateTo) errors.dates = "Pick the first and the last day.";
       else if (state.dateFrom < state.today) errors.dates = "The first day has passed.";
       else if (state.dateTo < state.dateFrom) errors.dates = "The last day is before the first day.";
+      else if (!clean(state.timeFrom) || !clean(state.timeTo)) errors.dates = "Add the time you take the vehicle and the time you bring it back.";
+      else if (state.dateTo === state.dateFrom && clean(state.timeTo) <= clean(state.timeFrom)) errors.dates = "The return time is before the start time.";
+      if (!(state.vehicles > 0)) errors.vehicles = "Add at least one vehicle.";
       if (!clean(state.name)) errors.name = "Add your first name.";
       return errors;
+    }
+
+    if (config.variant === "speedboat") {
+      var route = findRoute(config, state.route);
+      if (!route) errors.route = "Choose where you are going.";
+      else if (!findDeparture(route, state.departure)) errors.departure = "Choose a departure time.";
+      if (state.tripType !== "one-way" && state.tripType !== "return") errors.tripType = "Choose one way or return.";
+      else if (state.tripType === "return") {
+        var back = route && findRoute(config, route.back);
+        var go = resolveDate(state.dateChoice, state.dateOther, state.today);
+        if (!state.returnDate) errors.returnTrip = "Pick the date of the return.";
+        else if (go && state.returnDate < go) errors.returnTrip = "The return is before the outward trip.";
+        else if (back && back.deps.length && !findDeparture(back, state.returnDeparture)) errors.returnTrip = "Choose the time of the return boat.";
+        else if (!back && !clean(state.returnTime)) errors.returnTrip = "Tell us when you want to come back.";
+      }
     }
 
     var date = resolveDate(state.dateChoice, state.dateOther, state.today);
     if (!date) errors.date = "Pick a date.";
     else if (date < state.today) errors.date = "That date has passed.";
+
+    if (config.variant === "tour") validateChoices(findOption(config, state.option), state, date, errors);
 
     if (!(state.adults > 0)) errors.adults = "Add at least one adult.";
     (state.childAges || []).forEach(function (age, i) {
@@ -262,6 +427,8 @@
       if (!clean(state.time)) errors.time = "Choose a pickup time.";
       // Le lieu côté Koh Lanta fait le prix : sans lui, la demande repart en question.
       if (!clean(state.address)) errors.address = "Add your hotel or address.";
+    } else if (config.variant === "speedboat") {
+      if (!clean(state.pickup)) errors.pickup = "Add your hotel on Koh Lanta.";
     } else if (config.pickupRequired !== false && !clean(state.pickup)) {
       errors.pickup = "Add your hotel so we know where to pick you up.";
     }
@@ -296,7 +463,9 @@
     return {
       option: "", dateChoice: "", dateOther: "", adults: 2, childAges: [], pickup: "", name: "",
       vehicle: "", dateFrom: "", dateTo: "",
-      direction: "out", from: "", to: "", time: "", flight: "", bags: 0, childSeats: 0, address: "", addons: []
+      direction: "out", from: "", to: "", time: "", flight: "", bags: 0, childSeats: 0, address: "", addons: [],
+      route: "", departure: "", tripType: "", returnDate: "", returnDeparture: "", returnTime: "",
+      choices: {}, counts: {}, timeFrom: "", timeTo: "", vehicles: 1
     };
   }
 
@@ -376,16 +545,23 @@
     }
 
     function fillForm() {
-      ["dateOther", "pickup", "name", "time", "flight", "address", "from", "to", "vehicle", "dateFrom", "dateTo"].forEach(function (k) {
+      ["dateOther", "pickup", "name", "time", "flight", "address", "from", "to", "vehicle", "dateFrom", "dateTo", "timeFrom", "timeTo", "returnDate", "returnTime"].forEach(function (k) {
         var el = field(k);
         if (el && typeof el.value === "string") el.value = state[k] || "";
       });
-      ["adults", "children", "bags", "childSeats"].forEach(function (k) {
+      ["adults", "children", "bags", "childSeats", "vehicles"].forEach(function (k) {
         var el = field(k);
         if (!el) return;
         el.value = k === "children" ? state.childAges.length : state[k];
       });
       setRadio("option", state.option);
+      if (field("route")) field("route").value = state.route || "";
+      showDepartures();
+      setRadio("departure", state.departure);
+      setRadio("tripType", state.tripType);
+      showReturn();
+      setRadio("returnDeparture", state.returnDeparture);
+      fillChoices();
       setRadio("dateChoice", state.dateChoice);
       setRadio("direction", state.direction);
       var other = form.querySelector("[data-date-other]");
@@ -396,6 +572,61 @@
       if (field("dateTo")) field("dateTo").min = state.dateFrom || min;
       updateAddressLabel();
       renderChildAges();
+    }
+
+    // Speedboat : seuls les départs du trajet choisi restent visibles ; un trajet à un seul départ le prend d'office.
+    function showDepartures() {
+      var box = form.querySelector("[data-deps]");
+      if (!box) return;
+      var route = findRoute(config, state.route);
+      var shown = 0;
+      Array.prototype.forEach.call(box.querySelectorAll("[data-dep-route]"), function (l) {
+        var on = l.getAttribute("data-dep-route") === state.route;
+        l.hidden = !on;
+        if (on) shown++;
+      });
+      box.hidden = !route;
+      if (route && !findDeparture(route, state.departure)) state.departure = route.deps.length === 1 ? route.deps[0].id : "";
+      var none = form.querySelector("[data-deps-none]");
+      if (none) none.hidden = shown > 0 || !route;
+    }
+
+    // Sous-variantes : seul le bloc de l'option choisie est visible ; chaque champ relit l'état.
+    function fillChoices() {
+      Array.prototype.forEach.call(form.querySelectorAll("[data-opt-block]"), function (b) {
+        b.hidden = b.getAttribute("data-opt-block") !== state.option;
+      });
+      Array.prototype.forEach.call(form.querySelectorAll("[data-opt]"), function (el) {
+        var opt = el.getAttribute("data-opt");
+        if (/^c-/.test(el.name)) {
+          var v = state.choices[opt + "/" + el.getAttribute("data-choice")] || "";
+          if (el.type === "radio") el.checked = el.value === v; else el.value = v;
+        } else if (/^n-/.test(el.name)) el.value = state.counts[opt + "/" + el.getAttribute("data-row")] || 0;
+        else if (/^x-/.test(el.name)) el.checked = (state.addons || []).indexOf(el.value) > -1;
+      });
+    }
+
+    // Speedboat, aller-retour : date et bateau du retour, pris dans la grille du trajet inverse quand elle existe.
+    function showReturn() {
+      var box = form.querySelector("[data-return]");
+      if (!box) return;
+      box.hidden = state.tripType !== "return";
+      var route = findRoute(config, state.route);
+      var back = route && findRoute(config, route.back);
+      var shown = 0;
+      Array.prototype.forEach.call(box.querySelectorAll("[data-ret-route]"), function (l) {
+        var on = Boolean(back) && l.getAttribute("data-ret-route") === back.id;
+        l.hidden = !on;
+        if (on) shown++;
+      });
+      var deps = box.querySelector("[data-ret-deps]");
+      if (deps) deps.hidden = !shown;
+      var free = box.querySelector("[data-ret-free]");
+      if (free) free.hidden = Boolean(shown);
+      if (back && !findDeparture(back, state.returnDeparture)) state.returnDeparture = "";
+      var lbl = box.querySelector("[data-ret-label]");
+      if (lbl) lbl.textContent = back ? back.label : "The way back";
+      if (field("returnDate")) field("returnDate").min = resolveDate(state.dateChoice, state.dateOther, today()) || today();
     }
 
     function setRadio(name, value) {
@@ -418,7 +649,15 @@
     function readField(el) {
       var name = el.name;
       if (!name) return;
-      if (el.type === "radio") { if (el.checked) state[name] = el.value; }
+      var opt = el.getAttribute && el.getAttribute("data-opt");
+      if (opt && /^c-/.test(name)) { if (el.type !== "radio" || el.checked) state.choices[opt + "/" + el.getAttribute("data-choice")] = el.value; }
+      else if (opt && /^n-/.test(name)) state.counts[opt + "/" + el.getAttribute("data-row")] = readNumber(el, 0, 20);
+      else if (opt && /^x-/.test(name)) {
+        state.addons = (state.addons || []).filter(function (a) { return a !== el.value; });
+        if (el.checked) state.addons.push(el.value);
+      }
+      else if (el.type === "radio") { if (el.checked) state[name] = el.value; }
+      else if (name === "vehicles") state.vehicles = readNumber(el, 1, 20);
       else if (name === "children") {
         var n = readNumber(el, 0, 12);
         while (state.childAges.length < n) state.childAges.push("");
@@ -450,6 +689,12 @@
         });
       }
       if (el.name === "direction") updateAddressLabel();
+      if (el.name === "route") { showDepartures(); setRadio("departure", state.departure); clearError("departure"); showReturn(); }
+      if (el.name === "tripType") { showReturn(); clearError("returnTrip"); }
+      if (el.name === "returnDate" || el.name === "returnDeparture" || el.name === "returnTime") clearError("returnTrip");
+      if (el.name === "option") fillChoices();
+      if (/^n-/.test(el.name)) clearError("n-" + el.getAttribute("data-opt"));
+      if (el.name === "timeFrom" || el.name === "timeTo") clearError("dates");
       if (el.name === "option") markOptions();
       clearError(errorKey(el.name));
       save();
@@ -457,7 +702,10 @@
 
     function errorKey(name) {
       if (name === "dateChoice" || name === "dateOther") return "date";
-      if (name === "dateFrom" || name === "dateTo") return "dates";
+      if (name === "dateFrom" || name === "dateTo" || name === "timeFrom" || name === "timeTo") return "dates";
+      if (name === "returnDate" || name === "returnDeparture" || name === "returnTime") return "returnTrip";
+      if (/^c-/.test(name)) return name;
+      if (/^n-/.test(name)) return name.replace(/-\d+$/, "");
       return name;
     }
 
@@ -478,9 +726,15 @@
     // Contrôles d'une erreur : tout le groupe pour les choix (date, option), le champ seul sinon.
     function controlsFor(key) {
       if (key === "date") return form.querySelectorAll('input[name="dateChoice"], input[name="dateOther"]');
-      if (key === "dates") return form.querySelectorAll('input[name="dateFrom"], input[name="dateTo"]');
+      if (key === "dates") return form.querySelectorAll('input[name="dateFrom"], input[name="dateTo"], input[name="timeFrom"], input[name="timeTo"]');
       if (key === "option") return form.querySelectorAll('input[name="option"]');
+      if (key === "departure") return form.querySelectorAll('input[name="departure"]');
+      if (key === "tripType") return form.querySelectorAll('input[name="tripType"]');
+      if (key === "returnTrip") return form.querySelectorAll('input[name="returnDate"], input[name="returnDeparture"], input[name="returnTime"]');
+      if (/^c-/.test(key)) return form.querySelectorAll('[name="' + key + '"]');
+      if (/^n-/.test(key)) return form.querySelectorAll('[name^="' + key + '-"]');
       var f = field(key);
+      if (f && !f.tagName && f.length !== undefined) return f; // groupe de boutons radio (RadioNodeList)
       return f ? [f] : [];
     }
     function controlFor(key) {
@@ -589,7 +843,8 @@
       if (Object.keys(errors).length) { showErrors(errors); return; }
       emit("stt-trip-add", {
         slug: config.productId, option: state.option, date: resolveDate(state.dateChoice, state.dateOther, state.today),
-        adults: state.adults, childAges: state.childAges, addons: state.addons || []
+        adults: state.adults, childAges: state.childAges, addons: state.addons || [],
+        choices: state.choices || {}, counts: state.counts || {}
       });
       close();
     });
@@ -655,6 +910,10 @@
       state = emptyState(config);
       load();
       if (optionId) state.option = optionId;
+      // Une ligne de la page précise davantage : le véhicule de la location, le trajet et le départ du speedboat.
+      var attr = function (n) { return trigger && trigger.getAttribute ? trigger.getAttribute(n) || "" : ""; };
+      if (attr("data-vehicle")) state.vehicle = attr("data-vehicle");
+      if (attr("data-sb-route")) { state.route = attr("data-sb-route"); state.departure = attr("data-sb-dep"); }
       if (!state.option && (config.options || []).length === 1) state.option = config.options[0].id;
       fillForm();
       showErrors({});
@@ -684,7 +943,11 @@
     priceLine: priceLine,
     buildMessage: buildMessage,
     validate: validate,
+    validateTripList: validateTripList,
+    choiceLines: choiceLines,
+    rentalPrice: rentalPrice,
     makeRef: makeRef,
+    makeRentalRef: makeRentalRef,
     buildTripList: buildTripList,
     sameDayClashes: sameDayClashes,
     parkCash: parkCash,
