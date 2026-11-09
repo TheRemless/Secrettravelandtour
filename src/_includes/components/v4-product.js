@@ -544,9 +544,17 @@ function speedboatRoutes(p) {
     });
     if (r.id === "to-langkawi" && langkawiRun) {
       const ow = langkawiRun.onward;
-      notes.push(ow.text, ...(ow.season ? [`Runs ${ow.season}.`] : []), ...(ow.checkIn ? [`Check in ${ow.checkIn}.`] : []));
+      // L'enregistrement de Langkawi est dit une fois, sous la grille.
+      notes.push(ow.text, ...(ow.season ? [`Runs ${ow.season}.`] : []));
     }
-    return { place: r.label.replace(/^Koh Lanta to /, ""), route: r.id, notes, deps: deps.map((d) => ({ time: d.time, arrives: d.arrives, season: d.season, dep: d.id })) };
+    // Saison commune à tous les bateaux de la ligne (Krabi, Railay, Koh Yao) : dite une fois, dans la ligne repliée.
+    const seasons = [...new Set(deps.map((d) => d.season || ""))];
+    const allSeason = seasons.length === 1 ? seasons[0] : "";
+    return {
+      place: r.label.replace(/^Koh Lanta to /, ""), route: r.id, notes, season: allSeason,
+      lk: r.id === "to-langkawi" && langkawiRun ? { text: langkawiRun.onward.text, season: langkawiRun.onward.season } : null,
+      deps: deps.map((d) => ({ time: d.time, arrives: d.arrives, season: allSeason ? "" : d.season, pier: d.pier ? cap(d.pier) : "", dep: d.id }))
+    };
   });
   const back = (tt.inbound || []).map((run) => {
     const origins = [{ name: run.from, times: run.departs }].concat((run.stops || []).map((s) => ({ name: s.place, times: s.times })))
@@ -560,7 +568,7 @@ function speedboatRoutes(p) {
       });
       return { place: o.name, note: o.note, route, deps };
     });
-    return { from: run.from, via: run.via || [], season, rows };
+    return { from: run.from, via: run.via || [], season, short: run.season && /^High season$/i.test(run.season) ? "High season" : "", rows };
   });
   const list = [...routes.values()];
   list.forEach((r) => r.deps.sort((a, b) => a.time.localeCompare(b.time)));
@@ -580,15 +588,28 @@ function speedboatPage(p, ctx) {
     { label: "From Koh Lanta", routes: sb.routes.filter((r) => r.group === "out") },
     { label: "To Koh Lanta", routes: sb.routes.filter((r) => r.group === "in") }
   ].filter((g) => g.routes.length);
+  // Retours : une ligne par port de départ, comme les départs ; ponton du port de départ dans le tableau.
+  const back = sb.back.flatMap((run) => run.rows.map((r, i) => ({
+    place: r.place, route: r.route,
+    season: run.short,
+    note: run.short ? "" : run.season,
+    via: i === 0 && run.via.length ? "via " + run.via.join(", ") : "",
+    deps: r.deps.map((d) => ({ time: d.time, arrives: d.arrives, pier: r.note ? cap(r.note) : "", dep: d.dep }))
+  })));
+  const ck = tt.checkIn || {};
+  // Une phrase sous le titre (la grille et la réponse sur WhatsApp), la saison juste dessous : c'est elle qui décide.
+  const lead = [fact(p, "Timetable") ? `Timetable for the ${fact(p, "Timetable")}.` : "", p.priceOnRequest ? "We reply with the fare on WhatsApp." : ""].filter(Boolean).join(" ");
+  // La prise en charge à l'hôtel n'est dite qu'une fois (« Pickup » de Before you book) ; « How do I book a seat? »
+  // décrit l'ancien formulaire. Ces deux questions restent dans le JSON-LD.
+  const shown = (p.faq || []).filter((f) => !/hotel pickup included|how do i book/i.test(f.q));
   return {
-    slug: p.slug, kind: "speedboat", url: p.url, name: p.name, nav: "speedboat",
-    seo: p.seo, h1: p.h1.replace("Koh Lanta", "Koh Lanta"), lead: p.lead,
-    keyFacts: ["Departure pier", "Hotel pickup", "Check-in", "Timetable"].map((l) => ({ label: l, value: fact(p, l) })).filter((f) => f.value),
-    board: sb.board, dests: sb.dests, back: sb.back,
-    seasons: (tt.seasons || []).map(publicText).filter(Boolean),
-    checkIn: tt.checkIn && tt.checkIn.default ? "Check in " + tt.checkIn.default : "",
+    slug: p.slug, kind: "speedboat", url: p.url, name: p.name, crumb: "Speedboat", nav: "speedboat",
+    seo: p.seo, h1: p.h1.replace("Koh Lanta", "Koh\u00a0Lanta"), lead,
+    season: publicText((tt.seasons || [])[0] || ""),
+    board: sb.board, dests: sb.dests, back,
+    checkIn: ck.default ? `Check in ${ck.default}.${ck.langkawi ? ` For Langkawi, ${ck.langkawi}.` : ""}` : "",
     beforeBook: view.beforeBook(p, site),
-    faq: p.faq || [],
+    faq: shown,
     related: related(p, ctx),
     ask: askText(p.name, host + p.url),
     fallback: `Speedboat request: \nDate: \nPage: ${host}${p.url}`,

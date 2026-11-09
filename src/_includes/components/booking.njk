@@ -125,6 +125,12 @@
         {%- endif %}{% endfor %}
 
         {%- if speedboat %}
+        {#- Ouverte depuis un bateau de la grille : trajet et départ en une ligne, « Change » rouvre les deux champs. -#}
+        <div class="opt-sum" data-sb-sum hidden>
+          <p><b data-sb-sum-t></b><span data-sb-sum-p></span></p>
+          <button type="button" class="opt-sum__change" data-sb-change>Change<span class="sr-only"> the boat</span></button>
+        </div>
+        <div class="sb-pick" data-sb-pick>
         <div class="f">
           <label for="book-route">Trip</label>
           <span class="select"><select id="book-route" name="route" aria-describedby="book-e-route">
@@ -144,9 +150,23 @@
           </div>
           <p class="err" id="book-e-departure" hidden></p>
         </fieldset>
+        </div>
+        <fieldset class="f">
+          <legend>Date of the boat</legend>
+          <div class="choice choice--3">
+            <label><input type="radio" name="dateChoice" value="today" aria-describedby="book-e-date"><span>Today</span></label>
+            <label><input type="radio" name="dateChoice" value="tomorrow" aria-describedby="book-e-date"><span>Tomorrow</span></label>
+            <label><input type="radio" name="dateChoice" value="other" aria-describedby="book-e-date"><span>Other date</span></label>
+          </div>
+          <div class="date-other" data-date-other hidden>
+            <label class="f-label" for="book-dateOther">Date</label>
+            <input id="book-dateOther" name="dateOther" type="date" aria-describedby="book-e-date">
+          </div>
+          <p class="err" id="book-e-date" hidden></p>
+        </fieldset>
         <fieldset class="f">
           <legend>Ticket</legend>
-          <div class="choice">
+          <div class="choice choice--2">
             <label><input type="radio" name="tripType" value="one-way" aria-describedby="book-e-tripType"><span>One way</span></label>
             <label><input type="radio" name="tripType" value="return" aria-describedby="book-e-tripType"><span>Return</span></label>
           </div>
@@ -156,6 +176,7 @@
           <legend>Return: <span data-ret-label>The way back</span></legend>
           <label class="f-label" for="book-returnDate">Date of the return</label>
           <input id="book-returnDate" name="returnDate" type="date" aria-describedby="book-e-returnTrip">
+          <p class="f-label sb-back-h" data-ret-deps-h hidden>Boat back</p>
           <div class="choice choice--list" data-ret-deps hidden>
             {%- for r in cfg.routes %}{% for dep in r.deps %}
             <label data-ret-route="{{ r.id }}" hidden><input type="radio" name="returnDeparture" value="{{ dep.id }}" aria-describedby="book-e-returnTrip"><span><b>{{ dep.time }}</b><span class="opt-price">{% if dep.arrives %}arrives {{ dep.arrives }}{% endif %}{% if dep.detail %}<small>{{ dep.detail }}</small>{% endif %}</span></span></label>
@@ -188,7 +209,7 @@
           </div>
           <p class="err" id="book-e-dates" hidden></p>
         </fieldset>
-        {%- else %}
+        {%- elif not speedboat %}
         <fieldset class="f">
           <legend>Date</legend>
           <div class="choice choice--3">

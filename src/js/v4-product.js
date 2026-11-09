@@ -59,6 +59,16 @@
     rs.select(first.value, true);
     showCat(first.value, first);
   }
+  // ---------- Speedboat : « From Koh Lanta » ou « To Koh Lanta », un sens à la fois ----------
+  var sbSeg = $('[data-seg="sb"]');
+  if (sbSeg) {
+    var sbs = sbSeg.closest(".sbs"), boards = $$("[data-board]", sbs);
+    var showDir = function (v) { boards.forEach(function (b) { b.hidden = b.getAttribute("data-board") !== v; }); };
+    sbSeg.hidden = false;
+    sbs.classList.add("is-tabs");
+    V.seg(sbSeg, showDir);
+    showDir("out");
+  }
   if (!D || !calc || !PR || !B) return;
 
   // ---------- État : celui du brouillon de la feuille ----------

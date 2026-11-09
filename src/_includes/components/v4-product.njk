@@ -233,12 +233,14 @@
 </section>
 {% endmacro %}
 
-{% macro related(r) %}
+{#- variant « list » : cartes horizontales compactes (une seule carte sur le speedboat), pas de rail. -#}
+{% macro related(r, variant="") %}
 {%- if r %}
 <section class="sec" aria-labelledby="rel-h">
   <div class="wrap">
     <div class="sec__head"><h2 id="rel-h">{{ r.title }}</h2>{% if r.all %}<a class="link" href="{{ r.all.href }}">{{ r.all.label }}</a>{% endif %}</div>
-    {%- if r.cards.length %}<div class="rail rail--rel" role="region" tabindex="0" aria-label="{{ r.title }}, one card after the other">{% for x in r.cards %}{{ v4.card(x) }}{% endfor %}</div>{% endif %}
+    {%- if r.cards.length and variant == "list" %}<div class="grid grid--rel">{% for x in r.cards %}{{ v4.card(x, add=false) }}{% endfor %}</div>
+    {%- elif r.cards.length %}<div class="rail rail--rel" role="region" tabindex="0" aria-label="{{ r.title }}, one card after the other">{% for x in r.cards %}{{ v4.card(x) }}{% endfor %}</div>{% endif %}
     {%- if r.transfer %}<p class="also">Arriving at {{ r.transfer.from }}? <a class="link" href="{{ r.transfer.href }}">See the {{ r.transfer.name }} transfer</a></p>{% endif %}
     {%- if r.links.length %}<ul class="also also--list">{% for l in r.links %}<li><a class="link" href="{{ l.href }}">{{ l.label }}</a></li>{% endfor %}</ul>{% endif %}
   </div>

@@ -84,7 +84,8 @@ test("speedboat : les départs de la seconde compagnie sont sur leur destination
   assert.ok(other.every((o) => Object.keys(o).sort().join() === "departs,places"), "heures de départ seulement : ni arrivée, ni ponton, ni prix");
   const doc = html(sb.url);
   const cfg = cfgOf(doc);
-  const board = doc.split('id="opt-h"')[1].split("To Koh Lanta")[0];
+  // Phase 2 : la grille a une bascule « From / To Koh Lanta » ; les départs sont dans data-board="out".
+  const board = doc.split('data-board="out"')[1].split('data-board="in"')[0];
   // Une seule ligne par destination : pas de second tableau.
   for (const place of ["Koh Phi Phi", "Phuket", "Koh Lipe", "Ao Nang"]) assert.equal((board.match(new RegExp(`<b>${place}</b>`, "g")) || []).length, 1, place);
   for (const o of other) for (const place of o.places) for (const t of o.departs) {

@@ -1,8 +1,8 @@
 ---
 permalink: /tours/speedboat/
 ---
-{#- Speedboat, design v4 : la grille des départs tient lieu d'options. Chaque arrêt ouvre la feuille sur son trajet
-    et son heure ; le prix des billets n'est pas sur le site (Price on WhatsApp). -#}
+{#- Speedboat, design v4 : la saison en haut, puis la grille (un sens à la fois, une ligne repliée par destination).
+    Chaque bateau ouvre la feuille sur son trajet et son heure ; le prix des billets n'est pas sur le site. -#}
 {% import "components/v4.njk" as v4 %}
 {% import "components/v4-product.njk" as vp %}
 {% from "components/booking.njk" import bookingSheet %}
@@ -22,50 +22,61 @@ permalink: /tours/speedboat/
 <body>
 {{ v4.header(c, d.emblem, t.nav, waText) }}
 <main id="main">
-  {{ vp.crumbs([{ label: "Home", href: "/" }, { label: t.name }]) }}
-  {{ vp.hero(t, c, fallback, "", "Book a seat") }}
+  {{ vp.crumbs([{ label: "Home", href: "/" }, { label: t.crumb }]) }}
+  <section class="wrap shero" aria-labelledby="h1">
+    <h1 id="h1">{{ t.h1 }}</h1>
+    <p class="lead">{{ t.lead }}</p>
+    {%- if t.season %}<p class="shero__season">{{ t.season }}</p>{% endif %}
+    <a class="link" href="{{ v4.waHref(c.number, t.ask) }}">Ask a question on WhatsApp</a>
+  </section>
 
-  <section class="sec sec--sand" id="options" aria-labelledby="opt-h">
+  {#- La grille : un sens à la fois (sans JS, les deux se suivent). Une ligne repliée par destination donne ses heures ;
+      ouverte, un petit tableau départ, arrivée, ponton, et chaque bateau ouvre la feuille sur son trajet et son heure. -#}
+  <section class="sec sec--sand sbs" id="options" aria-labelledby="opt-h">
     <div class="wrap">
-      <div class="sec__head"><h2 id="opt-h">Times and prices</h2><p class="sec__note">Ticket prices are not on the site yet: we reply with the fare on WhatsApp.{% if t.checkIn %} {{ t.checkIn }}.{% endif %}</p></div>
-      {#- Une ligne par destination, toutes ses heures de départ, quelle que soit la compagnie (décision client du 09.11.2026). -#}
-      <h3 class="sb__h">From Koh Lanta</h3>
-      <ol class="sb sb--back">
-        {%- for r in t.dests %}
-        <li class="sb__run">
-          <p class="sb__t"><b>{{ r.place }}</b>{% for n in r.notes %}<small>{{ n }}</small>{% endfor %}</p>
-          <ul class="sb__stops">
-            {%- for dp in r.deps %}
-            <li><a class="sb__stop press" href="{{ v4.waHref(c.number, 'Speedboat request: Koh Lanta to ' + r.place + '\nDeparture: ' + dp.time + '\nDate: \nPage: ' + t.booking.page) }}" data-book="" data-sb-route="{{ r.route }}" data-sb-dep="{{ dp.dep }}"><b>{{ dp.time }}</b>{% if dp.arrives %}<span>arrives {{ dp.arrives }}</span>{% endif %}{% if dp.season %}<span>{{ dp.season }}</span>{% endif %}<span class="sr">: book the {{ dp.time }} boat to {{ r.place }}</span></a></li>
-            {%- endfor %}
-          </ul>
-        </li>
-        {%- endfor %}
-      </ol>
-      {#- Les retours sont repliés : la page reste courte pour qui part de Koh Lanta, le cas le plus fréquent. -#}
-      <details class="sb__more">
-      <summary><h3 class="sb__h">To Koh Lanta</h3><span class="sb__more-l">Show the return boats</span></summary>
-      <ol class="sb sb--back">
-        {%- for run in t.back %}
-        {%- for r in run.rows %}
-        <li class="sb__run">
-          <p class="sb__t"><b>{{ r.place }}</b>{% if r.note %}<small>{{ r.note }}</small>{% endif %}{% if loop.first and run.via.length %}<small>via {{ run.via | join(", ") }}</small>{% endif %}{% if run.season %}<small>{{ run.season }}</small>{% endif %}</p>
-          <ul class="sb__stops">
-            {%- for dp in r.deps %}
-            <li><a class="sb__stop press" href="{{ v4.waHref(c.number, 'Speedboat request: ' + r.place + ' to Koh Lanta\nDeparture: ' + dp.time + '\nDate: \nPage: ' + t.booking.page) }}" data-book="" data-sb-route="{{ r.route }}" data-sb-dep="{{ dp.dep }}"><b>{{ dp.time }}</b><span>Koh Lanta {{ dp.arrives }}</span><span class="sr">: book the {{ dp.time }} boat from {{ r.place }}</span></a></li>
-            {%- endfor %}
-          </ul>
-        </li>
-        {%- endfor %}
-        {%- endfor %}
-      </ol>
-      </details>
-      {%- if t.seasons.length %}<ul class="sb__notes">{% for x in t.seasons %}<li>{{ x }}</li>{% endfor %}</ul>{% endif %}
+      <h2 id="opt-h">Timetable</h2>
+      <div class="seg sb__seg" role="group" aria-label="Direction" data-seg="sb" hidden>
+        <button type="button" value="out" aria-pressed="true" aria-controls="sb-out">From Koh Lanta</button>
+        <button type="button" value="in" aria-pressed="false" aria-controls="sb-in">To Koh Lanta</button>
+      </div>
+      {%- for side in [{ id: "out", title: "From Koh Lanta", rows: t.dests }, { id: "in", title: "To Koh Lanta", rows: t.back }] %}
+      <div class="sbb" id="sb-{{ side.id }}" data-board="{{ side.id }}" aria-labelledby="sb-{{ side.id }}-h">
+        <h3 class="sbb__h" id="sb-{{ side.id }}-h">{{ side.title }}</h3>
+        <ul class="sbl">
+          {%- for r in side.rows %}
+          <li><details class="sbr">
+            <summary><span class="sbr__place"><b>{{ r.place }}</b>{% if r.season %}<small>{{ r.season }}</small>{% endif %}</span><span class="sbr__times">{% for dp in r.deps %}<span>{{ dp.time }}</span>{% endfor %}</span></summary>
+            <div class="sbr__in">
+              <table class="sbt">
+                <caption class="sr">{{ "Koh Lanta to " + r.place if side.id == "out" else r.place + " to Koh Lanta" }}</caption>
+                <thead><tr><th scope="col">Leaves</th><th scope="col">Arrives</th><th scope="col">Pier</th><td></td></tr></thead>
+                <tbody>
+                  {%- for dp in r.deps %}
+                  {%- set req = ('Speedboat request: Koh Lanta to ' + r.place) if side.id == "out" else ('Speedboat request: ' + r.place + ' to Koh Lanta') %}
+                  <tr>
+                    <td><b>{{ dp.time }}</b>{% if dp.season %}<small>{{ dp.season }}</small>{% endif %}</td>
+                    <td>{{ dp.arrives or "—" }}</td>
+                    <td>{{ dp.pier or "—" }}</td>
+                    <td><a class="sb__stop press" href="{{ v4.waHref(c.number, req + '\nDeparture: ' + dp.time + '\nDate: \nPage: ' + t.booking.page) }}" data-book="" data-sb-route="{{ r.route }}" data-sb-dep="{{ dp.dep }}">Book<span class="sr"> the {{ dp.time }} boat{{ (" to " + r.place) if side.id == "out" else (" from " + r.place) }}</span></a></td>
+                  </tr>
+                  {%- endfor %}
+                </tbody>
+              </table>
+              {%- if r.lk %}<p class="sbr__note">{{ r.lk.text }}{% if r.lk.season %} Runs {{ r.lk.season }}.{% endif %}</p>{% endif %}
+              {%- if r.note %}<p class="sbr__note">{{ r.note }}</p>{% endif %}
+              {%- if r.via %}<p class="sbr__note">{{ r.via | capitalize }}.</p>{% endif %}
+            </div>
+          </details></li>
+          {%- endfor %}
+        </ul>
+      </div>
+      {%- endfor %}
+      {%- if t.checkIn %}<p class="sb__check">{{ t.checkIn }}</p>{% endif %}
     </div>
   </section>
 
-  {%- if t.beforeBook.length or t.faq.length %}{{ vp.bybFaq(t.beforeBook, t.faq) }}{% endif %}
-  {{ vp.related(t.related) }}
+  {%- if t.beforeBook.length or t.faq.length %}{{ vp.bybFaq(t.beforeBook, t.faq, "compact") }}{% endif %}
+  {{ vp.related(t.related, "list") }}
 </main>
 {{ v4.footer(site, c, d.emblem, d.boats, d.activities, waText) }}
 {{ vp.dock(null, fallback, "", "Book a seat") }}
