@@ -324,7 +324,7 @@
   // Depuis la feuille de réservation d'une page produit (booking.js) : option, date et groupe déjà choisis.
   doc.addEventListener("stt-trip-add", function (e) {
     var d = e.detail;
-    var added = V.trips.add({ slug: d.slug, option: d.option, date: d.date, addons: d.addons || [], choices: d.choices || {}, counts: d.counts || {} }, { adults: d.adults, childAges: d.childAges });
+    var added = V.trips.add({ slug: d.slug, option: d.option, date: d.date, addons: d.addons || [], choices: d.choices || {}, counts: d.counts || {} }, d.counted ? null : { adults: d.adults, childAges: d.childAges });
     var name = (V.$("#book-title") || {}).textContent || "This trip";
     V.toast(added ? name + " is in your trip list, on " + V.date(d.date, { weekday: "short", day: "numeric", month: "short" }) + "." : name + " is already in your trip list for that day.", "Open the list", function () { V.openTrips(); });
   });

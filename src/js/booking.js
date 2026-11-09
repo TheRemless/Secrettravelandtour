@@ -698,7 +698,7 @@
           var b = doc.createElement("b"), sm = doc.createElement("span");
           b.textContent = q ? "Estimated total " + thb(q.total) : "Total confirmed on WhatsApp";
           tot.appendChild(b);
-          if (cash) { sm.textContent = "Plus " + thb(cash.total) + " " + cash.label.toLowerCase() + ", in cash on the day"; tot.appendChild(sm); }
+          if (cash) { sm.textContent = "Plus " + thb(cash.total) + " " + (cash.label || "fees").toLowerCase() + ", in cash on the day"; tot.appendChild(sm); }
         }
       }
     }
@@ -994,6 +994,8 @@
       emit("stt-trip-add", {
         slug: config.productId, option: state.option, date: resolveDate(state.dateChoice, state.dateOther, state.today),
         adults: state.adults, childAges: state.childAges, addons: state.addons || [],
+        // Karts, ATV : les compteurs disent qui vient, la feuille n'a pas de groupe à donner à la liste.
+        counted: Boolean((findOption(config, state.option) || {}).counts),
         choices: state.choices || {}, counts: state.counts || {}
       });
       close();

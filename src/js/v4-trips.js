@@ -87,8 +87,7 @@
   }
   // Date d'une sortie : mêmes puces que la feuille (Today, Tomorrow, Other date), le calendrier seulement pour une autre date.
   function dayChoice(it, today) {
-    if (it.dc) return it.dc;
-    if (!it.date) return "";
+    if (!it.date) return it.dc === "other" ? "other" : "";
     return it.date === today ? "today" : it.date === B.addDays(today, 1) ? "tomorrow" : "other";
   }
   function dateField(it, today) {
@@ -112,7 +111,7 @@
       var cash = B.parkCash({ options: p.options, parkFee: p.parkFee }, { option: o.id, adults: l.adults, childAges: l.childAges });
       el.hidden = false;
       el.innerHTML = "<b>" + (q ? "Estimated total " + V.thb(q.total) : "Total confirmed on WhatsApp") + "</b>" +
-        (q && cash ? "<span>Plus " + V.thb(cash.total) + " " + V.esc((cash.label || "fees").toLowerCase()) + ", in cash on the day</span>" : "");
+        (cash ? "<span>Plus " + V.thb(cash.total) + " " + V.esc((cash.label || "fees").toLowerCase()) + ", in cash on the day</span>" : "");
     });
   }
   // Sous-variantes de l'option (créneau, cours, karts…), mêmes champs que la feuille de réservation.
@@ -157,7 +156,7 @@
       if (st.getAttribute("data-tstep") === "adults") l.adults = V.clamp(l.adults + d, 1, 30);
       else if (d > 0 && l.childAges.length < 12) l.childAges = l.childAges.concat([""]);
       else if (d < 0) l.childAges = l.childAges.slice(0, -1);
-      save(l); render(st.getAttribute("data-d") === "1" ? null : null);
+      save(l); render();
       var again = $('[data-tstep="' + st.getAttribute("data-tstep") + '"][data-d="' + st.getAttribute("data-d") + '"]', body);
       if (again && !again.disabled) again.focus();
     }
@@ -247,10 +246,10 @@
     if (v.name) fail($("#tl-name"), "tl-e-name", v.name);
     var miss = $("[data-tmiss]", foot);
     if (miss) { miss.hidden = !missing.length; miss.textContent = missing.length === 1 ? "One thing is missing, see above." : missing.length + " things are missing, see above."; }
-    if (first) {
+    if (first || v.count) {
       e.preventDefault();
       if (!V.reduce.matches) send.animate([{ transform: "translateX(0)" }, { transform: "translateX(-6px)" }, { transform: "translateX(5px)" }, { transform: "translateX(-3px)" }, { transform: "none" }], { duration: 320 });
-      first.focus();
+      if (first) first.focus();
       return;
     }
     send.href = B.waUrl(message());
