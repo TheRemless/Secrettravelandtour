@@ -277,12 +277,17 @@
     ce.textContent = cash ? "Plus the " + o.cash.label.toLowerCase() + ", in cash on the day: " + cash.text + "." : "";
 
     $$("[data-book-sel]").forEach(function (b) { b.setAttribute("data-book", o.id); });
-    // Journées : celle de l'option choisie et les blocs communs ; une option sans journée n'en montre aucune autre et
-    // la section disparaît quand il ne reste rien.
+    // Journées : celle de l'option choisie et les blocs communs ; une option sans journée n'en montre aucune autre.
+    // Les faits de la sortie (îles, traversée, ponton) restent ; la section disparaît seulement s'il ne reste rien.
     var days = $$(".dayb[data-day-ids]");
     days.forEach(function (d) { var ids = d.getAttribute("data-day-ids"); d.hidden = Boolean(ids) && ids.split(" ").indexOf(o.id) < 0; });
     var daySec = days.length ? days[0].closest("section") : null;
-    if (daySec) daySec.hidden = days.every(function (d) { return d.hidden; });
+    if (daySec) {
+      var none = days.every(function (d) { return d.hidden; });
+      var main = $(".day__main", daySec);
+      if (main) main.hidden = none;
+      daySec.hidden = none && !$(".sidef", daySec);
+    }
     if (dockP) {
       // Le groupe seulement : le nom de l'option est déjà coché plus haut et coupait la ligne (« Private longtail to Koh Rok, 2 … »).
       dockP.innerHTML = touched && est && !est.unpriced.length ? "<small>" + V.esc(who() || o.label) + "</small><b>" + V.thb(est.total) + "</b>" : dockFrom;
