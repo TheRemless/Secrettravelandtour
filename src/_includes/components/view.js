@@ -253,7 +253,7 @@ function bookingTour(product, site) {
       const amounts = (src.prices || []).map((r) => r.amount).filter((a) => typeof a === "number");
       const from = product.template === "rental" && amounts.length ? thb(Math.min(...amounts)) : o.from;
       // Départ ailleurs qu'à Koh Lanta (catamaran d'Ao Nang) : le message le dit sur sa propre ligne.
-      return { id: o.id, title: o.title, rows: o.rows, from, unit: product.template === "rental" ? "per day" : o.unit, ...(src.from ? { departure: src.from } : {}) };
+      return { id: o.id, title: o.title, rows: o.rows, from, unit: product.template === "rental" ? "per day" : o.unit, ...(src.from ? { departure: src.from } : {}), ...(src.feesToConfirm ? { feesToConfirm: true } : {}) };
     })
   };
 }

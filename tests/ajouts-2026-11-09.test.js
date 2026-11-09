@@ -34,6 +34,9 @@ for (const rel of ["tours/koh-rok-koh-haa", "tours/4-islands"]) {
     const msg = B.buildMessage(cfg, state(o.id));
     assert.match(msg, new RegExp(`\\nBooking request: ${p.name} – Catamaran from Ao Nang\\nDeparture: from Ao Nang, pickup at your hotel in Ao Nang\\n`));
     assert.match(msg, /\nPrice on website: Adult: 3,800 THB per person \/ Child, 4 to 11: 2,800 THB per person\n/);
+    // Aucun montant de parc annoncé pour le catamaran ; les options de Koh Lanta gardent le leur.
+    assert.equal(B.parkCash(cfg, state(o.id)), null);
+    assert.ok(B.parkCash(cfg, state(p.options[0].id)).total > 0);
     // Les autres options ne disent pas de départ.
     const other = B.buildMessage(cfg, state(p.options[0].id));
     assert.doesNotMatch(other, /Departure:/);

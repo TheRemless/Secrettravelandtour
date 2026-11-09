@@ -365,6 +365,9 @@
   function parkCash(config, state) {
     var fee = config.parkFee;
     if (!fee || !fee.adult) return null;
+    // Catamaran d'Ao Nang : la brochure ne dit rien du parc, aucun montant à prévoir n'est annoncé.
+    var opt = findOption(config, state.option);
+    if (opt && opt.feesToConfirm) return null;
     // Tarif enfant pour les âges de fee.childAges (4 à 11) : plus jeune, gratuit ; plus âgé, tarif adulte.
     var ages = state.childAges || [], ca = fee.childAges, kids = ages.length, adults = state.adults;
     if (ca) {
