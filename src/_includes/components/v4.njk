@@ -41,24 +41,30 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 {%- else %}<p class="price price--req"><b>Price on WhatsApp</b></p>{% endif -%}
 {%- endmacro %}
 
-{#- Carte : toute la carte est le lien ; à côté, l'ajout à la liste de sorties (et la case de comparaison sur le hub). -#}
-{% macro card(c, sizes="(min-width: 1024px) 380px, (min-width: 700px) calc(50vw - 46px), calc(100vw - 40px)", eager=false, compare=false, hx="h3", anchor="") %}
-<article class="card"{% if anchor %} id="{{ anchor }}"{% endif %} data-slug="{{ c.slug }}" data-kind="{{ c.kind }}"{% if c.price %} data-from="{{ c.price.from }}"{% endif %}>
+{#- Carte : toute la carte est le lien. Même anatomie partout : titre, accroche (bureau), deux faits au plus, prix d'appel
+    avec son unité toujours dessous. Téléphone (hub, accueil) : carte horizontale, photo carrée de 112 px à gauche.
+    À côté du lien : l'ajout à la liste de sorties (add=false sur l'accueil) et la case de comparaison du hub. -#}
+{% macro card(c, sizes="(min-width: 1024px) 380px, (min-width: 700px) calc(50vw - 46px), 112px", eager=false, compare=false, hx="h3", anchor="", add=true) %}
+<article class="card{% if add %} card--add{% endif %}"{% if anchor %} id="{{ anchor }}"{% endif %} data-slug="{{ c.slug }}" data-kind="{{ c.kind }}"{% if c.price %} data-from="{{ c.price.from }}"{% endif %}>
   <a class="card__link press" href="{{ c.href }}">
     {{ photo(c.photo, sizes, eager, "ph--43") }}
     <span class="card__body">
       <{{ hx }} class="card__title">{{ c.title }}</{{ hx }}>
       {%- if c.promise %}<span class="card__line">{{ c.promise }}</span>{% endif %}
       {%- if c.meta.length %}<span class="card__meta">{% for m in c.meta %}<span>{{ m }}</span>{% endfor %}</span>{% endif %}
-      {%- if c.price %}<span class="price"><span>from</span><b>{{ c.price.amount }}</b><span>{{ c.price.unit }}</span></span>{% else %}<span class="price price--req"><b>Price on WhatsApp</b></span>{% endif %}
+      {%- if c.price %}<span class="card__price"><b>from {{ c.price.amount }}</b><small>{{ c.price.unit }}</small></span>{% else %}<span class="card__price"><b class="card__req">Price on WhatsApp</b></span>{% endif %}
     </span>
   </a>
+  {%- if add or compare %}
   <div class="card__acts">
-    <button class="add" type="button" data-trip-add="{{ c.slug }}" aria-pressed="false" hidden><span class="add__on">{{ glyph("check") }}In your trip list</span><span class="add__off">{{ glyph("plus") }}Add to trip list</span><span class="sr"> : {{ c.title }}</span></button>
+    {%- if add %}
+    <button class="add" type="button" data-trip-add="{{ c.slug }}" aria-pressed="false" hidden><span class="add__on">{{ glyph("check") }}<span class="add__l">In your trip list</span></span><span class="add__off">{{ glyph("plus") }}<span class="add__l">Add to trip list</span></span><span class="sr"> : {{ c.title }}</span></button>
+    {%- endif %}
     {%- if compare %}
     <label class="cmp"><input type="checkbox" value="{{ c.slug }}" data-compare><span>Compare<span class="sr"> {{ c.title }}</span></span></label>
     {%- endif %}
   </div>
+  {%- endif %}
 </article>
 {% endmacro %}
 
@@ -67,6 +73,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 {%- set items = [
   { id: "boats", label: "Boat trips", href: "/tours/#boat-trips" },
   { id: "activities", label: "Activities", href: "/tours/#activities" },
+  { id: "speedboat", label: "Speedboat", href: "/tours/speedboat/" },
   { id: "transfers", label: "Transfers", href: "/taxi/" },
   { id: "rental", label: "Rental", href: "/tours/rental/" }
 ] -%}
@@ -74,9 +81,9 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 <header class="hd" id="hd">
   <div class="wrap hd__in">
     <a class="brand" href="/"><picture><source type="image/avif" srcset="{{ em.avif }}"><img eleventy:ignore src="{{ em.src }}" srcset="{{ em.webp }}" width="{{ em.width }}" height="{{ em.height }}" alt=""></picture><b>Secret Travel <span>&amp; Tour</span></b></a>
-    <nav class="nav" aria-label="Main"><ul>{% for i in items %}<li><a href="{{ i.href }}"{% if i.id == current %} aria-current="page"{% endif %}>{{ i.label }}</a></li>{% endfor %}</ul></nav>
+    <nav class="nav" aria-label="Main"><ul>{% for i in items %}<li><a href="{{ i.href }}" data-nav="{{ i.id }}"{% if i.id == current %} aria-current="page"{% endif %}>{{ i.label }}</a></li>{% endfor %}</ul></nav>
     <div class="hd__tools">
-      <button class="tl-btn" type="button" data-trips-open aria-haspopup="dialog" hidden>{{ glyph("list") }}<span class="tl-btn__l">Trip list</span><span class="tl-btn__n" data-trips-count>0</span><span class="sr"> trips</span></button>
+      <button class="tl-btn" type="button" data-trips-open aria-haspopup="dialog" hidden>{{ glyph("list") }}<span class="tl-btn__l">Trips</span><span class="tl-btn__n" data-trips-count>0</span><span class="sr"> in your trip list</span></button>
       <a class="btn hd__wa" href="{{ waHref(contact.number, waText) }}">{{ icon("whatsapp") }}<span class="hd__wa-l">WhatsApp</span><span class="sr"> {{ contact.phoneDisplay }}</span></a>
       <button class="menu-btn" type="button" aria-haspopup="dialog" aria-controls="menu" data-menu-open>{{ icon("menu") }}<span class="sr">Menu</span></button>
     </div>
@@ -87,7 +94,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
     <a class="brand" href="/"><picture><source type="image/avif" srcset="{{ em.avif }}"><img eleventy:ignore src="{{ em.src }}" srcset="{{ em.webp }}" width="{{ em.width }}" height="{{ em.height }}" alt=""></picture><b>Secret Travel <span>&amp; Tour</span></b></a>
     <button class="x" type="button" data-menu-close>{{ icon("close") }}<span class="sr">Close the menu</span></button>
   </div>
-  <nav class="wrap" aria-label="Menu"><ul>{% for i in items %}<li><a href="{{ i.href }}">{{ i.label }}</a></li>{% endfor %}</ul></nav>
+  <nav class="wrap" aria-label="Menu"><ul>{% for i in items %}<li><a href="{{ i.href }}" data-nav="{{ i.id }}"{% if i.id == current %} aria-current="page"{% endif %}>{{ i.label }}</a></li>{% endfor %}</ul></nav>
   <p class="wrap drawer__wa"><a class="link" href="{{ waHref(contact.number, waText) }}">WhatsApp {{ contact.phoneDisplay }}</a></p>
 </dialog>
 {% endmacro %}
@@ -101,14 +108,15 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
         <p class="ft__brand"><picture><source type="image/avif" srcset="{{ em.avif }}"><img eleventy:ignore src="{{ em.src }}" srcset="{{ em.webp }}" width="{{ em.width }}" height="{{ em.height }}" alt="" loading="lazy"></picture>Secret Travel &amp; Tour</p>
         <p class="ft__wa"><a class="link link--light" href="{{ waHref(contact.number, waText) }}">WhatsApp {{ contact.phoneDisplay }}</a></p>
       </div>
-      <div><h2 class="ft__h">Boat trips</h2><ul>{% for c in boats %}<li><a href="{{ c.href }}">{{ c.title }}</a></li>{% endfor %}</ul></div>
-      <div><h2 class="ft__h">Activities</h2><ul>{% for c in activities %}<li><a href="{{ c.href }}">{{ c.title }}</a></li>{% endfor %}</ul></div>
-      <div><h2 class="ft__h">More</h2><ul><li><a href="/taxi/">Private transfers</a></li><li><a href="/tours/speedboat/">Speedboat times</a></li><li><a href="/tours/rental/">Car and scooter rental</a></li><li><a href="/credits/">Photo credits</a></li></ul></div>
+      {#- Sur téléphone, les deux listes de sorties se replient (v4.js les ferme) ; « More » reste ouvert. -#}
+      <details class="ft__col" open data-ft-fold><summary><h2 class="ft__h">Boat trips</h2></summary><ul>{% for c in boats %}<li><a href="{{ c.href }}">{{ c.title }}</a></li>{% endfor %}</ul></details>
+      <details class="ft__col" open data-ft-fold><summary><h2 class="ft__h">Activities</h2></summary><ul>{% for c in activities %}<li><a href="{{ c.href }}">{{ c.title }}</a></li>{% endfor %}</ul></details>
+      <div class="ft__col"><h2 class="ft__h">More</h2><ul><li><a href="/tours/speedboat/">Speedboat timetable</a></li><li><a href="/taxi/">Private transfers</a></li><li><a href="/tours/rental/">Scooter and car rental</a></li><li><a href="/credits/">Photo credits</a></li></ul></div>
     </div>
     <div class="ft__meta">
       <span>{{ b.name }} is operated by {{ site.operator.name }}</span>
       {% if b.licence %}<span>TAT licence {{ b.licence }}</span>{% endif %}
-      <span>Prices in Thai baht. Nothing is paid online.</span>
+      <span>Prices in Thai baht</span>
       <span class="ft__legal"><a href="/legal/">Legal</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></span>
     </div>
   </div>

@@ -352,8 +352,8 @@ function programme(p, optLabels) {
 
 // ---------- Autres sorties : les fiches voisines écrites dans la donnée (related), en cartes ----------
 const OTHER_LINKS = {
-  "/tours/speedboat/": "Speedboat times from Koh Lanta",
-  "/tours/rental/": "Car and scooter rental",
+  "/tours/speedboat/": "Speedboat timetable",
+  "/tours/rental/": "Scooter and car rental",
   "/taxi/": "Private minivan transfers with VIP Taxi Lanta"
 };
 function related(p, ctx) {
@@ -571,7 +571,7 @@ function speedboatPage(p, ctx) {
     { label: "To Koh Lanta", routes: sb.routes.filter((r) => r.group === "in") }
   ].filter((g) => g.routes.length);
   return {
-    slug: p.slug, kind: "speedboat", url: p.url, name: p.name, nav: "transfers",
+    slug: p.slug, kind: "speedboat", url: p.url, name: p.name, nav: "speedboat",
     seo: p.seo, h1: p.h1.replace("Koh Lanta", "Koh Lanta"), lead: p.lead,
     keyFacts: ["Departure pier", "Hotel pickup", "Check-in", "Timetable"].map((l) => ({ label: l, value: fact(p, l) })).filter((f) => f.value),
     board: sb.board, dests: sb.dests, back: sb.back,

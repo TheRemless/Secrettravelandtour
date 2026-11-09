@@ -148,6 +148,8 @@
     addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
     hd.addEventListener("focusin", function () { show(true); });
   }
+  // Pied de page : sur téléphone, les deux listes de sorties se replient (ouvertes sans JS et sur bureau).
+  if (matchMedia("(max-width: 699px)").matches) V.$$("[data-ft-fold]").forEach(function (d) { d.open = false; });
   var menu = V.$("#menu");
   if (menu && menu.showModal) {
     doc.addEventListener("click", function (e) {
@@ -177,7 +179,7 @@
   addEventListener("pageswap", function (e) {
     if (!e.viewTransition || !lastLink) return;
     var to = (e.activation && e.activation.entry && e.activation.entry.url) || "";
-    var ph = lastLink.querySelector(".ph") || (lastLink.hasAttribute("data-hero-go") && V.$("[data-hero-stack] .ph.is-on"));
+    var ph = lastLink.querySelector(".ph") || (lastLink.getAttribute("aria-current") === "true" && lastLink.hasAttribute("data-hero-i") && V.$("[data-hero-stack] .ph.is-on"));
     V.$$("[data-vt]").forEach(function (x) { x.style.viewTransitionName = "none"; });
     if (ph && /\/tours\/[^/]+\/$/.test(new URL(to, location.href).pathname)) ph.style.viewTransitionName = "trip-photo";
   });

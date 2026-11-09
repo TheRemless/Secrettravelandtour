@@ -24,6 +24,8 @@ permalink: /
 {{ v4.header(c, d.emblem, "", waText) }}
 <main id="main">
 
+  {#- Premier écran du téléphone : titre, une phrase, photo basse et les trois sorties avec leur prix. Chaque ligne est
+      un lien vers sa fiche ; sur bureau, le survol ou le focus d'une ligne montre sa photo. -#}
   <section class="wrap hero" aria-labelledby="h1">
     <div class="hero__text">
       <h1 id="h1">{{ h.h1 }}</h1>
@@ -36,34 +38,47 @@ permalink: /
         <template data-hero-tpl="{{ loop.index0 }}">{{ v4.photo(t.photo, heroSizes) }}</template>
         {%- endif %}{% endfor %}
       </div>
-      <figcaption class="hero__cap" data-hero-cap>{{ h.heroTrips[0].promise }}</figcaption>
     </figure>
     <div class="hero__ctl">
-      <div class="switch" role="radiogroup" aria-label="Choose a boat trip" data-switch>
-        <span class="switch__pill" aria-hidden="true"></span>
+      <ul class="hrows" data-hrows>
         {%- for t in h.heroTrips %}
-        <button type="button" role="radio" aria-checked="{{ 'true' if loop.first else 'false' }}" tabindex="{{ 0 if loop.first else -1 }}" data-href="{{ t.href }}" data-name="{{ t.title }}" data-cap="{{ t.promise }}"><b>{{ t.title }}</b><span>from {{ t.price.amount }}</span></button>
+        <li><a class="hrow press" href="{{ t.href }}" data-hero-i="{{ loop.index0 }}"{% if loop.first %} aria-current="true"{% endif %}>
+          <span class="hrow__t"><b>{{ t.title }}</b><small>{{ t.promise }}</small></span>
+          <span class="hrow__p"><b>from {{ t.price.amount }}</b><small>{{ t.price.unit }}</small></span>
+        </a></li>
         {%- endfor %}
-      </div>
-      <div class="hero__go">
-        <a class="btn btn--lg press" href="{{ h.heroTrips[0].href }}" data-hero-go>See the {{ h.heroTrips[0].title }} trip</a>
-        <a class="link" href="/tours/">All {{ d.counts.all | numwords }} trips and activities</a>
-      </div>
+      </ul>
+      <a class="link hero__all" href="/tours/">All {{ d.counts.all }} trips and activities</a>
     </div>
   </section>
 
-  <section class="sec sec--sand" id="boat-trips" aria-labelledby="boats-h">
+  {#- Réserver : un message WhatsApp. Exemple fixe, écrit par la même fonction que la feuille de la 4 Islands. -#}
+  <section class="sec sec--tight" id="how" aria-labelledby="how-h">
+    <div class="wrap how">
+      <div class="how__text">
+        <h2 id="how-h">Booking is one WhatsApp message</h2>
+        <p>On each trip page you choose the day and who is coming. WhatsApp opens with the message, you send it and we confirm the price and your pickup time.</p>
+        <p class="how__pay">{{ h.how.payment }}</p>
+      </div>
+      <figure class="msg" aria-label="Example message">
+        <p class="msg__to">{{ icon("whatsapp") }}To Secret Travel &amp; Tour</p>
+        <div class="msg__bubble">{% for l in h.how.sample.split("\n") %}<span class="msg__l">{{ l }}</span>{% endfor %}</div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="sec sec--tight" id="boat-trips" aria-labelledby="boats-h">
     <div class="wrap">
-      <div class="sec__head"><h2 id="boats-h">More boat trips</h2><a class="link" href="/tours/#boat-trips">Compare all {{ d.counts.boats | numwords }} boat trips</a></div>
-      <div class="grid">{% for t in h.moreBoats %}{{ v4.card(t) }}{% endfor %}</div>
+      <div class="sec__head"><h2 id="boats-h">More boat trips</h2><a class="link" href="/tours/#boat-trips">All {{ d.counts.boats | numwords }} boat trips</a></div>
+      <div class="grid grid--home">{% for t in h.moreBoats %}{{ v4.card(t, add=false) }}{% endfor %}</div>
     </div>
   </section>
 
-  <section class="sec" id="activities" aria-labelledby="acts-h">
+  <section class="sec sec--tight" id="activities" aria-labelledby="acts-h">
     <div class="wrap rail-wrap">
-      <div class="sec__head"><h2 id="acts-h">Activities</h2><a class="link" href="/tours/#activities">See all {{ d.counts.activities | numwords }}</a></div>
+      <div class="sec__head"><h2 id="acts-h">Activities</h2><a class="link" href="/tours/#activities">All {{ d.counts.activities | numwords }} activities</a></div>
       <div class="rail" data-rail tabindex="0" role="region" aria-label="Activities, scroll sideways">
-        {%- for t in h.activities %}{{ v4.card(t, "(min-width: 1024px) 360px, (min-width: 700px) 45vw, 82vw") }}{% endfor %}
+        {%- for t in h.activities %}{{ v4.card(t, "(min-width: 1024px) 360px, (min-width: 700px) 45vw, 74vw", add=false) }}{% endfor %}
       </div>
       <div class="rail-ctl" data-rail-ctl hidden>
         <div class="rail-bar" aria-hidden="true"><i></i></div>
@@ -75,82 +90,36 @@ permalink: /
     </div>
   </section>
 
-  <section class="sec sec--sand" id="transfers" aria-labelledby="tr-h">
-    <div class="wrap tr">
-      <div>
-        <h2 id="tr-h">Getting to and from Koh Lanta</h2>
-        <p class="tr__lead">{{ h.transfers.lead }}</p>
-        <form class="finder" data-finder aria-label="Find a private transfer">
-          <div class="finder__row">
-            <div class="finder__pair">
-              <div class="field" data-f="from"><label for="tr-from">From</label><select id="tr-from" data-from>{% for p in h.transfers.places %}<option{% if p == h.transfers.first.from %} selected{% endif %}>{{ p }}</option>{% endfor %}</select></div>
-              <div class="field" data-f="to"><label for="tr-to">To</label><select id="tr-to" data-to>{% for r in h.transfers.routes %}{% if r.from == h.transfers.first.from %}<option{% if r.to == h.transfers.first.to %} selected{% endif %}>{{ r.to }}</option>{% elif r.to == h.transfers.first.from %}<option>{{ r.from }}</option>{% endif %}{% endfor %}</select></div>
-            </div>
-            <button class="x x--swap" type="button" data-swap>{{ v4.glyph("swap") }}<span class="sr">Swap the two places</span></button>
-          </div>
-          <div class="finder__out" data-route aria-live="polite">
-            <b>{{ h.transfers.first.from }} to {{ h.transfers.first.to }}</b>
-            <p>{{ h.transfers.first.drive }} by private minivan, both directions. Run by {{ site.brands.vip.name }}.</p>
-            <a class="link" href="{{ h.transfers.first.url }}">See the {{ h.transfers.first.name }} transfer</a>
-          </div>
-        </form>
-      </div>
-      <ul class="ways">
-        {%- for w in h.transfers.ways %}
-        <li><h3>{{ w.title }}</h3><p>{{ w.text }}</p>{% if w.href and w.link %}<a class="link" href="{{ w.href }}">{{ w.link }}</a>{% endif %}</li>
-        {%- endfor %}
-      </ul>
-    </div>
-    <script type="application/json" id="routes-data">{{ h.transfers.routes | dump | safe }}</script>
-  </section>
-
-  <section class="sec" id="rental" aria-labelledby="rent-h">
-    {%- set r0 = h.rental.cats[0] -%}
-    <div class="wrap rent">
-      <div><h2 id="rent-h">{{ h.rental.title }}</h2><p class="lead">{{ h.rental.text }}</p><a class="link" href="{{ h.rental.href }}">Every vehicle and its price</a></div>
-      <div class="rent__card">
-        <div class="seg" role="group" aria-label="Vehicle type" data-seg="rent">
-          {%- for k in h.rental.cats %}
-          <button type="button" aria-pressed="{{ 'true' if loop.first else 'false' }}" value="{{ k.id }}" data-lo="{{ k.lo }}" data-hi="{{ k.hi }}" data-models="{{ k.count }} {{ k.title | lower }}{% if k.models %}, {{ k.models }}{% endif %}" data-wa="{{ v4.waHref(c.number, k.message) }}" data-ask="Ask about {{ k.label | lower }} on WhatsApp">{{ k.label }}</button>
-          {%- endfor %}
+  {#- Se déplacer : trois trajets en liens, le speedboat, la location et ses trois fourchettes. -#}
+  {%- set ar = h.around -%}
+  <section class="sec sec--tight" id="around" aria-labelledby="around-h">
+    <div class="wrap">
+      <h2 id="around-h">Getting here and around</h2>
+      <div class="around">
+        <div>
+          <h3 id="tr-h">Private transfers</h3>
+          <p class="around__lead">{{ ar.transfers.lead }}</p>
+          <ul class="lrows" aria-labelledby="tr-h">
+            {%- for r in ar.transfers.routes %}
+            <li><a class="lrow press" href="{{ r.href }}"><span><b>{{ r.name }}</b><small>{{ r.drive }}, both directions</small></span></a></li>
+            {%- endfor %}
+            {%- if ar.transfers.speedboat %}
+            <li><a class="lrow press" href="{{ ar.transfers.speedboat.href }}"><span><b>{{ ar.transfers.speedboat.title }}</b><small>{{ ar.transfers.speedboat.text }}</small></span></a></li>
+            {%- endif %}
+          </ul>
+          <a class="link" href="/taxi/">All private transfers</a>
         </div>
-        <p class="rent__range" aria-live="polite"><span class="odo" data-odo="lo">{{ r0.lo$ }}</span><span aria-hidden="true">–</span><span class="sr">to</span><span class="odo" data-odo="hi">{{ r0.hi$ }}</span><small>THB per day</small></p>
-        <p class="rent__models" data-rent-models>{{ r0.count }} {{ r0.title | lower }}{% if r0.models %}, {{ r0.models }}{% endif %}</p>
-        <a class="btn press" href="{{ v4.waHref(c.number, r0.message) }}" data-rent-go>{{ icon("whatsapp") }}<span>Ask about {{ r0.label | lower }} on WhatsApp</span></a>
+        <div>
+          <h3 id="rent-h">{{ ar.rental.title }}</h3>
+          <p class="around__lead">Prices {{ ar.rental.unit }}.</p>
+          <ul class="lrows" aria-labelledby="rent-h">
+            {%- for k in ar.rental.cats %}
+            <li><a class="lrow press" href="{{ ar.rental.href }}"><span><b>{{ k.label }}</b>{% if k.models %}<small>{{ k.models }}</small>{% endif %}</span><span class="lrow__p">{{ k.lo }} to {{ k.hi }} THB</span></a></li>
+            {%- endfor %}
+          </ul>
+          <a class="link" href="{{ ar.rental.href }}">Every vehicle and its price</a>
+        </div>
       </div>
-    </div>
-  </section>
-
-  {#- « How booking works » : on essaie, le message se compose ligne à ligne (même fonction que la feuille de réservation). -#}
-  <section class="sec sec--sand" id="how" aria-labelledby="how-h">
-    <div class="wrap how">
-      <div>
-        <h2 id="how-h">How booking works</h2>
-        <p class="lead">Choose a trip, a day and who is coming. This is the message WhatsApp opens with. You read it and send it yourself.</p>
-        <form class="try" data-try>
-          <div class="field"><label for="try-trip">Trip</label>
-            <select id="try-trip" name="trip">{% for t in h.how.trips %}<option value="{{ t.slug }}"{% if t.slug == h.how.sampleTrip %} selected{% endif %}>{{ t.name }}</option>{% endfor %}</select>
-          </div>
-          <fieldset class="try__day"><legend>Day</legend>
-            <label class="chip"><input type="radio" name="day" value="today"><span>Today</span></label>
-            <label class="chip"><input type="radio" name="day" value="tomorrow" checked><span>Tomorrow</span></label>
-            <label class="chip"><input type="radio" name="day" value="other"><span>Other date</span></label>
-            <input type="date" name="date" aria-label="Date" hidden>
-          </fieldset>
-          <div class="try__who">
-            <div class="stp-row"><span id="try-a">Adults</span><span class="stp" role="group" aria-labelledby="try-a"><button type="button" data-step="adults" data-d="-1">−<span class="sr">One adult less</span></button><output data-out="adults">2</output><button type="button" data-step="adults" data-d="1">+<span class="sr">One adult more</span></button></span></div>
-            <div class="stp-row"><span id="try-c">Children</span><span class="stp" role="group" aria-labelledby="try-c"><button type="button" data-step="children" data-d="-1">−<span class="sr">One child less</span></button><output data-out="children">0</output><button type="button" data-step="children" data-d="1">+<span class="sr">One child more</span></button></span></div>
-            <div class="try__ages" data-ages></div>
-          </div>
-        </form>
-        <p class="how__pay">{{ h.how.payment }}</p>
-      </div>
-      <figure class="msg">
-        <p class="msg__to">{{ icon("whatsapp") }}To Secret Travel &amp; Tour, {{ c.phoneDisplay }}</p>
-        <div class="msg__bubble" data-try-msg>{% for l in h.how.sample.split("\n") %}<span class="msg__l">{{ l }}</span>{% endfor %}</div>
-        <figcaption class="msg__note">Each trip page writes this message from your choices, with a reference for the day.</figcaption>
-        <a class="btn press" href="{{ v4.waHref(c.number, h.how.sample) }}" data-try-send>{{ icon("whatsapp") }}<span>Open this message in WhatsApp</span></a>
-      </figure>
     </div>
   </section>
 

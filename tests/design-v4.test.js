@@ -29,7 +29,7 @@ test("v4 : l'accueil et le hub mènent aux 13 fiches", () => {
     const h = site(f);
     for (const s of SLUGS) assert.match(h, new RegExp(`href="${P(s).url}"`), `${f} : ${s}`);
   }
-  assert.equal((site("tours/index.html").match(/<article class="card"/g) || []).length, 13);
+  assert.equal((site("tours/index.html").match(/<article class="card[ "]/g) || []).length, 13);
 });
 
 test("accueil : plus de bloc « What runs on … » (client, 09.11.2026), la fiche cuisine garde ses jours", () => {

@@ -25,8 +25,7 @@
     var on = phone.matches && !blockIn && !footIn;
     dock.classList.toggle("is-on", on);
     dock.setAttribute("aria-hidden", on ? "false" : "true");
-    var b = $("[data-dock-book]", dock);
-    if (b) b.tabIndex = on ? 0 : -1;
+    $$("a, button", dock).forEach(function (b) { b.tabIndex = on ? 0 : -1; });
   }
   if (dock) {
     var block = calc || $("#options");

@@ -250,6 +250,7 @@
 {% macro dock(price, fallback, book, label="Choose a date") %}
 <div class="dock" data-dock role="region" aria-label="Book">
   {%- if price %}<p class="dock__p" data-dock-p><span>from {{ price.amount }}</span><small>{{ price.unit }}</small></p>{% else %}<p class="dock__p" data-dock-p><span class="dock__req">Price on WhatsApp</span></p>{% endif %}
+  <button class="dock__trips" type="button" data-trips-open aria-haspopup="dialog" hidden>{{ v4.glyph("list") }}<span data-trips-count>0</span><span class="sr"> in your trip list</span></button>
   <a class="btn press" href="{{ fallback }}" data-book="{{ book }}"{% if book %} data-book-sel{% endif %} data-dock-book>{{ label }}</a>
 </div>
 {% endmacro %}

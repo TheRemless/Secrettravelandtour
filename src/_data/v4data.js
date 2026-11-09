@@ -69,11 +69,13 @@ function product(slug) {
 // « Koh Chueak, snorkelling over the reef » sous le titre « Koh Chueak » : le nom n'est pas répété.
 const dropPlace = (text, place) => (place && text.startsWith(place + ", ") ? text.charAt(place.length + 2).toUpperCase() + text.slice(place.length + 3) : text);
 
-// Deux faits courts lus tels quels ; « All year » n'apprend rien sur une carte, ni un fait déjà dit par la promesse.
+// Deux faits courts lus tels quels, toujours dans le même ordre (durée, puis bateau, saison ou format) ; « All year »
+// n'apprend rien sur une carte, ni un fait déjà dit par la promesse. Des heures de séance (« 09:00, 12:00 and 15:00 »)
+// restent sur la fiche : une carte dit combien de temps, pas à quelle heure.
 function cardMeta(p) {
   const promise = (p.promise || "").toLowerCase();
-  return ["Duration", "Season", "Boat", "Sessions"].map((l) => fact(p, l))
-    .filter((v) => v && v !== "All year" && v.length <= 40 && !promise.includes(v.toLowerCase())).slice(0, 2);
+  return ["Duration", "Boat", "Season", "Sessions"].map((l) => fact(p, l))
+    .filter((v) => v && v !== "All year" && v.length <= 40 && !/\d{2}:\d{2}/.test(v) && !promise.includes(v.toLowerCase())).slice(0, 2);
 }
 
 async function card(slug) {
@@ -216,35 +218,40 @@ module.exports = async function () {
   const taxi = fs.readdirSync(path.join(DATA, "products", "taxi")).map((f) => P("taxi/" + f.replace(/\.json$/, "")))
     .filter((t) => t.route && t.route.from && t.route.to)
     .map((t) => ({ url: t.url, name: t.name, from: t.route.from, to: t.route.to, drive: t.route.drive || "" }));
-  const places = [...new Set(taxi.flatMap((t) => [t.from, t.to]))].sort((a, b) => (a === "Koh Lanta" ? -1 : b === "Koh Lanta" ? 1 : a.localeCompare(b)));
   const LIVE = new Set(["/", "/taxi/", "/tours/speedboat/", "/tours/rental/"].concat(taxi.map((t) => t.url)));
-  const sampleCfg = { variant: "tour", product: four.name, page: host + four.url, refPrefix: four.refPrefix, options: catalog["4-islands"].options };
-  const sample = booking.buildMessage(sampleCfg, { ...booking.emptyState(), option: four.options[0].id, adults: 2, childAges: [] });
+  // Unité de la location : « per 24 hours », celle des lignes de prix (réponse du client), dite une seule fois.
+  const rentalUnit = rentalP.options[0].prices[0].unit;
 
-  const firstRoute = taxi.find((t) => t.from === "Krabi Airport" && t.to === "Koh Lanta") || taxi[0];
+  // Les trois trajets les plus demandés vers ou depuis Koh Lanta (aéroports de Krabi et de Phuket, Ao Nang).
+  const MAIN_ROUTES = ["/taxi/krabi-airport-koh-lanta/", "/taxi/phuket-airport-koh-lanta/", "/taxi/koh-lanta-ao-nang/"];
+  const vehFact = (label) => fact(rentalP, label);
   const homeData = {
     seo: {
       title: "Koh Lanta Boat Trips, Activities and Transfers | Secret Travel & Tour",
       metaDescription: `Boat trips, island activities and transfers on Koh Lanta. 4 Islands from ${bySlug["4-islands"].price.amount}, Koh Rok from ${bySlug["koh-rok-koh-haa"].price.amount}. Book on WhatsApp.`
     },
     h1: home.h1.replace("Koh Lanta", "Koh\u00a0Lanta"),
-    // home.json lead sans le comptoir de Sala Dan (décision client) ; réservation WhatsApp et paiement : site.json booking.
-    lead: `Koh Rok, Phi Phi and the 4 Islands by boat, the elephant sanctuary, cooking classes and your transfers. You book on ${site.booking.channel}${site.booking.onlinePayment === false ? " and nothing is paid online" : ""}.`,
+    // Une phrase : le comment (site.json booking). Le quoi est dans le titre et dans les trois sorties juste dessous.
+    lead: `You book on ${site.booking.channel}${site.booking.onlinePayment === false ? " and nothing is paid online" : ""}.`,
     // Les trois sorties du haut : photos de leurs cartes, en plus grand (elles ne reparaissent pas plus bas).
     heroTrips: await Promise.all(["4-islands", "koh-rok-koh-haa", "koh-phi-phi"].map(async (s) => ({ ...bySlug[s], photo: await photo(CARD_PHOTO[s]) }))),
     moreBoats: ["koh-talabeng-koh-bubu", "mangroves", "fishing-trip"].map((s) => bySlug[s]),
     activities,
-    transfers: {
-      lead: `Private minivans across Southern Thailand are run by ${site.brands.vip.name}. Pick the two ends of your trip.`,
-      places, routes: taxi,
-      first: { ...firstRoute, drive: cap(firstRoute.drive) },
-      ways: home.transfers.items.map((i) => ({ ...i, href: LIVE.has(i.href) ? i.href : "", link: i.href === "/taxi/" ? `See ${site.brands.vip.name}` : i.href === "/tours/speedboat/" ? "See the speedboat timetable" : "" }))
+    // Transferts et location réunis : trois trajets en liens, le speedboat, puis les trois fourchettes de la location.
+    around: {
+      transfers: {
+        lead: `Private minivans for your group only, run by ${site.brands.vip.name}.`,
+        routes: MAIN_ROUTES.map((u) => taxi.find((t) => t.url === u)).filter(Boolean).map((t) => ({ href: t.url, name: t.name, drive: cap(t.drive) })),
+        // Le texte de home.json sans sa dernière phrase (la prise en charge est dite sur la page du speedboat).
+        speedboat: LIVE.has("/tours/speedboat/") ? (({ title, text }) => ({ href: "/tours/speedboat/", title, text: text.split(". ")[0].replace(/, on the [^,]*$/, "") }))(home.transfers.items.find((i) => i.href === "/tours/speedboat/")) : null
+      },
+      rental: {
+        title: "Scooter and car rental", href: rentalP.url, unit: rentalUnit,
+        cats: rentalCats.map((k) => ({ label: k.label, lo: k.lo$, hi: k.hi$, models: k.models }))
+      }
     },
-    rental: { title: home.rental.title, text: home.rental.text, href: rentalP.url, cats: rentalCats },
     how: {
-      payment: `Pay ${payment.join(" or ")}. Nothing is paid online.`,
-      sample, sampleTrip: "4-islands",
-      trips: BOATS.concat(ACTIVITIES).map((s) => ({ slug: s, name: catalog[s].name }))
+      payment: `Pay ${payment.join(" or ")}.`
     },
     final: { photo: await photo("home-final"), title: "Not sure which trip?", text: "Send us your dates and who is coming, on WhatsApp.", message: `Hello, we are not sure which trip to choose.\nOur dates: \nWho is coming: \nPage: ${host}/` }
   };
@@ -317,6 +324,9 @@ module.exports = async function () {
     });
     page.single = page.pick.sel;
     Object.assign(fourData, { page, booking: page.booking });
+    // Accueil : le message d'exemple est celui que la feuille de la 4 Islands écrit pour son prix d'appel (join-in
+    // longtail, 2 adultes), total estimé compris. Ni date ni référence : l'exemple ne vieillit pas.
+    homeData.how.sample = booking.buildMessage(page.booking, { ...booking.emptyState(), option: view.price(four).option, adults: 2, childAges: [] });
   }
   const rentalPage = vp.rentalPage(rentalP, ctx);
   const speedboatPage = vp.speedboatPage(P("secret-transfers/speedboat-ferry"), ctx);
