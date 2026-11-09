@@ -1,135 +1,33 @@
-/* Page 4 Islands v4 : un seul état (option, adultes, âge de chaque enfant, Koh Kradan) partagé entre le parcours,
-   le calculateur, le comparateur, la bande du bas et la feuille de réservation (même brouillon que booking.js).
-   La carte suit la lecture de la journée. La visionneuse se charge au premier geste sur la galerie. */
+/* Page 4 Islands : la journée et la carte suivent le bateau choisi dans le bloc « Choose your boat » (v4-product.js,
+   événement stt-pick). Sur bureau, la carte suit la lecture de la journée. La visionneuse se charge au premier geste
+   sur la galerie. */
 (function () {
   "use strict";
-  var V = window.V4, B = window.STT_BOOKING, PR = window.STT_PRICE;
+  var V = window.V4;
   var dataEl = document.getElementById("four-data");
-  if (!V || !B || !PR || !dataEl) return;
+  if (!V || !dataEl) return;
   var $ = V.$, $$ = V.$$;
   var D = JSON.parse(dataEl.textContent);
-  var KEY = "stt-book:" + D.slug;
-  var byId = function (id) { return D.options.filter(function (o) { return o.id === id; })[0] || D.options[0]; };
-
-  // ---------- État : lu dans le brouillon de la feuille, écrit au même endroit ----------
-  var st = { option: D.options[0].id, adults: 2, childAges: [], addons: [] };
-  var touched = false;
-  function readDraft() {
-    try { return B.restoreDraft(localStorage.getItem(KEY), new Date()); } catch (e) { return null; }
-  }
-  var saved = readDraft();
-  if (saved) {
-    if (saved.option) st.option = byId(saved.option).id;
-    if (saved.adults > 0) st.adults = saved.adults;
-    if (Array.isArray(saved.childAges)) st.childAges = saved.childAges;
-    if (Array.isArray(saved.addons)) st.addons = saved.addons;
-    touched = true;
-  }
-  function writeDraft() {
-    var draft = readDraft() || B.emptyState({});
-    draft.option = st.option; draft.adults = st.adults; draft.childAges = st.childAges.slice(); draft.addons = st.addons.slice();
-    try { localStorage.setItem(KEY, B.makeDraft(draft, new Date())); } catch (e) { /* stockage indisponible */ }
-  }
-  function set(patch, from) {
-    Object.assign(st, patch);
-    touched = true;
-    if (from !== "sheet") writeDraft();
-    render(from);
-  }
-  document.addEventListener("stt-book-change", function (e) {
-    var d = e.detail;
-    if (!d || d.productId !== D.slug) return;
-    set({ option: d.state.option ? byId(d.state.option).id : st.option, adults: d.state.adults > 0 ? d.state.adults : st.adults, childAges: d.state.childAges || [], addons: d.state.addons || [] }, "sheet");
-  });
-
-  // ---------- Longtail ou speedboat : segment, parcours qui se réorganise, Koh Kradan ----------
-  var seg = V.seg($('[data-seg="opt"]'), function (v) { set({ option: v, addons: [] }, "seg"); });
-  var route = $("[data-route]");
-  var kr = $("[data-kradan]");
-  if (kr) $("input", kr).addEventListener("change", function (e) { set({ addons: e.target.checked ? [D.kradan] : [] }, "kradan"); });
-  function routeHTML(opt) {
-    var list = D.islands[opt.boat].slice();
-    if (opt.kind === "private" && st.addons.indexOf(D.kradan) > -1) list.push({ name: "Koh Kradan", tag: "" });
-    var home = opt.from || "Koh Lanta";
-    var nodes = [{ name: home, tag: opt.pier || (opt.from ? "Hotel pickup" : ""), end: true, id: "isl-start" }]
-      .concat(list.map(function (i) { return { name: i.name, tag: i.tag, lunch: i.name === D.lunch[opt.boat], id: "isl-" + i.name.toLowerCase().replace(/[^a-z]+/g, "-") }; }))
-      .concat([{ name: home, tag: "Back to your hotel", end: true, id: "isl-end" }]);
-    return nodes.map(function (n) {
-      return '<li data-vt-n="' + n.id + '"' + (n.end ? ' class="is-end"' : "") + "><b>" + V.esc(n.name) + "</b>" + (n.tag ? "<small>" + V.esc(n.tag) + "</small>" : "") + (n.lunch ? '<span class="lunch">Lunch</span>' : "") + "</li>";
-    }).join("");
-  }
-  var lastRoute = null;
-  function drawRoute(opt) {
-    var html = routeHTML(opt);
-    if (lastRoute === null) { lastRoute = route.innerHTML.replace(/\s+/g, " "); }
-    if (html === lastRoute) return;
-    lastRoute = html;
-    var name = function (on) { route.classList.toggle("is-morph", on); $$("li", route).forEach(function (li) { li.style.viewTransitionName = on ? li.getAttribute("data-vt-n") : ""; }); };
-    if (!$("li[data-vt-n]", route)) { route.innerHTML = html; return; }
-    name(true);
-    V.vt(function () { route.innerHTML = html; name(true); }).then(function () { name(false); });
-  }
-
-  // ---------- Calculateur : adultes, âge de chaque enfant, total ligne par ligne, parc en espèces à part ----------
-  var calc = $("[data-calc]");
-  var agesBox = $("[data-ages]", calc);
-  calc.addEventListener("click", function (e) {
-    var b = e.target.closest("[data-step]");
-    if (!b) return;
-    var d = Number(b.getAttribute("data-d"));
-    if (b.getAttribute("data-step") === "adults") set({ adults: V.clamp(st.adults + d, 1, 30) }, "calc");
-    else {
-      var a = st.childAges.slice();
-      if (d > 0 && a.length < 12) a.push(""); else if (d < 0) a.pop();
-      set({ childAges: a }, "calc");
-    }
-  });
-  agesBox.addEventListener("change", function (e) {
-    var s = e.target.closest("select");
-    if (!s) return;
-    var a = st.childAges.slice();
-    a[Number(s.getAttribute("data-age"))] = s.value === "" ? "" : Number(s.value);
-    set({ childAges: a }, "ages");
-  });
-  function drawAges(from) {
-    if (from === "ages") return;
-    while (agesBox.children.length > st.childAges.length) agesBox.lastElementChild.remove();
-    for (var i = agesBox.children.length; i < st.childAges.length; i++) {
-      var l = document.createElement("label");
-      l.className = "agesel";
-      l.innerHTML = "Age of child " + (i + 1) + '<select data-age="' + i + '"><option value="">Choose</option>' +
-        Array.from({ length: D.adultFrom }, function (_, n) { return '<option value="' + n + '">' + (n === 0 ? "Under 1" : n) + "</option>"; }).join("") + "</select>";
-      agesBox.appendChild(l);
-    }
-    $$("select", agesBox).forEach(function (s, k) { s.value = st.childAges[k] === "" || st.childAges[k] == null ? "" : String(st.childAges[k]); });
-  }
-  function kids() { return st.childAges.filter(function (a) { return a !== "" && a !== null && a !== undefined; }); }
-  function unpricedText(u) { return u.length ? "Age " + u.map(function (a) { return a === 0 ? "under 1" : a; }).join(", ") + ": no price on the site for this boat, we confirm it on WhatsApp." : ""; }
-
-  // ---------- Comparateur : la ligne « For … » suit le calculateur ----------
-  var cmp = $("[data-cmp]");
-  cmp.addEventListener("click", function (e) {
-    var b = e.target.closest("[data-pick]");
-    if (!b) return;
-    set({ option: b.getAttribute("data-pick"), addons: [] }, "compare");
-    V.toast(byId(st.option).label + " selected. Your total is updated.", innerWidth < 900 ? "See the total" : "", function () { calc.scrollIntoView({ behavior: V.reduce.matches ? "auto" : "smooth", block: "center" }); });
-  });
+  var boatOf = function (id) { var o = D.options.filter(function (x) { return x.id === id; })[0]; return o ? o.boat : D.options[0].boat; };
 
   // ---------- La journée et la carte ----------
-  var map = $("[data-map]"), fold = $("[data-map-fold]");
-  var tls = $$("[data-tl]"), boatEl = $("[data-map-boat]", map);
-  var boatNow = "longtail", io = null;
+  var map = $("[data-map]");
+  var tls = $$("[data-tl]"), boatEl = map && $("[data-map-boat]", map);
+  var boatNow = "", io = null;
+  var desk = matchMedia("(min-width: 900px)");
   function stopXY(place) {
     var g = $('[data-map-route="' + boatNow + '"]', map);
     var c = place && $('[data-stop="' + place + '"]', g);
     if (c) return [c.getAttribute("cx"), c.getAttribute("cy")];
-    // Hors des îles, le bateau attend à son départ : Lanta Old Town, ou le bord nord de la carte pour Ao Nang.
+    // Hors des îles, le bateau attend à son départ : Lanta Old Town, ou le bord nord de la carte (Koh Lanta Noi, Ao Nang).
     return [g.getAttribute("data-start-x"), g.getAttribute("data-start-y")];
   }
   function activate(step) {
+    if (!step) return;
     var list = $('[data-tl="' + boatNow + '"]');
     var steps = $$(".tl__step", list), i = steps.indexOf(step), place = step.getAttribute("data-place");
     steps.forEach(function (s, k) { s.classList.toggle("is-on", k === i); });
+    if (!map) return;
     var g = $('[data-map-route="' + boatNow + '"]', map);
     var stops = $$("[data-stop]", g).map(function (c) { return c.getAttribute("data-stop"); });
     var at = stops.indexOf(place);
@@ -140,11 +38,12 @@
     var xy = at > -1 ? stopXY(place) : stopXY(null);
     boatEl.setAttribute("transform", "translate(" + xy[0] + " " + xy[1] + ")");
   }
-  // L'étape lue est la dernière dont le haut a passé le milieu de l'écran ; écoute du défilement seulement
-  // quand la journée est à l'écran.
+  // L'étape lue est la dernière dont le haut a passé le milieu de l'écran, sur bureau seulement (la carte n'est pas
+  // montrée sur téléphone : aucune étape ne s'allume sans raison).
   var onStep = null, ticking = false;
   function pickStep() {
     ticking = false;
+    if (!desk.matches) { $$(".tl__step.is-on").forEach(function (s) { s.classList.remove("is-on"); }); onStep = null; return; }
     var steps = $$('[data-tl="' + boatNow + '"] .tl__step');
     var mid = innerHeight * 0.55, cur = steps[0];
     steps.forEach(function (s) { if (s.getBoundingClientRect().top < mid) cur = s; });
@@ -162,86 +61,40 @@
     io.observe($("#day"));
   }
   function drawDay(boat) {
-    if (boat === boatNow && io) return;
+    if (boat === boatNow) return;
     boatNow = boat;
     tls.forEach(function (l) { l.hidden = l.getAttribute("data-tl") !== boat; });
     $$("[data-day-for]").forEach(function (p) { p.hidden = p.getAttribute("data-day-for") !== boat; });
-    $$("[data-map-route]", map).forEach(function (g) { if (g.getAttribute("data-map-route") === boat) g.removeAttribute("hidden"); else g.setAttribute("hidden", ""); });
-    var names = D.islands[boat].map(function (x) { return x.name; });
-    ["Koh Ma", "Koh Kradan"].forEach(function (n) { var t = $('.map__lbl[data-lbl="' + n + '"]', map); if (t) t.classList.toggle("is-gone", names.indexOf(n) < 0); });
-    var away = D.options.some(function (o) { return o.boat === boat && o.from; }), an = $('.map__lbl[data-lbl="To Ao Nang"]', map);
-    if (an) an.classList.toggle("is-gone", !away);
+    if (map) {
+      $$("[data-map-route]", map).forEach(function (g) { if (g.getAttribute("data-map-route") === boat) g.removeAttribute("hidden"); else g.setAttribute("hidden", ""); });
+      var names = D.islands[boat].map(function (x) { return x.name; });
+      ["Koh Ma", "Koh Kradan"].forEach(function (n) { var t = $('.map__lbl[data-lbl="' + n + '"]', map); if (t) t.classList.toggle("is-gone", names.indexOf(n) < 0); });
+      // Départ de chaque bateau : Lanta Old Town (longtails), Koh Lanta Noi au nord (speedboat), Ao Nang (catamaran).
+      var g = $('[data-map-route="' + boat + '"]', map), pier = $("[data-pier]", map);
+      var sx = g.getAttribute("data-start-x"), sy = g.getAttribute("data-start-y");
+      var atPier = pier && pier.getAttribute("cx") === sx && pier.getAttribute("cy") === sy;
+      if (pier) pier.classList.toggle("is-gone", !atPier);
+      var old = $('.map__lbl[data-lbl="Lanta Old Town"]', map);
+      if (old) old.classList.toggle("is-gone", !atPier);
+      var noi = $('.map__lbl[data-lbl="To Koh Lanta Noi pier"]', map), an = $('.map__lbl[data-lbl="To Ao Nang"]', map);
+      var away = boat === "catamaran" || D.options.some(function (o) { return o.boat === boat && /catamaran/.test(o.boat); });
+      if (an) an.classList.toggle("is-gone", !(away && !atPier));
+      if (noi) noi.classList.toggle("is-gone", away || atPier);
+    }
     activate($('[data-tl="' + boat + '"] .tl__step'));
     watchDay();
   }
-  fold.addEventListener("click", function () {
-    var open = !map.classList.contains("is-open");
-    map.classList.toggle("is-open", open);
-    fold.setAttribute("aria-expanded", open ? "true" : "false");
-    $("span", fold).textContent = open ? "Hide the route map" : "Show the route map";
-  });
 
-  // ---------- Rendu de tout ce qui suit l'état ----------
-  var odoTotal = $('[data-odo="total"]');
-  var dockP = $("[data-dock-p]");
-  function render(from) {
-    var opt = byId(st.option);
-    seg.select(opt.id, true);
-    drawRoute(opt);
-    var priv = opt.kind === "private";
-    if (kr) { kr.hidden = !priv; $("input", kr).checked = st.addons.indexOf(D.kradan) > -1; }
-    $("[data-opt-note]").textContent = opt.note || opt.stub || "";
-    $("[data-boat-ph]").classList.toggle("is-off", opt.boat !== "longtail");
-    $$("[data-private]").forEach(function (li) { li.classList.toggle("is-lit", priv); li.classList.toggle("is-dim", !priv); });
-
-    $('[data-out="adults"]', calc).textContent = st.adults;
-    $('[data-out="children"]', calc).textContent = st.childAges.length;
-    $('[data-step="adults"][data-d="-1"]', calc).disabled = st.adults <= 1;
-    $('[data-step="children"][data-d="-1"]', calc).disabled = !st.childAges.length;
-    drawAges(from);
-    var addons = priv ? st.addons : [];
-    var est = PR.estimate(opt, st.adults, kids(), addons);
-    $("[data-calc-opt]", calc).textContent = opt.label + (addons.length ? ", with Koh Kradan" : "");
-    $("[data-calc-lbl]", calc).textContent = est ? (est.perBoat ? "Estimated total, the whole boat" : "Estimated total") : "Price on WhatsApp for this group";
-    $(".calc__total > b", calc).hidden = !est;
-    if (est) V.odo(odoTotal, est.total);
-    $("[data-calc-lines]", calc).innerHTML = est ? est.lines.map(function (l) { return "<li><span>" + V.esc(l[0]) + "</span><span>" + V.thb(l[1]) + "</span></li>"; }).join("") : "";
-    var un = $("[data-calc-unpriced]", calc);
-    un.hidden = !(est && est.unpriced.length);
-    un.textContent = est ? unpricedText(est.unpriced) : "";
-    // Catamaran d'Ao Nang : la brochure ne dit rien du parc, la note de l'option le dit, pas de montant ici.
-    var park = opt.feesToConfirm ? null : PR.parkCash(D.fee, st.adults, st.childAges), pk = $("[data-calc-park]", calc);
-    if (pk) { pk.hidden = !park; if (park) pk.textContent = "Plus the national park fee, in cash on the island: " + park.text + "."; }
-    $$("[data-calc-book], [data-dock-book]").forEach(function (b) { b.setAttribute("data-book", opt.id); });
-
-    var who = B.guestsLine(st.adults, kids());
-    $$("[data-cmp-who]", cmp).forEach(function (w) { w.textContent = who; });
-    $$(".cmp4__col", cmp).forEach(function (col) {
-      var o = byId(col.getAttribute("data-opt")), sel = o.id === opt.id;
-      var e = PR.estimate(o, st.adults, kids(), sel && o.kind === "private" ? addons : []);
-      $("[data-cmp-total]", col).innerHTML = e ? "<b>" + V.thb(e.total) + "</b>" + (e.unpriced.length ? "<small>" + V.esc(unpricedText(e.unpriced)) + "</small>" : "") : "Price on WhatsApp";
-      col.classList.toggle("is-sel", sel);
-      $("[data-pick]", col).setAttribute("aria-pressed", sel ? "true" : "false");
-    });
-
-    dockP.innerHTML = est && touched ? "<span>" + V.esc(who) + "</span><b>" + V.thb(est.total) + "</b>" : dockP.innerHTML;
-    drawDay(opt.boat);
+  // Ligne « On a private boat » de « Included » : mise en avant quand le bateau privé est choisi.
+  function onPick(id) {
+    var priv = /^private/.test(id);
+    $$("[data-private]").forEach(function (li) { li.classList.toggle("is-lit", priv); });
+    drawDay(boatOf(id));
   }
-  render("init");
-
-  // ---------- Bande du bas : quand le bouton du haut est sorti de l'écran, jamais devant le calculateur ni le pied ----------
-  var dock = $("[data-dock]"), heroOut = false, footIn = false, calcIn = false;
-  function dockState() {
-    var on = heroOut && !footIn && !calcIn;
-    dock.classList.toggle("is-on", on);
-    dock.setAttribute("aria-hidden", on ? "false" : "true");
-    $("[data-dock-book]").tabIndex = on ? 0 : -1;
-  }
-  if ("IntersectionObserver" in window) {
-    new IntersectionObserver(function (e) { heroOut = !e[0].isIntersecting && e[0].boundingClientRect.top < 0; dockState(); }).observe($("[data-cta]"));
-    new IntersectionObserver(function (e) { footIn = e[0].isIntersecting; dockState(); }).observe($("#ft"));
-    new IntersectionObserver(function (e) { calcIn = e[0].isIntersecting; dockState(); }, { threshold: 0.3 }).observe(calc);
-  }
+  document.addEventListener("stt-pick", function (e) { if (e.detail) onPick(e.detail.option); });
+  var cur = $('#options input[name="pick"]:checked');
+  onPick(cur ? cur.value : D.options[0].id);
+  if (desk.addEventListener) desk.addEventListener("change", pickStep);
 
   // ---------- Galerie : la visionneuse arrive au premier geste ----------
   var gal = $("[data-gal]");

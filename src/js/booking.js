@@ -4,14 +4,15 @@
    Logique pure exportée en CommonJS pour les tests (node --test), interface branchée sur le <dialog> dans le navigateur.
    Repris de secret-form.js : dates à l'heure de Bangkok, brouillon gardé 7 jours, erreurs par champ. */
 (function (root, factory) {
-  var api = factory();
+  // Total estimé : v4-price.js (chargé avant ce fichier sur les fiches ; absent des pages taxi, qui n'en ont pas besoin).
   if (typeof module === "object" && module.exports) {
-    module.exports = api;
+    module.exports = factory(require("./v4-price.js"));
   } else {
+    var api = factory(root.STT_PRICE || null);
     root.STT_BOOKING = api;
     if (typeof document !== "undefined") api.mount(document);
   }
-})(typeof self !== "undefined" ? self : this, function () {
+})(typeof self !== "undefined" ? self : this, function (PRICE) {
   "use strict";
 
   var DEFAULT_NUMBER = "66958683846";
@@ -129,6 +130,40 @@
       return { label: label, n: Number((state.counts || {})[option.id + "/" + i]) || 0 };
     }).filter(function (c) { return c.n > 0; });
   }
+  // Option à compteurs (pilotes et passagers de l'ATV, karts) : ils remplacent « Guests ». Des personnes quand les
+  // lignes en sont (option.people), adultes et enfants lus dans le libellé ; sinon un nombre de karts.
+  function countGroup(option, state) {
+    var c = countsOf(state, option);
+    var out = { adults: 0, children: 0, units: 0 };
+    c.forEach(function (x) {
+      if (option.people === false) out.units += x.n;
+      else if (/^child/i.test(x.label)) out.children += x.n;
+      else out.adults += x.n;
+    });
+    return out;
+  }
+
+  // Total estimé (v4-price.js), dans la même forme que la page : lignes de prix brutes de l'option, groupe de la feuille.
+  // Null quand la règle n'est pas dans les données (radeau au-delà de 2 personnes, âge sans tarif, prix sur demande).
+  function quoteOf(option, state) {
+    if (!PRICE || !option || !option.prices || !option.prices.length) return null;
+    if (option.counts) {
+      var c = {};
+      countsOf(state, option).forEach(function (x) { c[x.label] = x.n; });
+      return PRICE.quote(option, { counts: c });
+    }
+    var row = "";
+    (option.choices || []).forEach(function (ch) { var v = choiceValue(state, option, ch); if (v && v.row) row = v.row; });
+    var picks = (option.choices || []).some(function (ch) { return (ch.values || []).some(function (v) { return v.row; }); });
+    if (picks && !row) return null;
+    var q = PRICE.quote(option, { adults: state.adults, ages: state.childAges, addons: addonsOf(option, state.addons), row: row });
+    return q && !q.unpriced.length ? q : null;
+  }
+  function totalLine(option, state) {
+    var q = quoteOf(option, state);
+    return q ? "Estimated total: " + thb(q.total) : "Total: to be confirmed on WhatsApp";
+  }
+
   function choiceLines(option, state) {
     var out = [];
     if (!option) return out;
@@ -237,7 +272,8 @@
       if (option && option.departure) lines.push("Departure: from " + option.departure + ", pickup at your hotel in " + option.departure);
       choiceLines(option, state).forEach(function (l) { lines.push(l); });
       if (date) lines.push("Date: " + formatDate(date));
-      lines.push("Guests: " + guestsLine(state.adults, state.childAges));
+      // Les compteurs de l'option (pilotes, karts) disent déjà qui vient : pas de seconde ligne « Guests ».
+      if (!(option && option.counts)) lines.push("Guests: " + guestsLine(state.adults, state.childAges));
       var extras = addonsOf(option, state.addons);
       if (extras.length) lines.push("Extras: " + extras.join(", "));
       if (clean(state.pickup)) lines.push("Pickup: " + clean(state.pickup));
@@ -245,8 +281,10 @@
 
     if (clean(state.name)) lines.push("Name: " + clean(state.name));
     if (config.variant === "tour") {
-      var price = priceLine(pricedOption(findOption(config, state.option), state));
+      var priced = findOption(config, state.option);
+      var price = priceLine(pricedOption(priced, state));
       if (price) lines.push("Price on website: " + price);
+      if (priced && PRICE && Array.isArray(priced.prices)) lines.push(totalLine(priced, state));
     }
     if (config.variant === "rental") {
       var rp = rentalPrice(findOption(config, state.option), state.vehicle);
@@ -255,7 +293,11 @@
     if (config.page) lines.push("Page: " + config.page);
     // La référence ouvre le message : le comptoir trie et retrouve les demandes sur elle.
     // Location : premier et dernier jour (« RN-1211-1511 »), il n'y a pas de groupe.
-    var ref = config.variant === "rental" ? makeRentalRef(config.refPrefix, state.dateFrom, state.dateTo) : makeRef(config.refPrefix, date, state.adults, (state.childAges || []).length);
+    var counted = config.variant === "tour" ? findOption(config, state.option) : null;
+    var cg = counted && counted.counts ? countGroup(counted, state) : null;
+    var ref = config.variant === "rental" ? makeRentalRef(config.refPrefix, state.dateFrom, state.dateTo)
+      : cg ? makeRef(config.refPrefix, date, cg.adults, cg.children, cg.units)
+      : makeRef(config.refPrefix, date, state.adults, (state.childAges || []).length);
     if (ref) lines.unshift("Ref: " + ref);
     return lines.join("\n");
   }
@@ -344,9 +386,12 @@
   // Référence courte (critique, idée 5) : code produit, jour et mois de la sortie, adultes et enfants.
   // « 4I-0411-2A1C » : le comptoir la retrouve dans WhatsApp, le client la cite s'il réécrit. Aucun hasard :
   // la même demande donne la même référence.
-  function makeRef(prefix, dateIso, adults, children) {
+  // Préfixes en mots ou en lettres qui ne se lisent pas comme des chiffres (FOUR, ROK, PP…) : « 4I » se lisait « 41 ».
+  // units : nombre de karts (« KART-2011-3K »), quand l'option compte des véhicules et pas des personnes.
+  function makeRef(prefix, dateIso, adults, children, units) {
     if (!prefix || !dateIso) return "";
     var d = dateIso.split("-");
+    if (units) return prefix + "-" + d[2] + d[1] + "-" + units + "K";
     return prefix + "-" + d[2] + d[1] + "-" + (adults || 0) + "A" + (children ? children + "C" : "");
   }
 
@@ -363,11 +408,13 @@
   // Cash à prévoir pour le parc national : adultes et enfants au tarif des données, rien d'autre.
   // « 2 × 200 + 1 × 100 = 500 THB ». Null si le produit n'a pas de frais de parc.
   function parkCash(config, state) {
-    var fee = config.parkFee;
+    var opt = findOption(config, state.option);
+    // Frais propres à l'option quand la fiche les donne (parc, village) ; sinon ceux de la fiche.
+    var fee = opt && "cash" in opt ? opt.cash : config.parkFee;
     if (!fee || !fee.adult) return null;
     // Catamaran d'Ao Nang : la brochure ne dit rien du parc, aucun montant à prévoir n'est annoncé.
-    var opt = findOption(config, state.option);
     if (opt && opt.feesToConfirm) return null;
+    if (opt && opt.counts) return null;
     // Tarif enfant pour les âges de fee.childAges (4 à 11) : plus jeune, gratuit ; plus âgé, tarif adulte.
     var ages = state.childAges || [], ca = fee.childAges, kids = ages.length, adults = state.adults;
     if (ca) {
@@ -379,7 +426,9 @@
     if (adults > 0) { parts.push(adults + " × " + fee.adult); total += adults * fee.adult; }
     if (kids > 0 && fee.child) { parts.push(kids + " × " + fee.child); total += kids * fee.child; }
     if (!parts.length) return null;
-    return { total: total, text: parts.join(" + ") + " = " + thb(total) };
+    var out = { total: total, text: parts.join(" + ") + " = " + thb(total) };
+    if (fee.label) out.label = fee.label;
+    return out;
   }
 
   function waUrl(message, number) {
@@ -423,10 +472,13 @@
 
     if (config.variant === "tour") validateChoices(findOption(config, state.option), state, date, errors);
 
-    if (!(state.adults > 0)) errors.adults = "Add at least one adult.";
-    (state.childAges || []).forEach(function (age, i) {
-      if (age === "" || age === null || age === undefined) errors["child-" + i] = "Choose the age of child " + (i + 1) + ".";
-    });
+    var counted = config.variant === "tour" ? findOption(config, state.option) : null;
+    if (!(counted && counted.counts)) {
+      if (!(state.adults > 0)) errors.adults = "Add at least one adult.";
+      (state.childAges || []).forEach(function (age, i) {
+        if (age === "" || age === null || age === undefined) errors["child-" + i] = "Choose the age of child " + (i + 1) + ".";
+      });
+    }
 
     if (config.variant === "taxi") {
       if (!(config.from && config.to)) {
@@ -581,6 +633,51 @@
       if (field("dateTo")) field("dateTo").min = state.dateFrom || min;
       updateAddressLabel();
       renderChildAges();
+      optionUI();
+    }
+
+    // L'option choisie sur la page : résumée en une ligne avec « Change » ; la liste revient sur demande.
+    // Ses compteurs (pilotes, karts) remplacent « Guests » ; un départ d'Ao Nang demande l'hôtel à Ao Nang ;
+    // le conseil d'âge de l'option (catamaran) s'affiche dès qu'un enfant est trop jeune ; le total estimé suit.
+    var sumMode = false;
+    function optionUI() {
+      var opt = findOption(config, state.option);
+      var sum = form.querySelector("[data-opt-sum]"), list = form.querySelector("[data-opt-list]");
+      if (sum && list) {
+        var on = sumMode && Boolean(opt);
+        sum.hidden = !on;
+        list.hidden = on;
+        if (opt) {
+          sum.querySelector("[data-opt-sum-t]").textContent = opt.title;
+          sum.querySelector("[data-opt-sum-p]").textContent = opt.from ? opt.from + (opt.unit ? " " + opt.unit : "") : "Price on WhatsApp";
+        }
+      }
+      var guests = form.querySelector("[data-guests]");
+      if (guests) guests.hidden = Boolean(opt && opt.counts);
+      var pl = form.querySelector('label[for="book-pickup"]'), ph = form.querySelector("#book-h-pickup");
+      if (pl && ph) {
+        var away = opt && opt.departure;
+        pl.textContent = away ? "Hotel in " + opt.departure : pl.getAttribute("data-label");
+        ph.textContent = away ? "We pick you up at your hotel in " + opt.departure + "." : ph.getAttribute("data-hint");
+      }
+      var adv = form.querySelector("[data-advice]");
+      if (adv) {
+        var young = opt && opt.advice && (state.childAges || []).some(function (a) { return a !== "" && a !== null && Number(a) < opt.advice.under; });
+        adv.hidden = !young;
+        adv.textContent = young ? opt.advice.text : "";
+      }
+      var tot = dialog.querySelector("[data-total]");
+      if (tot) {
+        var q = opt ? quoteOf(opt, state) : null, cash = opt ? parkCash(config, state) : null;
+        tot.hidden = !opt;
+        tot.innerHTML = "";
+        if (opt) {
+          var b = doc.createElement("b"), sm = doc.createElement("span");
+          b.textContent = q ? "Estimated total " + thb(q.total) : "Total confirmed on WhatsApp";
+          tot.appendChild(b);
+          if (cash) { sm.textContent = "Plus " + thb(cash.total) + " " + cash.label.toLowerCase() + ", in cash on the day"; tot.appendChild(sm); }
+        }
+      }
     }
 
     // Speedboat : seuls les départs du trajet choisi restent visibles ; un trajet à un seul départ le prend d'office.
@@ -706,6 +803,7 @@
       if (el.name === "timeFrom" || el.name === "timeTo") clearError("dates");
       if (el.name === "option") markOptions();
       clearError(errorKey(el.name));
+      optionUI();
       save();
     }
 
@@ -837,11 +935,24 @@
       var box = dialog.querySelector("[data-cash]");
       if (box) {
         box.hidden = !cash;
-        if (cash) dialog.querySelector("[data-cash-sum]").textContent = cash.text;
+        if (cash) {
+          dialog.querySelector("[data-cash-sum]").textContent = cash.text;
+          var cl = dialog.querySelector("[data-cash-label]");
+          if (cl && cash.label) cl.textContent = cash.label + ", in cash on the day";
+          var cn = dialog.querySelector("[data-cash-note]");
+          if (cn) cn.hidden = Boolean(config.parkFee) && cash.label !== config.parkFee.label;
+        }
       }
     }
 
     dialog.querySelector("[data-edit]").addEventListener("click", function () { show("form"); });
+    var change = dialog.querySelector("[data-opt-change]");
+    if (change) change.addEventListener("click", function () {
+      sumMode = false;
+      optionUI();
+      var r = form.querySelector('input[name="option"]:checked') || form.querySelector('input[name="option"]');
+      if (r) r.focus();
+    });
 
     // « Add to my trip list » : option, date et voyageurs suffisent ; l'hôtel et le prénom se donnent dans la liste.
     var tripBtn = dialog.querySelector("[data-trip]");
@@ -924,6 +1035,7 @@
       if (attr("data-vehicle")) state.vehicle = attr("data-vehicle");
       if (attr("data-sb-route")) { state.route = attr("data-sb-route"); state.departure = attr("data-sb-dep"); }
       if (!state.option && (config.options || []).length === 1) state.option = config.options[0].id;
+      sumMode = Boolean(optionId) && Boolean(findOption(config, state.option));
       fillForm();
       showErrors({});
       show("form");
@@ -960,6 +1072,7 @@
     buildTripList: buildTripList,
     sameDayClashes: sameDayClashes,
     parkCash: parkCash,
+    quoteOf: quoteOf,
     waUrl: waUrl,
     makeDraft: makeDraft,
     restoreDraft: restoreDraft,

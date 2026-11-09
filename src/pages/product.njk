@@ -31,7 +31,7 @@ eleventyComputed:
 <main id="main">
   {{ vp.crumbs([{ label: "Home", href: "/" }, t.crumb, { label: t.name }]) }}
   {{ vp.hero(t, c, fallback, t.single) }}
-  {{ vp.options(t, c) }}
+  {{ vp.pick(t, c) }}
   {%- if t.programme %}{{ vp.programme(t) }}{% endif %}
   {%- if t.included.length or t.notIncluded.length %}{{ vp.included(t) }}{% endif %}
   {%- if t.beforeBook.length or t.faq.length %}{{ vp.bybFaq(t.beforeBook, t.faq) }}{% endif %}
@@ -41,6 +41,7 @@ eleventyComputed:
 {{ vp.dock(t.price, fallback, t.single) }}
 {{ bookingSheet(t.booking, c) }}
 {{ v4.tripsRoot() }}
+<script src="/js/v4-price.js?v={{ build.v }}" defer></script>
 <script src="/js/booking.js?v={{ build.v }}" defer></script>
 {{ v4.scripts(build, "product") }}
 </body>

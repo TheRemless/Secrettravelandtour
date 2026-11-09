@@ -1,23 +1,23 @@
 ---
 permalink: /tours/4-islands/
 ---
-{#- Page 4 Islands, design v4 : prototype « mouvement » (parcours qui se réorganise, calculateur collant, visionneuse,
-    feuille au doigt) + comparateur des trois bateaux et carte du trajet. Tout est rendu au build. -#}
+{#- Page 4 Islands : gabarit commun des fiches (components/v4-product.njk), avec sa galerie, sa journée par bateau et
+    la carte du trajet sur bureau. Tout est rendu au build. -#}
 {% import "components/v4.njk" as v4 %}
-{% from "components/icons.njk" import icon %}
+{% import "components/v4-product.njk" as vp %}
 {% from "components/booking.njk" import bookingSheet %}
 {%- set d = v4data -%}
-{%- set t = d.four -%}
+{%- set f4 = d.four -%}
+{%- set t = f4.page -%}
 {%- set c = d.contact -%}
-{%- set waText = "Question about " + t.product.name + " (" + site.url.replace("https://", "") + "/tours/4-islands/): " -%}
-{%- set seo = t.seo -%}
+{%- set waText = t.ask -%}
+{%- set seo = f4.seo -%}
 {%- set pageUrl = "/tours/4-islands/" -%}
 {%- set jsonLd = pages.jsonLd.fourIslands -%}
 {%- set withBooking = true -%}
 {%- set fallback = v4.waHref(c.number, t.fallback) -%}
-{%- set o0 = t.options[0] -%}
-{%- set preloadImg = t.hero -%}
-{%- set preloadSizes = "(min-width: 900px) 58vw, 100vw" -%}
+{%- set preloadImg = f4.hero -%}
+{%- set preloadSizes = "(min-width: 900px) 56vw, 100vw" -%}
 <!DOCTYPE html>
 <html lang="en-GB" data-refonte data-page="four">
 <head>
@@ -26,104 +26,31 @@ permalink: /tours/4-islands/
 <body>
 {{ v4.header(c, d.emblem, "boats", waText) }}
 <main id="main">
-  <nav class="wrap crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/tours/#boat-trips">Boat trips</a></li><li><span aria-current="page">4 Islands</span></li></ol></nav>
-
-  <section class="wrap phero" aria-labelledby="h1">
-    <div class="phero__text">
-      <h1 id="h1">{{ t.h1 }}</h1>
-      <p class="lead">{{ t.lead }}</p>
-      <dl class="keyf">{% for f in t.keyFacts %}<div><dt>{{ f.label }}</dt><dd>{{ f.value }}</dd></div>{% endfor %}</dl>
-      <p class="price price--big"><span>from</span><b>{{ t.price.amount }}</b><span>{{ t.price.unit }}</span></p>
-      <div class="phero__go">
-        <a class="btn btn--lg press" href="{{ fallback }}" data-book="{{ t.price.option }}" data-cta>Choose a date</a>
-        <a class="link" href="{{ v4.waHref(c.number, waText) }}">Ask a question on WhatsApp</a>
-      </div>
-    </div>
-    <div class="phero__ph">{{ v4.photo(t.hero, "(min-width: 900px) 58vw, 100vw", true, "", "trip-photo") }}</div>
-  </section>
+  {{ vp.crumbs([{ label: "Home", href: "/" }, { label: "Boat trips", href: "/tours/#boat-trips" }, { label: "4 Islands" }]) }}
+  {{ vp.hero(t, c, fallback, t.single) }}
+  {{ vp.pick(t, c) }}
 
   <section class="wrap gal-sec" aria-label="Photos">
     <div class="gal" data-gal>
-      {%- for p in t.gallery %}
-      <a class="gal__item press" href="{{ p.fallback or p.src }}" data-gal-i="{{ loop.index0 }}" data-full="{{ p.fallback or p.src }}" data-w="{{ p.width }}" data-h="{{ p.height }}" aria-label="Open photo {{ loop.index }} of {{ t.gallery.length }}: {{ p.alt }}">{{ v4.photo(p, "(min-width: 900px) 600px, 78vw" if loop.first else "(min-width: 900px) 300px, 78vw") }}</a>
+      {%- for p in f4.gallery %}
+      <a class="gal__item press" href="{{ p.fallback or p.src }}" data-gal-i="{{ loop.index0 }}" data-full="{{ p.fallback or p.src }}" data-w="{{ p.width }}" data-h="{{ p.height }}" aria-label="Open photo {{ loop.index }} of {{ f4.gallery.length }}: {{ p.alt }}">{{ v4.photo(p, "(min-width: 900px) 600px, 78vw" if loop.first else "(min-width: 900px) 300px, 78vw") }}</a>
       {%- endfor %}
     </div>
-    <p class="gal__hint">Tap a photo to open it. Swipe to the next one, pinch or double-tap to zoom, pull down to close.</p>
   </section>
 
-  <section class="sec sec--sand" id="boat" aria-labelledby="boat-h">
-    <div class="wrap boat">
-      <div class="boat__main">
-        <h2 id="boat-h">Choose your boat</h2>
-        <p class="boat__intro">{{ t.boatIntro }}</p>
-        <div class="seg seg--opt" role="group" aria-label="Choose the boat" data-seg="opt">
-          {%- for o in t.options %}<button type="button" value="{{ o.id }}" aria-pressed="{{ 'true' if loop.first else 'false' }}">{{ o.label }}</button>{% endfor %}
-        </div>
-        <ol class="route" data-route aria-label="Islands on the way, in order">
-          {%- for n in t.route %}
-          <li{% if n.end %} class="is-end"{% endif %}><b>{{ n.name }}</b>{% if n.tag %}<small>{{ n.tag }}</small>{% endif %}{% if n.lunch %}<span class="lunch">Lunch</span>{% endif %}</li>
-          {%- endfor %}
-        </ol>
-        {%- if t.kradan %}
-        <label class="tick" data-kradan hidden><input type="checkbox"> <span>{{ t.kradan.text }}</span></label>
-        {%- endif %}
-        <p class="boat__note" data-opt-note aria-live="polite">{{ o0.note or o0.stub }}</p>
-        <div class="boat__ph" data-boat-ph>{{ v4.photo(t.longtail, "(min-width: 900px) 560px, 100vw", false, "") }}</div>
-      </div>
-
-      <div class="calc" role="group" aria-labelledby="h-prices" data-calc>
-        <h2 class="calc__h" id="h-prices">Your price</h2>
-        <p class="calc__opt" data-calc-opt>{{ o0.label }}</p>
-        <div class="calc__gs">
-          <div class="stp-row"><span><b id="c-a">Adults</b><small>{{ t.calc.adultFrom }} and over</small></span><span class="stp" role="group" aria-labelledby="c-a"><button type="button" data-step="adults" data-d="-1">−<span class="sr">One adult less</span></button><output data-out="adults">2</output><button type="button" data-step="adults" data-d="1">+<span class="sr">One adult more</span></button></span></div>
-          <div class="stp-row"><span><b id="c-c">Children</b><small>0 to {{ t.calc.kidMax }}, we ask each age</small></span><span class="stp" role="group" aria-labelledby="c-c"><button type="button" data-step="children" data-d="-1" disabled>−<span class="sr">One child less</span></button><output data-out="children">0</output><button type="button" data-step="children" data-d="1">+<span class="sr">One child more</span></button></span></div>
-          <div class="calc__ages" data-ages></div>
-        </div>
-        <div class="calc__total" aria-live="polite">
-          <small data-calc-lbl>Estimated total</small>
-          <b><span class="odo" data-odo="total">{{ t.calc.default.amount | replace(" THB", "") }}</span> THB</b>
-          <ul class="calc__lines" data-calc-lines>{% for l in t.calc.default.lines %}<li><span>{{ l.label }}</span><span>{{ l.amount }}</span></li>{% endfor %}</ul>
-          <p class="calc__note" data-calc-unpriced hidden></p>
-          {%- if t.calc.park %}<p class="calc__note" data-calc-park>Plus the national park fee, in cash on the island: {{ t.calc.park.text }}.</p>{% endif %}
-        </div>
-        <a class="btn btn--lg press" href="{{ fallback }}" data-book="{{ o0.id }}" data-calc-book>Choose a date</a>
-      </div>
-    </div>
-  </section>
-
-  {#- Comparateur des trois bateaux ; la ligne « For … » suit le calculateur. -#}
-  <section class="sec" id="compare" aria-labelledby="cmp-h">
-    <div class="wrap">
-      <div class="sec__head"><h2 id="cmp-h">The boats side by side</h2></div>
-      <div class="cmp4" data-cmp>
-        {%- for col in t.compare.cols %}
-        <div class="cmp4__col{% if loop.first %} is-sel{% endif %}" data-opt="{{ col.id }}">
-          <h3>{{ col.label }}</h3>
-          <dl>
-            {%- for r in col.rows %}<div><dt>{{ r[0] }}</dt><dd>{{ r[1] }}</dd></div>{% endfor %}
-            <div><dt>Prices</dt><dd><ul class="cmp4__prices">{% for p in col.prices %}<li><span>{{ p.label }}</span><span>{{ p.amount }}</span></li>{% endfor %}</ul></dd></div>
-            <div class="cmp4__group"><dt>For <span data-cmp-who>{{ t.compare.groupLabel }}</span></dt><dd data-cmp-total>{% if col.group %}<b>{{ col.group.amount }}</b>{% else %}Price on WhatsApp{% endif %}</dd></div>
-          </dl>
-          <button class="btn btn--ghost press" type="button" data-pick="{{ col.id }}"{% if loop.first %} aria-pressed="true"{% else %} aria-pressed="false"{% endif %}><span class="pick__on">{{ v4.glyph("check") }}Selected</span><span class="pick__off">Choose this boat</span></button>
-        </div>
-        {%- endfor %}
-      </div>
-    </div>
-  </section>
-
-  {#- La journée et la carte du trajet : la carte reste à l'écran sur bureau, se replie sur mobile. -#}
+  {#- La journée du bateau choisi ; sur bureau, la carte du trajet reste à l'écran à côté. Sur téléphone, la journée
+      suffit (ses étapes sont la liste des arrêts) : la carte n'y est pas montrée, ses noms seraient illisibles. -#}
   <section class="sec sec--sand" id="day" aria-labelledby="day-h">
     <div class="wrap day">
       <div class="day__side">
-        <h2 id="day-h">{{ t.day.title }}</h2>
-        {%- for b in t.day.boats %}
+        <h2 id="day-h">{{ f4.day.title }}</h2>
+        {%- for b in f4.day.boats %}
         <p class="day__for" data-day-for="{{ b.boat }}"{% if not loop.first %} hidden{% endif %}>{{ b.title }}. {{ b.note }}</p>
         {%- endfor %}
-        <button class="map-fold" type="button" aria-expanded="false" aria-controls="route-map" data-map-fold>{{ v4.glyph("map") }}<span>Show the route map</span></button>
         <figure class="map" id="route-map" data-map>
-          {%- set m = t.map -%}
+          {%- set m = f4.map -%}
           <svg viewBox="0 0 {{ m.W }} {{ m.H }}" role="img" aria-labelledby="map-t">
-            <title id="map-t">Sketch map of the 4 Islands route from Lanta Old Town</title>
+            <title id="map-t">Sketch map of the 4 Islands route</title>
             <rect class="map__sea" width="{{ m.W }}" height="{{ m.H }}"/>
             {%- for l in m.land %}<path class="map__land{% if l.main %} map__land--main{% endif %}" d="{{ l.d }}"/>{% endfor %}
             {%- for boat, r in m.routes %}
@@ -133,7 +60,7 @@ permalink: /tours/4-islands/
               {%- for s in r.stops %}<circle class="map__stop" data-stop="{{ s.name }}" cx="{{ s.x }}" cy="{{ s.y }}" r="7"/>{% endfor %}
             </g>
             {%- endfor %}
-            <circle class="map__stop map__stop--pier" cx="{{ m.pier.x }}" cy="{{ m.pier.y }}" r="6"/>
+            <circle class="map__stop map__stop--pier" data-pier cx="{{ m.pier.x }}" cy="{{ m.pier.y }}" r="6"/>
             {%- for l in m.labels %}<text class="map__lbl{% if l.big %} map__lbl--big{% endif %}{% if l.gone %} is-gone{% endif %}" data-lbl="{{ l.text }}" x="{{ l.x }}" y="{{ l.y }}" text-anchor="{{ l.anchor }}">{{ l.text }}</text>{% endfor %}
             <line class="map__scale" x1="{{ m.scale.x1 }}" y1="{{ m.scale.y }}" x2="{{ m.scale.x2 }}" y2="{{ m.scale.y }}"/>
             <text class="map__scale-t" x="{{ m.scale.x2 }}" y="{{ m.scale.y - 8 }}" text-anchor="end">{{ m.scale.km }} km</text>
@@ -143,7 +70,7 @@ permalink: /tours/4-islands/
         </figure>
       </div>
       <div class="day__main">
-        {%- for b in t.day.boats %}
+        {%- for b in f4.day.boats %}
         <ol class="tl" data-tl="{{ b.boat }}"{% if not loop.first %} hidden{% endif %}>
           {%- for s in b.steps %}
           <li class="tl__step" data-place="{{ s.place }}"><time class="{{ 'fixed' if s.fixed }}">{% if not s.fixed %}≈ {% endif %}{{ s.t }}</time><b>{{ s.place }}</b><p>{{ s.text }}</p></li>
@@ -154,40 +81,18 @@ permalink: /tours/4-islands/
     </div>
   </section>
 
-  <section class="sec" aria-label="What is included">
-    <div class="wrap inc">
-      <div><h2>Included</h2><ul class="rules">{% for x in t.included %}<li{% if x.indexOf("On a private boat") == 0 %} data-private{% endif %}>{{ x }}</li>{% endfor %}</ul></div>
-      <div><h2>Not included</h2><ul class="rules">{% for x in t.notIncluded %}<li>{{ x }}</li>{% endfor %}{% if t.parkFee %}<li>National park fee: {{ t.parkFee }}</li>{% endif %}</ul></div>
-    </div>
-  </section>
-
-  <section class="sec sec--sand" aria-labelledby="byb-h">
-    <div class="wrap">
-      <div class="byb"><h2 id="byb-h">Before you book</h2><dl>{% for b in t.beforeBook %}<div><dt>{{ b.label }}</dt><dd>{{ b.text }}</dd></div>{% endfor %}</dl></div>
-      <div class="byb faq"><h2 id="faq-h">Questions</h2><div>{% for f in t.faq %}<details><summary>{{ f.q }}</summary><p>{{ f.a }}</p></details>{% endfor %}</div></div>
-    </div>
-  </section>
-
-  <section class="sec" aria-labelledby="rel-h">
-    <div class="wrap">
-      <div class="sec__head"><h2 id="rel-h">More boat trips</h2><a class="link" href="/tours/#boat-trips">Compare all boat trips</a></div>
-      <div class="grid">{% for r in t.related %}{{ v4.card(r) }}{% endfor %}</div>
-      {%- if t.transfer %}
-      <p class="also">Arriving at {{ t.transfer.from }}? <a class="link" href="{{ t.transfer.href }}">See the {{ t.transfer.name }} transfer</a></p>
-      {%- endif %}
-    </div>
-  </section>
+  {%- if t.included.length or t.notIncluded.length %}{{ vp.included(t) }}{% endif %}
+  {%- if t.beforeBook.length or t.faq.length %}{{ vp.bybFaq(t.beforeBook, t.faq) }}{% endif %}
+  {{ vp.related(t.related) }}
 </main>
 {{ v4.footer(site, c, d.emblem, d.boats, d.activities, waText) }}
-<div class="dock" data-dock role="region" aria-label="Book" aria-hidden="true">
-  <p class="dock__p" data-dock-p><span>from</span><b>{{ t.price.amount }}</b></p>
-  <a class="btn press" href="{{ fallback }}" data-book="{{ t.price.option }}" tabindex="-1" data-dock-book>Choose a date</a>
-</div>
+{{ vp.dock(t.price, fallback, t.single) }}
 {{ bookingSheet(t.booking, c) }}
-<script type="application/json" id="four-data">{{ t.json | dump | safe }}</script>
+<script type="application/json" id="four-data">{{ f4.json | dump | safe }}</script>
 {{ v4.tripsRoot() }}
-<script src="/js/booking.js?v={{ build.v }}" defer></script>
 <script src="/js/v4-price.js?v={{ build.v }}" defer></script>
-{{ v4.scripts(build, "four") }}
+<script src="/js/booking.js?v={{ build.v }}" defer></script>
+{{ v4.scripts(build, "product") }}
+<script src="/js/v4-four.js?v={{ build.v }}" defer></script>
 </body>
 </html>

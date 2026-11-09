@@ -86,17 +86,24 @@ test("message : chaque option donne le produit, l'option, ses sous-variantes, se
   for (const p of TOURS) {
     const doc = html(p.url);
     const cfg = cfgOf(doc);
-    // Chaque option de la page a son bouton qui ouvre la feuille sur elle.
-    for (const o of cfg.options) assert.match(doc, new RegExp(`data-book="${o.id}"`), `${p.slug} ${o.id} : bouton`);
+    // Phase 1 (09.11.2026) : un seul bloc de choix. Chaque option s'y choisit (bouton radio), et le bouton de
+    // réservation du bloc, du haut et de la bande du bas ouvre la feuille sur l'option choisie (data-book-sel).
+    for (const o of cfg.options) assert.match(doc, new RegExp(`name="pick" value="${o.id}"`), `${p.slug} ${o.id} : choix`);
+    assert.match(doc, /data-book="[^"]+" data-book-sel(="")? data-calc-book/, `${p.slug} : bouton du bloc`);
     for (const o of cfg.options) {
       const st = fullState(o);
       assert.deepEqual(B.validate(cfg, st), {}, `${p.slug} ${o.id}`);
       const msg = B.buildMessage(cfg, st);
       const lines = msg.split("\n");
-      assert.match(lines[0], new RegExp(`^Ref: ${p.refPrefix}-\\d{4}-2A1C$`), `${p.slug} ${o.id} : référence`);
+      // Une option à compteurs (pilotes, karts) : ses compteurs disent qui vient, sans seconde ligne « Guests ».
+      const who = o.counts ? (o.people === false ? "1K" : "1A") : "2A1C";
+      assert.match(lines[0], new RegExp(`^Ref: ${p.refPrefix}-\\d{4}-${who}$`), `${p.slug} ${o.id} : référence`);
       assert.equal(lines[1], `Booking request: ${p.name} – ${o.title}`, `${p.slug} ${o.id}`);
       assert.match(msg, /\nDate: \w{3} \d+ Nov 2026\n/);
-      assert.match(msg, /\nGuests: 2 adults, 1 child \(age 7\)\n/);
+      if (o.counts) assert.doesNotMatch(msg, /\nGuests: /, `${p.slug} ${o.id} : pas de Guests à côté des compteurs`);
+      else assert.match(msg, /\nGuests: 2 adults, 1 child \(age 7\)\n/);
+      // Total estimé (v4-price.js) ou, quand la règle n'est pas dans les données, « confirmed on WhatsApp ».
+      assert.match(msg, /\n(Estimated total: [\d,]+ THB|Total: to be confirmed on WhatsApp)\n/, `${p.slug} ${o.id} : total`);
       assert.match(msg, /\nPickup: Lanta Sand Resort\n/);
       assert.match(msg, /\nName: Anna\n/);
       assert.ok(msg.endsWith(`Page: secrettravelandtour.com${p.url}`), `${p.slug} ${o.id} : page`);
@@ -169,7 +176,7 @@ test("location : catégorie, véhicule, nombre de véhicules, dates et heures, p
   const st = Object.assign(B.emptyState({}), { today: TODAY, option: "big-bikes", vehicle: "Honda CRF 250", vehicles: 2, dateFrom: "2026-11-20", timeFrom: "09:00", dateTo: "2026-11-23", timeTo: "18:00", name: "Anna" });
   assert.deepEqual(B.validate(cfg, st), {});
   assert.equal(B.buildMessage(cfg, st), [
-    "Ref: RN-2011-2311", "Rental request: Big bikes", "Vehicle: Honda CRF 250", "Vehicles: 2",
+    "Ref: RENT-2011-2311", "Rental request: Big bikes", "Vehicle: Honda CRF 250", "Vehicles: 2",
     "From: Fri 20 Nov 2026, 09:00", "To: Mon 23 Nov 2026, 18:00", "Name: Anna",
     "Price on website: Honda CRF 250: 900 THB per 24 hours", "Page: secrettravelandtour.com/tours/rental/"
   ].join("\n"));
@@ -197,7 +204,7 @@ test("speedboat : chaque arrêt de la grille ouvre la feuille, trajet, horaire, 
   st.returnDeparture = "from-koh-ngai@1130";
   assert.deepEqual(B.validate(cfg, st), {});
   const msg = B.buildMessage(cfg, st);
-  assert.match(msg, /^Ref: SB-2011-2A\nSpeedboat request: Koh Lanta to Koh Ngai\nDeparture: 15:00, arrives 15:40\nDate: Fri 20 Nov 2026\nTicket: return, Koh Ngai to Koh Lanta\nReturn: Mon 23 Nov 2026, 11:30, arrives 12:00\n/);
+  assert.match(msg, /^Ref: SPEED-2011-2A\nSpeedboat request: Koh Lanta to Koh Ngai\nDeparture: 15:00, arrives 15:40\nDate: Fri 20 Nov 2026\nTicket: return, Koh Ngai to Koh Lanta\nReturn: Mon 23 Nov 2026, 11:30, arrives 12:00\n/);
   assert.ok(B.validate(cfg, { ...st, departure: "" }).departure);
   assert.ok(B.validate(cfg, { ...st, route: "" }).route);
 });

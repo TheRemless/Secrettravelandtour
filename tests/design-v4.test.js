@@ -58,20 +58,24 @@ test("calculateur 4 Islands : total ligne par ligne, rien de deviné", () => {
   assert.equal(price.adultFrom(four.options), 12);
 });
 
-test("comparateur 4 Islands : chaque prix affiché vient des lignes de prix", () => {
+test("bloc « Choose your boat » de la 4 Islands : chaque prix affiché vient des lignes de prix", () => {
+  // Phase 1 (09.11.2026) : sélecteur, comparateur et calculateur fondus en un seul bloc ; chaque ligne y reste.
   const h = site("tours/4-islands/index.html");
-  const cmp = h.split('class="cmp4"')[1].split("</section>")[0];
-  for (const o of four.options) for (const r of o.prices.filter((x) => !/Koh Kradan/.test(x.label))) {
+  const pick = h.split('id="opt-h"')[1].split("</section>")[0];
+  for (const o of four.options) for (const r of o.prices) {
     const shown = r.amount === 0 ? "Free" : (r.supplement ? "+" : "") + r.amount.toLocaleString("en-GB") + " THB";
-    assert.ok(cmp.includes(`<span>${r.label}</span><span>${shown}</span>`), `${o.id} : ${r.label}`);
+    const block = pick.split(`data-po="${o.id}"`)[1].split('class="po"')[0];
+    assert.ok(block.includes(`<span>${r.label}</span>`) && block.includes(`<b>${shown}</b>`), `${o.id} : ${r.label}`);
   }
+  assert.doesNotMatch(h, /class="cmp4"|The boats side by side/, "plus de comparateur à part");
   assert.match(h, /Sketch map, not for navigation/);
   assert.match(h, /© OpenStreetMap contributors/);
   assert.match(h, /id="h-prices"/);
+  assert.match(h, /data-lbl="To Koh Lanta Noi pier"/, "le speedboat part de Koh Lanta Noi, pas de Lanta Old Town");
 });
 
 test("message de réservation : les suppléments ne suivent que l'option qui les propose", () => {
-  const cfg = { variant: "tour", product: "4 Islands", page: "secrettravelandtour.com/tours/4-islands/", refPrefix: "4I",
+  const cfg = { variant: "tour", product: "4 Islands", page: "secrettravelandtour.com/tours/4-islands/", refPrefix: "FOUR",
     options: [{ id: "private-longtail", title: "Private longtail", rows: [{ label: "Add Koh Kradan, per boat", price: "+500 THB" }] }, { id: "join-in-longtail", title: "Join-in longtail", rows: [] }] };
   const base = Object.assign(B.emptyState(cfg), { dateChoice: "other", dateOther: "2026-11-20", today: "2026-11-08", adults: 2, addons: ["Add Koh Kradan, per boat"] });
   assert.match(B.buildMessage(cfg, Object.assign({}, base, { option: "private-longtail" })), /\nExtras: Add Koh Kradan, per boat\n/);
@@ -95,11 +99,11 @@ test("liste de sorties : un message classé par jour, une référence par sortie
   assert.equal(lines[1], "Guests: 2 adults, 1 child (age 7)");
   assert.ok(text.indexOf("Fri 20 Nov 2026") < text.indexOf("Sat 21 Nov 2026"));
   // Plus d'option par défaut (demande du client, 08.11.2026) : la sortie à trois bateaux attend son choix et la liste ne part pas.
-  assert.match(text, /Ref: 4I-2011-2A1C\n4 Islands – option to choose\n/);
+  assert.match(text, /Ref: FOUR-2011-2A1C\n4 Islands – option to choose\n/);
   const v = B.validateTripList(cat, { ...list, items: list.items.map((it, i) => ({ ...it, id: "t" + i })) }, "2026-11-08");
   assert.deepEqual(v.items, { t1: { option: "Choose an option for 4 Islands." } });
   assert.match(text, /Ref: PP-2011-2A1C/);
-  assert.match(text, /Ref: KR-2111-2A1C/);
+  assert.match(text, /Ref: ROK-2111-2A1C/);
   assert.match(text, /Page: secrettravelandtour\.com\/tours\/koh-rok-koh-haa\//);
   assert.deepEqual(B.sameDayClashes(cat, list.items), [{ date: "2026-11-20", names: ["4 Islands", "Koh Phi Phi"] }]);
   // Les prix du catalogue sont ceux des fiches.

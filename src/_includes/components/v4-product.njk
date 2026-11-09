@@ -9,36 +9,44 @@
 </ol></nav>
 {% endmacro %}
 
-{#- Hero : titre, promesse, faits clés, prix d'appel, bouton. Sans photo déclarée, la colonne de droite porte un autre contenu (cta). -#}
+{#- Hero : titre, faits clés (durée, prise en charge), prix d'appel et bouton dans le premier écran du téléphone,
+    puis l'accroche. Sans photo déclarée, la colonne de droite porte un autre contenu (cta). -#}
 {% macro hero(t, c, fallback, book, cta="Choose a date", side="") %}
 <section class="wrap phero{% if not t.hero %} phero--np{% endif %}" aria-labelledby="h1">
   <div class="phero__text">
     <h1 id="h1">{{ t.h1 }}</h1>
-    <p class="lead">{{ t.lead }}</p>
     {%- if t.keyFacts.length %}
     <dl class="keyf{% if t.kind == 'rental' or t.kind == 'speedboat' %} keyf--rows{% endif %}">{% for f in t.keyFacts %}<div><dt>{{ f.label }}</dt><dd>{{ f.value }}</dd></div>{% endfor %}</dl>
     {%- endif %}
-    {%- if t.price %}
-    <p class="price price--big"><span>from</span><b>{{ t.price.amount }}</b><span>{{ t.price.unit }}</span></p>
-    {%- else %}
-    <p class="price price--big price--req"><b>Price on WhatsApp</b></p>
-    {%- endif %}
-    <div class="phero__go">
-      <a class="btn btn--lg press" href="{{ fallback }}" data-book="{{ book }}" data-cta>{{ cta }}</a>
-      <a class="link" href="{{ v4.waHref(c.number, t.ask) }}">Ask a question on WhatsApp</a>
+    <div class="phero__buy">
+      {%- if t.price %}
+      <p class="price price--big"><span>from</span><b>{{ t.price.amount }}</b><span>{{ t.price.unit }}</span></p>
+      {%- else %}
+      <p class="price price--big price--req"><b>Price on WhatsApp</b></p>
+      {%- endif %}
+      <a class="btn btn--lg press" href="{{ fallback }}" data-book="{{ book }}" data-cta{% if book %} data-book-sel{% endif %}>{{ cta }}</a>
     </div>
+    <p class="lead">{{ t.lead }}</p>
+    <a class="link phero__ask" href="{{ v4.waHref(c.number, t.ask) }}">Ask a question on WhatsApp</a>
   </div>
   {%- if t.hero %}
-  <div class="phero__ph">{{ v4.photo(t.hero, "(min-width: 900px) 58vw, 100vw", true, "", "trip-photo") }}</div>
+  <div class="phero__ph">{{ v4.photo(t.hero, "(min-width: 900px) 56vw, 100vw", true, "", "trip-photo") }}</div>
   {%- elif side %}
   <div class="phero__side">{{ side | safe }}</div>
   {%- endif %}
 </section>
 {% endmacro %}
 
-{#- Une ligne de prix : libellé, montant, unité. -#}
-{% macro row(r) -%}
+{#- Une ligne de prix : libellé, montant, unité. Une ligne qui désigne un choix (cours, site) se choisit ici ;
+    un supplément (Koh Kradan, plongée en plus) se coche ici. -#}
+{% macro row(r, o) -%}
+{%- if r.pick %}
+<li><label class="prow prow--pick"><input type="radio" name="row-{{ o.id }}" value="{{ r.pick.value }}" data-pick-row="{{ r.label }}" data-choice="{{ r.pick.choice }}"><span>{{ r.label }}</span><span class="opts__amt"><b>{{ r.amount }}</b>{% if r.unit %} <small>{{ r.unit }}</small>{% endif %}</span></label></li>
+{%- elif r.tick %}
+<li><label class="prow prow--pick"><input type="checkbox" value="{{ r.label }}" data-addon><span>{{ r.label }}</span><span class="opts__amt"><b>{{ r.amount }}</b>{% if r.unit %} <small>{{ r.unit }}</small>{% endif %}</span></label></li>
+{%- else %}
 <li><span>{{ r.label }}</span><span class="opts__amt"><b>{{ r.amount }}</b>{% if r.unit %} <small>{{ r.unit }}</small>{% endif %}</span></li>
+{%- endif %}
 {%- endmacro %}
 
 {% macro feeList(fees) -%}
@@ -47,39 +55,131 @@
 </ul>
 {%- endmacro %}
 
-{#- Options et prix : une colonne par option, toutes ses lignes, son bouton qui ouvre la feuille sur elle ; les frais sur place à part. -#}
-{% macro options(t, c) %}
-<section class="sec sec--sand" id="options" aria-labelledby="opt-h">
-  <div class="wrap">
-    <div class="sec__head"><h2 id="opt-h">Options and prices</h2></div>
-    <div class="opts{% if t.options.length == 1 %} opts--one{% endif %}" data-opts>
-      {%- for o in t.options %}
-      <article class="opts__col" id="opt-{{ o.id }}" aria-labelledby="opt-{{ o.id }}-h">
-        <h3 id="opt-{{ o.id }}-h">{{ o.label }}</h3>
-        {%- if o.note %}<p class="opts__note">{{ o.note }}</p>{% endif %}
-        {%- if o.onRequest %}
-        <p class="opts__req">Price on WhatsApp</p>
-        {%- else %}
-        <ul class="opts__prices">{% for r in o.rows %}{{ row(r) }}{% endfor %}</ul>
-        {%- endif %}
-        {%- if o.fees.length %}<div class="opts__fee"><h4>Not in the price</h4>{{ feeList(o.fees) }}</div>{% endif %}
-        {%- if o.bookable %}
-        <a class="btn btn--ghost press" href="{{ v4.waHref(c.number, o.fallback) }}" data-book="{{ o.id }}">Choose this option<span class="sr">: {{ o.label }}</span></a>
-        {%- endif %}
-      </article>
+{% macro feeBlock(fees, thai, cash) -%}
+<div class="pfees">
+  <h3>Not in the price{% if cash %}, paid in cash on the day{% endif %}</h3>
+  {{ feeList(fees) }}
+  {%- if thai.length %}<details class="pfees__thai"><summary>Thai nationals</summary>{{ feeList(thai) }}</details>{% endif %}
+</div>
+{%- endmacro %}
+
+{#- Détail de l'option : faits propres, toutes ses lignes de prix, note, déroulé court, frais propres. -#}
+{% macro detail(o) %}
+<div class="po__detail" id="po-{{ o.id }}-d">
+  {%- if o.facts.length %}<dl class="po__facts">{% for f in o.facts %}<div><dt>{{ f[0] }}</dt><dd>{{ f[1] }}</dd></div>{% endfor %}</dl>{% endif %}
+  {%- if o.onRequest %}
+  <p class="po__req"><span>Price</span><b>Ask on WhatsApp</b></p>
+  {%- else %}
+  <ul class="opts__prices">{% for r in o.rows %}{{ row(r, o) }}{% endfor %}</ul>
+  {%- endif %}
+  {%- if o.note %}<p class="po__note">{{ o.note }}</p>{% endif %}
+  {%- if o.what.length %}
+  {%- if o.what.length > 2 %}<details class="po__more"><summary>What you do</summary>{% endif %}
+  <div class="po__what">{% for w in o.what %}<p>{% if w.t %}<b>{{ w.t }}</b> {% endif %}{{ w.text }}</p>{% endfor %}</div>
+  {%- if o.what.length > 2 %}</details>{% endif %}
+  {%- endif %}
+  {%- if o.fees.length %}{{ feeBlock(o.fees, o.thai, false) }}{% endif %}
+</div>
+{% endmacro %}
+
+{#- Choisir et réserver : chaque option avec son prix d'appel, le détail de l'option choisie juste dessous, puis le
+    groupe, le total estimé et le bouton. Sans JavaScript, les options restent des boutons radio (le détail suit le
+    choix en CSS) et le bouton ouvre WhatsApp. Grille durée × ligne quand les options partagent leurs lignes (ATV, karts). -#}
+{% macro pick(t, c) %}
+{%- set pk = t.pick -%}
+<section class="sec sec--sand pick-sec" id="options" aria-labelledby="opt-h">
+  <div class="wrap pick">
+    <div class="pick__main">
+      <h2 id="opt-h">{{ pk.title }}</h2>
+      {%- if pk.help %}<p class="pick__help">{{ pk.help }}</p>{% endif %}
+      {%- if pk.when.length %}
+      <dl class="pick__when">{% for w in pk.when %}<div><dt>{{ w.label }}</dt><dd>{{ w.value }}</dd></div>{% endfor %}</dl>
+      {%- endif %}
+      {%- if pk.matrix %}
+      <fieldset class="pick__list pick__list--grid">
+        <legend class="sr">Choose an option</legend>
+        <table class="ptab">
+          <caption class="sr">Prices in Thai baht, {{ pk.matrix.unit }}</caption>
+          <thead><tr><th scope="col" class="ptab__u">THB {{ pk.matrix.unit }}</th>{% for o in pk.options %}<th scope="col"><label class="ptab__opt"><input type="radio" name="pick" value="{{ o.id }}"{% if o.id == pk.sel %} checked{% endif %}><span>{{ o.label }}</span></label></th>{% endfor %}</tr></thead>
+          <tbody>
+            {%- for rl in pk.matrix.rows %}{% set ri = loop.index0 %}
+            <tr><th scope="row">{{ rl }}</th>{% for o in pk.options %}{% set r = o.rows[ri] %}<td data-col="{{ o.id }}"><b>{{ r.amount }}</b>{% if r.unit %} <small>{{ r.unit }}</small>{% endif %}</td>{% endfor %}</tr>
+            {%- endfor %}
+          </tbody>
+        </table>
+        {%- for o in pk.options %}
+        <div class="po po--grid" data-po="{{ o.id }}">{% if o.sub or o.note %}<p class="po__note">{{ o.sub }}{% if o.sub and o.note %}. {% endif %}{{ o.note }}</p>{% endif %}</div>
+        {%- endfor %}
+      </fieldset>
+      {%- else %}
+      <fieldset class="pick__list">
+        <legend class="sr">Choose an option</legend>
+        {%- for g in pk.groups %}
+        {%- if g.title %}<p class="pick__g">{{ g.title }}{% if g.sub %}<span>{{ g.sub }}</span>{% endif %}</p>{% endif %}
+        {%- for o in g.options %}
+        <div class="po" data-po="{{ o.id }}">
+          <label class="po__head">
+            <input type="radio" name="pick" value="{{ o.id }}"{% if o.id == pk.sel %} checked{% endif %}{% if pk.single %} hidden{% endif %} aria-controls="po-{{ o.id }}-d">
+            <span class="po__name">{{ o.label }}{% if o.sub %}<small>{{ o.sub }}</small>{% endif %}</span>
+            {%- if o.from %}
+            <span class="po__from">{% if o.from.from %}<small>from</small> {% endif %}<b>{{ o.from.amount }}</b><small>{{ o.from.unit }}</small></span>
+            {%- else %}
+            <span class="po__from po__from--req"><small>Price on WhatsApp</small></span>
+            {%- endif %}
+          </label>
+          {{ detail(o) }}
+        </div>
+        {%- endfor %}
+        {%- endfor %}
+      </fieldset>
+      {%- endif %}
+      {%- if pk.common.length %}{{ feeBlock(pk.common, pk.thai, pk.feesCash) }}{% endif %}
+      {%- for x in pk.extra %}
+      <details class="pick__extra">
+        <summary>{{ x.label }}</summary>
+        {%- if x.note %}<p class="po__note">{{ x.note }}</p>{% endif %}
+        <ul class="opts__prices">{% for r in x.rows %}<li><span>{{ r.label }}</span><span class="opts__amt"><b>{{ r.amount }}</b>{% if r.unit %} <small>{{ r.unit }}</small>{% endif %}</span></li>{% endfor %}</ul>
+      </details>
       {%- endfor %}
     </div>
-    {%- if t.fees.length %}
-    <div class="fees" id="fees">
-      <h3>Not in the price{% if t.feesCash %}, paid in cash on the day{% endif %}</h3>
-      {{ feeList(t.fees) }}
-    </div>
-    {%- endif %}
+    {{ calc(pk, c) }}
   </div>
 </section>
 {% endmacro %}
 
-{#- Déroulé : une ligne de temps (« How the day goes ») ou un programme par option. -#}
+{#- Groupe et total : adultes et âge de chaque enfant, ou les compteurs propres à l'option (pilotes, karts). -#}
+{% macro calc(pk, k) %}
+{%- set cl = pk.calc -%}
+<div class="calc" role="group" aria-labelledby="h-prices" data-calc>
+  <h3 class="calc__h" id="h-prices">Your group</h3>
+  <p class="calc__opt" data-calc-opt>{{ cl.selLabel }}</p>
+  <div class="calc__gs">
+    {%- if cl.mode == "counts" %}
+    {%- for r in cl.countRows %}
+    <div class="stp-row"><span><b id="c-n{{ loop.index0 }}">{{ r }}</b></span><span class="stp" role="group" aria-labelledby="c-n{{ loop.index0 }}"><button type="button" data-step="n" data-i="{{ loop.index0 }}" data-d="-1" disabled>−<span class="sr">One less</span></button><output data-out="n{{ loop.index0 }}">0</output><button type="button" data-step="n" data-i="{{ loop.index0 }}" data-d="1">+<span class="sr">One more</span></button></span></div>
+    {%- endfor %}
+    {%- else %}
+    <div class="stp-row"><span><b id="c-a">Adults</b>{% if cl.adultFrom %}<small>{{ cl.adultFrom }} and over</small>{% endif %}</span><span class="stp" role="group" aria-labelledby="c-a"><button type="button" data-step="adults" data-d="-1">−<span class="sr">One adult less</span></button><output data-out="adults">2</output><button type="button" data-step="adults" data-d="1">+<span class="sr">One adult more</span></button></span></div>
+    <div class="stp-row"><span><b id="c-c">Children</b><small>0 to {{ cl.kidMax }}, we ask each age</small></span><span class="stp" role="group" aria-labelledby="c-c"><button type="button" data-step="children" data-d="-1" disabled>−<span class="sr">One child less</span></button><output data-out="children">0</output><button type="button" data-step="children" data-d="1">+<span class="sr">One child more</span></button></span></div>
+    <div class="calc__ages" data-ages></div>
+    <p class="calc__note" data-advice hidden></p>
+    {%- endif %}
+  </div>
+  <div class="calc__total" aria-live="polite">
+    <small data-calc-lbl>{% if cl.total %}Estimated total{% else %}Total{% endif %}</small>
+    <b data-calc-sum{% if not cl.total %} hidden{% endif %}><span class="odo" data-odo="total">{{ cl.total | replace(" THB", "") }}</span> THB</b>
+    <p class="calc__confirm" data-calc-confirm{% if cl.total %} hidden{% endif %}>{% if cl.mode == "counts" %}Add who is coming to see the total.{% else %}We confirm the total on WhatsApp.{% endif %}</p>
+    <ul class="calc__lines" data-calc-lines>{% for l in cl.lines %}<li><span>{{ l.label }}</span><span>{{ l.amount }}</span></li>{% endfor %}</ul>
+    <p class="calc__note" data-calc-unpriced hidden></p>
+    <p class="calc__note calc__cash" data-calc-cash hidden></p>
+  </div>
+  <a class="btn btn--lg press" href="{{ v4.waHref(k.number, cl.fallback) }}" data-book="{{ pk.sel }}" data-book-sel data-calc-book>Choose a date</a>
+</div>
+<script type="application/json" id="pick-data">{{ pk.json | dump | safe }}</script>
+{% endmacro %}
+
+{#- Déroulé : les journées minutées. Plusieurs journées : celle de l'option choisie (v4-product.js), les autres
+    restent dans la page sans JavaScript. -#}
 {% macro programme(t) %}
 {%- set pg = t.programme -%}
 <section class="sec" id="day" aria-labelledby="day-h">
@@ -91,38 +191,31 @@
       {%- endif %}
     </div>
     <div class="day__main">
-      {%- if pg.mode == "list" %}
-      <div class="prog">
-        {%- for it in pg.items %}
-        <div class="prog__it">
-          <h3><a href="#opt-{{ it.id }}">{{ it.title }}</a></h3>
-          <div>
-            {%- for s in it.steps %}<p>{% if s.t %}<b>{{ s.t }}</b> {% endif %}{{ s.text }}</p>{% endfor %}
-            {%- if it.note %}<p class="prog__note">{{ it.note }}</p>{% endif %}
-          </div>
-        </div>
-        {%- endfor %}
-      </div>
-      {%- else %}
       {%- for b in pg.blocks %}
-      {%- if b.title %}<p class="day__for">{{ b.title }}{% if b.note %}. {{ b.note }}{% endif %}</p>{% elif b.note %}<p class="day__for">{{ b.note }}</p>{% endif %}
+      <div class="dayb" data-day-ids="{{ b.ids | join(' ') }}">
+      {%- if b.title %}<h3 class="day__for">{{ b.title }}</h3>{% endif %}
+      {%- if b.note %}<p class="day__note">{{ b.note }}</p>{% endif %}
       <ol class="tl tl--p">
         {%- for s in b.steps %}
         <li class="tl__step">{% if s.t %}<time class="{{ 'fixed' if s.fixed }}">{% if s.approx %}≈ {% endif %}{{ s.t }}</time>{% else %}<span class="tl__t"></span>{% endif %}<p>{{ s.text }}</p></li>
         {%- endfor %}
       </ol>
+      </div>
       {%- endfor %}
-      {%- endif %}
     </div>
   </div>
 </section>
 {% endmacro %}
 
+{#- Ce que couvre le prix : une colonne, « Not included » sous « Included ». -#}
 {% macro included(t) %}
-<section class="sec{% if not t.programme %} sec--plain{% endif %}" aria-label="What is included">
+<section class="sec{% if not t.programme %} sec--plain{% endif %}" aria-labelledby="inc-h">
   <div class="wrap inc">
-    {%- if t.included.length %}<div><h2>Included</h2><ul class="rules">{% for x in t.included %}<li>{{ x }}</li>{% endfor %}</ul></div>{% endif %}
-    {%- if t.notIncluded.length %}<div><h2>Not included</h2><ul class="rules">{% for x in t.notIncluded %}<li>{% if "Options and prices" in x %}<a class="link" href="#fees">{{ x }}</a>{% else %}{{ x }}{% endif %}</li>{% endfor %}</ul></div>{% endif %}
+    <h2 id="inc-h">What the price covers</h2>
+    <div class="inc__cols">
+    {%- if t.included.length %}<div><h3>Included</h3><ul class="rules">{% for x in t.included %}<li{% if x.indexOf("On a private boat") == 0 %} data-private{% endif %}>{{ x }}</li>{% endfor %}</ul></div>{% endif %}
+    {%- if t.notIncluded.length %}<div><h3>Not included</h3><ul class="rules">{% for x in t.notIncluded %}<li>{{ x }}</li>{% endfor %}</ul></div>{% endif %}
+    </div>
   </div>
 </section>
 {% endmacro %}
@@ -142,7 +235,7 @@
 <section class="sec" aria-labelledby="rel-h">
   <div class="wrap">
     <div class="sec__head"><h2 id="rel-h">{{ r.title }}</h2><a class="link" href="{{ r.all.href }}">{{ r.all.label }}</a></div>
-    {%- if r.cards.length %}<div class="grid">{% for x in r.cards %}{{ v4.card(x) }}{% endfor %}</div>{% endif %}
+    {%- if r.cards.length %}<div class="rail rail--rel" role="region" tabindex="0" aria-label="{{ r.title }}">{% for x in r.cards %}{{ v4.card(x) }}{% endfor %}</div>{% endif %}
     {%- if r.transfer %}<p class="also">Arriving at {{ r.transfer.from }}? <a class="link" href="{{ r.transfer.href }}">See the {{ r.transfer.name }} transfer</a></p>{% endif %}
     {%- if r.links.length %}<ul class="also also--list">{% for l in r.links %}<li><a class="link" href="{{ l.href }}">{{ l.label }}</a></li>{% endfor %}</ul>{% endif %}
   </div>
@@ -150,10 +243,11 @@
 {%- endif %}
 {% endmacro %}
 
-{#- Bande du bas : prix d'appel et bouton, quand le bouton du haut est sorti de l'écran (v4-product.js). -#}
+{#- Bande du bas (téléphone seulement) : prix d'appel et bouton dès l'arrivée ; une fois le groupe choisi, l'option et
+    le total. Elle s'efface devant le bloc de réservation, le pied de page et la feuille (v4-product.js). -#}
 {% macro dock(price, fallback, book, label="Choose a date") %}
-<div class="dock" data-dock role="region" aria-label="Book" aria-hidden="true">
-  {%- if price %}<p class="dock__p"><span>from</span><b>{{ price.amount }}</b></p>{% else %}<p class="dock__p"><b>Price on WhatsApp</b></p>{% endif %}
-  <a class="btn press" href="{{ fallback }}" data-book="{{ book }}" tabindex="-1" data-dock-book>{{ label }}</a>
+<div class="dock" data-dock role="region" aria-label="Book">
+  {%- if price %}<p class="dock__p" data-dock-p><span>from {{ price.amount }}</span><small>{{ price.unit }}</small></p>{% else %}<p class="dock__p" data-dock-p><span class="dock__req">Price on WhatsApp</span></p>{% endif %}
+  <a class="btn press" href="{{ fallback }}" data-book="{{ book }}"{% if book %} data-book-sel{% endif %} data-dock-book>{{ label }}</a>
 </div>
 {% endmacro %}

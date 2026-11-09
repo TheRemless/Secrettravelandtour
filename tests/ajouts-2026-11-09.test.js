@@ -43,12 +43,13 @@ for (const rel of ["tours/koh-rok-koh-haa", "tours/4-islands"]) {
   });
 }
 
-test("4 Islands : le catamaran a son parcours, sa journée, sa colonne et sa route sur la carte", () => {
+test("4 Islands : le catamaran a son choix, son détail, sa journée et sa route sur la carte", () => {
   const doc = html("/tours/4-islands/");
-  assert.match(doc, /<button type="button" value="catamaran-ao-nang"/);
+  // Phase 1 : le comparateur est fondu dans le bloc « Choose your boat » ; le détail du catamaran garde ses lignes.
+  assert.match(doc, /name="pick" value="catamaran-ao-nang"/);
   assert.match(doc, /data-tl="catamaran"/);
   assert.match(doc, /data-map-route="catamaran"/);
-  assert.match(doc, /data-opt="catamaran-ao-nang"/);
+  assert.match(doc, /data-po="catamaran-ao-nang"/);
   assert.match(doc, /<dt>Lunch<\/dt><dd>Buffet lunch on Koh Kradan<\/dd>/);
   const data = JSON.parse(doc.match(/<script type="application\/json" id="four-data">([\s\S]*?)<\/script>/)[1]);
   assert.deepEqual(data.islands.catamaran.map((i) => i.name), ["Koh Chueak", "Koh Mook", "Koh Kradan", "Koh Ngai"]);
@@ -99,5 +100,5 @@ test("speedboat : les départs de la seconde compagnie sont sur leur destination
   assert.doesNotMatch(doc, /bundhaya/i);
   const st = Object.assign(B.emptyState({}), { today: "2026-11-09", route: "to-ao-nang", departure: "to-ao-nang@0900", dateChoice: "other", dateOther: "2026-11-20", adults: 2, childAges: [], tripType: "one-way", pickup: "Lanta Sand Resort", name: "Anna" });
   assert.deepEqual(B.validate(cfg, st), {});
-  assert.match(B.buildMessage(cfg, st), /^Ref: SB-2011-2A\nSpeedboat request: Koh Lanta to Ao Nang\nDeparture: 09:00\nDate: Fri 20 Nov 2026\nTicket: one way\n/);
+  assert.match(B.buildMessage(cfg, st), /^Ref: SPEED-2011-2A\nSpeedboat request: Koh Lanta to Ao Nang\nDeparture: 09:00\nDate: Fri 20 Nov 2026\nTicket: one way\n/);
 });

@@ -6,7 +6,6 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const view = require("../_includes/components/view.js");
-const price = require("../js/v4-price.js");
 const booking = require("../js/booking.js");
 const site = require("./site.json");
 const vp = require("../_includes/components/v4-product.js");
@@ -125,17 +124,6 @@ function lunchOf(four, boat) {
   return (fact(four, "Lunch").match(new RegExp("(Koh \\w+) by " + boat)) || [])[1] || "";
 }
 
-function routeNodes(four, opt, kradan) {
-  const list = islandsOf(four, opt.boat);
-  if (opt.kind === "private" && kradan) list.push({ name: "Koh Kradan", tag: "" });
-  const lunch = lunchOf(four, opt.boat);
-  // Ponton de chaque bateau, lu dans son option (Lanta Old Town pier, Koh Lanta Noi pier) ; le catamaran part d'Ao Nang.
-  const home = opt.from || "Koh Lanta";
-  return [{ name: home, tag: opt.pier || (opt.from ? "Hotel pickup" : ""), end: true }]
-    .concat(list.map((i) => ({ ...i, lunch: i.name === lunch })))
-    .concat([{ name: home, tag: "Back to your hotel", end: true }]);
-}
-
 // Projection équirectangulaire corrigée de la latitude : un schéma, pas une carte marine.
 const MAP = { lon0: 99.0, lon1: 99.335, lat0: 7.29, lat1: 7.555, W: 640 };
 function fourMap(four) {
@@ -164,9 +152,13 @@ function fourMap(four) {
   // Le catamaran vient d'Ao Nang, au nord, hors du cadre : il entre et sort par le haut de la carte, par le chenal
   // à l'est de Koh Lanta (tracé de la brochure).
   const north = [99.165, 7.555];
+  // Speedboat join-in : il part du ponton de Koh Lanta Noi (fiche, « Speedboat pier »), au nord du cadre. La carte ne
+  // place pas ce ponton : le tracé entre par le haut, comme celui du catamaran, sous l'étiquette « To Koh Lanta Noi pier ».
+  const noi = [99.125, 7.555];
+  // Premier tronçon par l'est de Koh Ma, pour qu'il ne passe pas sur Koh Ma avant Koh Chueak.
   const lane = (names, start) => {
     const stops = names.map((n) => at[n]);
-    const segs = [[start, [99.19, 7.475], stops[0]]];
+    const segs = [[start, [99.2, 7.47], [99.25, 7.43], stops[0]]];
     for (let i = 1; i < stops.length; i++) segs.push([stops[i - 1], stops[i]]);
     segs.push([stops[stops.length - 1], [99.135, 7.49], start]);
     return segs.map(curve);
@@ -175,8 +167,9 @@ function fourMap(four) {
   for (const boat of boatsOf(four)) {
     const names = islandsOf(four, boat).map((i) => i.name);
     const away = four.options.some((o) => o.boat === boat && o.from);
-    const start = away ? north : pier;
-    routes[boat] = { segs: lane(names, start), stops: names.map((n) => ({ name: n, x: f(P(at[n])[0]), y: f(P(at[n])[1]) })), start: { x: f(P(start)[0]), y: f(P(start)[1]) }, away };
+    const fromNoi = !away && four.options.some((o) => o.boat === boat && /Lanta Noi/.test(o.pier || ""));
+    const start = away ? north : fromNoi ? noi : pier;
+    routes[boat] = { segs: lane(names, start), stops: names.map((n) => ({ name: n, x: f(P(at[n])[0]), y: f(P(at[n])[1]) })), start: { x: f(P(start)[0]), y: f(P(start)[1]) }, away, noi: fromNoi };
   }
   const label = (text, pt, dx, dy, anchor = "start", big = false) => ({ text, x: f(P(pt)[0] + dx), y: f(P(pt)[1] + dy), anchor, big });
   const labels = [
@@ -186,8 +179,9 @@ function fourMap(four) {
     label("Koh Mook", G("muk"), 0, -28, "middle"),
     label("Koh Ngai", G("ngai"), -14, 5, "end"),
     label("Koh Kradan", G("kradan"), -14, 5, "end"),
-    label("Koh Ma", G("ma"), 4, -16)
-  ].concat(Object.values(routes).some((r) => r.away) ? [{ ...label("To Ao Nang", north, 8, 18), gone: true }] : []);
+    label("Koh Ma", G("ma"), 8, -14)
+  ].concat(Object.values(routes).some((r) => r.away) ? [{ ...label("To Ao Nang", north, 8, 18), gone: true }] : [])
+    .concat(Object.values(routes).some((r) => r.noi) ? [{ ...label("To Koh Lanta Noi pier", noi, -8, 18, "end"), gone: true }] : []);
   // Échelle de 5 km (1° de latitude ≈ 110,6 km).
   const km = (5 / 110.6 / (MAP.lat1 - MAP.lat0)) * H;
   return { W: MAP.W, H, land, routes, labels, pier: { x: f(P(pier)[0]), y: f(P(pier)[1]) }, scale: { x1: f(MAP.W - km - 24), x2: f(MAP.W - 24), y: H - 26, km: 5 } };
@@ -199,7 +193,6 @@ module.exports = async function () {
   const activities = await Promise.all(ACTIVITIES.map(card));
   const bySlug = Object.fromEntries(boats.concat(activities).map((c) => [c.slug, c]));
   const contact = view.contact(site);
-  const fee = view.parkFee(four);
 
   // Catalogue complet (JSON servi à part) et version réduite pour le message d'essai de l'accueil.
   const catalog = {};
@@ -258,13 +251,6 @@ module.exports = async function () {
 
   // ----- 4 Islands -----
   const opts = four.options.map((o) => ({ id: o.id, label: o.label, kind: o.kind, boat: o.boat, note: o.note || "", stub: o.stub || "", pier: o.pier || "", from: o.from || "", onBoard: o.onBoard || "", lunch: o.lunch || "", feesToConfirm: Boolean(o.feesToConfirm), prices: o.prices || [] }));
-  const kradan = four.options.map((o) => (o.prices || []).find((r) => r.supplement && /Koh Kradan/.test(r.label))).find(Boolean) || null;
-  const adultFrom = price.adultFrom(four.options);
-  const group = { adults: 2, ages: [] };
-  const groupTotal = (o) => {
-    const e = price.estimate(o, group.adults, group.ages, []);
-    return e ? { amount: view.thb(e.total), lines: e.lines.map(([l, a]) => ({ label: l, amount: view.thb(a) })) } : null;
-  };
   const day = four.day[0];
   // Journée de chaque autre bateau (speedboat join-in, catamaran d'Ao Nang) : son propre déroulé, heures approximatives.
   const stepsOf = (b) => b.steps.map((s) => ({ t: s.range || s.time, fixed: Boolean(s.fixed), place: s.place, text: dropPlace(s.text, s.place), kind: s.kind }));
@@ -279,70 +265,22 @@ module.exports = async function () {
       title: `4 Islands Tour from Koh Lanta, from ${view.thb(four.price.from)} | Secret Travel & Tour`,
       metaDescription: `Emerald Cave, Koh Ngai and two snorkelling stops, by longtail or speedboat. Join-in from ${view.thb(four.price.from)}, private longtail from ${view.thb(four.options.find((o) => o.kind === "private").prices[0].amount)}, hotel pickup included.`
     },
-    h1: four.h1.replace("Koh Lanta", "Koh\u00a0Lanta"),
-    lead: four.lead,
-    keyFacts: ["Duration", "Hotel pickup", "Boat leaves"].map((l) => ({ label: l, value: fact(four, l) })).filter((f) => f.value),
-    price: { amount: view.thb(four.price.from), unit: four.price.unit, option: view.optionOfPrice(four) },
     hero: await photo("four-hero"),
-    gallery: await Promise.all(["four-gallery-reef", "four-gallery-ngai", "four-gallery-kradan", "four-gallery-pier"].map(photo)),
-    longtail: await photo("four-longtail"),
-    boatIntro: four.faq[0].a,
-    options: opts.map((o) => ({ ...o, from: R0(o) })),
-    route: routeNodes(four, opts[0], false),
-    kradan: kradan ? { label: kradan.label, text: `Add Koh Kradan to the private longtail, +${view.thb(kradan.amount)} ${kradan.unit}` } : null,
-    calc: { adultFrom, kidMax: adultFrom - 1, default: groupTotal(opts[0]), park: price.parkCash(fee, group.adults, []) },
-    compare: {
-      cols: opts.map((o) => {
-        const islands = islandsOf(four, o.boat).map((i) => i.name).join(", ");
-        return {
-          id: o.id, label: o.label,
-          rows: [
-            ["Boat", cap(o.boat)],
-            ["On board", o.onBoard || (o.kind === "private" ? o.note : "A shared boat with other travellers")],
-            ["Islands", islands + (o.kind === "private" && kradan ? `, Koh Kradan as an extra (+${view.thb(kradan.amount)} ${kradan.unit})` : "")],
-            ["Lunch", o.lunch || `Thai buffet on the beach of ${lunchOf(four, o.boat)}`],
-            ["Pier", o.pier || ""],
-            // Départ d'ailleurs (catamaran d'Ao Nang) : sa note, sinon visible seulement avec JavaScript sous le segment.
-            ["Good to know", o.from ? o.note : ""]
-          ].filter((r) => r[1]),
-          prices: (o.prices || []).filter((r) => !(r.supplement && /Koh Kradan/.test(r.label))).map((r) => ({ label: r.label, amount: r.amount === 0 ? "Free" : (r.supplement ? "+" : "") + view.thb(r.amount) })),
-          group: groupTotal(o)
-        };
-      }),
-      groupLabel: booking.guestsLine(group.adults, group.ages)
-    },
+    gallery: await Promise.all(["four-gallery-reef", "four-gallery-ngai", "four-longtail", "four-gallery-kradan", "four-gallery-pier"].map(photo)),
     day: {
       title: "How the day goes",
       note: day.note,
       boats: boatsOf(four).map(dayOf).filter(Boolean)
     },
     map: fourMap(four),
-    included: four.included,
-    notIncluded: view.notIncluded(four, { skipParkFee: true }),
-    parkFee: fee ? `${view.thb(fee.adult)} per adult, ${view.thb(fee.child)} per child${fee.childAges ? ` from ${fee.childAges.min} to ${fee.childAges.max}, free under ${fee.childAges.min}` : ""}, ${fee.thai.adult} and ${view.thb(fee.thai.child)} for Thai nationals. ${fee.note}.` : "",
-    beforeBook: view.beforeBook(four, site, { skipParkFee: true }),
-    faq: four.faq,
-    related: ["koh-rok-koh-haa", "koh-phi-phi", "koh-talabeng-koh-bubu"].map((s) => bySlug[s]),
-    transfer: (() => {
-      const u = (four.related || []).find((x) => x.startsWith("/taxi/"));
-      const t = taxi.find((x) => x.url === u);
-      return t ? { from: t.from, href: t.url, name: t.name } : null;
-    })(),
-    booking: { ...view.bookingTour(four, site), tripList: true },
-    fallback: view.fallbackText(four, site),
+    // Données du script de la page (v4-four.js) : bateau de chaque option, îles et île du déjeuner, pour la journée et la carte.
     json: {
-      slug: four.slug, name: four.name, adultFrom, fee: fee ? { adult: fee.adult, child: fee.child, childAges: fee.childAges } : null,
-      kradan: kradan ? kradan.label : "",
-      options: opts.map((o) => ({ id: o.id, label: o.label, kind: o.kind, boat: o.boat, note: o.note, stub: o.stub, pier: o.pier, from: o.from, feesToConfirm: o.feesToConfirm, prices: o.prices })),
+      slug: four.slug,
+      options: opts.map((o) => ({ id: o.id, boat: o.boat })),
       islands: Object.fromEntries(boatsOf(four).map((b) => [b, islandsOf(four, b)])),
       lunch: Object.fromEntries(boatsOf(four).map((b) => [b, lunchOf(four, b)]))
     }
   };
-  function R0(o) {
-    const r = (o.prices || []).find((x) => !x.supplement && x.amount);
-    if (!r) return "Price on WhatsApp";
-    return `${view.thb(r.amount)} ${r.group ? "per boat, " + r.label.toLowerCase() : r.label === "Adult" ? "per adult" : r.label.toLowerCase()}`;
-  }
 
   // ----- Hub -----
   const nBoats = boats.length, nActs = activities.length;
@@ -360,6 +298,25 @@ module.exports = async function () {
   const productPages = [];
   for (const slug of BOATS.concat(ACTIVITIES).filter((x) => x !== "4-islands")) {
     productPages.push(vp.productPage(product(slug), { ...ctx, hero: await photo(CARD_PHOTO[slug]) }));
+  }
+  // 4 Islands : même gabarit de fiche, bloc « Choose your boat » ; la ligne de chaque bateau dit l'île qui change et
+  // l'île du déjeuner, son détail le ponton (et ce que la brochure du catamaran dit du bord et du déjeuner).
+  {
+    const sets = boatsOf(four).map((b) => islandsOf(four, b).map((i) => i.name));
+    const shared = sets[0].filter((n) => sets.every((l) => l.includes(n)));
+    const help = vp.helpOf(four);
+    const page = vp.productPage(four, { ...ctx, hero: fourData.hero });
+    page.pick = vp.pickOf(four, site, {
+      title: "Choose your boat", help: help ? help.a : "",
+      sub: (o) => {
+        const own = islandsOf(four, o.boat).map((i) => i.name).filter((n) => !shared.includes(n));
+        const lunch = lunchOf(four, o.boat);
+        return cap([own.length ? "with " + own.join(" and ") : "", lunch ? "lunch on " + lunch : ""].filter(Boolean).join(", "));
+      },
+      facts: (o) => [["Pier", o.pier || ""], ["On board", o.onBoard || ""], ["Lunch", o.lunch || ""]].filter((r) => r[1])
+    });
+    page.single = page.pick.sel;
+    Object.assign(fourData, { page, booking: page.booking });
   }
   const rentalPage = vp.rentalPage(rentalP, ctx);
   const speedboatPage = vp.speedboatPage(P("secret-transfers/speedboat-ferry"), ctx);
@@ -381,7 +338,7 @@ module.exports = async function () {
   // AVIF et WebP, jamais au-delà de la largeur native. Cartes plus petites que les photos du haut.
   await view.responsive([data.boats, data.activities], { widths: [400, 560, 720, 960], avif: 40, webp: 68 });
   await view.responsive([homeData.heroTrips], { widths: [480, 640, 768, 960, 1280, 1600], avif: 45, webp: 68 });
-  await view.responsive([homeData.final, hubData.final, fourData.hero, fourData.gallery, fourData.longtail], { widths: [480, 640, 768, 960, 1280, 1600, 2000], avif: 45, webp: 68 });
+  await view.responsive([homeData.final, hubData.final, fourData.hero, fourData.gallery], { widths: [480, 640, 768, 960, 1280, 1600, 2000], avif: 45, webp: 68 });
   await view.responsive(productPages.map((x) => x.hero), { widths: [480, 640, 768, 960, 1280, 1600], avif: 45, webp: 68 });
   return data;
 };

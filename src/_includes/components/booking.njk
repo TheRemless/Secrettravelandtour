@@ -34,7 +34,7 @@
     <form novalidate>
       <div class="sheet-head">
         <div>
-          <p class="sheet-kicker">Check availability</p>
+          <p class="sheet-kicker">{% if cfg.variant == "tour" %}Choose a date{% else %}Check availability{% endif %}</p>
           <h2 class="sheet-title" id="book-title" tabindex="-1" data-focus>{{ cfg.product }}</h2>
         </div>
         <button class="sheet-close" type="button" data-close>{{ icon("close") }}<span class="sr-only">Close</span></button>
@@ -43,9 +43,14 @@
         {%- if cfg.options and cfg.options.length > 1 %}
         <fieldset class="f">
           <legend>Option</legend>
-          <div class="choice choice--list">
+          {#- Ouverte depuis une option de la page : l'option en une ligne, « Change » rouvre la liste (booking.js). -#}
+          <div class="opt-sum" data-opt-sum hidden>
+            <p><b data-opt-sum-t></b><span data-opt-sum-p></span></p>
+            <button type="button" class="opt-sum__change" data-opt-change>Change<span class="sr-only"> the option</span></button>
+          </div>
+          <div class="choice choice--list" data-opt-list>
             {%- for o in cfg.options %}
-            <label><input type="radio" name="option" value="{{ o.id }}" aria-describedby="book-e-option"><span><b>{{ o.title }}</b>{% if o.from %}<span class="opt-price"><span class="num">{{ o.from }}</span>{% if o.unit %} <small>{{ o.unit }}</small>{% endif %}</span>{% endif %}</span></label>
+            <label><input type="radio" name="option" value="{{ o.id }}" aria-describedby="book-e-option"><span><b>{{ o.title }}</b>{% if o.from %}<span class="opt-price"><span class="num">{{ o.from }}</span>{% if o.unit %} <small>{{ o.unit }}</small>{% endif %}</span>{% else %}<span class="opt-price">Ask on WhatsApp</span>{% endif %}</span></label>
             {%- endfor %}
           </div>
           <p class="err" id="book-e-option" hidden></p>
@@ -209,12 +214,13 @@
         {%- endif %}
 
         {%- if not rental %}
-        <fieldset class="f">
+        <fieldset class="f" data-guests>
           <legend>Guests</legend>
           {{ stepper("adults", "Adults", 2, 0, 60) }}
           <p class="err" id="book-e-adults" hidden></p>
           {{ stepper("children", "Children", 0, 0, 12, "We ask each child's age") }}
           <div class="ages" data-child-ages></div>
+          {%- if not taxi %}<p class="f-note" data-advice hidden></p>{% endif %}
           {%- if taxi %}
           <div data-child-seats hidden>{{ stepper("childSeats", "Child seats", 0, 0, 12) }}</div>
           {{ stepper("bags", "Bags", 0, 0, 30) }}
@@ -233,15 +239,23 @@
         {%- elif speedboat %}
         {{ text("pickup", "Hotel on Koh Lanta", "Where you stay on the island.", true, "street-address") }}
         {%- elif not rental %}
-        {{ text("pickup", "Hotel or address", "We pick you up here.", cfg.pickupRequired != false, "street-address") }}
+        {%- set pLabel = cfg.pickupLabel or "Hotel or address" -%}
+        {%- set pHint = cfg.pickupHint or "We pick you up here." -%}
+        <div class="f">
+          <label for="book-pickup" data-label="{{ pLabel }}">{{ pLabel }}</label>
+          <p class="f-hint" id="book-h-pickup" data-hint="{{ pHint }}">{{ pHint }}</p>
+          <input id="book-pickup" name="pickup" type="text" autocomplete="street-address"{% if cfg.pickupRequired != false %} required aria-required="true"{% endif %} aria-describedby="book-h-pickup book-e-pickup">
+          <p class="err" id="book-e-pickup" hidden></p>
+        </div>
         {%- endif %}
 
         {{ text("name", "First name", "", true, "given-name") }}
       </div>
       <div class="sheet-foot{% if cfg.tripList %} sheet-foot--pair{% endif %}">
+        {%- if cfg.variant == "tour" %}<p class="sheet-total" data-total aria-live="polite" hidden></p>{% endif %}
         <button class="sheet-btn" type="submit">Preview message</button>
         {%- if cfg.tripList %}
-        <button class="sheet-btn sheet-btn--quiet" type="button" data-trip>Add to my trip list</button>
+        <button class="sheet-link sheet-link--trip" type="button" data-trip>Add to my trip list</button>
         {%- endif %}
       </div>
     </form>
@@ -262,11 +276,11 @@
         <p class="slip-ref" data-slip-ref hidden></p>
         <dl class="slip-lines" data-slip></dl>
         <pre class="sr-only" data-message></pre>
-        {%- if cfg.parkFee %}
+        {%- if cfg.variant == "tour" %}
         <div class="slip-cash" data-cash hidden>
-          <p class="slip-cash-label">{{ cfg.parkFee.label }}, in cash on the day</p>
+          <p class="slip-cash-label" data-cash-label>{% if cfg.parkFee %}{{ cfg.parkFee.label }}, in cash on the day{% endif %}</p>
           <p class="slip-cash-sum" data-cash-sum></p>
-          <p class="slip-cash-note">Not in the price and not in the message. {{ cfg.parkFee.note }}.</p>
+          <p class="slip-cash-note">Not in the price and not in the message.{% if cfg.parkFee and cfg.parkFee.note %} <span data-cash-note>{{ cfg.parkFee.note }}.</span>{% endif %}</p>
         </div>
         {%- endif %}
       </div>

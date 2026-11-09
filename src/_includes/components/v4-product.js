@@ -4,6 +4,7 @@
 // questions, autres sorties. Une section sans donnée n'existe pas. Aucun fait n'est écrit ici : tout est lu
 // dans la fiche (ou site.json) ; seuls les titres de section et les libellés de boutons sont du texte d'interface.
 const view = require("./view.js");
+const price = require("../../js/v4-price.js");
 
 const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : "");
 const listJoin = (a) => (a.length < 2 ? a.join("") : a.slice(0, -1).join(", ") + " and " + a[a.length - 1]);
@@ -16,30 +17,51 @@ function publicText(s) {
   return /^not included\.?$/i.test(t) ? "" : t;
 }
 
-// ---------- Faits : le haut de page ne garde que les faits courts, le reste va au déroulé ou à « Before you book » ----------
-const HERO = ["Duration", "Hotel pickup", "Boat leaves", "Sessions", "Season", "Boat", "Start", "Raft pier", "Where", "Half days", "Full days", "One-day sites", "Riding"];
-// Frais (affichés dans « Not in the price »), et faits redits par les lignes de prix.
-const SKIP = ["National park fee", "Village entrance fee", "Not included", "Karts"];
+// ---------- Faits : le haut de page dit toujours la même chose, dans le même ordre ----------
+// Durée, prise en charge (puis le prix d'appel, à part). Une valeur absente des données n'est pas affichée ;
+// aucune n'est choisie selon sa longueur. Le reste va au déroulé ou à « Before you book ».
+// Faits déjà dits ailleurs sur la page (sélecteur, intitulés des groupes, accroche) : jamais redits à côté.
+const SKIP = ["National park fee", "Village entrance fee", "Not included", "Karts", "Boat", "Format", "Ways to go", "Rides", "Sessions", "Half days", "Full days", "Also", "Riding", "Level"];
 // Faits pratiques : « Before you book », sauf si la fiche dit déjà la même chose (même clé).
-const BEFORE = { Children: "children", Ages: "children", Cancellation: "cancellation", Transfer: "pickup", Also: "" };
-const MAX_HERO = 4;
+const BEFORE = { Children: "children", Ages: "children", Cancellation: "cancellation", Transfer: "pickup" };
+// Créneaux écrits dans les faits, montrés en tête du sélecteur (cuisine, batik) : choisir, c'est d'abord choisir quand.
+const WHEN = { "cooking-class": ["Morning class", "Evening class", "Carving class"], batik: ["Morning course", "Afternoon course", "Kayak and painting"] };
+
+// « Duration » : le fait, sinon ce que les faits disent de la durée (séances du karting, demi-journées et journées).
+function durationOf(p) {
+  const d = fact(p, "Duration");
+  if (d) return d;
+  if (/minutes?$/.test(fact(p, "Sessions"))) return fact(p, "Sessions");
+  if (fact(p, "Half days") && fact(p, "Full days")) return "Half day or full day";
+  return "";
+}
+// « Pickup » : l'heure écrite, sinon ce que dit la liste « Included » ou le fait « Transfer ».
+function pickupOf(p) {
+  const h = fact(p, "Hotel pickup");
+  if (h) return h;
+  const inc = (p.included || []).find((x) => /^Hotel transfer both ways/.test(x));
+  if (inc === "Hotel transfer both ways") return "Included";
+  if (inc === "Hotel transfer both ways, within the Koh Lanta area") return "Included, Koh Lanta area";
+  if (/^not included/i.test(fact(p, "Transfer"))) return "Not included";
+  return "";
+}
+function heroFacts(p) {
+  return [["Duration", durationOf(p)], ["Pickup", pickupOf(p)]].filter((f) => f[1]).map(([label, value]) => ({ label, value }));
+}
 
 function sortFacts(p, { day }) {
   const facts = (p.facts || []).map((f) => ({ label: f.label, value: publicText(f.value) })).filter((f) => f.value);
-  const hero = [];
-  for (const label of HERO) {
-    const f = facts.find((x) => x.label === label);
-    if (f && f.value.length <= 40 && hero.length < MAX_HERO) hero.push(f);
-  }
+  const used = new Set(["Duration", "Hotel pickup"].concat(WHEN[p.slug] || []));
+  if (!fact(p, "Duration") && /minutes?$/.test(fact(p, "Sessions"))) used.add("Sessions");
   const own = p.beforeYouBook || {};
-  const rest = facts.filter((f) => !hero.includes(f) && !SKIP.includes(f.label));
+  const rest = facts.filter((f) => !used.has(f.label) && !SKIP.includes(f.label));
   const before = [], side = [];
   for (const f of rest) {
-    if (f.label in BEFORE) { if (!BEFORE[f.label] || own[BEFORE[f.label]] === undefined) before.push(f); }
+    if (f.label in BEFORE) { if (own[BEFORE[f.label]] === undefined && !(f.label === "Transfer" && pickupOf(p) === "Not included")) before.push(f); }
     else if (day) side.push(f);
     else before.push(f);
   }
-  return { hero, side, before };
+  return { hero: heroFacts(p), side, before };
 }
 
 // ---------- Prix : chaque ligne de chaque option, avec son unité ; les frais sur place à part ----------
@@ -78,6 +100,195 @@ function optionsOf(p) {
   };
 }
 
+// ---------- Choisir et réserver : un seul bloc par fiche (options, détail de l'option choisie, groupe, total) ----------
+// Les intitulés de groupe sont du texte d'interface ; les options, leurs lignes et leurs notes viennent des fiches.
+const GROUPS = {
+  "scuba-diving": [["No diving experience", ["one-day-experience", "snorkelling-on-dive-boat"]], ["Certified divers", ["fun-dives", "catamaran-special-trips"]], ["Learn to dive", ["courses"]]]
+};
+// Options qui partagent les mêmes lignes (pilotes et passagers, types de kart) : une grille durée × ligne.
+const isMatrix = (p) => {
+  const list = (p.options || []).filter((o) => o.kind !== "extra");
+  if (list.length < 2 || !list.every((o) => o.counts && (o.prices || []).length)) return false;
+  const labels = (o) => o.prices.map((r) => r.label).join("|");
+  return list.every((o) => labels(o) === labels(list[0]));
+};
+const TIME = /\d{2}:\d{2}(?:[–-]\d{2}:\d{2})?/;
+const norm = (t) => String(t || "").replace(/[–-]/g, " to ").replace(/\s+/g, " ").trim();
+const orJoin = (a) => (a.length < 2 ? a.join("") : a.slice(0, -1).join(", ") + " or " + a[a.length - 1]);
+const sentences = (t) => String(t || "").split(/(?<=\.)\s+/).filter(Boolean);
+const startsWithLabel = (sentence, label) => {
+  const a = sentence.replace(/\.$/, "").toLowerCase(), b = label.toLowerCase();
+  return a.length > 6 && (b === a || b.startsWith(a + ",") || b.startsWith(a + " "));
+};
+
+// Déroulé d'une option tenu en une ou deux phrases, sans heure (kayak, éléphants A à C, plongée, ATV, batik) :
+// il va sous l'option, dans son détail. Le titre de l'option n'est pas redit en tête de phrase.
+function shortDays(p) {
+  const out = {};
+  for (const b of view.day(p)) {
+    if (b.options.length !== 1 || b.steps.some((s) => /^\d{2}:\d{2}/.test(s.t))) continue;
+    const id = b.options[0];
+    const label = ((p.options || []).find((o) => o.id === id) || {}).label || "";
+    const same = b.steps.length > 1 && b.steps.every((s) => s.t === b.steps[0].t);
+    out[id] = b.steps.map((s) => {
+      const parts = sentences(s.text);
+      if (parts.length > 1 && startsWithLabel(parts[0], label)) parts.shift();
+      return { t: b.steps.length > 1 && !same ? s.t : "", text: parts.join(" ") };
+    });
+  }
+  return out;
+}
+
+// Prix d'appel d'une option : la ligne adulte (« per adult »), sinon la plus basse avec son unité, « from » si les
+// lignes diffèrent. Les lignes enfant et les suppléments ne font pas le prix d'appel.
+function fromOf(o, skip) {
+  const rows = (o.prices || []).filter((r) => typeof r.amount === "number" && r.amount > 0 && !r.supplement && !/^child/i.test(r.label) && !(skip && skip.has(r.label)));
+  if (!rows.length) return null;
+  const adult = rows.find((r) => /^(adult\b|per person$)/i.test(r.label));
+  const tiers = rows.filter((r) => r.group).sort((a, b) => (a.group.min || 0) - (b.group.min || 0));
+  const min = adult || tiers[0] || rows.reduce((a, b) => (b.amount < a.amount ? b : a));
+  const many = !adult && !tiers.length && new Set(rows.map((r) => r.amount)).size > 1;
+  const unit = adult ? (/^adult/i.test(adult.label) ? "per adult" : "per person") : min.group ? `${min.unit || "per boat"}, ${min.label.replace(/, the raft$/, "").toLowerCase()}` : min.unit || "";
+  return { amount: view.thb(min.amount), unit, from: many };
+}
+
+// Une ligne qui dit ce qui distingue l'option : ses heures (séances, créneaux), sa journée, ou la première phrase de sa note.
+function subOf(p, o, days) {
+  const timed = !WHEN[p.slug] && (o.choices || []).find((c) => (c.values || []).length > 1 && c.values.every((v) => TIME.test(v.label)));
+  if (timed) return `${timed.label}: ${orJoin(timed.values.map((v) => v.label.match(TIME)[0]))}`;
+  const d = days[o.id];
+  if (d && d.length === 1) { const m = d[0].text.match(/(\d{2}:\d{2} to \d{2}:\d{2}(?: or \d{2}:\d{2} to \d{2}:\d{2})?)\.?$/); if (m) return m[1]; }
+  const first = noteSentences(o)[0] || "";
+  return first.length <= 80 ? first.replace(/\.$/, "") : "";
+}
+// Note publique de l'option, sans ce que la page dit déjà autrement (« Price per person. », « ask us » d'un prix sur demande).
+function noteSentences(o) {
+  const onRequest = o.priceOnRequest || !(o.prices || []).length;
+  return sentences(publicText(o.note || o.stub || "")).filter((x) => !/^price per person\.?$/i.test(x) && !(onRequest && /\bask us\b/i.test(x)));
+}
+
+// Groupes : la fiche décide (plongée par profil), sinon au départ d'ailleurs (Ao Nang), à la demi-journée ou à la
+// journée (libellés « …, half day », « …, 1 day »), au partagé ou au privé. Un seul groupe : pas d'intitulé.
+function groupsOf(p, list) {
+  const own = GROUPS[p.slug];
+  if (own) return own.map(([title, ids]) => ({ title, sub: "", ids: ids.filter((id) => list.some((o) => o.id === id)) }));
+  const away = list.filter((o) => o.from), home = list.filter((o) => !o.from);
+  const g = [];
+  const half = home.filter((o) => /, half day$/.test(o.label)), full = home.filter((o) => /, 1 day$/.test(o.label));
+  if (half.length && full.length && half.length + full.length === home.length) {
+    g.push({ title: "Half day", factLabel: "Half days", ids: half.map((o) => o.id) }, { title: "Full day", factLabel: "Full days", ids: full.map((o) => o.id) });
+  } else {
+    const join = home.filter((o) => o.kind !== "private"), priv = home.filter((o) => o.kind === "private");
+    if (join.length && priv.length) g.push({ title: "Join-in", ids: join.map((o) => o.id) }, { title: "Private", ids: priv.map((o) => o.id) });
+    else g.push({ title: "", ids: home.map((o) => o.id) });
+  }
+  if (away.length) [...new Set(away.map((o) => o.from))].forEach((f) => g.push({ title: "From " + f, ids: away.filter((o) => o.from === f).map((o) => o.id) }));
+  const shown = list.length >= 3 && g.filter((x) => x.ids.length).length > 1;
+  return g.filter((x) => x.ids.length).map((x) => ({ title: shown ? x.title : "", sub: shown && x.factLabel ? fact(p, x.factLabel) : "", ids: x.ids }));
+}
+
+// Frais sur place d'une liste de lignes : adulte et enfant pour le calcul du liquide à prévoir (visiteurs étrangers).
+function cashOf(fees) {
+  const list = (fees || []).filter((f) => !/Thai/.test(f.label));
+  const adult = list.find((f) => /, adults?$/.test(f.label)), child = list.find((f) => /, child(ren)?( \d+ to \d+)?$/.test(f.label));
+  if (!adult || list.length !== (child ? 2 : 1)) return null;
+  const ages = child && child.ages ? child.ages : (child && child.label.match(/(\d+) to (\d+)$/) ? { min: Number(RegExp.$1), max: Number(RegExp.$2) } : null);
+  return { label: adult.label.split(", ")[0], adult: adult.amount, child: child ? child.amount : null, childAges: ages };
+}
+
+// Conseil d'âge écrit dans la note de l'option (catamaran : « Not recommended for children under 4. »).
+function adviceOf(o) {
+  const m = publicText(o.note || "").match(/Not recommended for children under (\d+)\./);
+  return m ? { under: Number(m[1]), text: m[0] } : null;
+}
+
+// Le bloc complet. opts : { title, help, sub(o), facts(o), lead } pour la 4 Islands.
+function pickOf(p, site, opts = {}) {
+  const list = (p.options || []).filter((o) => o.kind !== "extra");
+  const extra = (p.options || []).filter((o) => o.kind === "extra");
+  const days = shortDays(p);
+  const matrix = isMatrix(p);
+  const optFees = optionsOf(p);
+  const host = site.url.replace(/^https?:\/\//, "");
+  const lead = view.optionOfPrice(p);
+  const sel = list.some((o) => o.id === lead) ? lead : (list[0] || {}).id;
+  const options = list.map((o) => {
+    const form = formOf(p, o);
+    const rowChoice = (form.choices || []).find((c) => c.values.some((v) => v.row));
+    const ticks = new Set([...(o.extras || []), ...(o.prices || []).filter((r) => r.supplement && /^Add /.test(r.label)).map((r) => r.label)]);
+    const notes = noteSentences(o);
+    const sub = opts.sub ? opts.sub(o) : subOf(p, o, days);
+    const skip = new Set(ticks);
+    const rest = notes.filter((x) => x.replace(/\.$/, "") !== sub);
+    const shared = optFees.list.find((x) => x.id === o.id) || {};
+    return {
+      id: o.id, label: o.label, sub, from: fromOf(o, skip), onRequest: Boolean(o.priceOnRequest || !(o.prices || []).length),
+      facts: opts.facts ? opts.facts(o) : [],
+      rows: (o.prices || []).map((r) => {
+        const v = rowChoice && rowChoice.values.find((x) => x.row === r.label);
+        return { ...priceRow(r), pick: v ? { choice: rowChoice.id, value: v.id } : null, tick: ticks.has(r.label) };
+      }),
+      note: rest.join(" "),
+      what: days[o.id] || [],
+      fees: shared.fees || [],
+      thai: [],
+      fallback: optionFallback(p, site, o)
+    };
+  });
+  options.forEach((o) => { o.thai = o.fees.filter((f) => /Thai/.test(f.label)); o.fees = o.fees.filter((f) => !/Thai/.test(f.label)); });
+  const common = optFees.common.filter((f) => !/Thai/.test(f.label)), thai = optFees.common.filter((f) => /Thai/.test(f.label));
+  const groups = groupsOf(p, list).map((g) => {
+    // Heures communes à tout le groupe (demi-journées) : dites dans l'intitulé, pas sous chaque option.
+    const items = g.ids.map((id) => options.find((o) => o.id === id));
+    const bare = (t) => norm(String(t || "").replace(/^[A-Z][a-z]+: /, ""));
+    if (g.sub && items.every((o) => bare(o.sub) === bare(g.sub))) items.forEach((o) => { o.sub = ""; });
+    else if (g.title && items.length > 1 && items[0].sub && items.every((o) => o.sub === items[0].sub)) { g.sub = items[0].sub; items.forEach((o) => { o.sub = ""; }); }
+    else g.sub = "";
+    // La phrase d'heures qui termine un déroulé court (« 09:30 to 12:30 or 14:00 to 17:00. ») est déjà dite au-dessus.
+    items.forEach((o) => {
+      const shown = bare(o.sub || g.sub);
+      o.what = o.what.map((w) => ({ ...w, text: w.text.replace(/\s*(\d{2}:\d{2} to \d{2}:\d{2}(?: or \d{2}:\d{2} to \d{2}:\d{2})?)\.$/, (m, t) => (shown && shown === norm(t) ? "" : m)) })).filter((w) => w.text);
+    });
+    return { title: g.title, sub: g.sub, options: items };
+  });
+  const adultFrom = price.adultFrom(list);
+  const counts = list.some((o) => o.counts);
+  // Données du script de la page (v4-product.js) : lignes de prix brutes pour le devis, frais en espèces par option.
+  const json = {
+    slug: p.slug, name: p.name, sel, adultFrom: adultFrom || 12, mode: counts ? "counts" : "people",
+    options: list.map((o) => ({
+      id: o.id, label: o.label, kind: o.kind || "", prices: o.prices || [], priceOnRequest: Boolean(o.priceOnRequest), feesToConfirm: Boolean(o.feesToConfirm),
+      counts: o.counts ? o.counts.rows : null, cash: o.feesToConfirm ? null : cashOf(o.notIncludedFees), advice: adviceOf(o)
+    }))
+  };
+  const first = list.find((o) => o.id === sel);
+  const q = first && !first.counts ? price.quote(first, { adults: 2, ages: [] }) : null;
+  return {
+    title: opts.title || (list.length > 1 ? "Choose your option" : "Price and booking"),
+    help: opts.help || "",
+    when: (WHEN[p.slug] || []).map((l) => ({ label: l, value: fact(p, l) })).filter((f) => f.value),
+    matrix: matrix ? { rows: list[0].prices.map((r) => r.label), unit: list[0].prices[0].unit || "" } : null,
+    groups, options, sel, single: list.length === 1,
+    common, thai, feesCash: optFees.common.some((f) => f.cash),
+    extra: extra.map((o) => ({ id: o.id, label: o.label, note: publicText(o.note || ""), rows: (o.prices || []).map(priceRow) })),
+    calc: {
+      mode: json.mode, adultFrom: json.adultFrom, kidMax: json.adultFrom - 1,
+      countRows: counts ? (first.counts || {}).rows || [] : [],
+      countLabel: counts ? (first.counts || {}).label || "" : "",
+      total: q ? view.thb(q.total) : "", lines: q ? q.lines.map(([l, a]) => ({ label: l, amount: view.thb(a) })) : [],
+      selLabel: first ? first.label : "", fallback: first ? optionFallback(p, site, first) : ""
+    },
+    json
+  };
+}
+
+// La question de la fiche qui aide à choisir entre les options : sa réponse va près du sélecteur, plus dans « Questions ».
+const HELP = /^(which (\w+ )?(trip|ride|programme|course) should i (pick|choose)\?|longtail or speedboat\b.*|speedboat, longtail or catamaran\?|can we have the boat for ourselves\?)$/i;
+function helpOf(p) {
+  const q = (p.faq || []).find((f) => HELP.test(f.q));
+  return q ? { q: q.q, a: q.a } : null;
+}
+
 // ---------- Sous-variantes que la feuille fait choisir (créneau, cours, karts, pilotes…) ----------
 // Structure lue dans chaque option de la fiche (products/**, voir NOTES.md « Pages produit ») :
 //   "choices": [{ "id": "session", "label": "Session", "type": "one" | "text", "required": true, "hint": "…",
@@ -95,7 +306,7 @@ function formOf(p, o) {
   const rowOf = (label) => (o.prices || []).find((r) => r.label === label);
   const out = {};
   const choices = (raw.choices || []).filter((c) => c.type === "text" || (c.values || []).length > 1).map((c) => ({
-    id: c.id, label: c.label, type: c.type === "text" ? "text" : "one", required: c.required !== false, hint: c.hint || "",
+    id: c.id, label: c.label, type: c.type === "text" ? "text" : "one", required: c.required !== false, hint: c.hint || "", ...(c.error ? { error: c.error } : {}),
     values: (c.values || []).map((v) => ({
       id: v.id, label: v.label, ...(v.row ? { row: v.row, price: v.price || rowPrice(rowOf(v.row)) } : {}),
       ...(v.days && v.days.length ? { days: v.days.map((d) => (typeof d === "number" ? d : DAY_NAMES.indexOf(d))).filter((d) => d > -1) } : {})
@@ -115,31 +326,22 @@ function withForms(p, options) {
   });
 }
 
-// ---------- Déroulé : une journée (ligne de temps) ou un programme par option ----------
+// ---------- Déroulé : les journées minutées (« How the day goes ») ; les déroulés d'une phrase vont sous leur option ----------
+// Plusieurs journées (Koh Rok, éléphants D, cuisine midi et soir) : la page montre celle de l'option choisie ; un bloc
+// commun à plusieurs options reste toujours visible avec son titre.
 function programme(p, optLabels) {
-  const blocks = view.day(p);
+  const short = shortDays(p);
+  const blocks = view.day(p).filter((b) => !(b.options.length === 1 && short[b.options[0]]));
   if (!blocks.length) return null;
-  const perOption = blocks.length > 1 && blocks.every((b) => b.options.length === 1);
-  if (perOption) {
-    return {
-      mode: "list",
-      title: "What you do, option by option",
-      items: blocks.map((b) => ({
-        id: b.options[0],
-        title: optLabels[b.options[0]] || b.title,
-        note: publicText(b.note),
-        // Une seule ligne : son libellé (« A », « 1 day », « 30 min ») redit le nom de l'option, il disparaît.
-        steps: b.steps.map((s) => ({ t: b.steps.length > 1 ? s.t : "", text: s.text }))
-      }))
-    };
-  }
+  const all = Object.keys(optLabels).length;
   const sameOpts = blocks.length > 1 && blocks.every((b) => b.options.length && b.options.join() === blocks[0].options.join());
   return {
     mode: "day",
     title: "How the day goes",
     blocks: blocks.map((b) => ({
-      // Deux blocs pour les mêmes options (cours du midi et du soir) : chacun garde son titre.
-      title: sameOpts ? b.title : b.options.length && b.options.length < Object.keys(optLabels).length ? "For " + listJoin(b.options.map((id) => optLabels[id]).filter(Boolean)) : "",
+      ids: b.options.length && b.options.length < all ? b.options : [],
+      // Deux blocs pour les mêmes options (cours du midi et du soir) : chacun garde son titre. Sinon le nom de l'option.
+      title: sameOpts ? b.title : blocks.length > 1 || (b.options.length && b.options.length < all) ? listJoin(b.options.map((id) => optLabels[id]).filter(Boolean)) : "",
       note: publicText(b.note),
       steps: b.steps.map((s) => ({ t: s.t, approx: s.approx, fixed: s.fixed, text: s.text }))
     }))
@@ -192,10 +394,11 @@ function productPage(p, ctx) {
   const pr = view.price(p);
   const single = opts.list.length === 1 ? opts.list[0].id : "";
   const fee = view.parkFee(p);
-  const notIncluded = view.notIncluded(p, { skipParkFee: true }).filter((x) => !/village entrance fee/i.test(x));
-  const feeNames = [...new Set(opts.common.map((f) => f.label.split(", ")[0]))].map((n, i) => (i ? n.charAt(0).toLowerCase() + n.slice(1) : n));
-  if (feeNames.length) notIncluded.push(`${listJoin(feeNames)}: the amounts are under Options and prices`);
+  // « Not included » : la ligne de la fiche telle quelle ; les montants ne sont dits qu'une fois, sous les options.
+  const notIncluded = (p.notIncluded || []).slice();
   const byb = view.beforeBook(p, site, { skipParkFee: true }).concat(facts.before.map((f) => ({ label: f.label, text: f.value })));
+  const help = helpOf(p);
+  const pick = pickOf(p, site, { help: help ? help.a : "" });
   return {
     slug: p.slug, kind: p.template, url: p.url, name: p.name,
     nav: p.template === "boat" ? "boats" : "activities",
@@ -204,22 +407,41 @@ function productPage(p, ctx) {
     keyFacts: facts.hero,
     price: pr ? { amount: pr.amount, unit: p.price.unit } : null,
     hero: ctx.hero,
-    options: opts.list.map((o) => ({ ...o, fallback: optionFallback(p, site, o) })),
-    fees: opts.common,
-    feesCash: opts.common.some((f) => f.cash),
+    pick,
     programme: prog,
     sideFacts: facts.side,
     included: p.included || [],
     notIncluded,
     beforeBook: byb,
-    faq: p.faq || [],
+    faq: (p.faq || []).filter((f) => !help || f.q !== help.q),
     related: related(p, ctx),
-    single,
+    single: single || pick.sel,
     ask: askText(p.name, host + p.url),
     fallback: single ? optionFallback(p, site, p.options[0]) : view.fallbackText(p, site),
-    booking: (() => { const b = view.bookingTour(p, site); return { ...b, options: withForms(p, b.options), tripList: true }; })(),
+    booking: bookingOf(p, site),
     parkFee: fee,
     jsonLd: p.template === "boat" ? schema.tour(p, site) : schema.activity(p, site)
+  };
+}
+
+// Configuration de la feuille (booking.js) : sous-variantes, lignes brutes pour le total estimé, frais en espèces de
+// chaque option, prise en charge facultative quand le transfert n'est pas inclus (karting), conseil d'âge (catamaran).
+function bookingOf(p, site) {
+  const b = view.bookingTour(p, site);
+  const optional = /^not included/i.test(fact(p, "Transfer"));
+  return {
+    ...b, tripList: true,
+    ...(optional ? { pickupRequired: false, pickupLabel: "Hotel, if you want a transfer", pickupHint: "Optional. The transfer is not included, we quote it on WhatsApp." } : {}),
+    options: withForms(p, b.options).map((o) => {
+      const src = (p.options || []).find((x) => x.id === o.id) || {};
+      const adv = adviceOf(src);
+      return {
+        ...o, prices: src.prices || [], ...(src.priceOnRequest ? { priceOnRequest: true } : {}),
+        cash: src.feesToConfirm ? null : cashOf(src.notIncludedFees),
+        ...(adv ? { advice: adv } : {}),
+        ...(o.counts ? { people: o.counts.rows.every((r) => /rider|passenger|adult|child/i.test(r)) } : {})
+      };
+    })
   };
 }
 
@@ -367,4 +589,4 @@ function speedboatPage(p, ctx) {
   };
 }
 
-module.exports = { formOf, withForms, productPage, rentalPage, speedboatPage, speedboatRoutes, publicText, askText, pageText, sortFacts, optionsOf, programme };
+module.exports = { pickOf, helpOf, bookingOf, cashOf, heroFacts, formOf, withForms, productPage, rentalPage, speedboatPage, speedboatRoutes, publicText, askText, pageText, sortFacts, optionsOf, programme };
