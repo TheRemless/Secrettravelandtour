@@ -371,3 +371,77 @@ Contrôles :
 - Captures 1 440 et 390 dans `docs/refonte/design-v4/build/shots/ajouts/` (non commitées). À 390 px, l'accueil dépasse 16 384 px : Chrome recopie le haut de page en bas de l'image pleine page, ce n'est pas la page.
 
 Reste ouvert (`TODO(client)`, `docs/refonte/manques.md`) : frais de parc du catamaran et ponton d'Ao Nang ; jours, prix enfant et ponton du coucher de soleil ; arrivées, pontons, saison et retours de la seconde compagnie. Sur la 4 Islands, la place vide laissée par la photo du longtail quand un autre bateau est choisi existait déjà (speedboat), non traitée.
+
+## Refonte des fiches, phase 1 (09.11.2026)
+
+D'après les cinq revues critiques du 09.11.2026 (4 Islands, bateaux, activités, plus les points communs de l'accueil et du hub). Périmètre : les 13 fiches (4 Islands, 5 bateaux, 7 activités) et la feuille de réservation. L'accueil, le hub, la location et le speedboat ne sont pas retouchés ; les règles communes (CSS, feuille, bande du bas, références) les touchent et ont été vérifiées dessus.
+
+### Ce qui a changé
+
+| Sujet | Avant | Après |
+|---|---|---|
+| Choisir et réserver | sélecteur de bateau, comparateur, cartes d'options, calculateur séparé (4 Islands) ; une carte par option et un bouton par carte (autres fiches) | un seul bloc `#options` par fiche : chaque option avec son prix d'appel, le détail de l'option choisie juste dessous (ponton, déjeuner, toutes ses lignes de prix, note, déroulé court, frais propres), puis le groupe, le total estimé et un seul bouton « Choose a date » |
+| Présentation des formules | même moule partout | groupes lus dans les données : join-in, private, « From Ao Nang » (catamaran) ; demi-journée et journée avec l'horaire dans l'intitulé (kayak, Talabeng) ; profils pour la plongée (« No diving experience », « Certified divers », « Learn to dive ») et location de matériel repliée ; créneaux écrits en tête (cuisine, batik) ; grille durée × ligne pour l'ATV et le karting ; ligne de prix choisie sur la page pour un cours ou un site de plongée ; suppléments cochés sur la page (Koh Kradan, plongée en plus, nounou) |
+| Phrase qui aide à choisir | dans les questions repliées | sous le titre du bloc (question « Which … should I pick? », « Longtail or speedboat… », « Speedboat, longtail or catamaran? », « Can we have the boat for ourselves? ») et retirée des questions affichées ; le JSON-LD FAQPage la garde |
+| Total estimé | 4 Islands seulement, et perdu dans la feuille | sur chaque fiche, dans la feuille (au-dessus du bouton) et dans le message (`Estimated total: … THB`), calculé par `v4-price.js` (`quote`) ; frais du parc ou du village à part, « in cash on the day » ; « We confirm the total on WhatsApp » et `Total: to be confirmed on WhatsApp` quand la règle manque (radeau au-delà de 2 personnes ou avec enfant, âge sans tarif, prix sur demande) |
+| Hero | faits choisis selon leur longueur (0 à 4) ; prix et bouton hors du premier écran mobile | toujours Duration puis Pickup (valeur absente des données : case absente), puis le prix d'appel et le bouton côte à côte ; titre sur deux lignes (34 px mobile) ; photo 16:9 en haut sur mobile ; accroche après le bouton |
+| Bande du bas | après le bouton du haut seulement ; carte flottante de 400 px au bureau qui dépassait de 17 px | téléphone seulement, dès le chargement ; s'efface devant le bloc de réservation, le pied de page et la feuille ; une fois le groupe touché, l'option, le groupe et le total ; aucune bande au bureau (le bloc de réservation y est collant) |
+| Feuille | toute la liste des options en tête ; « Guests » à côté des compteurs ; hôtel obligatoire partout | option choisie résumée en une ligne avec « Change » ; compteurs (pilotes, karts) à la place de « Guests », plus de ligne « Guests » dans le message ; karting : « Hotel, if you want a transfer », facultatif ; catamaran : « Hotel in Ao Nang » et la phrase de la brochure « Not recommended for children under 4. » dès qu'un enfant a moins de 4 ans ; boutons en Manrope, « Add to my trip list » en lien, plus de barre d'erreur à gauche (pages v4) ; titre « Choose a date » comme le bouton |
+| Références | `4I-1011-2A` se lisait « 41 » | `FOUR`, `ROK`, `PP`, `TALA`, `MANG`, `FISH`, `ELE`, `KAYAK`, `COOK`, `DIVE`, `ATV`, `BATIK`, `KART` (`KART-1011-3K` : trois karts), `RENT`, `SPEED` |
+| Chiffres | chiffres elzéviriens de la Cormorant (« i,ooo », « ₄ Islands ») | montants des listes, du total et de la bande en Manrope 600 ; titres et prix en Cormorant avec `lining-nums tabular-nums` (la police auto-hébergée a `lnum` et `tnum`), règle placée après les raccourcis `font` ; « Price on WhatsApp » en Manrope 16 px, jamais plus gros qu'un prix |
+| Redites retirées | îles 7 fois, parc 5 fois, intro du sélecteur égale à la question 1 | comparateur, parcours animé, photo du longtail sous le sélecteur (passée dans la galerie), phrase d'aide de la galerie, lien « the amounts are under Options and prices », titre de l'option en tête de son déroulé, « Sessions at … » sous la ligne « Session: … », heures répétées sous chaque demi-journée, note des frais répétée par ligne, « Also: Koi fish feeding » (déjà dans l'accroche du karting) |
+| Déroulé | « What you do, option by option » ou « How the day goes » | les déroulés d'une phrase vont dans le détail de leur option ; reste « How the day goes » pour les journées minutées, et seulement celle de l'option choisie (Koh Rok, éléphants D, cuisine midi et soir gardent leur titre) |
+| Carte 4 Islands | speedboat tracé depuis Lanta Old Town ; noms à 8 px sur mobile | départ du speedboat par le nord, étiquette « To Koh Lanta Noi pier » (le ponton n'est pas placé : aucune coordonnée dans les données), point et nom de Lanta Old Town cachés pour lui ; premier tronçon par l'est de Koh Ma ; carte sur bureau seulement, la journée sert de liste d'arrêts sur mobile ; aucune étape allumée sur mobile |
+| Ce que couvre le prix | deux colonnes de titres de 40 px | « What the price covers », « Included » puis « Not included » en H3 dans une colonne |
+| Autres sorties | trois grandes cartes empilées sur mobile | rail au doigt sur mobile (sans « Add to trip list »), trois colonnes au bureau |
+| 4 Islands | gabarit à part | même gabarit que les autres fiches (`vp.hero`, `vp.pick`, `vp.included`…), plus sa galerie, sa journée par bateau et la carte |
+
+Fichiers : `src/_includes/components/v4-product.js` (`pickOf`, `helpOf`, `bookingOf`, faits du haut, déroulés courts), `v4-product.njk` (hero, `pick`, `calc`, déroulé, inclus, bande), `src/js/v4-product.js` (état partagé avec la feuille, total, bande, journée choisie), `src/js/v4-four.js` (journée et carte), `src/js/v4-price.js` (`quote`), `src/js/booking.js` et `booking.njk`, `src/css/v4.css`, `src/pages/4-islands.njk`, `product.njk`, `v4data.js`. Données : les 15 `refPrefix`, et `"error": "Choose kayak or longtail."` sur le choix « By » des mangroves (« Choose the by. » disparaît aussi au kayak, `error` passe enfin jusqu'à la feuille). Aucun prix, aucun fait, aucun nom de partenaire ajouté ou retiré.
+
+### Hauteurs de page, avant et après
+
+Mesurées sur `_site` (Chrome, 390 × 844 DPR 2 tactile, et 1 440 × 900). « Bouton » : bas du bouton du haut dans le premier écran mobile.
+
+| Fiche | 390 avant | 390 après | Gain | Bouton avant | Bouton après | 1 440 avant | 1 440 après |
+|---|---|---|---|---|---|---|---|
+| `4-islands` | 12 856 | 7 949 | 38 % | 962 (hors écran) | 585 | 7 610 | 6 700 |
+| `koh-rok-koh-haa` | 10 466 | 7 676 | 27 % | 1 058 (hors écran) | 594 | 6 922 | 5 685 |
+| `koh-phi-phi` | 7 648 | 6 857 | 10 % | 989 (hors écran) | 594 | 5 226 | 5 191 |
+| `koh-talabeng-koh-bubu` | 7 808 | 5 518 | 29 % | 1 032 (hors écran) | 585 | 5 080 | 4 478 |
+| `mangroves` | 9 818 | 7 289 | 26 % | 946 (hors écran) | 594 | 6 039 | 5 500 |
+| `fishing-trip` | 7 020 | 6 079 | 13 % | 868 (hors écran) | 549 | 4 698 | 4 653 |
+| `elephant-sanctuary` | 8 753 | 6 866 | 22 % | 990 (hors écran) | 585 | 5 719 | 5 267 |
+| `kayak` | 9 243 | 5 546 | 40 % | 921 (hors écran) | 549 | 5 849 | 4 533 |
+| `cooking-class` | 7 526 | 6 490 | 14 % | 833 | 585 | 4 928 | 5 107 |
+| `scuba-diving` | 11 760 | 7 116 | 39 % | 893 (hors écran) | 495 | 7 164 | 5 609 |
+| `atv` | 7 414 | 5 120 | 31 % | 867 (hors écran) | 549 | 4 689 | 4 086 |
+| `batik` | 6 765 | 5 241 | 23 % | 842 | 585 | 4 426 | 4 273 |
+| `go-kart` | 5 526 | 4 453 | 19 % | 840 | 594 | 3 755 | 3 711 |
+
+La cuisine grandit de 180 px au bureau : les trois créneaux écrits passent en tête du bloc.
+
+### Contrôles
+
+- `STT_ALLOW_PLACEHOLDERS=1 npm run build` : OK, `check-dist` OK. `npm test` : 245 tests, 245 verts. `node scripts/check-v3.mjs` : 106 contrôles OK.
+- Tests adaptés, aucun test de prix ou de fait affaibli : le test « chaque ligne de chaque option du JSON est sur la page » passe sans changement (140 lignes) ; « message » vérifie maintenant le choix de chaque option dans le bloc au lieu d'un bouton par option, la référence et l'absence de « Guests » pour une option à compteurs, et la présence du total ou de « confirmed on WhatsApp » ; le comparateur de la 4 Islands devient le bloc « Choose your boat » (chaque ligne de chaque bateau, plus le départ par Koh Lanta Noi) ; références `FOUR`, `ROK`, `RENT`, `SPEED` ; libellé du bouton « Choose a date » (`partenaires`).
+- Playwright (Chrome) sur les 13 fiches à 390 (DPR 2, tactile) et 1 440 : premier écran avec prix et bouton visibles, aucune erreur console, aucun défilement horizontal, axe-core 0 violation (page, et feuille ouverte à 390). Parcours complet jusqu'à `wa.me` avec une option à sous-choix sur chaque fiche (longtail privé avec Koh Kradan, catamaran avec un enfant de 2 ans, demi-journée avec créneau, radeau à 3 adultes, programme B, parc de pêche avec créneau et kayak ou longtail, cuisine un lundi, Open Water choisi sur la page, ATV forêt avec un pilote, batik du matin, karting sans hôtel) : le lien `wa.me` porte le message affiché, avec `Estimated total` ou `Total: to be confirmed on WhatsApp`.
+- Accueil, hub, location et speedboat après les règles communes : aucune erreur, aucun défilement horizontal, axe 0 à 390 et 1 440. La page taxi garde deux remarques axe (`region` sur sa barre `.vbar`, `scrollable-region-focusable`) qui viennent de `stt.css` et de son gabarit, non touchés.
+- Lighthouse 12 mobile, serveur local en gzip : 4 Islands 98 (LCP 2,3 s), Koh Rok 99 (1,8 s), kayak 99 (1,8 s), ATV 99 (2,2 s), éléphants 99 (2,1 s) ; CLS 0 et TBT 0 ms partout, accessibilité 100.
+- Captures avant et après (non commitées) : `docs/refonte/design-v4/build/shots/phase1/avant/` et `apres/` (premier écran de chaque fiche à 390 et 1 440, page pleine de 4 Islands, Koh Rok, kayak, ATV et éléphants, aperçu du message de la 4 Islands, du kayak et de l'ATV), avec `mesures.json`.
+
+### Points des revues non traités, et pourquoi
+
+| Point | Raison |
+|---|---|
+| Doublons de produits (kayak, Talabeng et mangroves ; radeau de pêche vendu deux fois) | décision du client, comme demandé |
+| Noms d'options (« Later trip, back at sunset »), préfixe « Private speedboat option: » des notes, règle météo double de Koh Rok, « Pickup » de « Before you book » qui redit les pontons, légende « Bold times are fixed… » | textes des données, à faire valider par le client |
+| « Included » filtré sur l'option choisie | les lignes des données ne disent pas à quelle option elles appartiennent ; un tri par mots serait une lecture inventée. Seule la ligne « On a private boat » de la 4 Islands est mise en avant, comme avant |
+| Faits du haut absents : durée de l'ATV, de la cuisine, du batik et de la plongée ; prise en charge des mangroves, des éléphants et de la plongée | aucune valeur dans les données (pas de durée calculée, pas de prise en charge déduite) |
+| Message : seule la tranche qui s'applique au groupe (bateaux privés) | le message garde toutes les lignes de prix de l'option ; le total estimé dit maintenant le montant retenu |
+| Jours de la cuisine dans le message (« Class: Dinner, Tuesday, Thursday, Friday, 16:00–21:00 ») | libellé de la donnée, vérifié tel quel par un test de faits |
+| Galerie de la 4 Islands fondue dans un rail de la photo du haut | la galerie passe après le bloc de réservation, sans phrase d'aide ; le rail du hero aurait demandé une seconde visionneuse |
+| Liste de sorties (prix, une ligne par sortie, adresse à Ao Nang) | composant partagé avec l'accueil et le hub, prévu pour la phase 2 ; elle garde son fonctionnement |
+| Brouillon restauré signalé (« Same group as your last trip »), jours impossibles grisés pour la cuisine, certification de plongée en deux champs | changements de la feuille non demandés dans le brief de la phase 1 |
+| Safari et Firefox | non testés sur appareil |
+
+Rien n'est poussé.
