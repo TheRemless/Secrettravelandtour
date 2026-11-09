@@ -109,6 +109,8 @@ test("liste de sorties : un message classé par jour, une référence par sortie
   assert.match(text, /Koh Rok & Koh Haa – Join-in speedboat\nPrice on website: [^\n]+\nEstimated total: 5,000 THB\n/);
   assert.doesNotMatch(text.split("4 Islands – option to choose")[1].split("Page:")[0], /total/i);
   assert.match(text, /Page: secrettravelandtour\.com\/tours\/koh-rok-koh-haa\//);
+  // Deux sorties le même jour (4 Islands et Koh Phi Phi le 20) : une ligne vide les sépare (E-11).
+  assert.match(text, /\nFri 20 Nov 2026\nRef: [^\n]+\n(?:[^\n]+\n)+?\nRef: /);
   assert.deepEqual(B.sameDayClashes(cat, list.items), [{ date: "2026-11-20", names: ["4 Islands", "Koh Phi Phi"] }]);
   // Les prix du catalogue sont ceux des fiches.
   for (const s of SLUGS) {
