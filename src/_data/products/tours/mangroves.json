@@ -350,6 +350,7 @@
         {
           "id": "way",
           "label": "By",
+          "error": "Choose kayak or longtail.",
           "values": [
             {
               "id": "kayak",
@@ -579,5 +580,5 @@
   "notes": [
     "Les formules 4 à 7 (longtail, kayak, Old Town, fishing park) sont les mêmes que les sorties 4 à 7 de la page kayak, aux mêmes prix : risque de cannibalisation, à arbitrer dans la structure (rédaction)."
   ],
-  "refPrefix": "MG"
+  "refPrefix": "MANG"
 }

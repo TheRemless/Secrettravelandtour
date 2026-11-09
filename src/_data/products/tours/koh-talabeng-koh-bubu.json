@@ -344,7 +344,7 @@
       "from": "brochure kayak (audit B § 1.1) p. 2 et 3 (programmes 1 à 3, prix 1 300 / 900, 1 500 / 1 000, 1 000 / 700, enfant 4 à 11 ans), repris de activities/kayak.json ; décision client du 08.11.2026 (second message)"
     }
   ],
-  "refPrefix": "TB",
+  "refPrefix": "TALA",
   "price": {
     "from": 1000,
     "currency": "THB",

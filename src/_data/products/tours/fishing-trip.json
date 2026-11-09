@@ -259,5 +259,5 @@
     "TODO(client): bateau de la pêche : l'accueil dit « A fishing trip on a longtail off the coast » (secret.json description) mais affiche « Raft from 3,900 THB » (secret.json info) ; la page vend le radeau et donne le longtail sans prix. Prix et horaires du longtail ?",
     "TODO(client): sur le longtail, mange-t-on sa pêche ? (FAQ actuelle : « On the longtail, ask us. »)"
   ],
-  "refPrefix": "FI"
+  "refPrefix": "FISH"
 }

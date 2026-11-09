@@ -32,11 +32,16 @@
     var total = 0;
     var tiers = rows.filter(function (r) { return r.group && typeof r.amount === "number"; });
     if (tiers.length) {
+      // Radeaux : un tarif enfant à côté d'un prix par radeau, ou une tranche ouverte (« 3 or more people, per person ») :
+      // la règle de calcul n'est pas écrite, rien n'est deviné (prix confirmé sur WhatsApp).
+      var ageRows = rows.some(function (r) { return r.ages && typeof r.amount === "number" && r.amount > 0; });
+      if (ageRows && kids.length) return null;
       // Bateau privé : les enfants comptent dans le groupe dès 4 ans, les moins de 4 ans ne comptent pas (client, 08.11.2026).
       var n = adults + kids.filter(function (a) { return a >= 4; }).length;
       var tier = tiers.filter(function (r) { return n >= r.group.min && n <= r.group.max; })[0];
       var top = tiers[tiers.length - 1];
       var extra = rows.filter(function (r) { return r.supplement && /extra person/i.test(r.label); })[0];
+      if (tier && tier.group.max === undefined) return null;
       if (tier) { total += tier.amount; lines.push([tier.label, tier.amount]); }
       else if (n > top.group.max && extra) {
         var more = n - top.group.max;
@@ -50,7 +55,8 @@
       });
       return { total: total, lines: lines, unpriced: [], perBoat: true };
     }
-    var adult = rows.filter(function (r) { return !r.ages && !r.group && !r.supplement && typeof r.amount === "number" && /^(adult|per person)/i.test(r.label); })[0];
+    // Ligne adulte : « Adult », « Per person », ou « Adult, from age 12 » (un âge minimum, pas de maximum).
+    var adult = rows.filter(function (r) { return (!r.ages || r.ages.max === undefined) && !r.group && !r.supplement && typeof r.amount === "number" && /^(adult|per person)/i.test(r.label); })[0];
     if (adults > 0) {
       if (!adult) return null;
       total += adults * adult.amount;
@@ -59,7 +65,7 @@
     var byRow = [];
     var unpriced = [];
     kids.forEach(function (age) {
-      var r = rows.filter(function (x) { return x.ages && typeof x.amount === "number" && age >= (x.ages.min || 0) && age <= x.ages.max; })[0];
+      var r = rows.filter(function (x) { return x.ages && typeof x.amount === "number" && age >= (x.ages.min || 0) && age <= (x.ages.max === undefined ? Infinity : x.ages.max); })[0];
       if (!r) { unpriced.push(age); return; }
       var hit = byRow.filter(function (b) { return b.r === r; })[0];
       if (hit) hit.n++; else byRow.push({ r: r, n: 1 });
@@ -68,7 +74,56 @@
       total += b.n * b.r.amount;
       lines.push([b.n + " × " + b.r.label.toLowerCase(), b.n * b.r.amount]);
     });
+    var people = adults + kids.length - unpriced.length;
+    total += addonTotal(rows, addons, people, lines);
     return { total: total, lines: lines, unpriced: unpriced, perBoat: false };
+  }
+
+  // Suppléments cochés (plongée en plus, nounou) : par personne quand la ligne le dit, sinon une fois.
+  function addonTotal(rows, addons, people, lines) {
+    var sum = 0;
+    (addons || []).forEach(function (label) {
+      var r = rows.filter(function (x) { return x.label === label && typeof x.amount === "number"; })[0];
+      if (!r) return;
+      var each = /per person/i.test(r.unit || "");
+      var n = each ? people : 1;
+      sum += n * r.amount;
+      lines.push([(each ? n + " × " : "") + r.label, n * r.amount]);
+    });
+    return sum;
+  }
+
+  // Devis d'une option pour un groupe, dans toutes les formes de prix des fiches :
+  //   g.counts : { libellé de ligne : nombre } (karts, pilotes et passagers) ;
+  //   g.row : une ligne choisie (cours, site, programme), au prix par personne pour tout le groupe ;
+  //   sinon adultes et âge de chaque enfant (estimate).
+  // Null quand la règle n'est pas écrite dans les données : la page et le message disent alors
+  // « we confirm the total on WhatsApp ».
+  function quote(option, g) {
+    g = g || {};
+    if (!option || option.priceOnRequest || !(option.prices || []).length) return null;
+    var rows = option.prices;
+    if (g.counts) {
+      var lines = [], total = 0;
+      rows.forEach(function (r) {
+        var n = Number(g.counts[r.label]) || 0;
+        if (n > 0 && typeof r.amount === "number") { total += n * r.amount; lines.push([n + " × " + r.label, n * r.amount]); }
+      });
+      return lines.length ? { total: total, lines: lines, unpriced: [], perBoat: false } : null;
+    }
+    var kids = (g.ages || []).filter(function (a) { return a !== "" && a !== null && a !== undefined; }).map(Number);
+    if (g.row) {
+      var row = rows.filter(function (r) { return r.label === g.row; })[0];
+      if (!row || typeof row.amount !== "number") return null;
+      var min = row.ages && row.ages.min ? row.ages.min : 0;
+      var young = kids.filter(function (a) { return a < min; });
+      var n = (g.adults || 0) + kids.length - young.length;
+      if (n < 1) return null;
+      var out = [[n + " × " + row.label, n * row.amount]];
+      var sum = n * row.amount + addonTotal(rows, g.addons, n, out);
+      return { total: sum, lines: out, unpriced: young, perBoat: false };
+    }
+    return estimate(option, g.adults || 0, kids, g.addons || []);
   }
 
   // Frais de parc en espèces, comme parkCash() de booking.js : adultes et enfants au tarif des données.
@@ -89,5 +144,5 @@
     return { total: total, text: parts.join(" + ") + " = " + thb(total) };
   }
 
-  return { thb: thb, estimate: estimate, parkCash: parkCash, adultFrom: adultFrom };
+  return { thb: thb, estimate: estimate, quote: quote, parkCash: parkCash, adultFrom: adultFrom };
 });

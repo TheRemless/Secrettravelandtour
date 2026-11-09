@@ -249,5 +249,5 @@
     "TODO(client): sens de « The price list is for a minimum of 2 programmes » (intro et priceNote) : deux sessions minimum, deux karts, deux personnes ?",
     "TODO(client): l'unité du prix est-elle bien par kart (et non par personne) pour les karts doubles ?"
   ],
-  "refPrefix": "GK"
+  "refPrefix": "KART"
 }
