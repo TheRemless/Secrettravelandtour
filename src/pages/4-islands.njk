@@ -179,7 +179,7 @@ permalink: /tours/4-islands/
   </section>
 </main>
 {{ v4.footer(site, c, d.emblem, d.boats, d.activities, waText) }}
-<div class="dock" data-dock aria-hidden="true">
+<div class="dock" data-dock role="region" aria-label="Book" aria-hidden="true">
   <p class="dock__p" data-dock-p><span>from</span><b>{{ t.price.amount }}</b></p>
   <a class="btn press" href="{{ fallback }}" data-book="{{ t.price.option }}" tabindex="-1" data-dock-book>Choose a date</a>
 </div>

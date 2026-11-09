@@ -152,7 +152,7 @@
 
 {#- Bande du bas : prix d'appel et bouton, quand le bouton du haut est sorti de l'écran (v4-product.js). -#}
 {% macro dock(price, fallback, book, label="Choose a date") %}
-<div class="dock" data-dock aria-hidden="true">
+<div class="dock" data-dock role="region" aria-label="Book" aria-hidden="true">
   {%- if price %}<p class="dock__p"><span>from</span><b>{{ price.amount }}</b></p>{% else %}<p class="dock__p"><b>Price on WhatsApp</b></p>{% endif %}
   <a class="btn press" href="{{ fallback }}" data-book="{{ book }}" tabindex="-1" data-dock-book>{{ label }}</a>
 </div>
