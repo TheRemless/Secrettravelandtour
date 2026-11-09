@@ -65,7 +65,10 @@ test("bloc « Choose your boat » de la 4 Islands : chaque prix affiché vient d
   for (const o of four.options) for (const r of o.prices) {
     const shown = r.amount === 0 ? "Free" : (r.supplement ? "+" : "") + r.amount.toLocaleString("en-GB") + " THB";
     const block = pick.split(`data-po="${o.id}"`)[1].split('class="po"')[0];
-    assert.ok(block.includes(`<span>${r.label}</span>`) && block.includes(`<b>${shown}</b>`), `${o.id} : ${r.label}`);
+    // Le libellé affiché perd la fin qui redit l'unité (« Add Koh Kradan, per boat » devient « Add Koh Kradan »).
+    const tail = r.unit ? ", " + r.unit.toLowerCase() : "";
+    const label = tail && r.label.toLowerCase().endsWith(tail) ? r.label.slice(0, -tail.length) : r.label;
+    assert.ok(block.includes(`<span>${label}</span>`) && block.includes(`<b>${shown}</b>`), `${o.id} : ${r.label}`);
   }
   assert.doesNotMatch(h, /class="cmp4"|The boats side by side/, "plus de comparateur à part");
   assert.match(h, /Sketch map, not for navigation/);

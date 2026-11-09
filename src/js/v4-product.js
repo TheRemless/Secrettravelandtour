@@ -19,17 +19,21 @@
   try { D = dataEl ? JSON.parse(dataEl.textContent) : null; } catch (e) { D = null; }
 
   // ---------- Bande du bas ----------
-  var blockIn = false, footIn = false;
+  // La bande n'arrive qu'une fois le prix et le bouton du haut sortis de l'écran ; en attendant, la liste de sorties
+  // garde son propre bouton en bas (is-wait).
+  var blockIn = false, footIn = false, buyIn = false;
   function dockState() {
     if (!dock) return;
-    var on = phone.matches && !blockIn && !footIn;
+    var on = phone.matches && !buyIn && !blockIn && !footIn;
     dock.classList.toggle("is-on", on);
+    dock.classList.toggle("is-wait", phone.matches && buyIn);
     dock.setAttribute("aria-hidden", on ? "false" : "true");
     $$("a, button", dock).forEach(function (b) { b.tabIndex = on ? 0 : -1; });
   }
   if (dock) {
-    var block = calc || $("#options");
+    var block = calc || $("#options"), buy = $(".phero__buy");
     if ("IntersectionObserver" in window) {
+      if (buy) { buyIn = true; new IntersectionObserver(function (e) { buyIn = e[0].isIntersecting; dockState(); }).observe(buy); }
       if (ft) new IntersectionObserver(function (e) { footIn = e[0].isIntersecting; dockState(); }).observe(ft);
       if (block) new IntersectionObserver(function (e) { blockIn = e[0].isIntersecting; dockState(); }, calc ? { threshold: 0.25 } : { rootMargin: "-35% 0px -35% 0px" }).observe(block);
     }
@@ -119,9 +123,19 @@
 
   // ---------- Commandes du bloc ----------
   var sec = $("#options");
+  // Le choix touché reste sous le doigt : le détail de l'option quittée se replie au-dessus de lui.
+  var heads = null;
+  function markHeads() { heads = $$(".po__head", sec).map(function (h) { return [h, h.getBoundingClientRect().top]; }); }
+  sec.addEventListener("pointerdown", markHeads);
+  sec.addEventListener("keydown", markHeads);
   sec.addEventListener("change", function (e) {
     var t = e.target;
-    if (t.name === "pick") set({ option: t.value }, "pick");
+    if (t.name === "pick") {
+      set({ option: t.value }, "pick");
+      var h = t.closest(".po__head"), was = heads && heads.filter(function (x) { return x[0] === h; })[0];
+      if (was) { var dy = h.getBoundingClientRect().top - was[1]; if (dy) scrollBy({ top: dy, behavior: "instant" }); }
+      heads = null;
+    }
     else if (t.hasAttribute("data-pick-row")) {
       var c = Object.assign({}, st.choices);
       c[st.option + "/" + t.getAttribute("data-choice")] = t.value;
@@ -263,12 +277,15 @@
     ce.textContent = cash ? "Plus the " + o.cash.label.toLowerCase() + ", in cash on the day: " + cash.text + "." : "";
 
     $$("[data-book-sel]").forEach(function (b) { b.setAttribute("data-book", o.id); });
-    // Journées : celle de l'option choisie ; un bloc commun reste ; une option sans journée écrite les montre toutes.
+    // Journées : celle de l'option choisie et les blocs communs ; une option sans journée n'en montre aucune autre et
+    // la section disparaît quand il ne reste rien.
     var days = $$(".dayb[data-day-ids]");
-    var mine = days.filter(function (d) { return d.getAttribute("data-day-ids").split(" ").indexOf(o.id) > -1; });
-    days.forEach(function (d) { var ids = d.getAttribute("data-day-ids"); d.hidden = Boolean(ids) && mine.length > 0 && mine.indexOf(d) < 0; });
+    days.forEach(function (d) { var ids = d.getAttribute("data-day-ids"); d.hidden = Boolean(ids) && ids.split(" ").indexOf(o.id) < 0; });
+    var daySec = days.length ? days[0].closest("section") : null;
+    if (daySec) daySec.hidden = days.every(function (d) { return d.hidden; });
     if (dockP) {
-      dockP.innerHTML = touched && est && !est.unpriced.length ? "<small>" + V.esc(o.label + (who() ? ", " + who() : "")) + "</small><b>" + V.thb(est.total) + "</b>" : dockFrom;
+      // Le groupe seulement : le nom de l'option est déjà coché plus haut et coupait la ligne (« Private longtail to Koh Rok, 2 … »).
+      dockP.innerHTML = touched && est && !est.unpriced.length ? "<small>" + V.esc(who() || o.label) + "</small><b>" + V.thb(est.total) + "</b>" : dockFrom;
     }
     if (typeof CustomEvent === "function") document.dispatchEvent(new CustomEvent("stt-pick", { detail: { option: o.id } }));
   }

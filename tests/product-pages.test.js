@@ -65,7 +65,9 @@ test("prix : chaque ligne de chaque option du JSON est sur la page, avec son mon
         const block = rental ? (opts.split(`data-cat="${o.id}"`)[1] || "").split("</ul>")[0] : opts.split(esc(o.label))[1] || "";
         // Grille ATV et karts : l'âge sous le libellé (« Child rider » puis « 6 to 12 »), « THB » dit une fois dans l'en-tête.
         const grid = opts.includes('class="ptab"');
-        const label = grid ? r.label.split(", ")[0] : r.label;
+        // Ailleurs, libellé affiché sans la fin qui redit l'unité (« 3 or more people, per person » devient « 3 or more people »).
+        const tail = r.unit ? ", " + r.unit.toLowerCase() : "";
+        const label = grid ? r.label.split(", ")[0] : tail && r.label.toLowerCase().endsWith(tail) ? r.label.slice(0, -tail.length) : r.label;
         const at = block.indexOf(">" + esc(label) + "<");
         assert.ok(at > -1, `${p.slug} ${o.id} : ligne « ${r.label} »`);
         const after = block.slice(at, at + 400);

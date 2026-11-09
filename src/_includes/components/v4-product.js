@@ -50,8 +50,12 @@ function pickupOf(p) {
   if (/^not included/i.test(fact(p, "Transfer"))) return "Not included";
   return "";
 }
+// « Pickup » en tête seulement quand il dit une heure ou « Not included » : « Included » est déjà dans « What the price
+// covers ». Il reste quand c'est le seul fait de la fiche.
 function heroFacts(p) {
-  return [["Duration", durationOf(p)], ["Pickup", pickupOf(p)]].filter((f) => f[1]).map(([label, value]) => ({ label, value }));
+  const dur = durationOf(p), pick = pickupOf(p);
+  const keep = pick && (/\d{2}:\d{2}/.test(pick) || /^not included/i.test(pick) || !dur);
+  return [["Duration", dur], ["Pickup", keep ? pick : ""]].filter((f) => f[1]).map(([label, value]) => ({ label, value }));
 }
 
 function sortFacts(p, { day }) {
@@ -61,10 +65,13 @@ function sortFacts(p, { day }) {
   const own = p.beforeYouBook || {};
   const rest = facts.filter((f) => !used.has(f.label) && !SKIP.includes(f.label));
   const before = [], side = [];
+  // Un fait que l'accroche dit déjà (« mid-October to mid-May » sur Koh Rok) n'est pas redit à côté de la journée.
+  const lead = String(p.lead || "").toLowerCase();
   for (const f of rest) {
     if (f.label in BEFORE) { if (own[BEFORE[f.label]] === undefined && !(f.label === "Transfer" && pickupOf(p) === "Not included")) before.push(f); }
-    else if (day) side.push(f);
-    else before.push(f);
+    else if (day) { if (!lead.includes(f.value.toLowerCase())) side.push(f); }
+    // Bateau sans journée : le départ et le lieu sont déjà dans « Pickup » et le titre, ils ne finissent pas la liste.
+    else if (p.template !== "boat") before.push(f);
   }
   return { hero: heroFacts(p), side, before };
 }
@@ -74,7 +81,10 @@ function priceRow(r) {
   // « Per person : 1,900 THB per person » : l'unité qui redit le libellé n'est pas répétée.
   // « Adult : 1,500 THB per person » sous « per adult » : l'unité ne dit rien de plus.
   const unit = r.amount === 0 || !r.unit || r.unit.toLowerCase() === r.label.toLowerCase() || (/^per person$/i.test(r.unit) && /^(adult|child)\b/i.test(r.label)) ? "" : r.unit;
-  return { label: r.label, amount: rowAmount(r), unit, raw: typeof r.amount === "number" ? r.amount : r.text };
+  // « 3 or more people, per person : 1,800 THB per person » : le libellé perd la fin qui redit l'unité.
+  const tail = unit ? ", " + unit.toLowerCase() : "";
+  const label = tail && r.label.toLowerCase().endsWith(tail) ? r.label.slice(0, -tail.length) : r.label;
+  return { label, name: r.label, amount: rowAmount(r), unit, raw: typeof r.amount === "number" ? r.amount : r.text };
 }
 function rowAmount(r) {
   if (typeof r.amount === "number") return r.amount === 0 ? "Free" : (r.supplement ? "+" : "") + view.thb(r.amount);
@@ -167,10 +177,14 @@ function subOf(p, o, days) {
   const first = noteSentences(o)[0] || "";
   return first.length <= 80 ? first.replace(/\.$/, "") : "";
 }
-// Note publique de l'option, sans ce que la page dit déjà autrement (« Price per person. », « ask us » d'un prix sur demande).
+// Note publique de l'option, sans ce que la page dit déjà autrement (« Price per person. », « ask us » d'un prix sur demande,
+// « Private speedboat option: » qui redit le nom de l'option).
 function noteSentences(o) {
   const onRequest = o.priceOnRequest || !(o.prices || []).length;
-  return sentences(publicText(o.note || o.stub || "")).filter((x) => !/^price per person\.?$/i.test(x) && !(onRequest && /\bask us\b/i.test(x)));
+  const own = new RegExp("^" + String(o.label || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + " option[:,]\\s*", "i");
+  return sentences(publicText(o.note || o.stub || ""))
+    .filter((x) => !/^price per person\.?$/i.test(x) && !(onRequest && /\bask us\b/i.test(x)))
+    .map((x) => (own.test(x) ? x.replace(own, "").replace(/^./, (c) => c.toUpperCase()) : x));
 }
 
 // Groupes : la fiche décide (plongée par profil), sinon au départ d'ailleurs (Ao Nang), à la demi-journée ou à la
@@ -292,7 +306,7 @@ function pickOf(p, site, opts = {}) {
 }
 
 // La question de la fiche qui aide à choisir entre les options : sa réponse va près du sélecteur, plus dans « Questions ».
-const HELP = /^(which (\w+ )?(trip|ride|programme|course) should i (pick|choose)\?|longtail or speedboat\b.*|speedboat, longtail or catamaran\?|can we have the boat for ourselves\?)$/i;
+const HELP = /^(which (\w+ )?(trip|ride|programme|course) should i (pick|choose)\?|longtail or speedboat\b.*|speedboat, longtail or catamaran\?)$/i;
 function helpOf(p) {
   const q = (p.faq || []).find((f) => HELP.test(f.q));
   return q ? { q: q.q, a: q.a } : null;
@@ -370,9 +384,10 @@ function related(p, ctx) {
   const links = urls.filter((u) => OTHER_LINKS[u] && ctx.live.has(u) && u !== p.url).map((u) => ({ href: u, label: OTHER_LINKS[u] }));
   const kinds = new Set(cards.map((c) => c.kind));
   const title = kinds.size === 1 ? (kinds.has("boat") ? "More boat trips" : "More activities") : "More trips and activities";
-  // Le lien suit les cartes montrées, comme le titre (plongée : cartes bateaux).
-  const only = kinds.size === 1 ? [...kinds][0] : p.template;
-  const all = only === "boat" ? { href: "/tours/#boat-trips", label: "Compare all boat trips" }
+  // Le lien suit les cartes montrées, comme le titre (plongée : cartes bateaux) ; cartes mêlées : la liste complète.
+  const only = kinds.size === 1 ? [...kinds][0] : kinds.size > 1 ? "mixed" : p.template;
+  const all = only === "mixed" ? { href: "/tours/", label: "See the boat trips and activities" }
+    : only === "boat" ? { href: "/tours/#boat-trips", label: "Compare all boat trips" }
     : only === "activity" ? { href: "/tours/#activities", label: "See all activities" }
     : { href: "/tours/", label: "See the boat trips and activities" };
   return cards.length || links.length || taxi ? {
