@@ -36,6 +36,29 @@
     if (phone.addEventListener) phone.addEventListener("change", dockState);
     dockState();
   }
+  // ---------- Location : une catégorie à la fois, choix gardé dans l'adresse (?cat=…) ; la bande du bas suit ----------
+  var rentSeg = $('[data-seg="rent"]');
+  if (rentSeg) {
+    var rent = rentSeg.closest(".rent"), cats = $$("[data-cat]", rent);
+    var dockP = dock && $("[data-dock-p]", dock), dockB = dock && $("[data-dock-book]", dock);
+    var showCat = function (id, b) {
+      cats.forEach(function (c) { c.hidden = c.getAttribute("data-cat") !== id; });
+      if (dockP && b) dockP.innerHTML = "<span>" + V.esc(b.getAttribute("data-short")) + " from " + V.thb(Number(b.getAttribute("data-from"))) + "</span><small>" + V.esc(cats.filter(function (c) { return !c.hidden; })[0].querySelector(".rent__range small").textContent) + "</small>";
+      if (dockB) dockB.setAttribute("data-book", id);
+    };
+    var wanted = new URLSearchParams(location.search).get("cat");
+    var first = $$("button", rentSeg).filter(function (b) { return b.value === wanted; })[0] || $("button", rentSeg);
+    rentSeg.hidden = false;
+    rent.classList.add("is-tabs");
+    var rs = V.seg(rentSeg, function (v, b) {
+      showCat(v, b);
+      var u = new URLSearchParams(location.search);
+      u.set("cat", v);
+      history.replaceState(null, "", location.pathname + "?" + u);
+    });
+    rs.select(first.value, true);
+    showCat(first.value, first);
+  }
   if (!D || !calc || !PR || !B) return;
 
   // ---------- État : celui du brouillon de la feuille ----------

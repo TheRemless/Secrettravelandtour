@@ -6,7 +6,7 @@
   "name": "Car and scooter rental",
   "seo": {
     "title": "Scooter and Car Rental on Koh Lanta | Secret Travel & Tour",
-    "metaDescription": "35 vehicles to rent on Koh Lanta: scooters from 250 THB a day, big bikes from 600 THB, cars and pick-ups from 1,200 THB, up to a 7-seat Toyota Fortuner.",
+    "metaDescription": "35 vehicles to rent on Koh Lanta: scooters from 250 THB per 24 hours, big bikes from 600 THB, cars and pick-ups from 1,200 THB, up to a 7-seat Toyota Fortuner.",
     "draft": {
       "title": "Scooter & Car Rental Koh Lanta – Daily Prices",
       "h1": "Scooter and car rental on Koh Lanta"
@@ -22,15 +22,15 @@
     },
     {
       "label": "Cars",
-      "value": "1,200–2,200 THB per day, Suzuki Swift to 7-seat Toyota Fortuner"
+      "value": "1,200–2,200 THB per 24 hours, Suzuki Swift to 7-seat Toyota Fortuner"
     },
     {
       "label": "Big bikes",
-      "value": "600–1,200 THB per day, Kawasaki KLX 150 to Kawasaki Ninja 650"
+      "value": "600–1,200 THB per 24 hours, Kawasaki KLX 150 to Kawasaki Ninja 650"
     },
     {
       "label": "Scooters",
-      "value": "250–800 THB per day, Honda Scoopy to Honda Forza 350"
+      "value": "250–800 THB per 24 hours, Honda Scoopy to Honda Forza 350"
     }
   ],
   "price": {
@@ -283,7 +283,7 @@
     },
     {
       "q": "What is the cheapest vehicle?",
-      "a": "Several small scooters, such as the Honda Click 125 or the Honda Scoopy, are 250 THB per day."
+      "a": "Several small scooters, such as the Honda Click 125 or the Honda Scoopy, are 250 THB per 24 hours."
     }
   ],
   "photos": [
@@ -322,7 +322,7 @@
     ],
     "cardDescription": "Scooters, big bikes, cars and pick-ups to explore the island.",
     "cardInfo": [
-      "From 250 THB per day"
+      "From 250 THB per 24 hours"
     ],
     "dayTitle": "What you can rent",
     "dayItems": [

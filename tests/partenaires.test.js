@@ -72,7 +72,8 @@ test("prix : affichés sur les pages qui en ont, jamais dans les données struct
     if (p.slug !== "4-islands") {
       assert.match(doc, /id="opt-h"/, p.slug);
       // Phase 1 (09.11.2026) : un seul bouton de réservation dans le bloc des options (« Choose a date »).
-      assert.match(doc, />(Choose a date|Ask for [^<]+)</, p.slug);
+      // Phase 2 : la location n'a plus de bouton par catégorie, chaque véhicule ouvre la feuille (« Choose a vehicle »).
+      assert.match(doc, />(Choose a date|Choose a vehicle)</, p.slug);
     }
     for (const o of p.options || []) for (const r of o.prices || []) {
       const shown = typeof r.amount === "number" ? (r.amount === 0 ? "Free" : Number(r.amount).toLocaleString("en-GB") + " THB") : r.text;

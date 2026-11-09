@@ -207,7 +207,7 @@ module.exports = async function () {
   const rentalCats = rentalP.options.map((o) => {
     const amounts = o.prices.map((r) => r.amount);
     const factLabel = { "cars-and-pick-ups": "Cars", "big-bikes": "Big bikes", "scooters-and-small-bikes": "Scooters" }[o.id];
-    const models = (fact(rentalP, factLabel).match(/per day, (.+)$/) || [])[1] || "";
+    const models = (fact(rentalP, factLabel).match(/per (?:day|24 hours), (.+)$/) || [])[1] || "";
     return {
       id: o.id, label: factLabel, title: o.label, count: o.prices.length, models,
       lo: Math.min(...amounts), hi: Math.max(...amounts),

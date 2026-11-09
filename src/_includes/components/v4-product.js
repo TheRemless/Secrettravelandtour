@@ -447,31 +447,41 @@ function bookingOf(p, site) {
   };
 }
 
-// ---------- Location : une option par catégorie, chaque véhicule est une ligne qui ouvre la feuille ----------
+// ---------- Location : une catégorie à la fois (scooters d'abord), chaque véhicule est une ligne qui ouvre la feuille ----------
+// L'unité (« per 24 hours », réponse du client) est dite une fois par catégorie, pas sur chaque ligne ; les comptes
+// sont sur les onglets, la fourchette une fois sous eux. Ni faits du haut ni prix d'appel : la liste est le haut de page.
+const RENT_SHORT = { "scooters-and-small-bikes": "Scooters", "big-bikes": "Big bikes", "cars-and-pick-ups": "Cars" };
 function rentalPage(p, ctx) {
   const { site, schema } = ctx;
   const host = site.url.replace(/^https?:\/\//, "");
   const pr = view.price(p);
   const cats = (p.options || []).map((o) => {
     const amounts = (o.prices || []).map((r) => r.amount);
+    const units = [...new Set((o.prices || []).map((r) => r.unit || ""))];
     return {
-      id: o.id, label: o.label, count: (o.prices || []).length,
-      lo: view.thb(Math.min(...amounts)), hi: view.thb(Math.max(...amounts)),
-      unit: ((o.prices || [])[0] || {}).unit || "",
-      rows: (o.prices || []).map((r) => ({ ...priceRow(r), spec: r.spec || "", fallback: `Rental request: ${o.label} – ${r.label}\nFrom: \nTo: \nPage: ${host}${p.url}` })),
+      id: o.id, label: o.label, short: RENT_SHORT[o.id] || o.label, count: (o.prices || []).length,
+      lo: view.thb(Math.min(...amounts)), hi: view.thb(Math.max(...amounts)), from: Math.min(...amounts),
+      // Une seule unité pour toute la catégorie, sinon chaque ligne garde la sienne.
+      unit: units.length === 1 ? units[0] : "",
+      rows: (o.prices || []).map((r) => ({ ...priceRow(r), unit: units.length === 1 ? "" : priceRow(r).unit, spec: r.spec || "", fallback: `Rental request: ${o.label} – ${r.label}\nFrom: \nTo: \nPage: ${host}${p.url}` })),
       fallback: `Rental request: ${o.label}\nFrom: \nTo: \nPage: ${host}${p.url}`
     };
   });
+  // Scooters d'abord : le cas le plus fréquent sur l'île ; puis grosses motos, puis voitures.
+  const order = ["scooters-and-small-bikes", "big-bikes", "cars-and-pick-ups"];
+  cats.sort((x, y) => (order.indexOf(x.id) + 1 || 99) - (order.indexOf(y.id) + 1 || 99));
+  // Accroche sans sa première phrase, qui redit les comptes des onglets.
+  const lead = (p.lead || "").replace(/^\d+ [^.]*\.\s*/, "");
+  const links = [{ href: "/tours/", label: "Boat trips and activities" }].concat((p.related || []).filter((u) => OTHER_LINKS[u] && ctx.live.has(u)).map((u) => ({ href: u, label: OTHER_LINKS[u] })));
   return {
-    slug: p.slug, kind: "rental", url: p.url, name: p.name, nav: "rental",
-    seo: p.seo, h1: p.h1.replace("Koh Lanta", "Koh Lanta"), lead: p.lead,
-    keyFacts: (p.facts || []).filter((f) => f.label !== "Fleet").map((f) => ({ label: f.label, value: f.value })),
-    fleet: fact(p, "Fleet"),
+    slug: p.slug, kind: "rental", url: p.url, name: p.name, crumb: "Rental", nav: "rental",
+    seo: p.seo, h1: p.h1.replace("Koh Lanta", "Koh\u00a0Lanta"), lead,
     price: pr ? { amount: pr.amount, unit: p.price.unit } : null,
     cats,
-    beforeBook: view.beforeBook(p, site),
-    faq: p.faq || [],
-    related: related(p, ctx),
+    // « How to book » redit l'accroche ; les questions redisent les onglets (elles restent dans le JSON-LD).
+    beforeBook: view.beforeBook(p, site).filter((b) => b.label !== "How to book"),
+    faq: [],
+    related: { title: "Trips and transfers", cards: [], links, all: null, transfer: null },
     ask: askText(p.name, host + p.url),
     fallback: `Rental request: ${p.name}\nFrom: \nTo: \nPage: ${host}${p.url}`,
     booking: { ...view.bookingTour(p, site), variant: "rental" },

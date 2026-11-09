@@ -59,12 +59,15 @@ test("prix : chaque ligne de chaque option du JSON est sur la page, avec son mon
       for (const r of o.prices || []) {
         rows++;
         const amount = typeof r.amount === "number" ? (r.amount === 0 ? "Free" : (r.supplement ? "+" : "") + thb(r.amount)) : r.text;
-        const block = opts.split(esc(o.label))[1] || "";
+        // Location (phase 2) : un onglet par catégorie ; l'unité commune (« per 24 hours ») est dite une fois en tête
+        // de l'onglet, pas sur chaque ligne. Montant de chaque ligne toujours vérifié.
+        const rental = p.template === "rental";
+        const block = rental ? (opts.split(`data-cat="${o.id}"`)[1] || "").split("</ul>")[0] : opts.split(esc(o.label))[1] || "";
         const at = block.indexOf(">" + esc(r.label) + "<");
         assert.ok(at > -1, `${p.slug} ${o.id} : ligne « ${r.label} »`);
         const after = block.slice(at, at + 400);
         assert.ok(after.includes(`<b>${amount}</b>`), `${p.slug} ${o.id} : montant de « ${r.label} »`);
-        if (r.unit && r.amount !== 0 && r.unit.toLowerCase() !== r.label.toLowerCase()) assert.ok(after.includes(`<small>${esc(r.unit)}</small>`), `${p.slug} ${o.id} : unité de « ${r.label} »`);
+        if (r.unit && r.amount !== 0 && r.unit.toLowerCase() !== r.label.toLowerCase()) assert.ok((rental ? block.slice(0, block.indexOf("<ul")) : after).includes(`<small>${esc(r.unit)}</small>`), `${p.slug} ${o.id} : unité de « ${r.label} »`);
       }
       for (const f of o.notIncludedFees || []) assert.ok(opts.includes(esc(f.label)) && opts.includes(thb(f.amount)), `${p.slug} : frais « ${f.label} »`);
     }

@@ -223,8 +223,9 @@
 {% endmacro %}
 
 {#- Avant de réserver et questions : même bloc que la 4 Islands. -#}
-{% macro bybFaq(byb, faq) %}
-<section class="sec sec--sand" aria-labelledby="{{ 'byb-h' if byb.length else 'faq-h' }}">
+{#- variant « compact » (location, speedboat) : rubriques serrées, sur deux colonnes au bureau. -#}
+{% macro bybFaq(byb, faq, variant="") %}
+<section class="sec sec--sand{% if variant %} byb-sec--{{ variant }}{% endif %}" aria-labelledby="{{ 'byb-h' if byb.length else 'faq-h' }}">
   <div class="wrap">
     {%- if byb.length %}<div class="byb"><h2 id="byb-h">Before you book</h2><dl>{% for b in byb %}<div><dt>{{ b.label }}</dt><dd>{{ b.text }}</dd></div>{% endfor %}</dl></div>{% endif %}
     {%- if faq.length %}<div class="byb faq{% if not byb.length %} faq--first{% endif %}"><h2 id="faq-h">Questions</h2><div>{% for f in faq %}<details><summary>{{ f.q }}</summary><p>{{ f.a }}</p></details>{% endfor %}</div></div>{% endif %}
@@ -236,7 +237,7 @@
 {%- if r %}
 <section class="sec" aria-labelledby="rel-h">
   <div class="wrap">
-    <div class="sec__head"><h2 id="rel-h">{{ r.title }}</h2><a class="link" href="{{ r.all.href }}">{{ r.all.label }}</a></div>
+    <div class="sec__head"><h2 id="rel-h">{{ r.title }}</h2>{% if r.all %}<a class="link" href="{{ r.all.href }}">{{ r.all.label }}</a>{% endif %}</div>
     {%- if r.cards.length %}<div class="rail rail--rel" role="region" tabindex="0" aria-label="{{ r.title }}, one card after the other">{% for x in r.cards %}{{ v4.card(x) }}{% endfor %}</div>{% endif %}
     {%- if r.transfer %}<p class="also">Arriving at {{ r.transfer.from }}? <a class="link" href="{{ r.transfer.href }}">See the {{ r.transfer.name }} transfer</a></p>{% endif %}
     {%- if r.links.length %}<ul class="also also--list">{% for l in r.links %}<li><a class="link" href="{{ l.href }}">{{ l.label }}</a></li>{% endfor %}</ul>{% endif %}
