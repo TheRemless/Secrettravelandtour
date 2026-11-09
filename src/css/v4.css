@@ -530,7 +530,7 @@ details[open]::details-content { block-size: auto; }
 .dock__p { display: grid; line-height: 1.25; min-width: 0; font-size: 14px; color: var(--ink-mute); }
 .dock__p span { font: 600 18px/1.2 var(--sans); color: var(--ink); white-space: nowrap; font-variant-numeric: lining-nums tabular-nums; }
 .dock__p .dock__req { font-size: 16px; }
-.dock__p small { font-size: 14px; color: var(--ink-mute); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dock__p small { font-size: 14px; color: var(--ink-mute); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .dock__p b { font: 600 20px/1.2 var(--sans); color: var(--ink); white-space: nowrap; font-variant-numeric: lining-nums tabular-nums; }
 html.sheet-open .dock { transform: translateY(calc(100% + 2px)); }
 @media (max-width: 899px) { body:has(.dock) { padding-bottom: calc(72px + env(safe-area-inset-bottom)); } }
@@ -791,13 +791,15 @@ html:not(.js) .rent__seg, html:not(.js) .sb__seg { display: none; }
 .prow--pick input { width: 20px; height: 20px; margin: 0 -4px 0 0; flex: none; accent-color: var(--deep); order: -1; }
 .prow--pick > span:first-of-type { flex: 1; }
 .opts__prices li:has(.prow) { padding-block: 2px; }
+/* Sous-choix d'une option (cours, sites de plongée) : rangés sous son nom, pas dans la colonne de son bouton. */
+.po__detail .opts__prices:has(.prow--pick) { margin-left: 34px; }
 .pfees { margin-top: 18px; background: var(--white); border-radius: var(--r); padding: 16px; }
 .po .pfees { margin-top: 0; padding: 0; }
 .pfees h3 { font: 600 15px/1.3 var(--sans); margin-bottom: 6px; }
 .pfees__note { font-size: 14px; color: var(--ink-mute); margin: -2px 0 6px; }
 .pfees__thai summary { min-height: 44px; display: flex; align-items: center; font: 600 15px/1.3 var(--sans); color: var(--sea); cursor: pointer; }
 .pick__extra { margin-top: 12px; border-top: 1px solid var(--line); }
-.pick__extra summary { min-height: 48px; display: flex; align-items: center; font: 600 15px/1.3 var(--sans); cursor: pointer; }
+.pick__extra summary { min-height: 48px; display: flex; align-items: center; font: 600 15px/1.3 var(--sans); color: var(--sea); cursor: pointer; }
 .pick__extra .po__note { margin-bottom: 8px; }
 /* Grille durée × ligne (ATV, karts) : chaque colonne est une option, la choisie est encadrée. */
 .pick__list--grid { gap: 12px; }
@@ -807,9 +809,12 @@ html:not(.js) .rent__seg, html:not(.js) .sb__seg { display: none; }
 .ptab thead .ptab__u { vertical-align: bottom; }
 .ptab th[scope="row"], .ptab .ptab__u { text-align: left; font-weight: 400; color: var(--ink-soft); padding-left: 14px; }
 .ptab .ptab__u { font-size: 13px; color: var(--ink-mute); width: 34%; }
+.ptab th[scope="row"] small { display: block; font-size: 13px; color: var(--ink-mute); }
 .ptab td b { font: 600 15px/1.2 var(--sans); font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
 .ptab td small { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.ptab td.is-sel, .ptab th:has(input:checked) { background: var(--sand); }
+/* Colonne choisie : teinte de --deep, distincte du fond sable de la section. Toute la colonne se touche (v4-product.js). */
+.ptab td.is-sel, .ptab th:has(input:checked) { background: color-mix(in srgb, var(--deep) 7%, var(--white)); }
+.ptab td[data-col] { cursor: pointer; }
 .ptab__opt { display: grid; justify-items: end; gap: 6px; min-height: 44px; cursor: pointer; font: 600 14px/1.3 var(--sans); text-align: right; }
 .ptab__opt input { width: 20px; height: 20px; margin: 0; accent-color: var(--deep); }
 .po--grid, .po--grid.is-sel { background: none; box-shadow: none; }
@@ -838,7 +843,8 @@ html:not(.js) .rent__seg, html:not(.js) .sb__seg { display: none; }
   .po__detail { padding: 0 14px 14px; }
   .ptab th, .ptab td { padding: 9px 6px; }
   .ptab .ptab__u, .ptab th[scope="row"] { padding-left: 10px; font-size: 14px; }
-  .ptab__opt { font-size: 13px; }
+  .ptab__opt { font-size: 13px; text-wrap: balance; }
+  .ptab .ptab__u { width: 30%; }
   .ptab td b { font-size: 14px; }
 }
 .dayb + .dayb { margin-top: 32px; }
@@ -980,6 +986,8 @@ h1, h2, h3, h4, .brand b, .drawer nav a, .card__title, .hrow__t b, .tl b, .byb d
 .f-note { margin: 4px 0 8px; padding: 10px 12px; border-radius: var(--r); background: var(--shell); font-size: 15px; line-height: 1.45; }
 .sheet .choice--3 input + span { padding-inline: 6px; }
 .po .opts__amt small, .pfees .opts__amt small { display: inline; margin-left: 4px; font-size: 13px; }
+/* Téléphone : l'unité des sous-choix sous le montant, le libellé garde la largeur. */
+@media (max-width: 760px) { .po .prow .opts__amt small { display: block; margin-left: 0; } }
 .po .opts__prices li { padding-block: 7px; }
 .dock .btn { flex: none; white-space: nowrap; padding-inline: 20px; }
 /* Feuille du speedboat : aller simple ou retour sur une ligne ; trajet et départ regroupés sous leur résumé. */

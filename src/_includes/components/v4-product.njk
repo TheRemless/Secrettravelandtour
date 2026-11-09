@@ -51,7 +51,7 @@
 
 {% macro feeList(fees, noNote=false) -%}
 <ul class="opts__fees">
-  {%- for f in fees %}<li><span>{{ f.label }}{% if f.note and not noNote %}<small>{{ f.note }}</small>{% endif %}</span><span class="opts__amt"><b>{{ f.amount }}</b>{% if f.unit %} <small>{{ f.unit }}</small>{% endif %}</span></li>{% endfor %}
+  {%- for f in fees %}<li><span>{{ f.label }}{% if f.note and not noNote and (loop.first or fees[loop.index0 - 1].note != f.note) %}<small>{{ f.note }}</small>{% endif %}</span><span class="opts__amt"><b>{{ f.amount }}</b>{% if f.unit %} <small>{{ f.unit }}</small>{% endif %}</span></li>{% endfor %}
 </ul>
 {%- endmacro %}
 
@@ -105,7 +105,8 @@
           <thead><tr><th scope="col" class="ptab__u">THB {{ pk.matrix.unit }}</th>{% for o in pk.options %}<th scope="col"><label class="ptab__opt"><input type="radio" name="pick" value="{{ o.id }}"{% if o.id == pk.sel %} checked{% endif %}><span>{{ o.label }}</span></label></th>{% endfor %}</tr></thead>
           <tbody>
             {%- for rl in pk.matrix.rows %}{% set ri = loop.index0 %}
-            <tr><th scope="row">{{ rl }}</th>{% for o in pk.options %}{% set r = o.rows[ri] %}<td data-col="{{ o.id }}"><b>{{ r.amount }}</b>{% if r.unit %} <small>{{ r.unit }}</small>{% endif %}</td>{% endfor %}</tr>
+            {%- set rp = rl.split(", ") %}
+            <tr><th scope="row">{{ rp[0] }}{% if rp[1] %}<small>{{ rp[1] }}</small>{% endif %}</th>{% for o in pk.options %}{% set r = o.rows[ri] %}<td data-col="{{ o.id }}"><b>{{ r.amount | replace(" THB", "") }}</b>{% if r.unit %} <small>{{ r.unit }}</small>{% endif %}</td>{% endfor %}</tr>
             {%- endfor %}
           </tbody>
         </table>
@@ -158,7 +159,8 @@
   <div class="calc__gs">
     {%- if cl.mode == "counts" %}
     {%- for r in cl.countRows %}
-    <div class="stp-row"><span><b id="c-n{{ loop.index0 }}">{{ r }}</b></span><span class="stp" role="group" aria-labelledby="c-n{{ loop.index0 }}"><button type="button" data-step="n" data-i="{{ loop.index0 }}" data-d="-1" disabled>−<span class="sr">One less</span></button><output data-out="n{{ loop.index0 }}">0</output><button type="button" data-step="n" data-i="{{ loop.index0 }}" data-d="1">+<span class="sr">One more</span></button></span></div>
+    {%- set rp = r.split(", ") %}
+    <div class="stp-row"><span><b id="c-n{{ loop.index0 }}">{{ rp[0] }}</b>{% if rp[1] %}<small id="c-n{{ loop.index0 }}s">{{ rp[1] }}</small>{% endif %}</span><span class="stp" role="group" aria-labelledby="c-n{{ loop.index0 }}{% if rp[1] %} c-n{{ loop.index0 }}s{% endif %}"><button type="button" data-step="n" data-i="{{ loop.index0 }}" data-d="-1" disabled>−<span class="sr">One less</span></button><output data-out="n{{ loop.index0 }}">0</output><button type="button" data-step="n" data-i="{{ loop.index0 }}" data-d="1">+<span class="sr">One more</span></button></span></div>
     {%- endfor %}
     {%- else %}
     <div class="stp-row"><span><b id="c-a">Adults</b>{% if cl.adultFrom %}<small>{{ cl.adultFrom }} and over</small>{% endif %}</span><span class="stp" role="group" aria-labelledby="c-a"><button type="button" data-step="adults" data-d="-1">−<span class="sr">One adult less</span></button><output data-out="adults">2</output><button type="button" data-step="adults" data-d="1">+<span class="sr">One adult more</span></button></span></div>

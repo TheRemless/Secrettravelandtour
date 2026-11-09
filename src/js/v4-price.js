@@ -53,7 +53,8 @@
         var r = rows.filter(function (x) { return x.supplement && x.label === label; })[0];
         if (r) { total += r.amount; lines.push([r.label, r.amount]); }
       });
-      return { total: total, lines: lines, unpriced: [], perBoat: true };
+      // « the whole boat » seulement pour un prix par bateau (pas le Partner chef « for 2 people »).
+      return { total: total, lines: lines, unpriced: [], perBoat: /\bboat\b/i.test(tier ? tier.unit || "" : top.unit || "") };
     }
     // Ligne adulte : « Adult », « Per person », ou « Adult, from age 12 » (un âge minimum, pas de maximum).
     var adult = rows.filter(function (r) { return (!r.ages || r.ages.max === undefined) && !r.group && !r.supplement && typeof r.amount === "number" && /^(adult|per person)/i.test(r.label); })[0];
