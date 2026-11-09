@@ -71,7 +71,7 @@ test("plus aucun lien vers les pages légales de Zwald depuis Secret et le taxi"
   }
 });
 
-test("licence TAT renseignée (donnée par Jérémy le 03.11.2026) et affichée sur l'accueil, les conditions et les mentions", () => {
+test("licence TAT renseignée (donnée par Jérémy le 06.11.2026) et affichée sur l'accueil, les conditions et les mentions", () => {
   const secret = JSON.parse(read("_data/secret.json"));
   assert.equal(secret.licence, "34/04000");
   const built = (file) => fs.readFileSync(path.join(__dirname, "..", "_site", file), "utf8");
