@@ -17,13 +17,14 @@ permalink: /tours/
 {% include "v4-head.njk" %}
 </head>
 <body>
-{{ v4.header(c, d.emblem, "boats", waText) }}
+{{ v4.header(c, d.emblem, "", waText) }}
 <main id="main">
-  <nav class="wrap crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><span aria-current="page">Tours</span></li></ol></nav>
+  <nav class="wrap crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><span aria-current="page">Trips</span></li></ol></nav>
   <div class="wrap top">
     <h1>{{ d.hub.h1 }}</h1>
     <p class="lead">{{ d.hub.lead }}</p>
   </div>
+  {#- Une rangée collante, téléphone compris : type à gauche, tri à droite (le choix courant se lit sur bureau). -#}
   <div class="bar" data-bar>
     <div class="wrap bar__in">
       <div class="seg" role="group" aria-label="Show" data-seg="type">
@@ -31,17 +32,32 @@ permalink: /tours/
         <button type="button" value="boat" aria-pressed="false">Boat trips</button>
         <button type="button" value="activity" aria-pressed="false">Activities</button>
       </div>
-      <label class="sr" for="sort">Sort</label>
-      <select class="sort" id="sort" data-sort><option value="">Suggested order</option><option value="asc">Lowest price first</option><option value="desc">Highest price first</option></select>
-      <p class="hub-count" aria-live="polite"><span class="odo" data-odo="n">{{ d.counts.all }}</span> <span data-n-l>trips</span></p>
+      <label class="sort" for="sort">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M7 4v16M4 17l3 3 3-3M14 7h7M14 12h5M14 17h3"/></svg>
+        <span class="sort__l">Sort</span><span class="sort__v" data-sort-v>Our order</span>
+        <select id="sort" data-sort><option value="">Our order</option><option value="asc">Lowest price first</option><option value="desc">Highest price first</option></select>
+      </label>
     </div>
   </div>
   <section class="wrap hub" aria-labelledby="hub-h">
-    <h2 class="sr" id="hub-h">All trips</h2>
+    <div class="hub__head">
+      <h2 class="hub__n" id="hub-h"><span data-hub-n aria-live="polite">{{ d.counts.all }} trips</span></h2>
+      <button class="link hub__cmp" type="button" data-cmp-mode aria-pressed="false" hidden>Compare trips</button>
+    </div>
     <div class="grid" data-grid>
       {%- for t in d.boats %}{{ v4.card(t, eager=loop.first, compare=true, anchor="boat-trips" if loop.first else "") }}{% endfor %}
       {%- for t in d.activities %}{{ v4.card(t, compare=true, anchor="activities" if loop.first else "") }}{% endfor %}
     </div>
+  </section>
+  {#- Les pages de service, absentes de la grille : speedboat, transferts, location. -#}
+  {%- set ar = d.home.around -%}
+  <section class="wrap hub-more" aria-labelledby="ga-h">
+    <h2 id="ga-h">Getting around</h2>
+    <ul class="lrows lrows--3">
+      {%- if ar.transfers.speedboat %}<li><a class="lrow press" href="{{ ar.transfers.speedboat.href }}"><span><b>Speedboat timetable</b><small>{{ ar.transfers.speedboat.text }}</small></span></a></li>{% endif %}
+      <li><a class="lrow press" href="/taxi/"><span><b>Private transfers</b><small>{{ ar.transfers.lead | replace(".", "") }}</small></span></a></li>
+      <li><a class="lrow press" href="{{ ar.rental.href }}"><span><b>{{ ar.rental.title }}</b><small>{% for k in ar.rental.cats %}{{ k.label if loop.first else k.label | lower }}{% if loop.revindex == 2 %} and {% elif not loop.last %}, {% endif %}{% endfor %}, from {{ ar.rental.cats[0].lo }} THB {{ ar.rental.unit }}</small></span></a></li>
+    </ul>
   </section>
   {{ v4.endBand(d.hub.final, c) }}
 </main>

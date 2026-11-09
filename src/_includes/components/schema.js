@@ -358,7 +358,7 @@ function hub(site, products) {
     block({
       "@type": "BreadcrumbList",
       "@id": `${url}#breadcrumb`,
-      itemListElement: [{ name: "Home", item: abs(site, "/") }, { name: "Tours", item: url }]
+      itemListElement: [{ name: "Home", item: abs(site, "/") }, { name: "Trips", item: url }]
         .map((it, i) => ({ "@type": "ListItem", position: i + 1, name: it.name, item: it.item }))
     }),
     block({
