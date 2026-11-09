@@ -944,6 +944,9 @@ html:not(.js) .rent__seg, html:not(.js) .sb__seg { display: none; }
 .credits dl > div { padding: 14px 0; border-top: 1px solid var(--line); }
 .credits dt { font: 600 20px/1.2 var(--serif); }
 .credits dd { margin: 4px 0 0; color: var(--ink-soft); }
+/* Page introuvable : titre, une phrase, le bouton et le lien taxi sur une ligne. */
+.lost .lead { margin-top: 16px; }
+.lost__go { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; margin-top: 28px; }
 .bd { display: grid; gap: 18px; }
 .bd__l { font: 600 14px/1 var(--sans); color: var(--ink-mute); margin-top: 24px; }
 .bd__h1 { font: 600 var(--h1)/1 var(--serif); }
