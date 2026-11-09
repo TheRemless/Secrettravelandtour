@@ -51,3 +51,23 @@ test("4 Islands : le catamaran a son parcours, sa journée, sa colonne et sa rou
   assert.deepEqual(data.islands.catamaran.map((i) => i.name), ["Koh Chueak", "Koh Mook", "Koh Kradan", "Koh Ngai"]);
   assert.equal(data.lunch.catamaran, "Koh Kradan");
 });
+
+// ---------- Koh Rok & Koh Haa avec coucher de soleil (affiche « Rok Haa Island + Sunset ») ----------
+test("Koh Rok, coucher de soleil : 2 500 THB par personne, 10:00 à 17:50, frais de parc à part, aucun prix enfant inventé", () => {
+  const p = P("tours/koh-rok-koh-haa");
+  const o = p.options.find((x) => x.id === "sunset");
+  assert.ok(!o.priceOnRequest);
+  assert.deepEqual(o.prices.map((r) => [r.label, r.amount, r.unit]), [["Per person", 2500, "per person"]]);
+  assert.ok(o.prices.every((r) => !r.ages), "l'affiche ne donne pas de prix enfant");
+  assert.ok(o.notIncludedFees.length > 0, "« Not including National park fee »");
+  const day = p.day.find((b) => (b.options || []).includes("sunset"));
+  assert.equal(day.steps[0].time, "10:00");
+  assert.equal(day.steps[day.steps.length - 1].time, "17:50");
+  const doc = html(p.url), t = text(doc);
+  assert.doesNotMatch(t, /exists on some days|Ask us\./, "l'ancienne phrase est remplacée par l'option");
+  for (const s of ["Later trip, back at sunset", "2,500 THB", "17:50", "No child price on the site"]) assert.ok(t.includes(s), s);
+  const msg = B.buildMessage(cfgOf(doc), state("sunset", { pickup: "Lanta Sand Resort" }));
+  assert.match(msg, /\nBooking request: Koh Rok & Koh Haa – Later trip, back at sunset\n/);
+  assert.match(msg, /\nPrice on website: Per person: 2,500 THB\n/);
+  assert.doesNotMatch(msg, /Departure:/);
+});

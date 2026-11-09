@@ -55,8 +55,8 @@ Source : `src/_data/products/tours/fishing-trip.json`
 Source : `src/_data/products/tours/koh-rok-koh-haa.json`
 
 - Koh Rok en longtail privé, tranches « 7 to 8 people » (8 400 THB) et « 9 to 10 people » (9 400 THB) : déduites de la brochure selon le registre de faits, à confirmer.
-- version avec arrêt coucher de soleil : le site dit « exists on some days. Ask us », le registre de faits dit 10:00 à 19:00. Jours, programme et prix ?
 - catamaran au départ d'Ao Nang : frais de parc national inclus ou non (la brochure n'en dit rien), nom du ponton d'Ao Nang.
+- Koh Rok avec coucher de soleil : jours de départ, prix enfant et âges (l'affiche ne donne que 2 500 THB par personne), ponton.
 
 ### Mangroves (/tours/mangroves/)
 

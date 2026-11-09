@@ -111,6 +111,41 @@
       ]
     },
     {
+      "id": "sunset",
+      "label": "Later trip, back at sunset",
+      "kind": "join-in",
+      "boat": "speedboat",
+      "note": "Pickup at your hotel at 10:00 by private car, Koh Rok and the Koh Haa lagoon, then a sunset cruise back to Koh Lanta at 17:50. No child price on the site: we confirm it on WhatsApp.",
+      "prices": [
+        {
+          "label": "Per person",
+          "amount": 2500,
+          "unit": "per person"
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "National park fee, adult",
+          "amount": 400,
+          "unit": "per person",
+          "note": "Cash, paid to the ranger on the island",
+          "ages": {
+            "min": 12
+          }
+        },
+        {
+          "label": "National park fee, child",
+          "amount": 200,
+          "unit": "per person",
+          "note": "Cash, paid to the ranger on the island",
+          "ages": {
+            "min": 4,
+            "max": 11
+          }
+        }
+      ]
+    },
+    {
       "id": "private-longtail",
       "label": "Private longtail to Koh Rok",
       "kind": "private",
@@ -206,35 +241,6 @@
       ]
     },
     {
-      "id": "sunset",
-      "label": "Later trip with a sunset stop",
-      "kind": "join-in",
-      "boat": "speedboat",
-      "priceOnRequest": true,
-      "note": "A later version with a sunset stop also exists on some days. Ask us.",
-      "notIncludedFees": [
-        {
-          "label": "National park fee, adult",
-          "amount": 400,
-          "unit": "per person",
-          "note": "Cash, paid to the ranger on the island",
-          "ages": {
-            "min": 12
-          }
-        },
-        {
-          "label": "National park fee, child",
-          "amount": 200,
-          "unit": "per person",
-          "note": "Cash, paid to the ranger on the island",
-          "ages": {
-            "min": 4,
-            "max": 11
-          }
-        }
-      ]
-    },
-    {
       "id": "catamaran-ao-nang",
       "label": "Catamaran from Ao Nang",
       "kind": "join-in",
@@ -303,6 +309,43 @@
     },
     {
       "options": [
+        "sunset"
+      ],
+      "title": "How the day goes (later trip, back at sunset)",
+      "steps": [
+        {
+          "time": "10:00",
+          "text": "Pickup at your hotel by private car."
+        },
+        {
+          "time": "11:00",
+          "text": "The boat leaves Koh Lanta for Koh Rok, with snacks on the way."
+        },
+        {
+          "time": "12:00",
+          "text": "The first snorkelling stop at Koh Rok: coral reefs and tropical fish."
+        },
+        {
+          "time": "13:30",
+          "text": "Thai buffet lunch on the beach, then time to swim, sunbathe or snorkel from the shore."
+        },
+        {
+          "time": "15:30",
+          "text": "The second snorkelling stop."
+        },
+        {
+          "time": "16:30",
+          "text": "The Koh Haa lagoon."
+        },
+        {
+          "time": "17:50",
+          "text": "Sunset cruise back to Koh Lanta with soft drinks on board, then the transfer to your hotel."
+        }
+      ],
+      "note": "Times are approximate and change with the tide and the weather."
+    },
+    {
+      "options": [
         "catamaran-ao-nang"
       ],
       "title": "How the day goes (catamaran from Ao Nang)",
@@ -358,6 +401,7 @@
     "Masks, snorkels and life jackets",
     "Guide, English-speaking on the join-in speedboat",
     "Insurance",
+    "On the later trip: snacks on the way out, soft drinks on the sunset cruise",
     "On the catamaran from Ao Nang: a mini breakfast at check-in, soft drinks, a guide speaking English and Chinese, free GoPro photos"
   ],
   "notIncluded": [
@@ -534,12 +578,16 @@
     {
       "field": "options[catamaran-ao-nang], day[catamaran-ao-nang], included[catamaran], facts[Boat], lead, faq[3]",
       "from": "brochure publique du catamaran au départ d'Ao Nang (audit A § 1.3, deux pages) : prix adulte et enfant de 4 à 11 ans, programme, « Tour include », « not recommended small children under 4 years of age », annulation remboursée par mauvais temps (décision client du 09.11.2026 : option sur les fiches existantes, pas de nouvelle fiche)"
+    },
+    {
+      "field": "options[sunset], day[sunset], included[later trip]",
+      "from": "affiche publique « Rok Haa Island + Sunset » (audit A § 2.2) : 2 500 THB par personne, « Not including National park fee », programme de 10:00 à 17:50, en-cas à l'aller et boissons sur la croisière du retour ; aucun prix enfant sur l'affiche, rien d'inventé (décision client du 09.11.2026). Frais de parc : montants déjà sur la fiche (client, 08.11.2026)"
     }
   ],
   "todo": [
     "TODO(client): Koh Rok en longtail privé, tranches « 7 to 8 people » (8 400 THB) et « 9 to 10 people » (9 400 THB) : déduites de la brochure selon le registre de faits, à confirmer.",
-    "TODO(client): version avec arrêt coucher de soleil : le site dit « exists on some days. Ask us », le registre de faits dit 10:00 à 19:00. Jours, programme et prix ?",
-    "TODO(client): catamaran au départ d'Ao Nang : frais de parc national inclus ou non (la brochure n'en dit rien), nom du ponton d'Ao Nang."
+    "TODO(client): catamaran au départ d'Ao Nang : frais de parc national inclus ou non (la brochure n'en dit rien), nom du ponton d'Ao Nang.",
+    "TODO(client): Koh Rok avec coucher de soleil : jours de départ, prix enfant et âges (l'affiche ne donne que 2 500 THB par personne), ponton."
   ],
   "refPrefix": "KR"
 }
