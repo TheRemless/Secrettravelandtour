@@ -227,6 +227,8 @@
         dlg.style.transform = "translateY(100%)";
         setTimeout(function () { dlg.classList.remove("is-settling"); dlg.style.transform = ""; close(); }, reduce.matches ? 0 : 300);
       } else {
+        // À la souris, le clic qui suit le geste tombe sur le <dialog> : il ne doit pas fermer la feuille comme un clic sur le voile.
+        if (e.pointerType === "mouse") dlg.setAttribute("data-dragged", "");
         dlg.style.transform = "";
         setTimeout(function () { dlg.classList.remove("is-settling"); }, 330);
       }
@@ -326,7 +328,10 @@
     var d = e.detail;
     var added = V.trips.add({ slug: d.slug, option: d.option, date: d.date, addons: d.addons || [], choices: d.choices || {}, counts: d.counts || {} }, d.counted ? null : { adults: d.adults, childAges: d.childAges });
     var name = (V.$("#book-title") || {}).textContent || "This trip";
-    V.toast(added ? name + " is in your trip list, on " + V.date(d.date, { weekday: "short", day: "numeric", month: "short" }) + "." : name + " is already in your trip list for that day.", "Open the list", function () { V.openTrips(); });
+    var show = function () { V.toast(added ? name + " is in your trip list, on " + V.date(d.date, { weekday: "short", day: "numeric", month: "short" }) + "." : name + " is already in your trip list for that day.", "Open the list", function () { V.openTrips(); }); };
+    // La feuille se ferme juste après : le toast attend sa fermeture, sinon il part avec elle.
+    var bk = V.$("#book");
+    if (bk && bk.open) bk.addEventListener("close", show, { once: true }); else show();
   });
   paint(false);
 })();

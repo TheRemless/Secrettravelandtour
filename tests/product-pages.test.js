@@ -115,8 +115,11 @@ test("message : chaque option donne le produit, l'option, ses sous-variantes, se
       const src = p.options.find((x) => x.id === o.id);
       if ((src.prices || []).length) {
         const priced = (o.choices || []).find((c) => c.values && c.values.some((v) => v.row));
-        const shown = priced ? src.prices.filter((r) => r.label === priced.values[0].row) : o.counts ? src.prices.slice(0, 1) : src.prices;
+        // Un supplément à cocher (extras, « Add … ») n'est cité que s'il est coché (E-05, 09.11.2026).
+        const tick = (r) => (src.extras || []).includes(r.label) || (r.supplement && /^Add /.test(r.label));
+        const shown = priced ? src.prices.filter((r) => r.label === priced.values[0].row) : o.counts ? src.prices.slice(0, 1) : src.prices.filter((r) => !tick(r));
         for (const r of shown) assert.ok(msg.includes(`${r.label}: ${r.amount === 0 ? "Free" : (r.supplement ? "+" : "") + thb(r.amount)}`), `${p.slug} ${o.id} : prix « ${r.label} »`);
+        if (!priced && !o.counts) for (const r of src.prices.filter(tick)) assert.ok(!msg.includes(`${r.label}:`), `${p.slug} ${o.id} : supplément non coché « ${r.label} »`);
       }
     }
   }

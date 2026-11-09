@@ -643,9 +643,6 @@ html:not(.js) .hub__cmp { display: none; }
 .trips__total { display: grid; gap: 2px; font-size: 14px; line-height: 1.4; color: var(--ink-mute); }
 .trips__total b { font: 600 16px/1.35 var(--sans); color: var(--ink); font-variant-numeric: lining-nums tabular-nums; }
 .trips__subs { display: grid; gap: 10px; margin-top: 10px; }
-.trips__n { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 48px; font-size: 15px; }
-.trips__n small { color: var(--ink-mute); }
-.trips__n input { width: 72px; min-height: 44px; }
 .trips__miss { margin-bottom: 10px; }
 .trips__warn { display: flex; gap: 10px; align-items: flex-start; margin: 8px 0; padding: 10px 12px; border-radius: var(--r); background: var(--shell); font-size: 15px; line-height: 1.45; }
 .trips__warn svg { width: 20px; height: 20px; flex: none; margin-top: 1px; color: var(--ink); }
@@ -653,7 +650,7 @@ html:not(.js) .hub__cmp { display: none; }
 .trips__empty p { color: var(--ink-soft); }
 .trips__msg { white-space: pre-wrap; overflow-wrap: anywhere; font: 400 14px/1.55 var(--sans); background: var(--sand); border-radius: var(--r); padding: 12px 14px; margin: 8px 0 0; }
 .trips details { border-top: 1px solid var(--line); padding: 8px 0 16px; }
-.trips summary { min-height: 44px; display: flex; align-items: center; font: 600 15px/1.4 var(--sans); color: var(--sea); cursor: pointer; }
+.trips summary { min-height: 44px; display: flex; align-items: center; font: 600 15px/1.4 var(--sans); color: var(--sea); text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
 .trips .sheet-foot { display: grid; gap: 8px; }
 
 /* ---------- Pages produit (v4-product.njk) : mêmes sections que la 4 Islands ---------- */
@@ -972,6 +969,8 @@ h1, h2, h3, h4, .brand b, .drawer nav a, .card__title, .hrow__t b, .tl b, .byb d
 .sheet .f.is-invalid, .sheet .count.is-invalid { margin-left: 0; padding-left: 0; border-left: 0; }
 .sheet-total { display: grid; gap: 2px; margin: 4px 0 10px; font-size: 14px; line-height: 1.4; color: var(--ink-mute); }
 .sheet-total b { font: 600 18px/1.3 var(--sans); color: var(--ink); font-variant-numeric: lining-nums tabular-nums; }
+/* Téléphone, pendant la saisie : le total s'efface pour laisser voir le champ et son libellé (il revient en sortant du champ). */
+@media (max-width: 63.99rem) { .sheet:has(.sheet-body :is(input[type="text"], input[type="date"], input[type="time"]):focus) .sheet-total { display: none; } }
 .sheet-link--trip { display: flex; margin: 4px auto 0; align-items: center; color: var(--sea); }
 .opt-sum { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; padding: 10px 14px; border: 2px solid var(--deep); border-radius: var(--r); }
 .opt-sum p { display: grid; gap: 2px; min-width: 0; font-size: 14px; color: var(--ink-mute); line-height: 1.4; }
@@ -984,5 +983,5 @@ h1, h2, h3, h4, .brand b, .drawer nav a, .card__title, .hrow__t b, .tl b, .byb d
 .dock .btn { flex: none; white-space: nowrap; padding-inline: 20px; }
 /* Feuille du speedboat : aller simple ou retour sur une ligne ; trajet et départ regroupés sous leur résumé. */
 .sheet .choice--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.sb-back-h { margin-top: 10px; }
+.sheet .sb-back-h { margin-top: 24px; }
 .sheet-body > .opt-sum { margin-bottom: 24px; }

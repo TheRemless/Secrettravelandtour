@@ -89,7 +89,7 @@
             <legend>{{ ch.label }}</legend>
             <div class="choice choice--list">
               {%- for v in ch.values %}
-              <label><input type="radio" name="{{ key }}" value="{{ v.id }}" data-opt="{{ o.id }}" data-choice="{{ ch.id }}" aria-describedby="book-e-{{ key }}"><span><b>{{ v.label }}</b>{% if v.price %}<span class="opt-price"><span class="num">{{ v.price }}</span></span>{% endif %}</span></label>
+              <label><input type="radio" name="{{ key }}" value="{{ v.id }}" data-opt="{{ o.id }}" data-choice="{{ ch.id }}" aria-describedby="book-e-{{ key }}"><span><b>{{ v.label }}</b>{% if v.price %}{% set pp = v.price.split(" per ") %}<span class="opt-price"><span class="num">{{ pp[0] }}</span>{% if pp.length == 2 %}<small>per {{ pp[1] }}</small>{% endif %}</span>{% endif %}</span></label>
               {%- endfor %}
             </div>
             <p class="err" id="book-e-{{ key }}" hidden></p>
@@ -154,8 +154,8 @@
         <fieldset class="f">
           <legend>Date of the boat</legend>
           <div class="choice choice--3">
-            <label><input type="radio" name="dateChoice" value="today" aria-describedby="book-e-date"><span>Today</span></label>
-            <label><input type="radio" name="dateChoice" value="tomorrow" aria-describedby="book-e-date"><span>Tomorrow</span></label>
+            <label><input type="radio" name="dateChoice" value="today" aria-describedby="book-e-date"><span>Today<small data-day></small></span></label>
+            <label><input type="radio" name="dateChoice" value="tomorrow" aria-describedby="book-e-date"><span>Tomorrow<small data-day></small></span></label>
             <label><input type="radio" name="dateChoice" value="other" aria-describedby="book-e-date"><span>Other date</span></label>
           </div>
           <div class="date-other" data-date-other hidden>
@@ -192,13 +192,15 @@
 
         {%- if rental %}
         <div class="f">
-          <label for="book-vehicle">Vehicle</label>
+          <label for="book-vehicle">Model</label>
           <p class="f-hint" id="book-h-vehicle">Optional: the model you saw in the list.</p>
           <input id="book-vehicle" name="vehicle" type="text" list="book-vehicles" autocomplete="off" aria-describedby="book-h-vehicle">
           <datalist id="book-vehicles">{% for o in cfg.options %}{% for r in o.rows %}<option value="{{ r.label }}"></option>{% endfor %}{% endfor %}</datalist>
         </div>
-        {{ stepper("vehicles", "Vehicles", 1, 1, 20) }}
-        <p class="err" id="book-e-vehicles" hidden></p>
+        <div class="f">
+          {{ stepper("vehicles", "Number of vehicles", 1, 1, 20) }}
+          <p class="err" id="book-e-vehicles" hidden></p>
+        </div>
         <fieldset class="f">
           <legend>Dates and times</legend>
           <div class="dates">
@@ -213,8 +215,8 @@
         <fieldset class="f">
           <legend>Date</legend>
           <div class="choice choice--3">
-            <label><input type="radio" name="dateChoice" value="today" aria-describedby="book-e-date"><span>Today</span></label>
-            <label><input type="radio" name="dateChoice" value="tomorrow" aria-describedby="book-e-date"><span>Tomorrow</span></label>
+            <label><input type="radio" name="dateChoice" value="today" aria-describedby="book-e-date"><span>Today<small data-day></small></span></label>
+            <label><input type="radio" name="dateChoice" value="tomorrow" aria-describedby="book-e-date"><span>Tomorrow<small data-day></small></span></label>
             <label><input type="radio" name="dateChoice" value="other" aria-describedby="book-e-date"><span>Other date</span></label>
           </div>
           <div class="date-other" data-date-other hidden>
@@ -295,6 +297,7 @@
       {#- Fiche de comptoir : chaque ligne du message, libellé à gauche ; la référence en tête. -#}
       <div class="slip">
         <p class="slip-ref" data-slip-ref hidden></p>
+        <p class="slip-total" data-slip-total hidden></p>
         <dl class="slip-lines" data-slip></dl>
         <pre class="sr-only" data-message></pre>
         {%- if cfg.variant == "tour" %}
@@ -321,7 +324,7 @@
     <div class="sheet-body done-text">
       <p class="slip-ref slip-ref--done" data-done-ref hidden></p>
       {% if facts.replyTime %}<p>{{ facts.replyTime }}</p>{% endif %}
-      <p>Nothing opened? Send your message to <a class="done-num" href="https://wa.me/{{ cfg.whatsapp }}" data-again-link>{{ facts.phoneDisplay }}</a> on WhatsApp, or call <a class="done-num" href="tel:{{ facts.e164 }}">{{ facts.phoneDisplay }}</a>.</p>
+      <p>Nothing opened? Use the button below, or call <a class="done-num" href="tel:{{ facts.e164 }}">{{ facts.phoneDisplay }}</a>.</p>
       <p class="copy-status" data-copy-status role="status"></p>
     </div>
     <div class="sheet-foot sheet-foot--stack">
