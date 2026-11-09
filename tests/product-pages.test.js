@@ -63,11 +63,16 @@ test("prix : chaque ligne de chaque option du JSON est sur la page, avec son mon
         // de l'onglet, pas sur chaque ligne. Montant de chaque ligne toujours vérifié.
         const rental = p.template === "rental";
         const block = rental ? (opts.split(`data-cat="${o.id}"`)[1] || "").split("</ul>")[0] : opts.split(esc(o.label))[1] || "";
-        const at = block.indexOf(">" + esc(r.label) + "<");
+        // Grille ATV et karts : l'âge sous le libellé (« Child rider » puis « 6 to 12 »), « THB » dit une fois dans l'en-tête.
+        const grid = opts.includes('class="ptab"');
+        const label = grid ? r.label.split(", ")[0] : r.label;
+        const at = block.indexOf(">" + esc(label) + "<");
         assert.ok(at > -1, `${p.slug} ${o.id} : ligne « ${r.label} »`);
         const after = block.slice(at, at + 400);
-        assert.ok(after.includes(`<b>${amount}</b>`), `${p.slug} ${o.id} : montant de « ${r.label} »`);
-        if (r.unit && r.amount !== 0 && r.unit.toLowerCase() !== r.label.toLowerCase()) assert.ok((rental ? block.slice(0, block.indexOf("<ul")) : after).includes(`<small>${esc(r.unit)}</small>`), `${p.slug} ${o.id} : unité de « ${r.label} »`);
+        assert.ok(after.includes(`<b>${grid ? amount.replace(" THB", "") : amount}</b>`), `${p.slug} ${o.id} : montant de « ${r.label} »`);
+        // « Adult » ou « Child » « per person » sous un prix « per adult » : l'unité n'est pas redite.
+        const implied = /^per person$/i.test(r.unit || "") && /^(adult|child)\b/i.test(r.label);
+        if (r.unit && r.amount !== 0 && r.unit.toLowerCase() !== r.label.toLowerCase() && !implied) assert.ok((rental ? block.slice(0, block.indexOf("<ul")) : after).includes(`<small>${esc(r.unit)}</small>`), `${p.slug} ${o.id} : unité de « ${r.label} »`);
       }
       for (const f of o.notIncludedFees || []) assert.ok(opts.includes(esc(f.label)) && opts.includes(thb(f.amount)), `${p.slug} : frais « ${f.label} »`);
     }

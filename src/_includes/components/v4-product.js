@@ -23,11 +23,11 @@ function publicText(s) {
 // Durée, prise en charge (puis le prix d'appel, à part). Une valeur absente des données n'est pas affichée ;
 // aucune n'est choisie selon sa longueur. Le reste va au déroulé ou à « Before you book ».
 // Faits déjà dits ailleurs sur la page (sélecteur, intitulés des groupes, accroche) : jamais redits à côté.
-const SKIP = ["National park fee", "Village entrance fee", "Not included", "Karts", "Boat", "Format", "Ways to go", "Rides", "Sessions", "Half days", "Full days", "Also", "Riding", "Level"];
+const SKIP = ["National park fee", "Village entrance fee", "Not included", "Karts", "Boat", "Format", "Ways to go", "Rides", "Sessions", "Half days", "Full days", "Also", "Riding", "Level", "Your canvas"];
 // Faits pratiques : « Before you book », sauf si la fiche dit déjà la même chose (même clé).
 const BEFORE = { Children: "children", Ages: "children", Cancellation: "cancellation", Transfer: "pickup" };
 // Créneaux écrits dans les faits, montrés en tête du sélecteur (cuisine, batik) : choisir, c'est d'abord choisir quand.
-const WHEN = { "cooking-class": ["Morning class", "Evening class", "Carving class"], batik: ["Morning course", "Afternoon course", "Kayak and painting"] };
+const WHEN = { "cooking-class": ["Lunch class", "Dinner class", "Carving class"], batik: ["Morning course", "Afternoon course", "Kayak and painting"] };
 
 // « Duration » : le fait, sinon ce que les faits disent de la durée (séances du karting, demi-journées et journées).
 function durationOf(p) {
@@ -44,6 +44,9 @@ function pickupOf(p) {
   const inc = (p.included || []).find((x) => /^Hotel transfer both ways/.test(x));
   if (inc === "Hotel transfer both ways") return "Included";
   if (inc === "Hotel transfer both ways, within the Koh Lanta area") return "Included, Koh Lanta area";
+  if (/^Hotel transfer both ways, from selected areas\b/.test(inc || "")) return "Included, selected areas";
+  // La suite de la ligne liste d'autres inclus (plongée : repas) : le transfert reste inclus sans condition.
+  if (/^Hotel transfer both ways, (breakfast|lunch)\b/.test(inc || "")) return "Included";
   if (/^not included/i.test(fact(p, "Transfer"))) return "Not included";
   return "";
 }
@@ -69,7 +72,8 @@ function sortFacts(p, { day }) {
 // ---------- Prix : chaque ligne de chaque option, avec son unité ; les frais sur place à part ----------
 function priceRow(r) {
   // « Per person : 1,900 THB per person » : l'unité qui redit le libellé n'est pas répétée.
-  const unit = r.amount === 0 || !r.unit || r.unit.toLowerCase() === r.label.toLowerCase() ? "" : r.unit;
+  // « Adult : 1,500 THB per person » sous « per adult » : l'unité ne dit rien de plus.
+  const unit = r.amount === 0 || !r.unit || r.unit.toLowerCase() === r.label.toLowerCase() || (/^per person$/i.test(r.unit) && /^(adult|child)\b/i.test(r.label)) ? "" : r.unit;
   return { label: r.label, amount: rowAmount(r), unit, raw: typeof r.amount === "number" ? r.amount : r.text };
 }
 function rowAmount(r) {
@@ -159,7 +163,7 @@ function subOf(p, o, days) {
   const timed = !WHEN[p.slug] && (o.choices || []).find((c) => (c.values || []).length > 1 && c.values.every((v) => TIME.test(v.label)));
   if (timed) return `${timed.label}: ${orJoin(timed.values.map((v) => v.label.match(TIME)[0]))}`;
   const d = days[o.id];
-  if (d && d.length === 1) { const m = d[0].text.match(/(\d{2}:\d{2} to \d{2}:\d{2}(?: or \d{2}:\d{2} to \d{2}:\d{2})?)\.?$/); if (m) return m[1]; }
+  if (d && d.length === 1) { const m = d[0].text.match(/(\d{2}:\d{2} to \d{2}:\d{2}(?: or \d{2}:\d{2} to \d{2}:\d{2})?)\.?$/); if (m) return m[1].replace(/(\d) to (\d)/g, "$1–$2"); }
   const first = noteSentences(o)[0] || "";
   return first.length <= 80 ? first.replace(/\.$/, "") : "";
 }
@@ -270,7 +274,8 @@ function pickOf(p, site, opts = {}) {
   return {
     title: opts.title || (list.length > 1 ? "Choose your option" : "Price and booking"),
     help: opts.help || "",
-    when: (WHEN[p.slug] || []).map((l) => ({ label: l, value: fact(p, l) })).filter((f) => f.value),
+    // Batik : chaque option dit déjà ses heures dans son détail, la liste en tête les redirait.
+    when: options.some((o) => o.what.length) ? [] : (WHEN[p.slug] || []).map((l) => ({ label: l, value: fact(p, l) })).filter((f) => f.value),
     matrix: matrix ? { rows: list[0].prices.map((r) => r.label), unit: list[0].prices[0].unit || "" } : null,
     groups, options, sel, single: list.length === 1,
     common, thai, feesCash: optFees.common.some((f) => f.cash),
@@ -365,8 +370,10 @@ function related(p, ctx) {
   const links = urls.filter((u) => OTHER_LINKS[u] && ctx.live.has(u) && u !== p.url).map((u) => ({ href: u, label: OTHER_LINKS[u] }));
   const kinds = new Set(cards.map((c) => c.kind));
   const title = kinds.size === 1 ? (kinds.has("boat") ? "More boat trips" : "More activities") : "More trips and activities";
-  const all = p.template === "boat" ? { href: "/tours/#boat-trips", label: "Compare all boat trips" }
-    : p.template === "activity" ? { href: "/tours/#activities", label: "See all activities" }
+  // Le lien suit les cartes montrées, comme le titre (plongée : cartes bateaux).
+  const only = kinds.size === 1 ? [...kinds][0] : p.template;
+  const all = only === "boat" ? { href: "/tours/#boat-trips", label: "Compare all boat trips" }
+    : only === "activity" ? { href: "/tours/#activities", label: "See all activities" }
     : { href: "/tours/", label: "See the boat trips and activities" };
   return cards.length || links.length || taxi ? {
     title, cards, links, all,

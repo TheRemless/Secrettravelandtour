@@ -129,6 +129,11 @@
       set({ addons: a }, "addon");
     }
   });
+  // Grille ATV et karts : toucher un prix choisit sa colonne.
+  sec.addEventListener("click", function (e) {
+    var td = e.target.closest("td[data-col]");
+    if (td && td.getAttribute("data-col") !== st.option) set({ option: td.getAttribute("data-col") }, "pick");
+  });
   calc.addEventListener("click", function (e) {
     var b = e.target.closest("[data-step]");
     if (!b || b.disabled) return;
@@ -181,9 +186,19 @@
       o.counts.forEach(function (label, i) { c[label] = st.counts[i] || 0; });
       return PR.quote(o, { counts: c });
     }
-    var rowPick = $$('[data-po="' + o.id + '"] [data-pick-row]', sec).length > 0;
+    var picks = $$('[data-po="' + o.id + '"] [data-pick-row]', sec).map(function (x) { return x.getAttribute("data-pick-row"); });
     var row = rowOf(o);
-    if (rowPick && !row) return { needRow: true };
+    // Lignes au même prix (Scuba Explorer, Discover Basic Diver) : le total ne dépend pas du choix, sauf pour l'âge des enfants.
+    if (picks.length && !row && !st.childAges.length) {
+      var amt = function (l) { return (o.prices.filter(function (r) { return r.label === l; })[0] || {}).amount; };
+      if (typeof amt(picks[0]) === "number" && picks.every(function (l) { return amt(l) === amt(picks[0]); })) {
+        // Rien n'est choisi à la place du client : la ligne du détail porte le nom de l'option.
+        var q0 = PR.quote(o, { adults: st.adults, ages: [], addons: addonsOf(o), row: picks[0] });
+        if (q0) q0.lines = q0.lines.map(function (l) { return [l[0].replace(picks[0], o.label), l[1]]; });
+        return q0;
+      }
+    }
+    if (picks.length && !row) return { needRow: true };
     return PR.quote(o, { adults: st.adults, ages: kids(), addons: addonsOf(o), row: row });
   }
   function unpricedText(u) { return u.length ? "Age " + u.map(function (a) { return a === 0 ? "under 1" : a; }).join(", ") + ": no price on the site for this option, we confirm it on WhatsApp." : ""; }

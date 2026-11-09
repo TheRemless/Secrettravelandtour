@@ -12,7 +12,7 @@
       "h1": "Thai cooking class on Koh Lanta"
     }
   },
-  "h1": "Thai cooking class market and lunch",
+  "h1": "Thai cooking class on Koh Lanta",
   "lead": "A morning at the market, then four dishes you cook yourself with a local cook: a starter, a soup and two mains with curry paste made from scratch. Then you eat it all.",
   "facts": [
     {
@@ -20,11 +20,11 @@
       "value": "Four: a starter, a soup and two mains with curry paste made by hand"
     },
     {
-      "label": "Morning class",
+      "label": "Lunch class",
       "value": "Monday, Wednesday, Saturday, 09:00–14:00, market visit first"
     },
     {
-      "label": "Evening class",
+      "label": "Dinner class",
       "value": "Tuesday, Thursday, Friday, 16:00–21:00"
     },
     {
@@ -195,7 +195,7 @@
         "single-chef",
         "partner-chef"
       ],
-      "title": "Dinner class: Tuesday, Thursday, Friday, 16:00 to 21:00",
+      "title": "Dinner class: Tuesday, Thursday, Friday, 16:00–21:00",
       "steps": [
         {
           "text": "Pickup at your hotel, welcome drink and snack at the school."

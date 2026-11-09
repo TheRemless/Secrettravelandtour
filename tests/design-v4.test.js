@@ -36,8 +36,8 @@ test("accueil : plus de bloc « What runs on … » (client, 09.11.2026), la fic
   const h = site("index.html");
   assert.doesNotMatch(h, /id="runs"|class="run"|data-ribbon|Set times, trip by trip|No set time on the site|Not on this day/);
   assert.doesNotMatch(site("js/v4-home.js"), /runs|ribbon/);
-  // Fait gardé de l'ancien test : jours du cours de cuisine du matin, lus dans la fiche.
-  const cooking = P("activities/cooking-class").facts.find((f) => f.label === "Morning class").value;
+  // Fait gardé de l'ancien test : jours du cours du midi (ex « Morning class »), lus dans la fiche.
+  const cooking = P("activities/cooking-class").facts.find((f) => f.label === "Lunch class").value;
   assert.match(cooking, /Monday, Wednesday, Saturday/);
 });
 
