@@ -184,7 +184,7 @@ function fourMap(four) {
   const labels = [
     label("Koh Lanta", [99.05, 7.505], 0, 0, "middle", true),
     label("Lanta Old Town", pier, 12, -10),
-    label("Koh Chueak", chueak, 12, 18),
+    label("Koh Chueak", chueak, -8, 26, "end"),
     label("Koh Mook", G("muk"), 0, -28, "middle"),
     label("Koh Ngai", G("ngai"), -14, 5, "end"),
     label("Koh Kradan", G("kradan"), -14, 5, "end"),

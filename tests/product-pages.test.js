@@ -63,7 +63,10 @@ test("prix : chaque ligne de chaque option du JSON est sur la page, avec son mon
         // de l'onglet, pas sur chaque ligne. Montant de chaque ligne toujours vérifié.
         const rental = p.template === "rental";
         const block = rental ? (opts.split(`data-cat="${o.id}"`)[1] || "").split("</ul>")[0] : opts.split(esc(o.label))[1] || "";
-        const at = block.indexOf(">" + esc(r.label) + "<");
+        // Libellé affiché sans la fin qui redit l'unité (« 3 or more people, per person » devient « 3 or more people »).
+        const tail = r.unit ? ", " + r.unit.toLowerCase() : "";
+        const label = tail && r.label.toLowerCase().endsWith(tail) ? r.label.slice(0, -tail.length) : r.label;
+        const at = block.indexOf(">" + esc(label) + "<");
         assert.ok(at > -1, `${p.slug} ${o.id} : ligne « ${r.label} »`);
         const after = block.slice(at, at + 400);
         assert.ok(after.includes(`<b>${amount}</b>`), `${p.slug} ${o.id} : montant de « ${r.label} »`);

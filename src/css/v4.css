@@ -123,13 +123,14 @@ html.has-trips.hd-off:has(.dock.is-on) .toast { bottom: calc(138px + env(safe-ar
   .has-trips.hd-off .toast, html.has-trips.hd-off:has(.dock.is-on) .toast { bottom: 16px; }
 }
 /* Téléphone : la liste devient une barre du bas, comme la bande des fiches ; la page garde une marge en dessous pour
-   que la barre ne cache jamais la fin du texte. Sur une fiche, la bande du bas porte déjà le bouton de la liste. */
+   que la barre ne cache jamais la fin du texte. Sur une fiche, la bande du bas porte déjà le bouton de la liste,
+   sauf tant qu'elle attend la sortie du bouton du haut (.dock.is-wait). */
 @media (max-width: 899px) {
   .tl-dock { left: 0; right: 0; bottom: 0; justify-content: space-between; min-height: 0; padding: 10px var(--gut) calc(10px + env(safe-area-inset-bottom)); border: 0; border-top: 1px solid var(--line); border-radius: 0; }
   .tl-dock::after { content: ""; width: 9px; height: 9px; border-right: 2px solid var(--ink); border-top: 2px solid var(--ink); transform: rotate(-45deg); margin: 4px 6px 0 auto; }
   .tl-dock > * { pointer-events: none; }
   .tl-dock { min-height: 64px; }
-  html:has(.dock) .tl-dock { display: none; }
+  html:has(.dock:not(.is-wait)) .tl-dock { display: none; }
   html.has-trips body:not(:has(.dock)) { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
   .has-trips.hd-off .toast { bottom: calc(76px + env(safe-area-inset-bottom)); }
 }
@@ -437,6 +438,7 @@ html.has-trips.hd-off:has(.dock.is-on) .toast { bottom: calc(138px + env(safe-ar
 }
 
 /* ---------- 4 Islands : galerie, chaque vignette ouvre la visionneuse ---------- */
+.gal-sec { padding-block: 0; }
 .gal { position: relative; display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 12px; aspect-ratio: 2.4 / 1; }
 .gal__item { display: block; border-radius: var(--r); overflow: hidden; cursor: zoom-in; }
 .gal__item .ph { height: 100%; }
@@ -494,7 +496,8 @@ html.has-trips.hd-off:has(.dock.is-on) .toast { bottom: calc(138px + env(safe-ar
 }
 
 /* ---------- 4 Islands : inclus, avant de réserver, questions ---------- */
-.inc { max-width: 760px; }
+/* Aligné à gauche comme les autres sections ; seule la lecture reste limitée à 760 px. */
+.inc > h2, .inc__cols { max-width: 760px; }
 .inc__cols { display: grid; gap: 36px; margin-top: 24px; }
 .inc h3 { font-size: 24px; }
 .rules { list-style: none; margin-top: 18px; }
@@ -530,7 +533,7 @@ details[open]::details-content { block-size: auto; }
 .dock__p { display: grid; line-height: 1.25; min-width: 0; font-size: 14px; color: var(--ink-mute); }
 .dock__p span { font: 600 18px/1.2 var(--sans); color: var(--ink); white-space: nowrap; font-variant-numeric: lining-nums tabular-nums; }
 .dock__p .dock__req { font-size: 16px; }
-.dock__p small { font-size: 14px; color: var(--ink-mute); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dock__p small { font-size: 14px; color: var(--ink-mute); overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
 .dock__p b { font: 600 20px/1.2 var(--sans); color: var(--ink); white-space: nowrap; font-variant-numeric: lining-nums tabular-nums; }
 html.sheet-open .dock { transform: translateY(calc(100% + 2px)); }
 @media (max-width: 899px) { body:has(.dock) { padding-bottom: calc(72px + env(safe-area-inset-bottom)); } }
@@ -735,9 +738,12 @@ html:not(.js) .rent__seg, html:not(.js) .sb__seg { display: none; }
 .sidef dt { font-size: 14px; color: var(--ink-mute); }
 .sidef dd { margin: 2px 0 0; font-size: 16px; }
 .tl--p .tl__step { padding-bottom: 24px; }
+/* Heures des déroulés de fiche : ni fixes ni « ≈ » dans la donnée, elles se lisent comme le texte au lieu de paraître éteintes. */
+.tl--p time { color: var(--ink); }
 .tl--p p { grid-column: 2; }
 .tl__t { display: block; }
-.sec--plain { padding-top: 0; }
+/* Fiches : deux sections blanches qui se suivent gardent une seule marge entre elles. */
+:is([data-page="product"], [data-page="four"]) .sec:not(.sec--sand):not([hidden]) + .sec:not(.sec--sand) { padding-top: 0; }
 .faq--first { margin-top: 0; }
 .also--list { list-style: none; display: flex; flex-wrap: wrap; gap: 4px 28px; }
 @media (max-width: 1023px) { .opts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -782,6 +788,10 @@ html:not(.js) .rent__seg, html:not(.js) .sb__seg { display: none; }
 .po__what { display: grid; gap: 8px; }
 .po__what b { color: var(--ink); font-weight: 600; }
 .po__more summary { min-height: 44px; display: flex; align-items: center; font: 600 15px/1.3 var(--sans); color: var(--sea); cursor: pointer; }
+/* Même chevron que les questions : on voit que la ligne s'ouvre. */
+.po__more summary::-webkit-details-marker { display: none; }
+.po__more summary::after { content: ""; flex: none; width: 8px; height: 8px; margin-left: 10px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform var(--t3) var(--spring); }
+.po__more[open] summary::after { transform: translateY(2px) rotate(-135deg); }
 .po__req { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-block: 1px solid var(--line); font-size: 15px; }
 .po__req b { font-weight: 600; }
 .opts__amt b { font: 600 16px/1.2 var(--sans); font-variant-numeric: lining-nums tabular-nums; }
@@ -796,6 +806,9 @@ html:not(.js) .rent__seg, html:not(.js) .sb__seg { display: none; }
 .pfees h3 { font: 600 15px/1.3 var(--sans); margin-bottom: 6px; }
 .pfees__note { font-size: 14px; color: var(--ink-mute); margin: -2px 0 6px; }
 .pfees__thai summary { min-height: 44px; display: flex; align-items: center; font: 600 15px/1.3 var(--sans); color: var(--sea); cursor: pointer; }
+.pfees__thai summary::-webkit-details-marker { display: none; }
+.pfees__thai summary::after { content: ""; flex: none; width: 8px; height: 8px; margin-left: 10px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform var(--t3) var(--spring); }
+.pfees__thai[open] summary::after { transform: translateY(2px) rotate(-135deg); }
 .pick__extra { margin-top: 12px; border-top: 1px solid var(--line); }
 .pick__extra summary { min-height: 48px; display: flex; align-items: center; font: 600 15px/1.3 var(--sans); cursor: pointer; }
 .pick__extra .po__note { margin-bottom: 8px; }

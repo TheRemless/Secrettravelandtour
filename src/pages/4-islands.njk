@@ -30,13 +30,14 @@ permalink: /tours/4-islands/
   {{ vp.hero(t, c, fallback, t.single) }}
   {{ vp.pick(t, c) }}
 
-  <section class="wrap gal-sec" aria-label="Photos">
+  {#- Sur le sable, entre les options et la journée : une seule bande de fond. -#}
+  <section class="sec sec--sand gal-sec" aria-label="Photos"><div class="wrap">
     <div class="gal" data-gal>
       {%- for p in f4.gallery %}
       <a class="gal__item press" href="{{ p.fallback or p.src }}" data-gal-i="{{ loop.index0 }}" data-full="{{ p.fallback or p.src }}" data-w="{{ p.width }}" data-h="{{ p.height }}" aria-label="Open photo {{ loop.index }} of {{ f4.gallery.length }}: {{ p.alt }}">{{ v4.photo(p, "(min-width: 900px) 600px, 78vw" if loop.first else "(min-width: 900px) 300px, 78vw") }}</a>
       {%- endfor %}
     </div>
-  </section>
+  </div></section>
 
   {#- La journée du bateau choisi ; sur bureau, la carte du trajet reste à l'écran à côté. Sur téléphone, la journée
       suffit (ses étapes sont la liste des arrêts) : la carte n'y est pas montrée, ses noms seraient illisibles. -#}
