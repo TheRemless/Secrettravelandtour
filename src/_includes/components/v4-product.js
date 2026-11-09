@@ -247,6 +247,8 @@ function pickOf(p, site, opts = {}) {
     // La phrase d'heures qui termine un déroulé court (« 09:30 to 12:30 or 14:00 to 17:00. ») est déjà dite au-dessus.
     items.forEach((o) => {
       const shown = bare(o.sub || g.sub);
+      // « Sessions at 09:00, 12:00 or 15:00. » redit la ligne « Session: … » de l'option.
+      if (/^Session/.test(o.sub)) o.what = o.what.map((w) => ({ ...w, text: w.text.replace(/\s*Sessions? at [\d:, or]+\.$/, "") }));
       o.what = o.what.map((w) => ({ ...w, text: w.text.replace(/\s*(\d{2}:\d{2} to \d{2}:\d{2}(?: or \d{2}:\d{2} to \d{2}:\d{2})?)\.$/, (m, t) => (shown && shown === norm(t) ? "" : m)) })).filter((w) => w.text);
     });
     return { title: g.title, sub: g.sub, options: items };

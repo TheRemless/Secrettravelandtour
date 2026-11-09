@@ -213,8 +213,12 @@
     ce.textContent = cash ? "Plus the " + o.cash.label.toLowerCase() + ", in cash on the day: " + cash.text + "." : "";
 
     $$("[data-book-sel]").forEach(function (b) { b.setAttribute("data-book", o.id); });
+    // Journées : celle de l'option choisie ; un bloc commun reste ; une option sans journée écrite les montre toutes.
+    var days = $$(".dayb[data-day-ids]");
+    var mine = days.filter(function (d) { return d.getAttribute("data-day-ids").split(" ").indexOf(o.id) > -1; });
+    days.forEach(function (d) { var ids = d.getAttribute("data-day-ids"); d.hidden = Boolean(ids) && mine.length > 0 && mine.indexOf(d) < 0; });
     if (dockP) {
-      dockP.innerHTML = touched && est ? "<small>" + V.esc(o.label + (who() ? ", " + who() : "")) + "</small><b>" + V.thb(est.total) + "</b>" : dockFrom;
+      dockP.innerHTML = touched && est && !est.unpriced.length ? "<small>" + V.esc(o.label + (who() ? ", " + who() : "")) + "</small><b>" + V.thb(est.total) + "</b>" : dockFrom;
     }
     if (typeof CustomEvent === "function") document.dispatchEvent(new CustomEvent("stt-pick", { detail: { option: o.id } }));
   }
