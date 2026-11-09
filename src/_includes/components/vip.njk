@@ -46,7 +46,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 {% macro vehicle(v, showSlots, id="h-vehicle") %}
 <section class="vehicle" aria-labelledby="{{ id }}">
   <h2 id="{{ id }}">Our minivan</h2>
-  <ul class="vehicle-photos">
+  <ul class="vehicle-photos" tabindex="0" aria-label="Photos of the minivan">
     {%- for p in v.photos %}
       {%- if p.photo %}
     <li><img eleventy:ignore src="{{ p.photo.src }}" alt="{{ p.photo.alt }}" width="{{ p.photo.width }}" height="{{ p.photo.height }}" loading="lazy" decoding="async"></li>

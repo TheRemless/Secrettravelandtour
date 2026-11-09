@@ -116,7 +116,7 @@ eleventyExcludeFromCollections: true
     </div>
   </section>
 
-  <div class="strip" role="group" aria-label="{{ taxi.gallery.title }}">
+  <div class="strip" role="group" tabindex="0" aria-label="{{ taxi.gallery.title }}">
     {% for p in taxi.gallery.photos %}
     <img eleventy:ignore src="{{ p.src }}" width="{{ p.width }}" height="{{ p.height }}" alt="{{ p.alt }}" loading="lazy">
     {% endfor %}

@@ -144,6 +144,7 @@ a { color: var(--amber); text-underline-offset: .18em; }
 /* ---------- Le minivan ---------- */
 .vehicle { display: grid; gap: var(--s3); }
 .vehicle-photos { display: grid; grid-auto-flow: column; grid-auto-columns: 82%; gap: var(--s1); overflow-x: auto; scroll-snap-type: x mandatory; list-style: none; padding: 0; scrollbar-width: none; }
+.vehicle-photos:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
 .vehicle-photos li { scroll-snap-align: start; }
 .vehicle-photos img, .vehicle-photos .photo-slot { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius); }
 .vehicle-text { display: grid; gap: var(--s1); color: var(--text); }

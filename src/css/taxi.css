@@ -89,6 +89,7 @@ h3 { font-size: 1.4rem; line-height: 1.25; }
 .svc a { display: inline-block; min-height: 44px; margin-top: .25rem; line-height: 44px; font-weight: 700; }
 
 .strip { display: flex; gap: .75rem; margin-top: 4rem; padding: 0 var(--edge) 1rem; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.strip:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
 .strip::-webkit-scrollbar { display: none; }
 .strip img { flex: 0 0 82%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 18px; scroll-snap-align: center; }
 
