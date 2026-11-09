@@ -13,7 +13,7 @@
     }
   },
   "h1": "Speedboat and ferry from Koh Lanta",
-  "lead": "Speedboats from Koh Lanta to Phi Phi and Phuket, to the islands of Koh Ngai, Koh Mook, Koh Kradan and Koh Lipe, and on to Langkawi. In the high season also to Krabi, Ao Nang, Railay and Koh Yao.",
+  "lead": "Speedboats from Koh Lanta to Phi Phi and Phuket, to the islands of Koh Ngai, Koh Mook, Koh Kradan and Koh Lipe, and on to Langkawi. Also to Ao Nang, and in the high season to Krabi, Railay and Koh Yao.",
   "facts": [
     {
       "label": "Departure pier",
@@ -33,7 +33,7 @@
     },
     {
       "label": "Destinations",
-      "value": "Koh Phi Phi, Phuket, Koh Ngai, Koh Mook, Koh Kradan, Koh Bulon, Koh Lipe, Langkawi; in high season Krabi, Railay, Koh Yao Noi, Koh Yao Yai, Ao Nang"
+      "value": "Koh Phi Phi, Phuket, Koh Ngai, Koh Mook, Koh Kradan, Koh Bulon, Koh Lipe, Langkawi, Ao Nang; in high season Krabi, Railay, Koh Yao Noi, Koh Yao Yai"
     },
     {
       "label": "Children",
@@ -179,11 +179,16 @@
     {
       "field": "timetable.seasons[0], facts[Children], beforeYouBook.children",
       "from": "décision client du 08.11.2026 : départs de Koh Lanta du 15 octobre au 30 avril (« Some departures run all year » retiré), enfant de 3 à 9 ans, gratuit sous 3 ans (contrats des deux compagnies, audit D § 10 et 11)"
+    },
+    {
+      "field": "timetable.otherDepartures, timetable.seasons[2], lead, facts[Destinations]",
+      "from": "brochure publique des heures de prise en charge d'une seconde compagnie de speedboat (audit C § 1.1) : Koh Lipe 10:30 et 12:30, Phi Phi puis Phuket 10:00, 13:00 et 15:30, Ao Nang 09:00 et 13:30. Heures de départ seulement : ni prix, ni arrivée, ni ponton, ni saison sur la brochure, rien d'ajouté (décision client du 09.11.2026 : départs fusionnés par destination, sans nom de compagnie). La saison « from 1 December » ne vaut que pour le bateau de 14:30 vers Ao Nang de la grille complète"
     }
   ],
   "todo": [
     "TODO(client): tarifs des billets par trajet, au moins « à partir de » (aucun tarif sur le site actuel ; en attendant : « Price on WhatsApp »).",
-    "TODO(client): bagages autorisés sur le speedboat."
+    "TODO(client): bagages autorisés sur le speedboat.",
+    "TODO(client): départs de la seconde compagnie (Phi Phi, Phuket, Koh Lipe, Ao Nang) : heures d'arrivée, ponton, saison et retours vers Koh Lanta ; heures de prise en charge par plage (brochure), à afficher ou non."
   ],
   "notes": [
     "URL actuelle /tours/speedboat/ conservée (décision client : garder toutes les URL). Le brief prévoyait /transfers/speedboat-ferry/."
@@ -317,6 +322,37 @@
         ]
       }
     ],
+    "otherDepartures": [
+      {
+        "places": [
+          "Koh Phi Phi",
+          "Phuket"
+        ],
+        "departs": [
+          "10:00",
+          "13:00",
+          "15:30"
+        ]
+      },
+      {
+        "places": [
+          "Koh Lipe"
+        ],
+        "departs": [
+          "10:30",
+          "12:30"
+        ]
+      },
+      {
+        "places": [
+          "Ao Nang"
+        ],
+        "departs": [
+          "09:00",
+          "13:30"
+        ]
+      }
+    ],
     "inbound": [
       {
         "from": "Phuket (Rassada pier)",
@@ -439,7 +475,7 @@
     "seasons": [
       "Departures from Koh Lanta run from 15 October to 30 April.",
       "Langkawi runs from 1 November to 15 April.",
-      "Krabi, Ao Nang, Railay and Koh Yao from 1 December."
+      "Krabi, Railay, Koh Yao and the 14:30 boat to Ao Nang from 1 December."
     ],
     "checkIn": {
       "default": "30 minutes before departure",

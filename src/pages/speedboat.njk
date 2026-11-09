@@ -28,19 +28,17 @@ permalink: /tours/speedboat/
   <section class="sec sec--sand" id="options" aria-labelledby="opt-h">
     <div class="wrap">
       <div class="sec__head"><h2 id="opt-h">Times and prices</h2><p class="sec__note">Ticket prices are not on the site yet: we reply with the fare on WhatsApp.{% if t.checkIn %} {{ t.checkIn }}.{% endif %}</p></div>
+      {#- Une ligne par destination, toutes ses heures de départ, quelle que soit la compagnie (décision client du 09.11.2026). -#}
       <h3 class="sb__h">From Koh Lanta</h3>
-      <ol class="sb">
-        {%- for run in t.board %}
+      <ol class="sb sb--back">
+        {%- for r in t.dests %}
         <li class="sb__run">
-          <p class="sb__t"><time>{{ run.time }}</time>{% if run.season %}<small>{{ run.season }}</small>{% endif %}</p>
+          <p class="sb__t"><b>{{ r.place }}</b>{% for n in r.notes %}<small>{{ n }}</small>{% endfor %}</p>
           <ul class="sb__stops">
-            {%- for st in run.stops %}
-            <li><a class="sb__stop press" href="{{ v4.waHref(c.number, 'Speedboat request: Koh Lanta to ' + st.place + '\nDeparture: ' + run.time + '\nDate: \nPage: ' + t.booking.page) }}" data-book="" data-sb-route="{{ st.route }}" data-sb-dep="{{ st.dep }}"><b>{{ st.place }}</b><span>{{ st.time }}{% if st.note %}, {{ st.note }}{% endif %}</span><span class="sr">: book the {{ run.time }} boat to {{ st.place }}</span></a></li>
+            {%- for dp in r.deps %}
+            <li><a class="sb__stop press" href="{{ v4.waHref(c.number, 'Speedboat request: Koh Lanta to ' + r.place + '\nDeparture: ' + dp.time + '\nDate: \nPage: ' + t.booking.page) }}" data-book="" data-sb-route="{{ r.route }}" data-sb-dep="{{ dp.dep }}"><b>{{ dp.time }}</b>{% if dp.arrives %}<span>arrives {{ dp.arrives }}</span>{% endif %}{% if dp.season %}<span>{{ dp.season }}</span>{% endif %}<span class="sr">: book the {{ dp.time }} boat to {{ r.place }}</span></a></li>
             {%- endfor %}
           </ul>
-          {%- if run.onward %}
-          <p class="sb__on"><a class="link" href="{{ v4.waHref(c.number, 'Speedboat request: Koh Lanta to Langkawi\nDeparture: ' + run.time + '\nDate: \nPage: ' + t.booking.page) }}" data-book="" data-sb-route="{{ run.onward.route }}" data-sb-dep="{{ run.onward.dep }}">{{ run.onward.text }}</a>{% if run.onward.season %} Runs {{ run.onward.season }}.{% endif %}{% if run.onward.checkIn %} Langkawi: check in {{ run.onward.checkIn }}.{% endif %}</p>
-          {%- endif %}
         </li>
         {%- endfor %}
       </ol>

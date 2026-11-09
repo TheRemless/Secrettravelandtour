@@ -71,3 +71,30 @@ test("Koh Rok, coucher de soleil : 2 500 THB par personne, 10:00 à 17:50, frais
   assert.match(msg, /\nPrice on website: Per person: 2,500 THB\n/);
   assert.doesNotMatch(msg, /Departure:/);
 });
+
+// ---------- Speedboat : départs d'une seconde compagnie, fusionnés par destination ----------
+test("speedboat : les départs de la seconde compagnie sont sur leur destination, réservables, sans prix ni compagnie", () => {
+  const sb = P("secret-transfers/speedboat-ferry");
+  const other = sb.timetable.otherDepartures;
+  assert.deepEqual(other.map((o) => [o.places.join("+"), o.departs.join(" ")]), [["Koh Phi Phi+Phuket", "10:00 13:00 15:30"], ["Koh Lipe", "10:30 12:30"], ["Ao Nang", "09:00 13:30"]]);
+  assert.ok(other.every((o) => Object.keys(o).sort().join() === "departs,places"), "heures de départ seulement : ni arrivée, ni ponton, ni prix");
+  const doc = html(sb.url);
+  const cfg = cfgOf(doc);
+  const board = doc.split('id="opt-h"')[1].split("To Koh Lanta")[0];
+  // Une seule ligne par destination : pas de second tableau.
+  for (const place of ["Koh Phi Phi", "Phuket", "Koh Lipe", "Ao Nang"]) assert.equal((board.match(new RegExp(`<b>${place}</b>`, "g")) || []).length, 1, place);
+  for (const o of other) for (const place of o.places) for (const t of o.departs) {
+    const id = "to-" + place.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+    const route = cfg.routes.find((r) => r.id === id);
+    assert.ok(route && route.deps.some((d) => d.time === t), `${place} ${t} dans la feuille`);
+    assert.match(board, new RegExp(`data-sb-route="${id}" data-sb-dep="${id}@${t.replace(":", "")}"`), `${place} ${t} : bouton`);
+  }
+  // Une heure déjà dans la grille complète garde son arrivée (13:00 vers Phi Phi, 10:30 vers Koh Lipe).
+  assert.equal(cfg.routes.find((r) => r.id === "to-koh-phi-phi").deps.find((d) => d.time === "13:00").arrives, "13:30");
+  assert.equal(cfg.routes.find((r) => r.id === "to-koh-lipe").deps.find((d) => d.time === "10:30").arrives, "13:30");
+  assert.doesNotMatch(board, /\d\s?THB/);
+  assert.doesNotMatch(doc, /bundhaya/i);
+  const st = Object.assign(B.emptyState({}), { today: "2026-11-09", route: "to-ao-nang", departure: "to-ao-nang@0900", dateChoice: "other", dateOther: "2026-11-20", adults: 2, childAges: [], tripType: "one-way", pickup: "Lanta Sand Resort", name: "Anna" });
+  assert.deepEqual(B.validate(cfg, st), {});
+  assert.match(B.buildMessage(cfg, st), /^Ref: SB-2011-2A\nSpeedboat request: Koh Lanta to Ao Nang\nDeparture: 09:00\nDate: Fri 20 Nov 2026\nTicket: one way\n/);
+});

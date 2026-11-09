@@ -2,7 +2,7 @@
 
 Fichier généré par `scripts/manques.mjs` à chaque `npm run build`, à partir des `TODO(client)` de `src/_data/site.json` et `src/_data/products/`. Ne pas le modifier à la main : corriger la donnée source, puis relancer le build.
 
-28 points sur 11 pages. Une information absente n'est pas affichée sur le site (00-BRIEF §9).
+29 points sur 11 pages. Une information absente n'est pas affichée sur le site (00-BRIEF §9).
 
 | Page | Points |
 |---|---|
@@ -15,7 +15,7 @@ Fichier généré par `scripts/manques.mjs` à chaque `npm run build`, à partir
 | Kayaking (/tours/kayak/) | 1 |
 | Car and scooter rental (/tours/rental/) | 1 |
 | Minivan transfers, private or shared (/transfers/) | 2 |
-| Speedboat and ferry (/tours/speedboat/) | 2 |
+| Speedboat and ferry (/tours/speedboat/) | 3 |
 | Long-distance private transfers (/taxi/southern-thailand/) | 1 |
 
 ## Commun
@@ -98,6 +98,7 @@ Source : `src/_data/products/secret-transfers/speedboat-ferry.json`
 
 - tarifs des billets par trajet, au moins « à partir de » (aucun tarif sur le site actuel ; en attendant : « Price on WhatsApp »).
 - bagages autorisés sur le speedboat.
+- départs de la seconde compagnie (Phi Phi, Phuket, Koh Lipe, Ao Nang) : heures d'arrivée, ponton, saison et retours vers Koh Lanta ; heures de prise en charge par plage (brochure), à afficher ou non.
 
 ## VIP Taxi Lanta
 

@@ -278,7 +278,8 @@ function speedboatRoutes(p) {
     const stops = run.stops.map((s) => {
       const pl = placeOf(s.place);
       const route = "to-" + slugify(pl.name);
-      add(route, `Koh Lanta to ${pl.name}`, "out", { time: run.departs, arrives: s.time, detail: [pl.note, publicText(s.note || ""), season].filter(Boolean).join(". ") });
+      const pier = [pl.note, publicText(s.note || "")].filter(Boolean).join(", ");
+      add(route, `Koh Lanta to ${pl.name}`, "out", { time: run.departs, arrives: s.time, detail: [pier, season].filter(Boolean).join(". "), pier, season: run.seasonRange && !langkawi ? run.seasonRange.label : "" });
       return { place: pl.name, note: [pl.note, publicText(s.note || "")].filter(Boolean).join(", "), time: s.time, route, dep: route + "@" + run.departs.replace(":", "") };
     });
     let onward = null;
@@ -290,6 +291,28 @@ function speedboatRoutes(p) {
       onward = { text: run.onward, season: lk, route: "to-langkawi", dep: "to-langkawi@" + run.departs.replace(":", ""), checkIn: tt.checkIn && tt.checkIn.langkawi ? tt.checkIn.langkawi : "" };
     }
     return { time: run.departs, stops, season, onward };
+  });
+  // Départs d'une seconde compagnie : heures de départ seulement, ajoutées aux trajets existants (même destination,
+  // même bouton) ; une heure déjà dans la grille complète garde son arrivée et son ponton.
+  for (const o of tt.otherDepartures || []) {
+    for (const place of o.places) {
+      for (const t of o.departs) add("to-" + slugify(place), `Koh Lanta to ${place}`, "out", { time: t, arrives: "", detail: "", pier: "", season: "" });
+    }
+  }
+  // Une ligne par destination, toutes ses heures. Le ponton n'est dit que pour les bateaux qui le donnent.
+  const langkawiRun = board.find((r) => r.onward);
+  const dests = [...routes.values()].filter((r) => r.group === "out").map((r) => {
+    const deps = r.deps.slice().sort((a, b) => a.time.localeCompare(b.time));
+    const piers = [...new Set(deps.map((d) => d.pier).filter(Boolean))];
+    const notes = piers.map((pier) => {
+      const with_ = deps.filter((d) => d.pier === pier);
+      return cap(pier) + (with_.length === deps.length ? "" : ` on the ${listJoin(with_.map((d) => d.time))} boat${with_.length > 1 ? "s" : ""}`);
+    });
+    if (r.id === "to-langkawi" && langkawiRun) {
+      const ow = langkawiRun.onward;
+      notes.push(ow.text, ...(ow.season ? [`Runs ${ow.season}.`] : []), ...(ow.checkIn ? [`Check in ${ow.checkIn}.`] : []));
+    }
+    return { place: r.label.replace(/^Koh Lanta to /, ""), route: r.id, notes, deps: deps.map((d) => ({ time: d.time, arrives: d.arrives, season: d.season, dep: d.id })) };
   });
   const back = (tt.inbound || []).map((run) => {
     const origins = [{ name: run.from, times: run.departs }].concat((run.stops || []).map((s) => ({ name: s.place, times: s.times })))
@@ -307,7 +330,7 @@ function speedboatRoutes(p) {
   });
   const list = [...routes.values()];
   list.forEach((r) => r.deps.sort((a, b) => a.time.localeCompare(b.time)));
-  return { board, back, routes: list };
+  return { board, dests, back, routes: list };
 }
 
 function speedboatPage(p, ctx) {
@@ -327,7 +350,7 @@ function speedboatPage(p, ctx) {
     slug: p.slug, kind: "speedboat", url: p.url, name: p.name, nav: "transfers",
     seo: p.seo, h1: p.h1.replace("Koh Lanta", "Koh Lanta"), lead: p.lead,
     keyFacts: ["Departure pier", "Hotel pickup", "Check-in", "Timetable"].map((l) => ({ label: l, value: fact(p, l) })).filter((f) => f.value),
-    board: sb.board, back: sb.back,
+    board: sb.board, dests: sb.dests, back: sb.back,
     seasons: (tt.seasons || []).map(publicText).filter(Boolean),
     checkIn: tt.checkIn && tt.checkIn.default ? "Check in " + tt.checkIn.default : "",
     beforeBook: view.beforeBook(p, site),
