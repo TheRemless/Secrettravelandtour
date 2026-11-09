@@ -295,7 +295,8 @@
   }
   // booking.js est déjà là sur les pages produit (balise avec ?v=) : le recharger brancherait deux fois la feuille.
   function tripsScripts() {
-    var b = window.STT_BOOKING ? Promise.resolve() : V.load("/js/booking.js");
+    // v4-price.js avant booking.js : la liste calcule le total estimé de chaque sortie, comme la feuille.
+    var b = window.STT_BOOKING ? Promise.resolve() : (window.STT_PRICE ? Promise.resolve() : V.load("/js/v4-price.js")).then(function () { return V.load("/js/booking.js"); });
     return b.then(function () { return V.load("/js/v4-trips.js"); });
   }
   V.openTrips = function (trigger) {

@@ -632,8 +632,10 @@ html.sheet-open .dock { transform: translateY(calc(100% + 2px)); }
 .trips__top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
 .trips__top a { font: 600 21px/1.2 var(--serif); text-decoration: none; }
 .trips__top button { min-height: 44px; padding: 0; border: 0; background: none; font: 600 15px/1 var(--sans); color: var(--sea); text-decoration: underline; text-underline-offset: 4px; }
-.trips__pair { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 10px; }
-@media (max-width: 560px) { .trips__pair { grid-template-columns: minmax(0, 1fr); } }
+.trips__item > .f, .trips__when { margin: 0; }
+.trips__when .date-other { margin-top: 8px; }
+.trips__total { display: grid; gap: 2px; font-size: 14px; line-height: 1.4; color: var(--ink-mute); }
+.trips__total b { font: 600 16px/1.35 var(--sans); color: var(--ink); font-variant-numeric: lining-nums tabular-nums; }
 .trips__subs { display: grid; gap: 10px; margin-top: 10px; }
 .trips__n { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 48px; font-size: 15px; }
 .trips__n small { color: var(--ink-mute); }

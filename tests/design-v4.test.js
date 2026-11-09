@@ -104,6 +104,10 @@ test("liste de sorties : un message classé par jour, une référence par sortie
   assert.deepEqual(v.items, { t1: { option: "Choose an option for 4 Islands." } });
   assert.match(text, /Ref: PP-2011-2A1C/);
   assert.match(text, /Ref: ROK-2111-2A1C/);
+  // Phase 2 : chaque sortie de la liste porte son total estimé, calculé comme dans la feuille (2 adultes à 2 000 THB
+  // et un enfant de 7 ans à 1 000 THB) ; une sortie sans option choisie n'en a pas.
+  assert.match(text, /Koh Rok & Koh Haa – Join-in speedboat\nPrice on website: [^\n]+\nEstimated total: 5,000 THB\n/);
+  assert.doesNotMatch(text.split("4 Islands – option to choose")[1].split("Page:")[0], /total/i);
   assert.match(text, /Page: secrettravelandtour\.com\/tours\/koh-rok-koh-haa\//);
   assert.deepEqual(B.sameDayClashes(cat, list.items), [{ date: "2026-11-20", names: ["4 Islands", "Koh Phi Phi"] }]);
   // Les prix du catalogue sont ceux des fiches.

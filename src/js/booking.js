@@ -332,7 +332,9 @@
         lines.push("");
         lines.push(day ? formatDate(day) : "Date to choose");
       }
-      var ref = makeRef(p.refPrefix, it.date, list.adults, kids);
+      // Même référence que la feuille : une option à compteurs (karts) compte ses véhicules ou ses pilotes.
+      var cg = option && option.counts ? countGroup(option, it) : null;
+      var ref = cg ? makeRef(p.refPrefix, it.date, cg.adults, cg.children, cg.units) : makeRef(p.refPrefix, it.date, list.adults, kids);
       if (ref) lines.push("Ref: " + ref);
       lines.push(p.name + (option ? " – " + option.title : (p.options || []).length > 1 ? " – option to choose" : ""));
       choiceLines(option, it).forEach(function (l) { lines.push(l); });
@@ -340,9 +342,16 @@
       if (extras.length) lines.push("Extras: " + extras.join(", "));
       var price = priceLine(pricedOption(option, it));
       if (price) lines.push("Price on website: " + price);
+      // Total estimé de la sortie, calculé comme dans la feuille (groupe de la liste, sous-choix et suppléments de la sortie).
+      if (option && PRICE && Array.isArray(option.prices)) lines.push(totalLine(option, tripState(list, it)));
       if (p.page) lines.push("Page: " + p.page);
     });
     return lines.join("\n");
+  }
+
+  // État d'une sortie de la liste, dans la forme de la feuille : le groupe est celui de la liste.
+  function tripState(list, it) {
+    return { adults: list.adults, childAges: list.childAges || [], addons: it.addons || [], choices: it.choices || {}, counts: it.counts || {}, option: it.option };
   }
 
   // Liste de sorties : rien ne part tant qu'une sortie n'a pas sa date, et son option quand la fiche en a
@@ -669,7 +678,7 @@
       var guests = form.querySelector("[data-guests]");
       if (guests) guests.hidden = Boolean(opt && opt.counts);
       var pl = form.querySelector('label[for="book-pickup"]'), ph = form.querySelector("#book-h-pickup");
-      if (pl && ph) {
+      if (pl && ph && pl.hasAttribute("data-label")) {
         var away = opt && opt.departure;
         pl.textContent = away ? "Hotel in " + opt.departure : pl.getAttribute("data-label");
         ph.textContent = away ? "We pick you up at your hotel in " + opt.departure + "." : ph.getAttribute("data-hint");
@@ -1095,6 +1104,7 @@
     sameDayClashes: sameDayClashes,
     parkCash: parkCash,
     quoteOf: quoteOf,
+    tripState: tripState,
     waUrl: waUrl,
     makeDraft: makeDraft,
     restoreDraft: restoreDraft,

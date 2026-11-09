@@ -82,6 +82,7 @@ permalink: /tours/speedboat/
 {{ vp.dock(null, fallback, "", "Book a seat") }}
 {{ bookingSheet(t.booking, c) }}
 {{ v4.tripsRoot() }}
+<script src="/js/v4-price.js?v={{ build.v }}" defer></script>
 <script src="/js/booking.js?v={{ build.v }}" defer></script>
 {{ v4.scripts(build, "product") }}
 </body>

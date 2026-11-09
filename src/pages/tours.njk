@@ -24,7 +24,9 @@ permalink: /tours/
     <h1>{{ d.hub.h1 }}</h1>
     <p class="lead">{{ d.hub.lead }}</p>
   </div>
-  {#- Une rangée collante, téléphone compris : type à gauche, tri à droite (le choix courant se lit sur bureau). -#}
+  {#- Une rangée collante, téléphone compris : type à gauche, tri à droite (le choix courant se lit sur bureau).
+      Elle ne colle que le long de la grille. -#}
+  <div class="hub-wrap">
   <div class="bar" data-bar>
     <div class="wrap bar__in">
       <div class="seg" role="group" aria-label="Show" data-seg="type">
@@ -49,6 +51,7 @@ permalink: /tours/
       {%- for t in d.activities %}{{ v4.card(t, compare=true, anchor="activities" if loop.first else "") }}{% endfor %}
     </div>
   </section>
+  </div>
   {#- Les pages de service, absentes de la grille : speedboat, transferts, location. -#}
   {%- set ar = d.home.around -%}
   <section class="wrap hub-more" aria-labelledby="ga-h">

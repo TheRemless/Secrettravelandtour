@@ -94,6 +94,7 @@ async function card(slug) {
 // Servi en /data/catalog.json, chargé seulement quand la liste, le comparateur ou le composeur sont utilisés.
 function catalogEntry(p, kind) {
   const opts = view.options(p).list;
+  const book = vp.bookingOf(p, site);
   const compare = [["Price", view.price(p) ? `from ${view.price(p).amount}, ${p.price.unit}` : "Price on WhatsApp"]]
     .concat(["Duration", "Season", "Hotel pickup", "Boat", "Crossing", "Sessions", "Children", "Ages", "National park fee", "Village entrance fee"]
       .map((l) => [l, fact(p, l)]).filter((r) => r[1]))
@@ -103,9 +104,15 @@ function catalogEntry(p, kind) {
     fullDay: fact(p, "Duration") === "Full day",
     season: view.seasonMonths(p) && fact(p, "Season") !== "All year" ? { text: fact(p, "Season"), months: view.seasonMonths(p) } : null,
     from: view.price(p) ? view.price(p).amount : "",
-    // Sous-variantes (créneau, cours, karts…) : la liste de sorties les fait choisir comme la feuille.
+    // Sous-variantes (créneau, cours, karts…) : la liste de sorties les fait choisir comme la feuille. Lignes de prix
+    // brutes et frais en espèces de chaque option (vp.bookingOf) : la liste calcule le même total estimé que la feuille.
+    parkFee: book.parkFee || null,
     options: opts.filter((o) => ((p.options || []).find((x) => x.id === o.id) || {}).kind !== "extra")
-      .map((o) => ({ id: o.id, title: o.title, rows: o.rows, ...vp.formOf(p, (p.options || []).find((x) => x.id === o.id) || {}) })),
+      .map((o) => {
+        const b = book.options.find((x) => x.id === o.id) || {};
+        return { id: o.id, title: o.title, rows: o.rows, ...vp.formOf(p, (p.options || []).find((x) => x.id === o.id) || {}),
+          prices: b.prices || [], ...(b.priceOnRequest ? { priceOnRequest: true } : {}), ...("cash" in b ? { cash: b.cash } : {}), ...(b.feesToConfirm ? { feesToConfirm: true } : {}), ...("people" in b ? { people: b.people } : {}) };
+      }),
     compare
   };
 }

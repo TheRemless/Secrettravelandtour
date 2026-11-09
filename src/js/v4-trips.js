@@ -15,7 +15,7 @@
   dlg.className = "sheet trips";
   dlg.id = "trips";
   dlg.setAttribute("aria-labelledby", "trips-h");
-  dlg.innerHTML = '<div class="sheet-grab" aria-hidden="true"></div><div class="sheet-screen"><div class="sheet-head"><div><p class="sheet-kicker">One WhatsApp message, day by day</p>' +
+  dlg.innerHTML = '<div class="sheet-grab" aria-hidden="true"></div><div class="sheet-screen"><div class="sheet-head"><div>' +
     '<h2 class="sheet-title" id="trips-h" tabindex="-1" data-focus>Your trip list</h2></div><button class="sheet-close" type="button" data-close>' + ICON.close + '<span class="sr">Close the trip list</span></button></div>' +
     '<div class="sheet-body" data-body></div><div class="sheet-foot" data-foot></div></div>';
   document.body.appendChild(dlg);
@@ -58,7 +58,7 @@
     sorted.forEach(function (it) { var g = groups[groups.length - 1]; if (!g || g.date !== (it.date || "")) groups.push(g = { date: it.date || "", items: [] }); g.items.push(it); });
     var clashes = B.sameDayClashes(cat, l.items);
     body.innerHTML =
-      '<fieldset class="f trips__who"><legend>Who is coming</legend>' + stepper("adults", "Adults", l.adults, 1) + stepper("children", "Children", l.childAges.length, 0, "The same group for every trip in the list") +
+      '<fieldset class="f trips__who"><legend>Who is coming</legend><p class="f-hint">The same group for every trip in the list.</p>' + stepper("adults", "Adults", l.adults, 1) + stepper("children", "Children", l.childAges.length, 0) +
       '<div class="ages">' + l.childAges.map(function (a, i) {
         return '<div class="f"><label for="tl-age-' + i + '">Age of child ' + (i + 1) + '</label><span class="select"><select id="tl-age-' + i + '" data-tage="' + i + '" aria-describedby="tl-e-age-' + i + '">' + ageOptions(a === "" ? null : a) + '</select></span><p class="err" id="tl-e-age-' + i + '" hidden></p></div>';
       }).join("") + "</div></fieldset>" +
@@ -71,8 +71,9 @@
             var opts = p.options.length > 1 ? '<div class="f"><label class="f-label" for="tl-o-' + it.id + '">Option</label><span class="select"><select id="tl-o-' + it.id + '" data-topt="' + it.id + '" aria-describedby="tl-eo-' + it.id + '"><option value="">Choose an option</option>' + p.options.map(function (o) { return '<option value="' + o.id + '"' + (o.id === it.option ? " selected" : "") + ">" + V.esc(o.title) + "</option>"; }).join("") + '</select></span><p class="err" id="tl-eo-' + it.id + '" hidden></p></div>' : "";
             var season = p.season && it.date && p.season.months.indexOf(Number(it.date.slice(5, 7))) < 0;
             return '<div class="trips__item"><div class="trips__top"><a href="' + p.url + '">' + V.esc(p.name) + '</a><button type="button" data-trm="' + it.id + '">Remove<span class="sr"> ' + V.esc(p.name) + "</span></button></div>" +
-              '<div class="trips__pair">' + opts + '<div class="f"><label class="f-label" for="tl-d-' + it.id + '">Date</label><input type="date" id="tl-d-' + it.id + '" min="' + today + '" value="' + (it.date || "") + '" data-tdate="' + it.id + '" aria-describedby="tl-e-' + it.id + '"><p class="err" id="tl-e-' + it.id + '" hidden></p></div></div>' +
+              opts + dateField(it, today) +
               (optOf(p, it) ? subFields(it, optOf(p, it)) : "") +
+              '<p class="trips__total" data-ttot="' + it.id + '" aria-live="polite"></p>' +
               (season ? '<p class="trips__warn">' + ICON.alert + "<span>" + V.esc(p.name) + " runs " + V.esc(p.season.text) + ". Pick a date in that season.</span></p>" : "") + "</div>";
           }).join("") + "</section>";
       }).join("") +
@@ -83,6 +84,36 @@
       '<p class="sheet-note">Nothing is booked until we confirm. Nothing is paid online.</p>';
     message();
     if (focusId) { var f = document.getElementById(focusId); if (f) f.focus(); }
+  }
+  // Date d'une sortie : mêmes puces que la feuille (Today, Tomorrow, Other date), le calendrier seulement pour une autre date.
+  function dayChoice(it, today) {
+    if (it.dc) return it.dc;
+    if (!it.date) return "";
+    return it.date === today ? "today" : it.date === B.addDays(today, 1) ? "tomorrow" : "other";
+  }
+  function dateField(it, today) {
+    var dc = dayChoice(it, today);
+    var chips = [["today", "Today"], ["tomorrow", "Tomorrow"], ["other", "Other date"]].map(function (c) {
+      return '<label><input type="radio" name="tl-dc-' + it.id + '" value="' + c[0] + '" data-tdc="' + it.id + '"' + (dc === c[0] ? " checked" : "") + ' aria-describedby="tl-e-' + it.id + '"><span>' + c[1] + "</span></label>";
+    }).join("");
+    return '<fieldset class="f trips__when"><legend class="f-label">Date</legend><div class="choice choice--3">' + chips + "</div>" +
+      '<div class="date-other"' + (dc === "other" ? "" : " hidden") + '><label class="f-label" for="tl-d-' + it.id + '">Other date</label><input type="date" id="tl-d-' + it.id + '" min="' + today + '" value="' + (dc === "other" ? it.date || "" : "") + '" data-tdate="' + it.id + '" aria-describedby="tl-e-' + it.id + '"></div>' +
+      '<p class="err" id="tl-e-' + it.id + '" hidden></p></fieldset>';
+  }
+  // Total estimé de chaque sortie : même calcul que la feuille (v4-price.js), frais du parc à part, en espèces.
+  function totals() {
+    var l = list();
+    l.items.forEach(function (it) {
+      var el = $('[data-ttot="' + it.id + '"]', body), p = cat[it.slug];
+      if (!el || !p) return;
+      var o = optOf(p, it);
+      if (!o) { el.hidden = true; el.textContent = ""; return; }
+      var st = B.tripState(l, it), q = window.STT_PRICE ? B.quoteOf(o, st) : null;
+      var cash = B.parkCash({ options: p.options, parkFee: p.parkFee }, { option: o.id, adults: l.adults, childAges: l.childAges });
+      el.hidden = false;
+      el.innerHTML = "<b>" + (q ? "Estimated total " + V.thb(q.total) : "Total confirmed on WhatsApp") + "</b>" +
+        (q && cash ? "<span>Plus " + V.thb(cash.total) + " " + V.esc((cash.label || "fees").toLowerCase()) + ", in cash on the day</span>" : "");
+    });
   }
   // Sous-variantes de l'option (créneau, cours, karts…), mêmes champs que la feuille de réservation.
   function optOf(p, it) {
@@ -113,6 +144,7 @@
     var pre = $("[data-tmsg]", body), send = $("[data-tsend]", foot);
     if (pre) pre.textContent = text;
     if (send) send.href = B.waUrl(text);
+    totals();
     return text;
   }
 
@@ -141,9 +173,19 @@
   });
   body.addEventListener("change", function (e) {
     var t = e.target, l = list();
-    if (t.hasAttribute("data-tdate")) {
+    if (t.hasAttribute("data-tdc")) {
+      var di = l.items.filter(function (x) { return x.id === t.getAttribute("data-tdc"); })[0];
+      if (!di) return;
+      var today = V.today();
+      di.dc = t.value;
+      if (t.value === "today") di.date = today;
+      else if (t.value === "tomorrow") di.date = B.addDays(today, 1);
+      else if (di.date === today || di.date === B.addDays(today, 1)) di.date = "";
+      save(l);
+      render(t.value === "other" ? "tl-d-" + di.id : t.id);
+    } else if (t.hasAttribute("data-tdate")) {
       var it = l.items.filter(function (x) { return x.id === t.getAttribute("data-tdate"); })[0];
-      if (it) { it.date = t.value; save(l); render(t.id); }
+      if (it) { it.date = t.value; it.dc = "other"; save(l); render(t.id); }
     } else if (t.hasAttribute("data-topt")) {
       l.items.forEach(function (x) { if (x.id === t.getAttribute("data-topt")) x.option = t.value; });
       save(l); render(t.id);
@@ -192,7 +234,7 @@
       var e = v.items[it.id];
       if (!e) return;
       if (e.option) fail($("#tl-o-" + it.id), "tl-eo-" + it.id, e.option);
-      if (e.date) fail($("#tl-d-" + it.id), "tl-e-" + it.id, e.date);
+      if (e.date) { var dIn = $("#tl-d-" + it.id); fail(dIn && !dIn.closest("[hidden]") ? dIn : $('[data-tdc="' + it.id + '"]', body), "tl-e-" + it.id, e.date); }
       Object.keys(e).forEach(function (k) {
         if (k === "option" || k === "date") return;
         var m = /^c-(.+)-([^-]+)$/.exec(k);
@@ -204,7 +246,7 @@
     if (v.pickup) fail($("#tl-pickup"), "tl-e-pickup", v.pickup);
     if (v.name) fail($("#tl-name"), "tl-e-name", v.name);
     var miss = $("[data-tmiss]", foot);
-    if (miss) { miss.hidden = !missing.length; miss.textContent = missing.length ? (missing.length === 1 ? "One thing is missing: " : missing.length + " things are missing: ") + missing.map(function (m) { return m.replace(/\.$/, "").replace(/^./, function (c) { return c.toLowerCase(); }); }).join("; ") + "." : ""; }
+    if (miss) { miss.hidden = !missing.length; miss.textContent = missing.length === 1 ? "One thing is missing, see above." : missing.length + " things are missing, see above."; }
     if (first) {
       e.preventDefault();
       if (!V.reduce.matches) send.animate([{ transform: "translateX(0)" }, { transform: "translateX(-6px)" }, { transform: "translateX(5px)" }, { transform: "translateX(-3px)" }, { transform: "none" }], { duration: 320 });
