@@ -7,6 +7,8 @@ const view = require("./view.js");
 const price = require("../../js/v4-price.js");
 
 const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : "");
+// Noms de lieux jamais coupés en fin de ligne (« Koh Bubu », « Thung Yee Peng ») : espaces insécables.
+const nb = (s) => String(s || "").replace(/\b(Koh|Ko|Ao) (\S+)/g, "$1\u00a0$2").replace(/Thung Yee Peng/g, "Thung\u00a0Yee\u00a0Peng");
 const listJoin = (a) => (a.length < 2 ? a.join("") : a.slice(0, -1).join(", ") + " and " + a[a.length - 1]);
 const fact = (p, label) => ((p.facts || []).find((f) => f.label === label) || {}).value || "";
 
@@ -405,7 +407,7 @@ function productPage(p, ctx) {
     slug: p.slug, kind: p.template, url: p.url, name: p.name,
     nav: p.template === "boat" ? "boats" : "activities",
     crumb: p.template === "boat" ? { label: "Boat trips", href: "/tours/#boat-trips" } : { label: "Activities", href: "/tours/#activities" },
-    seo: p.seo, h1: p.h1.replace("Koh Lanta", "Koh Lanta"), lead: p.lead, promise: p.promise || "",
+    seo: p.seo, h1: nb(p.h1), lead: p.lead, promise: p.promise || "",
     keyFacts: facts.hero,
     price: pr ? { amount: pr.amount, unit: p.price.unit } : null,
     hero: ctx.hero,
@@ -415,7 +417,7 @@ function productPage(p, ctx) {
     included: p.included || [],
     notIncluded,
     beforeBook: byb,
-    faq: (p.faq || []).filter((f) => !help || f.q !== help.q),
+    faq: (p.faq || []).filter((f) => !help || f.q !== help.q).map((f) => ({ ...f, q: nb(f.q) })),
     related: related(p, ctx),
     single: single || pick.sel,
     ask: askText(p.name, host + p.url),
@@ -475,7 +477,7 @@ function rentalPage(p, ctx) {
   const links = [{ href: "/tours/", label: "Boat trips and activities" }].concat((p.related || []).filter((u) => OTHER_LINKS[u] && ctx.live.has(u)).map((u) => ({ href: u, label: OTHER_LINKS[u] })));
   return {
     slug: p.slug, kind: "rental", url: p.url, name: p.name, crumb: "Rental", nav: "rental",
-    seo: p.seo, h1: p.h1.replace("Koh Lanta", "Koh\u00a0Lanta"), lead,
+    seo: p.seo, h1: nb(p.h1), lead,
     price: pr ? { amount: pr.amount, unit: p.price.unit } : null,
     cats,
     // « How to book » redit l'accroche ; les questions redisent les onglets (elles restent dans le JSON-LD).
@@ -604,7 +606,7 @@ function speedboatPage(p, ctx) {
   const shown = (p.faq || []).filter((f) => !/hotel pickup included|how do i book/i.test(f.q));
   return {
     slug: p.slug, kind: "speedboat", url: p.url, name: p.name, crumb: "Speedboat", nav: "speedboat",
-    seo: p.seo, h1: p.h1.replace("Koh Lanta", "Koh\u00a0Lanta"), lead,
+    seo: p.seo, h1: nb(p.h1), lead,
     season: publicText((tt.seasons || [])[0] || ""),
     board: sb.board, dests: sb.dests, back,
     checkIn: ck.default ? `Check in ${ck.default}.${ck.langkawi ? ` For Langkawi, ${ck.langkawi}.` : ""}` : "",

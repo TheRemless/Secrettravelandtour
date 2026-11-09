@@ -46,7 +46,7 @@
     var l = list();
     var today = V.today();
     if (!l.items.length) {
-      body.innerHTML = '<div class="trips__empty"><h3>No trips in your list yet</h3><p>Add trips from their cards or from a trip page. You choose a date for each one here, then send them all in one WhatsApp message.</p><p><a class="sheet-btn sheet-btn--quiet" href="/tours/">See the boat trips and activities</a></p></div>';
+      body.innerHTML = '<div class="trips__empty"><h3>No trips in your list yet</h3><p>Add trips from their cards or from a trip page. You choose a date for each one here, then send them all in one WhatsApp message.</p>' + (location.pathname === "/tours/" ? "" : '<p><a class="sheet-btn sheet-btn--quiet" href="/tours/">See the boat trips and activities</a></p>') + '</div>';
       foot.innerHTML = "";
       return;
     }

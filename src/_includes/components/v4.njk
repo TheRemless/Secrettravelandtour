@@ -50,7 +50,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
     {{ photo(c.photo, sizes, eager, "ph--43") }}
     <span class="card__body">
       <{{ hx }} class="card__title">{{ c.title }}</{{ hx }}>
-      {%- if c.promise %}<span class="card__line">{{ c.promise }}</span>{% endif %}
+      {%- if c.promise %}<span class="card__line">{{ c.promise | keephy | safe }}</span>{% endif %}
       {%- if c.meta.length %}<span class="card__meta">{% for m in c.meta %}<span>{{ m }}</span>{% endfor %}</span>{% endif %}
       {%- if c.price %}<span class="card__price"><b>from {{ c.price.amount }}</b><small>{{ c.price.unit }}</small></span>{% else %}<span class="card__price"><b class="card__req">Price on WhatsApp</b></span>{% endif %}
     </span>
@@ -111,7 +111,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
       {#- Sur téléphone, les deux listes de sorties se replient (v4.js les ferme) ; « More » reste ouvert. -#}
       <details class="ft__col" open data-ft-fold><summary><h2 class="ft__h">Boat trips</h2></summary><ul>{% for c in boats %}<li><a href="{{ c.href }}">{{ c.title }}</a></li>{% endfor %}</ul></details>
       <details class="ft__col" open data-ft-fold><summary><h2 class="ft__h">Activities</h2></summary><ul>{% for c in activities %}<li><a href="{{ c.href }}">{{ c.title }}</a></li>{% endfor %}</ul></details>
-      <div class="ft__col"><h2 class="ft__h">More</h2><ul><li><a href="/tours/speedboat/">Speedboat timetable</a></li><li><a href="/taxi/">Private transfers</a></li><li><a href="/tours/rental/">Scooter and car rental</a></li><li><a href="/credits/">Photo credits</a></li></ul></div>
+      <details class="ft__col" open><summary><h2 class="ft__h">More</h2></summary><ul><li><a href="/tours/speedboat/">Speedboat timetable</a></li><li><a href="/taxi/">Private transfers</a></li><li><a href="/tours/rental/">Scooter and car rental</a></li><li><a href="/credits/">Photo credits</a></li></ul></details>
     </div>
     <div class="ft__meta">
       <span>{{ b.name }} is operated by {{ site.operator.name }}</span>
@@ -141,7 +141,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 {% macro tripsRoot() %}
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 {#- La liste reste à portée quand l'en-tête s'est caché en descendant : même compteur, ancré en bas d'écran. -#}
-<button class="tl-dock" type="button" data-trips-open aria-haspopup="dialog" hidden>{{ glyph("list") }}<span>Trip list</span><span class="tl-btn__n" data-trips-count>0</span><span class="sr"> trips</span></button>
+<button class="tl-dock" type="button" data-trips-open aria-haspopup="dialog" hidden>{{ glyph("list") }}<span>Trips</span><span class="tl-btn__n" data-trips-count>0</span><span class="sr"> in your trip list</span></button>
 {% endmacro %}
 
 {% macro scripts(build, page="") %}

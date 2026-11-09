@@ -147,6 +147,7 @@
     };
     addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
     hd.addEventListener("focusin", function () { show(true); });
+    V.hdSync = function () { lastY = scrollY; acc = 0; show(true); };
   }
   // Pied de page : sur téléphone, les deux listes de sorties se replient (ouvertes sans JS et sur bureau).
   if (matchMedia("(max-width: 699px)").matches) V.$$("[data-ft-fold]").forEach(function (d) { d.open = false; });
@@ -310,11 +311,11 @@
       if (add.getAttribute("aria-pressed") === "true") {
         var l = V.trips.get(), kept = l.items.filter(function (i) { return i.slug !== slug; }), gone = l.items.filter(function (i) { return i.slug === slug; });
         l.items = kept; V.trips.set(l);
-        V.toast(nameOf(slug) + " removed from your trip list.", "Undo", function () { var l2 = V.trips.get(); l2.items = l2.items.concat(gone); V.trips.set(l2); });
+        V.toast(nameOf(slug) + " removed.", "Undo", function () { var l2 = V.trips.get(); l2.items = l2.items.concat(gone); V.trips.set(l2); });
       } else {
         V.trips.add({ slug: slug, option: "", date: "", addons: [] });
         if (!reduce.matches) { add.classList.remove("is-pop"); add.offsetWidth; add.classList.add("is-pop"); }
-        V.toast(nameOf(slug) + " is in your trip list. Choose its date in the list.", "Open the list", function () { V.openTrips(add); });
+        V.toast(nameOf(slug) + " added.", "Open the list", function () { V.openTrips(add); });
       }
       return;
     }

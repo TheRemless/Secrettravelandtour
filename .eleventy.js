@@ -22,6 +22,10 @@ module.exports = async function (eleventyConfig) {
   const WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen"];
   eleventyConfig.addFilter("numwords", (n) => WORDS[n] || String(n));
 
+  // Mot à trait d'union (« mid-October ») gardé sur une ligne ; Manrope n'a pas de trait insécable. Texte échappé ici.
+  const ESC = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" };
+  eleventyConfig.addFilter("keephy", (s) => String(s || "").replace(/[&<>"]/g, (c) => ESC[c]).replace(/\b([A-Za-z]+-[A-Za-z]+)\b/g, '<span class="nw">$1</span>'));
+
   // Fichiers copiés tels quels, avec les mêmes adresses publiques.
   eleventyConfig.addPassthroughCopy({
     "src/css": "css",

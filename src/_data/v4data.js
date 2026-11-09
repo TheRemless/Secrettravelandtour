@@ -73,7 +73,7 @@ const dropPlace = (text, place) => (place && text.startsWith(place + ", ") ? tex
 // n'apprend rien sur une carte, ni un fait déjà dit par la promesse. Des heures de séance (« 09:00, 12:00 and 15:00 »)
 // restent sur la fiche : une carte dit combien de temps, pas à quelle heure.
 function cardMeta(p) {
-  const promise = (p.promise || "").toLowerCase();
+  const promise = (p.promise || "").toLowerCase().replace(/\bhalf a day\b/g, "half day");
   return ["Duration", "Boat", "Season", "Sessions"].map((l) => fact(p, l))
     .filter((v) => v && v !== "All year" && v.length <= 40 && !/\d{2}:\d{2}/.test(v) && !promise.includes(v.toLowerCase())).slice(0, 2);
 }

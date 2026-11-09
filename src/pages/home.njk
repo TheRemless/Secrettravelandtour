@@ -43,7 +43,7 @@ permalink: /
       <ul class="hrows" data-hrows>
         {%- for t in h.heroTrips %}
         <li><a class="hrow press" href="{{ t.href }}" data-hero-i="{{ loop.index0 }}"{% if loop.first %} aria-current="true"{% endif %}>
-          <span class="hrow__t"><b>{{ t.title }}</b><small>{{ t.promise }}</small></span>
+          <span class="hrow__t"><b>{{ t.title }}</b><small>{{ t.promise | keephy | safe }}</small></span>
           <span class="hrow__p"><b>from {{ t.price.amount }}</b><small>{{ t.price.unit }}</small></span>
         </a></li>
         {%- endfor %}
@@ -95,6 +95,11 @@ permalink: /
   <section class="sec sec--tight" id="around" aria-labelledby="around-h">
     <div class="wrap">
       <h2 id="around-h">Getting here and around</h2>
+      {%- if ar.transfers.speedboat %}
+      <ul class="lrows">
+        <li><a class="lrow press" href="{{ ar.transfers.speedboat.href }}"><span><b>{{ ar.transfers.speedboat.title }}</b><small>{{ ar.transfers.speedboat.text }}</small></span></a></li>
+      </ul>
+      {%- endif %}
       <div class="around">
         <div>
           <h3 id="tr-h">Private transfers</h3>
@@ -103,9 +108,6 @@ permalink: /
             {%- for r in ar.transfers.routes %}
             <li><a class="lrow press" href="{{ r.href }}"><span><b>{{ r.name }}</b><small>{{ r.drive }}, both directions</small></span></a></li>
             {%- endfor %}
-            {%- if ar.transfers.speedboat %}
-            <li><a class="lrow press" href="{{ ar.transfers.speedboat.href }}"><span><b>{{ ar.transfers.speedboat.title }}</b><small>{{ ar.transfers.speedboat.text }}</small></span></a></li>
-            {%- endif %}
           </ul>
           <a class="link" href="/taxi/">All private transfers</a>
         </div>

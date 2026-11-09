@@ -19,7 +19,7 @@
   if (["", "asc", "desc"].indexOf(st.sort) < 0) st.sort = "";
   var sortEl = $("[data-sort]"), sortV = $("[data-sort-v]"), n = $("[data-hub-n]"), bar = $("[data-bar]");
   sortEl.value = st.sort;
-  var LABEL = { all: ["trip", "trips"], boat: ["boat trip", "boat trips"], activity: ["activity", "activities"] };
+  var LABEL = { all: ["trip or activity", "trips and activities"], boat: ["boat trip", "boat trips"], activity: ["activity", "activities"] };
 
   function visible() {
     var list = order.filter(function (c) { return st.type === "all" || c.getAttribute("data-kind") === st.type; });
@@ -63,7 +63,11 @@
   sortEl.addEventListener("change", function () { st.sort = sortEl.value; reflow(); });
   apply();
   // Arrivée par #boat-trips ou #activities : la page s'arrête sur les filtres, pas sur la première carte.
-  var toBar = function () { bar.scrollIntoView({ block: "start", behavior: "auto" }); };
+  var toBar = function () {
+    var hd = document.getElementById("hd");
+    scrollTo(0, bar.parentNode.getBoundingClientRect().top + scrollY - (hd ? hd.offsetHeight : 0));
+    if (V.hdSync) V.hdSync();
+  };
   if (HASH[hash]) requestAnimationFrame(toBar);
 
   // Menu cliqué sur le hub même : même filtre que le segment, sans recharger.
@@ -139,11 +143,11 @@
       var labels = [];
       ps.forEach(function (p) { p.compare.forEach(function (r) { if (labels.indexOf(r[0]) < 0) labels.push(r[0]); }); });
       var val = function (p, l) { var r = p.compare.filter(function (x) { return x[0] === l; })[0]; return r ? r[1] : ""; };
-      $("[data-cmpd-t]", dlg).innerHTML = '<table><caption class="sr">Trips side by side</caption><thead><tr><td></td>' + ps.map(function (p) {
+      $("[data-cmpd-t]", dlg).innerHTML = '<table style="--n: ' + ps.length + '"><caption class="sr">Trips side by side</caption><thead><tr><td></td>' + ps.map(function (p) {
         var ph = $(".ph", card(p.slug));
         return '<th scope="col">' + (ph ? ph.outerHTML.replace(/ alt="[^"]*"/, ' alt=""') : "") + '<a href="' + p.url + '">' + V.esc(p.name) + "</a></th>";
       }).join("") + "</tr></thead><tbody>" + labels.map(function (l) {
-        return '<tr><th scope="row">' + V.esc(l) + "</th>" + ps.map(function (p) { var v = val(p, l); return v ? "<td>" + V.esc(v) + "</td>" : '<td class="none">Not on the trip page</td>'; }).join("") + "</tr>";
+        return '<tr><th scope="row">' + V.esc(l) + "</th>" + ps.map(function (p) { var v = val(p, l); return v ? "<td>" + V.esc(v) + "</td>" : '<td class="none"><span aria-hidden="true">–</span><span class="sr">Not given</span></td>'; }).join("") + "</tr>";
       }).join("") + "</tbody></table>";
       V.bindImgs(dlg);
       dlg.showModal();
