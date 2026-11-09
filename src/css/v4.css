@@ -707,6 +707,13 @@ html.sheet-open .dock { transform: translateY(110%); }
 
 /* Speedboat : la grille des départs ; chaque arrêt est un bouton qui ouvre la feuille sur ce bateau */
 .sb__h { font-size: 26px; margin: 8px 0 14px; }
+.sb__more { margin-top: 32px; border-top: 1px solid var(--line); }
+.sb__more > summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 56px; cursor: pointer; list-style: none; }
+.sb__more > summary::-webkit-details-marker { display: none; }
+.sb__more > summary .sb__h { margin: 0; }
+.sb__more-l { color: var(--sea); font: 600 15px/1 var(--sans); text-decoration: underline; text-underline-offset: 5px; }
+.sb__more[open] .sb__more-l { display: none; }
+.sb__more[open] > summary { margin-bottom: 14px; }
 .sb + .sb__h { margin-top: 48px; }
 .sb { list-style: none; border-top: 1px solid var(--field); }
 .sb__run { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 10px 24px; padding: 16px 0; border-bottom: 1px solid var(--line); }

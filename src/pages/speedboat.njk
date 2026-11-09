@@ -42,7 +42,9 @@ permalink: /tours/speedboat/
         </li>
         {%- endfor %}
       </ol>
-      <h3 class="sb__h">To Koh Lanta</h3>
+      {#- Les retours sont repliés : la page reste courte pour qui part de Koh Lanta, le cas le plus fréquent. -#}
+      <details class="sb__more">
+      <summary><h3 class="sb__h">To Koh Lanta</h3><span class="sb__more-l">Show the return boats</span></summary>
       <ol class="sb sb--back">
         {%- for run in t.back %}
         {%- for r in run.rows %}
@@ -57,6 +59,7 @@ permalink: /tours/speedboat/
         {%- endfor %}
         {%- endfor %}
       </ol>
+      </details>
       {%- if t.seasons.length %}<ul class="sb__notes">{% for x in t.seasons %}<li>{{ x }}</li>{% endfor %}</ul>{% endif %}
     </div>
   </section>
