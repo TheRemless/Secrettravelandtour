@@ -56,6 +56,12 @@
     return DAYS[d.getUTCDay()] + " " + d.getUTCDate() + " " + MONTHS[d.getUTCMonth()] + " " + d.getUTCFullYear();
   }
 
+  // Jour court sous Today et Tomorrow (« Tue 10 Nov ») : le calendrier, rien d'autre.
+  function shortDay(iso) {
+    var d = toUTC(iso);
+    return DAYS[d.getUTCDay()] + " " + d.getUTCDate() + " " + MONTHS[d.getUTCMonth()];
+  }
+
   function clean(value) {
     return typeof value === "string" ? value.replace(/\s+/g, " ").trim() : "";
   }
@@ -159,6 +165,13 @@
     var q = PRICE.quote(option, { adults: state.adults, ages: state.childAges, addons: addonsOf(option, state.addons), row: row });
     return q && !q.unpriced.length ? q : null;
   }
+  // Le prix dépend d'un choix pas encore fait (karts à zéro, cours ou site non choisi) : rien à annoncer encore.
+  function pendingPrice(option, state) {
+    if (!option) return false;
+    if (option.counts) return !countsOf(state, option).length;
+    var picks = (option.choices || []).filter(function (ch) { return (ch.values || []).some(function (v) { return v.row; }); });
+    return picks.some(function (ch) { return !choiceValue(state, option, ch); });
+  }
   function totalLine(option, state) {
     var q = quoteOf(option, state);
     return q ? "Estimated total: " + thb(q.total) : "Total: to be confirmed on WhatsApp";
@@ -187,9 +200,15 @@
       var used = countsOf(state, option).map(function (c) { return c.label; });
       if (used.length) return { rows: (option.rows || []).filter(function (r) { return used.indexOf(r.label) > -1; }) };
     }
-    if (!keep) return option;
     var extras = state.addons || [];
+    if (!keep) return { rows: (option.rows || []).filter(function (r) { return !tickable(option, r) || extras.indexOf(r.label) > -1; }) };
     return { rows: (option.rows || []).filter(function (r) { return r.label === keep || extras.indexOf(r.label) > -1; }) };
+  }
+  // Supplément à cocher sur la page (Koh Kradan, extras d'une option) : même règle que v4-product.js (ticks).
+  function tickable(option, row) {
+    if (row.tick) return true;
+    if ((option.extras || []).some(function (x) { return (x.label || x) === row.label; })) return true;
+    return (option.prices || []).some(function (p) { return p.label === row.label && p.supplement && /^Add /.test(p.label); });
   }
   function validateChoices(option, state, date, errors) {
     if (!option) return;
@@ -331,7 +350,7 @@
         day = it.date;
         lines.push("");
         lines.push(day ? formatDate(day) : "Date to choose");
-      }
+      } else lines.push(""); // deux sorties le même jour : une ligne vide entre elles
       // Même référence que la feuille : une option à compteurs (karts) compte ses véhicules ou ses pilotes.
       var cg = option && option.counts ? countGroup(option, it) : null;
       var ref = cg ? makeRef(p.refPrefix, it.date, cg.adults, cg.children, cg.units) : makeRef(p.refPrefix, it.date, list.adults, kids);
@@ -369,7 +388,8 @@
       var option = findOption(p, it.option) || ((p.options || []).length === 1 ? p.options[0] : null);
       var sub = {};
       validateChoices(option, { choices: it.choices || {}, counts: it.counts || {} }, it.date, sub);
-      Object.keys(sub).forEach(function (k) { e[k] = sub[k].replace(/\.$/, "") + " (" + p.name + ")."; });
+      // Message de deux phrases (jour d'un cours) : le nom de la sortie en tête, sinon la parenthèse suit la seconde phrase.
+      Object.keys(sub).forEach(function (k) { e[k] = /\. \S/.test(sub[k]) ? p.name + ": " + sub[k] : sub[k].replace(/\.$/, "") + " (" + p.name + ")."; });
       if (Object.keys(e).length) { out.items[it.id] = e; n += Object.keys(e).length; }
     });
     (list.childAges || []).forEach(function (a, i) {
@@ -450,7 +470,7 @@
     if ((config.options || []).length && !findOption(config, state.option)) errors.option = "Choose an option.";
 
     if (config.variant === "rental") {
-      if (!state.dateFrom || !state.dateTo) errors.dates = "Pick the first and the last day.";
+      if (!state.dateFrom || !state.dateTo) errors.dates = "Pick the start date and the return date.";
       else if (state.dateFrom < state.today) errors.dates = "The first day has passed.";
       else if (state.dateTo < state.dateFrom) errors.dates = "The last day is before the first day.";
       else if (!clean(state.timeFrom) || !clean(state.timeTo)) errors.dates = "Add the time you take the vehicle and the time you bring it back.";
@@ -637,6 +657,10 @@
       var other = form.querySelector("[data-date-other]");
       if (other) other.hidden = state.dateChoice !== "other";
       var min = today();
+      Array.prototype.forEach.call(form.querySelectorAll('input[name="dateChoice"]'), function (r) {
+        var d = r.parentNode.querySelector("[data-day]");
+        if (d) d.textContent = r.value === "today" ? shortDay(min) : r.value === "tomorrow" ? shortDay(addDays(min, 1)) : "";
+      });
       if (field("dateOther")) field("dateOther").min = min;
       if (field("dateFrom")) field("dateFrom").min = min;
       if (field("dateTo")) field("dateTo").min = state.dateFrom || min;
@@ -672,7 +696,10 @@
         list.hidden = on;
         if (opt) {
           sum.querySelector("[data-opt-sum-t]").textContent = opt.title;
-          sum.querySelector("[data-opt-sum-p]").textContent = opt.from ? opt.from + (opt.unit ? " " + opt.unit : "") : "Price on WhatsApp";
+          var v = config.variant === "rental" ? clean(state.vehicle).toLowerCase() : "";
+          var row = v ? (opt.rows || []).filter(function (r) { return r.label.toLowerCase() === v; })[0] : null;
+          sum.querySelector("[data-opt-sum-p]").textContent = row ? row.price + (row.unit ? " " + row.unit : "")
+            : opt.from ? opt.from + (opt.unit ? " " + opt.unit : "") : "Price on WhatsApp";
         }
       }
       var guests = form.querySelector("[data-guests]");
@@ -692,7 +719,7 @@
       var tot = dialog.querySelector("[data-total]");
       if (tot) {
         var q = opt ? quoteOf(opt, state) : null, cash = opt ? parkCash(config, state) : null;
-        tot.hidden = !opt;
+        tot.hidden = !opt || pendingPrice(opt, state);
         tot.innerHTML = "";
         if (opt) {
           var b = doc.createElement("b"), sm = doc.createElement("span");
@@ -884,7 +911,7 @@
     }
 
     function showErrors(errors) {
-      var first = null;
+      var first = null, firstKey = "";
       Array.prototype.forEach.call(dialog.querySelectorAll(".err"), function (el) { el.hidden = true; el.textContent = ""; });
       Array.prototype.forEach.call(form.querySelectorAll("[aria-invalid]"), function (el) { el.removeAttribute("aria-invalid"); });
       Array.prototype.forEach.call(form.querySelectorAll(".is-invalid"), function (el) { el.classList.remove("is-invalid"); });
@@ -900,9 +927,24 @@
           if (c.name !== "dateOther" || !c.closest("[hidden]")) c.setAttribute("aria-invalid", "true");
         });
         var c = controlFor(key);
-        if (c && !first) first = c;
+        if (c && !first) { first = c; firstKey = key; }
       });
-      if (first) first.focus();
+      if (!first) return;
+      // Le bouton radio choisi fait 1 px : le défilement suit le groupe (titre, choix et message), pas le seul bouton.
+      first.focus({ preventScroll: true });
+      var err = errorEl(firstKey), g = groupOf(err) || groupOf(first);
+      var box = form.querySelector(".sheet-body");
+      if (!g || !g.scrollIntoView) return;
+      var how = reduced ? "auto" : "smooth";
+      if (box && g.offsetHeight > box.clientHeight && err) err.scrollIntoView({ block: "end", behavior: how });
+      else g.scrollIntoView({ block: "start", behavior: how });
+    }
+
+    // Cours hors de ses jours : le message reste sous le cours, la rangée de dates est marquée aussi (c'est souvent elle qu'on change).
+    function markDayClash(errors) {
+      var opt = findOption(config, state.option);
+      var clash = opt && (opt.choices || []).some(function (ch) { var v = choiceValue(state, opt, ch); return v && v.days && errors[choiceKey(opt, ch)]; });
+      if (clash) Array.prototype.forEach.call(form.querySelectorAll('input[name="dateChoice"]'), function (r) { r.setAttribute("aria-invalid", "true"); });
     }
 
     function show(name) {
@@ -918,12 +960,12 @@
       e.preventDefault();
       state.today = today();
       var errors = validate(config, state);
-      if (Object.keys(errors).length) { showErrors(errors); return; }
+      if (Object.keys(errors).length) { showErrors(errors); markDayClash(errors); return; }
       message = buildMessage(config, state);
       var url = waUrl(message, config.whatsapp);
       renderSlip(message);
       dialog.querySelector("[data-send]").href = url;
-      Array.prototype.forEach.call(dialog.querySelectorAll("[data-again], [data-again-link]"), function (a) { a.href = url; });
+      Array.prototype.forEach.call(dialog.querySelectorAll("[data-again]"), function (a) { a.href = url; });
       show("preview");
     });
 
@@ -934,6 +976,8 @@
       if (pre) pre.textContent = text;
       var dl = dialog.querySelector("[data-slip]");
       var refEl = dialog.querySelector("[data-slip-ref]");
+      var totEl = dialog.querySelector("[data-slip-total]");
+      if (totEl) totEl.hidden = true;
       if (dl) {
         dl.textContent = "";
         text.split("\n").forEach(function (line, i) {
@@ -941,6 +985,8 @@
           var label = cut > 0 ? line.slice(0, cut) : "";
           var value = cut > 0 ? line.slice(cut + 2) : line;
           if (label === "Ref") { if (refEl) { refEl.textContent = "Ref " + value; refEl.hidden = false; } return; }
+          // Le total se lit en premier, sous la référence (même texte que dans le message).
+          if (totEl && (label === "Estimated total" || label === "Total")) { totEl.textContent = label + " " + value; totEl.hidden = false; return; }
           var row = doc.createElement("div");
           if (i === 0 || (i === 1 && text.indexOf("Ref: ") === 0)) row.className = "slip-first";
           var dt = doc.createElement("dt");
@@ -1035,7 +1081,10 @@
       b.addEventListener("click", close);
     });
     // Un clic sur le voile (hors du panneau) ferme la feuille.
-    dialog.addEventListener("click", function (e) { if (e.target === dialog) close(); });
+    dialog.addEventListener("click", function (e) {
+      if (dialog.hasAttribute("data-dragged")) { dialog.removeAttribute("data-dragged"); return; }
+      if (e.target === dialog) close();
+    });
     dialog.addEventListener("close", function () {
       doc.documentElement.classList.remove("sheet-open");
       markOptions(true);
@@ -1093,6 +1142,7 @@
     addDays: addDays,
     resolveDate: resolveDate,
     formatDate: formatDate,
+    shortDay: shortDay,
     guestsLine: guestsLine,
     priceLine: priceLine,
     buildMessage: buildMessage,
@@ -1106,6 +1156,7 @@
     sameDayClashes: sameDayClashes,
     parkCash: parkCash,
     quoteOf: quoteOf,
+    pendingPrice: pendingPrice,
     tripState: tripState,
     waUrl: waUrl,
     makeDraft: makeDraft,

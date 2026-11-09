@@ -24,7 +24,10 @@
 
   function close() { if (dlg.open) dlg.close(); }
   dlg.addEventListener("close", function () { document.documentElement.classList.remove("sheet-open"); if (last && last.focus && document.contains(last)) last.focus(); });
-  dlg.addEventListener("click", function (e) { if (e.target === dlg || e.target.closest("[data-close]")) close(); });
+  dlg.addEventListener("click", function (e) {
+    if (dlg.hasAttribute("data-dragged")) { dlg.removeAttribute("data-dragged"); if (e.target === dlg) return; }
+    if (e.target === dlg || e.target.closest("[data-close]")) close();
+  });
   V.dragSheet(dlg, close);
 
   function list() { return V.trips.get(); }
@@ -92,8 +95,9 @@
   }
   function dateField(it, today) {
     var dc = dayChoice(it, today);
+    var days = { today: B.shortDay(today), tomorrow: B.shortDay(B.addDays(today, 1)) };
     var chips = [["today", "Today"], ["tomorrow", "Tomorrow"], ["other", "Other date"]].map(function (c) {
-      return '<label><input type="radio" name="tl-dc-' + it.id + '" value="' + c[0] + '" data-tdc="' + it.id + '"' + (dc === c[0] ? " checked" : "") + ' aria-describedby="tl-e-' + it.id + '"><span>' + c[1] + "</span></label>";
+      return '<label><input type="radio" name="tl-dc-' + it.id + '" value="' + c[0] + '" data-tdc="' + it.id + '"' + (dc === c[0] ? " checked" : "") + ' aria-describedby="tl-e-' + it.id + '"><span>' + c[1] + (days[c[0]] ? "<small data-day>" + days[c[0]] + "</small>" : "") + "</span></label>";
     }).join("");
     return '<fieldset class="f trips__when"><legend class="f-label">Date</legend><div class="choice choice--3">' + chips + "</div>" +
       '<div class="date-other"' + (dc === "other" ? "" : " hidden") + '><label class="f-label" for="tl-d-' + it.id + '">Other date</label><input type="date" id="tl-d-' + it.id + '" min="' + today + '" value="' + (dc === "other" ? it.date || "" : "") + '" data-tdate="' + it.id + '" aria-describedby="tl-e-' + it.id + '"></div>' +
@@ -106,7 +110,7 @@
       var el = $('[data-ttot="' + it.id + '"]', body), p = cat[it.slug];
       if (!el || !p) return;
       var o = optOf(p, it);
-      if (!o) { el.hidden = true; el.textContent = ""; return; }
+      if (!o || B.pendingPrice(o, it)) { el.hidden = true; el.textContent = ""; return; }
       var st = B.tripState(l, it), q = window.STT_PRICE ? B.quoteOf(o, st) : null;
       var cash = B.parkCash({ options: p.options, parkFee: p.parkFee }, { option: o.id, adults: l.adults, childAges: l.childAges });
       el.hidden = false;
@@ -131,7 +135,11 @@
     if (o.counts) {
       html += '<fieldset class="f"><legend class="f-label">' + V.esc(o.counts.label) + "</legend>" + o.counts.rows.map(function (r, i) {
         var id = "tl-n-" + it.id + "-" + i;
-        return '<div class="trips__n"><label for="' + id + '">' + V.esc(r) + (o.counts.prices[i] ? " <small>" + V.esc(o.counts.prices[i]) + "</small>" : "") + '</label><input type="number" min="0" max="20" inputmode="numeric" id="' + id + '" value="' + (Number((it.counts || {})[o.id + "/" + i]) || 0) + '" data-tcnt="' + it.id + '" data-opt="' + o.id + '" data-row="' + i + '" aria-describedby="tl-e-' + it.id + "-n-" + o.id + '"></div>';
+        var v = Number((it.counts || {})[o.id + "/" + i]) || 0, lab = V.esc(r.toLowerCase());
+        return '<div class="count"><label for="' + id + '">' + V.esc(r) + (o.counts.prices[i] ? "<small>" + V.esc(o.counts.prices[i]) + "</small>" : "") + '</label><div class="stepper">' +
+          '<button type="button" data-tcd="-1" data-for="' + id + '"' + (v <= 0 ? " disabled" : "") + ' aria-label="One less, ' + lab + '">&minus;</button>' +
+          '<input type="number" min="0" max="20" inputmode="numeric" id="' + id + '" value="' + v + '" data-tcnt="' + it.id + '" data-opt="' + o.id + '" data-row="' + i + '" aria-describedby="tl-e-' + it.id + "-n-" + o.id + '">' +
+          '<button type="button" data-tcd="1" data-for="' + id + '" aria-label="One more, ' + lab + '">+</button></div></div>';
       }).join("") + '<p class="err" id="tl-e-' + it.id + "-n-" + o.id + '" hidden></p></fieldset>';
     }
     return html ? '<div class="trips__subs">' + html + "</div>" : "";
@@ -149,7 +157,16 @@
 
   // ---------- Événements ----------
   body.addEventListener("click", function (e) {
-    var st = e.target.closest("[data-tstep]"), rm = e.target.closest("[data-trm]");
+    var st = e.target.closest("[data-tstep]"), rm = e.target.closest("[data-trm]"), cd = e.target.closest("[data-tcd]");
+    if (cd) {
+      var inp = document.getElementById(cd.getAttribute("data-for"));
+      if (!inp) return;
+      inp.value = V.clamp((parseInt(inp.value, 10) || 0) + Number(cd.getAttribute("data-tcd")), 0, 20);
+      var less = $('[data-tcd="-1"][data-for="' + inp.id + '"]', body);
+      if (less) less.disabled = Number(inp.value) <= 0;
+      inp.dispatchEvent(new Event("change", { bubbles: true }));
+      return;
+    }
     var l = list();
     if (st) {
       var d = Number(st.getAttribute("data-d"));
@@ -167,7 +184,10 @@
       var gone = l.items.splice(i, 1)[0];
       save(l); render();
       $("#trips-h").focus();
-      V.toast(cat[gone.slug].name + " removed from your trip list.", "Undo", function () { var l2 = list(); l2.items.splice(i, 0, gone); save(l2); if (dlg.open) render(); });
+      V.toast(cat[gone.slug].name + " removed from your trip list.", "Undo", function () {
+        var l2 = list(); l2.items.splice(i, 0, gone); save(l2);
+        if (dlg.open) { render(); var back = $('[data-trm="' + gone.id + '"]', body); (back || $("#trips-h")).focus(); }
+      });
     }
   });
   body.addEventListener("change", function (e) {

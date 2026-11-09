@@ -66,6 +66,13 @@ html.sheet-open { overflow: hidden; }
 .sheet-screen { display: flex; flex-direction: column; min-height: 0; flex: 1; }
 .sheet-screen[hidden] { display: none; }
 .sheet form { display: flex; flex-direction: column; min-height: 0; flex: 1; }
+/* Écran bas (paysage, clavier qui réduit la fenêtre) : tout l'écran de la feuille défile, pied compris ; le titre reste en haut. */
+@media (max-height: 560px) {
+  .sheet-screen { overflow-y: auto; overscroll-behavior: contain; }
+  .sheet form, .sheet-body { flex: none; }
+  .sheet-body { overflow: visible; }
+  .sheet-head { position: sticky; top: 0; z-index: 1; background: var(--sheet-bg); }
+}
 
 /* Champs */
 .f { margin: 0 0 var(--s3); padding: 0; border: 0; min-width: 0; }
@@ -90,7 +97,7 @@ html.sheet-open { overflow: hidden; }
 /* Erreur : barre de 4 px à gauche du groupe, pictogramme devant le message, bordures épaissies.
    Couleur d'encre (Secret) ou de crème (VIP) : le rouge reste au seul bouton principal. */
 .f.is-invalid, .count.is-invalid { margin-left: calc(-1 * var(--s2)); padding-left: calc(var(--s2) - 4px); border-left: 4px solid var(--sheet-err); }
-.sheet [aria-invalid="true"] { border-color: var(--sheet-err); border-width: 2px; }
+.sheet :is(input, select)[aria-invalid="true"], .choice input[aria-invalid="true"] + span { border-color: var(--sheet-err); border-width: 2px; }
 .err {
   display: flex; align-items: flex-start; gap: var(--s1);
   margin: var(--s1) 0 0; color: var(--sheet-err); font-size: var(--t2); line-height: var(--l2); font-weight: 700;
@@ -124,13 +131,17 @@ html.sheet-open { overflow: hidden; }
 .choice input:checked + span .num { color: var(--sheet-accent-num, inherit); }
 .choice input:focus-visible + span { box-shadow: var(--sheet-focus); }
 .choice input:disabled + span { opacity: .45; cursor: not-allowed; }
+.choice--3 input + span { flex-direction: column; gap: 0; height: 100%; }
+.choice [data-day] { font-weight: 400; font-size: var(--t1); line-height: var(--l1); color: var(--sheet-mute); }
+.choice [data-day]:empty { display: none; }
+.choice input:checked + span [data-day] { color: inherit; }
 .date-other { margin-top: var(--s1); }
 .dates { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s2); }
 
 /* Compteurs */
 .count { display: flex; align-items: center; justify-content: space-between; gap: var(--s2); min-height: 56px; border-top: 1px solid var(--sheet-rule); }
 .count:first-of-type { border-top: 0; }
-.count label { font-weight: 700; }
+.count label { font-weight: 700; text-wrap: balance; }
 .count label small { display: block; font-weight: 400; font-size: var(--t2); line-height: var(--l2); color: var(--sheet-mute); }
 .stepper { display: flex; align-items: center; gap: var(--s0); }
 .stepper button {
@@ -163,6 +174,7 @@ html.sheet-open { overflow: hidden; }
    cash à prévoir pour le parc sous une perforation. */
 .slip { border: 1px solid var(--sheet-rule); border-radius: 12px; background: var(--sheet-soft); }
 .slip-ref { padding: var(--s1) var(--s2); border-bottom: 1px solid var(--sheet-rule); font: 700 var(--t4)/var(--l4) var(--sheet-head); font-stretch: var(--sheet-head-stretch); }
+.slip-total { padding: var(--s1) var(--s2); border-bottom: 1px solid var(--sheet-rule); font-weight: 700; font-size: var(--t3); line-height: var(--l3); }
 .slip-lines { margin: 0; padding: var(--s1) var(--s2); }
 .slip-lines div { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: var(--s2); padding: var(--s1) 0; border-top: 1px solid var(--sheet-rule); }
 .slip-lines div:first-child { border-top: 0; }
@@ -178,7 +190,7 @@ html.sheet-open { overflow: hidden; }
 .done-text p { margin: 0 0 var(--s2); }
 .slip-ref--done { border: 1px solid var(--sheet-rule); border-radius: 12px; background: var(--sheet-soft); font-size: var(--t4); line-height: var(--l4); }
 .sheet-link { justify-self: center; min-height: 44px; padding: 0 var(--s2); border: 0; background: transparent; color: var(--sheet-ink); font: 700 var(--t2)/1 var(--sheet-text); text-decoration: underline; text-underline-offset: .18em; cursor: pointer; }
-.done-num { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; white-space: nowrap; color: inherit; }
+.done-num { display: inline; padding-block: 12px; font-weight: 700; white-space: nowrap; color: inherit; }
 .copy-status { min-height: 1.5em; margin: var(--s1) 0 0; font-weight: 700; }
 
 /* Poignée de la feuille : affichée par les pages du design v4 (v4.css), qui ajoutent le geste de fermeture. */
