@@ -48,6 +48,6 @@ for (const [i, h] of html.entries()) {
 const overflow = CSS.map(([f, c]) => [f, (c.match(/overflow-x:\s*auto/g) || []).length]).filter(([, n]) => n);
 const v4 = fs.readFileSync("_site/css/v4.css", "utf8");
 const scrollers = [...v4.matchAll(/([.\w-]+)\s*\{[^}]*overflow-x:\s*auto/g)].map((m) => m[1]);
-ok("7. overflow-x: auto seulement pour le rail, le ruban de dates et la galerie mobile", overflow.every(([f]) => f === "css/v4.css") && scrollers.every((s) => [".rail", ".ribbon__days", ".gal"].includes(s)), JSON.stringify(scrollers));
+ok("7. overflow-x: auto seulement pour le rail et la galerie mobile", overflow.every(([f]) => f === "css/v4.css") && scrollers.every((s) => [".rail", ".gal"].includes(s)), JSON.stringify(scrollers));
 console.log(out.join("\n"));
 if (failed) process.exit(1);

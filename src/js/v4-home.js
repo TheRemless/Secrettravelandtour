@@ -1,4 +1,4 @@
-/* Accueil v4 : hero à trois sorties, rail des activités, « What runs on … », chercheur de transfert, location,
+/* Accueil v4 : hero à trois sorties, rail des activités, chercheur de transfert, location,
    message qui se compose quand on essaie. Tout le contenu est déjà rendu au build. */
 (function () {
   "use strict";
@@ -103,66 +103,6 @@
     };
     rail.addEventListener("pointerup", end);
     rail.addEventListener("pointercancel", end);
-  }
-
-  // ---------- « What runs on … » : ruban de 14 jours à l'heure de Bangkok, autre date, règles écrites dans les fiches ----------
-  var runs = $("#runs");
-  if (runs) {
-    var ribbon = $("[data-ribbon]", runs), days = $("[data-ribbon-days]", runs), other = $("[data-ribbon-date]", runs);
-    var title = $("[data-runs-title]", runs), sub = $("[data-runs-sub]", runs), off = $("[data-runs-off]", runs), offList = $("[data-runs-off-list]", runs), empty = $("[data-runs-empty]", runs);
-    var items = $$(".run", runs);
-    var today = V.today();
-    var html = "";
-    for (var i = 0; i < 14; i++) {
-      var iso = V.addDays(today, i);
-      var top = i === 0 ? "Today" : i === 1 ? "Tomorrow" : V.date(iso, { weekday: "short" });
-      html += '<button type="button" aria-pressed="false" data-d="' + iso + '"><small>' + top + "</small><b>" + Number(iso.slice(8)) + "</b><small>" + V.date(iso, { month: "short" }) + '</small><span class="sr">' + V.date(iso, { weekday: "long", day: "numeric", month: "long" }) + "</span></button>";
-    }
-    days.innerHTML = html;
-    other.min = today;
-    ribbon.hidden = false;
-    // Jours de la semaine lus dans les fiches : « Monday to Saturday » quand ils se suivent, sinon la liste.
-    var NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    var weekdays = function (list) {
-      var order = [1, 2, 3, 4, 5, 6, 0].filter(function (x) { return list.indexOf(x) > -1; });
-      var seq = order.every(function (x, k) { return !k || [1, 2, 3, 4, 5, 6, 0].indexOf(x) === [1, 2, 3, 4, 5, 6, 0].indexOf(order[k - 1]) + 1; });
-      if (seq && order.length > 2) return NAMES[order[0]] + " to " + NAMES[order[order.length - 1]];
-      var w = order.map(function (x) { return NAMES[x]; });
-      return w.length < 2 ? w.join("") : w.slice(0, -1).join(", ") + " and " + w[w.length - 1];
-    };
-    var show = function (iso, from) {
-      var dow = new Date(iso + "T00:00:00Z").getUTCDay(), month = Number(iso.slice(5, 7));
-      var rel = iso === today ? "today" : iso === V.addDays(today, 1) ? "tomorrow" : "";
-      title.textContent = "What runs " + (rel ? rel + ", " : "on ") + V.date(iso, { weekday: "long", day: "numeric", month: "long" });
-      sub.textContent = "Set times as written on each trip page, at Koh Lanta time.";
-      $$("button", days).forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-d") === iso ? "true" : "false"); });
-      if (from !== "date") other.value = $('[data-d="' + iso + '"]', days) ? "" : iso;
-      var bySlug = {}, n = 0;
-      (function () {
-        items.forEach(function (li, k) {
-          var d = li.getAttribute("data-days"), m = li.getAttribute("data-months");
-          var okDay = !d || d.split(",").indexOf(String(dow)) > -1;
-          var okMonth = !m || m.split(",").indexOf(String(month)) > -1;
-          var on = okDay && okMonth;
-          var slug = li.getAttribute("data-slug");
-          var s = bySlug[slug] || (bySlug[slug] = { on: 0, season: "", days: [], name: $(".run__n a", li).textContent, href: $(".run__n a", li).getAttribute("href") });
-          if (d) d.split(",").forEach(function (x) { if (s.days.indexOf(Number(x)) < 0) s.days.push(Number(x)); });
-          if (on) { s.on++; n++; }
-          else if (!okMonth) s.season = li.getAttribute("data-season");
-          var was = !li.classList.contains("is-off");
-          li.classList.toggle("is-off", !on);
-          li.classList.toggle("is-new", on && !was && from !== "init");
-          li.style.setProperty("--i", k % 8);
-        });
-        var gone = Object.keys(bySlug).filter(function (k) { return !bySlug[k].on; });
-        off.hidden = !gone.length;
-        offList.innerHTML = gone.map(function (k) { var s = bySlug[k]; return '<li><a href="' + s.href + '">' + V.esc(s.name) + "</a><span>Runs " + V.esc(s.season || weekdays(s.days)) + "</span></li>"; }).join("");
-        empty.hidden = n > 0;
-      })();
-    };
-    days.addEventListener("click", function (e) { var b = e.target.closest("[data-d]"); if (b) show(b.getAttribute("data-d"), "strip"); });
-    other.addEventListener("change", function () { if (other.value && other.value >= today) show(other.value, "date"); });
-    show(today, "init");
   }
 
   // ---------- Transferts : De / Vers, inversion qui croise les deux champs ----------

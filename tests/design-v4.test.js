@@ -32,24 +32,13 @@ test("v4 : l'accueil et le hub mènent aux 13 fiches", () => {
   assert.equal((site("tours/index.html").match(/<article class="card"/g) || []).length, 13);
 });
 
-test("« What runs on … » : chaque horaire affiché est écrit dans la fiche de la sortie", () => {
+test("accueil : plus de bloc « What runs on … » (client, 09.11.2026), la fiche cuisine garde ses jours", () => {
   const h = site("index.html");
-  const runs = [...h.matchAll(/<li class="run" data-slug="([^"]+)"[^>]*>\s*<span class="run__t">([^<]+)<\/span>[\s\S]*?<span class="run__l">([^<]+)<\/span>/g)];
-  assert.ok(runs.length >= 12, String(runs.length));
-  for (const [, slug, t, label] of runs) {
-    const rel = SLUGS.find((s) => s.endsWith("/" + slug));
-    const raw = JSON.stringify(P(rel));
-    for (const time of [t].concat(label.match(/\b\d{2}:\d{2}\b/g) || [])) assert.ok(raw.includes(time), `${slug} : ${time}`);
-  }
-  // Règles écrites : saison de Koh Rok, jours des cours de cuisine.
-  assert.match(h, /data-slug="koh-rok-koh-haa"[^>]*data-months="10,11,12,1,2,3,4,5"/);
+  assert.doesNotMatch(h, /id="runs"|class="run"|data-ribbon|Set times, trip by trip|No set time on the site|Not on this day/);
+  assert.doesNotMatch(site("js/v4-home.js"), /runs|ribbon/);
+  // Fait gardé de l'ancien test : jours du cours de cuisine du matin, lus dans la fiche.
   const cooking = P("activities/cooking-class").facts.find((f) => f.label === "Morning class").value;
   assert.match(cooking, /Monday, Wednesday, Saturday/);
-  assert.match(h, /data-slug="cooking-class" data-days="1,3,6"/);
-  // Sans horaire dans les données : listées à part, jamais placées sur la frise.
-  const none = h.split("No set time on the site")[1].split("</ul>")[0];
-  for (const n of ["Koh Talabeng &amp; Koh Bubu", "Scuba diving", "ATV (quad bike)", "Electric go-kart"]) assert.ok(none.includes(n), n);
-  for (const s of ["koh-talabeng-koh-bubu", "scuba-diving", "atv", "go-kart"]) assert.doesNotMatch(h, new RegExp(`class="run" data-slug="${s}"`));
 });
 
 test("calculateur 4 Islands : total ligne par ligne, rien de deviné", () => {

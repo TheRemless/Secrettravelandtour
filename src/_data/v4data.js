@@ -1,6 +1,6 @@
 // Données des pages du design v4 (accueil, 4 Islands, hub /tours/, /_components/, /credits/).
-// Base : prototype « mouvement » (docs/refonte/design-v4/propositions/mouvement/), plus quatre ajouts : liste de
-// sorties, « What runs on … », comparateur des trois bateaux, carte du trajet.
+// Base : prototype « mouvement » (docs/refonte/design-v4/propositions/mouvement/), plus trois ajouts : liste de
+// sorties, comparateur des bateaux, carte du trajet (« What runs on … » retiré de l'accueil, client, 09.11.2026).
 // Faits, prix, horaires, saisons : src/_data/products/** et site.json, lus ici et nulle part ailleurs.
 // Photos : src/_data/photos-v3.json (une entrée = un usage). Contours des îles : © OpenStreetMap contributors (ODbL).
 const fs = require("node:fs");
@@ -27,13 +27,11 @@ const CARD_PHOTO = {
   "cooking-class": "card-cooking", batik: "card-batik", "go-kart": "card-go-kart"
 };
 const WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen"];
-const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 const fact = (p, label) => ((p.facts || []).find((f) => f.label === label) || {}).value || "";
 const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : "");
 const lc = (s) => (s ? s.charAt(0).toLowerCase() + s.slice(1) : "");
 const host = site.url.replace(/^https?:\/\//, "");
-const listJoin = (a) => (a.length < 2 ? a.join("") : a.slice(0, -1).join(", ") + " and " + a[a.length - 1]);
 
 // ---------- Photos : dimensions réelles, vignette floue (LQIP) et couleur moyenne ----------
 let sharp = null;
@@ -109,69 +107,6 @@ function catalogEntry(p, kind) {
       .map((o) => ({ id: o.id, title: o.title, rows: o.rows, ...vp.formOf(p, (p.options || []).find((x) => x.id === o.id) || {}) })),
     compare
   };
-}
-
-// ---------- « What runs on … » : horaires écrits dans les fiches, jamais déduits ----------
-const TIME = /\b([01]\d|2[0-3]):([0-5]\d)\b/g;
-const minutes = (t) => Number(t.slice(0, 2)) * 60 + Number(t.slice(3, 5));
-const timesIn = (s) => [...String(s).matchAll(TIME)].map((m) => m[0]);
-function span(texts) {
-  const all = texts.flatMap(timesIn).map(minutes);
-  return all.length ? { start: Math.min(...all), end: Math.max(...all) } : null;
-}
-const daysIn = (s) => DAY_NAMES.map((d, i) => (new RegExp("\\b" + d + "\\b").test(s) ? i : -1)).filter((i) => i > -1);
-const stripDays = (s) => s.replace(new RegExp("\\b(" + DAY_NAMES.join("|") + ")\\b,?\\s*", "g"), "").replace(/^[,;\s]+/, "").trim();
-const hhmm = (m) => String(Math.floor(m / 60)).padStart(2, "0") + ":" + String(m % 60).padStart(2, "0");
-
-// Pour chaque sortie : quels faits donnent ses horaires. Les valeurs sont lues dans les fiches.
-const RUNS = {
-  "4-islands": (p) => [{ label: `Pickup ${fact(p, "Hotel pickup")}, boat leaves ${fact(p, "Boat leaves")}`, src: p.day[0].steps.map((s) => s.range || s.time) }],
-  "koh-rok-koh-haa": (p) => [{ label: `Pickup ${lc(fact(p, "Hotel pickup"))}`, src: p.day[0].steps.map((s) => s.time || "") }],
-  "koh-phi-phi": (p) => [{ label: `Pickup ${fact(p, "Hotel pickup")}`, src: p.day[0].steps.map((s) => s.time || "") }],
-  "fishing-trip": (p) => [{ label: fact(p, "Raft"), src: [fact(p, "Raft")] }],
-  mangroves: (p) => p.day.filter((b) => (b.options || []).length === 1 && b.steps.length === 1).map((b) => {
-    const o = p.options.find((x) => x.id === b.options[0]);
-    return { label: o.label, src: [b.steps[0].time, b.steps[0].text], at: b.steps[0].time };
-  }),
-  "elephant-sanctuary": (p) => [{ label: `Sessions ${fact(p, "Sessions")}`, src: [fact(p, "Sessions")], dots: timesIn(fact(p, "Sessions")) }],
-  "cooking-class": (p) => ["Morning class", "Evening class", "Carving class"].flatMap((l) => fact(p, l).split(";").map((seg) => ({
-    label: `${l}, ${stripDays(seg.trim())}`, src: [stripDays(seg)], days: daysIn(seg)
-  }))),
-  batik: (p) => ["Morning course", "Afternoon course", "Kayak and painting"].map((l) => ({ label: `${l}, ${lc(fact(p, l))}`, src: [fact(p, l)] })),
-  kayak: (p) => fact(p, "Half days").split(" or ").map((seg) => ({ label: `Half day, ${seg}`, src: [seg] }))
-    .concat([{ label: `Full day, ${fact(p, "Full days")}`, src: [fact(p, "Full days")] }])
-};
-const AXIS = { from: 4 * 60, to: 22 * 60 };
-
-function runs(products) {
-  const entries = [];
-  const noTime = [];
-  for (const p of products) {
-    const make = RUNS[p.slug];
-    const months = view.seasonMonths(p);
-    const season = months && fact(p, "Season") !== "All year" ? { text: fact(p, "Season"), months } : null;
-    if (!make) { noTime.push({ name: p.name, href: p.url, season: season ? season.text : "" }); continue; }
-    for (const e of make(p)) {
-      const s = span(e.src);
-      if (!s) throw new Error(`horaire illisible pour ${p.slug} : ${e.label}`);
-      const start = e.at ? minutes(e.at) : s.start;
-      const part = start < 12 * 60 ? "morning" : start < 16 * 60 ? "afternoon" : "evening";
-      const pct = (m) => Math.round(((m - AXIS.from) / (AXIS.to - AXIS.from)) * 1000) / 10;
-      entries.push({
-        slug: p.slug, name: p.name, href: p.url, label: e.label, time: hhmm(start), start, part,
-        a: pct(start), b: pct(Math.max(s.end, start)), dots: (e.dots || []).map((t) => pct(minutes(t))),
-        days: e.days && e.days.length ? e.days : null,
-        daysText: e.days && e.days.length ? listJoin(e.days.map((d) => DAY_NAMES[d])) : "",
-        months: season ? season.months : null, seasonText: season ? season.text : ""
-      });
-    }
-  }
-  entries.sort((x, y) => x.start - y.start || x.name.localeCompare(y.name));
-  const parts = [["morning", "Morning"], ["afternoon", "Afternoon"], ["evening", "Evening"]]
-    .map(([id, title]) => ({ id, title, entries: entries.filter((e) => e.part === id) })).filter((g) => g.entries.length);
-  const ticks = [];
-  for (let h = AXIS.from / 60; h <= AXIS.to / 60; h += 2) ticks.push({ label: String(h).padStart(2, "0") + ":00", at: Math.round(((h * 60 - AXIS.from) / (AXIS.to - AXIS.from)) * 1000) / 10 });
-  return { parts, noTime, ticks, count: entries.length };
 }
 
 // ---------- 4 Islands : parcours, comparateur, journée, carte ----------
@@ -260,7 +195,6 @@ function fourMap(four) {
 
 module.exports = async function () {
   const four = P("tours/4-islands");
-  const products = BOATS.map((s) => P("tours/" + s)).concat(ACTIVITIES.map((s) => P("activities/" + s)));
   const boats = await Promise.all(BOATS.map(card));
   const activities = await Promise.all(ACTIVITIES.map(card));
   const bySlug = Object.fromEntries(boats.concat(activities).map((c) => [c.slug, c]));
@@ -307,7 +241,6 @@ module.exports = async function () {
     heroTrips: await Promise.all(["4-islands", "koh-rok-koh-haa", "koh-phi-phi"].map(async (s) => ({ ...bySlug[s], photo: await photo(CARD_PHOTO[s]) }))),
     moreBoats: ["koh-talabeng-koh-bubu", "mangroves", "fishing-trip"].map((s) => bySlug[s]),
     activities,
-    runs: runs(products),
     transfers: {
       lead: `Private minivans across Southern Thailand are run by ${site.brands.vip.name}. Pick the two ends of your trip.`,
       places, routes: taxi,

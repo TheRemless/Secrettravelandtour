@@ -47,7 +47,6 @@
     var g = function (t) { return p.filter(function (x) { return x.type === t; })[0].value; };
     return g("year") + "-" + g("month") + "-" + g("day");
   };
-  V.addDays = function (iso, n) { var d = new Date(iso + "T00:00:00Z"); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
   V.date = function (iso, o) { return new Date(iso + "T00:00:00Z").toLocaleDateString("en-GB", Object.assign({ timeZone: "UTC" }, o)); };
 
   // ---------- Chiffres qui roulent : chaque chiffre est une colonne 0-9 déplacée en transform ----------

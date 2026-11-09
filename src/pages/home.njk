@@ -1,7 +1,7 @@
 ---
 permalink: /
 ---
-{#- Accueil, design v4 (prototype « mouvement » + « What runs on … » et liste de sorties). Tout est rendu au build ;
+{#- Accueil, design v4 (prototype « mouvement » et liste de sorties). Tout est rendu au build ;
     v4.js et v4-home.js n'ajoutent que le comportement. -#}
 {% import "components/v4.njk" as v4 %}
 {% from "components/icons.njk" import icon %}
@@ -75,49 +75,7 @@ permalink: /
     </div>
   </section>
 
-  {#- « What runs on … » : horaires lus dans les fiches ; le ruban de dates (heure de Bangkok) est ajouté par v4-home.js. -#}
-  <section class="sec sec--sand runs" id="runs" aria-labelledby="runs-h">
-    <div class="wrap">
-      <div class="runs__head">
-        <h2 id="runs-h" data-runs-title>Set times, trip by trip</h2>
-        <p class="runs__sub" data-runs-sub>As written on each trip page, at Koh Lanta time.</p>
-      </div>
-      <div class="ribbon" data-ribbon hidden>
-        <div class="ribbon__days" role="group" aria-label="Pick a day" data-ribbon-days></div>
-        <label class="ribbon__other"><span>Other date</span><input type="date" data-ribbon-date></label>
-      </div>
-      <div class="runs__board">
-        <div class="axis" aria-hidden="true">{% for t in h.runs.ticks %}<span style="--x: {{ t.at }}%">{{ t.label }}</span>{% endfor %}</div>
-        {%- for g in h.runs.parts %}
-        <div class="runs__part" data-part="{{ g.id }}">
-          <h3 class="runs__ph">{{ g.title }}</h3>
-          <ul>
-            {%- for e in g.entries %}
-            <li class="run" data-slug="{{ e.slug }}"{% if e.days %} data-days="{{ e.days | join(',') }}" data-days-text="{{ e.daysText }}"{% endif %}{% if e.months %} data-months="{{ e.months | join(',') }}" data-season="{{ e.seasonText }}"{% endif %} style="--a: {{ e.a }}%; --b: {{ e.b }}%">
-              <span class="run__t">{{ e.time }}</span>
-              <span class="run__n"><a href="{{ e.href }}">{{ e.name }}</a><span class="run__l">{{ e.label }}</span>{% if e.daysText or e.seasonText %}<span class="run__r">{% if e.daysText %}{{ e.daysText }}{% endif %}{% if e.daysText and e.seasonText %}, {% endif %}{% if e.seasonText %}{{ e.seasonText }}{% endif %}</span>{% endif %}</span>
-              <span class="run__bar" aria-hidden="true">{% if e.dots.length %}{% for x in e.dots %}<b style="--x: {{ x }}%"></b>{% endfor %}{% else %}<i></i>{% endif %}</span>
-            </li>
-            {%- endfor %}
-          </ul>
-        </div>
-        {%- endfor %}
-        <p class="runs__empty" data-runs-empty hidden>Nothing with a set time runs that day. Ask us on WhatsApp what is possible.</p>
-      </div>
-      <div class="runs__foot">
-        <div class="runs__off" data-runs-off hidden>
-          <h3>Not on this day</h3>
-          <ul data-runs-off-list></ul>
-        </div>
-        <div class="runs__none">
-          <h3>No set time on the site</h3>
-          <ul>{% for n in h.runs.noTime %}<li><a href="{{ n.href }}">{{ n.name }}</a>{% if n.season %}<span>{{ n.season }}</span>{% endif %}</li>{% endfor %}</ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec" id="transfers" aria-labelledby="tr-h">
+  <section class="sec sec--sand" id="transfers" aria-labelledby="tr-h">
     <div class="wrap tr">
       <div>
         <h2 id="tr-h">Getting to and from Koh Lanta</h2>
@@ -146,7 +104,7 @@ permalink: /
     <script type="application/json" id="routes-data">{{ h.transfers.routes | dump | safe }}</script>
   </section>
 
-  <section class="sec sec--sand" id="rental" aria-labelledby="rent-h">
+  <section class="sec" id="rental" aria-labelledby="rent-h">
     {%- set r0 = h.rental.cats[0] -%}
     <div class="wrap rent">
       <div><h2 id="rent-h">{{ h.rental.title }}</h2><p class="lead">{{ h.rental.text }}</p><a class="link" href="{{ h.rental.href }}">Every vehicle and its price</a></div>
@@ -164,7 +122,7 @@ permalink: /
   </section>
 
   {#- « How booking works » : on essaie, le message se compose ligne à ligne (même fonction que la feuille de réservation). -#}
-  <section class="sec" id="how" aria-labelledby="how-h">
+  <section class="sec sec--sand" id="how" aria-labelledby="how-h">
     <div class="wrap how">
       <div>
         <h2 id="how-h">How booking works</h2>
