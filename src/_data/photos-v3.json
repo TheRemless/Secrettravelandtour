@@ -3,7 +3,7 @@
   "photos": [
     {
       "id": "home-hero",
-      "usage": "Accueil, hero",
+      "usage": "Home, top photo",
       "file": "placeholders/home-hero.jpg",
       "ratio": "3:2",
       "position": "62% 55%",
@@ -19,7 +19,7 @@
     },
     {
       "id": "card-4-islands",
-      "usage": "Carte 4 Islands (accueil, hub, produits liés)",
+      "usage": "4 Islands card (home, boat trips and activities, related trips)",
       "file": "secret/v3/card-4-islands.jpg",
       "ratio": "4:3",
       "position": "50% 50%",
@@ -36,7 +36,7 @@
     },
     {
       "id": "card-koh-rok",
-      "usage": "Carte Koh Rok & Koh Haa",
+      "usage": "Koh Rok & Koh Haa card",
       "file": "placeholders/card-koh-rok.jpg",
       "ratio": "4:3",
       "position": "50% 55%",
@@ -52,7 +52,7 @@
     },
     {
       "id": "card-koh-phi-phi",
-      "usage": "Carte Koh Phi Phi",
+      "usage": "Koh Phi Phi card",
       "file": "placeholders/card-koh-phi-phi.jpg",
       "ratio": "4:3",
       "position": "50% 55%",
@@ -68,7 +68,7 @@
     },
     {
       "id": "card-talabeng",
-      "usage": "Carte Koh Talabeng & Koh Bubu",
+      "usage": "Koh Talabeng & Koh Bubu card",
       "file": "placeholders/card-talabeng.jpg",
       "ratio": "4:3",
       "position": "50% 70%",
@@ -84,7 +84,7 @@
     },
     {
       "id": "card-mangroves",
-      "usage": "Carte Mangroves",
+      "usage": "Mangroves card",
       "file": "placeholders/card-mangroves.jpg",
       "ratio": "4:3",
       "position": "50% 50%",
@@ -100,7 +100,7 @@
     },
     {
       "id": "card-fishing",
-      "usage": "Carte Fishing trip",
+      "usage": "Fishing trip card",
       "file": "secret/fishing.webp",
       "ratio": "4:3",
       "position": "50% 50%",
@@ -114,7 +114,7 @@
     },
     {
       "id": "card-elephant",
-      "usage": "Carte Elephant sanctuary",
+      "usage": "Elephant sanctuary card",
       "file": "secret/elephant-sanctuary.webp",
       "ratio": "4:3",
       "position": "50% 55%",
@@ -128,7 +128,7 @@
     },
     {
       "id": "card-atv",
-      "usage": "Carte ATV",
+      "usage": "ATV card",
       "file": "secret/atv.webp",
       "ratio": "4:3",
       "position": "50% 60%",
@@ -142,7 +142,7 @@
     },
     {
       "id": "card-batik",
-      "usage": "Carte Batik painting",
+      "usage": "Batik painting card",
       "file": "secret/batik.webp",
       "ratio": "4:3",
       "position": "50% 40%",
@@ -156,7 +156,7 @@
     },
     {
       "id": "card-kayak",
-      "usage": "Carte Kayaking",
+      "usage": "Kayaking card",
       "file": "placeholders/card-kayak.jpg",
       "ratio": "4:3",
       "position": "50% 55%",
@@ -172,7 +172,7 @@
     },
     {
       "id": "card-cooking",
-      "usage": "Carte Thai cooking class",
+      "usage": "Thai cooking class card",
       "file": "placeholders/card-cooking.jpg",
       "ratio": "4:3",
       "position": "50% 50%",
@@ -188,7 +188,7 @@
     },
     {
       "id": "card-scuba",
-      "usage": "Carte Scuba diving",
+      "usage": "Scuba diving card",
       "file": "placeholders/card-scuba.jpg",
       "ratio": "4:3",
       "position": "50% 50%",
@@ -204,7 +204,7 @@
     },
     {
       "id": "card-go-kart",
-      "usage": "Carte Electric go-kart",
+      "usage": "Electric go-kart card",
       "file": "placeholders/card-go-kart.jpg",
       "ratio": "4:3",
       "position": "50% 60%",
@@ -220,7 +220,7 @@
     },
     {
       "id": "home-transfers",
-      "usage": "Accueil, transferts",
+      "usage": "Home, transfers",
       "file": "placeholders/home-transfers.jpg",
       "ratio": "4:3",
       "position": "50% 55%",
@@ -236,7 +236,7 @@
     },
     {
       "id": "home-final",
-      "usage": "Accueil, bande finale",
+      "usage": "Home, closing banner",
       "file": "placeholders/home-final.jpg",
       "ratio": "3:2",
       "position": "50% 50%",
@@ -252,7 +252,7 @@
     },
     {
       "id": "hub-final",
-      "usage": "Hub, bande finale",
+      "usage": "Boat trips and activities, closing banner",
       "file": "placeholders/hub-final.jpg",
       "ratio": "3:2",
       "position": "50% 50%",
@@ -268,7 +268,7 @@
     },
     {
       "id": "four-hero",
-      "usage": "4 Islands, hero",
+      "usage": "4 Islands, top photo",
       "file": "placeholders/four-hero.jpg",
       "ratio": "3:2",
       "position": "50% 50%",
@@ -284,7 +284,7 @@
     },
     {
       "id": "four-gallery-reef",
-      "usage": "4 Islands, galerie : récif",
+      "usage": "4 Islands, gallery: reef",
       "file": "placeholders/four-gallery-reef.jpg",
       "ratio": "4:3",
       "position": "50% 50%",
@@ -300,7 +300,7 @@
     },
     {
       "id": "four-gallery-ngai",
-      "usage": "4 Islands, galerie : Koh Ngai",
+      "usage": "4 Islands, gallery: Koh Ngai",
       "file": "placeholders/four-gallery-ngai.jpg",
       "ratio": "4:3",
       "position": "50% 55%",
@@ -316,7 +316,7 @@
     },
     {
       "id": "four-gallery-kradan",
-      "usage": "4 Islands, galerie : Koh Kradan",
+      "usage": "4 Islands, gallery: Koh Kradan",
       "file": "placeholders/four-gallery-kradan.jpg",
       "ratio": "4:3",
       "position": "50% 55%",
@@ -332,7 +332,7 @@
     },
     {
       "id": "four-gallery-pier",
-      "usage": "4 Islands, galerie : ponton de Lanta Old Town",
+      "usage": "4 Islands, gallery: Lanta Old Town pier",
       "file": "placeholders/four-gallery-pier.jpg",
       "ratio": "4:3",
       "position": "50% 55%",

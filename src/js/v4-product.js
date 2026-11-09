@@ -37,13 +37,14 @@
     dockState();
   }
   // ---------- Location : une catégorie à la fois, choix gardé dans l'adresse (?cat=…) ; la bande du bas suit ----------
+  // La bande ne répète pas la catégorie (déjà dans l'onglet) : « Scooters from 250 THB » passait sous le bouton à 390 px.
   var rentSeg = $('[data-seg="rent"]');
   if (rentSeg) {
     var rent = rentSeg.closest(".rent"), cats = $$("[data-cat]", rent);
     var dockP = dock && $("[data-dock-p]", dock), dockB = dock && $("[data-dock-book]", dock);
     var showCat = function (id, b) {
       cats.forEach(function (c) { c.hidden = c.getAttribute("data-cat") !== id; });
-      if (dockP && b) dockP.innerHTML = "<span>" + V.esc(b.getAttribute("data-short")) + " from " + V.thb(Number(b.getAttribute("data-from"))) + "</span><small>" + V.esc(cats.filter(function (c) { return !c.hidden; })[0].querySelector(".rent__range small").textContent) + "</small>";
+      if (dockP && b) dockP.innerHTML = "<span>from " + V.thb(Number(b.getAttribute("data-from"))) + "</span><small>" + V.esc(cats.filter(function (c) { return !c.hidden; })[0].querySelector(".rent__range small").textContent) + "</small>";
       if (dockB) dockB.setAttribute("data-book", id);
     };
     var wanted = new URLSearchParams(location.search).get("cat");
@@ -52,6 +53,8 @@
     rent.classList.add("is-tabs");
     var rs = V.seg(rentSeg, function (v, b) {
       showCat(v, b);
+      // Changement d'onglet après avoir défilé : la nouvelle liste repart sous les onglets, pas au-dessus de l'écran.
+      if (phone.matches && rent.getBoundingClientRect().top < 0) rent.scrollIntoView({ block: "start" });
       var u = new URLSearchParams(location.search);
       u.set("cat", v);
       history.replaceState(null, "", location.pathname + "?" + u);

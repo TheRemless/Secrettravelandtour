@@ -280,6 +280,8 @@ footer .foot-legal a { color: var(--mute); }
 .board-list a { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; min-height: 44px; padding: .55rem 0; color: var(--text); text-decoration: none; font-weight: 500; border-top: 1px solid rgba(240, 177, 58, .14); }
 .board-list li:first-child a { border-top: 0; }
 .board-list a:hover span { color: var(--amber); }
+/* Le nom du trajet souligné : au doigt, rien d'autre ne dit que la ligne est un lien. */
+.board-list a span, .route .routes-cols a { text-decoration: underline; text-decoration-color: rgba(240, 177, 58, .55); text-decoration-thickness: 1px; text-underline-offset: 4px; }
 .board-list small { flex: none; font-size: .85rem; color: var(--mute); font-variant-numeric: tabular-nums; }
 .board-foot { margin: 1.5rem 0 0; max-width: 40rem; color: var(--mute); }
 .why-sec { display: grid; gap: 2rem; }

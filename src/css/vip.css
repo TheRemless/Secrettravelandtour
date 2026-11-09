@@ -109,6 +109,11 @@ a { color: var(--amber); text-underline-offset: .18em; }
 .vip-nav ul { display: flex; gap: var(--s3); list-style: none; margin: 0; padding: 0; }
 .vip-nav a { display: flex; align-items: center; min-height: 44px; color: var(--text); }
 .vip-header .btn { margin-left: auto; min-height: 44px; }
+/* Téléphone : « All routes » double le logo et le fil d'Ariane (tous vers /taxi/) ; le nom tient sur une ligne. */
+@media (max-width: 479px) {
+  .vip-nav { display: none; }
+  .vip-name { white-space: nowrap; font-size: 1.125rem; }
+}
 @media (min-width: 64rem) {
   .vip-nav { display: block; margin-left: var(--s4); }
   .vip-nav ul { display: flex; gap: var(--s3); list-style: none; padding: 0; }
@@ -125,12 +130,12 @@ a { color: var(--amber); text-underline-offset: .18em; }
   min-height: 56px; padding: .85rem 0; color: var(--text); text-decoration: none;
 }
 .route-list a:hover .rl-route { color: var(--amber); }
-.rl-route { font: 400 1.25rem/1.25 var(--serif); }
+.rl-route { font: 400 1.25rem/1.25 var(--serif); text-decoration: underline; text-decoration-color: rgba(240, 177, 58, .55); text-decoration-thickness: 1px; text-underline-offset: 4px; }
 .route-sep { font: 400 1rem/1 var(--sans); color: var(--mute); }
 .rl-drive { flex: none; text-align: right; font-size: .9375rem; color: var(--mute); font-variant-numeric: tabular-nums; }
 
 /* ---------- Faits du trajet : le billet ivoire, lignes séparées par une perforation ---------- */
-.ticket { max-width: 44rem; margin: 0; padding: .25rem var(--s3); border-radius: var(--radius); background: var(--paper); color: var(--ink); }
+.ticket { max-width: 44rem; margin: var(--s2) 0 0; padding: .25rem var(--s3); border-radius: var(--radius); background: var(--paper); color: var(--ink); }
 .ticket div { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: var(--s2); align-items: baseline; padding: .8rem 0; border-top: 1px dashed var(--perf); }
 .ticket div:first-child { border-top: 0; }
 .ticket dt { font-size: .9375rem; color: var(--mute-ink); }

@@ -91,7 +91,7 @@ module.exports = async function () {
       fallback: view.fallbackText(route, site),
       hero: view.photo((route.photos || []).find((p) => p.slot === "hero")),
       others: ["koh-lanta-krabi-town", "koh-lanta-ao-nang", "phuket-airport-koh-lanta", "surat-thani-koh-lanta"]
-        .map((id) => P("taxi/" + id)).map((r) => ({ href: r.url, from: r.route.from, to: r.route.to, drive: (r.route.drive || "").replace(/(\d) to (\d)/, "$1–$2") })),
+        .map((id) => P("taxi/" + id)).map((r) => ({ href: r.url, from: r.route.from, to: r.route.to, drive: r.route.drive || "" })),
       tours: ["tours/4-islands", "tours/koh-rok-koh-haa", "activities/elephant-sanctuary"].map((r) => ({ href: P(r).url, name: P(r).name })),
       // Paiement VIP masqué tant que la question cash ou virement reste ouverte (site.json todo) ;
       // la photo du haut de page n'est pas répétée dans la galerie.
