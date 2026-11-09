@@ -2,14 +2,14 @@
 
 Fichier généré par `scripts/manques.mjs` à chaque `npm run build`, à partir des `TODO(client)` de `src/_data/site.json` et `src/_data/products/`. Ne pas le modifier à la main : corriger la donnée source, puis relancer le build.
 
-26 points sur 11 pages. Une information absente n'est pas affichée sur le site (00-BRIEF §9).
+28 points sur 11 pages. Une information absente n'est pas affichée sur le site (00-BRIEF §9).
 
 | Page | Points |
 |---|---|
 | Commun aux deux marques | 4 |
-| 4 Islands (/tours/4-islands/) | 6 |
+| 4 Islands (/tours/4-islands/) | 7 |
 | Fishing trip (/tours/fishing-trip/) | 2 |
-| Koh Rok & Koh Haa (/tours/koh-rok-koh-haa/) | 2 |
+| Koh Rok & Koh Haa (/tours/koh-rok-koh-haa/) | 3 |
 | Mangroves (/tours/mangroves/) | 1 |
 | Electric go-kart (/tours/go-kart/) | 4 |
 | Kayaking (/tours/kayak/) | 1 |
@@ -41,6 +41,7 @@ Source : `src/_data/products/tours/4-islands.json`
 - tranche d'âge enfant du longtail : « Child, 4 to 11 » (prix du site) contre « 4 à 10 ans » (registre de faits, brochure du partenaire longtail).
 - îles au programme : l'accueil dit « Koh Ma, Koh Mook and Koh Chueak, plus Koh Kradan or Koh Ngai: your choice » (secret.json tours[0].description), la page dit Koh Ngai toujours, puis Koh Ma (longtail) ou Koh Kradan (speedboat), sans choix du client.
 - speedboat privé pour le 4 Islands (cité par le registre de faits, 9:00 à 16:00, absent du site) : à proposer, prix sur WhatsApp ?
+- catamaran au départ d'Ao Nang : frais de parc national inclus ou non (la brochure n'en dit rien), nom du ponton d'Ao Nang.
 
 ### Fishing trip (/tours/fishing-trip/)
 
@@ -55,6 +56,7 @@ Source : `src/_data/products/tours/koh-rok-koh-haa.json`
 
 - Koh Rok en longtail privé, tranches « 7 to 8 people » (8 400 THB) et « 9 to 10 people » (9 400 THB) : déduites de la brochure selon le registre de faits, à confirmer.
 - version avec arrêt coucher de soleil : le site dit « exists on some days. Ask us », le registre de faits dit 10:00 à 19:00. Jours, programme et prix ?
+- catamaran au départ d'Ao Nang : frais de parc national inclus ou non (la brochure n'en dit rien), nom du ponton d'Ao Nang.
 
 ### Mangroves (/tours/mangroves/)
 

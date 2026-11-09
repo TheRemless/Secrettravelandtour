@@ -175,13 +175,18 @@ function runs(products) {
 }
 
 // ---------- 4 Islands : parcours, comparateur, journée, carte ----------
+// Bateaux de la 4 Islands, dans l'ordre des options (longtail, speedboat, catamaran d'Ao Nang).
+const boatsOf = (four) => [...new Set(four.options.map((o) => o.boat))];
 function islandsOf(four, boat) {
-  return fact(four, boat === "speedboat" ? "Islands, speedboat" : "Islands, longtail").split(", ").map((raw) => {
+  return fact(four, "Islands, " + boat).split(", ").map((raw) => {
     const m = raw.match(/^(.*?) \((.*)\)$/);
     return { name: m ? m[1] : raw, tag: m ? m[2] : "" };
   });
 }
+// Île du déjeuner : le fait « Lunch » (longtail, speedboat) ou le déjeuner écrit dans l'option (catamaran).
 function lunchOf(four, boat) {
+  const own = four.options.find((o) => o.boat === boat && o.lunch);
+  if (own) return (own.lunch.match(/Koh \w+/) || [])[0] || "";
   return (fact(four, "Lunch").match(new RegExp("(Koh \\w+) by " + boat)) || [])[1] || "";
 }
 
@@ -189,10 +194,11 @@ function routeNodes(four, opt, kradan) {
   const list = islandsOf(four, opt.boat);
   if (opt.kind === "private" && kradan) list.push({ name: "Koh Kradan", tag: "" });
   const lunch = lunchOf(four, opt.boat);
-  // Ponton de chaque bateau, lu dans son option (Lanta Old Town pier, Koh Lanta Noi pier).
-  return [{ name: "Koh Lanta", tag: opt.pier || "", end: true }]
+  // Ponton de chaque bateau, lu dans son option (Lanta Old Town pier, Koh Lanta Noi pier) ; le catamaran part d'Ao Nang.
+  const home = opt.from || "Koh Lanta";
+  return [{ name: home, tag: opt.pier || (opt.from ? "Hotel pickup" : ""), end: true }]
     .concat(list.map((i) => ({ ...i, lunch: i.name === lunch })))
-    .concat([{ name: "Koh Lanta", tag: "Back to your hotel", end: true }]);
+    .concat([{ name: home, tag: "Back to your hotel", end: true }]);
 }
 
 // Projection équirectangulaire corrigée de la latitude : un schéma, pas une carte marine.
@@ -220,17 +226,22 @@ function fourMap(four) {
     return d;
   };
   // Un tronçon par arrivée : ponton → 1re île, puis île à île, puis retour. Points de passage au large pour ne pas couper les terres.
-  const lane = (names) => {
+  // Le catamaran vient d'Ao Nang, au nord, hors du cadre : il entre et sort par le haut de la carte, par le chenal
+  // à l'est de Koh Lanta (tracé de la brochure).
+  const north = [99.165, 7.555];
+  const lane = (names, start) => {
     const stops = names.map((n) => at[n]);
-    const segs = [[pier, [99.19, 7.475], stops[0]]];
+    const segs = [[start, [99.19, 7.475], stops[0]]];
     for (let i = 1; i < stops.length; i++) segs.push([stops[i - 1], stops[i]]);
-    segs.push([stops[stops.length - 1], [99.135, 7.49], pier]);
+    segs.push([stops[stops.length - 1], [99.135, 7.49], start]);
     return segs.map(curve);
   };
   const routes = {};
-  for (const boat of ["longtail", "speedboat"]) {
+  for (const boat of boatsOf(four)) {
     const names = islandsOf(four, boat).map((i) => i.name);
-    routes[boat] = { segs: lane(names), stops: names.map((n) => ({ name: n, x: f(P(at[n])[0]), y: f(P(at[n])[1]) })) };
+    const away = four.options.some((o) => o.boat === boat && o.from);
+    const start = away ? north : pier;
+    routes[boat] = { segs: lane(names, start), stops: names.map((n) => ({ name: n, x: f(P(at[n])[0]), y: f(P(at[n])[1]) })), start: { x: f(P(start)[0]), y: f(P(start)[1]) }, away };
   }
   const label = (text, pt, dx, dy, anchor = "start", big = false) => ({ text, x: f(P(pt)[0] + dx), y: f(P(pt)[1] + dy), anchor, big });
   const labels = [
@@ -241,7 +252,7 @@ function fourMap(four) {
     label("Koh Ngai", G("ngai"), -14, 5, "end"),
     label("Koh Kradan", G("kradan"), -14, 5, "end"),
     label("Koh Ma", G("ma"), 4, -16)
-  ];
+  ].concat(Object.values(routes).some((r) => r.away) ? [{ ...label("To Ao Nang", north, 8, 18), gone: true }] : []);
   // Échelle de 5 km (1° de latitude ≈ 110,6 km).
   const km = (5 / 110.6 / (MAP.lat1 - MAP.lat0)) * H;
   return { W: MAP.W, H, land, routes, labels, pier: { x: f(P(pier)[0]), y: f(P(pier)[1]) }, scale: { x1: f(MAP.W - km - 24), x2: f(MAP.W - 24), y: H - 26, km: 5 } };
@@ -313,7 +324,7 @@ module.exports = async function () {
   };
 
   // ----- 4 Islands -----
-  const opts = four.options.map((o) => ({ id: o.id, label: o.label, kind: o.kind, boat: o.boat, note: o.note || "", stub: o.stub || "", pier: o.pier || "", prices: o.prices || [] }));
+  const opts = four.options.map((o) => ({ id: o.id, label: o.label, kind: o.kind, boat: o.boat, note: o.note || "", stub: o.stub || "", pier: o.pier || "", from: o.from || "", onBoard: o.onBoard || "", lunch: o.lunch || "", feesToConfirm: Boolean(o.feesToConfirm), prices: o.prices || [] }));
   const kradan = four.options.map((o) => (o.prices || []).find((r) => r.supplement && /Koh Kradan/.test(r.label))).find(Boolean) || null;
   const adultFrom = price.adultFrom(four.options);
   const group = { adults: 2, ages: [] };
@@ -322,8 +333,13 @@ module.exports = async function () {
     return e ? { amount: view.thb(e.total), lines: e.lines.map(([l, a]) => ({ label: l, amount: view.thb(a) })) } : null;
   };
   const day = four.day[0];
-  // Journée du speedboat join-in : son propre déroulé (brochure du prestataire), heures approximatives.
-  const speedDay = four.day.find((b) => (b.options || []).includes("join-in-speedboat"));
+  // Journée de chaque autre bateau (speedboat join-in, catamaran d'Ao Nang) : son propre déroulé, heures approximatives.
+  const stepsOf = (b) => b.steps.map((s) => ({ t: s.range || s.time, fixed: Boolean(s.fixed), place: s.place, text: dropPlace(s.text, s.place), kind: s.kind }));
+  const dayOf = (boat) => {
+    const ids = four.options.filter((o) => o.boat === boat).map((o) => o.id);
+    const b = boat === "longtail" ? day : four.day.find((x) => (x.options || []).some((id) => ids.includes(id)));
+    return b ? { boat, title: b.title.replace(/^The day, /, "Times for the "), note: b.note || "", steps: stepsOf(b) } : null;
+  };
   const fourData = {
     product: four,
     seo: {
@@ -349,10 +365,12 @@ module.exports = async function () {
           id: o.id, label: o.label,
           rows: [
             ["Boat", cap(o.boat)],
-            ["On board", o.kind === "private" ? o.note : "A shared boat with other travellers"],
+            ["On board", o.onBoard || (o.kind === "private" ? o.note : "A shared boat with other travellers")],
             ["Islands", islands + (o.kind === "private" && kradan ? `, Koh Kradan as an extra (+${view.thb(kradan.amount)} ${kradan.unit})` : "")],
-            ["Lunch", `Thai buffet on the beach of ${lunchOf(four, o.boat)}`],
-            ["Pier", o.pier || ""]
+            ["Lunch", o.lunch || `Thai buffet on the beach of ${lunchOf(four, o.boat)}`],
+            ["Pier", o.pier || ""],
+            // Départ d'ailleurs (catamaran d'Ao Nang) : sa note, sinon visible seulement avec JavaScript sous le segment.
+            ["Good to know", o.from ? o.note : ""]
           ].filter((r) => r[1]),
           prices: (o.prices || []).filter((r) => !(r.supplement && /Koh Kradan/.test(r.label))).map((r) => ({ label: r.label, amount: r.amount === 0 ? "Free" : (r.supplement ? "+" : "") + view.thb(r.amount) })),
           group: groupTotal(o)
@@ -362,12 +380,8 @@ module.exports = async function () {
     },
     day: {
       title: "How the day goes",
-      longtailTitle: day.title.replace(/^The day, /, "Times for the "),
       note: day.note,
-      steps: day.steps.map((s) => ({ t: s.range || s.time, fixed: Boolean(s.fixed), place: s.place, text: dropPlace(s.text, s.place), kind: s.kind })),
-      speedboat: speedDay ? speedDay.steps.map((s) => ({ t: s.range || s.time, fixed: Boolean(s.fixed), place: s.place, text: dropPlace(s.text, s.place), kind: s.kind })) : [],
-      speedboatTitle: speedDay ? speedDay.title.replace(/^The day, /, "Times for the ") : "",
-      speedboatNote: speedDay ? speedDay.note || "" : ""
+      boats: boatsOf(four).map(dayOf).filter(Boolean)
     },
     map: fourMap(four),
     included: four.included,
@@ -386,9 +400,9 @@ module.exports = async function () {
     json: {
       slug: four.slug, name: four.name, adultFrom, fee: fee ? { adult: fee.adult, child: fee.child, childAges: fee.childAges } : null,
       kradan: kradan ? kradan.label : "",
-      options: opts.map((o) => ({ id: o.id, label: o.label, kind: o.kind, boat: o.boat, note: o.note, stub: o.stub, pier: o.pier, prices: o.prices })),
-      islands: { longtail: islandsOf(four, "longtail"), speedboat: islandsOf(four, "speedboat") },
-      lunch: { longtail: lunchOf(four, "longtail"), speedboat: lunchOf(four, "speedboat") }
+      options: opts.map((o) => ({ id: o.id, label: o.label, kind: o.kind, boat: o.boat, note: o.note, stub: o.stub, pier: o.pier, from: o.from, feesToConfirm: o.feesToConfirm, prices: o.prices })),
+      islands: Object.fromEntries(boatsOf(four).map((b) => [b, islandsOf(four, b)])),
+      lunch: Object.fromEntries(boatsOf(four).map((b) => [b, lunchOf(four, b)]))
     }
   };
   function R0(o) {

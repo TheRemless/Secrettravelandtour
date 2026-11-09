@@ -50,9 +50,10 @@
   function routeHTML(opt) {
     var list = D.islands[opt.boat].slice();
     if (opt.kind === "private" && st.addons.indexOf(D.kradan) > -1) list.push({ name: "Koh Kradan", tag: "" });
-    var nodes = [{ name: "Koh Lanta", tag: opt.pier || "", end: true, id: "isl-start" }]
+    var home = opt.from || "Koh Lanta";
+    var nodes = [{ name: home, tag: opt.pier || (opt.from ? "Hotel pickup" : ""), end: true, id: "isl-start" }]
       .concat(list.map(function (i) { return { name: i.name, tag: i.tag, lunch: i.name === D.lunch[opt.boat], id: "isl-" + i.name.toLowerCase().replace(/[^a-z]+/g, "-") }; }))
-      .concat([{ name: "Koh Lanta", tag: "Back to your hotel", end: true, id: "isl-end" }]);
+      .concat([{ name: home, tag: "Back to your hotel", end: true, id: "isl-end" }]);
     return nodes.map(function (n) {
       return '<li data-vt-n="' + n.id + '"' + (n.end ? ' class="is-end"' : "") + "><b>" + V.esc(n.name) + "</b>" + (n.tag ? "<small>" + V.esc(n.tag) + "</small>" : "") + (n.lunch ? '<span class="lunch">Lunch</span>' : "") + "</li>";
     }).join("");
@@ -119,10 +120,11 @@
   var tls = $$("[data-tl]"), boatEl = $("[data-map-boat]", map);
   var boatNow = "longtail", io = null;
   function stopXY(place) {
-    var c = place && $('[data-map-route="' + boatNow + '"] [data-stop="' + place + '"]', map);
+    var g = $('[data-map-route="' + boatNow + '"]', map);
+    var c = place && $('[data-stop="' + place + '"]', g);
     if (c) return [c.getAttribute("cx"), c.getAttribute("cy")];
-    var p = $(".map__stop--pier", map);
-    return [p.getAttribute("cx"), p.getAttribute("cy")];
+    // Hors des îles, le bateau attend à son départ : Lanta Old Town, ou le bord nord de la carte pour Ao Nang.
+    return [g.getAttribute("data-start-x"), g.getAttribute("data-start-y")];
   }
   function activate(step) {
     var list = $('[data-tl="' + boatNow + '"]');
@@ -163,11 +165,12 @@
     if (boat === boatNow && io) return;
     boatNow = boat;
     tls.forEach(function (l) { l.hidden = l.getAttribute("data-tl") !== boat; });
-    $("[data-day-for]").hidden = boat !== "longtail";
-    $("[data-day-speed]").hidden = boat === "longtail";
+    $$("[data-day-for]").forEach(function (p) { p.hidden = p.getAttribute("data-day-for") !== boat; });
     $$("[data-map-route]", map).forEach(function (g) { if (g.getAttribute("data-map-route") === boat) g.removeAttribute("hidden"); else g.setAttribute("hidden", ""); });
     var names = D.islands[boat].map(function (x) { return x.name; });
     ["Koh Ma", "Koh Kradan"].forEach(function (n) { var t = $('.map__lbl[data-lbl="' + n + '"]', map); if (t) t.classList.toggle("is-gone", names.indexOf(n) < 0); });
+    var away = D.options.some(function (o) { return o.boat === boat && o.from; }), an = $('.map__lbl[data-lbl="To Ao Nang"]', map);
+    if (an) an.classList.toggle("is-gone", !away);
     activate($('[data-tl="' + boat + '"] .tl__step'));
     watchDay();
   }
@@ -206,7 +209,8 @@
     var un = $("[data-calc-unpriced]", calc);
     un.hidden = !(est && est.unpriced.length);
     un.textContent = est ? unpricedText(est.unpriced) : "";
-    var park = PR.parkCash(D.fee, st.adults, st.childAges), pk = $("[data-calc-park]", calc);
+    // Catamaran d'Ao Nang : la brochure ne dit rien du parc, la note de l'option le dit, pas de montant ici.
+    var park = opt.feesToConfirm ? null : PR.parkCash(D.fee, st.adults, st.childAges), pk = $("[data-calc-park]", calc);
     if (pk) { pk.hidden = !park; if (park) pk.textContent = "Plus the national park fee, in cash on the island: " + park.text + "."; }
     $$("[data-calc-book], [data-dock-book]").forEach(function (b) { b.setAttribute("data-book", opt.id); });
 

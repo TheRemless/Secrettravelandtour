@@ -234,6 +234,7 @@
     } else {
       var option = findOption(config, state.option);
       lines.push("Booking request: " + config.product + (option ? " – " + option.title : ""));
+      if (option && option.departure) lines.push("Departure: from " + option.departure + ", pickup at your hotel in " + option.departure);
       choiceLines(option, state).forEach(function (l) { lines.push(l); });
       if (date) lines.push("Date: " + formatDate(date));
       lines.push("Guests: " + guestsLine(state.adults, state.childAges));

@@ -14,7 +14,7 @@
     }
   },
   "h1": "Koh Rok and Koh Haa snorkelling day trip",
-  "lead": "Two islands of the Mu Ko Lanta National Park, open from mid-October to mid-May, by speedboat or private longtail. Snorkelling stops and lunch on the beach of Koh Rok.",
+  "lead": "Two islands of the Mu Ko Lanta National Park, open from mid-October to mid-May, by speedboat or private longtail, or by catamaran from Ao Nang. Snorkelling stops and lunch on the beach of Koh Rok.",
   "promise": "Snorkelling at Koh Rok and Koh Haa, mid-October to mid-May",
   "facts": [
     {
@@ -31,7 +31,7 @@
     },
     {
       "label": "Boat",
-      "value": "Speedboat (join-in) or longtail (private)"
+      "value": "Speedboat, longtail or catamaran"
     },
     {
       "label": "Speedboat pier",
@@ -233,6 +233,31 @@
           }
         }
       ]
+    },
+    {
+      "id": "catamaran-ao-nang",
+      "label": "Catamaran from Ao Nang",
+      "kind": "join-in",
+      "boat": "catamaran",
+      "from": "Ao Nang",
+      "feesToConfirm": true,
+      "note": "Leaves from Ao Nang, not from Koh Lanta: pickup at your hotel in Ao Nang at 06:00, transfer back at 17:00. Not recommended for children under 4. Whether the national park fee is included, we confirm on WhatsApp.",
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 3800,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 11",
+          "amount": 2800,
+          "ages": {
+            "min": 4,
+            "max": 11
+          },
+          "unit": "per person"
+        }
+      ]
     }
   ],
   "day": [
@@ -275,6 +300,55 @@
           "text": "The speedboat leaves Koh Haa for Koh Lanta, then the transfer to your hotel by car or by boat."
         }
       ]
+    },
+    {
+      "options": [
+        "catamaran-ao-nang"
+      ],
+      "title": "How the day goes (catamaran from Ao Nang)",
+      "steps": [
+        {
+          "time": "06:00",
+          "text": "Pickup at your hotel in Ao Nang, then the pier."
+        },
+        {
+          "time": "07:30",
+          "text": "A mini breakfast at check-in."
+        },
+        {
+          "time": "08:00",
+          "text": "The catamaran leaves Ao Nang for Koh Rok, across the Andaman Sea."
+        },
+        {
+          "time": "10:00",
+          "text": "A short snorkelling lesson, then the first snorkelling stop, water toys and photos."
+        },
+        {
+          "time": "11:00",
+          "text": "The second snorkelling stop."
+        },
+        {
+          "time": "12:00",
+          "text": "Thai buffet lunch on the beach of Koh Rok."
+        },
+        {
+          "time": "13:00",
+          "text": "Time on the beach: swimming, sunbathing or snorkelling from the shore."
+        },
+        {
+          "time": "14:00",
+          "text": "Koh Haa and a third snorkelling stop in the lagoon."
+        },
+        {
+          "time": "15:00",
+          "text": "The catamaran leaves Koh Haa for Ao Nang."
+        },
+        {
+          "time": "17:00",
+          "text": "Transfer back to your hotel."
+        }
+      ],
+      "note": "Times are approximate and change with the tide and the weather. If the weather is bad, the trip is cancelled and refunded."
     }
   ],
   "included": [
@@ -283,7 +357,8 @@
     "Light breakfast at the pier on the join-in speedboat",
     "Masks, snorkels and life jackets",
     "Guide, English-speaking on the join-in speedboat",
-    "Insurance"
+    "Insurance",
+    "On the catamaran from Ao Nang: a mini breakfast at check-in, soft drinks, a guide speaking English and Chinese, free GoPro photos"
   ],
   "notIncluded": [
     "National park fee, paid in cash on the island"
@@ -309,8 +384,8 @@
       "a": "No. You pay 400 THB per adult and 200 THB per child from 4 to 11 in cash to the ranger on Koh Rok. Children under 4 do not pay."
     },
     {
-      "q": "Speedboat or longtail?",
-      "a": "The join-in trip is by speedboat and includes Koh Haa. The private longtail goes to Koh Rok only, at your own pace."
+      "q": "Speedboat, longtail or catamaran?",
+      "a": "The join-in trip is by speedboat and includes Koh Haa. The private longtail goes to Koh Rok only, at your own pace. The catamaran leaves from Ao Nang, for those staying there."
     }
   ],
   "photos": [
@@ -455,11 +530,16 @@
     {
       "field": "options[].notIncludedFees",
       "from": "données transmises le 08.11.2026 (troisième message du coordinateur, vérifiées en ligne ou fournies par le client) : 400 / 200 THB concordants (brochure des sorties en speedboat, parc Mu Ko Lanta) ; tarif thaï 40 / 20 sans source pour Koh Rok, retiré"
+    },
+    {
+      "field": "options[catamaran-ao-nang], day[catamaran-ao-nang], included[catamaran], facts[Boat], lead, faq[3]",
+      "from": "brochure publique du catamaran au départ d'Ao Nang (audit A § 1.3, deux pages) : prix adulte et enfant de 4 à 11 ans, programme, « Tour include », « not recommended small children under 4 years of age », annulation remboursée par mauvais temps (décision client du 09.11.2026 : option sur les fiches existantes, pas de nouvelle fiche)"
     }
   ],
   "todo": [
     "TODO(client): Koh Rok en longtail privé, tranches « 7 to 8 people » (8 400 THB) et « 9 to 10 people » (9 400 THB) : déduites de la brochure selon le registre de faits, à confirmer.",
-    "TODO(client): version avec arrêt coucher de soleil : le site dit « exists on some days. Ask us », le registre de faits dit 10:00 à 19:00. Jours, programme et prix ?"
+    "TODO(client): version avec arrêt coucher de soleil : le site dit « exists on some days. Ask us », le registre de faits dit 10:00 à 19:00. Jours, programme et prix ?",
+    "TODO(client): catamaran au départ d'Ao Nang : frais de parc national inclus ou non (la brochure n'en dit rien), nom du ponton d'Ao Nang."
   ],
   "refPrefix": "KR"
 }

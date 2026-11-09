@@ -492,7 +492,7 @@ html.has-trips.hd-off:has(.dock.is-on) .toast { bottom: calc(138px + env(safe-ar
 }
 
 /* ---------- 4 Islands : les trois bateaux côte à côte ---------- */
-.cmp4 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.cmp4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
 .cmp4__col { display: flex; flex-direction: column; gap: 16px; border: 1px solid var(--line); border-radius: var(--r); padding: 22px; transition: border-color var(--t2) var(--out), background-color var(--t2) var(--out); }
 .cmp4__col.is-sel { border-color: var(--sea); background: var(--sand); }
 .cmp4 dl { margin: 0; display: flex; flex-direction: column; flex: 1; }

@@ -14,7 +14,7 @@
     }
   },
   "h1": "4 Islands boat tour from Koh Lanta",
-  "lead": "Koh Chueak, Koh Mook's Emerald Cave and Koh Ngai, plus Koh Ma by longtail or Koh Kradan by speedboat. Join-in or private.",
+  "lead": "Koh Chueak, Koh Mook's Emerald Cave and Koh Ngai, plus Koh Ma by longtail or Koh Kradan by speedboat. Join-in or private, or by catamaran from Ao Nang.",
   "promise": "Emerald Cave and three more islands, lunch on the beach",
   "facts": [
     {
@@ -31,7 +31,7 @@
     },
     {
       "label": "Boat",
-      "value": "Longtail or speedboat"
+      "value": "Longtail, speedboat or catamaran"
     },
     {
       "label": "Format",
@@ -51,6 +51,10 @@
     },
     {
       "label": "Islands, speedboat",
+      "value": "Koh Chueak, Koh Mook (Emerald Cave), Koh Kradan, Koh Ngai"
+    },
+    {
+      "label": "Islands, catamaran",
       "value": "Koh Chueak, Koh Mook (Emerald Cave), Koh Kradan, Koh Ngai"
     },
     {
@@ -271,6 +275,34 @@
       ],
       "pier": "Lanta Old Town pier",
       "stub": "Your order of islands"
+    },
+    {
+      "id": "catamaran-ao-nang",
+      "label": "Catamaran from Ao Nang",
+      "kind": "join-in",
+      "boat": "catamaran",
+      "from": "Ao Nang",
+      "feesToConfirm": true,
+      "stub": "Koh Kradan instead of Koh Ma",
+      "onBoard": "Mini breakfast, soft drinks, a guide speaking English and Chinese, free GoPro photos",
+      "lunch": "Buffet lunch on Koh Kradan",
+      "note": "Leaves from Ao Nang, not from Koh Lanta: pickup at your hotel in Ao Nang at 06:00, transfer back at 17:00. Not recommended for children under 4. Whether the national park fee is included, we confirm on WhatsApp.",
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 3800,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 11",
+          "amount": 2800,
+          "ages": {
+            "min": 4,
+            "max": 11
+          },
+          "unit": "per person"
+        }
+      ]
     }
   ],
   "day": [
@@ -390,6 +422,78 @@
         }
       ],
       "note": "Times are approximate and change with the tide and the weather."
+    },
+    {
+      "options": [
+        "catamaran-ao-nang"
+      ],
+      "title": "The day, catamaran from Ao Nang",
+      "steps": [
+        {
+          "time": "06:00",
+          "text": "Pickup at your hotel in Ao Nang, then the pier.",
+          "place": "Your hotel",
+          "detail": "Pickup in Ao Nang",
+          "kind": "road"
+        },
+        {
+          "time": "07:30",
+          "text": "A mini breakfast at check-in.",
+          "place": "Ao Nang",
+          "detail": "Mini breakfast at check-in",
+          "kind": "pier"
+        },
+        {
+          "time": "08:00",
+          "text": "The catamaran leaves Ao Nang for Koh Chueak.",
+          "place": "Ao Nang",
+          "detail": "The catamaran leaves",
+          "kind": "pier"
+        },
+        {
+          "time": "10:00",
+          "text": "Koh Chueak, a snorkelling lesson, then the first snorkelling stop and photos.",
+          "place": "Koh Chueak",
+          "detail": "Snorkelling lesson and first stop",
+          "kind": "island"
+        },
+        {
+          "time": "11:00",
+          "text": "Koh Mook, swim through the Emerald Cave to the small beach inside.",
+          "place": "Koh Mook",
+          "detail": "Swim through the Emerald Cave",
+          "kind": "island"
+        },
+        {
+          "time": "12:00",
+          "text": "Koh Kradan, buffet lunch, time on the beach, then snorkelling again.",
+          "place": "Koh Kradan",
+          "detail": "Buffet lunch, beach and snorkelling",
+          "kind": "island"
+        },
+        {
+          "time": "14:00",
+          "text": "Koh Ngai, swimming and time on the beach.",
+          "place": "Koh Ngai",
+          "detail": "Swimming and time on the beach",
+          "kind": "island"
+        },
+        {
+          "time": "15:00",
+          "text": "The catamaran leaves Koh Ngai for Ao Nang.",
+          "place": "Ao Nang",
+          "detail": "Back to Ao Nang",
+          "kind": "pier"
+        },
+        {
+          "time": "17:00",
+          "text": "Transfer back to your hotel.",
+          "place": "Your hotel",
+          "detail": "Back to your hotel",
+          "kind": "road"
+        }
+      ],
+      "note": "Times are approximate and change with the tide and the weather. If the weather is bad, the trip is cancelled and refunded."
     }
   ],
   "included": [
@@ -399,6 +503,7 @@
     "Masks, snorkels and life jackets",
     "Local guide, English-speaking on the join-in speedboat",
     "Insurance",
+    "On the catamaran from Ao Nang: a mini breakfast at check-in, soft drinks, a guide speaking English and Chinese, free GoPro photos",
     "On a private boat: the boat and the captain for your group only"
   ],
   "notIncluded": [
@@ -432,7 +537,7 @@
     },
     {
       "q": "Can children come?",
-      "a": "Yes. Children from 4 to 11 pay a child rate and children under 4 travel free on the join-in boats. Life jackets are on board. Give us the ages when you book."
+      "a": "Yes. Children from 4 to 11 pay a child rate and children under 4 travel free on the join-in boats. Life jackets are on board. Give us the ages when you book. The catamaran from Ao Nang is not recommended for children under 4."
     }
   ],
   "photos": [
@@ -611,6 +716,10 @@
     {
       "field": "beforeYouBook.weather",
       "from": "données transmises le 08.11.2026 (troisième message du coordinateur, vérifiées en ligne ou fournies par le client) : toute l'année (brochure du longtail join-in, sortie privée « high and low season » ; aucune fermeture annuelle du parc Hat Chao Mai) ; Koh Ngai fermé temporairement en juin et en octobre 2026 (méduses). Tarif thaï 40 / 20 THB confirmé pour Hat Chao Mai"
+    },
+    {
+      "field": "options[catamaran-ao-nang], day[catamaran-ao-nang], facts[Islands, catamaran], facts[Boat], included[catamaran], lead, faq[Can children come?]",
+      "from": "brochure publique du catamaran au départ d'Ao Nang (audit A § 1.3, deux pages) : prix adulte et enfant de 4 à 11 ans, programme, « Tour include », « not recommended small children under 4 years of age », annulation remboursée par mauvais temps (décision client du 09.11.2026 : option sur les fiches existantes, pas de nouvelle fiche)"
     }
   ],
   "todo": [
@@ -619,7 +728,8 @@
     "TODO(client): nom du parc national (jamais nommé sur la page ; la fiche Koh Rok dit « Mu Ko Lanta National Park »).",
     "TODO(client): tranche d'âge enfant du longtail : « Child, 4 to 11 » (prix du site) contre « 4 à 10 ans » (registre de faits, brochure du partenaire longtail).",
     "TODO(client): îles au programme : l'accueil dit « Koh Ma, Koh Mook and Koh Chueak, plus Koh Kradan or Koh Ngai: your choice » (secret.json tours[0].description), la page dit Koh Ngai toujours, puis Koh Ma (longtail) ou Koh Kradan (speedboat), sans choix du client.",
-    "TODO(client): speedboat privé pour le 4 Islands (cité par le registre de faits, 9:00 à 16:00, absent du site) : à proposer, prix sur WhatsApp ?"
+    "TODO(client): speedboat privé pour le 4 Islands (cité par le registre de faits, 9:00 à 16:00, absent du site) : à proposer, prix sur WhatsApp ?",
+    "TODO(client): catamaran au départ d'Ao Nang : frais de parc national inclus ou non (la brochure n'en dit rien), nom du ponton d'Ao Nang."
   ],
   "notes": [
     "FAQ « Is the national park fee included? » : la phrase affirmant qu'aucun opérateur de l'île n'inclut les frais de parc est retirée (affirmation fausse, décision client du 02.11.2026). Même chose pour l'ancien encadré parkFeeNote, non repris.",

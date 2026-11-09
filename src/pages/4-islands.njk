@@ -54,7 +54,7 @@ permalink: /tours/4-islands/
   <section class="sec sec--sand" id="boat" aria-labelledby="boat-h">
     <div class="wrap boat">
       <div class="boat__main">
-        <h2 id="boat-h">Longtail or speedboat?</h2>
+        <h2 id="boat-h">Choose your boat</h2>
         <p class="boat__intro">{{ t.boatIntro }}</p>
         <div class="seg seg--opt" role="group" aria-label="Choose the boat" data-seg="opt">
           {%- for o in t.options %}<button type="button" value="{{ o.id }}" aria-pressed="{{ 'true' if loop.first else 'false' }}">{{ o.label }}</button>{% endfor %}
@@ -94,7 +94,7 @@ permalink: /tours/4-islands/
   {#- Comparateur des trois bateaux ; la ligne « For … » suit le calculateur. -#}
   <section class="sec" id="compare" aria-labelledby="cmp-h">
     <div class="wrap">
-      <div class="sec__head"><h2 id="cmp-h">The three boats side by side</h2></div>
+      <div class="sec__head"><h2 id="cmp-h">The boats side by side</h2></div>
       <div class="cmp4" data-cmp>
         {%- for col in t.compare.cols %}
         <div class="cmp4__col{% if loop.first %} is-sel{% endif %}" data-opt="{{ col.id }}">
@@ -116,8 +116,9 @@ permalink: /tours/4-islands/
     <div class="wrap day">
       <div class="day__side">
         <h2 id="day-h">{{ t.day.title }}</h2>
-        <p class="day__for" data-day-for>{{ t.day.longtailTitle }}. {{ t.day.note }}</p>
-        <p class="day__for" data-day-speed hidden>{{ t.day.speedboatTitle }}. {{ t.day.speedboatNote }}</p>
+        {%- for b in t.day.boats %}
+        <p class="day__for" data-day-for="{{ b.boat }}"{% if not loop.first %} hidden{% endif %}>{{ b.title }}. {{ b.note }}</p>
+        {%- endfor %}
         <button class="map-fold" type="button" aria-expanded="false" aria-controls="route-map" data-map-fold>{{ v4.glyph("map") }}<span>Show the route map</span></button>
         <figure class="map" id="route-map" data-map>
           {%- set m = t.map -%}
@@ -126,14 +127,14 @@ permalink: /tours/4-islands/
             <rect class="map__sea" width="{{ m.W }}" height="{{ m.H }}"/>
             {%- for l in m.land %}<path class="map__land{% if l.main %} map__land--main{% endif %}" d="{{ l.d }}"/>{% endfor %}
             {%- for boat, r in m.routes %}
-            <g class="map__route" data-map-route="{{ boat }}"{% if boat != "longtail" %} hidden{% endif %}>
+            <g class="map__route" data-map-route="{{ boat }}" data-start-x="{{ r.start.x }}" data-start-y="{{ r.start.y }}"{% if boat != "longtail" %} hidden{% endif %}>
               {%- for s in r.segs %}<path class="map__ghost" d="{{ s }}"/>{% endfor %}
               {%- for s in r.segs %}<path class="map__lit" data-seg="{{ loop.index0 }}" d="{{ s }}" pathLength="1"/>{% endfor %}
               {%- for s in r.stops %}<circle class="map__stop" data-stop="{{ s.name }}" cx="{{ s.x }}" cy="{{ s.y }}" r="7"/>{% endfor %}
             </g>
             {%- endfor %}
             <circle class="map__stop map__stop--pier" cx="{{ m.pier.x }}" cy="{{ m.pier.y }}" r="6"/>
-            {%- for l in m.labels %}<text class="map__lbl{% if l.big %} map__lbl--big{% endif %}" data-lbl="{{ l.text }}" x="{{ l.x }}" y="{{ l.y }}" text-anchor="{{ l.anchor }}">{{ l.text }}</text>{% endfor %}
+            {%- for l in m.labels %}<text class="map__lbl{% if l.big %} map__lbl--big{% endif %}{% if l.gone %} is-gone{% endif %}" data-lbl="{{ l.text }}" x="{{ l.x }}" y="{{ l.y }}" text-anchor="{{ l.anchor }}">{{ l.text }}</text>{% endfor %}
             <line class="map__scale" x1="{{ m.scale.x1 }}" y1="{{ m.scale.y }}" x2="{{ m.scale.x2 }}" y2="{{ m.scale.y }}"/>
             <text class="map__scale-t" x="{{ m.scale.x2 }}" y="{{ m.scale.y - 8 }}" text-anchor="end">{{ m.scale.km }} km</text>
             <g class="map__boat" data-map-boat transform="translate({{ m.pier.x }} {{ m.pier.y }})"><path d="M-12 -1 L12 -1 L8 6 L-8 6 Z"/><path d="M0 -1 V-12 L7 -4 Z"/></g>
@@ -142,16 +143,13 @@ permalink: /tours/4-islands/
         </figure>
       </div>
       <div class="day__main">
-        <ol class="tl" data-tl="longtail">
-          {%- for s in t.day.steps %}
+        {%- for b in t.day.boats %}
+        <ol class="tl" data-tl="{{ b.boat }}"{% if not loop.first %} hidden{% endif %}>
+          {%- for s in b.steps %}
           <li class="tl__step" data-place="{{ s.place }}"><time class="{{ 'fixed' if s.fixed }}">{% if not s.fixed %}≈ {% endif %}{{ s.t }}</time><b>{{ s.place }}</b><p>{{ s.text }}</p></li>
           {%- endfor %}
         </ol>
-        <ol class="tl" data-tl="speedboat" hidden>
-          {%- for s in t.day.speedboat %}
-          <li class="tl__step" data-place="{{ s.place }}"><time class="{{ 'fixed' if s.fixed }}">{% if not s.fixed %}≈ {% endif %}{{ s.t }}</time><b>{{ s.place }}</b><p>{{ s.text }}</p></li>
-          {%- endfor %}
-        </ol>
+        {%- endfor %}
       </div>
     </div>
   </section>

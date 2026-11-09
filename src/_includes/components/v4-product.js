@@ -59,7 +59,10 @@ const sameFees = (a, b) => JSON.stringify(a || []) === JSON.stringify(b || []);
 
 function optionsOf(p) {
   const list = p.options || [];
-  const common = list.length > 0 && list.every((o) => sameFees(o.notIncludedFees, list[0].notIncludedFees)) ? feeRows(list[0].notIncludedFees) : [];
+  // Une option dont la brochure ne dit rien des frais (`feesToConfirm`, catamaran d'Ao Nang) ne casse pas le bloc
+  // commun des autres : sa note dit que nous confirmons sur WhatsApp.
+  const known = list.filter((o) => !o.feesToConfirm);
+  const common = known.length > 0 && known.every((o) => sameFees(o.notIncludedFees, known[0].notIncludedFees)) ? feeRows(known[0].notIncludedFees) : [];
   return {
     common,
     list: list.map((o) => ({

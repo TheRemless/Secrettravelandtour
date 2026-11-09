@@ -147,7 +147,8 @@ function options(product) {
   }));
   // Mêmes frais pour toutes les options : ils sont dits une seule fois, dans le talon du bandeau de faits
   // (ticket()). Des frais propres à une option restent sur sa ligne.
-  const all = list.map((o) => o.fees);
+  // Une option dont les frais restent à confirmer (catamaran d'Ao Nang, `feesToConfirm`) n'entre pas dans la comparaison.
+  const all = list.filter((o, i) => !product.options[i].feesToConfirm).map((o) => o.fees);
   const common = all.length && all.every((f) => f === all[0]) ? all[0] : "";
   if (common) list.forEach((o) => { o.fees = ""; });
   return { list, commonFees: common };
@@ -251,7 +252,8 @@ function bookingTour(product, site) {
       const src = product.options[i];
       const amounts = (src.prices || []).map((r) => r.amount).filter((a) => typeof a === "number");
       const from = product.template === "rental" && amounts.length ? thb(Math.min(...amounts)) : o.from;
-      return { id: o.id, title: o.title, rows: o.rows, from, unit: product.template === "rental" ? "per day" : o.unit };
+      // Départ ailleurs qu'à Koh Lanta (catamaran d'Ao Nang) : le message le dit sur sa propre ligne.
+      return { id: o.id, title: o.title, rows: o.rows, from, unit: product.template === "rental" ? "per day" : o.unit, ...(src.from ? { departure: src.from } : {}) };
     })
   };
 }
