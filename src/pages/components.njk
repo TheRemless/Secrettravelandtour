@@ -1,7 +1,3 @@
----
-eleventyComputed:
-  permalink: "{{ false if buildContext.production else '/_components/' }}"
----
 {#- Page de composants du design v4, avec les vraies données. Jamais en production. -#}
 {% import "components/v4.njk" as v4 %}
 {% from "components/icons.njk" import icon %}

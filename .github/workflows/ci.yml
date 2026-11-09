@@ -23,3 +23,9 @@ jobs:
       - run: npm run build
 
       - run: npm test
+
+      # Build comme le site en ligne (Netlify CONTEXT=production) : les planches sont exclues,
+      # et une page qui casse ce mode bloquerait la mise en ligne sans que la preview le montre.
+      - run: rm -rf _site && npm run build && test -f _site/index.html && test -f _site/tours/4-islands/index.html && test ! -e _site/_components && test ! -e _site/design
+        env:
+          CONTEXT: production
