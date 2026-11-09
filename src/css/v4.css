@@ -99,7 +99,12 @@ figure { margin: 0; }
 .brand b { font: 600 22px/1.05 var(--serif); }
 .nav { margin-left: auto; }
 .nav ul { list-style: none; display: flex; gap: 24px; }
-.nav a { font: 600 15px/1 var(--sans); text-decoration: none; padding: 14px 0; display: block; position: relative; }
+.nav a { font: 600 15px/1 var(--sans); text-decoration: none; padding: 14px 0; display: block; position: relative; white-space: nowrap; }
+/* Bureau étroit (1024 à 1279 px) : liens et liste tiennent sur une ligne, la liste en icône et nombre. */
+@media (max-width: 1279px) {
+  .nav ul { gap: 18px; }
+  .tl-btn__l { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
 .nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 6px; height: 2px; background: var(--sea); transform: scaleX(0); transform-origin: left; transition: transform var(--t2) var(--out); }
 .nav a:hover::after, .nav a[aria-current="page"]::after { transform: scaleX(1); }
 .hd__tools { display: flex; align-items: center; gap: 10px; }
@@ -173,12 +178,13 @@ html.has-trips.hd-off:has(.dock.is-on) .toast { bottom: calc(138px + env(safe-ar
   .brand img { height: 38px; }
   .brand b { font-size: 18px; }
   .brand b span { display: block; }
-  /* Un seul aplat foncé par écran : WhatsApp en contour ; la liste dit son nom (« Trips 2 ») sans icône. */
+  /* Un seul aplat foncé par écran : WhatsApp en contour ; la liste en icône et nombre. */
   .hd__wa { padding: 0; width: 44px; min-height: 44px; background: var(--white); color: var(--deep); box-shadow: inset 0 0 0 1px var(--deep); }
   .hd__wa:hover { background: var(--sand); }
   .hd__wa-l { display: none; }
   .tl-btn { padding: 0 8px 0 10px; gap: 6px; }
-  .tl-btn svg { display: none; }
+  /* « Trip list » sur deux lignes poussait le nom de la marque sur trois : icône et nombre, le libellé reste lu. */
+  .tl-btn__l { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 }
 
 /* Menu mobile : glisse depuis l'en-tête qui l'a ouvert */
