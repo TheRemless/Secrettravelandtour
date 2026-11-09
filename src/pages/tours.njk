@@ -44,7 +44,7 @@ permalink: /tours/
   <section class="wrap hub" aria-labelledby="hub-h">
     <div class="hub__head">
       <h2 class="hub__n" id="hub-h"><span data-hub-n aria-live="polite">{{ d.counts.all }} trips</span></h2>
-      <button class="link hub__cmp" type="button" data-cmp-mode aria-pressed="false" hidden>Compare trips</button>
+      <button class="link hub__cmp" type="button" data-cmp-mode aria-pressed="false">Compare trips</button>
     </div>
     <div class="grid" data-grid>
       {%- for t in d.boats %}{{ v4.card(t, eager=loop.first, compare=true, anchor="boat-trips" if loop.first else "") }}{% endfor %}

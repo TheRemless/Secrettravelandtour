@@ -445,3 +445,65 @@ La cuisine grandit de 180 px au bureau : les trois créneaux écrits passent en 
 | Safari et Firefox | non testés sur appareil |
 
 Rien n'est poussé.
+
+## Phase 2 : accueil, hub, location, speedboat (09.11.2026)
+
+D'après les revues « accueil » et « hub, location, speedboat » du 09.11.2026. Même langage que les fiches de la phase 1 : lignes séparées par un filet, prix en Manrope 600 à droite avec leur unité dessous, chevron quand la ligne s'ouvre ou mène ailleurs, sable réservé aux objets (bulle du message, liste du speedboat, segments).
+
+### Ce qui a changé
+
+| Page | Avant | Après |
+|---|---|---|
+| Menu | Boat trips, Activities, Transfers, Rental ; « Boat trips » allumé en dur sur le hub ; speedboat absent | cinq entrées (Speedboat ajouté) ; sur le hub, le menu suit le filtre (rien sur « All ») ; tiroir à 28 px qui marque la page courante ; WhatsApp en contour sur téléphone ; bouton de liste « Trips 2 » |
+| Accueil, haut | titre de 4 lignes, chapeau de 4 lignes, photo 3:2, trois boutons radio qui changeaient la photo, bouton « See the … trip » sous le premier écran | titre de 2 lignes, une phrase, photo 16:9, trois vrais liens vers les fiches avec promesse, prix et unité ; sur bureau, survol ou focus change la photo ; les trois prix sont dans le premier écran du téléphone |
+| Accueil, réserver | formulaire d'essai en 6e position (option par défaut non choisie, enfants sans âge perdus) | bloc fixe juste après le haut : « Booking is one WhatsApp message », une phrase, la phrase de paiement, la bulle écrite par `buildMessage` avec la configuration de la feuille de la 4 Islands (join-in longtail, 2 adultes, total estimé compris, ni date ni référence) |
+| Accueil, sorties | grandes cartes, 10 boutons « Add to trip list », fonds alternés blanc et sable | cartes horizontales (photo de 112 px) sur téléphone, prix alignés sur bureau, aucun bouton d'ajout, un seul fond blanc |
+| Accueil, se déplacer | chercheur De / Vers, quatre redites de VIP Taxi Lanta, location à trois touchers | « Getting here and around » : trois trajets en liens (aéroports de Krabi et de Phuket, Ao Nang) avec leur durée, le speedboat, puis les trois fourchettes de location, « per 24 hours » dit une fois |
+| Cartes (partout) | anatomie variable, heures de séance à la place de la durée | titre, accroche (bureau), deux faits (durée, bateau ou saison ; jamais d'heures), « from … THB » avec l'unité dessous ; même hauteur par rangée |
+| Hub | 13 cartes de 400 à 490 px, filtres non collants sur téléphone, menu sans effet sur le hub, « Compare » sous chaque carte | cartes horizontales, rangée collante (type à gauche, « Sort » à droite) qui ne colle que le long de la grille, titre de grille qui compte (« 7 activities »), `hashchange` et clic du menu sur le hub, comparaison en mode (« Compare trips »), « Getting around » vers speedboat, transferts et location, fil « Trips » (JSON-LD aussi) |
+| Location | trois comptes et trois fourchettes répétés avant le premier véhicule, voitures d'abord, « per 24 hours » 35 fois, filets courbés, « Ask for … » par colonne | haut de page = la liste ; onglets Scooters 17, Big bikes 10, Cars 8 (scooters d'abord, `?cat=` dans l'adresse) ; fourchette et unité une fois par onglet ; filet sur la ligne de liste ; chiffres Manrope ; bande du bas qui suit l'onglet ; « How to book » et les deux questions retirés de l'affichage (gardés dans le JSON-LD) |
+| Speedboat | accroche de 12 destinations, « Price on WhatsApp » en titre, saison à 4 écrans, 47 pastilles | une phrase (grille 2026–2027, tarif sur WhatsApp), la saison juste dessous ; bascule « From Koh Lanta / To Koh Lanta » ; une ligne repliée par destination avec ses heures ; ouverte, un tableau Leaves, Arrives, Pier et un bouton « Book » par bateau ; saison propre à une ligne (Dec – Apr) dans la ligne ; enregistrement dit une fois sous la grille ; prise en charge dite une fois (Before you book) ; Phi Phi en carte horizontale |
+| Feuille du speedboat | trajet et départ redemandés, date du retour avant celle de l'aller, libellé de l'hôtel effacé par le script | ouverte depuis un bateau : « Koh Lanta to Koh Phi Phi, 09:00, arrives 09:30. Tonsai pier » et « Change » ; date de l'aller, puis billet (aller simple ou retour sur une ligne), puis date et bateau du retour (« Boat back ») ; libellé « Hotel on Koh Lanta » rétabli |
+| Liste de sorties | option et sous-choix repris, mais aucun total ; date en calendrier natif ; résumé d'erreurs de 6 lignes ; bouton flottant qui couvrait le texte | total estimé de chaque sortie dans la liste et dans le message (`Estimated total: …` ou `Total: to be confirmed on WhatsApp`, frais du parc à part, en espèces), même calcul que la feuille (`quoteOf`, `parkCash`) ; puces Today, Tomorrow, Other date ; aide sous « Who is coming » ; plus de surtitre ; résumé d'une ligne ; référence des karts comme la feuille ; téléphone : barre du bas pleine largeur et marge de 72 px en bas de page ; sur les fiches, le bouton de la liste passe dans la bande du bas ; bureau : bouton compact (icône et nombre) dans la marge de gauche |
+| Pied de page | 13 sorties dépliées sur téléphone (1 008 px), « Nothing is paid online » | listes Boat trips et Activities repliées sur téléphone, « More » ouvert (Speedboat timetable, Private transfers, Scooter and car rental) ; « Prices in Thai baht » seul |
+
+Données : `rental.json` passe de « per day » à « per 24 hours » dans les faits, la question sur le moins cher et la méta (réponse du client) ; la feuille de location dit aussi « per 24 hours ». `speedboat-ferry.json` : « Sala Dan pier » dans la prise en charge (seule graphie visible sur le site). Catalogue `/data/catalog.json` : lignes de prix, frais et `parkFee` de chaque option (5,9 Ko gzip). Aucun prix, aucun fait, aucun nom de partenaire ajouté ou retiré.
+
+Fichiers : `home.njk`, `tours.njk`, `rental.njk`, `speedboat.njk`, `components/v4.njk` (menu, carte, pied de page), `components/v4-product.njk` (bande du bas, « Before you book » serré, autres sorties en liste), `components/v4-product.js` (`rentalPage`, `speedboatPage`, `speedboatRoutes`), `booking.njk`, `v4data.js`, `v4.css`, `v4.js`, `v4-home.js`, `v4-hub.js`, `v4-product.js`, `v4-trips.js`, `booking.js` (`tripState`, total par sortie), `schema.js` (fil « Trips »).
+
+### Hauteurs, avant et après
+
+Mesurées sur `_site` (Chrome, 390 × 844 DPR 2 tactile, 1 440 × 900).
+
+| Page | 390 avant | 390 après | 1 440 avant | 1 440 après |
+|---|---|---|---|---|
+| `/` | 8 354 | 4 607 | 5 716 | 4 243 |
+| `/tours/` | 8 719 | 3 950 | 4 468 | 4 620 |
+| `/tours/rental/` | 6 454 | 3 438 | 4 057 | 2 874 |
+| `/tours/speedboat/` | 6 395 | 3 834 | 5 047 | 3 572 |
+
+Le hub grandit de 150 px au bureau : « Getting around » sous la grille. Location à 390 : le premier véhicule arrive à environ 480 px (1 199 avant, premier scooter à 2 668). Speedboat : la saison est dans le premier écran.
+
+### Contrôles
+
+- `STT_ALLOW_PLACEHOLDERS=1 npm run build` OK ; `npm test` 245 verts ; `node scripts/check-v3.mjs` 106 contrôles OK.
+- Tests adaptés, aucun test de prix ou de fait affaibli : compte des cartes du hub (classe `card--add`), montant de chaque ligne de la location toujours vérifié avec son unité lue en tête de l'onglet, bouton de la location (« Choose a vehicle »), grille du speedboat lue dans `data-board="out"`. Ajouté : total estimé d'une sortie de la liste (5 000 THB pour Koh Rok, 2 adultes et un enfant de 7 ans) et absence de total sans option.
+- Playwright (Chrome) à 390 (tactile) et 1 440 : aucune erreur console, aucun défilement horizontal, axe-core 0 sur les quatre pages, la feuille de location, la feuille du speedboat et la liste ouverte (vide et remplie). Parcours jusqu'à `wa.me` : location (Cars, Toyota Yaris, `RENT-2011-2311`), speedboat aller-retour (09:00 vers Phi Phi, retour 09:30), liste de deux sorties (4 Islands longtail et éléphants, programme et séance : 2 600 THB plus 500 THB de parc, 5 600 THB) ; filtre du hub depuis le menu (« 7 activities », menu marqué, barre en haut) puis `#boat-trips` par `hashchange` (« 6 boat trips »). Les 13 fiches de la phase 1 repassées (parcours complet, axe, console) : rien de cassé.
+- Lighthouse 12 mobile, serveur local en gzip : accueil 98 (LCP 2,4 s, CLS 0), hub 100 (1,7 s, 0), location 100 (1,7 s, 0), speedboat 100 (1,7 s, 0) ; accessibilité, bonnes pratiques, SEO 100.
+- Captures (non commitées) : `docs/refonte/design-v4/build/shots/phase2/avant/` et `apres/` (premier écran et page entière à 390 et 1 440, `mesures.json`), `parcours/` (menu du hub, liste remplie et son message, bouton de la liste, ligne du speedboat ouverte, feuille du speedboat).
+
+### Points des revues non traités, et pourquoi
+
+| Point | Raison |
+|---|---|
+| Doublons kayak, Talabeng, mangroves, radeau | décision du client |
+| Comparateur du hub en blocs sur téléphone, toast à la 4e case | le tableau défile encore en largeur dans sa fenêtre ; hors des corrections demandées, à faire avec le hub si le client garde la comparaison |
+| Feuille de location : modèle résumé en tête, « Optional » seulement si vide, « Vehicles » après les dates, une ligne « Vehicle: … × 1 » | message vérifié par un test de forme ; à reprendre avec la feuille |
+| Intertitres « Boat trips » et « Activities » dans la grille du hub au bureau | le tri par prix mélange les deux ; la 13e carte reste seule sur sa rangée |
+| Toast de la liste coupé sous le panneau au bureau | non reproduit sur ces pages ; non traité |
+| H1 du hub et de la location plus courts (« Rental on Koh Lanta… ») | textes à faire valider (`redaction-fr`), le `<title>` et le H1 gardent le lieu |
+| Accueil à 4 607 px au lieu d'environ 4 500 | les modèles de chaque catégorie de location et le pied de page complet sont gardés |
+| « Saladan » dans `legacyText` et `secretPagesContent.json` | textes non affichés, lus par des tests de faits |
+| Safari et Firefox | non testés sur appareil |
+
+Rien n'est poussé.

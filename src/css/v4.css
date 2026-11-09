@@ -133,6 +133,11 @@ html.has-trips.hd-off:has(.dock.is-on) .toast { bottom: calc(138px + env(safe-ar
   html.has-trips body:not(:has(.dock)) { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
   .has-trips.hd-off .toast { bottom: calc(76px + env(safe-area-inset-bottom)); }
 }
+/* Bureau : bouton compact (icône et nombre) dans la marge de gauche ; la fin de page garde sa place en dessous. */
+@media (min-width: 900px) {
+  .tl-dock > span:not(.tl-btn__n):not(.sr) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  html.has-trips body { padding-bottom: 72px; }
+}
 .dock__trips { display: none; }
 @media (max-width: 899px) {
   .has-trips .dock__trips:not([hidden]) { display: inline-flex; }
@@ -336,7 +341,7 @@ html.has-trips.hd-off:has(.dock.is-on) .toast { bottom: calc(138px + env(safe-ar
 }
 .hero__all { margin-top: 8px; }
 @media (max-width: 899px) {
-  .hero { grid-template-columns: minmax(0, 1fr); grid-template-areas: "text" "ph" "ctl"; row-gap: 20px; padding-block: 16px 40px; }
+  .hero { grid-template-columns: minmax(0, 1fr); grid-template-areas: "text" "ph" "ctl"; row-gap: 20px; padding-block: 16px 24px; }
   .hero h1 { max-width: none; font-size: 38px; line-height: 1.04; }
   .hero .lead { margin-top: 10px; font-size: 16px; }
   .hero__ctl { margin-top: 0; }
@@ -354,7 +359,7 @@ html.has-trips.hd-off:has(.dock.is-on) .toast { bottom: calc(138px + env(safe-ar
 
 /* ---------- Sections de l'accueil : un seul fond blanc, séparées par l'espace ; le sable n'habille que des objets ---------- */
 .sec--tight { padding-block: 56px; }
-@media (max-width: 760px) { .sec--tight { padding-block: 36px; } }
+@media (max-width: 760px) { .sec--tight { padding-block: 28px; } }
 .sec--tight .sec__head { margin-bottom: 24px; }
 
 /* Réserver : un message WhatsApp d'exemple, fixe */
@@ -367,7 +372,7 @@ html.has-trips.hd-off:has(.dock.is-on) .toast { bottom: calc(138px + env(safe-ar
 .msg__bubble { margin-top: 14px; background: var(--white); border-radius: var(--r) var(--r) 0 var(--r); padding: 12px 16px; font-size: 15px; line-height: 1.55; font-variant-numeric: lining-nums tabular-nums; }
 .msg__l { display: block; overflow-wrap: anywhere; }
 .msg__l:empty { min-height: .8em; }
-@media (max-width: 899px) { .how { grid-template-columns: minmax(0, 1fr); gap: 20px; } .how h2 { font-size: 30px; } .msg__bubble { font-size: 14px; } }
+@media (max-width: 899px) { .how { grid-template-columns: minmax(0, 1fr); gap: 20px; } .how h2 { font-size: 30px; } .how__text p { margin-top: 10px; font-size: 16px; } .msg__bubble { font-size: 14px; } }
 
 /* Se déplacer : transferts et location côte à côte, chaque ligne est un lien */
 .around { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 64px; margin-top: 28px; }
@@ -559,6 +564,7 @@ html.sheet-open .dock { transform: translateY(calc(100% + 2px)); }
 /* Comparer : un mode. Hors de ce mode, aucune case sous les cartes. */
 .grid:not(.is-comparing) .cmp { display: none; }
 .hub__cmp[aria-pressed="true"] { color: var(--ink); }
+html:not(.js) .hub__cmp { display: none; }
 .hub-more { padding-bottom: 56px; }
 .hub-more h2 { font-size: 30px; }
 @media (min-width: 900px) {
@@ -695,9 +701,11 @@ html.sheet-open .dock { transform: translateY(calc(100% + 2px)); }
 .rent__seg button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 0 8px; }
 .rent__n { font-weight: 400; font-size: 14px; color: var(--ink-mute); font-variant-numeric: lining-nums tabular-nums; }
 .rent__cat + .rent__cat { margin-top: 40px; }
-.rent.is-tabs .rent__cat + .rent__cat { margin-top: 0; }
+.js .rent__cat + .rent__cat { margin-top: 0; }
+/* Sans JS, les onglets ne servent à rien : les trois listes se suivent avec leur titre. Avec JS, posé dès le <head>. */
+html:not(.js) .rent__seg, html:not(.js) .sb__seg { display: none; }
 .rent__ch { font-size: 26px; margin-bottom: 4px; }
-.rent.is-tabs .rent__ch { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.js .rent__ch { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .rent__range { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; padding: 14px 0 10px; border-bottom: 1px solid var(--field); font-size: 15px; }
 .rent__range b { font: 600 17px/1.3 var(--sans); font-variant-numeric: lining-nums tabular-nums; }
 .rent__range small { font-size: 15px; color: var(--ink-mute); }
@@ -850,9 +858,9 @@ html.sheet-open .dock { transform: translateY(calc(100% + 2px)); }
 .sbs .sec__head, .sbs h2 { margin-bottom: 20px; }
 .sb__seg { display: grid; width: 100%; max-width: 480px; margin-bottom: 20px; background: var(--shell); border-color: transparent; }
 .sbb + .sbb { margin-top: 40px; }
-.sbs.is-tabs .sbb + .sbb { margin-top: 0; }
+.js .sbb + .sbb { margin-top: 0; }
 .sbb__h { font-size: 26px; margin-bottom: 12px; }
-.sbs.is-tabs .sbb__h { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.js .sbb__h { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .sbl { list-style: none; background: var(--white); border-radius: var(--r); padding: 0 16px; }
 .sbl > li + li { border-top: 1px solid var(--line); }
 .sbr > summary { list-style: none; display: grid; grid-template-columns: minmax(0, 200px) minmax(0, 1fr) 12px; align-items: center; gap: 4px 16px; min-height: 56px; padding: 10px 0; cursor: pointer; }

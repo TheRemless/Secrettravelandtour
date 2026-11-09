@@ -33,7 +33,7 @@ permalink: /tours/rental/
     </div>
     <section class="rent" id="options" aria-labelledby="opt-h">
       <h2 id="opt-h" class="rent__h">Vehicles and prices</h2>
-      <div class="seg rent__seg" role="group" aria-label="Vehicle type" data-seg="rent" hidden>
+      <div class="seg rent__seg" role="group" aria-label="Vehicle type" data-seg="rent">
         {%- for g in t.cats %}
         <button type="button" value="{{ g.id }}" aria-pressed="{{ 'true' if loop.first else 'false' }}" aria-controls="cat-{{ g.id }}" data-from="{{ g.from }}" data-short="{{ g.short }}">{{ g.short }}<span class="rent__n">{{ g.count }}</span></button>
         {%- endfor %}
