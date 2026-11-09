@@ -49,7 +49,7 @@ permalink: /tours/speedboat/
             <div class="sbr__in">
               <table class="sbt">
                 <caption class="sr">{{ "Koh Lanta to " + r.place if side.id == "out" else r.place + " to Koh Lanta" }}</caption>
-                <thead><tr><th scope="col">Leaves</th><th scope="col">Arrives</th><th scope="col">Pier</th><td></td></tr></thead>
+                <thead><tr><th scope="col">Leaves</th><th scope="col">Arrives</th><th scope="col">Pier</th><th scope="col"><span class="sr">Book</span></th></tr></thead>
                 <tbody>
                   {%- for dp in r.deps %}
                   {%- set req = ('Speedboat request: Koh Lanta to ' + r.place) if side.id == "out" else ('Speedboat request: ' + r.place + ' to Koh Lanta') %}
