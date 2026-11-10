@@ -31,7 +31,7 @@
     },
     {
       "label": "Speedboat pier",
-      "value": "Koh Lanta Noi, join-in speedboat"
+      "value": "Lanta Old Town pier, join-in speedboat"
     },
     {
       "label": "Crossing",
@@ -151,7 +151,7 @@
       "steps": [
         {
           "time": "08:00",
-          "text": "Pickup at your hotel between 08:00 and 09:00, light breakfast at the pier on Koh Lanta Noi."
+          "text": "Pickup at your hotel between 08:00 and 09:00, light breakfast at Lanta Old Town pier."
         },
         {
           "time": "09:00",
@@ -188,7 +188,7 @@
     "National park fee, paid in cash"
   ],
   "beforeYouBook": {
-    "pickup": "Pickup at your hotel between 08:00 and 09:00, light breakfast at the pier on Koh Lanta Noi.",
+    "pickup": "Pickup at your hotel between 08:00 and 09:00, light breakfast at Lanta Old Town pier.",
     "bring": [
       "Cash for the national park fee"
     ],
@@ -337,7 +337,7 @@
     },
     {
       "field": "facts[Speedboat pier], day[0].steps[3..5], included, beforeYouBook.pickup",
-      "from": "brochure publique des sorties en speedboat join-in (audit A § 1.3) p. 2, Phi Phi + Bamboo : 12:00 à 13:30 déjeuner à Phi Phi Don puis Bamboo, 13:30 à 14:15 Loh Mudee, 14:15 à 16:00 temps libre à Phi Phi Don puis retour (« at your hotel around 16:30 » retiré), « All tour include » p. 3 (décision client du 08.11.2026)"
+      "from": "brochure publique des sorties en speedboat join-in (audit A § 1.3) p. 2, Phi Phi + Bamboo : 12:00 à 13:30 déjeuner à Phi Phi Don puis Bamboo, 13:30 à 14:15 Loh Mudee, 14:15 à 16:00 temps libre à Phi Phi Don puis retour (« at your hotel around 16:30 » retiré), « All tour include » p. 3 (décision client du 08.11.2026) Départ du ponton de Lanta Old Town (décision de Jérémy du 10.11.2026, la brochure donne une adresse sur Koh Lanta Noi)."
     },
     {
       "field": "options[join-in-speedboat].prices[Child under 4] ; options[private-speedboat].note",
