@@ -13,7 +13,7 @@
   "facts": [
     {
       "label": "Routes",
-      "value": "Krabi Airport to Ao Nang, Phuket Airport to Khao Lak, Krabi to Khao Sok, Phuket to Khao Sok, Surat Thani to Khao Sok, Phuket Airport to Ao Nang, Krabi Airport to Khao Lak"
+      "value": "Krabi Airport to Ao Nang, Phuket Airport to Khao Lak, Krabi to Khao Sok, Phuket to Khao Sok, Surat Thani to Khao Sok, Phuket Airport to Ao Nang"
     },
     {
       "label": "Directions",
@@ -205,27 +205,6 @@
           "a": "Yes. Write Krabi Town or your hotel as the drop-off."
         }
       ]
-    },
-    {
-      "id": "krabi-airport-khao-lak",
-      "legacyUrl": "/taxi/krabi-airport-khao-lak/",
-      "from": "Krabi Airport",
-      "to": "Khao Lak",
-      "code": "KBV",
-      "region": "Krabi province",
-      "points": [
-        "Krabi Airport (KBV)",
-        "Your hotel in Khao Lak"
-      ],
-      "seo": {
-        "title": "Krabi Airport to Khao Lak Private Minivan | VIP Taxi Lanta",
-        "metaDescription": "Private minivan between Krabi Airport (KBV) and Khao Lak, both directions, straight to your hotel. Cash to the driver, no prepayment. Price on WhatsApp."
-      },
-      "h1": "Krabi Airport to Khao Lak by private minivan",
-      "lead": "From Krabi Airport (KBV) to your hotel in Khao Lak, or back to the airport, in a private minivan.",
-      "body": [
-        "Give us your flight time, your hotel in Khao Lak and the number of people. The team confirms the price on WhatsApp and the driver waits in the arrivals hall with a sign showing your name."
-      ]
     }
   ],
   "photos": [
@@ -262,7 +241,7 @@
   "sources": [
     {
       "field": "routes[]",
-      "from": "taxiRoutes.json routes[id in krabi-airport-ao-nang, phuket-airport-khao-lak, krabi-khao-sok, phuket-khao-sok, surat-thani-khao-sok, phuket-airport-ao-nang, krabi-airport-khao-lak]"
+      "from": "taxiRoutes.json routes[id in krabi-airport-ao-nang, phuket-airport-khao-lak, krabi-khao-sok, phuket-khao-sok, surat-thani-khao-sok, phuket-airport-ao-nang]"
     },
     {
       "field": "routes[].drive",
@@ -291,10 +270,11 @@
     {
       "field": "routes[krabi-airport-ao-nang].priceFrom",
       "from": "Note sous la grille VIP Taxi Lanta : « Krabi Airport to Ao Nang : 700-750THB ». Affiché « from 700 ». Jérémy, 10.11.2026."
+    },
+    {
+      "field": "routes",
+      "from": "Krabi Airport → Khao Lak retiré le 10.11.2026 à la demande de Jérémy (trajet ajouté par Claude le 30.10, sans source). /taxi/krabi-airport-khao-lak/ redirigé en 301 vers /taxi/ dans netlify.toml."
     }
-  ],
-  "todo": [
-    "TODO(client): durée du trajet Krabi Airport → Khao Lak (aucune source, durée non affichée sur la page actuelle)."
   ],
   "notes": [
     "Page nouvelle : name, h1, lead et seo sont repris provisoirement du bloc « Long-distance private transfers » de /taxi/ ; à rédiger.",

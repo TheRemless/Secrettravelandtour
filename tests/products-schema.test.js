@@ -178,13 +178,13 @@ test("produits : toutes les pages /tours/ actuelles sont reprises", () => {
   assert.equal(Object.keys(content.pages).length, 15);
 });
 
-test("produits : les 19 trajets taxi sont repris (12 pages Koh Lanta + 7 regroupés)", () => {
+test("produits : les 18 trajets taxi sont repris (12 pages Koh Lanta + 6 regroupés)", () => {
   const old = require("../src/_data/taxiRoutes.json").routes;
   const taxi = files.filter((f) => f.folder === "taxi").map((f) => f.data);
   const south = taxi.find((p) => p.slug === "southern-thailand");
   const own = taxi.filter((p) => p !== south);
   assert.equal(own.length, 12);
-  assert.equal(south.routes.length, 7);
+  assert.equal(south.routes.length, 6);
   for (const r of old) {
     const page = own.find((p) => p.slug === r.id);
     const grouped = south.routes.find((x) => x.id === r.id);
@@ -194,7 +194,7 @@ test("produits : les 19 trajets taxi sont repris (12 pages Koh Lanta + 7 regroup
     assert.equal(facts.to, r.to, r.id);
     if (r.drive) assert.equal(facts.drive, r.drive, r.id);
     if (grouped) assert.equal(grouped.legacyUrl, `/taxi/${r.id}/`, r.id);
-    // Aucun des 7 trajets regroupés ne touche Koh Lanta, les 10 autres oui.
+    // Aucun des 6 trajets regroupés ne touche Koh Lanta, les 10 autres oui.
     assert.equal(/Koh Lanta/.test(`${r.from} ${r.to}`), Boolean(page), r.id);
   }
   for (const p of own) assert.ok(p.route && isStr(p.route.from) && isStr(p.route.to) && p.route.points.length, p.slug);

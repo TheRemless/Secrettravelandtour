@@ -7,7 +7,7 @@ permalink: "{{ r.url }}"
 eleventyExcludeFromCollections: true
 ---
 {#- Les pages trajet de VIP Taxi Lanta sur un seul gabarit, identité « Laque et or » (10.11.2026).
-    Données : taxiPages.js (products/taxi). Une donnée absente ne s'affiche pas (durée de Krabi Airport → Khao Lak).
+    Données : taxiPages.js (products/taxi). Une donnée absente ne s'affiche pas (une durée inconnue, par exemple).
     Prix d'appel de la grille VIP Taxi Lanta (« From … THB ») quand il existe, sinon « Price on WhatsApp ». Réservation par la feuille (booking.js, variante taxi, aller ou retour). -#}
 {% import "components/taxi.njk" as tx %}
 {% from "components/booking.njk" import bookingSheet %}

@@ -346,26 +346,6 @@
           "a": "Yes. Enter Krabi Town or your hotel as the destination."
         }
       ]
-    },
-    {
-      "id": "krabi-airport-khao-lak",
-      "from": "Krabi Airport",
-      "to": "Khao Lak",
-      "code": "KBV",
-      "title": "Krabi Airport to Khao Lak Minivan Taxi | VIP Taxi Lanta",
-      "metaDescription": "Private minivan taxi between Krabi Airport (KBV) and Khao Lak, both directions, straight to your hotel. Cash to the driver, no prepayment. Price on WhatsApp.",
-      "h1": "Krabi Airport to Khao Lak, private transfer",
-      "lead": "From Krabi Airport (KBV) to your hotel in Khao Lak, or back to the airport, in a private minivan.",
-      "body": [
-        "Give us your flight time, your hotel in Khao Lak and the number of people. The team confirms the price on WhatsApp and the driver waits for you at the airport."
-      ],
-      "drive": null,
-      "faq": [
-        {
-          "q": "Is the Khao Lak transfer private?",
-          "a": "Yes. Every transfer is private, your group only."
-        }
-      ]
     }
   ],
   "common": {
@@ -410,8 +390,7 @@
         "krabi-airport-koh-lanta",
         "krabi-airport-ao-nang",
         "koh-lanta-krabi-town",
-        "koh-lanta-ao-nang",
-        "krabi-airport-khao-lak"
+        "koh-lanta-ao-nang"
       ]
     },
     {

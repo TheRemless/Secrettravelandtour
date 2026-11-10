@@ -10,9 +10,9 @@ const T = require("../src/_data/taxiPages.js")();
 const page = (url) => fs.readFileSync(path.join(SITE, url, "index.html"), "utf8");
 const config = (doc) => JSON.parse(doc.match(/<script type="application\/json" id="book-data">(.*?)<\/script>/)[1]);
 
-test("19 trajets, toutes les adresses d'avant gardées", () => {
+test("18 trajets, toutes les adresses d'avant gardées sauf Krabi Airport → Khao Lak, redirigé", () => {
   const before = require("../src/_data/taxiRoutes.json").routes.map((r) => `/taxi/${r.id}/`);
-  assert.equal(T.routes.length, 19);
+  assert.equal(T.routes.length, 18);
   assert.deepEqual(T.routes.map((r) => r.url), before);
   for (const url of before) assert.ok(fs.existsSync(path.join(SITE, url, "index.html")), url);
 });
@@ -35,11 +35,12 @@ test("un seul gabarit : chaque trajet a la même structure et réserve par la fe
   }
 });
 
-test("donnée absente, rien d'affiché : Krabi Airport → Khao Lak n'a pas de durée", () => {
-  const r = T.byId["krabi-airport-khao-lak"];
-  assert.equal(r.drive, "");
-  const doc = page(r.url);
-  assert.doesNotMatch(doc, /class="c-drive"/);
+test("Krabi Airport → Khao Lak retiré (Jérémy, 10.11.2026) : plus de page, plus de lien, redirection 301 vers /taxi/", () => {
+  assert.ok(!T.byId["krabi-airport-khao-lak"]);
+  assert.ok(!fs.existsSync(path.join(SITE, "taxi/krabi-airport-khao-lak/index.html")));
+  for (const url of ["/taxi/"].concat(T.routes.map((r) => r.url))) assert.doesNotMatch(page(url), /krabi-airport-khao-lak/, url);
+  const toml = fs.readFileSync(path.join(__dirname, "..", "netlify.toml"), "utf8");
+  assert.match(toml, /from = "\/taxi\/krabi-airport-khao-lak\/"\s+to = "\/taxi\/"\s+status = 301/);
   assert.match(page("/taxi/krabi-airport-koh-lanta/"), /<p class="c-drive">About 2 to 3 hours/);
 });
 
