@@ -67,28 +67,26 @@ permalink: /
     </div>
   </section>
 
-  <section class="sec sec--tight" id="boat-trips" aria-labelledby="boats-h">
-    <div class="wrap">
-      <div class="sec__head"><h2 id="boats-h">More boat trips</h2><a class="link" href="/tours/#boat-trips">See all boat trips</a></div>
-      <div class="grid grid--home">{% for t in h.moreBoats %}{{ v4.card(t, add=false) }}{% endfor %}</div>
-    </div>
-  </section>
-
-  <section class="sec sec--tight" id="activities" aria-labelledby="acts-h">
+  {%- macro rail(id, title, href, linkText, items, what) %}
+  <section class="sec sec--tight" id="{{ id }}" aria-labelledby="{{ id }}-h">
     <div class="wrap rail-wrap">
-      <div class="sec__head"><h2 id="acts-h">Activities</h2><a class="link" href="/tours/#activities">See all activities</a></div>
-      <div class="rail" data-rail tabindex="0" role="region" aria-label="Activities, scroll sideways">
-        {%- for t in h.activities %}{{ v4.card(t, "(min-width: 1024px) 360px, (min-width: 700px) 45vw, 74vw", add=false) }}{% endfor %}
+      <div class="sec__head"><h2 id="{{ id }}-h">{{ title }}</h2><a class="link" href="{{ href }}">{{ linkText }}</a></div>
+      <div class="rail" data-rail tabindex="0" role="region" aria-label="{{ title }}, scroll sideways">
+        {%- for t in items %}{{ v4.card(t, "(min-width: 1024px) 360px, (min-width: 700px) 45vw, 74vw", add=false) }}{% endfor %}
       </div>
       <div class="rail-ctl" data-rail-ctl hidden>
         <div class="rail-bar" aria-hidden="true"><i></i></div>
         <div class="arrows">
-          <button class="arrow" type="button" data-rail-prev>{{ icon("chevron-left") }}<span class="sr">Previous activities</span></button>
-          <button class="arrow" type="button" data-rail-next>{{ icon("chevron-right") }}<span class="sr">Next activities</span></button>
+          <button class="arrow" type="button" data-rail-prev>{{ icon("chevron-left") }}<span class="sr">Previous {{ what }}</span></button>
+          <button class="arrow" type="button" data-rail-next>{{ icon("chevron-right") }}<span class="sr">Next {{ what }}</span></button>
         </div>
       </div>
     </div>
   </section>
+  {%- endmacro %}
+  {{ rail("boat-trips", "Boat trips", "/tours/#boat-trips", "See all boat trips", h.boats, "boat trips") }}
+
+  {{ rail("activities", "Activities", "/tours/#activities", "See all activities", h.activities, "activities") }}
 
   {#- Se déplacer : trois trajets en liens, le speedboat, la location et ses trois fourchettes. -#}
   {%- set ar = h.around -%}

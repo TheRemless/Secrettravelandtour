@@ -39,16 +39,17 @@
   }
 
   // ---------- Rail des activités : flèches, barre de progression, glisser-lancer à la souris ----------
-  var rail = $("[data-rail]");
-  if (rail) {
-    var ctl = $("[data-rail-ctl]"), prev = $("[data-rail-prev]"), next = $("[data-rail-next]");
+  // Plusieurs bandes (sorties en bateau, activités) : chacune avec les commandes de son bloc.
+  $$("[data-rail]").forEach(function (rail) {
+    var box = rail.closest(".rail-wrap");
+    var ctl = $("[data-rail-ctl]", box), prev = $("[data-rail-prev]", box), next = $("[data-rail-next]", box);
     ctl.hidden = false;
     var page = function (d) { rail.scrollBy({ left: d * rail.clientWidth * 0.9, behavior: V.reduce.matches ? "auto" : "smooth" }); };
     var state = function () {
       var max = rail.scrollWidth - rail.clientWidth;
       prev.disabled = rail.scrollLeft < 4;
       next.disabled = rail.scrollLeft > max - 4;
-      if (!CSS.supports("animation-timeline: scroll()")) $(".rail-bar i").style.setProperty("--p", 0.2 + 0.8 * (max ? rail.scrollLeft / max : 1));
+      if (!CSS.supports("animation-timeline: scroll()")) $(".rail-bar i", box).style.setProperty("--p", 0.2 + 0.8 * (max ? rail.scrollLeft / max : 1));
     };
     prev.addEventListener("click", function () { page(-1); });
     next.addEventListener("click", function () { page(1); });
@@ -81,6 +82,6 @@
     };
     rail.addEventListener("pointerup", end);
     rail.addEventListener("pointercancel", end);
-  }
+  });
 
 })();

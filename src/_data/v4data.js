@@ -242,7 +242,8 @@ module.exports = async function () {
     lead: `You book on ${site.booking.channel}${site.booking.onlinePayment === false ? " and nothing is paid online" : ""}.`,
     // Les trois sorties du haut : photos de leurs cartes, en plus grand (elles ne reparaissent pas plus bas).
     heroTrips: await Promise.all(["4-islands", "koh-rok-koh-haa", "koh-phi-phi"].map(async (s) => ({ ...bySlug[s], photo: await photo(CARD_PHOTO[s]) }))),
-    moreBoats: ["mangroves", "fishing-trip"].map((s) => bySlug[s]),
+    // Toutes les sorties en bateau en bande, comme les activités (demande de Jérémy du 10.11.2026).
+    boats,
     activities,
     // Transferts et location réunis : trois trajets en liens, le speedboat, puis les trois fourchettes de la location.
     around: {
