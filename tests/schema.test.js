@@ -176,8 +176,12 @@ test("@id cohérents : provider des pages Secret = agence de l'accueil, catalogu
       assert.equal(main.provider["@id"], VIP, product.url);
       assert.equal(main.provider.name, site.brands.vip.name);
       assert.deepEqual(main.provider.sameAs, site.brands.vip.sameAs);
-      assert.deepEqual(Object.keys(main.provider.address).sort(), ["@type", "addressCountry", "addressLocality", "addressRegion"]);
-      assert.doesNotMatch(JSON.stringify(blocks), /telephone|streetAddress|postalCode|"geo"/, product.url);
+      // Fiche Google de VIP Taxi Lanta (10.11.2026) : adresse complète et coordonnées dans le JSON-LD seulement.
+      assert.equal(main.provider["@type"], "LocalBusiness", product.url);
+      assert.deepEqual(Object.keys(main.provider.address).sort(), ["@type", "addressCountry", "addressLocality", "addressRegion", "postalCode", "streetAddress"]);
+      assert.equal(main.provider.address.postalCode, "81150");
+      assert.deepEqual([main.provider.geo.latitude, main.provider.geo.longitude], [7.5821418, 99.0352329]);
+      assert.doesNotMatch(JSON.stringify(blocks), /telephone|aggregateRating/, product.url);
     }
   }
 });

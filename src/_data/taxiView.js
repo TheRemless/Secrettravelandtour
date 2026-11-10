@@ -2,6 +2,8 @@
 // Google, liste des infos encore à confirmer par VIP Taxi Lanta et affichage du bandeau
 // d'aperçu (jamais en production).
 const taxi = require("./taxi.json");
+const site = require("./site.json");
+const { vipPlace } = require("../_includes/components/schema.js");
 
 function toConfirm() {
   const items = [];
@@ -15,7 +17,7 @@ function toConfirm() {
   return items;
 }
 
-// Uniquement des faits repris du site de VIP Taxi Lanta : pas de note ni d'avis (aucun chiffre
+// Uniquement des faits repris du site et de la fiche Google de VIP Taxi Lanta : pas de note ni d'avis (aucun chiffre
 // vérifié), pas de téléphone ni d'e-mail (le formulaire est le canal unique), pas de prix.
 function jsonLd() {
   const b = taxi.business;
@@ -32,15 +34,11 @@ function jsonLd() {
     description: taxi.hero.lead,
     serviceType: "Private minivan transfers across Southern Thailand, taxi rides on Koh Lanta",
     areaServed: b.areaServed.map((name) => ({ "@type": "Place", name })),
+    // Adresse et coordonnées : JSON-LD seulement (fiche Google, 10.11.2026), jamais sur la page.
     provider: {
-      "@type": "Organization",
+      "@type": "LocalBusiness",
       name: b.name,
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: "Koh Lanta",
-        addressRegion: "Krabi",
-        addressCountry: "TH"
-      }
+      ...vipPlace(site)
     },
     // Catalogue des services, sans prix : aucun tarif n'a été validé.
     hasOfferCatalog: {

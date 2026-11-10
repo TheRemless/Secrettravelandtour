@@ -128,3 +128,16 @@ test("taxi : page songthaew liée depuis le hub, pancarte aux arrivées, Phuket 
   const trang = fs.readFileSync(path.join(SITE, "taxi", "koh-lanta-trang", "index.html"), "utf8");
   assert.doesNotMatch(trang, /Met at arrivals/);
 });
+
+test("adresse de la fiche Google : dans le JSON-LD, jamais dans le texte visible des pages taxi", () => {
+  const urls = ["/taxi/", "/taxi/songthaew/"].concat(T.routes.map((r) => r.url));
+  for (const url of urls) {
+    const doc = page(url);
+    const visible = doc.replace(/<script[\s\S]*?<\/script>/g, "").replace(/<[^>]+>/g, " ");
+    assert.doesNotMatch(visible, /292|Moo 2|81150|Sala ?Dan|7\.582|99\.035/i, url);
+    assert.doesNotMatch(doc.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g, ""), /292 Moo|81150|7\.5821418/, `${url} : hors JSON-LD`);
+  }
+  const hub = JSON.parse(page("/taxi/").match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+  assert.equal(hub.provider.address.streetAddress, "292 Moo 2, Sala Dan");
+  assert.equal(hub.provider.geo.latitude, 7.5821418);
+});

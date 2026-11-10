@@ -286,6 +286,23 @@ function transfer(product, site) {
 
 // Trajet VIP Taxi Lanta : TaxiService (les deux extrémités en areaServed), fourni par l'organisation VIP
 // (@id …/taxi/#vip), décrite en entier ici puisque aucune page Secret ne la définit.
+// Adresse et coordonnées de la fiche Google de VIP Taxi Lanta (10.11.2026) : JSON-LD seulement, jamais affichées.
+function vipPlace(site) {
+  const v = site.brands.vip;
+  return clean({
+    address: v.address && {
+      "@type": "PostalAddress",
+      streetAddress: v.address.street,
+      addressLocality: v.address.locality,
+      addressRegion: v.address.region,
+      postalCode: v.address.postalCode,
+      addressCountry: v.address.country
+    },
+    geo: v.geo && { "@type": "GeoCoordinates", latitude: v.geo.lat, longitude: v.geo.lng },
+    hasMap: v.maps
+  });
+}
+
 function route(product, site) {
   const v = site.brands.vip;
   const s = product.schema || {};
@@ -293,19 +310,14 @@ function route(product, site) {
   const url = abs(site, product.url);
   const area = s.areaServed || [r.from, r.to].filter(Boolean);
   const provider = {
-    "@type": "Organization",
+    "@type": "LocalBusiness",
     "@id": ids(site).vip,
     name: v.name,
     alternateName: v.byline ? `${v.name} ${v.byline}` : undefined,
     url: abs(site, v.url),
     logo: photoUrl(site, v.photos, "logo"),
     image: photoUrl(site, v.photos, "hero"),
-    address: v.address && {
-      "@type": "PostalAddress",
-      addressLocality: v.address.locality,
-      addressRegion: v.address.region,
-      addressCountry: v.address.country
-    },
+    ...vipPlace(site),
     areaServed: (v.areaServed || []).map(place),
     sameAs: v.sameAs
   };
@@ -373,4 +385,4 @@ function hub(site, products) {
   ];
 }
 
-module.exports = { home, tour, activity, rental, transfer, route, hub, toScript, clean, mainId, ids };
+module.exports = { home, tour, activity, rental, transfer, route, hub, toScript, clean, mainId, ids, vipPlace };

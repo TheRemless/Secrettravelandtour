@@ -117,12 +117,17 @@
         "Taxi rides on Koh Lanta"
       ],
       "address": {
+        "street": "292 Moo 2, Sala Dan",
         "locality": "Koh Lanta",
         "region": "Krabi",
+        "postalCode": "81150",
         "country": "TH",
         "display": "Koh Lanta, Krabi, Thailand"
       },
-      "geo": null,
+      "geo": {
+        "lat": 7.5821418,
+        "lng": 99.0352329
+      },
       "maps": "https://maps.app.goo.gl/hnm3donEq7uR56Dr6",
       "sameAs": [
         "https://maps.app.goo.gl/hnm3donEq7uR56Dr6",
@@ -130,8 +135,8 @@
       ],
       "rating": {
         "value": 5.0,
-        "count": 133,
-        "readOn": "2026-11-02",
+        "count": 139,
+        "readOn": "2026-11-10",
         "url": "https://maps.app.goo.gl/hnm3donEq7uR56Dr6"
       },
       "vehicles": "Minivans only. Taxis only for rides on Koh Lanta itself; outside the island, always a minivan.",
@@ -423,6 +428,10 @@
       "from": "numéro donné par Jérémy le 03.11.2026 (PR 9, secret.json)"
     },
     {
+      "field": "brands.vip.address.street, postalCode, geo, rating",
+      "from": "Fiche Google de VIP Taxi Lanta lue le 10.11.2026 (292, Saladan, Tambon Sala Dan, Ko Lanta District, Krabi 81150 ; 7.5821418, 99.0352329, Plus Code H2JP+V3 ; 5,0 sur 139 avis). Rue, code postal et coordonnées dans le JSON-LD seulement, jamais affichés. Validé par Jérémy : « Oui, données Google »."
+    },
+    {
       "field": "faits du comptoir (next to the pier, two minutes on foot from Saladan Pier, pay on the day, nothing online, car ferry inclus sur Krabi Airport)",
       "from": "confirmés par Jérémy le 03.11.2026 (point 2 du résumé v3)"
     }
@@ -430,7 +439,6 @@
   "todo": [
     "TODO(client): langues parlées : retirées du site le 03.11.2026 à la demande de Jérémy, en attente des vraies informations. Rien ne s'affiche tant que languages est null. Le délai de réponse est rempli depuis le 08.11.2026 (réponse du client : le plus vite possible, en général moins de 6 heures, heure de Thaïlande).",
     "TODO(client): avis Google de Secret Travel & Tour : aucun pour l'instant, à reprendre (note, nombre, date de lecture) dès qu'ils arrivent.",
-    "TODO(client): adresse et coordonnées de la fiche Google de VIP Taxi Lanta (aujourd'hui seulement « Koh Lanta, Krabi, Thailand ») : à afficher ou à masquer ?",
     "TODO(client): durées de trajet VIP relevées sur des guides de transport (12go, goasia, geckoroutes, amazinglanta) le 30.10.2026 : à remplacer par les chiffres de Mr. Brown."
   ],
   "notes": [
