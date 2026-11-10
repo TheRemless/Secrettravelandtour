@@ -190,11 +190,9 @@
       "from": "base partenaires, fiche de la seconde compagnie de speedboat : bagages personnels seulement, vélos et objets volumineux avec supplément selon la place, ni animaux ni matières dangereuses (10.11.2026)"
     }
   ],
-  "todo": [
-    "TODO(client): tarifs des billets par trajet, au moins « à partir de » (aucun tarif sur le site actuel ; en attendant : « Price on WhatsApp »)."
-  ],
   "notes": [
-    "URL actuelle /tours/speedboat/ conservée (décision client : garder toutes les URL). Le brief prévoyait /transfers/speedboat-ferry/."
+    "URL actuelle /tours/speedboat/ conservée (décision client : garder toutes les URL). Le brief prévoyait /transfers/speedboat-ferry/.",
+    "Pas de prix de billet sur le site, « Price on WhatsApp » (décision de Jérémy du 10.11.2026)."
   ],
   "timetable": {
     "season": "2026-2027",

@@ -14,7 +14,7 @@
     }
   },
   "h1": "Koh Phi Phi day trip from Koh Lanta",
-  "lead": "Maya Bay, Pileh Lagoon, Viking Cave, Monkey Beach, then lunch on Phi Phi Don and an afternoon on Bamboo Island. By speedboat, join-in or private.",
+  "lead": "Maya Bay, Pileh Lagoon, Viking Cave, Monkey Beach, then lunch on Phi Phi Don and an afternoon on Bamboo Island. By join-in speedboat.",
   "promise": "Maya Bay, Pileh Lagoon and Bamboo Island by speedboat",
   "facts": [
     {
@@ -27,7 +27,7 @@
     },
     {
       "label": "Boat",
-      "value": "Speedboat, join-in or private"
+      "value": "Join-in speedboat"
     },
     {
       "label": "Speedboat pier",
@@ -80,40 +80,6 @@
           }
         }
       ],
-      "notIncludedFees": [
-        {
-          "label": "National park fee, adult",
-          "amount": 400,
-          "unit": "per person",
-          "note": "Cash"
-        },
-        {
-          "label": "National park fee, child",
-          "amount": 200,
-          "unit": "per person",
-          "note": "Cash"
-        },
-        {
-          "label": "National park fee, Thai national adult",
-          "amount": 40,
-          "unit": "per person",
-          "note": "Cash"
-        },
-        {
-          "label": "National park fee, Thai national child",
-          "amount": 20,
-          "unit": "per person",
-          "note": "Cash"
-        }
-      ]
-    },
-    {
-      "id": "private-speedboat",
-      "label": "Private speedboat",
-      "kind": "private",
-      "boat": "speedboat",
-      "priceOnRequest": true,
-      "note": "Private speedboat option, 09:00 to 16:00, your group only, with a guide. Children from 4 count in the group size, under 4 do not.",
       "notIncludedFees": [
         {
           "label": "National park fee, adult",
@@ -206,10 +172,6 @@
     {
       "q": "Is the national park fee included?",
       "a": "No. You pay 400 THB per adult and 200 THB per child in cash."
-    },
-    {
-      "q": "Can we have the boat for ourselves?",
-      "a": "Yes. A private speedboat runs from 09:00 to 16:00 with a guide for your group only."
     }
   ],
   "photos": [
@@ -342,6 +304,10 @@
     {
       "field": "options[join-in-speedboat].prices[Child under 4] ; options[private-speedboat].note",
       "from": "décision client du 08.11.2026 (second message) : moins de 4 ans gratuits en speedboat join-in ; en privé les enfants comptent dès 4 ans"
+    },
+    {
+      "field": "options",
+      "from": "speedboat privé retiré du site, proposé seulement sur demande (décision de Jérémy du 10.11.2026)"
     }
   ],
   "refPrefix": "PP",

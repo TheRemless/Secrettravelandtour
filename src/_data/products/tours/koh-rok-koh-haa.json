@@ -115,11 +115,20 @@
       "label": "Later trip, back at sunset",
       "kind": "join-in",
       "boat": "speedboat",
-      "note": "Pickup at your hotel at 10:00 by private car, Koh Rok and the Koh Haa lagoon, then a sunset cruise back to Koh Lanta at 17:50. No child price on the site: we confirm it on WhatsApp.",
+      "note": "Pickup at your hotel at 10:00 by private car, Koh Rok and the Koh Haa lagoon, then a sunset cruise back to Koh Lanta at 17:50.",
       "prices": [
         {
-          "label": "Per person",
+          "label": "Adult",
           "amount": 2500,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 11",
+          "amount": 1800,
+          "ages": {
+            "min": 4,
+            "max": 11
+          },
           "unit": "per person"
         }
       ],
@@ -189,35 +198,6 @@
           "unit": "per boat"
         }
       ],
-      "notIncludedFees": [
-        {
-          "label": "National park fee, adult",
-          "amount": 400,
-          "unit": "per person",
-          "note": "Cash, paid to the ranger on the island",
-          "ages": {
-            "min": 12
-          }
-        },
-        {
-          "label": "National park fee, child",
-          "amount": 200,
-          "unit": "per person",
-          "note": "Cash, paid to the ranger on the island",
-          "ages": {
-            "min": 4,
-            "max": 11
-          }
-        }
-      ]
-    },
-    {
-      "id": "private-speedboat",
-      "label": "Private speedboat",
-      "kind": "private",
-      "boat": "speedboat",
-      "priceOnRequest": true,
-      "note": "Private speedboat option: your group only, 09:00 to 16:00. Children from 4 count in the group size, under 4 do not.",
       "notIncludedFees": [
         {
           "label": "National park fee, adult",
@@ -611,10 +591,15 @@
     {
       "field": "options[private-longtail].prices",
       "from": "base partenaires : tranches 1 à 3, 4 à 6, 6 à 8 et 8 à 10 personnes (bornes qui se chevauchent sur la fiche du partenaire) ; le site garde 7 à 8 et 9 à 10 pour ne pas chevaucher (10.11.2026)"
+    },
+    {
+      "field": "options",
+      "from": "speedboat privé retiré du site, proposé seulement sur demande (décision de Jérémy du 10.11.2026)"
+    },
+    {
+      "field": "options[sunset].prices",
+      "from": "adulte 2 500 THB (affiche publique), enfant 4 à 11 ans 1 800 THB (contrat du partenaire, page 2, colonne prix de vente) (décision de Jérémy du 10.11.2026)"
     }
-  ],
-  "todo": [
-    "TODO(client): Koh Rok avec coucher de soleil : jours de départ, prix enfant et âges (l'affiche ne donne que 2 500 THB par personne), ponton."
   ],
   "refPrefix": "ROK"
 }

@@ -253,10 +253,10 @@ test("site.json : deux marques, WhatsApp commun, note VIP datée, licence encore
   assert.ok(Number.isInteger(r.count) && r.count > 0);
   assert.match(r.readOn, /^\d{4}-\d{2}-\d{2}$/);
   assert.match(r.url, /^https:\/\//);
-  // Langues retirées le 03.11.2026 (faits à reconfirmer) : rien ne s'affiche tant qu'elles sont null.
+  // Langues retirées le 03.11.2026, remises le 10.11.2026 (réponse 9 de 04-questions-client.md, confirmée par Jérémy).
   // Délai de réponse donné par le client le 08.11.2026.
   assert.equal(site.replyTime.usual, "within 6 hours, Thailand time");
-  assert.equal(site.languages, null);
+  assert.deepEqual(site.languages, ["Thai", "English", "German", "Italian", "French"]);
   for (const t of site.todo) assert.match(t, /^TODO\(client\): \S/);
   for (const b of BRANDS) {
     for (const ph of site.brands[b].photos || []) {

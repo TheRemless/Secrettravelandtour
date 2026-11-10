@@ -19,6 +19,10 @@
       "value": "Near Sala Dan, in the north of Koh Lanta Yai"
     },
     {
+      "label": "Age",
+      "value": "From 4 years old"
+    },
+    {
       "label": "Karts",
       "value": "Small single seat, small double seat, large single seat, large double seat"
     },
@@ -249,11 +253,11 @@
     {
       "field": "facts[Where]",
       "from": "carte de la brochure du partenaire : piste au nord de Koh Lanta Yai, près de Sala Dan, sur la route de Phra Ae (10.11.2026). Prix de la brochure par type de kart (une place ou deux places), donc par kart"
+    },
+    {
+      "field": "facts[Age]",
+      "from": "4 ans minimum (décision de Jérémy du 10.11.2026, l'Excel de départ disait « dès 4 ans accompagné »)"
     }
-  ],
-  "todo": [
-    "TODO(client): âge ou taille minimum pour conduire (et pour le siège passager des karts doubles).",
-    "TODO(client): sens de « The price list is for a minimum of 2 programmes » (intro et priceNote) : deux sessions minimum, deux karts, deux personnes ?"
   ],
   "refPrefix": "KART"
 }

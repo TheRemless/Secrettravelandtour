@@ -757,11 +757,11 @@
     {
       "field": "options[catamaran-ao-nang].notIncludedFees",
       "from": "base partenaires, alerte A01 : aucun prestataire maritime n'inclut les frais de parc, payés en espèces au garde ; la brochure du catamaran ne les cite pas dans « Tour include ». Prise en charge à l'hôtel d'Ao Nang : pas de ponton à nommer (10.11.2026)"
+    },
+    {
+      "field": "options[join-in-longtail].prices",
+      "from": "âge enfant 4 à 11 ans (décision de Jérémy du 10.11.2026) ; la brochure du longtail ne donne pas d'âge maximum"
     }
-  ],
-  "todo": [
-    "TODO(client): tranche d'âge enfant du longtail : « Child, 4 to 11 » (prix du site) contre « 4 à 10 ans » (registre de faits, brochure du partenaire longtail).",
-    "TODO(client): speedboat privé pour le 4 Islands (cité par le registre de faits, 9:00 à 16:00, absent du site) : à proposer, prix sur WhatsApp ?"
   ],
   "notes": [
     "FAQ « Is the national park fee included? » : la phrase affirmant qu'aucun opérateur de l'île n'inclut les frais de parc est retirée (affirmation fausse, décision client du 02.11.2026). Même chose pour l'ancien encadré parkFeeNote, non repris.",

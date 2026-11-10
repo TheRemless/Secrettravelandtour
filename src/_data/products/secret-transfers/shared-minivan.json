@@ -130,12 +130,9 @@
       "from": "Décision client du 02.11.2026 : prix sur WhatsApp"
     }
   ],
-  "todo": [
-    "TODO(client): transferts partagés : trajets desservis, jours et horaires de départ, point de prise en charge (aucun détail sur le site, seule réponse : « Oui on peut le faire »).",
-    "TODO(client): qui assure le minivan partagé (VIP Taxi Lanta est présenté comme « private only, no sharing ») ?"
-  ],
   "notes": [
     "URL /transfers/ : page à créer (décision client), commune au minivan partagé et au speedboat. Le speedboat garde son URL actuelle /tours/speedboat/.",
-    "Contradiction relevée par l'audit : l'accueil dit « private & shared », /taxi/ dit « no sharing ». Réponse client Q4 : le partagé est possible. Rangé ici sous Secret Travel & Tour (décision du chef de projet), VIP Taxi Lanta reste privé."
+    "Contradiction relevée par l'audit : l'accueil dit « private & shared », /taxi/ dit « no sharing ». Réponse client Q4 : le partagé est possible. Rangé ici sous Secret Travel & Tour (décision du chef de projet), VIP Taxi Lanta reste privé.",
+    "Minivan partagé : seulement si un client le demande sur WhatsApp, rien sur le site (décision de Jérémy du 10.11.2026)."
   ]
 }
