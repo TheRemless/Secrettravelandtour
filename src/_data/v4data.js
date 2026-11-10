@@ -134,7 +134,8 @@ function lunchOf(four, boat) {
 }
 
 // Projection équirectangulaire corrigée de la latitude : un schéma, pas une carte marine.
-const MAP = { lon0: 99.0, lon1: 99.335, lat0: 7.29, lat1: 7.555, W: 640 };
+// Cadre élargi le 10.11.2026 : Koh Lanta Yai et Koh Lanta Noi entières (Jérémy trouvait l'île coupée en haut).
+const MAP = { lon0: 98.93, lon1: 99.42, lat0: 7.285, lat1: 7.705, W: 640 };
 function fourMap(four) {
   const osm = JSON.parse(fs.readFileSync(path.join(DATA, "..", "_includes", "geo", "osm-islands.json"), "utf8"));
   const k = Math.cos(((MAP.lat0 + MAP.lat1) / 2) * Math.PI / 180);
@@ -160,16 +161,18 @@ function fourMap(four) {
   // Un tronçon par arrivée : ponton → 1re île, puis île à île, puis retour. Points de passage au large pour ne pas couper les terres.
   // Le catamaran vient d'Ao Nang, au nord, hors du cadre : il entre et sort par le haut de la carte, par le chenal
   // à l'est de Koh Lanta (tracé de la brochure).
-  const north = [99.165, 7.555];
+  const north = [99.185, MAP.lat1];
   // Speedboat join-in : il part du ponton de Koh Lanta Noi (fiche, « Speedboat pier »), au nord du cadre. La carte ne
   // place pas ce ponton : le tracé entre par le haut, comme celui du catamaran, sous l'étiquette « To Koh Lanta Noi pier ».
-  const noi = [99.125, 7.555];
+  const noi = [99.155, MAP.lat1];
   // Premier tronçon par l'est de Koh Ma, pour qu'il ne passe pas sur Koh Ma avant Koh Chueak.
   const lane = (names, start) => {
     const stops = names.map((n) => at[n]);
-    const segs = [[start, [99.2, 7.47], [99.25, 7.43], stops[0]]];
+    // Départ par le haut du cadre (Ao Nang, Lanta Noi) : aller et retour à l'est de Koh Talabeng et de Koh Bubu.
+    const top = start[1] === MAP.lat1;
+    const segs = [[start, ...(top ? [[99.18, 7.6]] : []), [99.2, 7.47], [99.25, 7.43], stops[0]]];
     for (let i = 1; i < stops.length; i++) segs.push([stops[i - 1], stops[i]]);
-    segs.push([stops[stops.length - 1], [99.135, 7.49], start]);
+    segs.push([stops[stops.length - 1], ...(top ? [[99.165, 7.5], [99.168, 7.6]] : [[99.135, 7.49]]), start]);
     return segs.map(curve);
   };
   const routes = {};
