@@ -14,7 +14,13 @@
   "replyTime": {
     "usual": "within 6 hours, Thailand time"
   },
-  "languages": null,
+  "languages": [
+    "Thai",
+    "English",
+    "German",
+    "Italian",
+    "French"
+  ],
   "openingHours": "none",
   "booking": {
     "channel": "WhatsApp",
@@ -44,7 +50,6 @@
       "offer": [
         "Boat trips",
         "Island activities",
-        "Shared minivan transfers",
         "Speedboat and ferry",
         "Car and scooter rental"
       ],
@@ -434,10 +439,13 @@
     {
       "field": "faits du comptoir (next to the pier, two minutes on foot from Saladan Pier, pay on the day, nothing online, car ferry inclus sur Krabi Airport)",
       "from": "confirmés par Jérémy le 03.11.2026 (point 2 du résumé v3)"
+    },
+    {
+      "field": "languages",
+      "from": "04-questions-client.md, réponse 9 : thaï, anglais, allemand, italien, français, remises sur le site (décision de Jérémy du 10.11.2026)"
     }
   ],
   "todo": [
-    "TODO(client): langues parlées : retirées du site le 03.11.2026 à la demande de Jérémy, en attente des vraies informations. Rien ne s'affiche tant que languages est null. Le délai de réponse est rempli depuis le 08.11.2026 (réponse du client : le plus vite possible, en général moins de 6 heures, heure de Thaïlande).",
     "TODO(client): avis Google de Secret Travel & Tour : aucun pour l'instant, à reprendre (note, nombre, date de lecture) dès qu'ils arrivent.",
     "TODO(client): durées de trajet VIP relevées sur des guides de transport (12go, goasia, geckoroutes, amazinglanta) le 30.10.2026 : à remplacer par les chiffres de Mr. Brown."
   ],

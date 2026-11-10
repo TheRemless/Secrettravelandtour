@@ -130,7 +130,7 @@ test("galeries : chaque photo citée existe, avec un texte alternatif ; chaque f
     }
   }
   const photos = require("../src/_data/photos-v3.json").photos;
-  const CARD = { "koh-rok-koh-haa": "card-koh-rok", "koh-phi-phi": "card-koh-phi-phi", "koh-talabeng-koh-bubu": "card-talabeng", mangroves: "card-mangroves",
+  const CARD = { "koh-rok-koh-haa": "card-koh-rok", "koh-phi-phi": "card-koh-phi-phi", mangroves: "card-mangroves",
     "fishing-trip": "card-fishing", "elephant-sanctuary": "card-elephant", kayak: "card-kayak", "cooking-class": "card-cooking", "scuba-diving": "card-scuba",
     atv: "card-atv", batik: "card-batik", "go-kart": "card-go-kart" };
   for (const [slug, id] of Object.entries(CARD)) {

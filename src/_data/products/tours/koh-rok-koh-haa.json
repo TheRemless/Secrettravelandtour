@@ -35,7 +35,7 @@
     },
     {
       "label": "Speedboat pier",
-      "value": "Koh Lanta Noi, join-in speedboat"
+      "value": "Lanta Old Town pier, join-in speedboat"
     },
     {
       "label": "Islands",
@@ -115,11 +115,20 @@
       "label": "Later trip, back at sunset",
       "kind": "join-in",
       "boat": "speedboat",
-      "note": "Pickup at your hotel at 10:00 by private car, Koh Rok and the Koh Haa lagoon, then a sunset cruise back to Koh Lanta at 17:50. No child price on the site: we confirm it on WhatsApp.",
+      "note": "Pickup at your hotel at 10:00 by private car, Koh Rok and the Koh Haa lagoon, then a sunset cruise back to Koh Lanta at 17:50.",
       "prices": [
         {
-          "label": "Per person",
+          "label": "Adult",
           "amount": 2500,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 11",
+          "amount": 1800,
+          "ages": {
+            "min": 4,
+            "max": 11
+          },
           "unit": "per person"
         }
       ],
@@ -212,12 +221,29 @@
       ]
     },
     {
-      "id": "private-speedboat",
-      "label": "Private speedboat",
-      "kind": "private",
-      "boat": "speedboat",
-      "priceOnRequest": true,
-      "note": "Private speedboat option: your group only, 09:00 to 16:00. Children from 4 count in the group size, under 4 do not.",
+      "id": "catamaran-ao-nang",
+      "label": "Catamaran from Ao Nang",
+      "kind": "join-in",
+      "boat": "catamaran",
+      "from": "Ao Nang",
+      "feesToConfirm": false,
+      "note": "Leaves from Ao Nang, not from Koh Lanta: pickup at your hotel in Ao Nang at 06:00, transfer back at 17:00. Not recommended for children under 4.",
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 3800,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 11",
+          "amount": 2800,
+          "ages": {
+            "min": 4,
+            "max": 11
+          },
+          "unit": "per person"
+        }
+      ],
       "notIncludedFees": [
         {
           "label": "National park fee, adult",
@@ -239,31 +265,6 @@
           }
         }
       ]
-    },
-    {
-      "id": "catamaran-ao-nang",
-      "label": "Catamaran from Ao Nang",
-      "kind": "join-in",
-      "boat": "catamaran",
-      "from": "Ao Nang",
-      "feesToConfirm": true,
-      "note": "Leaves from Ao Nang, not from Koh Lanta: pickup at your hotel in Ao Nang at 06:00, transfer back at 17:00. Not recommended for children under 4. Whether the national park fee is included, we confirm on WhatsApp.",
-      "prices": [
-        {
-          "label": "Adult",
-          "amount": 3800,
-          "unit": "per person"
-        },
-        {
-          "label": "Child, 4 to 11",
-          "amount": 2800,
-          "ages": {
-            "min": 4,
-            "max": 11
-          },
-          "unit": "per person"
-        }
-      ]
     }
   ],
   "day": [
@@ -275,7 +276,7 @@
       "steps": [
         {
           "time": "08:00",
-          "text": "Pickup at your hotel, then the pier on Koh Lanta Noi and a light breakfast."
+          "text": "Pickup at your hotel, then Lanta Old Town pier and a light breakfast."
         },
         {
           "time": "09:30",
@@ -408,7 +409,7 @@
     "National park fee, paid in cash on the island"
   ],
   "beforeYouBook": {
-    "pickup": "Pickup at your hotel around 08:00, light breakfast at the pier on Koh Lanta Noi.",
+    "pickup": "Pickup at your hotel around 08:00, light breakfast at Lanta Old Town pier.",
     "bring": [
       "Cash for the national park fee"
     ],
@@ -561,7 +562,7 @@
     },
     {
       "field": "facts[Speedboat pier], day[0].steps, included, beforeYouBook.pickup",
-      "from": "brochure publique des sorties en speedboat join-in (audit A § 1.3) p. 2, Rok + Ha : 10:00 et 11:00 aux deux premiers spots, 13:00 plage, 15:30 départ de Koh Ha (et non arrivée à Lanta ; « at your hotel by 16:30 » retiré), « All tour include » p. 3 (décision client du 08.11.2026)"
+      "from": "brochure publique des sorties en speedboat join-in (audit A § 1.3) p. 2, Rok + Ha : 10:00 et 11:00 aux deux premiers spots, 13:00 plage, 15:30 départ de Koh Ha (et non arrivée à Lanta ; « at your hotel by 16:30 » retiré), « All tour include » p. 3 (décision client du 08.11.2026) Départ du ponton de Lanta Old Town (décision de Jérémy du 10.11.2026, la brochure donne une adresse sur Koh Lanta Noi)."
     },
     {
       "field": "options[join-in-speedboat].prices[Child under 4] ; options[private-*].note ; options[].notIncludedFees[].ages ; facts[National park fee] ; faq",
@@ -582,12 +583,23 @@
     {
       "field": "options[sunset], day[sunset], included[later trip]",
       "from": "affiche publique « Rok Haa Island + Sunset » (audit A § 2.2) : 2 500 THB par personne, « Not including National park fee », programme de 10:00 à 17:50, en-cas à l'aller et boissons sur la croisière du retour ; aucun prix enfant sur l'affiche, rien d'inventé (décision client du 09.11.2026). Frais de parc : montants déjà sur la fiche (client, 08.11.2026)"
+    },
+    {
+      "field": "options[catamaran-ao-nang].notIncludedFees",
+      "from": "base partenaires, alerte A01 : aucun prestataire maritime n'inclut les frais de parc, payés en espèces au garde ; la brochure du catamaran ne les cite pas dans « Tour include ». Prise en charge à l'hôtel d'Ao Nang : pas de ponton à nommer (10.11.2026)"
+    },
+    {
+      "field": "options[private-longtail].prices",
+      "from": "base partenaires : tranches 1 à 3, 4 à 6, 6 à 8 et 8 à 10 personnes (bornes qui se chevauchent sur la fiche du partenaire) ; le site garde 7 à 8 et 9 à 10 pour ne pas chevaucher (10.11.2026)"
+    },
+    {
+      "field": "options",
+      "from": "speedboat privé retiré du site, proposé seulement sur demande (décision de Jérémy du 10.11.2026)"
+    },
+    {
+      "field": "options[sunset].prices",
+      "from": "adulte 2 500 THB (affiche publique), enfant 4 à 11 ans 1 800 THB (contrat du partenaire, page 2, colonne prix de vente) (décision de Jérémy du 10.11.2026)"
     }
-  ],
-  "todo": [
-    "TODO(client): Koh Rok en longtail privé, tranches « 7 to 8 people » (8 400 THB) et « 9 to 10 people » (9 400 THB) : déduites de la brochure selon le registre de faits, à confirmer.",
-    "TODO(client): catamaran au départ d'Ao Nang : frais de parc national inclus ou non (la brochure n'en dit rien), nom du ponton d'Ao Nang.",
-    "TODO(client): Koh Rok avec coucher de soleil : jours de départ, prix enfant et âges (l'affiche ne donne que 2 500 THB par personne), ponton."
   ],
   "refPrefix": "ROK"
 }

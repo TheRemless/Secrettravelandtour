@@ -11,7 +11,7 @@ const DATA = __dirname;
 const P = (rel) => JSON.parse(fs.readFileSync(path.join(DATA, "products", rel + ".json"), "utf8"));
 const home = fs.existsSync(path.join(DATA, "home.json")) ? JSON.parse(fs.readFileSync(path.join(DATA, "home.json"), "utf8")) : {};
 
-const BOATS = ["4-islands", "koh-rok-koh-haa", "koh-phi-phi", "koh-talabeng-koh-bubu", "fishing-trip", "mangroves"].map((id) => "tours/" + id);
+const BOATS = ["4-islands", "koh-rok-koh-haa", "koh-phi-phi", "fishing-trip", "mangroves"].map((id) => "tours/" + id);
 const ACTIVITIES = ["elephant-sanctuary", "atv", "batik", "kayak", "cooking-class", "scuba-diving", "go-kart"].map((id) => "activities/" + id);
 
 // Adresses qui répondent aujourd'hui (pages refaites ou anciennes pages encore en place) : un lien vers une
@@ -72,7 +72,7 @@ module.exports = async function () {
       rentalPrice: view.price(rental)
     },
     fourIslands: productPage(four,
-      ["tours/koh-rok-koh-haa", "tours/koh-phi-phi", "tours/koh-talabeng-koh-bubu"],
+      ["tours/koh-rok-koh-haa", "tours/koh-phi-phi", "activities/kayak"],
       { href: "/taxi/krabi-airport-koh-lanta/", label: "Arriving at Krabi Airport? Private minivan to Koh Lanta" }),
     route: {
       product: route,

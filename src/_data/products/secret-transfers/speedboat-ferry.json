@@ -44,7 +44,8 @@
   "beforeYouBook": {
     "pickup": "Boats leave from Sala Dan pier. We book your seat and arrange the hotel pickup on Koh Lanta, at a time that depends on your beach.",
     "weather": "Times are for the 2026-2027 season and change with the weather and the sea.",
-    "children": "Children from 3 to 9 pay the child fare. Children under 3 travel free."
+    "children": "Children from 3 to 9 pay the child fare. Children under 3 travel free.",
+    "luggage": "Personal luggage only. Bikes and bulky items travel for an extra fee when there is room. No animals and no dangerous goods."
   },
   "faq": [
     {
@@ -181,17 +182,17 @@
       "from": "décision client du 08.11.2026 : départs de Koh Lanta du 15 octobre au 30 avril (« Some departures run all year » retiré), enfant de 3 à 9 ans, gratuit sous 3 ans (contrats des deux compagnies, audit D § 10 et 11)"
     },
     {
-      "field": "timetable.otherDepartures, timetable.seasons[2], lead, facts[Destinations]",
-      "from": "brochure publique des heures de prise en charge d'une seconde compagnie de speedboat (audit C § 1.1) : Koh Lipe 10:30 et 12:30, Phi Phi puis Phuket 10:00, 13:00 et 15:30, Ao Nang 09:00 et 13:30. Heures de départ seulement : ni prix, ni arrivée, ni ponton, ni saison sur la brochure, rien d'ajouté (décision client du 09.11.2026 : départs fusionnés par destination, sans nom de compagnie). La saison « from 1 December » ne vaut que pour le bateau de 14:30 vers Ao Nang de la grille complète"
+      "field": "timetable.otherDepartures, timetable.otherReturns, timetable.seasons[2], lead, facts[Destinations]",
+      "from": "brochure publique des heures de prise en charge d'une seconde compagnie de speedboat (audit C § 1.1) : Koh Lipe 10:30 et 12:30, Phi Phi puis Phuket 10:00, 13:00 et 15:30, Ao Nang 09:00 et 13:30. Heures de départ seulement : ni prix, ni arrivée, ni ponton, ni saison sur la brochure, rien d'ajouté (décision client du 09.11.2026 : départs fusionnés par destination, sans nom de compagnie). La saison « from 1 December » ne vaut que pour le bateau de 14:30 vers Ao Nang de la grille complète. Le 10.11.2026 : arrivées, saisons, retours vers Koh Lanta et le départ de 15:30 vers Ao Nang ajoutés d'après la base partenaires (contrat 2026-2027 de la seconde compagnie, sans prix) ; heures de départ identiques à l'horaire public de prise en charge. Ponton d'arrivée non donné : non affiché"
+    },
+    {
+      "field": "beforeYouBook.luggage",
+      "from": "base partenaires, fiche de la seconde compagnie de speedboat : bagages personnels seulement, vélos et objets volumineux avec supplément selon la place, ni animaux ni matières dangereuses (10.11.2026)"
     }
   ],
-  "todo": [
-    "TODO(client): tarifs des billets par trajet, au moins « à partir de » (aucun tarif sur le site actuel ; en attendant : « Price on WhatsApp »).",
-    "TODO(client): bagages autorisés sur le speedboat.",
-    "TODO(client): départs de la seconde compagnie (Phi Phi, Phuket, Koh Lipe, Ao Nang) : heures d'arrivée, ponton, saison et retours vers Koh Lanta ; heures de prise en charge par plage (brochure), à afficher ou non."
-  ],
   "notes": [
-    "URL actuelle /tours/speedboat/ conservée (décision client : garder toutes les URL). Le brief prévoyait /transfers/speedboat-ferry/."
+    "URL actuelle /tours/speedboat/ conservée (décision client : garder toutes les URL). Le brief prévoyait /transfers/speedboat-ferry/.",
+    "Pas de prix de billet sur le site, « Price on WhatsApp » (décision de Jérémy du 10.11.2026)."
   ],
   "timetable": {
     "season": "2026-2027",
@@ -324,32 +325,74 @@
     ],
     "otherDepartures": [
       {
-        "places": [
-          "Koh Phi Phi",
-          "Phuket"
-        ],
-        "departs": [
-          "10:00",
-          "13:00",
-          "15:30"
+        "place": "Koh Phi Phi",
+        "deps": [
+          {
+            "time": "10:00",
+            "arrives": "10:40"
+          },
+          {
+            "time": "13:00",
+            "arrives": "13:30"
+          },
+          {
+            "time": "15:30",
+            "arrives": "16:00",
+            "season": "15 Oct – 20 May"
+          }
         ]
       },
       {
-        "places": [
-          "Koh Lipe"
-        ],
-        "departs": [
-          "10:30",
-          "12:30"
+        "place": "Phuket",
+        "deps": [
+          {
+            "time": "10:00",
+            "arrives": "11:40"
+          },
+          {
+            "time": "13:00",
+            "arrives": "14:30"
+          },
+          {
+            "time": "15:30",
+            "arrives": "17:00",
+            "season": "15 Oct – 20 May"
+          }
         ]
       },
       {
-        "places": [
-          "Ao Nang"
-        ],
-        "departs": [
-          "09:00",
-          "13:30"
+        "place": "Koh Lipe",
+        "deps": [
+          {
+            "time": "10:30",
+            "arrives": "13:30",
+            "season": "15 Oct – 20 May"
+          },
+          {
+            "time": "12:30",
+            "arrives": "15:30",
+            "season": "1 Nov – 4 May"
+          }
+        ]
+      },
+      {
+        "place": "Ao Nang",
+        "deps": [
+          {
+            "time": "09:00",
+            "arrives": "10:30",
+            "season": "1 Nov – 4 May"
+          },
+          {
+            "time": "13:30",
+            "arrives": "15:00",
+            "season": "15 Oct – 20 May"
+          },
+          {
+            "time": "15:30",
+            "arrives": "17:15",
+            "season": "1 Nov – 4 May"
+          }
         ]
       }
     ],
@@ -490,7 +533,91 @@
     "checkIn": {
       "default": "30 minutes before departure",
       "langkawi": "1 hr 30 min before, for the immigration check"
-    }
+    },
+    "otherReturns": [
+      {
+        "place": "Phuket",
+        "deps": [
+          {
+            "time": "08:30",
+            "arrives": "10:00",
+            "season": "15 Oct – 20 May"
+          },
+          {
+            "time": "10:00",
+            "arrives": "11:30"
+          },
+          {
+            "time": "12:00",
+            "arrives": "13:30",
+            "season": "15 Oct – 20 May"
+          },
+          {
+            "time": "14:30",
+            "arrives": "16:00"
+          }
+        ]
+      },
+      {
+        "place": "Koh Phi Phi",
+        "deps": [
+          {
+            "time": "09:30",
+            "arrives": "10:00",
+            "season": "15 Oct – 20 May"
+          },
+          {
+            "time": "11:00",
+            "arrives": "11:30"
+          },
+          {
+            "time": "13:00",
+            "arrives": "13:30",
+            "season": "15 Oct – 20 May"
+          },
+          {
+            "time": "15:30",
+            "arrives": "16:00",
+            "season": "15 Oct – 20 May"
+          }
+        ]
+      },
+      {
+        "place": "Koh Lipe",
+        "deps": [
+          {
+            "time": "09:00",
+            "arrives": "12:00",
+            "season": "15 Oct – 20 May"
+          },
+          {
+            "time": "12:00",
+            "arrives": "15:00",
+            "season": "1 Nov – 4 May"
+          }
+        ]
+      },
+      {
+        "place": "Ao Nang",
+        "deps": [
+          {
+            "time": "10:10",
+            "arrives": "11:40",
+            "season": "15 Oct – 4 May"
+          },
+          {
+            "time": "13:00",
+            "arrives": "14:30",
+            "season": "1 Nov – 4 May"
+          },
+          {
+            "time": "14:40",
+            "arrives": "16:00",
+            "season": "1 Nov – 4 May"
+          }
+        ]
+      }
+    ]
   },
   "refPrefix": "SPEED"
 }

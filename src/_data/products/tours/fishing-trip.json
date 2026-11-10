@@ -6,15 +6,15 @@
   "name": "Fishing trip",
   "seo": {
     "title": "Fishing Trip from Koh Lanta | Secret Travel & Tour",
-    "metaDescription": "Fishing off Koh Lanta on a longtail, or on a private wooden raft in Ao Lanta with a seafood lunch cooked on board. Raft from 3,900 THB.",
+    "metaDescription": "Fishing from Koh Lanta on a private wooden raft in Ao Lanta: four hours on the water, gear and bait included, seafood lunch cooked on board. From 3,900 THB.",
     "draft": {
       "title": "Fishing Trip Koh Lanta – Longtail or Private Raft",
       "h1": "Fishing trips from Koh Lanta"
     }
   },
   "h1": "Fishing trip off Koh Lanta",
-  "lead": "A half day of fishing, from a longtail off the coast, or from a private wooden raft in the calm waters of Ao Lanta, with lunch cooked on board.",
-  "promise": "Half a day fishing from a longtail or a private raft",
+  "lead": "A half day of fishing from a private wooden raft in the calm waters of Ao Lanta, with lunch cooked on board.",
+  "promise": "Half a day fishing from a private wooden raft",
   "facts": [
     {
       "label": "Duration",
@@ -27,10 +27,6 @@
     {
       "label": "Raft pier",
       "value": "Thung Yee Peng pier, check-in 10:00"
-    },
-    {
-      "label": "Longtail",
-      "value": "Off the coast of Koh Lanta with a local captain, half day"
     }
   ],
   "price": {
@@ -73,14 +69,6 @@
           "unit": "per person"
         }
       ]
-    },
-    {
-      "id": "longtail",
-      "label": "Fishing by longtail, half day",
-      "kind": "private",
-      "boat": "longtail",
-      "priceOnRequest": true,
-      "note": "For the longtail version, ask us for the price."
     }
   ],
   "day": [
@@ -142,7 +130,7 @@
     },
     {
       "q": "Do we eat what we catch?",
-      "a": "On the raft the lunch is fresh seafood cooked on board. On the longtail, ask us."
+      "a": "Lunch is fresh seafood cooked on board."
     }
   ],
   "photos": [
@@ -253,11 +241,15 @@
     {
       "field": "day[0].steps[5..7], included",
       "from": "affiche Private Fishing Experience.jpg : 13:15 « More fishing / Take photos / Relax » (la baignade n'y est pas), 13:45 retour par la mangrove, 14:00 ponton ; « Price includes » dont guide, gilets, assurance, appâts, transfert « (Koh Lanta area) » (décision client du 08.11.2026)"
+    },
+    {
+      "field": "options, facts, lead, promise, faq",
+      "from": "base partenaires : aucune pêche en longtail chez les partenaires, seule la pêche en radeau est vendue ; option longtail retirée le 10.11.2026"
+    },
+    {
+      "field": "options",
+      "from": "sortie pêche et snorkeling de Koh Ma (Others.docx) gardée hors du site, sur demande seulement (décision de Jérémy du 10.11.2026)"
     }
-  ],
-  "todo": [
-    "TODO(client): bateau de la pêche : l'accueil dit « A fishing trip on a longtail off the coast » (secret.json description) mais affiche « Raft from 3,900 THB » (secret.json info) ; la page vend le radeau et donne le longtail sans prix. Prix et horaires du longtail ?",
-    "TODO(client): sur le longtail, mange-t-on sa pêche ? (FAQ actuelle : « On the longtail, ask us. »)"
   ],
   "refPrefix": "FISH"
 }

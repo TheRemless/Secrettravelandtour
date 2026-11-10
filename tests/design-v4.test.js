@@ -12,7 +12,7 @@ const price = require("../src/js/v4-price.js");
 const B = require("../src/js/booking.js");
 const four = P("tours/4-islands");
 const opt = (id) => four.options.find((o) => o.id === id);
-const SLUGS = ["tours/4-islands", "tours/koh-rok-koh-haa", "tours/koh-phi-phi", "tours/koh-talabeng-koh-bubu", "tours/mangroves", "tours/fishing-trip",
+const SLUGS = ["tours/4-islands", "tours/koh-rok-koh-haa", "tours/koh-phi-phi", "tours/mangroves", "tours/fishing-trip",
   "activities/elephant-sanctuary", "activities/kayak", "activities/cooking-class", "activities/scuba-diving", "activities/atv", "activities/batik", "activities/go-kart"];
 
 test("v4 : aucune donnée manquante affichée, un seul H1, ni adresse ni comptoir sur les trois pages", () => {
@@ -24,12 +24,12 @@ test("v4 : aucune donnée manquante affichée, un seul H1, ni adresse ni comptoi
   }
 });
 
-test("v4 : l'accueil et le hub mènent aux 13 fiches", () => {
+test("v4 : l'accueil et le hub mènent aux 12 fiches (Koh Talabeng fondue dans Kayaking le 10.11.2026)", () => {
   for (const f of ["index.html", "tours/index.html"]) {
     const h = site(f);
     for (const s of SLUGS) assert.match(h, new RegExp(`href="${P(s).url}"`), `${f} : ${s}`);
   }
-  assert.equal((site("tours/index.html").match(/<article class="card[ "]/g) || []).length, 13);
+  assert.equal((site("tours/index.html").match(/<article class="card[ "]/g) || []).length, 12);
 });
 
 test("accueil : plus de bloc « What runs on … » (client, 09.11.2026), la fiche cuisine garde ses jours", () => {
@@ -74,7 +74,8 @@ test("bloc « Choose your boat » de la 4 Islands : chaque prix affiché vient d
   assert.match(h, /Sketch map, not for navigation/);
   assert.match(h, /© OpenStreetMap contributors/);
   assert.match(h, /id="h-prices"/);
-  assert.match(h, /data-lbl="To Koh Lanta Noi pier"/, "le speedboat part de Koh Lanta Noi, pas de Lanta Old Town");
+  // Le speedboat part de Lanta Old Town, comme les longtails (décision de Jérémy du 10.11.2026).
+  assert.doesNotMatch(h, /data-lbl="To Koh Lanta Noi pier"/, "le speedboat part de Lanta Old Town");
 });
 
 test("message de réservation : les suppléments ne suivent que l'option qui les propose", () => {
@@ -87,7 +88,7 @@ test("message de réservation : les suppléments ne suivent que l'option qui les
 
 test("liste de sorties : un message classé par jour, un prix par sortie, total de la liste, alerte le même jour", () => {
   const cat = JSON.parse(site("data/catalog.json"));
-  assert.equal(Object.keys(cat).length, 13);
+  assert.equal(Object.keys(cat).length, 12);
   const list = {
     adults: 2, childAges: [7], pickup: "Lanta Sand Resort", name: "Anna",
     items: [
@@ -123,7 +124,8 @@ test("liste de sorties : un message classé par jour, un prix par sortie, total 
   // Une seule sortie : son total suffit. Une sortie sans total (coucher de soleil, pas de prix enfant) : son prix, pas de total de la liste.
   assert.doesNotMatch(B.buildTripList(cat, { ...list, items: [list.items[0]] }), /all trips/);
   const sunset = B.buildTripList(cat, { ...list, items: [list.items[0], { slug: "koh-rok-koh-haa", option: "sunset", date: "2026-11-22" }] });
-  assert.ok(sunset.endsWith("\nKoh Rok & Koh Haa – Later trip, back at sunset\nPrice: Per person: 2,500 THB"));
+  // Sortie au coucher de soleil : 2 adultes à 2 500 et un enfant à 1 800 (décision du 10.11.2026).
+  assert.ok(sunset.includes("\nKoh Rok & Koh Haa – Later trip, back at sunset\nEstimated total: 6,800 THB\n"));
   assert.deepEqual(B.sameDayClashes(cat, list.items), [{ date: "2026-11-20", names: ["4 Islands", "Koh Phi Phi"] }]);
   // Les prix du catalogue sont ceux des fiches.
   for (const s of SLUGS) {

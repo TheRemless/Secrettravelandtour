@@ -1,7 +1,7 @@
 {#- Feuille de réservation (src/js/booking.js) : un seul <dialog id="book"> par page.
     cfg : variant "tour" ou "taxi", brand, product, productId, page, whatsapp, options [{id, title, rows}],
           pickupRequired (excursions), from et to (trajet fixé ; sans eux, deux champs libres).
-    facts : view.contact(site) (number, e164, phoneDisplay ; replyTime et languages vides tant qu'ils ne sont pas confirmés). -#}
+    facts : view.contact(site) (number, e164, phoneDisplay, replyTime, languages ; langues confirmées le 10.11.2026). -#}
 {% from "components/icons.njk" import icon %}
 
 {% macro stepper(name, label, value, min, max, hint) %}
@@ -320,6 +320,8 @@
     </div>
     <div class="sheet-body done-text">
       {% if facts.replyTime %}<p>{{ facts.replyTime }}</p>{% endif %}
+      {%- set langs = facts.languages or [] %}
+      {%- if langs.length %}<p>We speak {{ langs.slice(0, -1).join(", ") ~ " and " ~ langs | last if langs.length > 1 else langs[0] }}.</p>{% endif %}
       <p>Nothing opened? Use the button below{% if not taxi %}{# VIP Taxi Lanta : aucun téléphone affiché, WhatsApp seulement. #}, or call <a class="done-num" href="tel:{{ facts.e164 }}">{{ facts.phoneDisplay }}</a>{% endif %}.</p>
       <p class="copy-status" data-copy-status role="status"></p>
     </div>

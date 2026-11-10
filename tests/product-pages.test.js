@@ -15,7 +15,7 @@ const thb = (n) => Number(n).toLocaleString("en-GB") + " THB";
 const cfgOf = (doc) => JSON.parse(doc.match(/<script type="application\/json" id="book-data">([\s\S]*?)<\/script>/)[1]);
 const outsideSheet = (doc) => doc.replace(/<dialog class="sheet" id="book"[\s\S]*?<\/dialog>/, "");
 
-const TOURS = ["tours/koh-rok-koh-haa", "tours/koh-phi-phi", "tours/koh-talabeng-koh-bubu", "tours/mangroves", "tours/fishing-trip",
+const TOURS = ["tours/koh-rok-koh-haa", "tours/koh-phi-phi", "tours/mangroves", "tours/fishing-trip",
   "activities/elephant-sanctuary", "activities/kayak", "activities/cooking-class", "activities/scuba-diving", "activities/atv", "activities/batik", "activities/go-kart"].map(P);
 const RENTAL = P("rental");
 const SPEED = P("secret-transfers/speedboat-ferry");
@@ -260,15 +260,9 @@ test("WhatsApp : chaque lien d'une fiche nomme le produit, sans référence ni a
   }
 });
 
-test("Koh Talabeng : les sorties de la brochure kayak qui y vont, mêmes prix, horaires et frais que la page kayak", () => {
-  const tb = P("tours/koh-talabeng-koh-bubu"), kayak = P("activities/kayak");
-  assert.ok(!tb.priceOnRequest && tb.options.length === 3);
-  for (const o of tb.options) {
-    const k = kayak.options.find((x) => x.id === o.id);
-    assert.ok(k, o.id);
-    for (const key of ["label", "prices", "notIncludedFees", "choices"]) assert.deepEqual(o[key], k[key], `${o.id} ${key}`);
-    assert.deepEqual(tb.day.find((b) => b.options[0] === o.id).steps, kayak.day.find((b) => b.options[0] === o.id).steps, `${o.id} déroulé`);
-  }
-  const doc = html(tb.url);
-  assert.doesNotMatch(outsideSheet(doc).split('id="opt-h"')[1].split("</section>")[0], /Price on WhatsApp/);
+test("Koh Talabeng fondue dans Kayaking (10.11.2026) : plus de fiche, redirection 301, les sorties de la grotte sur Kayaking", () => {
+  assert.ok(!fs.existsSync(path.join(__dirname, "..", "src/_data/products/tours/koh-talabeng-koh-bubu.json")));
+  assert.match(fs.readFileSync(path.join(__dirname, "..", "netlify.toml"), "utf8"), /from = "\/tours\/koh-talabeng-koh-bubu\/\*"\s+to = "\/tours\/kayak\/"\s+status = 301/);
+  const kayak = P("activities/kayak");
+  assert.ok(kayak.options.filter((o) => /sea cave/i.test(o.label)).length >= 2);
 });

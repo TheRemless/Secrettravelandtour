@@ -17,11 +17,11 @@ const P = (rel) => JSON.parse(fs.readFileSync(path.join(DATA, "products", rel + 
 const home = JSON.parse(fs.readFileSync(path.join(DATA, "home.json"), "utf8"));
 const PHOTOS = JSON.parse(fs.readFileSync(path.join(DATA, "photos-v3.json"), "utf8")).photos;
 
-const BOATS = ["4-islands", "koh-rok-koh-haa", "koh-phi-phi", "koh-talabeng-koh-bubu", "mangroves", "fishing-trip"];
+const BOATS = ["4-islands", "koh-rok-koh-haa", "koh-phi-phi", "mangroves", "fishing-trip"];
 const ACTIVITIES = ["elephant-sanctuary", "kayak", "cooking-class", "scuba-diving", "atv", "batik", "go-kart"];
 const CARD_PHOTO = {
   "4-islands": "card-4-islands", "koh-rok-koh-haa": "card-koh-rok", "koh-phi-phi": "card-koh-phi-phi",
-  "koh-talabeng-koh-bubu": "card-talabeng", mangroves: "card-mangroves", "fishing-trip": "card-fishing",
+  mangroves: "card-mangroves", "fishing-trip": "card-fishing",
   "scuba-diving": "card-scuba", atv: "card-atv", kayak: "card-kayak", "elephant-sanctuary": "card-elephant",
   "cooking-class": "card-cooking", batik: "card-batik", "go-kart": "card-go-kart"
 };
@@ -134,7 +134,8 @@ function lunchOf(four, boat) {
 }
 
 // Projection équirectangulaire corrigée de la latitude : un schéma, pas une carte marine.
-const MAP = { lon0: 99.0, lon1: 99.335, lat0: 7.29, lat1: 7.555, W: 640 };
+// Cadre élargi le 10.11.2026 : Koh Lanta Yai et Koh Lanta Noi entières (Jérémy trouvait l'île coupée en haut).
+const MAP = { lon0: 98.93, lon1: 99.42, lat0: 7.285, lat1: 7.705, W: 640 };
 function fourMap(four) {
   const osm = JSON.parse(fs.readFileSync(path.join(DATA, "..", "_includes", "geo", "osm-islands.json"), "utf8"));
   const k = Math.cos(((MAP.lat0 + MAP.lat1) / 2) * Math.PI / 180);
@@ -160,16 +161,18 @@ function fourMap(four) {
   // Un tronçon par arrivée : ponton → 1re île, puis île à île, puis retour. Points de passage au large pour ne pas couper les terres.
   // Le catamaran vient d'Ao Nang, au nord, hors du cadre : il entre et sort par le haut de la carte, par le chenal
   // à l'est de Koh Lanta (tracé de la brochure).
-  const north = [99.165, 7.555];
-  // Speedboat join-in : il part du ponton de Koh Lanta Noi (fiche, « Speedboat pier »), au nord du cadre. La carte ne
-  // place pas ce ponton : le tracé entre par le haut, comme celui du catamaran, sous l'étiquette « To Koh Lanta Noi pier ».
-  const noi = [99.125, 7.555];
+  const north = [99.185, MAP.lat1];
+  // Speedboat join-in parti de Koh Lanta Noi (une option dont le ponton cite Lanta Noi) : le tracé entre par le haut,
+  // sous l'étiquette « To Koh Lanta Noi pier ». Depuis le 10.11.2026, le speedboat 4 Islands part de Lanta Old Town.
+  const noi = [99.155, MAP.lat1];
   // Premier tronçon par l'est de Koh Ma, pour qu'il ne passe pas sur Koh Ma avant Koh Chueak.
   const lane = (names, start) => {
     const stops = names.map((n) => at[n]);
-    const segs = [[start, [99.2, 7.47], [99.25, 7.43], stops[0]]];
+    // Départ par le haut du cadre (Ao Nang, Lanta Noi) : aller et retour à l'est de Koh Talabeng et de Koh Bubu.
+    const top = start[1] === MAP.lat1;
+    const segs = [[start, ...(top ? [[99.18, 7.6]] : []), [99.2, 7.47], [99.25, 7.43], stops[0]]];
     for (let i = 1; i < stops.length; i++) segs.push([stops[i - 1], stops[i]]);
-    segs.push([stops[stops.length - 1], [99.135, 7.49], start]);
+    segs.push([stops[stops.length - 1], ...(top ? [[99.165, 7.5], [99.168, 7.6]] : [[99.135, 7.49]]), start]);
     return segs.map(curve);
   };
   const routes = {};
@@ -242,7 +245,8 @@ module.exports = async function () {
     lead: `You book on ${site.booking.channel}${site.booking.onlinePayment === false ? " and nothing is paid online" : ""}.`,
     // Les trois sorties du haut : photos de leurs cartes, en plus grand (elles ne reparaissent pas plus bas).
     heroTrips: await Promise.all(["4-islands", "koh-rok-koh-haa", "koh-phi-phi"].map(async (s) => ({ ...bySlug[s], photo: await photo(CARD_PHOTO[s]) }))),
-    moreBoats: ["koh-talabeng-koh-bubu", "mangroves", "fishing-trip"].map((s) => bySlug[s]),
+    // Toutes les sorties en bateau en bande, comme les activités (demande de Jérémy du 10.11.2026).
+    boats,
     activities,
     // Transferts et location réunis : trois trajets en liens, le speedboat, puis les trois fourchettes de la location.
     around: {
@@ -301,7 +305,7 @@ module.exports = async function () {
   const hubData = {
     seo: { title: "Boat Trips and Activities from Koh Lanta | Secret Travel & Tour", metaDescription: "All the boat trips and island activities we book on Koh Lanta, with prices: 4 Islands, Koh Rok, Phi Phi, kayak, diving, elephants." },
     h1: "Boat trips and activities on Koh\u00a0Lanta",
-    lead: `${cap(WORDS[nBoats])} boat trips and ${WORDS[nActs]} activities, with their prices.`,
+    lead: `Each trip with its price. You book on ${site.booking.channel}.`,
     final: { photo: await photo("hub-final"), title: "Not sure which trip?", text: "Send us your dates and who is coming, on WhatsApp.", message: homeData.final.message }
   };
 

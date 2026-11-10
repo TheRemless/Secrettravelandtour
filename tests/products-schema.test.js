@@ -12,7 +12,7 @@ const IMAGES = path.join(__dirname, "..", "src", "images");
 const FOLDERS = { tours: "boat", activities: "activity", "": "rental", "secret-transfers": "transfer", taxi: "route" };
 const BRANDS = ["secret", "vip"];
 const STATUS = ["keep", "replace", "missing"];
-const BYB = ["pickup", "deposit", "licence", "insurance", "helmets", "delivery", "bring", "children", "health", "weather", "payment", "cancellation"];
+const BYB = ["pickup", "deposit", "licence", "insurance", "helmets", "delivery", "bring", "luggage", "children", "health", "weather", "payment", "cancellation"];
 // Pages existantes ou prévues (décisions client du 02.11.2026) vers lesquelles related[] peut pointer.
 const PLANNED = ["/", "/tours/", "/transfers/", "/taxi/", "/about/", "/contact/", "/faq/"];
 // Même liste que tests/partenaires.test.js.
@@ -40,9 +40,9 @@ function walk(value, where, visit) {
   else if (value && typeof value === "object") for (const [k, v] of Object.entries(value)) walk(v, `${where}.${k}`, visit);
 }
 
-test("produits : 29 fichiers dans les bons dossiers", () => {
+test("produits : 28 fichiers dans les bons dossiers (Koh Talabeng fondue dans Kayaking)", () => {
   const count = (f) => files.filter((x) => x.folder === f).length;
-  assert.equal(count("tours"), 6);
+  assert.equal(count("tours"), 5);
   assert.equal(count("activities"), 7);
   assert.equal(count(""), 1);
   assert.equal(count("secret-transfers"), 2);
@@ -174,7 +174,7 @@ test("produits : TODO(client) bien formés", () => {
 test("produits : toutes les pages /tours/ actuelles sont reprises", () => {
   const content = require("../src/_data/secretPagesContent.json");
   const urls = new Set(files.map((f) => f.data.url));
-  for (const id of Object.keys(content.pages)) assert.ok(urls.has(`/tours/${id}/`), id);
+  for (const id of Object.keys(content.pages)) assert.ok(urls.has(FUSIONNES[id] || `/tours/${id}/`), id);
   assert.equal(Object.keys(content.pages).length, 15);
 });
 
@@ -209,6 +209,8 @@ const CORRIGES = {
   "scuba-diving|One-day experience, 2 dives|Basic Diver, from age 10|4500": "One-day experience, 2 dives|Discover Basic Diver, from age 10|4500"
 };
 // Partenaire remplacé : les prix de l'ancien partenaire ne sont plus vendus.
+// Pages fondues dans une autre (décision de Jérémy du 10.11.2026) : leurs sorties et leurs prix y sont repris.
+const FUSIONNES = { "koh-talabeng-koh-bubu": "/tours/kayak/" };
 const REMPLACES = ["elephant-sanctuary"];
 
 test("produits : tous les prix de l'ancien site sont repris à l'identique", () => {
@@ -216,7 +218,7 @@ test("produits : tous les prix de l'ancien site sont repris à l'identique", () 
   const byUrl = Object.fromEntries(files.map((f) => [f.data.url, f.data]));
   for (const [id, page] of Object.entries(content.pages)) {
     if (REMPLACES.includes(id)) continue;
-    const p = byUrl[`/tours/${id}/`];
+    const p = byUrl[FUSIONNES[id] || `/tours/${id}/`];
     const rows = (p.options || []).flatMap((o) => (o.prices || []).map((r) => `${o.label}|${r.label}|${r.amount !== undefined ? r.amount : r.text}`));
     for (const g of page.prices || []) {
       for (const r of g.rows) {
@@ -251,10 +253,10 @@ test("site.json : deux marques, WhatsApp commun, note VIP datée, licence encore
   assert.ok(Number.isInteger(r.count) && r.count > 0);
   assert.match(r.readOn, /^\d{4}-\d{2}-\d{2}$/);
   assert.match(r.url, /^https:\/\//);
-  // Langues retirées le 03.11.2026 (faits à reconfirmer) : rien ne s'affiche tant qu'elles sont null.
+  // Langues retirées le 03.11.2026, remises le 10.11.2026 (réponse 9 de 04-questions-client.md, confirmée par Jérémy).
   // Délai de réponse donné par le client le 08.11.2026.
   assert.equal(site.replyTime.usual, "within 6 hours, Thailand time");
-  assert.equal(site.languages, null);
+  assert.deepEqual(site.languages, ["Thai", "English", "German", "Italian", "French"]);
   for (const t of site.todo) assert.match(t, /^TODO\(client\): \S/);
   for (const b of BRANDS) {
     for (const ph of site.brands[b].photos || []) {

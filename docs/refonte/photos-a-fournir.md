@@ -10,7 +10,7 @@ Format attendu pour chaque prise de vue :
 - pas de photo de l'équipe (décision du client), autorisation écrite de toute personne reconnaissable ;
 - une photo ne sert qu'à un seul produit ; l'image de partage 1200×630 de chaque page est tirée de ces photos.
 
-50 prises de vue sur 21 pages. Faute de vraie photo, la page en affiche moins (00-BRIEF §7).
+46 prises de vue sur 20 pages. Faute de vraie photo, la page en affiche moins (00-BRIEF §7).
 
 ## Commun aux deux marques
 
@@ -51,15 +51,6 @@ Format attendu pour chaque prise de vue :
 | gallery | à remplacer | `secret/gallery/rok-lagoon.webp` | Snorkellers in the Koh Rok lagoon (current file is a 575 px brochure scan with leftover text). |
 | gallery | manquante |  | Koh Haa lagoon, last snorkelling stop. |
 | gallery | manquante |  | Monitor lizard or the beach lunch on Koh Rok. |
-
-## Koh Talabeng & Koh Bubu (/tours/koh-talabeng-koh-bubu/)
-
-| Emplacement | Statut | Fichier actuel | Ce qui doit être visible |
-|---|---|---|---|
-| hero | à remplacer | `secret/koh-talabeng-kayak.webp` | Kayaks among the limestone islets of Koh Talabeng (current file is soft, probably a video still). |
-| gallery | à remplacer | `secret/gallery/kayak-cave.webp` | A kayak at the mouth of the Talabeng sea cave (current file is a brochure scan). |
-| gallery | à remplacer | `secret/gallery/kayak-karst.webp` | Koh Talabeng cliffs from the water (current file is a brochure scan with a green frame, also used on the kayak page). |
-| gallery | manquante |  | Koh Bubu beach at the lunch stop. |
 
 ## Mangroves (/tours/mangroves/)
 

@@ -547,11 +547,12 @@ function speedboatRoutes(p) {
     }
     return { time: run.departs, stops, season, onward };
   });
-  // Départs d'une seconde compagnie : heures de départ seulement, ajoutées aux trajets existants (même destination,
-  // même bouton) ; une heure déjà dans la grille complète garde son arrivée et son ponton.
+  // Départs d'une seconde compagnie, ajoutés aux trajets existants (même destination, même bouton) : heure, arrivée et
+  // saison quand la donnée les a, jamais de ponton. Une heure déjà dans la grille complète garde son arrivée et son ponton.
   for (const o of tt.otherDepartures || []) {
-    for (const place of o.places) {
-      for (const t of o.departs) add("to-" + slugify(place), `Koh Lanta to ${place}`, "out", { time: t, arrives: "", detail: "", pier: "", season: "" });
+    const deps = o.deps || (o.departs || []).map((t) => ({ time: t }));
+    for (const place of o.places || [o.place]) {
+      for (const d of deps) add("to-" + slugify(place), `Koh Lanta to ${place}`, "out", { time: d.time, arrives: d.arrives || "", detail: d.season ? "Runs " + d.season : "", pier: "", season: d.season || "" });
     }
   }
   // Une ligne par destination, toutes ses heures. Le ponton n'est dit que pour les bateaux qui le donnent.
@@ -591,6 +592,28 @@ function speedboatRoutes(p) {
     });
     return { from: run.from, via: run.via || [], season, short: run.seasonRange ? run.seasonRange.label : run.season && /^High season$/i.test(run.season) ? "High season" : "", rows };
   });
+  // Retours de la seconde compagnie : fusionnés dans la ligne du même port quand elle existe, sans son ponton.
+  for (const o of tt.otherReturns || []) {
+    const route = "from-" + slugify(o.place);
+    let run = back.find((x) => x.rows.some((r) => r.route === route));
+    let row = run && run.rows.find((r) => r.route === route);
+    if (!row) {
+      row = { place: o.place, note: "", route, deps: [] };
+      run = { from: o.place, via: [], season: "", short: "", rows: [row] };
+      back.push(run);
+    } else if (run.short && run.rows.length === 1) {
+      // La saison de la ligne (« Dec – Apr ») ne vaut plus pour tous ses bateaux : elle passe sur chacun des siens.
+      row.deps.forEach((d) => { if (!d.season) d.season = run.short; });
+      run.short = ""; run.season = "";
+    }
+    for (const d of o.deps) {
+      const id = route + "@" + d.time.replace(":", "");
+      if (row.deps.some((x) => x.dep === id)) continue;
+      add(route, `${o.place} to Koh Lanta`, "in", { time: d.time, arrives: d.arrives || "", detail: d.season ? "Runs " + d.season : "", season: d.season || "" });
+      row.deps.push({ time: d.time, arrives: d.arrives || "", season: d.season || "", other: true, dep: id });
+    }
+    row.deps.sort((a, b) => a.time.localeCompare(b.time));
+  }
   const list = [...routes.values()];
   list.forEach((r) => r.deps.sort((a, b) => a.time.localeCompare(b.time)));
   return { board, dests, back, routes: list };
@@ -615,7 +638,7 @@ function speedboatPage(p, ctx) {
     season: run.short,
     note: run.short ? "" : run.season,
     via: i === 0 && run.via.length ? "via " + run.via.join(", ") : "",
-    deps: r.deps.map((d) => ({ time: d.time, arrives: d.arrives, pier: r.note ? cap(r.note) : "", dep: d.dep }))
+    deps: r.deps.map((d) => ({ time: d.time, arrives: d.arrives, season: d.season || "", pier: r.note && !d.other ? cap(r.note) : "", dep: d.dep }))
   })));
   const ck = tt.checkIn || {};
   // Une phrase sous le titre (la grille et la réponse sur WhatsApp), la saison juste dessous : c'est elle qui décide.

@@ -412,8 +412,5 @@
       "from": "réponse du client du 08.11.2026 (second message) : permis à la charge du loueur et fortement conseillé, aucune assurance accident, société non responsable en cas de contrôle de police, casque obligatoire, caution passeport ou montant selon la catégorie"
     }
   ],
-  "refPrefix": "RENT",
-  "todo": [
-    "TODO(client): Honda ADV 350, Honda Forza 350 et Yamaha X-MAX 300 : la fiche du loueur porte « 300 cc MT », « 350 cc MT » et « 300 cc MT » (boîte manuelle sur des scooters automatiques, 300 cc pour l'ADV 350). Cylindrée et boîte non affichées tant que le loueur ne confirme pas."
-  ]
+  "refPrefix": "RENT"
 }

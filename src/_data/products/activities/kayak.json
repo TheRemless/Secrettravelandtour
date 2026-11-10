@@ -378,7 +378,7 @@
       "steps": [
         {
           "label": "1 day",
-          "text": "Sea cave kayaking and island hopping. Mangrove and monkeys, Koh Aung, then Koh Talabeng by longtail with kayaking and the sea cave. Lunch and a swim on Koh Bubu. 09:00 to 15:00."
+          "text": "Sea cave kayaking and island hopping. Mangrove and monkeys, Koh Ung, then Koh Talabeng by longtail with kayaking and the sea cave. Lunch and a swim on Koh Bubu. 09:00 to 15:00."
         }
       ]
     },
@@ -506,8 +506,8 @@
     }
   ],
   "related": [
-    "/tours/koh-talabeng-koh-bubu/",
     "/tours/mangroves/",
+    "/tours/atv/",
     "/tours/batik/"
   ],
   "schema": {
@@ -605,10 +605,11 @@
     {
       "field": "options[].notIncludedFees, facts[Village entrance fee], legacyText.priceNote",
       "from": "décision client du 08.11.2026 : entrée de Thung Yee Peng 40 THB adulte, 20 THB enfant de 4 à 11 ans (frais publics, tarif kayak du dossier agence, audit D § 7) ; brochure kayak (audit B § 1.1) « Village Entrance Fee 40 baht » ; note interne « legacy price note » retirée"
+    },
+    {
+      "field": "options[sea-cave-full-day] day",
+      "from": "brochure kayak : « Koh Aung » p. 2 et « Koh Ung » p. 3, la même île ; une seule orthographe sur le site (10.11.2026)"
     }
-  ],
-  "todo": [
-    "TODO(client): orthographe de l'île : « Koh Aung » (sortie à la journée) et « Koh Ung » (demi-journée) dans la même liste. Même île ?"
   ],
   "refPrefix": "KAYAK"
 }
