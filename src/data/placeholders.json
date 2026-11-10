@@ -1,16 +1,5 @@
 [
   {
-    "id": "card-talabeng",
-    "usage": "Koh Talabeng & Koh Bubu card",
-    "file": "placeholders/card-talabeng.jpg",
-    "source": "Unsplash",
-    "author": "Bowornpol P.",
-    "licence": "Unsplash License",
-    "url": "https://unsplash.com/photos/JXusE0sCSaw",
-    "downloaded_at": "2026-11-03",
-    "shot": "Kayaks among the limestone islets of Koh Talabeng, sea cave."
-  },
-  {
     "id": "four-hero",
     "usage": "4 Islands, top photo",
     "file": "placeholders/four-hero.jpg",
@@ -20,39 +9,6 @@
     "url": "https://commons.wikimedia.org/wiki/File:Wayinoutcave.jpg",
     "downloaded_at": "2026-11-03",
     "shot": "Emerald Cave passage seen from the inner lagoon."
-  },
-  {
-    "id": "four-gallery-reef",
-    "usage": "4 Islands, gallery: reef",
-    "file": "placeholders/four-gallery-reef.jpg",
-    "source": "Wikimedia Commons",
-    "author": "Thomas Quine",
-    "licence": "CC BY-SA 2.0",
-    "url": "https://commons.wikimedia.org/wiki/File:Reefscape_(5318585911).jpg",
-    "downloaded_at": "2026-11-03",
-    "shot": "Koh Chueak reef underwater with fish."
-  },
-  {
-    "id": "four-gallery-ngai",
-    "usage": "4 Islands, gallery: Koh Ngai",
-    "file": "placeholders/four-gallery-ngai.jpg",
-    "source": "Wikimedia Commons",
-    "author": "Marcin Konsek",
-    "licence": "CC BY-SA 4.0",
-    "url": "https://commons.wikimedia.org/wiki/File:2016_Prowincja_Krabi,_Ko_Ngai_(20).jpg",
-    "downloaded_at": "2026-11-03",
-    "shot": "Koh Ngai beach with longtails."
-  },
-  {
-    "id": "four-gallery-kradan",
-    "usage": "4 Islands, gallery: Koh Kradan",
-    "file": "placeholders/four-gallery-kradan.jpg",
-    "source": "Wikimedia Commons",
-    "author": "Tournasol7",
-    "licence": "CC BY-SA 4.0",
-    "url": "https://commons.wikimedia.org/wiki/File:Ko_Kradan001.JPG",
-    "downloaded_at": "2026-11-03",
-    "shot": "Koh Kradan from above."
   },
   {
     "id": "four-gallery-pier",
