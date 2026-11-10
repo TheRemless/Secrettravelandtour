@@ -242,7 +242,7 @@ module.exports = async function () {
     },
     h1: home.h1.replace("Koh Lanta", "Koh\u00a0Lanta"),
     // Une phrase : le comment (site.json booking). Le quoi est dans le titre et dans les trois sorties juste dessous.
-    lead: `You book on ${site.booking.channel}${site.booking.onlinePayment === false ? " and nothing is paid online" : ""}.`,
+    lead: `You book on ${site.booking.channel}.`,
     // Les trois sorties du haut : photos de leurs cartes, en plus grand (elles ne reparaissent pas plus bas).
     heroTrips: await Promise.all(["4-islands", "koh-rok-koh-haa", "koh-phi-phi"].map(async (s) => ({ ...bySlug[s], photo: await photo(CARD_PHOTO[s]) }))),
     // Toutes les sorties en bateau en bande, comme les activités (demande de Jérémy du 10.11.2026).
@@ -252,6 +252,7 @@ module.exports = async function () {
     around: {
       transfers: {
         lead: `Private minivans for your group only, run by ${site.brands.vip.name}.`,
+        vip: site.brands.vip.name,
         routes: MAIN_ROUTES.map((u) => taxi.find((t) => t.url === u)).filter(Boolean).map((t) => ({ href: t.url, name: t.name, drive: cap(t.drive) })),
         // Le texte de home.json sans sa dernière phrase (la prise en charge est dite sur la page du speedboat).
         speedboat: LIVE.has("/tours/speedboat/") ? (({ title, text }) => ({ href: "/tours/speedboat/", title, text: text.split(". ")[0].replace(/, on the [^,]*$/, "") }))(home.transfers.items.find((i) => i.href === "/tours/speedboat/")) : null

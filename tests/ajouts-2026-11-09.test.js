@@ -14,53 +14,15 @@ const cfgOf = (doc) => JSON.parse(doc.match(/<script type="application\/json" id
 const text = (doc) => doc.replace(/<script[\s\S]*?<\/script>/g, "").replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/&#39;/g, "'").replace(/\s+/g, " ");
 const state = (option, over = {}) => Object.assign(B.emptyState({}), { today: "2026-11-09", option, dateChoice: "other", dateOther: "2026-11-21", adults: 2, childAges: [7], pickup: "Ao Nang Cliff Resort", name: "Anna" }, over);
 
-// ---------- Catamaran au départ d'Ao Nang (brochure publique, deux pages) ----------
+// ---------- Catamaran au départ d'Ao Nang : retiré du site (décision de Jérémy du 11.11.2026) ----------
 for (const rel of ["tours/koh-rok-koh-haa", "tours/4-islands"]) {
-  test(`catamaran d'Ao Nang sur ${rel} : prix, programme, enfants et message`, () => {
+  test(`catamaran d'Ao Nang retiré de ${rel} : ni option, ni journée, ni texte`, () => {
     const p = P(rel);
-    const o = p.options.find((x) => x.id === "catamaran-ao-nang");
-    assert.ok(o, "option catamaran-ao-nang");
-    assert.equal(o.from, "Ao Nang");
-    assert.deepEqual(o.prices.map((r) => [r.label, r.amount, r.ages || null]), [["Adult", 3800, null], ["Child, 4 to 11", 2800, { min: 4, max: 11 }]]);
-    // Base partenaires, alerte A01 (10.11.2026) : aucun prestataire maritime n'inclut les frais de parc ; mêmes montants
-    // que le speedboat de la même sortie.
-    const sp = p.options.find((x) => x.boat === "speedboat" && x.notIncludedFees);
-    assert.deepEqual(o.notIncludedFees, sp.notIncludedFees, "frais de parc du catamaran : ceux de la sortie");
-    assert.ok(!o.feesToConfirm);
-    const day = p.day.find((b) => (b.options || []).includes(o.id));
-    // Koh Rok : 13:00 sur la plage ; 4 Islands : déjeuner de 12:00 à 14:00 à Koh Kradan, pas d'étape à 13:00.
-    const times = ["06:00", "07:30", "08:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "17:00"].filter((x) => x !== "13:00" || rel.endsWith("koh-rok-koh-haa"));
-    assert.deepEqual(day.steps.map((s) => s.time), times);
-    const doc = html(p.url), t = text(doc);
-    for (const s of ["Catamaran from Ao Nang", "3,800 THB", "2,800 THB", "Not recommended for children under 4", "free GoPro photos", "a guide speaking English and Chinese"]) assert.ok(t.includes(s), `${rel} : « ${s} »`);
-    assert.doesNotMatch(doc, /aquaman/i, "nom commercial du prestataire");
-    const cfg = cfgOf(doc);
-    const msg = B.buildMessage(cfg, state(o.id));
-    // La demande ouvre le message ; le total se calcule (2 adultes et un enfant de 7 ans) et le termine.
-    assert.match(msg, new RegExp(`^Booking request: ${p.name} – Catamaran from Ao Nang\\nDeparture: from Ao Nang, pickup at your hotel in Ao Nang\\n`));
-    assert.match(msg, /\nEstimated total: 10,400 THB$/);
-    assert.doesNotMatch(msg, /Ref:|Page:/);
-    // Frais de parc du catamaran annoncés comme pour les autres bateaux (alerte A01 de la base partenaires, 10.11.2026).
-    assert.ok(B.parkCash(cfg, state(o.id)).total > 0);
-    assert.ok(B.parkCash(cfg, state(p.options[0].id)).total > 0);
-    // Les autres options ne disent pas de départ.
-    const other = B.buildMessage(cfg, state(p.options[0].id));
-    assert.doesNotMatch(other, /Departure:/);
+    assert.ok(!p.options.some((o) => o.id === "catamaran-ao-nang" || o.boat === "catamaran"));
+    assert.ok(!(p.day || []).some((b) => (b.options || []).includes("catamaran-ao-nang")));
+    assert.doesNotMatch(text(html(p.url)), /catamaran|Ao Nang/i);
   });
 }
-
-test("4 Islands : le catamaran a son choix, son détail, sa journée et sa route sur la carte", () => {
-  const doc = html("/tours/4-islands/");
-  // Phase 1 : le comparateur est fondu dans le bloc « Choose your boat » ; le détail du catamaran garde ses lignes.
-  assert.match(doc, /name="pick" value="catamaran-ao-nang"/);
-  assert.match(doc, /data-tl="catamaran"/);
-  assert.match(doc, /data-map-route="catamaran"/);
-  assert.match(doc, /data-po="catamaran-ao-nang"/);
-  assert.match(doc, /<dt>Lunch<\/dt><dd>Buffet lunch on Koh Kradan<\/dd>/);
-  const data = JSON.parse(doc.match(/<script type="application\/json" id="four-data">([\s\S]*?)<\/script>/)[1]);
-  assert.deepEqual(data.islands.catamaran.map((i) => i.name), ["Koh Chueak", "Koh Mook", "Koh Kradan", "Koh Ngai"]);
-  assert.equal(data.lunch.catamaran, "Koh Kradan");
-});
 
 // ---------- Koh Rok & Koh Haa avec coucher de soleil (affiche « Rok Haa Island + Sunset ») ----------
 test("Koh Rok, coucher de soleil : 2 500 THB adulte, 1 800 THB enfant de 4 à 11 ans (décision du 10.11.2026), 10:00 à 17:50, frais de parc à part", () => {

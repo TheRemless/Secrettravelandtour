@@ -205,6 +205,9 @@ test("produits : les 17 trajets taxi sont repris (10 pages Koh Lanta + 7 regroup
 const CORRIGES = {
   "4-islands|Join-in longtail|Child, 4 to 11|700": "Join-in longtail|Child, 4 to 11|600",
   "mangroves|Private raft at sunrise|3 or more people, per person|1500": "Private raft at sunrise|Each extra person|1500",
+  // Pêche : « 1 to 2 people » retiré de l'affichage (décision de Jérémy du 11.11.2026), mêmes montants.
+  "fishing-trip|Private raft, fishing and seafood lunch|1 to 2 people, the raft|3900": "Private raft, fishing and seafood lunch|The private raft|3900",
+  "fishing-trip|Private raft, fishing and seafood lunch|3 or more people, per person|1800": "Private raft, fishing and seafood lunch|From 3 people, per person|1800",
   "scuba-diving|One-day experience, 2 dives|Kids Scuba Explorer, from age 8|4500": "One-day experience, 2 dives|Scuba Explorer, from age 8|4500",
   "scuba-diving|One-day experience, 2 dives|Basic Diver, from age 10|4500": "One-day experience, 2 dives|Discover Basic Diver, from age 10|4500"
 };

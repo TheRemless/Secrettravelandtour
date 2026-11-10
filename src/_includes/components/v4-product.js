@@ -306,7 +306,7 @@ function pickOf(p, site, opts = {}) {
 }
 
 // La question de la fiche qui aide à choisir entre les options : sa réponse va près du sélecteur, plus dans « Questions ».
-const HELP = /^(which (\w+ )?(trip|ride|programme|course) should i (pick|choose)\?|longtail or speedboat\b.*|speedboat, longtail or catamaran\?)$/i;
+const HELP = /^(which (\w+ )?(trip|ride|programme|course) should i (pick|choose)\?|longtail or speedboat\b.*|speedboat or longtail\?|speedboat, longtail or catamaran\?)$/i;
 function helpOf(p) {
   const q = (p.faq || []).find((f) => HELP.test(f.q));
   return q ? { q: q.q, a: q.a } : null;

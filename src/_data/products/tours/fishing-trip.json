@@ -32,7 +32,7 @@
   "price": {
     "from": 3900,
     "currency": "THB",
-    "unit": "per raft, 1 to 2 people"
+    "unit": "per raft"
   },
   "options": [
     {
@@ -43,7 +43,7 @@
       "note": "Four hours on the water, fishing gear and bait included.",
       "prices": [
         {
-          "label": "1 to 2 people, the raft",
+          "label": "The private raft",
           "amount": 3900,
           "group": {
             "min": 1,
@@ -52,7 +52,7 @@
           "unit": "per raft"
         },
         {
-          "label": "3 or more people, per person",
+          "label": "From 3 people, per person",
           "amount": 1800,
           "group": {
             "min": 3
@@ -249,6 +249,10 @@
     {
       "field": "options",
       "from": "sortie pêche et snorkeling de Koh Ma (Others.docx) gardée hors du site, sur demande seulement (décision de Jérémy du 10.11.2026)"
+    },
+    {
+      "field": "price.unit, options[private-raft].prices[].label",
+      "from": "« 1 to 2 people » retiré de l'affichage : le radeau accueille bien plus de monde (décision de Jérémy du 11.11.2026). Calcul inchangé : 3 900 THB le radeau jusqu'à 2 personnes, 1 800 THB par personne dès 3"
     }
   ],
   "refPrefix": "FISH"

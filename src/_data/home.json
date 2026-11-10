@@ -37,7 +37,7 @@
   },
   "desk": {
     "title": "Our desk in Sala Dan",
-    "text": "Every booking goes through WhatsApp and nothing is paid online. Boat trips and activities are paid in cash or by bank transfer."
+    "text": "Every booking goes through WhatsApp. Boat trips and activities are paid in cash or by bank transfer."
   },
   "sources": [
     {
@@ -105,7 +105,7 @@
   "faq": [
     {
       "q": "How do I book?",
-      "a": "Send us the trip and your date on WhatsApp. We confirm the price and your pickup time. Nothing is paid online."
+      "a": "Send us the trip and your date on WhatsApp. We confirm the price and your pickup time."
     },
     {
       "q": "How do I pay?",
