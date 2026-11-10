@@ -3,7 +3,7 @@
   publish = "_site"
 
 [build.environment]
-  NODE_VERSION = "20"
+  NODE_VERSION = "22"
 
 # Mise en ligne avec 2 photos temporaires (haut de la 4 Islands, ponton de Lanta Old Town), créditées sur /credits/.
 # Accord de Jérémy du 11.11.2026. À retirer quand les vraies photos sont là.

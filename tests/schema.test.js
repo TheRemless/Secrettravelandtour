@@ -16,7 +16,8 @@ const VIP = `${SITE}/taxi/#vip`;
 // Même liste que tests/products-schema.test.js (elle-même reprise de tests/partenaires.test.js).
 const PARTENAIRES = /rattana|lacha ?ru|sukho|lanta ?atv|atv adventure|lanta elephant|lanta longtail|lanta batik|lanta kayaking|lanta ?e-?gokart|noom|bundhaya|satun|pakbara|blue ?planet|octopusea/i;
 // Adresses de niveau 1 et 2 du fil d'Ariane qui existent (accueil, sections du hub /tours/, /taxi/).
-const CRUMB_URLS = ["/", "/tours/#boat-trips", "/tours/#activities", "/taxi/"].map((p) => SITE + p);
+// Groupes des vignettes (11.11.2026) ; #boat-trips et #activities restent pour une fiche hors groupe.
+const CRUMB_URLS = ["/", "/tours/#islands", "/tours/#mangroves", "/tours/#on-land", "/tours/#boat-trips", "/tours/#activities", "/taxi/"].map((p) => SITE + p);
 
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(DIR, rel), "utf8"));
 const clone = (o) => JSON.parse(JSON.stringify(o));
@@ -202,8 +203,8 @@ test("fil d'Ariane : positions 1 à 3 (2 pour la location), adresses existantes,
     for (const it of items.slice(0, -1)) assert.ok(CRUMB_URLS.includes(it.item), `${product.url} : ${it.item}`);
   }
   const level2 = (p) => byType(BUILDER[p.template](p, site), "BreadcrumbList").itemListElement[1].item;
-  assert.equal(level2(five.tour), `${SITE}/tours/#boat-trips`);
-  assert.equal(level2(five.activity), `${SITE}/tours/#activities`);
+  assert.equal(level2(five.tour), `${SITE}/tours/#islands`);
+  assert.equal(level2(five.activity), `${SITE}/tours/#on-land`);
   assert.equal(byType(BUILDER.route(five.route, site), "BreadcrumbList").itemListElement[0].item, `${SITE}/taxi/`);
 });
 

@@ -386,7 +386,9 @@ function related(p, ctx) {
   const title = kinds.size === 1 ? (kinds.has("boat") ? "More boat trips" : "More activities") : "More trips and activities";
   // Le lien suit les cartes montrées, comme le titre (plongée : cartes bateaux) ; cartes mêlées : la liste complète.
   const only = kinds.size === 1 ? [...kinds][0] : kinds.size > 1 ? "mixed" : p.template;
-  const all = only === "mixed" ? { href: "/tours/", label: "See the boat trips and activities" }
+  const grp = ctx.group;
+  const all = grp ? { href: "/tours/#" + grp.hash, label: "See all " + grp.title.toLowerCase() }
+    : only === "mixed" ? { href: "/tours/", label: "See the boat trips and activities" }
     : only === "boat" ? { href: "/tours/#boat-trips", label: "Compare all boat trips" }
     : only === "activity" ? { href: "/tours/#activities", label: "See all activities" }
     : { href: "/tours/", label: "See the boat trips and activities" };
@@ -544,7 +546,7 @@ function speedboatRoutes(p) {
       // « From Koh Lipe a ferry goes on to Langkawi, arriving at 18:00 Malaysia time. » : l'arrivée est lue dans la phrase.
       const at = (run.onward.match(/arriving at (\d{2}:\d{2}[^.]*)/) || [])[1] || "";
       const lk = (run.season || "").replace(/^Langkawi:\s*/, "");
-      add("to-langkawi", "Koh Lanta to Langkawi", "out", { time: run.departs, arrives: at, detail: ["Change of boat at Koh Lipe", lk ? "Runs " + lk : ""].filter(Boolean).join(". ") });
+      add("to-langkawi", "Koh Lanta to Langkawi", "out", { time: run.departs, arrives: at, detail: ["Change of boat at Koh Lipe", lk ? "Runs " + lk : ""].filter(Boolean).join(". "), season: lk });
       onward = { text: run.onward, season: lk, route: "to-langkawi", dep: "to-langkawi@" + run.departs.replace(":", ""), checkIn: tt.checkIn && tt.checkIn.langkawi ? tt.checkIn.langkawi : "" };
     }
     return { time: run.departs, stops, season, onward };
@@ -587,7 +589,9 @@ function speedboatRoutes(p) {
     const rows = origins.map((o) => {
       const route = "from-" + slugify(o.name);
       const deps = o.times.map((t, i) => {
-        add(route, `${o.name} to Koh Lanta`, "in", { time: t, arrives: (run.arrivesKohLanta || [])[i] || "", detail: [o.note, season].filter(Boolean).join(". ") });
+        // Saison du bateau (« Dec – Apr », ou la phrase de Langkawi) : elle part dans le message, comme à l'aller.
+        const runSeason = run.seasonRange ? run.seasonRange.label : (/Langkawi:\s*(.+)$/.exec(run.season || "") || [])[1] || "";
+        add(route, `${o.name} to Koh Lanta`, "in", { time: t, arrives: (run.arrivesKohLanta || [])[i] || "", detail: [o.note, season].filter(Boolean).join(". "), season: runSeason });
         return { time: t, arrives: (run.arrivesKohLanta || [])[i] || "", dep: route + "@" + t.replace(":", "") };
       });
       return { place: o.name, note: o.note, route, deps };

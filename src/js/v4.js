@@ -289,6 +289,14 @@
   function paint(bump) {
     var l = V.trips.get();
     var n = l.items.length;
+    // Liste non vide : on retire en silence les sorties qui n'existent plus (fiche fondue ou découpée).
+    if (n > 0 && !paint.pruned) {
+      paint.pruned = true;
+      V.catalog().then(function (c) {
+        var keep = l.items.filter(function (i) { return c[i.slug]; });
+        if (keep.length !== l.items.length) { l.items = keep; V.trips.set(l); }
+      }).catch(function () { paint.pruned = false; });
+    }
     V.$$("[data-trips-count]").forEach(function (el) { el.textContent = n; });
     root.classList.toggle("has-trips", n > 0);
     // Une liste non vide sera ouverte : ses scripts se chargent au calme pour que la feuille s'ouvre sans attendre.

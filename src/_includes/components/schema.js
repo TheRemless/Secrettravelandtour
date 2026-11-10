@@ -15,6 +15,9 @@
 const CONTEXT = "https://schema.org";
 const IN_STOCK = "https://schema.org/InStock";
 
+const { groupOf } = require("./groups.js");
+// Groupe de la vignette (Islands, Mangroves, On land) quand la fiche en a un, sinon la section du gabarit.
+const sectionOf = (product, fallback) => { const g = groupOf(product.slug); return g ? { name: g.nav, path: "/tours/#" + g.hash } : fallback; };
 // Fil d'Ariane : niveau 2 par gabarit, vers des adresses qui existent (hub /tours/ et ses sections, /taxi/).
 // Mêmes adresses que le fil visible des pages v4 (08.11.2026 : sections du hub, plus les ancres de l'accueil).
 // La location n'a pas de rubrique parente distincte (elle est elle-même la rubrique « Rental » du menu) :
@@ -243,7 +246,7 @@ function home(site, products, options = {}) {
 // Excursion en bateau : TouristTrip avec l'itinéraire des îles (product.schema.places).
 function tour(product, site) {
   const main = secretMain(product, site, () => ({ itinerary: itinerary(product.schema && product.schema.places) }));
-  return pageBlocks(main, breadcrumb(site, product, SECTIONS.boat), faqPage(site, product));
+  return pageBlocks(main, breadcrumb(site, product, sectionOf(product, SECTIONS.boat)), faqPage(site, product));
 }
 
 // Activité : type de product.schema.type (TouristTrip par défaut, Course pour le cours de cuisine).
@@ -254,7 +257,7 @@ function activity(product, site) {
     if (type === "Course") return { location: places && places.length ? places.map(place) : undefined };
     return { areaServed: places && places.length ? places.map(place) : undefined };
   });
-  return pageBlocks(main, breadcrumb(site, product, SECTIONS.activity), faqPage(site, product));
+  return pageBlocks(main, breadcrumb(site, product, sectionOf(product, SECTIONS.activity)), faqPage(site, product));
 }
 
 // Location : Service + catalogue des véhicules (noms seulement, aucun tarif).

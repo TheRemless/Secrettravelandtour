@@ -298,6 +298,7 @@
         var bdate = state.returnDate ? formatDate(state.returnDate) : "";
         lines.push("Ticket: return" + (back ? ", " + back.label : ""));
         lines.push("Return: " + [bdate, bdep ? bdep.time + (bdep.arrives ? ", arrives " + bdep.arrives : "") : clean(state.returnTime)].filter(Boolean).join(", "));
+        if (bdep && bdep.season) lines.push("Return season: " + String(bdep.season).replace(/\u00a0/g, " "));
       }
       lines.push("Guests: " + guestsLine(state.adults, state.childAges));
       if (clean(state.pickup)) lines.push("Hotel on Koh Lanta: " + clean(state.pickup));

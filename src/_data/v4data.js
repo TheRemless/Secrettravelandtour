@@ -20,14 +20,8 @@ const PHOTOS = JSON.parse(fs.readFileSync(path.join(DATA, "photos-v3.json"), "ut
 // Dossier de chaque fiche : tours/ (bateaux) ou activities/.
 const BOATS = ["4-islands", "koh-rok-koh-haa", "koh-phi-phi", "sunset-dinner-raft", "sunrise-raft", "fishing-trip", "mangroves"];
 const ACTIVITIES = ["scuba-diving", "snorkelling", "kayak", "mangrove-kayaking", "elephant-sanctuary", "atv", "cooking-class", "batik", "go-kart"];
-// Groupes des vignettes (filtres du hub, bandes de l'accueil, pied de page), dans l'ordre d'affichage.
-// Décision de Jérémy du 11.11.2026 : plus de vignettes, moins d'options par fiche.
-const GROUPS = [
-  { id: "islands", title: "Island trips", nav: "Islands", hash: "islands", slugs: ["4-islands", "koh-rok-koh-haa", "koh-phi-phi", "scuba-diving", "snorkelling"] },
-  { id: "mangrove", title: "Mangrove trips", nav: "Mangroves", hash: "mangroves", slugs: ["sunset-dinner-raft", "sunrise-raft", "fishing-trip", "mangroves", "kayak", "mangrove-kayaking"] },
-  { id: "land", title: "On land", nav: "On land", hash: "on-land", slugs: ["elephant-sanctuary", "atv", "cooking-class", "batik", "go-kart"] }
-];
-const groupOf = (slug) => (GROUPS.find((g) => g.slugs.includes(slug)) || {}).id || "";
+const { GROUPS, groupOf: groupFor } = require("../_includes/components/groups.js");
+const groupOf = (slug) => (groupFor(slug) || {}).id || "";
 const CARD_PHOTO = {
   "4-islands": "card-4-islands", "koh-rok-koh-haa": "card-koh-rok", "koh-phi-phi": "card-koh-phi-phi",
   mangroves: "card-mangroves", "fishing-trip": "card-fishing",
