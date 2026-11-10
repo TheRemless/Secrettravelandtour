@@ -43,7 +43,7 @@
     },
     {
       "label": "Speedboat pier",
-      "value": "Koh Lanta Noi, join-in speedboat"
+      "value": "Lanta Old Town pier, join-in speedboat"
     },
     {
       "label": "Islands, longtail",
@@ -199,8 +199,8 @@
         }
       ],
       "stub": "Koh Kradan instead of Koh Ma",
-      "pier": "Koh Lanta Noi pier",
-      "note": "A shared speedboat from Koh Lanta Noi, with a light breakfast at the pier and an English-speaking guide."
+      "pier": "Lanta Old Town pier",
+      "note": "A shared speedboat from Lanta Old Town pier, with a light breakfast at the pier and an English-speaking guide."
     },
     {
       "id": "private-longtail",
@@ -375,7 +375,7 @@
         {
           "time": "08:00",
           "range": "08:00–09:00",
-          "text": "Pickup at your hotel, then the pier on Koh Lanta Noi and a light breakfast.",
+          "text": "Pickup at your hotel, then Lanta Old Town pier and a light breakfast.",
           "place": "Your hotel",
           "detail": "Pickup, then breakfast at the pier",
           "kind": "road"
@@ -510,7 +510,7 @@
     "National park fee, paid in cash on the island"
   ],
   "beforeYouBook": {
-    "pickup": "From your hotel. The longtails usually leave from Lanta Old Town pier, the join-in speedboat from a pier on Koh Lanta Noi.",
+    "pickup": "From your hotel. The longtails and the join-in speedboat leave from Lanta Old Town pier.",
     "bring": [
       "Swimwear",
       "Sun cream",
@@ -699,7 +699,7 @@
     },
     {
       "field": "options[join-in-speedboat].pier, note ; facts[Speedboat pier] ; day[1] ; included (petit-déjeuner, guide anglophone)",
-      "from": "brochure publique des sorties en speedboat join-in (audit A § 1.3) p. 3, 4 Islands : prise en charge vers le ponton de Koh Lanta Noi, programme 08:00 à 16:00, « All tour include » (décision client du 08.11.2026). Le nom du ponton n'est pas écrit : il porte le nom du prestataire (tests/partenaires.test.js)"
+      "from": "brochure publique des sorties en speedboat join-in (audit A § 1.3) p. 3, 4 Islands : programme 08:00 à 16:00 ; départ du ponton de Lanta Old Town (décision de Jérémy du 10.11.2026, la brochure donne une adresse sur Koh Lanta Noi), « All tour include » (décision client du 08.11.2026). Le nom du ponton n'est pas écrit : il porte le nom du prestataire (tests/partenaires.test.js)"
     },
     {
       "field": "included[Insurance] ; beforeYouBook.bring",

@@ -162,8 +162,8 @@ function fourMap(four) {
   // Le catamaran vient d'Ao Nang, au nord, hors du cadre : il entre et sort par le haut de la carte, par le chenal
   // à l'est de Koh Lanta (tracé de la brochure).
   const north = [99.185, MAP.lat1];
-  // Speedboat join-in : il part du ponton de Koh Lanta Noi (fiche, « Speedboat pier »), au nord du cadre. La carte ne
-  // place pas ce ponton : le tracé entre par le haut, comme celui du catamaran, sous l'étiquette « To Koh Lanta Noi pier ».
+  // Speedboat join-in parti de Koh Lanta Noi (une option dont le ponton cite Lanta Noi) : le tracé entre par le haut,
+  // sous l'étiquette « To Koh Lanta Noi pier ». Depuis le 10.11.2026, le speedboat 4 Islands part de Lanta Old Town.
   const noi = [99.155, MAP.lat1];
   // Premier tronçon par l'est de Koh Ma, pour qu'il ne passe pas sur Koh Ma avant Koh Chueak.
   const lane = (names, start) => {

@@ -74,7 +74,8 @@ test("bloc « Choose your boat » de la 4 Islands : chaque prix affiché vient d
   assert.match(h, /Sketch map, not for navigation/);
   assert.match(h, /© OpenStreetMap contributors/);
   assert.match(h, /id="h-prices"/);
-  assert.match(h, /data-lbl="To Koh Lanta Noi pier"/, "le speedboat part de Koh Lanta Noi, pas de Lanta Old Town");
+  // Le speedboat part de Lanta Old Town, comme les longtails (décision de Jérémy du 10.11.2026).
+  assert.doesNotMatch(h, /data-lbl="To Koh Lanta Noi pier"/, "le speedboat part de Lanta Old Town");
 });
 
 test("message de réservation : les suppléments ne suivent que l'option qui les propose", () => {
