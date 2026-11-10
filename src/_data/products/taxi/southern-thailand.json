@@ -81,12 +81,10 @@
       "body": [
         "Give us your flight time, your hotel in Khao Lak and the number of people. The team confirms the price on WhatsApp and the driver waits in the arrivals hall with a sign showing your name."
       ],
-      "faq": [
-        {
-          "q": "Do you serve all the beaches of Khao Lak?",
-          "a": "Yes. Give us the name of your hotel and the driver takes you to the door."
-        }
-      ]
+      "priceFrom": {
+        "thb": 1800,
+        "approx": false
+      }
     },
     {
       "id": "krabi-khao-sok",
@@ -145,7 +143,11 @@
           "q": "Can you pick us up at Phuket Airport for Khao Sok?",
           "a": "Yes. Send your flight time and the driver waits in the arrivals hall with a sign showing your name."
         }
-      ]
+      ],
+      "priceFrom": {
+        "thb": 3000,
+        "approx": false
+      }
     },
     {
       "id": "surat-thani-khao-sok",
@@ -175,7 +177,11 @@
           "q": "Do you pick up at Donsak Pier for Khao Sok?",
           "a": "Yes. Give us your ferry arrival time and the driver waits at the pier."
         }
-      ]
+      ],
+      "priceFrom": {
+        "thb": 2500,
+        "approx": false
+      }
     },
     {
       "id": "phuket-airport-ao-nang",
@@ -204,7 +210,11 @@
           "q": "Do you also drive to Krabi Town from Phuket Airport?",
           "a": "Yes. Write Krabi Town or your hotel as the drop-off."
         }
-      ]
+      ],
+      "priceFrom": {
+        "thb": 2500,
+        "approx": false
+      }
     }
   ],
   "photos": [
@@ -274,6 +284,30 @@
     {
       "field": "routes",
       "from": "Krabi Airport → Khao Lak retiré le 10.11.2026 à la demande de Jérémy (trajet ajouté par Claude le 30.10, sans source). /taxi/krabi-airport-khao-lak/ redirigé en 301 vers /taxi/ dans netlify.toml."
+    },
+    {
+      "field": "routes[phuket-airport-khao-lak].priceFrom",
+      "from": "Prix donnés par Mr. Brown via Jérémy le 11.11.2026 (prix de vente, par véhicule). Phuket Airport → Khao Lak 1 800."
+    },
+    {
+      "field": "routes[phuket-airport-ao-nang].priceFrom",
+      "from": "Prix donnés par Mr. Brown via Jérémy le 11.11.2026 (prix de vente, par véhicule). Phuket Airport → Ao Nang 2 500."
+    },
+    {
+      "field": "routes[phuket-khao-sok].priceFrom",
+      "from": "Prix donnés par Mr. Brown via Jérémy le 11.11.2026 (prix de vente, par véhicule). Phuket Airport → Khao Sok 3 000 (l'aéroport est le point de Phuket le plus proche de Khao Sok, d'où « from »)."
+    },
+    {
+      "field": "routes[surat-thani-khao-sok].priceFrom",
+      "from": "Prix donnés par Mr. Brown via Jérémy le 11.11.2026 (prix de vente, par véhicule). Surat Thani → Khao Sok 2 500."
+    },
+    {
+      "field": "routes[krabi-khao-sok].priceFrom",
+      "from": "Prix donnés par Mr. Brown via Jérémy le 11.11.2026 (prix de vente, par véhicule). Ao Nang → Khao Sok 2 800 : non affiché, la page part aussi de Krabi Town et Krabi Airport (prix inconnus)."
+    },
+    {
+      "field": "routes[phuket-airport-khao-lak].faq",
+      "from": "« Do you serve all the beaches of Khao Lak? » remplacée par la question commune « Do you cover every part of … » (Jérémy, 11.11.2026 : oui, avec parfois un supplément)."
     }
   ],
   "notes": [

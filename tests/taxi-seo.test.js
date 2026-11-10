@@ -38,7 +38,9 @@ test("/taxi/ : un seul h1, qui contient le mot-clé principal", () => {
 
 test("/taxi/ : le service couvre tout le sud de la Thaïlande, Koh Lanta est la base", () => {
   assert.match(taxi.hero.lead, /Southern Thailand/);
-  assert.match(taxi.hero.lead, /Koh Lanta/);
+  // Jérémy, 11.11.2026 : la phrase des songthaews ne redit pas où on est basé ; le titre le dit.
+  assert.match(taxi.hero.title, /Koh Lanta/);
+  assert.match(taxi.hero.lead, /songthaew/);
   assert.match(njk, /h-routes">[^<]*Southern Thailand/);
   // Aucune question ne présente l'offre comme limitée au départ de Koh Lanta.
   // Exceptions : « to and from Koh Lanta » (les deux sens) et « Do you only drive from Koh Lanta? » (réponse : No).
@@ -89,9 +91,9 @@ test("la page insère les données structurées", () => {
 });
 
 test("FAQ : aucune durée, distance ni prix inventé", () => {
-  // Seul montant permis : le ferry, 50 THB par personne au-delà de 4 (grille VIP Taxi Lanta, Jérémy 10.11.2026).
+  // Seul montant permis : le ferry, 60 THB par personne au-delà de 4 (grille VIP Taxi Lanta, Jérémy 11.11.2026).
   const all = JSON.stringify(taxi.faq.filter((f) => !/ferry to Koh Lanta included/.test(f.q)));
-  assert.match(taxi.faq.find((f) => /ferry to Koh Lanta included/.test(f.q)).a, /up to 4 people.*From the 5th person, the ferry is 50 THB per person/);
+  assert.match(taxi.faq.find((f) => /ferry to Koh Lanta included/.test(f.q)).a, /up to 4 people.*From the 5th person, the ferry is 60 THB per person/);
   assert.doesNotMatch(all, /\b\d+\s?(h|hr|hrs|hours?|min|minutes?|km|kms|baht|thb)\b|฿|€|\$/i);
 });
 

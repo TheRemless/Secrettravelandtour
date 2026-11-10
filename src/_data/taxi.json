@@ -24,7 +24,7 @@
   },
   "hero": {
     "title": "Private minivans across Southern Thailand, taxis on Koh Lanta",
-    "lead": "Private minivan transfers between airports, piers, national parks and towns across Southern Thailand. On Koh Lanta, where we are based, the taxis are songthaews.",
+    "lead": "Private minivan transfers between airports, piers, national parks and towns across Southern Thailand. We have songthaew taxis too.",
     "note": "Private transfers, no sharing, no hidden fees.",
     "photo": {
       "src": "/images/taxi/hero-ceiling-1800.webp",
@@ -61,8 +61,8 @@
   "tours": {
     "tag": "Our partner",
     "title": "Ready to explore?",
-    "kicker": "Day tours and boat trips",
-    "text": "Secret Travel & Tour is a travel agency based on Koh Lanta. With local partners, they arrange day tours, boat trips, activities and transfers. Choose a trip on their site and ask for a price on WhatsApp.",
+    "kicker": "Day tours, boat trips and activities",
+    "text": "Our partner Secret Travel & Tour is a travel agency based on Koh Lanta. They arrange day tours, boat trips, activities and transfers with local providers. Choose a trip on their site and ask for a price on WhatsApp.",
     "link": {
       "href": "/",
       "label": "Visit Secret Travel & Tour"
@@ -189,7 +189,7 @@
     },
     {
       "q": "Is the ferry to Koh Lanta included?",
-      "a": "Yes, for up to 4 people. VIP Taxi Lanta pays the ferry tickets for you. From the 5th person, the ferry is 50 THB per person.",
+      "a": "Yes, for up to 4 people. VIP Taxi Lanta pays the ferry tickets for you. From the 5th person, the ferry is 60 THB per person.",
       "confirmed": true
     },
     {
@@ -248,8 +248,8 @@
       "confirmed": true
     },
     {
-      "q": "Can I book day tours or boat trips too?",
-      "a": "Yes, through Secret Travel & Tour, a travel agency based on Koh Lanta that works with local partners. They arrange day tours, boat trips, activities and transfers. Choose a trip on their site and ask for a price on WhatsApp.",
+      "q": "Can I book day tours, boat trips or activities too?",
+      "a": "Yes, through our partner Secret Travel & Tour, a travel agency based on Koh Lanta. They arrange day tours, boat trips, activities and transfers with local providers. Choose a trip on their site and ask for a price on WhatsApp.",
       "confirmed": true
     }
   ],
