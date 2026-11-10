@@ -29,3 +29,5 @@ jobs:
       - run: rm -rf _site && npm run build && test -f _site/index.html && test -f _site/tours/4-islands/index.html && test ! -e _site/_components && test ! -e _site/design
         env:
           CONTEXT: production
+          # 2 photos temporaires acceptées pour la mise en ligne (Jérémy, 11.11.2026), comme sur Netlify.
+          STT_ALLOW_PLACEHOLDERS: "1"

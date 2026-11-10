@@ -10,7 +10,7 @@ Format attendu pour chaque prise de vue :
 - pas de photo de l'équipe (décision du client), autorisation écrite de toute personne reconnaissable ;
 - une photo ne sert qu'à un seul produit ; l'image de partage 1200×630 de chaque page est tirée de ces photos.
 
-46 prises de vue sur 20 pages. Faute de vraie photo, la page en affiche moins (00-BRIEF §7).
+43 prises de vue sur 20 pages. Faute de vraie photo, la page en affiche moins (00-BRIEF §7).
 
 ## Commun aux deux marques
 
@@ -52,15 +52,12 @@ Format attendu pour chaque prise de vue :
 | gallery | manquante |  | Koh Haa lagoon, last snorkelling stop. |
 | gallery | manquante |  | Monitor lizard or the beach lunch on Koh Rok. |
 
-## Mangroves (/tours/mangroves/)
+## Mangroves by longtail (/tours/mangroves/)
 
 | Emplacement | Statut | Fichier actuel | Ce qui doit être visible |
 |---|---|---|---|
-| hero | à remplacer | `secret/mangrove-longtail.webp` | A longtail or the wooden raft in the Thung Yee Peng channels, real muddy water (current file is very probably AI-generated). |
 | gallery | à remplacer | `secret/gallery/mangrove-longtail.webp` | Longtail in a narrow mangrove channel (current file is a brochure scan). |
-| gallery | à remplacer | `secret/gallery/kayak-mangrove.webp` | Kayaks in the mangrove (current file is a brochure scan, also on the kayak page). |
 | gallery | à remplacer | `secret/gallery/mangrove-guide.webp` | Guide in the mangrove with visitors (current file is a brochure scan). |
-| gallery | manquante |  | The private wooden raft at sunrise. |
 
 ## ATV (quad bike) (/tours/atv/)
 
@@ -99,7 +96,7 @@ Format attendu pour chaque prise de vue :
 | hero | à remplacer | `secret/go-kart.webp` | Karts on the track, framed on the karts and drivers (current file is real but badly framed). |
 | gallery | à remplacer | `secret/gallery/kart-kid.webp` | A child driving a kart (current file is a brochure scan with print screen). |
 
-## Kayaking (/tours/kayak/)
+## Sea cave kayaking (/tours/kayak/)
 
 | Emplacement | Statut | Fichier actuel | Ce qui doit être visible |
 |---|---|---|---|
