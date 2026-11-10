@@ -1,0 +1,104 @@
+{
+  "slug": "koh-lanta-phuket",
+  "url": "/taxi/koh-lanta-phuket/",
+  "brand": "vip",
+  "template": "route",
+  "name": "Koh Lanta to Phuket",
+  "seo": {
+    "title": "Koh Lanta to Phuket Private Minivan | VIP Taxi Lanta",
+    "metaDescription": "Private minivan between Koh Lanta and Phuket, both directions, to Phuket Town, Patong, Kata or Karon. Cash to the driver. Price on WhatsApp."
+  },
+  "h1": "Koh Lanta to Phuket by private minivan",
+  "lead": "Between your hotel on Koh Lanta and Phuket Town, Patong, Kata or Karon, in either direction, in a private minivan.",
+  "route": {
+    "from": "Koh Lanta",
+    "to": "Phuket",
+    "bothDirections": true,
+    "points": [
+      "Your hotel on Koh Lanta",
+      "Phuket Town",
+      "Patong",
+      "Kata",
+      "Karon"
+    ],
+    "region": "Phuket and Khao Lak",
+    "drive": "about 5 hours"
+  },
+  "facts": [
+    {
+      "label": "Drive time",
+      "value": "About 5 hours, depending on traffic"
+    },
+    {
+      "label": "Pickup and drop-off",
+      "value": "Your hotel on Koh Lanta, Phuket Town, Patong, Kata, Karon"
+    },
+    {
+      "label": "Directions",
+      "value": "Both directions"
+    }
+  ],
+  "priceOnRequest": true,
+  "faq": [
+    {
+      "q": "Do you also drive to Phuket Airport?",
+      "a": "Yes. Write Phuket Airport as the pickup or the drop-off, with your flight time. Phuket Airport to Koh Lanta has its own page."
+    }
+  ],
+  "photos": [
+    {
+      "file": "taxi/van-seats.webp",
+      "alt": "Minivan interior with diamond-stitched tan leather seats and a lit ceiling",
+      "slot": "hero",
+      "status": "keep",
+      "shot": "Real photo of the VIP Taxi Lanta minivan, shared by every route page."
+    }
+  ],
+  "related": [
+    "/taxi/phuket-airport-koh-lanta/"
+  ],
+  "schema": {
+    "type": "TaxiService",
+    "serviceType": "Private minivan transfer",
+    "areaServed": [
+      "Koh Lanta",
+      "Phuket"
+    ]
+  },
+  "legacyText": {
+    "body": [
+      "Tell us where you are staying in Phuket, the date and the time you want to leave, and the team replies with the price."
+    ]
+  },
+  "sources": [
+    {
+      "field": "name, route, points",
+      "from": "Jérémy, 10.11.2026 : trajet souvent demandé, à ajouter. Grille VIP Taxi Lanta « Private Taxi » (base partenaires, ~/Downloads/Secret Travel & Tour/VIP Taxi Lanta - Private Taxi.jpg) : le trajet et les lieux desservis. Aucun prix publié."
+    },
+    {
+      "field": "route.drive",
+      "from": "Absente : aucune durée dans les données, à demander à Mr. Brown."
+    },
+    {
+      "field": "priceOnRequest",
+      "from": "Décision client du 02.11.2026 : prix des transferts privés sur WhatsApp"
+    },
+    {
+      "field": "seo, h1, lead, body, faq",
+      "from": "Rédigé le 10.11.2026 sur le modèle des autres trajets, sans fait nouveau hors grille."
+    },
+    {
+      "field": "priceFrom",
+      "from": "Grille « Private Taxi » de VIP Taxi Lanta, colonne Selling, prix pour 1 à 2 clients (base partenaires, ~/Downloads/Secret Travel & Tour/VIP Taxi Lanta - Private Taxi.jpg). Affichage « from » décidé par Jérémy le 10.11.2026. Ligne : From / to Phuket Airport / Phuket Town (Patong, Kata, Karon : 5 000)"
+    },
+    {
+      "field": "route.drive, facts[Drive time]",
+      "from": "Jérémy, 10.11.2026 : environ 5 h"
+    }
+  ],
+  "priceFrom": {
+    "thb": 4500,
+    "people": "1 or 2",
+    "approx": false
+  }
+}

@@ -37,6 +37,19 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Trajet Krabi Airport → Khao Lak retiré le 10.11.2026 (Jérémy) : l'ancienne adresse mène au hub taxi.
+[[redirects]]
+  from = "/taxi/krabi-airport-khao-lak/"
+  to = "/taxi/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/taxi/krabi-airport-khao-lak"
+  to = "/taxi/"
+  status = 301
+  force = true
+
 # Versions françaises des pages légales retirées le 02.11.2026 (site en anglais seulement pour l'instant).
 [[redirects]]
   from = "/terms/fr/*"

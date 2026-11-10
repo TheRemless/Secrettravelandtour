@@ -34,8 +34,8 @@
     <form novalidate>
       <div class="sheet-head">
         <div>
-          <p class="sheet-kicker">{% if cfg.variant == "tour" %}Choose a date{% else %}Check availability{% endif %}</p>
-          <h2 class="sheet-title" id="book-title" tabindex="-1" data-focus>{{ cfg.product }}</h2>
+          <p class="sheet-kicker">{% if cfg.kicker %}{{ cfg.kicker }}{% elif cfg.variant == "tour" %}Choose a date{% else %}Check availability{% endif %}</p>
+          <h2 class="sheet-title" id="book-title" tabindex="-1" data-focus data-route-title>{{ cfg.product }}</h2>
         </div>
         <button class="sheet-close" type="button" data-close>{{ icon("close") }}<span class="sr-only">Close</span></button>
       </div>
@@ -233,7 +233,9 @@
           <input id="book-time" name="time" type="time" required aria-required="true" aria-describedby="book-e-time">
           <p class="err" id="book-e-time" hidden></p>
         </div>
+        {%- if not (cfg.from and cfg.to) or cfg.transit %}
         {{ text("flight", "Flight number or ferry time", "If we pick you up at an airport or a pier.") }}
+        {%- endif %}
         {%- endif %}
 
         {%- if not rental %}
@@ -245,20 +247,16 @@
           <div class="ages" data-child-ages></div>
           {%- if not taxi %}<p class="f-note" data-advice hidden></p>{% endif %}
           {%- if taxi %}
-          <div data-child-seats hidden>{{ stepper("childSeats", "Child seats", 0, 0, 12) }}</div>
+          <div data-child-seats hidden>{{ stepper("childSeats", "Child or baby seats", 0, 0, 12) }}</div>
           {{ stepper("bags", "Bags", 0, 0, 30) }}
           {%- endif %}
         </fieldset>
         {%- endif %}
 
         {%- if taxi %}
-          {%- set outLabel = "Drop-off hotel or address" -%}
-          {%- set backLabel = "Pickup hotel or address" -%}
-        <div class="f">
-          <label for="book-address" data-address-label data-out="{{ outLabel }}" data-back="{{ backLabel }}">{% if cfg.from and cfg.to %}{{ outLabel }}{% else %}Hotel or address{% endif %}</label>
-          <input id="book-address" name="address" type="text" autocomplete="street-address" aria-describedby="book-e-address">
-          <p class="err" id="book-e-address" hidden></p>
-        </div>
+        {#- Taxi v1 (10.11.2026) : les deux bouts du trajet, chacun avec son adresse. -#}
+        {{ text("pickupAt", "Pickup", "Hotel, address, airport or pier.", true, "street-address") }}
+        {{ text("dropoffAt", "Drop-off", "Hotel, address, airport or pier.", true, "street-address") }}
         {%- elif speedboat %}
         {{ text("pickup", "Hotel on Koh Lanta", "Where you stay on the island.", true, "street-address") }}
         {%- elif not rental %}
@@ -287,7 +285,7 @@
   <div class="sheet-screen" data-screen="preview" hidden>
     <div class="sheet-head">
       <div>
-        <p class="sheet-kicker">{{ cfg.product }}</p>
+        <p class="sheet-kicker" data-route-title>{{ cfg.product }}</p>
         <h2 class="sheet-title" tabindex="-1" data-focus>Your message</h2>
       </div>
       <button class="sheet-close" type="button" data-close>{{ icon("close") }}<span class="sr-only">Close</span></button>
@@ -324,7 +322,7 @@
       {% if facts.replyTime %}<p>{{ facts.replyTime }}</p>{% endif %}
       {%- set langs = facts.languages or [] %}
       {%- if langs.length %}<p>We speak {{ langs.slice(0, -1).join(", ") ~ " and " ~ langs | last if langs.length > 1 else langs[0] }}.</p>{% endif %}
-      <p>Nothing opened? Use the button below, or call <a class="done-num" href="tel:{{ facts.e164 }}">{{ facts.phoneDisplay }}</a>.</p>
+      <p>Nothing opened? Use the button below{% if not taxi %}{# VIP Taxi Lanta : aucun téléphone affiché, WhatsApp seulement. #}, or call <a class="done-num" href="tel:{{ facts.e164 }}">{{ facts.phoneDisplay }}</a>{% endif %}.</p>
       <p class="copy-status" data-copy-status role="status"></p>
     </div>
     <div class="sheet-foot sheet-foot--stack">

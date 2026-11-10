@@ -22,6 +22,13 @@
   var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
   // ---------- Dates : toujours à l'heure de Koh Lanta, pas à celle du téléphone ----------
+  // Heure de Bangkok « HH:MM », pour refuser une heure déjà passée aujourd'hui.
+  function bangkokTime(now) {
+    var parts = new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Bangkok", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).formatToParts(now);
+    var get = function (type) { return parts.filter(function (p) { return p.type === type; })[0].value; };
+    return get("hour") + ":" + get("minute");
+  }
+
   function bangkokToday(now) {
     var parts = new Intl.DateTimeFormat("en-CA", {
       timeZone: "Asia/Bangkok", year: "numeric", month: "2-digit", day: "2-digit"
@@ -263,11 +270,12 @@
       lines.push("Guests: " + guestsLine(state.adults, state.childAges));
       if (state.childSeats > 0 && (state.childAges || []).length) lines.push("Child seats: " + state.childSeats);
       if (state.bags > 0) lines.push("Bags: " + state.bags);
-      if (clean(state.address)) {
-        // Vers la destination, l'adresse est celle de la dépose ; au retour, celle de la prise en charge.
-        var dropOff = config.from && config.to ? state.direction !== "back" : false;
-        lines.push((dropOff ? "Drop-off: " : "Pickup: ") + clean(state.address));
-      }
+      // Les deux bouts du trajet : où le chauffeur prend le client, où il le dépose (taxi v1, 10.11.2026).
+      if (clean(state.pickupAt)) lines.push("Pickup: " + clean(state.pickupAt));
+      if (clean(state.dropoffAt)) lines.push("Drop-off: " + clean(state.dropoffAt));
+      // Prix d'appel affiché sur la page du trajet (grille VIP Taxi Lanta), rappelé à la fin.
+      // Prix par véhicule : la ligne n'est juste que pour un seul véhicule (8 places au plus, Jérémy 10.11.2026).
+      if (config.priceNote && state.adults + (state.childAges || []).length <= 8) lines.push("Price on the site: " + config.priceNote);
     } else if (config.variant === "rental") {
       var cat = findOption(config, state.option);
       lines.push("Rental request: " + (cat ? cat.title : config.product));
@@ -495,8 +503,10 @@
         if (!clean(state.to)) errors.to = "Tell us where you're going.";
       }
       if (!clean(state.time)) errors.time = "Choose a pickup time.";
-      // Le lieu côté Koh Lanta fait le prix : sans lui, la demande repart en question.
-      if (!clean(state.address)) errors.address = "Add your hotel or address.";
+      else if (state.nowTime && date === state.today && clean(state.time) <= state.nowTime) errors.time = "That time has passed. Choose a later time.";
+      // Les deux adresses font le prix : sans elles, la demande repart en question.
+      if (!clean(state.pickupAt)) errors.pickupAt = "Add the pickup address.";
+      if (!clean(state.dropoffAt)) errors.dropoffAt = "Add the drop-off address.";
     } else if (config.variant === "speedboat") {
       if (!clean(state.pickup)) errors.pickup = "Add your hotel on Koh Lanta.";
     } else if (config.pickupRequired !== false && !clean(state.pickup)) {
@@ -509,7 +519,7 @@
 
   function makeDraft(state, now) {
     var copy = {};
-    Object.keys(state).forEach(function (k) { if (k !== "today") copy[k] = state[k]; });
+    Object.keys(state).forEach(function (k) { if (k !== "today" && k !== "nowTime") copy[k] = state[k]; });
     return JSON.stringify({ v: DRAFT_VERSION, savedAt: now.getTime(), day: bangkokToday(now), state: copy });
   }
 
@@ -533,7 +543,7 @@
     return {
       option: "", dateChoice: "", dateOther: "", adults: 2, childAges: [], pickup: "", name: "",
       vehicle: "", dateFrom: "", dateTo: "",
-      direction: "out", from: "", to: "", time: "", flight: "", bags: 0, childSeats: 0, address: "", addons: [],
+      direction: "out", from: "", to: "", time: "", flight: "", bags: 0, childSeats: 0, address: "", pickupAt: "", dropoffAt: "", addons: [],
       route: "", departure: "", tripType: "", returnDate: "", returnDeparture: "", returnTime: "",
       choices: {}, counts: {}, timeFrom: "", timeTo: "", vehicles: 1
     };
@@ -615,7 +625,7 @@
     }
 
     function fillForm() {
-      ["dateOther", "pickup", "name", "time", "flight", "address", "from", "to", "vehicle", "dateFrom", "dateTo", "timeFrom", "timeTo", "returnDate", "returnTime"].forEach(function (k) {
+      ["dateOther", "pickup", "name", "time", "flight", "address", "pickupAt", "dropoffAt", "from", "to", "vehicle", "dateFrom", "dateTo", "timeFrom", "timeTo", "returnDate", "returnTime"].forEach(function (k) {
         var el = field(k);
         if (el && typeof el.value === "string") el.value = state[k] || "";
       });
@@ -771,7 +781,47 @@
       Array.prototype.forEach.call(list, function (r) { r.checked = r.value === value; });
     }
 
+    var lastDirection = "out";
+    function swapEnds() {
+      if (state.direction === lastDirection) return;
+      lastDirection = state.direction;
+      var p = state.pickupAt; state.pickupAt = state.dropoffAt; state.dropoffAt = p;
+      if (field("pickupAt")) field("pickupAt").value = state.pickupAt || "";
+      if (field("dropoffAt")) field("dropoffAt").value = state.dropoffAt || "";
+    }
+
+    // Taxi sur une page trajet : le bout qui est un lieu précis (aéroport, jetée) est déjà rempli, dans le bon sens.
+    function presetEnds() {
+      var ends = config.ends;
+      if (config.variant !== "taxi" || !ends) return;
+      var back = state.direction === "back";
+      if (!clean(state.pickupAt)) state.pickupAt = (back ? ends.to : ends.from) || "";
+      if (!clean(state.dropoffAt)) state.dropoffAt = (back ? ends.from : ends.to) || "";
+      lastDirection = state.direction || "out";
+    }
+
+    // Taxi : le titre de la feuille et l'en-tête de l'aperçu suivent le sens choisi.
+    function updateRouteTitle() {
+      if (config.variant !== "taxi" || !(config.from && config.to)) return;
+      Array.prototype.forEach.call(dialog.querySelectorAll("[data-route-title]"), function (el) { el.textContent = routeLabel(config, state); });
+    }
+
+    // Hub : From et To remplissent Pickup et Drop-off tant que le client ne les a pas changés.
+    var autoEnds = { pickupAt: "", dropoffAt: "" };
+    function syncHubEnds() {
+      if (config.variant !== "taxi" || (config.from && config.to)) return;
+      [["from", "pickupAt"], ["to", "dropoffAt"]].forEach(function (p) {
+        var src = clean(state[p[0]]), cur = clean(state[p[1]]);
+        if (!src || (cur && cur !== autoEnds[p[1]])) return;
+        state[p[1]] = src;
+        autoEnds[p[1]] = src;
+        if (field(p[1])) field(p[1]).value = src;
+        clearError(p[1]);
+      });
+    }
+
     function updateAddressLabel() {
+      updateRouteTitle();
       var label = form.querySelector("[data-address-label]");
       if (!label || !(config.from && config.to)) return;
       label.textContent = state.direction === "back" ? label.getAttribute("data-back") : label.getAttribute("data-out");
@@ -812,6 +862,7 @@
 
     function onChange(el) {
       readField(el);
+      if (el.name === "from" || el.name === "to") syncHubEnds();
       if (el.name === "dateChoice") {
         var other = form.querySelector("[data-date-other]");
         if (other) other.hidden = state.dateChoice !== "other";
@@ -825,7 +876,11 @@
           if ((o.rows || []).some(function (r) { return r.label.toLowerCase() === clean(state.vehicle).toLowerCase(); })) { state.option = o.id; setRadio("option", o.id); clearError("option"); }
         });
       }
-      if (el.name === "direction") updateAddressLabel();
+      if (el.name === "direction") {
+        updateAddressLabel();
+        // Taxi : l'aéroport de l'aller devient l'arrivée du retour, les deux adresses s'échangent.
+        if (config.variant === "taxi" && el.checked) swapEnds();
+      }
       if (el.name === "route") { showDepartures(); setRadio("departure", state.departure); clearError("departure"); showReturn(); }
       if (el.name === "tripType") { showReturn(); clearError("returnTrip"); }
       if (el.name === "returnDate" || el.name === "returnDeparture" || el.name === "returnTime") clearError("returnTrip");
@@ -911,7 +966,10 @@
       });
       if (!first) return;
       // Le bouton radio choisi fait 1 px : le défilement suit le groupe (titre, choix et message), pas le seul bouton.
+      // data-quiet-focus : le champ reçoit le focus sans ouvrir la liste des lieux par-dessus le message d'erreur.
+      first.setAttribute("data-quiet-focus", "");
       first.focus({ preventScroll: true });
+      first.removeAttribute("data-quiet-focus");
       var err = errorEl(firstKey), g = groupOf(err) || groupOf(first);
       var box = form.querySelector(".sheet-body");
       if (!g || !g.scrollIntoView) return;
@@ -939,6 +997,7 @@
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       state.today = today();
+      state.nowTime = bangkokTime(new Date());
       var errors = validate(config, state);
       if (Object.keys(errors).length) { showErrors(errors); markDayClash(errors); return; }
       message = buildMessage(config, state);
@@ -1093,7 +1152,11 @@
       sbSum = Boolean(attr("data-sb-route"));
       if (!state.option && (config.options || []).length === 1) state.option = config.options[0].id;
       sumMode = Boolean(optionId) && Boolean(findOption(config, state.option));
+      presetEnds();
+      autoEnds = { pickupAt: "", dropoffAt: "" };
+      syncHubEnds();
       fillForm();
+      updateRouteTitle();
       showErrors({});
       show("form");
       markOptions();

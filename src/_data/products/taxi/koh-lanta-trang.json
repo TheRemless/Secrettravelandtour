@@ -5,10 +5,10 @@
   "template": "route",
   "name": "Koh Lanta to Trang",
   "seo": {
-    "title": "Koh Lanta to Trang Minivan Taxi | VIP Taxi Lanta",
-    "metaDescription": "Private minivan taxi between Koh Lanta and Trang, both directions, to the town, the station or the airport. Cash to the driver. Price on WhatsApp."
+    "title": "Koh Lanta to Trang Private Minivan | VIP Taxi Lanta",
+    "metaDescription": "Private minivan between Koh Lanta and Trang, both directions, to the town, the station or the airport. Cash to the driver. Price on WhatsApp."
   },
-  "h1": "Koh Lanta to Trang, private minivan taxi",
+  "h1": "Koh Lanta to Trang by private minivan",
   "lead": "Between Koh Lanta and Trang, in either direction, in a private minivan.",
   "route": {
     "from": "Koh Lanta",
@@ -41,7 +41,7 @@
   "faq": [
     {
       "q": "Can you drop me at Trang train station or airport?",
-      "a": "Yes. Enter the station or the airport as your destination with the time of your train or flight."
+      "a": "Yes. Write the station or the airport as the drop-off, with the time of your train or flight."
     }
   ],
   "photos": [
@@ -99,6 +99,19 @@
     {
       "field": "schema",
       "from": "src/_data/taxiRoutesView.js"
+    },
+    {
+      "field": "seo.title, seo.metaDescription, h1",
+      "from": "Refonte taxi v1 (10.11.2026) : même forme que Krabi Airport, « Minivan Taxi » banni (03-audit-contenu §6.6). Même trajet, mêmes faits."
+    },
+    {
+      "field": "priceFrom",
+      "from": "Grille « Private Taxi » de VIP Taxi Lanta, colonne Selling, prix pour 1 à 2 clients (base partenaires, ~/Downloads/Secret Travel & Tour/VIP Taxi Lanta - Private Taxi.jpg). Affichage « from » décidé par Jérémy le 10.11.2026. Ligne : From / to Trang Town/Airport/Train Station"
     }
-  ]
+  ],
+  "priceFrom": {
+    "thb": 3000,
+    "people": "1 or 2",
+    "approx": false
+  }
 }

@@ -26,6 +26,19 @@ module.exports = async function (eleventyConfig) {
   const ESC = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" };
   eleventyConfig.addFilter("keephy", (s) => String(s || "").replace(/[&<>"]/g, (c) => ESC[c]).replace(/\b([A-Za-z]+-[A-Za-z]+)\b/g, '<span class="nw">$1</span>'));
 
+  // Taxi : noms de lieux à plusieurs mots gardés sur une ligne (« Koh Lanta », « Krabi Airport »). Texte échappé ici.
+  const PLACES = require("./src/_data/site.json").brands.vip.places.concat(["Southern Thailand"]).filter((p) => p.includes(" ")).sort((a, b) => b.length - a.length);
+  eleventyConfig.addFilter("nbspPlaces", (s) => PLACES.reduce((t, p) => t.split(p).join(p.replace(/ /g, "\u00a0")), String(s || "").replace(/[&<>"]/g, (c) => ESC[c])));
+
+  // Taxi : chaque « Secret Travel & Tour » mène à leur site (demande de Jérémy, 10.11.2026) et le premier « songthaew »
+  // mène à la page qui l'explique (sauf sur cette page). Texte échappé ici, comme nbspPlaces.
+  eleventyConfig.addFilter("taxiLinks", (s, song = true) => {
+    let t = PLACES.reduce((x, p) => x.split(p).join(p.replace(/ /g, "\u00a0")), String(s || "").replace(/[&<>"]/g, (c) => ESC[c]));
+    t = t.replace(/Secret Travel &amp; Tour/g, '<a class="link-stt" href="/">Secret Travel &amp; Tour</a>');
+    if (song) t = t.replace(/\b(songthaews?)\b/i, '<a href="/taxi/songthaew/">$1</a>');
+    return t;
+  });
+
   // Fichiers copiés tels quels, avec les mêmes adresses publiques.
   eleventyConfig.addPassthroughCopy({
     "src/css": "css",
@@ -46,6 +59,12 @@ module.exports = async function (eleventyConfig) {
       const skip = /[\\/](shots|tools|_build)([\\/]|$)|\.mjs$/;
       fs.cpSync("docs/refonte/design-v4", path.join(dir.output, "_v4"), { recursive: true, filter: (f) => !skip.test(f) });
       fs.cpSync("src/images", path.join(dir.output, "src/images"), { recursive: true });
+      // Propositions taxi v1 (10.11.2026) : servies sous /docs/refonte/taxi-v1/, avec les chemins absolus
+      // qu'utilisent les maquettes (/src/css/, /_site/js/, /_site/css/).
+      fs.cpSync("docs/refonte/taxi-v1", path.join(dir.output, "docs/refonte/taxi-v1"), { recursive: true, filter: (f) => !/[\\/](shots|node_modules)([\\/]|$)|\.(mjs|py|md)$/.test(f) });
+      fs.cpSync("src/css", path.join(dir.output, "src/css"), { recursive: true });
+      fs.cpSync("src/css", path.join(dir.output, "_site/css"), { recursive: true });
+      fs.cpSync("src/js", path.join(dir.output, "_site/js"), { recursive: true });
     });
   }
 

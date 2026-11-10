@@ -1,0 +1,92 @@
+{#- VIP Taxi Lanta, identité « Laque et or » (choix de Jérémy, 10.11.2026) : hub /taxi/ et les 17 trajets.
+    Importer avec {% import "components/taxi.njk" as tx %}. Données en paramètres uniquement.
+    Le logo de Mr. Brown (images/taxi/logo.webp) et l'emblème de Secret ne sont jamais redessinés. -#}
+{% from "components/icons.njk" import icon %}
+
+{% macro waHref(number, text) -%}
+https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
+{%- endmacro %}
+
+{% macro chev() -%}
+<svg class="chev" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+{%- endmacro %}
+
+{#- En-tête sur la laque : logo recadré sur l'éléphant et le van, le nom écrit à côté, WhatsApp. -#}
+{% macro top(contact) %}
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="/taxi/"><span class="disc disc--crop"><img eleventy:ignore src="/images/taxi/logo.webp" width="640" height="640" alt="" decoding="async"></span><span class="brand-name">VIP Taxi Lanta<small>Mr. Brown</small></span></a>
+    <a class="top-wa" href="{{ waHref(contact.number) }}">{{ icon("whatsapp") }}<span>WhatsApp</span></a>
+  </div>
+</header>
+{% endmacro %}
+
+{#- Arc de fenêtre de temple : la photo découpée, un trait d'or autour (tracé une fois à l'arrivée si draw). -#}
+{% macro arch(src, alt, width, height, cls="arch", draw=true, srcset="", sizes="", priority=false) %}
+<figure class="{{ cls }}{% if draw %} is-draw{% endif %}">
+  <div class="arch-photo"><img eleventy:ignore src="{{ src }}"{% if srcset %} srcset="{{ srcset }}" sizes="{{ sizes }}"{% endif %} width="{{ width }}" height="{{ height }}" alt="{{ alt }}"{% if priority %} fetchpriority="high"{% else %} loading="lazy" decoding="async"{% endif %}></div>
+  <svg class="arch-line" viewBox="0 -2 400 504" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path class="a-l" pathLength="1" d="M200 14C112 92 14 156 14 268V502"/><path class="a-r" pathLength="1" d="M200 14C288 92 386 156 386 268V502"/><path class="a-t" pathLength="1" d="M200 14C194 6 195 -4 200 -10C205 -4 206 6 200 14M168 42C156 38 152 26 160 22C166 19 170 25 165 28M232 42C244 38 248 26 240 22C234 19 230 25 235 28"/><path class="a-s" pathLength="1" d="M14 292C2 290 -6 278 0 268C5 261 13 265 9 272M386 292C398 290 406 278 400 268C395 261 387 265 391 272"/></svg>
+</figure>
+{% endmacro %}
+
+{#- Une ligne par trajet : départ, arrivée, durée si elle est dans les données. Toute la ligne est le lien. -#}
+{% macro routeRow(r) %}
+<li><a class="rr" href="{{ r.url }}"><span class="rr-pair"><span class="rr-place">{{ r.from }}</span> <span class="rr-word">to</span> <span class="rr-place">{{ r.to }}</span></span>{% if r.drive or r.price %}<span class="rr-time">{% if r.drive %}<span class="rr-drive">{{ r.drive | capitalize }}</span>{% endif %}{% if r.price %}<span class="rr-price">{{ r.price.label }}</span>{% endif %}</span>{% endif %}{{ chev() }}</a></li>
+{% endmacro %}
+
+{% macro faq(items) %}
+<div class="faq">
+  {%- for q in items %}
+  <details><summary><span>{{ q.q | nbspPlaces | safe }}</span><span class="faq-mark" aria-hidden="true"></span></summary><div class="faq-a"><p>{{ q.a | taxiLinks | safe }}</p></div></details>
+  {%- endfor %}
+</div>
+{% endmacro %}
+
+{#- Encart Secret Travel & Tour dans l'identité v4 de Secret (vert profond, sable, Cormorant et Manrope, emblème d'origine). -#}
+{% macro secretAside(t, compact=false) %}
+<aside class="stt{% if compact %} stt--compact{% endif %}" aria-labelledby="stt-h">
+  <div class="wrap stt-in">
+    <figure class="stt-photo"><img src="/images/secret/v3/card-4-islands.jpg" sizes="(min-width: 768px) 40vw, 100vw" width="1421" height="1066" loading="lazy" decoding="async" alt="Snorkellers in turquoise water at the foot of a limestone cliff"></figure>
+    <div class="stt-text">
+      <img eleventy:ignore class="stt-emblem" src="/images/secret/emblem.webp" width="240" height="198" alt="Secret Travel &amp; Tour" loading="lazy" decoding="async">
+      <h2 id="stt-h">{{ t.kicker }} on Koh Lanta</h2>
+      <p>{{ t.text | taxiLinks | safe }}</p>
+      <ul class="stt-links">
+        <li><a href="/tours/4-islands/">4 Islands{{ chev() }}</a></li>
+        <li><a href="/tours/koh-rok-koh-haa/">Koh Rok &amp; Koh Haa{{ chev() }}</a></li>
+        <li><a href="/tours/elephant-sanctuary/">Elephant sanctuary{{ chev() }}</a></li>
+      </ul>
+      <a class="stt-btn" href="{{ t.link.href }}">{{ t.link.label }}</a>
+    </div>
+  </div>
+</aside>
+{% endmacro %}
+
+{#- Pied de page : logo entier, base, WhatsApp et délai de réponse, pages légales. -#}
+{% macro footer(site, contact) %}
+{%- set b = site.brands.vip -%}
+<footer class="foot">
+  <div class="wrap foot-in">
+    <span class="disc disc--lg"><img eleventy:ignore src="/images/taxi/logo.webp" width="640" height="640" alt="{{ b.name }}, {{ b.owner }}" loading="lazy" decoding="async"></span>
+    <div class="foot-col">
+      <p class="foot-name">{{ b.name }}</p>
+      <p>{{ b.owner }}, based on {{ b.address.locality }}.</p>
+      {% if b.maps %}<p><a href="{{ b.maps }}">Google Maps listing</a></p>{% endif %}
+    </div>
+    <div class="foot-col">
+      <p class="foot-name">WhatsApp</p>
+      <p><a href="{{ waHref(contact.number) }}">{{ contact.phoneDisplay }}</a></p>
+      {% if contact.replyTime %}<p>{{ contact.replyTime }}</p>{% endif %}
+    </div>
+    <div class="foot-legal">
+      <p>Bookings sold by {{ site.operator.name }}</p>
+      <ul><li><a href="/terms/">Booking terms</a></li><li><a href="/legal/">Legal notice</a></li><li><a href="/privacy/">Privacy</a></li></ul>
+    </div>
+  </div>
+</footer>
+{% endmacro %}
+
+{#- Barre du bas au téléphone : prix d'appel du trajet s'il existe, sinon prix sur WhatsApp ; paiement au chauffeur. Ouvre la feuille. -#}
+{% macro vbar(label, href, price=null) %}
+<aside class="vbar" aria-label="{{ label }}"><p>{% if price %}{{ price.label }}<small>Per vehicle, cash to the driver</small>{% else %}Price on WhatsApp<small>Cash to the driver</small>{% endif %}</p><a class="btn btn--gold" href="{{ href }}" data-book="">{{ label }}</a></aside>
+{% endmacro %}

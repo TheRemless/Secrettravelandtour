@@ -2,223 +2,146 @@
 permalink: /taxi/
 eleventyExcludeFromCollections: true
 ---
-{#- Page autonome de VIP Taxi Lanta (Mr. Brown), prestataire de transferts dans tout le sud de la Thaïlande, basé à Koh Lanta.
-    Volontairement hors de base.njk, comme /secret/ : identité du prestataire, sans header,
-    footer, bannière cookies ni Google Analytics. Le formulaire rédige un message WhatsApp
-    pour le numéro de Zwald (Anaïs), comme celui de /secret/ : rien n'est envoyé à un
-    serveur, pas de nom ni de téléphone à saisir. -#}
-{% macro field(name, label, type, attrs, hint, required) %}
-<div class="field">
-  <label for="f-{{ name }}">{{ label }}</label>
-  {% if hint %}<p class="hint" id="h-{{ name }}">{{ hint }}</p>{% endif %}
-  <input id="f-{{ name }}" name="{{ name }}" type="{{ type }}" {{ attrs | safe }}{% if required %} aria-required="true"{% endif %} aria-describedby="{% if hint %}h-{{ name }} {% endif %}e-{{ name }}">
-  <p class="err" id="e-{{ name }}" hidden></p>
-</div>
-{% endmacro %}
-{% macro combo(name, label, places) %}
-<div class="field combo">
-  <label for="f-{{ name }}">{{ label }}</label>
-  <div class="combo-box">
-    <input id="f-{{ name }}" name="{{ name }}" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="lb-{{ name }}" aria-required="true" aria-describedby="e-{{ name }}" autocomplete="off" autocapitalize="words" spellcheck="false">
-    <div class="combo-pop" hidden>
-      <p class="combo-head" aria-hidden="true">Popular places, or type your own</p>
-      <ul id="lb-{{ name }}" role="listbox" aria-label="Popular places">{% for place in places %}<li role="option" id="o-{{ name }}-{{ loop.index }}">{{ place }}</li>{% endfor %}</ul>
-    </div>
-  </div>
-  <p class="err" id="e-{{ name }}" hidden></p>
-</div>
-{% endmacro %}
-{% macro person(name, label, ages, value, min) %}
-<div class="person">
-  <label for="f-{{ name }}">{{ label }} <span class="ages">{{ ages }}</span></label>
-  <div class="step">
-    <button type="button" data-step="-1" data-for="{{ name }}" aria-label="One less {{ label | lower }}">&minus;</button>
-    <input id="f-{{ name }}" name="{{ name }}" type="number" inputmode="numeric" min="{{ min }}" max="60" value="{{ value }}" aria-describedby="e-adults">
-    <button type="button" data-step="1" data-for="{{ name }}" aria-label="One more {{ label | lower }}">+</button>
-  </div>
-</div>
-{% endmacro %}
+{#- Hub de VIP Taxi Lanta (Mr. Brown), identité « Laque et or » (choix de Jérémy, 10.11.2026).
+    Marque à part de Secret : pas de header ni de footer Secret. La réservation passe par la feuille
+    (booking.js, variante taxi, From et To libres) qui rédige un message WhatsApp pour Anaïs.
+    Les anciens liens /taxi/?from=…&to=… et /taxi/#request ouvrent la feuille préremplie (vip-taxi.js). -#}
+{% import "components/taxi.njk" as tx %}
+{% from "components/booking.njk" import bookingSheet %}
+{%- set T = taxiPages -%}
+{%- set h = taxi.hero -%}
+{%- set fallback = tx.waHref(T.contact.number, "Transfer request") -%}
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="en-GB" data-refonte data-brand="vip">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Minivan Transfers &amp; Taxi, Southern Thailand | VIP Taxi Lanta</title>
 <meta name="description" content="Private minivan transfers across Southern Thailand and taxis on Koh Lanta: Krabi, Phuket, Surat Thani, Khao Lak and Trang. Request a price on WhatsApp.">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<link rel="canonical" href="https://secrettravelandtour.com/taxi/">
+<link rel="canonical" href="{{ site.url }}/taxi/">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://secrettravelandtour.com/taxi/">
+<meta property="og:site_name" content="VIP Taxi Lanta">
+<meta property="og:url" content="{{ site.url }}/taxi/">
 <meta property="og:title" content="Minivan Transfers &amp; Taxi, Southern Thailand | VIP Taxi Lanta">
 <meta property="og:description" content="Private minivan transfers across Southern Thailand and taxis on Koh Lanta. Request a price on WhatsApp.">
-<meta property="og:image" content="https://secrettravelandtour.com/images/taxi/og-taxi.jpg">
+<meta property="og:image" content="{{ site.url }}/images/taxi/og-taxi.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="VIP Taxi Lanta, Mr. Brown, private taxis and minivans">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" sizes="32x32" href="/images/taxi/icon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/images/taxi/apple-touch-icon.png">
-<meta name="theme-color" content="#140D09">
-<link rel="preload" as="font" type="font/woff2" href="/css/fonts/marcellus-400-normal-latin.woff2" crossorigin>
-<link rel="preload" as="font" type="font/woff2" href="/css/fonts/figtree-400-normal-latin.woff2" crossorigin>
-<link rel="stylesheet" href="/css/taxi.css?v={{ build.v }}">
-<script>document.documentElement.className = "js";</script>
+<meta name="theme-color" content="#1B130D">
+<link rel="preload" as="font" type="font/woff2" href="/css/fonts/chonburi-400-normal-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/css/fonts/bai-jamjuree-400-normal-latin.woff2" crossorigin>
+<link rel="stylesheet" href="/css/booking.css?v={{ build.v }}">
+<link rel="stylesheet" href="/css/vip-taxi.css?v={{ build.v }}">
+<script>document.documentElement.classList.add("js");</script>
 <script type="application/ld+json">{{ taxiView.jsonLd | dump | safe }}</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-
-{% if taxiView.showDraftBanner %}
-<details class="draft">
-  <summary><span><strong>Preview only.</strong> {{ taxiView.toConfirm | length }} items not confirmed by VIP Taxi Lanta yet</span></summary>
-  <ul>{% for item in taxiView.toConfirm %}<li>{{ item }}</li>{% endfor %}</ul>
-</details>
-{% endif %}
-
-<section class="hero">
-  <img eleventy:ignore class="hero-photo" src="{{ taxi.hero.photo.src }}" srcset="{{ taxi.hero.photo.srcset }}" sizes="100vw" width="{{ taxi.hero.photo.width }}" height="{{ taxi.hero.photo.height }}" alt="{{ taxi.hero.photo.alt }}" fetchpriority="high">
-  <header class="bar">
-    <div class="plate"><img eleventy:ignore src="/images/taxi/logo.webp" width="640" height="640" alt="VIP Taxi Lanta, Mr. Brown"></div>
-    {#- Espaces insécables : « Koh Lanta » et « Mr. Brown » ne se coupent plus en fin de ligne. -#}
-    <div class="word">VIP TAXI LANTA<small>{{ taxi.business.tagline | replace("Koh Lanta", "Koh Lanta") }}, {{ taxi.business.owner | replace(" ", " ") }}</small></div>
-  </header>
-  <div class="hero-in">
-    <h1>{{ taxi.hero.title }}</h1>
-    <p class="lead">{{ taxi.hero.lead }} {{ taxi.hero.note }}</p>
-    <div class="hero-actions">
-      <a class="btn" href="#request">Request a transfer</a>
-      <a class="hero-more" href="#h-services">Where we drive</a>
+{{ tx.top(T.contact) }}
+<main id="main">
+<section class="hero" aria-labelledby="h1">
+  <div class="wrap hero-in">
+    <h1 id="h1">{{ h.title }}</h1>
+    {{ tx.arch(h.photo.src, h.photo.alt, h.photo.width, h.photo.height, srcset=h.photo.srcset, sizes="(min-width: 64rem) 40vw, 92vw", priority=true) }}
+    <div class="hero-text">
+      <p class="lead">{{ h.lead | taxiLinks | safe }}</p>
+      <div class="hero-act">
+        <a class="btn btn--gold" href="{{ fallback }}" data-book="">Request a transfer</a>
+        <a class="link-lac" href="#routes">See all routes</a>
+      </div>
     </div>
   </div>
 </section>
 
-<main id="main">
-  <section class="sec network" aria-labelledby="h-services">
-    <div class="network-head">
-      <h2 id="h-services">Everywhere in Southern Thailand</h2>
-      <p>{{ taxi.services[1].text }} {{ taxi.services[0].text }}</p>
+<section class="routes" id="routes" aria-labelledby="h-routes">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 id="h-routes">Everywhere in Southern Thailand</h2>
+      <p>Every route runs both ways, in a private minivan.</p>
     </div>
-    <div class="board">
-      {%- for g in taxiRoutesView.regions %}
-      <div class="board-row">
-        <div class="board-region">
-          <h3>{{ g.name }}</h3>
-          <p>{{ g.intro }}</p>
-        </div>
-        <ul class="board-list">
-          {%- for r in g.routes %}
-          <li><a href="/taxi/{{ r.id }}/"><span>{{ r.label }}</span>{% if r.drive %}<small>{{ r.drive }}</small>{% endif %}</a></li>
-          {%- endfor %}
-        </ul>
-      </div>
+    <div class="regions">
+      {%- for g in T.regions %}
+      <section class="region" aria-labelledby="rg-{{ loop.index }}">
+        <h3 id="rg-{{ loop.index }}">{{ g.name }}</h3>
+        <p class="region-intro">{{ g.intro }}</p>
+        <ul class="rr-list">{% for r in g.routes %}{{ tx.routeRow(r) }}{% endfor %}</ul>
+      </section>
       {%- endfor %}
-      <p class="board-foot">{{ taxiRoutesView.further }} <a href="#request">Send us the pickup and the destination</a>. On Koh Lanta itself: {{ taxi.services[2].text | lower }}</p>
+      <div class="elsewhere">
+        <div>
+          <h3>Not on the list?</h3>
+          <p>{{ T.further }}</p>
+        </div>
+        <a class="btn btn--lac" href="{{ fallback }}" data-book="">Ask for another route</a>
+      </div>
     </div>
-  </section>
-
-  <div class="strip" role="group" tabindex="0" aria-label="{{ taxi.gallery.title }}">
-    {% for p in taxi.gallery.photos %}
-    <img eleventy:ignore src="{{ p.src }}" width="{{ p.width }}" height="{{ p.height }}" alt="{{ p.alt }}" loading="lazy">
-    {% endfor %}
   </div>
+</section>
 
-  {% include "taxi-partner.njk" %}
-
-  <section class="sec why-sec" aria-labelledby="h-why">
-    <img eleventy:ignore class="why-photo" src="{{ taxi.gallery.photos[1].src }}" width="{{ taxi.gallery.photos[1].width }}" height="{{ taxi.gallery.photos[1].height }}" alt="{{ taxi.gallery.photos[1].alt }}" loading="lazy">
-    <div class="why-body">
-    <h2 id="h-why">Why VIP Taxi Lanta</h2>
-    <div class="why">
-      {% for w in taxi.why %}
-      <div><h3>{{ w.title }}</h3><p>{{ w.text }}</p></div>
-      {% endfor %}
+<section class="book" aria-labelledby="h-book">
+  <div class="wrap book-in">
+    <div class="book-how">
+      <h2 id="h-book">How to book</h2>
+      <ol class="steps">
+        {%- for s in taxi.steps %}
+        <li><p class="step-t">{{ s.title }}</p><p>{{ s.text | taxiLinks | safe }}</p></li>
+        {%- endfor %}
+      </ol>
     </div>
-    <p class="rating"><a href="{{ taxi.business.reviewsUrl }}" rel="noopener">{{ taxi.rating.text }}</a></p>
-    </div>
-  </section>
-
-  <section class="sec" aria-labelledby="h-how">
-    <h2 id="h-how">How it works</h2>
-    <ol class="steps">
-      {% for st in taxi.steps %}
-      <li><div><h3>{{ st.title }}</h3><p>{{ st.text }}</p></div></li>
-      {% endfor %}
-    </ol>
-    <p class="pay">{{ taxi.payment.text }}</p>
-  </section>
-
-  <section class="card" id="request" aria-labelledby="h-request">
-    <div class="card-intro">
-      <h2 id="h-request">Request a transfer</h2>
-      <p class="intro">Tell us where and when. Your message is ready to send on WhatsApp and the team replies with a price.</p>
-      <a class="btn nojs-cta" href="https://wa.me/66958683846?text=Hi%20VIP%20Taxi%20Lanta%21">Message us on WhatsApp</a>
-    </div>
-    <form id="taxi-form" novalidate>
-      <div class="row">
-        {{ combo("from", "From", taxi.places) }}
-        {{ combo("to", "To", taxi.places) }}
+    <div class="book-side">
+      <div class="pay" data-frame="still">
+        <h3>Payment</h3>
+        <p>{{ taxi.payment.text }}</p>
       </div>
-      <p class="hint hint-pair">Use your hotel, an airport, a pier or a town.</p>
-
-      <fieldset class="field" aria-describedby="e-date">
-        <legend>Date</legend>
-        <div class="seg">
-          <label><input type="radio" name="date_choice" value="today" required><span>Today</span></label>
-          <label><input type="radio" name="date_choice" value="tomorrow" required><span>Tomorrow</span></label>
-          <label><input type="radio" name="date_choice" value="other" required><span>Other date</span></label>
-        </div>
-        <div class="date-other" id="date-other" hidden>
-          <label class="sr" for="f-date_other">Choose a date</label>
-          <input id="f-date_other" name="date_other" type="date">
-        </div>
-        <p class="err" id="e-date" hidden></p>
-      </fieldset>
-
-      {{ field("time", "Pickup time", "time", "", "", true) }}
-
-      <div class="field">
-        <div class="people">
-          {{ person("adults", "Adults", "12+", 2, 1) }}
-          {{ person("children", "Children", "3 to 11", 0, 0) }}
-          {{ person("babies", "Babies", "0 to 2", 0, 0) }}
-        </div>
-        <p class="err" id="e-adults" hidden></p>
-      </div>
-
-      <div class="seats">
-        <div class="check" id="seat-child" hidden><input type="checkbox" id="f-child_seat" name="child_seat"><label for="f-child_seat">We need a child seat</label></div>
-        <div class="check" id="seat-baby" hidden><input type="checkbox" id="f-baby_seat" name="baby_seat"><label for="f-baby_seat">We need a baby seat</label></div>
-      </div>
-
-      {{ field("name", "Full name", "text", 'autocomplete="name" autocapitalize="words"', "", true) }}
-
-      <button class="btn send" type="submit">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 00-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1012 2zm0 1.8a8.2 8.2 0 016.9 12.6l-.2.3.8 2.9-3-.8-.3.2A8.2 8.2 0 1112 3.8zm-1.2 4.5c-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.8.8-.8 1.9s.8 2.2.9 2.4c.1.1 1.6 2.5 3.9 3.4.5.2.9.3 1.2.4.5.1 1 .1 1.4 0 .4-.1 1.3-.5 1.5-1s.2-1 .1-1.1c0-.1-.2-.2-.4-.3s-1.3-.6-1.5-.7c-.2-.1-.3-.1-.5.1-.1.2-.5.7-.7.8-.1.2-.3.2-.5.1-.2-.1-.9-.3-1.7-1-.6-.5-1-1.2-1.1-1.4-.1-.2 0-.3.1-.4l.4-.4c.1-.1.2-.3.2-.4.1-.1 0-.3 0-.4z"/></svg>
-        Send on WhatsApp
-      </button>
-      <p class="note">Opens WhatsApp with your message ready. Your details stay on your phone until you send.</p>
-    </form>
-  </section>
-
-  <section class="sec" aria-labelledby="h-faq">
-    <h2 id="h-faq">Common questions</h2>
-    <div class="faq">
-      {% for f in taxi.faq %}
-      <div><h3>{{ f.q }}</h3><p>{{ f.a }}</p></div>
-      {% endfor %}
+      {%- if T.rating %}
+      <a class="rating" href="{{ T.rating.url }}">
+        <span class="stars" aria-hidden="true">{% for i in range(0, 5) %}<svg viewBox="0 0 24 24" focusable="false"><path fill="currentColor" d="M12 2.6l2.8 6 6.5.7-4.9 4.4 1.4 6.4L12 16.8l-5.8 3.3 1.4-6.4-4.9-4.4 6.5-.7z"/></svg>{% endfor %}</span>
+        <span class="rating-t">Rated {{ T.rating.value }} on Google<small>{{ T.rating.count }} reviews on Google Maps</small></span>
+      </a>
+      {%- endif %}
     </div>
-  </section>
+  </div>
+</section>
+
+<section class="van" aria-labelledby="h-van">
+  {%- set g = taxi.gallery.photos -%}
+  <div class="wrap van-in">
+    <figure class="van-wide"><img eleventy:ignore src="{{ g[0].src }}" width="{{ g[0].width }}" height="{{ g[0].height }}" loading="lazy" decoding="async" alt="{{ g[0].alt }}"></figure>
+    <div class="van-text">
+      <h2 id="h-van">{{ taxi.gallery.title }}</h2>
+      <dl class="why">
+        {%- for w in taxi.why %}
+        <div><dt>{{ w.title }}</dt><dd>{{ w.text | taxiLinks(false) | safe }}</dd></div>
+        {%- endfor %}
+      </dl>
+    </div>
+    <figure class="van-in-photo"><img eleventy:ignore src="{{ g[2].src }}" width="{{ g[2].width }}" height="{{ g[2].height }}" loading="lazy" decoding="async" alt="{{ g[2].alt }}"></figure>
+  </div>
+</section>
+
+<section class="qa" aria-labelledby="h-faq">
+  <div class="wrap qa-in">
+    <h2 id="h-faq">Questions</h2>
+    {#- Déjà dit plus haut : le paiement (bloc Payment) et le privé (« Private only »). -#}
+    {%- set skip = ["How do I pay?", "Is the transfer private?"] -%}
+    {%- set faqs = [] -%}
+    {%- for f in taxi.faq %}{% if f.q not in skip %}{% set _x = faqs.push(f) %}{% endif %}{% endfor %}
+    {{ tx.faq(faqs) }}
+  </div>
+</section>
+
+{{ tx.secretAside(taxi.tours) }}
 </main>
-
-<footer>
-  <div class="plate"><img eleventy:ignore src="/images/taxi/logo.webp" width="640" height="640" alt="" loading="lazy"></div>
-  <p>VIP Taxi Lanta by {{ taxi.business.owner }}</p>
-  <p>{{ taxi.business.place }}</p>
-  <p><a href="#h-services">Where we drive</a> · <a href="/">Secret Travel &amp; Tour</a></p>
-  <p class="foot-legal">Bookings are sold by {{ secret.business.operator }} · <a href="/terms/">Booking terms</a> · <a href="/legal/">Legal notice</a> · <a href="/privacy/">Privacy</a></p>
-</footer>
-
-<script src="/js/taxi-form.js?v={{ build.v }}" defer></script>
-<script src="/js/taxi.js?v={{ build.v }}" defer></script>
+{{ tx.footer(site, T.contact) }}
+{{ tx.vbar("Request a transfer", fallback) }}
+{{ bookingSheet(T.hubBooking, T.contact) }}
+<script type="application/json" id="taxi-places">{{ taxi.places | dump | safe }}</script>
+<script src="/js/booking.js?v={{ build.v }}" defer></script>
+<script src="/js/vip-taxi.js?v={{ build.v }}" defer></script>
 </body>
 </html>

@@ -5,17 +5,17 @@
   "template": "route",
   "name": "Surat Thani Airport to Koh Lanta",
   "seo": {
-    "title": "Surat Thani to Koh Lanta Minivan Taxi | VIP Taxi Lanta",
-    "metaDescription": "Private minivan taxi between Surat Thani (airport, bus terminal or Donsak Pier) and Koh Lanta, both directions. Cash to the driver. Price on WhatsApp."
+    "title": "Surat Thani to Koh Lanta Private Minivan | VIP Taxi Lanta",
+    "metaDescription": "Private minivan between Surat Thani (airport, bus terminal or Donsak Pier) and Koh Lanta, both directions. Cash to the driver. Price on WhatsApp."
   },
-  "h1": "Surat Thani to Koh Lanta, private transfer",
+  "h1": "Surat Thani Airport to Koh Lanta by private minivan",
   "lead": "From Surat Thani Airport (URT), the bus terminal or Donsak Pier to your hotel on Koh Lanta, and back. Private vehicle, your group only.",
   "route": {
     "from": "Surat Thani Airport",
     "to": "Koh Lanta",
     "code": "URT",
     "bothDirections": true,
-    "drive": "about 4 to 5 hours",
+    "drive": "about 5 hours",
     "points": [
       "Surat Thani Airport (URT)",
       "Surat Thani bus terminal",
@@ -27,7 +27,7 @@
   "facts": [
     {
       "label": "Drive time",
-      "value": "About 4 to 5 hours, depending on traffic"
+      "value": "About 5 hours, depending on traffic"
     },
     {
       "label": "Airport code",
@@ -46,7 +46,7 @@
   "faq": [
     {
       "q": "Do you pick up at Donsak Pier?",
-      "a": "Yes. Donsak Pier is one of the places we drive to and from. Enter it as the pickup or the destination."
+      "a": "Yes. Donsak Pier is one of the places we drive to and from. Write it as the pickup or the drop-off."
     },
     {
       "q": "Can you pick up at Surat Thani bus terminal?",
@@ -113,6 +113,23 @@
     {
       "field": "schema",
       "from": "src/_data/taxiRoutesView.js"
+    },
+    {
+      "field": "seo.title, seo.metaDescription, h1",
+      "from": "Refonte taxi v1 (10.11.2026) : même forme que Krabi Airport, « Minivan Taxi » banni (03-audit-contenu §6.6). Même trajet, mêmes faits."
+    },
+    {
+      "field": "priceFrom",
+      "from": "Grille « Private Taxi » de VIP Taxi Lanta, colonne Selling, prix pour 1 à 2 clients (base partenaires, ~/Downloads/Secret Travel & Tour/VIP Taxi Lanta - Private Taxi.jpg). Affichage « from » décidé par Jérémy le 10.11.2026. Ligne : From / to Surat Thani /Airport / Train Station"
+    },
+    {
+      "field": "route.drive, facts[Drive time]",
+      "from": "Jérémy, 10.11.2026 : environ 5 h (5 h retenu pour Donsak aussi, « au moins on est large »)"
     }
-  ]
+  ],
+  "priceFrom": {
+    "thb": 4500,
+    "people": "1 or 2",
+    "approx": false
+  }
 }

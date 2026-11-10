@@ -5,10 +5,10 @@
   "template": "route",
   "name": "Koh Lanta to Khao Sok",
   "seo": {
-    "title": "Koh Lanta to Khao Sok Minivan Taxi | VIP Taxi Lanta",
-    "metaDescription": "Private minivan taxi between Koh Lanta and Khao Sok or Cheow Lan Pier, both directions, door to door. Cash to the driver. Price on WhatsApp."
+    "title": "Koh Lanta to Khao Sok Private Minivan | VIP Taxi Lanta",
+    "metaDescription": "Private minivan between Koh Lanta and Khao Sok or Cheow Lan Pier, both directions, door to door. Cash to the driver. Price on WhatsApp."
   },
-  "h1": "Koh Lanta to Khao Sok, private transfer",
+  "h1": "Koh Lanta to Khao Sok by private minivan",
   "lead": "From your hotel on Koh Lanta to Khao Sok village or Cheow Lan Pier, and back, in a private minivan.",
   "route": {
     "from": "Koh Lanta",
@@ -40,7 +40,7 @@
   "faq": [
     {
       "q": "Do you drive to Cheow Lan Pier?",
-      "a": "Yes. Cheow Lan Pier is among the places we drive to. Enter it as your destination with the time of your boat."
+      "a": "Yes. Cheow Lan Pier is among the places we drive to. Write it as the drop-off, with the time of your boat."
     }
   ],
   "photos": [
@@ -98,6 +98,19 @@
     {
       "field": "schema",
       "from": "src/_data/taxiRoutesView.js"
+    },
+    {
+      "field": "seo.title, seo.metaDescription, h1",
+      "from": "Refonte taxi v1 (10.11.2026) : même forme que Krabi Airport, « Minivan Taxi » banni (03-audit-contenu §6.6). Même trajet, mêmes faits."
+    },
+    {
+      "field": "priceFrom",
+      "from": "Note sous la grille VIP Taxi Lanta : « env 5000 » (environ), affiché « About ». Jérémy, 10.11.2026. Ligne : Koh Lanta to Khao Sok : env 5000"
     }
-  ]
+  ],
+  "priceFrom": {
+    "thb": 5000,
+    "people": "1 or 2",
+    "approx": true
+  }
 }

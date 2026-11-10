@@ -122,12 +122,17 @@
         "Taxi rides on Koh Lanta"
       ],
       "address": {
+        "street": "292 Moo 2, Sala Dan",
         "locality": "Koh Lanta",
         "region": "Krabi",
+        "postalCode": "81150",
         "country": "TH",
         "display": "Koh Lanta, Krabi, Thailand"
       },
-      "geo": null,
+      "geo": {
+        "lat": 7.5821418,
+        "lng": 99.0352329
+      },
       "maps": "https://maps.app.goo.gl/hnm3donEq7uR56Dr6",
       "sameAs": [
         "https://maps.app.goo.gl/hnm3donEq7uR56Dr6",
@@ -135,8 +140,8 @@
       ],
       "rating": {
         "value": 5.0,
-        "count": 133,
-        "readOn": "2026-11-02",
+        "count": 139,
+        "readOn": "2026-11-10",
         "url": "https://maps.app.goo.gl/hnm3donEq7uR56Dr6"
       },
       "vehicles": "Minivans only. Taxis only for rides on Koh Lanta itself; outside the island, always a minivan.",
@@ -180,7 +185,9 @@
         "Phuket Bus Terminal",
         "Surat Thani Bus Terminal",
         "Donsak Pier",
-        "Cheow Lan Pier"
+        "Cheow Lan Pier",
+        "Phuket Town",
+        "Pak Bara Pier"
       ],
       "faq": [
         {
@@ -201,7 +208,7 @@
         },
         {
           "q": "Do you only drive from Koh Lanta?",
-          "a": "No. Koh Lanta (also written Ko Lanta) is our base, but we drive across Southern Thailand, including trips that never touch the island, such as Krabi Airport to Ao Nang or Phuket Airport to Khao Lak. Tell us where we pick you up and where you are going in the request form."
+          "a": "No. Koh Lanta is our base, but we drive across Southern Thailand, including trips that never touch the island, such as Krabi Airport to Ao Nang or Phuket Airport to Khao Lak. Tell us where we pick you up and where you are going in the request form."
         },
         {
           "q": "Can you take me to the airport when I leave Koh Lanta?",
@@ -212,8 +219,8 @@
           "a": "Yes. Donsak Pier and Cheow Lan Pier are among the places we drive to. Enter the pier as your pickup or destination in the request form."
         },
         {
-          "q": "Can I book day tours or boat trips too?",
-          "a": "Day tours around Koh Lanta and boat trips are handled by Secret Travel & Tour. You can choose a trip and ask for a price on their page."
+          "q": "Can I book day tours, boat trips or activities too?",
+          "a": "Yes, through our partner Secret Travel & Tour, a travel agency based on Koh Lanta. You can choose a trip and ask for a price on their page."
         }
       ],
       "photos": [
@@ -259,8 +266,8 @@
         "title": "Minivan Transfers & Taxi, Southern Thailand | VIP Taxi Lanta",
         "metaDescription": "Private minivan transfers across Southern Thailand and taxis on Koh Lanta: Krabi, Phuket, Surat Thani, Khao Lak and Trang. Request a price on WhatsApp.",
         "tagline": "Private minivans and Koh Lanta taxis",
-        "heroTitle": "Private minivans across Southern Thailand, taxis on Koh Lanta",
-        "heroLead": "Airports, piers, national parks and towns across Southern Thailand, from Phuket and Khao Lak to Trang and Hat Yai, by private minivan. Taxi rides on Koh Lanta, where we are based.",
+        "heroTitle": "Private minivans across Southern Thailand, local taxis on Koh Lanta",
+        "heroLead": "Private minivan transfers between airports, piers, national parks and towns across Southern Thailand. Taxi rides on Koh Lanta, where we are based.",
         "heroNote": "Private transfers, no sharing, no hidden fees.",
         "rating": "Rated 5 stars on Google by international travelers",
         "services": [
@@ -424,6 +431,10 @@
     {
       "field": "brands.secret.licence",
       "from": "numéro donné par Jérémy le 03.11.2026 (PR 9, secret.json)"
+    },
+    {
+      "field": "brands.vip.address.street, postalCode, geo, rating",
+      "from": "Fiche Google de VIP Taxi Lanta lue le 10.11.2026 (292, Saladan, Tambon Sala Dan, Ko Lanta District, Krabi 81150 ; 7.5821418, 99.0352329, Plus Code H2JP+V3 ; 5,0 sur 139 avis). Rue, code postal et coordonnées dans le JSON-LD seulement, jamais affichés. Validé par Jérémy : « Oui, données Google »."
     },
     {
       "field": "faits du comptoir (next to the pier, two minutes on foot from Saladan Pier, pay on the day, nothing online, car ferry inclus sur Krabi Airport)",

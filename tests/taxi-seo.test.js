@@ -38,8 +38,10 @@ test("/taxi/ : un seul h1, qui contient le mot-clé principal", () => {
 
 test("/taxi/ : le service couvre tout le sud de la Thaïlande, Koh Lanta est la base", () => {
   assert.match(taxi.hero.lead, /Southern Thailand/);
-  assert.match(taxi.hero.lead, /Koh Lanta/);
-  assert.match(njk, /h-services">[^<]*Southern Thailand/);
+  // Jérémy, 11.11.2026 : la phrase des songthaews ne redit pas où on est basé ; le titre le dit.
+  assert.match(taxi.hero.title, /Koh Lanta/);
+  assert.match(taxi.hero.lead, /songthaew/);
+  assert.match(njk, /h-routes">[^<]*Southern Thailand/);
   // Aucune question ne présente l'offre comme limitée au départ de Koh Lanta.
   // Exceptions : « to and from Koh Lanta » (les deux sens) et « Do you only drive from Koh Lanta? » (réponse : No).
   const restrictive = taxi.faq.filter((f) => /(?<!to and )from Koh Lanta/i.test(f.q) && !/only drive from Koh Lanta/i.test(f.q));
@@ -71,16 +73,21 @@ test("/taxi/ : questions fréquentes tirées du site de VIP Taxi Lanta, chacune 
 });
 
 test("données structurées : TaxiService, zone desservie, aucun fait non vérifié", () => {
-  const ld = taxiView().jsonLd;
-  assert.equal(ld["@context"], "https://schema.org");
-  assert.equal(ld["@type"], "TaxiService");
-  assert.equal(ld.url, "https://secrettravelandtour.com/taxi/");
+  const graph = taxiView().jsonLd;
+  assert.equal(graph["@context"], "https://schema.org");
+  // Un @id par nœud : #vip pour l'entreprise (LocalBusiness), #service pour le service (TaxiService).
+  const biz = graph["@graph"].find((n) => n["@type"] === "LocalBusiness");
+  const ld = graph["@graph"].find((n) => n["@type"] === "TaxiService");
+  assert.equal(biz["@id"], "https://secrettravelandtour.com/taxi/#vip");
+  assert.equal(ld["@id"], "https://secrettravelandtour.com/taxi/#service");
+  assert.equal(ld.provider["@id"], biz["@id"]);
+  assert.equal(biz.url, "https://secrettravelandtour.com/taxi/");
   const area = JSON.stringify(ld.areaServed);
   for (const place of ["Southern Thailand", "Koh Lanta", "Krabi", "Phuket", "Surat Thani"]) assert.match(area, new RegExp(place));
   // Pas de note ni d'avis inventés, pas de téléphone ni d'e-mail (décision : le formulaire est le canal unique).
-  assert.doesNotMatch(JSON.stringify(ld), /aggregateRating|"review"|ratingValue|telephone|email|priceRange/i);
+  assert.doesNotMatch(JSON.stringify(graph), /aggregateRating|"review"|ratingValue|telephone|email|priceRange/i);
   // Le JSON-LD doit rester du JSON valide une fois sérialisé pour la page.
-  assert.doesNotThrow(() => JSON.parse(JSON.stringify(ld)));
+  assert.doesNotThrow(() => JSON.parse(JSON.stringify(graph)));
 });
 
 test("la page insère les données structurées", () => {
@@ -89,7 +96,9 @@ test("la page insère les données structurées", () => {
 });
 
 test("FAQ : aucune durée, distance ni prix inventé", () => {
-  const all = JSON.stringify(taxi.faq);
+  // Seul montant permis : le ferry, 60 THB par personne au-delà de 4 (grille VIP Taxi Lanta, Jérémy 11.11.2026).
+  const all = JSON.stringify(taxi.faq.filter((f) => !/ferry to Koh Lanta included/.test(f.q)));
+  assert.match(taxi.faq.find((f) => /ferry to Koh Lanta included/.test(f.q)).a, /up to 4 people.*From the 5th person, the ferry is 60 THB per person/);
   assert.doesNotMatch(all, /\b\d+\s?(h|hr|hrs|hours?|min|minutes?|km|kms|baht|thb)\b|฿|€|\$/i);
 });
 
@@ -97,7 +106,6 @@ test("FAQ : précise que l'offre ne se limite pas à Koh Lanta et qu'elle couvre
   const notOnly = taxi.faq.find((f) => /only drive from Koh Lanta/i.test(f.q));
   assert.ok(notOnly, "question « seulement depuis Koh Lanta »");
   assert.match(notOnly.a, /Southern Thailand/);
-  assert.match(notOnly.a, /Ko Lanta/);
   const airports = taxi.faq.find((f) => /airport transfers?/i.test(f.q));
   assert.ok(airports, "question sur les transferts aéroport");
   assert.match(airports.a, /Krabi/);
@@ -105,25 +113,26 @@ test("FAQ : précise que l'offre ne se limite pas à Koh Lanta et qu'elle couvre
   assert.match(airports.a, /Surat Thani/);
 });
 
-test("variante d'orthographe « Ko Lanta » présente mais pas répétée à outrance", () => {
-  const text = JSON.stringify(taxi);
-  const count = (text.match(/Ko Lanta/g) || []).length;
-  assert.ok(count >= 1 && count <= 3, `${count} occurrences de « Ko Lanta »`);
+// Jérémy, 10.11.2026 : « (also written Ko Lanta) » ne sert à rien, retiré de la FAQ.
+test("pas de variante d'orthographe « Ko Lanta » dans les données taxi", () => {
+  assert.doesNotMatch(JSON.stringify(taxi), /\bKo Lanta/);
 });
 
 test("From et To sont des listes déroulantes de lieux populaires où l'on peut aussi écrire librement", () => {
-  assert.doesNotMatch(njk, /h-routes|class="routes"|class="chips"|Request this transfer|<datalist|list="places"/);
-  assert.doesNotMatch(njk, /taxi\.routes/);
-  assert.match(njk, /macro combo\(/);
-  assert.match(njk, /combo\("from", "From", taxi\.places\)/);
-  assert.match(njk, /combo\("to", "To", taxi\.places\)/);
-  for (const attr of ['role="combobox"', 'aria-autocomplete="list"', 'aria-expanded="false"', 'role="listbox"', 'role="option"']) {
-    assert.ok(njk.includes(attr), attr);
+  // Refonte taxi v1 (10.11.2026) : les champs From et To de la feuille du hub, liste ajoutée par vip-taxi.js.
+  assert.doesNotMatch(njk, /class="chips"|<datalist|list="places"|Popular private transfers/);
+  assert.match(njk, /<script type="application\/json" id="taxi-places">\{\{ taxi\.places \| dump \| safe \}\}<\/script>/);
+  const js = read("src/js/vip-taxi.js");
+  for (const part of ['"combobox"', '"aria-autocomplete", "list"', '"aria-expanded"', 'role="listbox"', 'role="option"', '"book-from"', '"book-to"']) {
+    assert.ok(js.includes(part), part);
   }
+  const built = read("_site/taxi/index.html");
+  assert.match(built, /<input id="book-from"[^>]*type="text"/);
+  assert.match(built, /<input id="book-to"[^>]*type="text"/);
 });
 
 test("données structurées : catalogue des services sans prix", () => {
-  const ld = taxiView().jsonLd;
+  const ld = taxiView().jsonLd["@graph"].find((n) => n["@type"] === "TaxiService");
   assert.equal(ld.hasOfferCatalog["@type"], "OfferCatalog");
   const items = ld.hasOfferCatalog.itemListElement;
   assert.ok(items.length >= 3);
@@ -160,16 +169,16 @@ test("mise en page : la FAQ vient après le formulaire", () => {
   assert.ok(njk.indexOf('id="h-faq"') < njk.indexOf("</main>"), "FAQ dans <main>");
 });
 
-test("bloc Secret : encart publicitaire à part, avec son logo et sa couleur, pas une section du site", () => {
-  const partner = fs.readFileSync(path.join(__dirname, "../src/_includes/taxi-partner.njk"), "utf8");
-  const route = fs.readFileSync(path.join(__dirname, "../src/taxi-route.njk"), "utf8");
-  for (const page of [njk, route]) assert.match(page, /include "taxi-partner\.njk"/);
-  assert.match(partner, /<aside class="partner" aria-labelledby="h-tours">/);
-  assert.match(partner, /class="partner-tag">\{\{ taxi\.tours\.tag \}\}/);
-  assert.match(partner, /class="partner-logo"[^>]*src="\/images\/secret\/emblem\.webp"/);
-  assert.doesNotMatch(njk + route, /<section class="tours"/);
-  const css = fs.readFileSync(path.join(__dirname, "../src/css/taxi.css"), "utf8");
-  assert.match(css, /--sec-green:\s*#0A4C44/i);
-  assert.match(css, /font-family:\s*'Concert One'/);
-  assert.match(css, /\.partner\s*\{/);
+test("bloc Secret : encart à part, dans l'identité v4 de Secret, avec son emblème d'origine", () => {
+  // Refonte taxi v1 (10.11.2026) : plus de pastille « Our partner », de script ni de polaroïd.
+  const comp = read("src/_includes/components/taxi.njk");
+  const route = read("src/taxi-route.njk");
+  for (const page of [njk, route]) assert.match(page, /tx\.secretAside\(taxi\.tours/);
+  assert.match(comp, /<aside class="stt[^"]*"[^>]*aria-labelledby="stt-h"/);
+  assert.match(comp, /class="stt-emblem" src="\/images\/secret\/emblem\.webp"/);
+  assert.doesNotMatch(comp, /partner-tag|Our partner/);
+  const css = read("src/css/vip-taxi.css");
+  assert.match(css, /\.stt \{ background: #0B3B3C/);
+  assert.match(css, /"Cormorant Garamond"/);
+  assert.doesNotMatch(css, /Concert One|Kaushan/);
 });

@@ -1,0 +1,82 @@
+---
+permalink: /taxi/songthaew/
+eleventyExcludeFromCollections: true
+---
+{#- Page courte demandée par Jérémy (10.11.2026) : ce qu'est un songthaew, le taxi de Koh Lanta. Données : songthaew.json. -#}
+{% import "components/taxi.njk" as tx %}
+{% from "components/booking.njk" import bookingSheet %}
+{%- set T = taxiPages -%}
+{%- set S = songthaew -%}
+{%- set fallback = tx.waHref(T.contact.number, "Hello, I would like a songthaew taxi on Koh Lanta.") -%}
+<!DOCTYPE html>
+<html lang="en-GB" data-refonte data-brand="vip">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{ S.title }}</title>
+<meta name="description" content="{{ S.metaDescription }}">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="{{ site.url }}/taxi/songthaew/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="VIP Taxi Lanta">
+<meta property="og:title" content="{{ S.title }}">
+<meta property="og:description" content="{{ S.metaDescription }}">
+<meta property="og:url" content="{{ site.url }}/taxi/songthaew/">
+<meta property="og:image" content="{{ site.url }}{{ S.photos[0].og or S.photos[0].src }}">
+<meta property="og:image:alt" content="{{ S.photos[0].alt }}">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/taxi/icon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/taxi/apple-touch-icon.png">
+<meta name="theme-color" content="#1B130D">
+<link rel="preload" as="font" type="font/woff2" href="/css/fonts/chonburi-400-normal-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/css/fonts/bai-jamjuree-400-normal-latin.woff2" crossorigin>
+<link rel="stylesheet" href="/css/booking.css?v={{ build.v }}">
+<link rel="stylesheet" href="/css/vip-taxi.css?v={{ build.v }}">
+<script>document.documentElement.classList.add("js");</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":{{ S.h1 | dump | safe }},"description":{{ S.metaDescription | dump | safe }},"image":{{ (site.url + (S.photos[0].og or S.photos[0].src)) | dump | safe }},"mainEntityOfPage":{{ (site.url + "/taxi/songthaew/") | dump | safe }},"publisher":{"@id":"https://secrettravelandtour.com/taxi/#vip"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"VIP Taxi Lanta","item":{{ (site.url + "/taxi/") | dump | safe }}},{"@type":"ListItem","position":2,"name":{{ S.h1 | dump | safe }},"item":{{ (site.url + "/taxi/songthaew/") | dump | safe }}}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+{{ tx.top(T.contact) }}
+<main id="main" class="is-route">
+<section class="hero hero--route hero--sg" aria-labelledby="h1">
+  <div class="wrap hero-in">
+    <nav class="crumb" aria-label="Breadcrumb"><a href="/taxi/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M15 5l-7 7 7 7"/></svg><span>VIP Taxi Lanta</span></a></nav>
+    <h1 id="h1">{{ S.h1 }}</h1>
+    <div class="route-lead">
+      <p class="lead">{{ S.lead | taxiLinks(false) | safe }}</p>
+      <div class="hero-act">
+        <a class="btn btn--gold" href="{{ fallback }}" data-book="">Book a songthaew</a>
+        <p class="hero-note">Price on WhatsApp.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="detail sg" aria-labelledby="h-sg-1">
+  <div class="wrap sg-in">
+    {%- for sec in S.sections %}
+    <div class="sg-text">
+      <h2 id="h-sg-{{ loop.index }}">{{ sec.h }}</h2>
+      <div class="prose">{% for para in sec.p %}<p>{{ para | taxiLinks(false) | safe }}</p>{% endfor %}</div>
+    </div>
+    {%- set ph = S.photos[loop.index0] -%}
+    {%- if ph %}
+    <figure class="sg-photo">
+      <img eleventy:ignore src="{{ ph.src }}" width="{{ ph.width }}" height="{{ ph.height }}" alt="{{ ph.alt }}" loading="{% if loop.first %}eager{% else %}lazy{% endif %}" decoding="async">
+      <figcaption>{{ ph.caption }}{% if ph.credit %} Photo: {% if ph.creditUrl %}<a href="{{ ph.creditUrl }}">{{ ph.credit }}</a>{% else %}{{ ph.credit }}{% endif %}{% if ph.license %}, <a href="{{ ph.licenseUrl }}">{{ ph.license }}</a>{% endif %}.{% endif %}</figcaption>
+    </figure>
+    {%- endif %}
+    {%- endfor %}
+    <p class="all-routes"><a class="link-ink" href="/taxi/#routes">See all routes</a></p>
+  </div>
+</section>
+</main>
+{{ tx.footer(site, T.contact) }}
+{{ tx.vbar("Book a songthaew", fallback) }}
+{{ bookingSheet(T.songthaewBooking, T.contact) }}
+<script src="/js/booking.js?v={{ build.v }}" defer></script>
+<script src="/js/vip-taxi.js?v={{ build.v }}" defer></script>
+</body>
+</html>

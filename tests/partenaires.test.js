@@ -53,9 +53,9 @@ test("formulaires : la date est obligatoire, sur la feuille des pages refaites e
   assert.equal(radios(tour, "dateChoice").length, 3);
   const booking = require("../src/js/booking.js");
   assert.equal(booking.validate({ variant: "tour", options: [] }, { today: "2026-11-03", adults: 2, childAges: [], pickup: "x", name: "A" }).date, "Pick a date.");
-  const found = radios(taxi, "date_choice");
-  assert.equal(found.length, 3);
-  for (const tag of found) assert.match(tag, /\brequired\b/, tag);
+  // Refonte taxi v1 (10.11.2026) : /taxi/ réserve aussi par la feuille, la date y est contrôlée par booking.js.
+  assert.equal(radios(taxi, "dateChoice").length, 3);
+  assert.equal(booking.validate({ variant: "taxi" }, { today: "2026-11-03", adults: 2, childAges: [], from: "Koh Lanta", to: "Trang", time: "10:00", pickupAt: "x", dropoffAt: "y", name: "A" }).date, "Pick a date.");
 });
 
 // Pages v4 (08.11.2026) : les prix viennent de products/** ; la 4 Islands a son calculateur (id="h-prices"),
@@ -105,7 +105,7 @@ test("formulaires : l'heure de prise en charge est marquée obligatoire", () => 
   const route = fs.readFileSync(path.join(site, "taxi", "krabi-airport-koh-lanta", "index.html"), "utf8");
   const taxi = fs.readFileSync(path.join(site, "taxi", "index.html"), "utf8");
   assert.match(route, /<input id="book-time"[^>]*aria-required="true"/);
-  assert.match(taxi, /<input id="f-time"[^>]*aria-required="true"/);
+  assert.match(taxi, /<input id="book-time"[^>]*aria-required="true"/);
 });
 
 test("photos : chaque excursion, activité et transfert a une photo qui existe, avec un texte alternatif", () => {

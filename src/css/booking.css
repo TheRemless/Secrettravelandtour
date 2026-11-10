@@ -57,15 +57,16 @@ html.sheet-open { overflow: hidden; }
   border: 0; border-radius: 12px; background: transparent; color: var(--sheet-ink); cursor: pointer;
 }
 .sheet-close svg { width: 1.5rem; height: 1.5rem; }
-.sheet-body { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: var(--s3) var(--s3) 0; }
+.sheet-body { flex: 1 1 auto; overflow-y: auto; overscroll-behavior: contain; padding: var(--s3) var(--s3) 0; }
 .sheet-foot {
   padding: var(--s1) var(--s3) calc(var(--s1) + env(safe-area-inset-bottom));
   border-top: 1px solid var(--sheet-rule); background: var(--sheet-bg);
 }
 .sheet-foot--stack { display: grid; gap: var(--s1); }
-.sheet-screen { display: flex; flex-direction: column; min-height: 0; flex: 1; }
+.sheet-screen { display: flex; flex-direction: column; min-height: 0; flex: 1 1 auto; }
 .sheet-screen[hidden] { display: none; }
-.sheet form { display: flex; flex-direction: column; min-height: 0; flex: 1; }
+.sheet form { display: flex; flex-direction: column; min-height: 0; flex: 1 1 auto; }
+/* « flex: 1 » (base 0 %) donnait une feuille de 0 px de haut dans Safari 26 (iPhone et Mac) : sa hauteur vient du contenu. */
 /* Écran bas (paysage, clavier qui réduit la fenêtre) : tout l'écran de la feuille défile, pied compris ; le titre reste en haut. */
 @media (max-height: 560px) {
   .sheet-screen { overflow-y: auto; overscroll-behavior: contain; }
