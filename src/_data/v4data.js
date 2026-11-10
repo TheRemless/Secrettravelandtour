@@ -262,10 +262,7 @@ module.exports = async function () {
         cats: rentalCats.map((k) => ({ label: k.label, lo: k.lo$, hi: k.hi$, models: k.models }))
       }
     },
-    how: {
-      payment: `Pay ${payment.join(" or ")}.`
-    },
-    final: { photo: await photo("home-final"), title: "Not sure which trip?", text: "Send us your dates and who is coming, on WhatsApp.", message: `Hello, we are not sure which trip to choose.\nOur dates: \nWho is coming: ` }
+    final: { photo: await photo("home-final"), title: "Still deciding?", text: "Tell us your dates and a little about your group: ages, what you enjoy, how much time you have. We'll suggest the trips that suit you best.", message: `Hello, we are not sure which trip to choose.\nOur dates: \nWho is coming: ` }
   };
 
   // ----- 4 Islands -----
@@ -307,7 +304,7 @@ module.exports = async function () {
     seo: { title: "Koh Lanta Boat Trips and Activities | Secret Travel & Tour", metaDescription: "All the boat trips and island activities we book on Koh Lanta, with prices: 4 Islands, Koh Rok, Phi Phi, kayak, diving, elephants." },
     h1: "Boat trips and activities on Koh\u00a0Lanta",
     lead: `Each trip with its price. You book on ${site.booking.channel}.`,
-    final: { photo: await photo("hub-final"), title: "Not sure which trip?", text: "Send us your dates and who is coming, on WhatsApp.", message: homeData.final.message }
+    final: { photo: await photo("hub-final"), title: "Still deciding?", text: "Tell us your dates and a little about your group: ages, what you enjoy, how much time you have. We'll suggest the trips that suit you best.", message: homeData.final.message }
   };
 
   // ----- Pages produit (bateaux et activités sauf la 4 Islands, location, speedboat) -----
@@ -338,7 +335,6 @@ module.exports = async function () {
     Object.assign(fourData, { page, booking: page.booking });
     // Accueil : le message d'exemple est celui que la feuille de la 4 Islands écrit pour son prix d'appel (join-in
     // longtail, 2 adultes), total estimé compris. Ni date ni référence : l'exemple ne vieillit pas.
-    homeData.how.sample = booking.buildMessage(page.booking, { ...booking.emptyState(), option: view.price(four).option, adults: 2, childAges: [] });
   }
   const rentalPage = vp.rentalPage(rentalP, ctx);
   const speedboatPage = vp.speedboatPage(P("secret-transfers/speedboat-ferry"), ctx);
