@@ -32,8 +32,10 @@ for (const rel of ["tours/koh-rok-koh-haa", "tours/4-islands"]) {
     assert.doesNotMatch(doc, /aquaman/i, "nom commercial du prestataire");
     const cfg = cfgOf(doc);
     const msg = B.buildMessage(cfg, state(o.id));
-    assert.match(msg, new RegExp(`\\nBooking request: ${p.name} – Catamaran from Ao Nang\\nDeparture: from Ao Nang, pickup at your hotel in Ao Nang\\n`));
-    assert.match(msg, /\nPrice on website: Adult: 3,800 THB per person \/ Child, 4 to 11: 2,800 THB per person\n/);
+    // La demande ouvre le message ; le total se calcule (2 adultes et un enfant de 7 ans) et le termine.
+    assert.match(msg, new RegExp(`^Booking request: ${p.name} – Catamaran from Ao Nang\\nDeparture: from Ao Nang, pickup at your hotel in Ao Nang\\n`));
+    assert.match(msg, /\nEstimated total: 10,400 THB$/);
+    assert.doesNotMatch(msg, /Ref:|Page:/);
     // Aucun montant de parc annoncé pour le catamaran ; les options de Koh Lanta gardent le leur.
     assert.equal(B.parkCash(cfg, state(o.id)), null);
     assert.ok(B.parkCash(cfg, state(p.options[0].id)).total > 0);
@@ -71,8 +73,10 @@ test("Koh Rok, coucher de soleil : 2 500 THB par personne, 10:00 à 17:50, frais
   assert.doesNotMatch(t, /exists on some days|Ask us\./, "l'ancienne phrase est remplacée par l'option");
   for (const s of ["Later trip, back at sunset", "2,500 THB", "17:50", "No child price on the site"]) assert.ok(t.includes(s), s);
   const msg = B.buildMessage(cfgOf(doc), state("sunset", { pickup: "Lanta Sand Resort" }));
-  assert.match(msg, /\nBooking request: Koh Rok & Koh Haa – Later trip, back at sunset\n/);
-  assert.match(msg, /\nPrice on website: Per person: 2,500 THB\n/);
+  assert.match(msg, /^Booking request: Koh Rok & Koh Haa – Later trip, back at sunset\n/);
+  // Pas de prix enfant : pas de total, le message finit sur le prix de l'option.
+  assert.match(msg, /\nPrice: Per person: 2,500 THB$/);
+  assert.doesNotMatch(msg, /Ref:|Page:|Estimated total/);
   assert.doesNotMatch(msg, /Departure:/);
 });
 
@@ -101,5 +105,7 @@ test("speedboat : les départs de la seconde compagnie sont sur leur destination
   assert.doesNotMatch(doc, /bundhaya/i);
   const st = Object.assign(B.emptyState({}), { today: "2026-11-09", route: "to-ao-nang", departure: "to-ao-nang@0900", dateChoice: "other", dateOther: "2026-11-20", adults: 2, childAges: [], tripType: "one-way", pickup: "Lanta Sand Resort", name: "Anna" });
   assert.deepEqual(B.validate(cfg, st), {});
-  assert.match(B.buildMessage(cfg, st), /^Ref: SPEED-2011-2A\nSpeedboat request: Koh Lanta to Ao Nang\nDeparture: 09:00\nDate: Fri 20 Nov 2026\nTicket: one way\n/);
+  const sbMsg = B.buildMessage(cfg, st);
+  assert.match(sbMsg, /^Speedboat request: Koh Lanta to Ao Nang\nDeparture: 09:00\nDate: Fri 20 Nov 2026\nTicket: one way\n/);
+  assert.doesNotMatch(sbMsg, /Ref:|Page:/);
 });

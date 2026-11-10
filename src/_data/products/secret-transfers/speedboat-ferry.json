@@ -439,7 +439,12 @@
         "arrivesKohLanta": [
           "10:00"
         ],
-        "season": "High season"
+        "season": "From 1 December to April (page speedboat : même saison que l'aller, confirmé par Jérémy le 10.11.2026)",
+        "seasonRange": {
+          "from": "12-01",
+          "to": "04-30",
+          "label": "Dec – Apr"
+        }
       },
       {
         "from": "Koh Yao Yai (Klong Hear pier)",
@@ -469,7 +474,12 @@
         "arrivesKohLanta": [
           "10:00"
         ],
-        "season": "High season"
+        "season": "From 1 December to April (page speedboat : même saison que l'aller, confirmé par Jérémy le 10.11.2026)",
+        "seasonRange": {
+          "from": "12-01",
+          "to": "04-30",
+          "label": "Dec – Apr"
+        }
       }
     ],
     "seasons": [

@@ -219,7 +219,7 @@ module.exports = async function () {
       id: o.id, label: factLabel, title: o.label, count: o.prices.length, models,
       lo: Math.min(...amounts), hi: Math.max(...amounts),
       lo$: view.thb(Math.min(...amounts)).replace(" THB", ""), hi$: view.thb(Math.max(...amounts)).replace(" THB", ""),
-      message: `Rental request: ${o.label}\nVehicle: \nFrom: \nTo: \nName: \nPage: ${host}/`
+      message: `Rental request: ${o.label}\nVehicle: \nFrom: \nTo: \nName: `
     };
   }).reverse();
   const taxi = fs.readdirSync(path.join(DATA, "products", "taxi")).map((f) => P("taxi/" + f.replace(/\.json$/, "")))
@@ -260,7 +260,7 @@ module.exports = async function () {
     how: {
       payment: `Pay ${payment.join(" or ")}.`
     },
-    final: { photo: await photo("home-final"), title: "Not sure which trip?", text: "Send us your dates and who is coming, on WhatsApp.", message: `Hello, we are not sure which trip to choose.\nOur dates: \nWho is coming: \nPage: ${host}/` }
+    final: { photo: await photo("home-final"), title: "Not sure which trip?", text: "Send us your dates and who is coming, on WhatsApp.", message: `Hello, we are not sure which trip to choose.\nOur dates: \nWho is coming: ` }
   };
 
   // ----- 4 Islands -----
@@ -302,7 +302,7 @@ module.exports = async function () {
     seo: { title: "Boat Trips and Activities from Koh Lanta | Secret Travel & Tour", metaDescription: "All the boat trips and island activities we book on Koh Lanta, with prices: 4 Islands, Koh Rok, Phi Phi, kayak, diving, elephants." },
     h1: "Boat trips and activities on Koh\u00a0Lanta",
     lead: `${cap(WORDS[nBoats])} boat trips and ${WORDS[nActs]} activities, with their prices.`,
-    final: { photo: await photo("hub-final"), title: "Not sure which trip?", text: "Send us your dates and who is coming, on WhatsApp.", message: homeData.final.message.replace(/Page: .*$/, `Page: ${host}/tours/`) }
+    final: { photo: await photo("hub-final"), title: "Not sure which trip?", text: "Send us your dates and who is coming, on WhatsApp.", message: homeData.final.message }
   };
 
   // ----- Pages produit (bateaux et activités sauf la 4 Islands, location, speedboat) -----

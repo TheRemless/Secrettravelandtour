@@ -1040,7 +1040,7 @@ h1, h2, h3, h4, .brand b, .drawer nav a, .card__title, .hrow__t b, .tl b, .byb d
 
 /* ---------- Feuille de réservation sur les pages v4 (booking.css reste commun avec les pages taxi) ---------- */
 .sheet .sheet-btn { font: 600 16px/1.2 var(--sans); }
-.sheet .slip-ref, .sheet .slip-cash-sum { font-family: var(--sans); font-weight: 600; font-variant-numeric: lining-nums tabular-nums; }
+.sheet .slip-cash-sum { font-family: var(--sans); font-weight: 600; font-variant-numeric: lining-nums tabular-nums; }
 .sheet .f.is-invalid, .sheet .count.is-invalid { margin-left: 0; padding-left: 0; border-left: 0; }
 .sheet-total { display: grid; gap: 2px; margin: 4px 0 10px; font-size: 14px; line-height: 1.4; color: var(--ink-mute); }
 .sheet-total b { font: 600 18px/1.3 var(--sans); color: var(--ink); font-variant-numeric: lining-nums tabular-nums; }

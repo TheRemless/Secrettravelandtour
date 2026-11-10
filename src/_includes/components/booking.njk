@@ -294,9 +294,8 @@
     </div>
     <div class="sheet-body">
       <p class="f-hint">WhatsApp opens with this text. You can still change it there before sending.</p>
-      {#- Fiche de comptoir : chaque ligne du message, libellé à gauche ; la référence en tête. -#}
+      {#- Fiche de comptoir : chaque ligne du message, libellé à gauche ; le total en tête. -#}
       <div class="slip">
-        <p class="slip-ref" data-slip-ref hidden></p>
         <p class="slip-total" data-slip-total hidden></p>
         <dl class="slip-lines" data-slip></dl>
         <pre class="sr-only" data-message></pre>
@@ -322,7 +321,6 @@
       <button class="sheet-close" type="button" data-close>{{ icon("close") }}<span class="sr-only">Close</span></button>
     </div>
     <div class="sheet-body done-text">
-      <p class="slip-ref slip-ref--done" data-done-ref hidden></p>
       {% if facts.replyTime %}<p>{{ facts.replyTime }}</p>{% endif %}
       <p>Nothing opened? Use the button below, or call <a class="done-num" href="tel:{{ facts.e164 }}">{{ facts.phoneDisplay }}</a>.</p>
       <p class="copy-status" data-copy-status role="status"></p>

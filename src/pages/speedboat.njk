@@ -57,7 +57,7 @@ permalink: /tours/speedboat/
                     <td><b>{{ dp.time }}</b>{% if dp.season %}<small>{{ dp.season }}</small>{% endif %}</td>
                     <td>{{ dp.arrives or "—" }}</td>
                     <td>{{ dp.pier or "—" }}</td>
-                    <td><a class="sb__stop press" href="{{ v4.waHref(c.number, req + '\nDeparture: ' + dp.time + '\nDate: \nPage: ' + t.booking.page) }}" data-book="" data-sb-route="{{ r.route }}" data-sb-dep="{{ dp.dep }}">Book<span class="sr"> the {{ dp.time }} boat{{ (" to " + r.place) if side.id == "out" else (" from " + r.place) }}</span></a></td>
+                    <td><a class="sb__stop press" href="{{ v4.waHref(c.number, req + '\nDeparture: ' + dp.time + '\nDate: ') }}" data-book="" data-sb-route="{{ r.route }}" data-sb-dep="{{ dp.dep }}">Book<span class="sr"> the {{ dp.time }} boat{{ (" to " + r.place) if side.id == "out" else (" from " + r.place) }}</span></a></td>
                   </tr>
                   {%- endfor %}
                 </tbody>

@@ -136,18 +136,6 @@
       return { label: label, n: Number((state.counts || {})[option.id + "/" + i]) || 0 };
     }).filter(function (c) { return c.n > 0; });
   }
-  // Option à compteurs (pilotes et passagers de l'ATV, karts) : ils remplacent « Guests ». Des personnes quand les
-  // lignes en sont (option.people), adultes et enfants lus dans le libellé ; sinon un nombre de karts.
-  function countGroup(option, state) {
-    var c = countsOf(state, option);
-    var out = { adults: 0, children: 0, units: 0 };
-    c.forEach(function (x) {
-      if (option.people === false) out.units += x.n;
-      else if (/^child/i.test(x.label)) out.children += x.n;
-      else out.adults += x.n;
-    });
-    return out;
-  }
 
   // Total estimé (v4-price.js), dans la même forme que la page : lignes de prix brutes de l'option, groupe de la feuille.
   // Null quand la règle n'est pas dans les données (radeau au-delà de 2 personnes, âge sans tarif, prix sur demande).
@@ -172,9 +160,12 @@
     var picks = (option.choices || []).filter(function (ch) { return (ch.values || []).some(function (v) { return v.row; }); });
     return picks.some(function (ch) { return !choiceValue(state, option, ch); });
   }
-  function totalLine(option, state) {
-    var q = quoteOf(option, state);
-    return q ? "Estimated total: " + thb(q.total) : "Total: to be confirmed on WhatsApp";
+  // Ce que l'agence lit pour répondre : le total estimé quand les données le permettent, sinon le prix de la page.
+  function priceSummary(option, state) {
+    var q = option && PRICE && Array.isArray(option.prices) ? quoteOf(option, state) : null;
+    if (q) return "Estimated total: " + thb(q.total);
+    var price = priceLine(pricedOption(option, state));
+    return price ? "Price: " + price : "";
   }
 
   function choiceLines(option, state) {
@@ -299,25 +290,15 @@
     }
 
     if (clean(state.name)) lines.push("Name: " + clean(state.name));
+    // Ni référence ni page (Jérémy, 10.11.2026) : qui demande, quoi, quand, et le prix.
     if (config.variant === "tour") {
-      var priced = findOption(config, state.option);
-      var price = priceLine(pricedOption(priced, state));
-      if (price) lines.push("Price on website: " + price);
-      if (priced && PRICE && Array.isArray(priced.prices)) lines.push(totalLine(priced, state));
+      var sum = priceSummary(findOption(config, state.option), state);
+      if (sum) lines.push(sum);
     }
     if (config.variant === "rental") {
       var rp = rentalPrice(findOption(config, state.option), state.vehicle);
-      if (rp) lines.push("Price on website: " + rp);
+      if (rp) lines.push("Price: " + rp);
     }
-    if (config.page) lines.push("Page: " + config.page);
-    // La référence ouvre le message : le comptoir trie et retrouve les demandes sur elle.
-    // Location : premier et dernier jour (« RN-1211-1511 »), il n'y a pas de groupe.
-    var counted = config.variant === "tour" ? findOption(config, state.option) : null;
-    var cg = counted && counted.counts ? countGroup(counted, state) : null;
-    var ref = config.variant === "rental" ? makeRentalRef(config.refPrefix, state.dateFrom, state.dateTo)
-      : cg ? makeRef(config.refPrefix, date, cg.adults, cg.children, cg.units)
-      : makeRef(config.refPrefix, date, state.adults, (state.childAges || []).length);
-    if (ref) lines.unshift("Ref: " + ref);
     return lines.join("\n");
   }
 
@@ -329,19 +310,18 @@
     return addons.filter(function (a) { return labels.indexOf(a) > -1; });
   }
 
-  // Liste de sorties (design v4) : un seul message pour plusieurs sorties, classées par jour, une référence
-  // par sortie. catalog : { slug: { name, page, refPrefix, options: [{id, title, rows}] } } ;
+  // Liste de sorties (design v4) : un seul message pour plusieurs sorties, classées par jour, le total de chaque sortie
+  // et celui de la liste. catalog : { slug: { name, options: [{id, title, rows}] } } ;
   // list : { items: [{slug, option, date, addons}], adults, childAges, pickup, name }.
   function buildTripList(catalog, list) {
     var items = (list.items || []).filter(function (it) { return catalog[it.slug]; }).slice();
     items.sort(function (a, b) { return (a.date || "9999") < (b.date || "9999") ? -1 : (a.date || "9999") > (b.date || "9999") ? 1 : 0; });
     var lines = [];
-    var kids = (list.childAges || []).length;
     lines.push("Trip list: " + plural(items.length, "trip", "trips"));
     lines.push("Guests: " + guestsLine(list.adults, list.childAges));
     if (clean(list.pickup)) lines.push("Pickup: " + clean(list.pickup));
     if (clean(list.name)) lines.push("Name: " + clean(list.name));
-    var day = null;
+    var day = null, grand = 0, priced = true;
     items.forEach(function (it) {
       var p = catalog[it.slug];
       // Une sortie à une seule option la prend d'office ; à plusieurs, l'envoi attend le choix (validateTripList).
@@ -351,20 +331,18 @@
         lines.push("");
         lines.push(day ? formatDate(day) : "Date to choose");
       } else lines.push(""); // deux sorties le même jour : une ligne vide entre elles
-      // Même référence que la feuille : une option à compteurs (karts) compte ses véhicules ou ses pilotes.
-      var cg = option && option.counts ? countGroup(option, it) : null;
-      var ref = cg ? makeRef(p.refPrefix, it.date, cg.adults, cg.children, cg.units) : makeRef(p.refPrefix, it.date, list.adults, kids);
-      if (ref) lines.push("Ref: " + ref);
       lines.push(p.name + (option ? " – " + option.title : (p.options || []).length > 1 ? " – option to choose" : ""));
       choiceLines(option, it).forEach(function (l) { lines.push(l); });
       var extras = addonsOf(option, it.addons);
       if (extras.length) lines.push("Extras: " + extras.join(", "));
-      var price = priceLine(pricedOption(option, it));
-      if (price) lines.push("Price on website: " + price);
-      // Total estimé de la sortie, calculé comme dans la feuille (groupe de la liste, sous-choix et suppléments de la sortie).
-      if (option && PRICE && Array.isArray(option.prices)) lines.push(totalLine(option, tripState(list, it)));
-      if (p.page) lines.push("Page: " + p.page);
+      // Total estimé de la sortie, calculé comme dans la feuille (groupe de la liste, sous-choix et suppléments) ; sinon son prix.
+      var st = tripState(list, it), q = option && PRICE && Array.isArray(option.prices) ? quoteOf(option, st) : null;
+      var sum = option ? priceSummary(option, st) : "";
+      if (sum) lines.push(sum);
+      if (q) grand += q.total; else priced = false;
     });
+    // Total de toutes les sorties, seulement quand chacune a le sien.
+    if (items.length > 1 && priced) { lines.push(""); lines.push("Estimated total, all trips: " + thb(grand)); }
     return lines.join("\n");
   }
 
@@ -410,24 +388,6 @@
       (byDate[it.date] = byDate[it.date] || []).push(p.name);
     });
     return Object.keys(byDate).sort().filter(function (d) { return byDate[d].length > 1; }).map(function (d) { return { date: d, names: byDate[d] }; });
-  }
-
-  // Référence courte (critique, idée 5) : code produit, jour et mois de la sortie, adultes et enfants.
-  // « 4I-0411-2A1C » : le comptoir la retrouve dans WhatsApp, le client la cite s'il réécrit. Aucun hasard :
-  // la même demande donne la même référence.
-  // Préfixes en mots ou en lettres qui ne se lisent pas comme des chiffres (FOUR, ROK, PP…) : « 4I » se lisait « 41 ».
-  // units : nombre de karts (« KART-2011-3K »), quand l'option compte des véhicules et pas des personnes.
-  function makeRef(prefix, dateIso, adults, children, units) {
-    if (!prefix || !dateIso) return "";
-    var d = dateIso.split("-");
-    if (units) return prefix + "-" + d[2] + d[1] + "-" + units + "K";
-    return prefix + "-" + d[2] + d[1] + "-" + (adults || 0) + "A" + (children ? children + "C" : "");
-  }
-
-  function makeRentalRef(prefix, from, to) {
-    if (!prefix || !from) return "";
-    var a = from.split("-"), b = (to || "").split("-");
-    return prefix + "-" + a[2] + a[1] + (to ? "-" + b[2] + b[1] : "");
   }
 
   function thb(n) {
@@ -975,7 +935,6 @@
       var pre = dialog.querySelector("[data-message]");
       if (pre) pre.textContent = text;
       var dl = dialog.querySelector("[data-slip]");
-      var refEl = dialog.querySelector("[data-slip-ref]");
       var totEl = dialog.querySelector("[data-slip-total]");
       if (totEl) totEl.hidden = true;
       if (dl) {
@@ -984,11 +943,10 @@
           var cut = line.indexOf(": ");
           var label = cut > 0 ? line.slice(0, cut) : "";
           var value = cut > 0 ? line.slice(cut + 2) : line;
-          if (label === "Ref") { if (refEl) { refEl.textContent = "Ref " + value; refEl.hidden = false; } return; }
-          // Le total se lit en premier, sous la référence (même texte que dans le message).
+          // Le total se lit en premier (même texte que dans le message).
           if (totEl && (label === "Estimated total" || label === "Total")) { totEl.textContent = label + " " + value; totEl.hidden = false; return; }
           var row = doc.createElement("div");
-          if (i === 0 || (i === 1 && text.indexOf("Ref: ") === 0)) row.className = "slip-first";
+          if (i === 0) row.className = "slip-first";
           var dt = doc.createElement("dt");
           var dd = doc.createElement("dd");
           dt.textContent = label;
@@ -998,9 +956,6 @@
           dl.appendChild(row);
         });
       }
-      var doneRef = dialog.querySelector("[data-done-ref]");
-      var refLine = text.split("\n")[0];
-      if (doneRef) { doneRef.hidden = refLine.indexOf("Ref: ") !== 0; doneRef.textContent = "Ref " + refLine.slice(5); }
       var cash = parkCash(config, state);
       var box = dialog.querySelector("[data-cash]");
       if (box) {
@@ -1150,8 +1105,6 @@
     validateTripList: validateTripList,
     choiceLines: choiceLines,
     rentalPrice: rentalPrice,
-    makeRef: makeRef,
-    makeRentalRef: makeRentalRef,
     buildTripList: buildTripList,
     sameDayClashes: sameDayClashes,
     parkCash: parkCash,

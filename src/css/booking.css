@@ -173,7 +173,6 @@ html.sheet-open { overflow: hidden; }
 /* Aperçu : fiche de comptoir. Chaque ligne du message, libellé à gauche ; référence en tête ;
    cash à prévoir pour le parc sous une perforation. */
 .slip { border: 1px solid var(--sheet-rule); border-radius: 12px; background: var(--sheet-soft); }
-.slip-ref { padding: var(--s1) var(--s2); border-bottom: 1px solid var(--sheet-rule); font: 700 var(--t4)/var(--l4) var(--sheet-head); font-stretch: var(--sheet-head-stretch); }
 .slip-total { padding: var(--s1) var(--s2); border-bottom: 1px solid var(--sheet-rule); font-weight: 700; font-size: var(--t3); line-height: var(--l3); }
 .slip-lines { margin: 0; padding: var(--s1) var(--s2); }
 .slip-lines div { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: var(--s2); padding: var(--s1) 0; border-top: 1px solid var(--sheet-rule); }
@@ -188,7 +187,6 @@ html.sheet-open { overflow: hidden; }
 .slip-cash-note { font-size: var(--t1); line-height: var(--l1); color: var(--sheet-mute); }
 
 .done-text p { margin: 0 0 var(--s2); }
-.slip-ref--done { border: 1px solid var(--sheet-rule); border-radius: 12px; background: var(--sheet-soft); font-size: var(--t4); line-height: var(--l4); }
 .sheet-link { justify-self: center; min-height: 44px; padding: 0 var(--s2); border: 0; background: transparent; color: var(--sheet-ink); font: 700 var(--t2)/1 var(--sheet-text); text-decoration: underline; text-underline-offset: .18em; cursor: pointer; }
 .done-num { display: inline; padding-block: 12px; font-weight: 700; white-space: nowrap; color: inherit; }
 .copy-status { min-height: 1.5em; margin: var(--s1) 0 0; font-weight: 700; }

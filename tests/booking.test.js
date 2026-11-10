@@ -66,18 +66,18 @@ test("buildMessage excursion : la demande en première ligne, sans formule d'app
       "Guests: 2 adults, 1 child (age 7)",
       "Pickup: Lanta Sand Resort (Klong Dao)",
       "Name: Anna",
-      "Price on website: Adult: 1,000 THB / Child, 4 to 11: 600 THB",
-      "Page: secrettravelandtour.com/tours/4-islands/"
+      // Sans prix structurés, pas de total : le prix de l'option termine le message.
+      "Price: Adult: 1,000 THB / Child, 4 to 11: 600 THB"
     ].join("\n")
   );
-  assert.doesNotMatch(B.buildMessage(TOUR, tourState()), /Hi\b|Hello|!|Today|Tomorrow/);
+  assert.doesNotMatch(B.buildMessage(TOUR, tourState()), /Hi\b|Hello|!|Today|Tomorrow|Ref:|Page:/);
 });
 
 test("buildMessage excursion : option sans prix, pas de ligne de prix", () => {
   const msg = B.buildMessage(TOUR, tourState({ option: "on-request", childAges: [] }));
   assert.match(msg, /Booking request: 4 Islands – Custom day/);
   assert.match(msg, /Guests: 2 adults\n/);
-  assert.doesNotMatch(msg, /Price on website/);
+  assert.doesNotMatch(msg, /Price|total/i);
 });
 
 test("buildMessage trajet : aller, vol, sièges, bagages, adresse de dépose", () => {
@@ -92,10 +92,11 @@ test("buildMessage trajet : aller, vol, sièges, bagages, adresse de dépose", (
       "Child seats: 1",
       "Bags: 3",
       "Drop-off: Lanta Sand Resort",
-      "Name: Anna",
-      "Page: secrettravelandtour.com/taxi/krabi-airport-koh-lanta/"
+      "Name: Anna"
     ].join("\n")
   );
+  // Ni référence ni page, même quand la config donne l'adresse.
+  assert.doesNotMatch(B.buildMessage(TAXI, taxiState()), /Ref:|Page:/);
 });
 
 test("buildMessage trajet : véhicule seulement s'il est donné par les données", () => {
@@ -159,22 +160,15 @@ test("brouillon : gardé 7 jours, « Tomorrow » d'un autre jour effacé", () =>
   assert.equal(B.restoreDraft("{bad", saved), null);
 });
 
-// Retour du 03.11.2026 : référence de la demande, cash du parc, option du transfert.
-test("référence : code produit, jour et mois de la sortie, adultes et enfants, sans hasard", () => {
-  // Préfixes sans ambiguïté entre chiffres et lettres (« 4I » se lisait « 41 », phase 1 du 09.11.2026).
-  assert.equal(B.makeRef("FOUR", "2026-11-04", 2, 1), "FOUR-0411-2A1C");
-  assert.equal(B.makeRef("FOUR", "2026-11-04", 2, 0), "FOUR-0411-2A");
-  assert.equal(B.makeRef("KART", "2026-11-04", 0, 0, 3), "KART-0411-3K");
-  assert.equal(B.makeRef("", "2026-11-04", 2, 0), "");
-});
-
-test("message : la référence ouvre le message quand le produit a un code", () => {
-  const cfg = { variant: "tour", product: "4 Islands", page: "secrettravelandtour.com/tours/4-islands/", options: [] };
+// Retour du 03.11.2026 : cash du parc, option du transfert. Référence et page retirées le 10.11.2026.
+test("message : ni référence ni page, même avec un code produit et une adresse dans la config", () => {
+  const cfg = { variant: "tour", product: "4 Islands", page: "secrettravelandtour.com/tours/4-islands/", refPrefix: "FOUR", options: [] };
   const base = { dateChoice: "tomorrow", today: "2026-11-03", adults: 2, childAges: [7], name: "Anna" };
-  assert.doesNotMatch(B.buildMessage(cfg, base), /Ref:/);
-  const lines = B.buildMessage({ ...cfg, refPrefix: "FOUR" }, base).split("\n");
-  assert.equal(lines[0], "Ref: FOUR-0411-2A1C");
-  assert.match(lines[1], /^Booking request: 4 Islands/);
+  const msg = B.buildMessage(cfg, base);
+  assert.match(msg, /^Booking request: 4 Islands\n/);
+  assert.doesNotMatch(msg, /Ref:|Page:|FOUR-|secrettravelandtour\.com/);
+  assert.equal(B.makeRef, undefined);
+  assert.equal(B.makeRentalRef, undefined);
 });
 test("cash du parc : adultes et enfants au tarif des données, rien sans frais de parc", () => {
   const cfg = { parkFee: { adult: 200, child: 100 } };

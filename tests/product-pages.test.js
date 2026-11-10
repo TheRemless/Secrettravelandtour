@@ -94,7 +94,7 @@ test("feuille : sans option choisie, une fiche à plusieurs options refuse la de
   }
 });
 
-test("message : chaque option donne le produit, l'option, ses sous-variantes, ses prix et l'adresse de la page", () => {
+test("message : chaque option donne le produit, l'option, ses sous-variantes et son total ou ses prix, sans référence ni page", () => {
   for (const p of TOURS) {
     const doc = html(p.url);
     const cfg = cfgOf(doc);
@@ -107,22 +107,29 @@ test("message : chaque option donne le produit, l'option, ses sous-variantes, se
       assert.deepEqual(B.validate(cfg, st), {}, `${p.slug} ${o.id}`);
       const msg = B.buildMessage(cfg, st);
       const lines = msg.split("\n");
+      // La demande ouvre le message ; ni référence ni page (10.11.2026).
+      assert.equal(lines[0], `Booking request: ${p.name} – ${o.title}`, `${p.slug} ${o.id}`);
+      assert.doesNotMatch(msg, /Ref:|Page:/, `${p.slug} ${o.id} : ni référence ni page`);
       // Une option à compteurs (pilotes, karts) : ses compteurs disent qui vient, sans seconde ligne « Guests ».
-      const who = o.counts ? (o.people === false ? "1K" : "1A") : "2A1C";
-      assert.match(lines[0], new RegExp(`^Ref: ${p.refPrefix}-\\d{4}-${who}$`), `${p.slug} ${o.id} : référence`);
-      assert.equal(lines[1], `Booking request: ${p.name} – ${o.title}`, `${p.slug} ${o.id}`);
       assert.match(msg, /\nDate: \w{3} \d+ Nov 2026\n/);
       if (o.counts) assert.doesNotMatch(msg, /\nGuests: /, `${p.slug} ${o.id} : pas de Guests à côté des compteurs`);
       else assert.match(msg, /\nGuests: 2 adults, 1 child \(age 7\)\n/);
-      // Total estimé (v4-price.js) ou, quand la règle n'est pas dans les données, « confirmed on WhatsApp ».
-      assert.match(msg, /\n(Estimated total: [\d,]+ THB|Total: to be confirmed on WhatsApp)\n/, `${p.slug} ${o.id} : total`);
       assert.match(msg, /\nPickup: Lanta Sand Resort\n/);
-      assert.match(msg, /\nName: Anna\n/);
-      assert.ok(msg.endsWith(`Page: secrettravelandtour.com${p.url}`), `${p.slug} ${o.id} : page`);
+      assert.match(msg, /\nName: Anna(\n|$)/);
+      const src = p.options.find((x) => x.id === o.id);
+      // Une seule ligne de prix, la dernière : le total estimé (v4-price.js) ou, quand la règle n'est pas dans
+      // les données, les prix de l'option. Prix sur demande : aucune ligne.
+      const priceLines = lines.filter((l) => /^(Estimated total|Price|Total)\b/.test(l));
+      if (!(src.prices || []).length) assert.equal(priceLines.length, 0, `${p.slug} ${o.id} : prix sur demande`);
+      else {
+        assert.equal(priceLines.length, 1, `${p.slug} ${o.id} : une ligne de prix`);
+        assert.equal(priceLines[0], lines[lines.length - 1], `${p.slug} ${o.id} : le prix termine le message`);
+        assert.match(priceLines[0], /^(Estimated total: [1-9][\d,]* THB|Price: \S.*)$/, `${p.slug} ${o.id} : total ou prix`);
+      }
       for (const c of o.choices || []) assert.match(msg, new RegExp(`\\n${c.label}: \\S`), `${p.slug} ${o.id} : ${c.label}`);
       if (o.counts) assert.ok(msg.includes(`${o.counts.label}: 1 × ${o.counts.rows[0]}`), `${p.slug} ${o.id} : nombre`);
-      const src = p.options.find((x) => x.id === o.id);
-      if ((src.prices || []).length) {
+      // Sans total, les prix de l'option sont dans le message.
+      if ((src.prices || []).length && !/^Estimated total: /.test(lines[lines.length - 1])) {
         const priced = (o.choices || []).find((c) => c.values && c.values.some((v) => v.row));
         // Un supplément à cocher (extras, « Add … ») n'est cité que s'il est coché (E-05, 09.11.2026).
         const tick = (r) => (src.extras || []).includes(r.label) || (r.supplement && /^Add /.test(r.label));
@@ -191,14 +198,14 @@ test("location : catégorie, véhicule, nombre de véhicules, dates et heures, p
   const st = Object.assign(B.emptyState({}), { today: TODAY, option: "big-bikes", vehicle: "Honda CRF 250", vehicles: 2, dateFrom: "2026-11-20", timeFrom: "09:00", dateTo: "2026-11-23", timeTo: "18:00", name: "Anna" });
   assert.deepEqual(B.validate(cfg, st), {});
   assert.equal(B.buildMessage(cfg, st), [
-    "Ref: RENT-2011-2311", "Rental request: Big bikes", "Vehicle: Honda CRF 250", "Vehicles: 2",
+    "Rental request: Big bikes", "Vehicle: Honda CRF 250", "Vehicles: 2",
     "From: Fri 20 Nov 2026, 09:00", "To: Mon 23 Nov 2026, 18:00", "Name: Anna",
-    "Price on website: Honda CRF 250: 900 THB per 24 hours", "Page: secrettravelandtour.com/tours/rental/"
+    "Price: Honda CRF 250: 900 THB per 24 hours"
   ].join("\n"));
   assert.ok(B.validate(cfg, { ...st, option: "" }).option);
   assert.ok(B.validate(cfg, { ...st, timeTo: "" }).dates);
   assert.ok(B.validate(cfg, { ...st, vehicles: 0 }).vehicles);
-  assert.match(B.buildMessage(cfg, { ...st, vehicle: "" }), /Price on website: Big bikes: 600 to 1,200 THB per 24 hours/);
+  assert.match(B.buildMessage(cfg, { ...st, vehicle: "" }), /\nPrice: Big bikes: 600 to 1,200 THB per 24 hours$/);
 });
 
 test("speedboat : chaque arrêt de la grille ouvre la feuille, trajet, horaire, aller simple ou retour", () => {
@@ -219,7 +226,8 @@ test("speedboat : chaque arrêt de la grille ouvre la feuille, trajet, horaire, 
   st.returnDeparture = "from-koh-ngai@1130";
   assert.deepEqual(B.validate(cfg, st), {});
   const msg = B.buildMessage(cfg, st);
-  assert.match(msg, /^Ref: SPEED-2011-2A\nSpeedboat request: Koh Lanta to Koh Ngai\nDeparture: 15:00, arrives 15:40\nDate: Fri 20 Nov 2026\nTicket: return, Koh Ngai to Koh Lanta\nReturn: Mon 23 Nov 2026, 11:30, arrives 12:00\n/);
+  assert.doesNotMatch(msg, /Ref:|Page:/);
+  assert.match(msg, /^Speedboat request: Koh Lanta to Koh Ngai\nDeparture: 15:00, arrives 15:40\nDate: Fri 20 Nov 2026\nTicket: return, Koh Ngai to Koh Lanta\nReturn: Mon 23 Nov 2026, 11:30, arrives 12:00\n/);
   assert.ok(B.validate(cfg, { ...st, departure: "" }).departure);
   assert.ok(B.validate(cfg, { ...st, route: "" }).route);
 });
@@ -233,20 +241,22 @@ test("liste de sorties : une sortie sans sa sous-variante obligatoire ne part pa
   assert.match(B.buildTripList(cat, list), /Elephant sanctuary – Programme B, the elephants and Klong Jark beach\nSession: 12:00\n/);
 });
 
-test("WhatsApp : chaque lien d'une fiche nomme le produit et la page ; ailleurs, la page d'où il part", () => {
+// Depuis le 10.11.2026, les liens préremplis ne donnent plus l'adresse de la page : le produit suffit.
+test("WhatsApp : chaque lien d'une fiche nomme le produit, sans référence ni adresse de page", () => {
   for (const p of ALL.concat([P("tours/4-islands")])) {
     const doc = outsideSheet(html(p.url));
     const links = [...doc.matchAll(/href="https:\/\/wa\.me\/66958683846([^"]*)"/g)].map((m) => decodeURIComponent(m[1].replace(/^\?text=/, "")));
     assert.ok(links.length >= 3, p.slug);
     for (const l of links) {
-      assert.ok(l.includes(`secrettravelandtour.com${p.url}`), `${p.slug} : « ${l.slice(0, 60)} »`);
+      assert.doesNotMatch(l, /Ref:|Page:|secrettravelandtour\.com/, `${p.slug} : « ${l.slice(0, 60)} »`);
       assert.ok(l.includes(p.name) || /^(Rental|Speedboat) request/.test(l), `${p.slug} : « ${l.slice(0, 60)} »`);
     }
-    assert.ok(links.some((l) => l.startsWith(`Question about ${p.name} (secrettravelandtour.com${p.url})`)), `${p.slug} : question`);
+    assert.ok(links.includes(`Question about ${p.name}: `), `${p.slug} : question`);
   }
   for (const url of ["/", "/tours/"]) {
     const links = [...outsideSheet(html(url)).matchAll(/href="https:\/\/wa\.me\/66958683846([^"]*)"/g)].map((m) => decodeURIComponent(m[1].replace(/^\?text=/, "")));
-    for (const l of links) assert.ok(/secrettravelandtour\.com\//.test(l), `${url} : « ${l.slice(0, 60)} »`);
+    assert.ok(links.length > 0, url);
+    for (const l of links) assert.doesNotMatch(l, /Ref:|Page:/, `${url} : « ${l.slice(0, 60)} »`);
   }
 });
 

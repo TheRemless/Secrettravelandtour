@@ -85,7 +85,7 @@ test("message de réservation : les suppléments ne suivent que l'option qui les
   assert.doesNotMatch(B.buildMessage(cfg, Object.assign({}, base, { option: "join-in-longtail" })), /Extras/);
 });
 
-test("liste de sorties : un message classé par jour, une référence par sortie, alerte le même jour", () => {
+test("liste de sorties : un message classé par jour, un prix par sortie, total de la liste, alerte le même jour", () => {
   const cat = JSON.parse(site("data/catalog.json"));
   assert.equal(Object.keys(cat).length, 13);
   const list = {
@@ -102,18 +102,28 @@ test("liste de sorties : un message classé par jour, une référence par sortie
   assert.equal(lines[1], "Guests: 2 adults, 1 child (age 7)");
   assert.ok(text.indexOf("Fri 20 Nov 2026") < text.indexOf("Sat 21 Nov 2026"));
   // Plus d'option par défaut (demande du client, 08.11.2026) : la sortie à trois bateaux attend son choix et la liste ne part pas.
-  assert.match(text, /Ref: FOUR-2011-2A1C\n4 Islands – option to choose\n/);
+  assert.match(text, /\nFri 20 Nov 2026\n4 Islands – option to choose\n/);
   const v = B.validateTripList(cat, { ...list, items: list.items.map((it, i) => ({ ...it, id: "t" + i })) }, "2026-11-08");
   assert.deepEqual(v.items, { t1: { option: "Choose an option for 4 Islands." } });
-  assert.match(text, /Ref: PP-2011-2A1C/);
-  assert.match(text, /Ref: ROK-2111-2A1C/);
+  // Ni référence ni page par sortie (10.11.2026).
+  assert.doesNotMatch(text, /Ref:|Page:/);
   // Phase 2 : chaque sortie de la liste porte son total estimé, calculé comme dans la feuille (2 adultes à 2 000 THB
   // et un enfant de 7 ans à 1 000 THB) ; une sortie sans option choisie n'en a pas.
-  assert.match(text, /Koh Rok & Koh Haa – Join-in speedboat\nPrice on website: [^\n]+\nEstimated total: 5,000 THB\n/);
-  assert.doesNotMatch(text.split("4 Islands – option to choose")[1].split("Page:")[0], /total/i);
-  assert.match(text, /Page: secrettravelandtour\.com\/tours\/koh-rok-koh-haa\//);
+  assert.match(text, /\nKoh Rok & Koh Haa – Join-in speedboat\nEstimated total: 5,000 THB$/);
+  assert.match(text, /\nKoh Phi Phi – Join-in speedboat\nEstimated total: 5,000 THB\n/);
+  assert.match(text, /\n4 Islands – option to choose\n\n/, "sans option, ni prix ni total");
+  // Une sortie sans total : pas de total de la liste.
+  assert.doesNotMatch(text, /all trips/);
   // Deux sorties le même jour (4 Islands et Koh Phi Phi le 20) : une ligne vide les sépare (E-11).
-  assert.match(text, /\nFri 20 Nov 2026\nRef: [^\n]+\n(?:[^\n]+\n)+?\nRef: /);
+  assert.match(text, /\nFri 20 Nov 2026\n4 Islands – option to choose\n\nKoh Phi Phi – /);
+  // Toutes les options choisies : le total de la liste suit une ligne vide (4 Islands en longtail : 2 × 1 000 + 600).
+  const full = B.buildTripList(cat, { ...list, items: list.items.map((it) => it.slug === "4-islands" ? { ...it, option: "join-in-longtail" } : it) });
+  assert.match(full, /\n4 Islands – Join-in longtail\nEstimated total: 2,600 THB\n/);
+  assert.ok(full.endsWith("\nEstimated total: 5,000 THB\n\nEstimated total, all trips: 12,600 THB"));
+  // Une seule sortie : son total suffit. Une sortie sans total (coucher de soleil, pas de prix enfant) : son prix, pas de total de la liste.
+  assert.doesNotMatch(B.buildTripList(cat, { ...list, items: [list.items[0]] }), /all trips/);
+  const sunset = B.buildTripList(cat, { ...list, items: [list.items[0], { slug: "koh-rok-koh-haa", option: "sunset", date: "2026-11-22" }] });
+  assert.ok(sunset.endsWith("\nKoh Rok & Koh Haa – Later trip, back at sunset\nPrice: Per person: 2,500 THB"));
   assert.deepEqual(B.sameDayClashes(cat, list.items), [{ date: "2026-11-20", names: ["4 Islands", "Koh Phi Phi"] }]);
   // Les prix du catalogue sont ceux des fiches.
   for (const s of SLUGS) {

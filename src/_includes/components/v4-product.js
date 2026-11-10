@@ -397,16 +397,13 @@ function related(p, ctx) {
 }
 
 // ---------- WhatsApp : chaque lien dit de quel produit et de quelle page il vient ----------
-function askText(name, page) {
-  return `Question about ${name} (${page}): `;
-}
-function pageText(page) {
-  return `Hello, a question from ${page}: `;
+function askText(name) {
+  return `Question about ${name}: `;
 }
 
 // Repli sans JavaScript d'un bouton d'option : la demande dit déjà le produit, l'option et la page.
 function optionFallback(p, site, o) {
-  return `Booking request: ${p.name}${o ? " – " + o.label : ""}\nPage: ${site.url.replace(/^https?:\/\//, "")}${p.url}`;
+  return `Booking request: ${p.name}${o ? " – " + o.label : ""}`;
 }
 
 // ---------- Fiche bateau ou activité ----------
@@ -442,7 +439,7 @@ function productPage(p, ctx) {
     faq: (p.faq || []).filter((f) => !help || f.q !== help.q).map((f) => ({ ...f, q: nb(f.q) })),
     related: related(p, ctx),
     single: single || pick.sel,
-    ask: askText(p.name, host + p.url),
+    ask: askText(p.name),
     fallback: single ? optionFallback(p, site, p.options[0]) : view.fallbackText(p, site),
     booking: bookingOf(p, site),
     parkFee: fee,
@@ -487,8 +484,8 @@ function rentalPage(p, ctx) {
       lo: view.thb(Math.min(...amounts)), hi: view.thb(Math.max(...amounts)), from: Math.min(...amounts),
       // Une seule unité pour toute la catégorie, sinon chaque ligne garde la sienne.
       unit: units.length === 1 ? units[0] : "",
-      rows: (o.prices || []).map((r) => ({ ...priceRow(r), unit: units.length === 1 ? "" : priceRow(r).unit, spec: r.spec || "", fallback: `Rental request: ${o.label} – ${r.label}\nFrom: \nTo: \nPage: ${host}${p.url}` })),
-      fallback: `Rental request: ${o.label}\nFrom: \nTo: \nPage: ${host}${p.url}`
+      rows: (o.prices || []).map((r) => ({ ...priceRow(r), unit: units.length === 1 ? "" : priceRow(r).unit, spec: r.spec || "", fallback: `Rental request: ${o.label} – ${r.label}\nFrom: \nTo: ` })),
+      fallback: `Rental request: ${o.label}\nFrom: \nTo: `
     };
   });
   // Scooters d'abord : le cas le plus fréquent sur l'île ; puis grosses motos, puis voitures.
@@ -506,8 +503,8 @@ function rentalPage(p, ctx) {
     beforeBook: view.beforeBook(p, site).filter((b) => b.label !== "How to book"),
     faq: [],
     related: { title: "Trips and transfers", cards: [], links, all: null, transfer: null },
-    ask: askText(p.name, host + p.url),
-    fallback: `Rental request: ${p.name}\nFrom: \nTo: \nPage: ${host}${p.url}`,
+    ask: askText(p.name),
+    fallback: `Rental request: ${p.name}\nFrom: \nTo: `,
     booking: { ...view.bookingTour(p, site), variant: "rental" },
     jsonLd: schema.rental(p, site)
   };
@@ -592,7 +589,7 @@ function speedboatRoutes(p) {
       });
       return { place: o.name, note: o.note, route, deps };
     });
-    return { from: run.from, via: run.via || [], season, short: run.season && /^High season$/i.test(run.season) ? "High season" : "", rows };
+    return { from: run.from, via: run.via || [], season, short: run.seasonRange ? run.seasonRange.label : run.season && /^High season$/i.test(run.season) ? "High season" : "", rows };
   });
   const list = [...routes.values()];
   list.forEach((r) => r.deps.sort((a, b) => a.time.localeCompare(b.time)));
@@ -635,8 +632,8 @@ function speedboatPage(p, ctx) {
     beforeBook: view.beforeBook(p, site),
     faq: shown,
     related: related(p, ctx),
-    ask: askText(p.name, host + p.url),
-    fallback: `Speedboat request: \nDate: \nPage: ${host}${p.url}`,
+    ask: askText(p.name),
+    fallback: `Speedboat request: \nDate: `,
     booking: {
       variant: "speedboat", brand: site.brands[p.brand].name, product: p.name, productId: p.slug,
       page: host + p.url, whatsapp: site.whatsapp.number, refPrefix: p.refPrefix || "",
@@ -646,4 +643,4 @@ function speedboatPage(p, ctx) {
   };
 }
 
-module.exports = { pickOf, helpOf, bookingOf, cashOf, heroFacts, formOf, withForms, productPage, rentalPage, speedboatPage, speedboatRoutes, publicText, askText, pageText, sortFacts, optionsOf, programme };
+module.exports = { pickOf, helpOf, bookingOf, cashOf, heroFacts, formOf, withForms, productPage, rentalPage, speedboatPage, speedboatRoutes, publicText, askText, sortFacts, optionsOf, programme };

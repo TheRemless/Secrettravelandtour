@@ -295,7 +295,7 @@ function bookingRoute(product, site, extra = {}) {
 
 // Repli sans JavaScript des boutons « Check availability » : WhatsApp avec le produit et la page.
 function fallbackText(product, site) {
-  return `${product.template === "route" ? "Transfer request" : "Booking request"}: ${product.name}\nPage: ${site.url.replace(/^https?:\/\//, "")}${product.url}`;
+  return `${product.template === "route" ? "Transfer request" : "Booking request"}: ${product.name}`;
 }
 
 // Bandeau de faits, façon billet de ferry (00-BRIEF §6.2, retour du 03.11.2026) : prise en charge, départ

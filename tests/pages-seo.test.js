@@ -56,13 +56,15 @@ test("pages taxi : ni prix, ni téléphone, ni e-mail affichés", () => {
 });
 
 // Depuis la v4, plus de formulaire sur l'accueil : chaque fiche a sa feuille de réservation et un repli WhatsApp
-// qui nomme déjà le produit et la page.
+// qui nomme déjà le produit, sans l'adresse de la page (10.11.2026).
 test("pages secret : feuille de réservation, repli WhatsApp prérempli et JSON-LD", () => {
   for (const p of PRODUCTS) {
     const doc = html(p.url);
     assert.match(doc, /<dialog class="sheet" id="book"/, `${p.slug} : feuille`);
     assert.match(doc, /data-book="/, `${p.slug} : bouton qui ouvre la feuille`);
-    assert.match(doc, new RegExp(`href="https://wa\\.me/66958683846\\?text=(Booking|Rental|Speedboat)%20request[^"]*${encodeURIComponent(p.url)}"`), `${p.slug} : repli`);
+    const fallbacks = [...doc.matchAll(/href="https:\/\/wa\.me\/66958683846\?text=((?:Booking|Rental|Speedboat)%20request[^"]*)"/g)].map((m) => decodeURIComponent(m[1]));
+    assert.ok(fallbacks.length > 0, `${p.slug} : repli`);
+    for (const f of fallbacks) assert.doesNotMatch(f, /Ref:|Page:|secrettravelandtour\.com/, `${p.slug} : repli sans page`);
     assert.match(doc, /application\/ld\+json/, `${p.slug} : JSON-LD`);
   }
 });
