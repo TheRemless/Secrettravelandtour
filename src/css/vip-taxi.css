@@ -476,3 +476,25 @@ details[open] .faq-mark::after { transform: rotate(0deg); }
 
 /* Page trajet : une ou deux questions sous « How this transfer works » */
 .qa-inline { margin: 36px 0 12px; font-size: 21px; }
+
+/* Liens dans le texte (Secret Travel & Tour, songthaew), 10.11.2026 : soulignés dans la couleur du texte. */
+.lead a, .faq-a a, .steps a, .prose a, .stt-text > p a, .sg figcaption a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
+.hero .lead a { color: var(--ivory); text-decoration-color: var(--gold); }
+.stt-text > p a { color: #fff; }
+.lead a:hover, .faq-a a:hover, .steps a:hover, .prose a:hover, .stt-text > p a:hover { text-decoration-thickness: 2px; }
+
+/* Page « What is a songthaew? » */
+.sg-in { display: grid; gap: 32px; }
+.sg-text h2 { font-size: 26px; }
+.sg-photo { margin: 0; }
+.sg-photo img { width: 100%; height: auto; display: block; border-radius: 4px; }
+.sg-photo figcaption { margin-top: 8px; font-size: 14px; line-height: 1.5; color: var(--ink-2); }
+.sg .all-routes { margin-top: 8px; }
+@media (min-width: 64rem) {
+  .sg-in { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 56px; row-gap: 48px; align-items: start; }
+  .sg .all-routes { grid-column: 1 / -1; }
+}
+@media (min-width: 64rem) {
+  .hero--sg .hero-in { grid-template-columns: minmax(0, 46rem); grid-template-rows: none; row-gap: 20px; }
+  .hero--sg .hero-in > h1 { grid-column: auto; grid-row: auto; padding-top: 8px; }
+}

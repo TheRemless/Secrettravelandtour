@@ -6,7 +6,7 @@ pagination:
 permalink: "{{ r.url }}"
 eleventyExcludeFromCollections: true
 ---
-{#- Les 17 pages trajet de VIP Taxi Lanta sur un seul gabarit, identité « Laque et or » (10.11.2026).
+{#- Les pages trajet de VIP Taxi Lanta sur un seul gabarit, identité « Laque et or » (10.11.2026).
     Données : taxiPages.js (products/taxi). Une donnée absente ne s'affiche pas (durée de Krabi Airport → Khao Lak).
     Aucun prix publié : « Price on WhatsApp ». Réservation par la feuille (booking.js, variante taxi, aller ou retour). -#}
 {% import "components/taxi.njk" as tx %}
@@ -62,7 +62,7 @@ eleventyExcludeFromCollections: true
       {%- if r.drive %}<p class="c-drive">{{ r.drive | capitalize }}<span class="sr-only"> by road</span></p>{% endif %}
     </div>
     <div class="route-lead">
-      <p class="lead">{{ r.lead }}</p>
+      <p class="lead">{{ r.lead | taxiLinks | safe }}</p>
       <div class="hero-act">
         <a class="btn btn--gold" href="{{ fallback }}" data-book="">Check availability</a>
         <p class="hero-note">Price on WhatsApp.</p>
@@ -76,10 +76,10 @@ eleventyExcludeFromCollections: true
     <div class="detail-text">
       <h2 id="h-detail">How this transfer works</h2>
       {%- if r.body.length %}
-      <div class="prose">{% for para in r.body %}<p>{{ para }}</p>{% endfor %}</div>
+      <div class="prose">{% for para in r.body %}<p>{{ para | taxiLinks | safe }}</p>{% endfor %}</div>
       {%- endif %}
       <dl class="why why--route">
-        {%- for x in T.how %}
+        {%- for x in r.how %}
         <div><dt>{{ x.title }}</dt><dd>{{ x.text }}</dd></div>
         {%- endfor %}
       </dl>

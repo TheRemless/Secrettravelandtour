@@ -49,7 +49,7 @@ eleventyExcludeFromCollections: true
     <h1 id="h1">{{ h.title }}</h1>
     {{ tx.arch(h.photo.src, h.photo.alt, h.photo.width, h.photo.height, srcset=h.photo.srcset, sizes="(min-width: 64rem) 40vw, 92vw", priority=true) }}
     <div class="hero-text">
-      <p class="lead">{{ h.lead }}</p>
+      <p class="lead">{{ h.lead | taxiLinks | safe }}</p>
       <div class="hero-act">
         <a class="btn btn--gold" href="{{ fallback }}" data-book="">Request a transfer</a>
         <a class="link-lac" href="#routes">See all routes</a>
@@ -89,7 +89,7 @@ eleventyExcludeFromCollections: true
       <h2 id="h-book">How to book</h2>
       <ol class="steps">
         {%- for s in taxi.steps %}
-        <li><p class="step-t">{{ s.title }}</p><p>{{ s.text }}</p></li>
+        <li><p class="step-t">{{ s.title }}</p><p>{{ s.text | taxiLinks | safe }}</p></li>
         {%- endfor %}
       </ol>
     </div>
@@ -116,7 +116,7 @@ eleventyExcludeFromCollections: true
       <h2 id="h-van">{{ taxi.gallery.title }}</h2>
       <dl class="why">
         {%- for w in taxi.why %}
-        <div><dt>{{ w.title }}</dt><dd>{{ w.text }}</dd></div>
+        <div><dt>{{ w.title }}</dt><dd>{{ w.text | taxiLinks(false) | safe }}</dd></div>
         {%- endfor %}
       </dl>
     </div>

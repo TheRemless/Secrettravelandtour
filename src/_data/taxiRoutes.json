@@ -52,6 +52,12 @@
       ]
     },
     {
+      "id": "koh-lanta-phuket",
+      "from": "Koh Lanta",
+      "to": "Phuket",
+      "added": "10.11.2026, demandé par Jérémy, fiche products/taxi/koh-lanta-phuket.json"
+    },
+    {
       "id": "surat-thani-koh-lanta",
       "from": "Surat Thani Airport",
       "to": "Koh Lanta",
@@ -154,6 +160,12 @@
           "a": "Yes. Enter the station or the airport as your destination with the time of your train or flight."
         }
       ]
+    },
+    {
+      "id": "koh-lanta-pak-bara-pier",
+      "from": "Koh Lanta",
+      "to": "Pak Bara Pier",
+      "added": "10.11.2026, demandé par Jérémy, fiche products/taxi/koh-lanta-pak-bara-pier.json"
     },
     {
       "id": "koh-lanta-khao-lak",
@@ -407,6 +419,7 @@
       "intro": "Phuket Airport, Phuket town and the beaches of Khao Lak.",
       "routes": [
         "phuket-airport-koh-lanta",
+        "koh-lanta-phuket",
         "phuket-airport-khao-lak",
         "phuket-airport-ao-nang",
         "koh-lanta-khao-lak"
@@ -432,9 +445,10 @@
     },
     {
       "name": "Trang and the deep south",
-      "intro": "Trang, its airport and train station, and Hat Yai.",
+      "intro": "Trang, its airport and train station, Pak Bara Pier for Koh Lipe, and Hat Yai.",
       "routes": [
         "koh-lanta-trang",
+        "koh-lanta-pak-bara-pier",
         "hat-yai-koh-lanta"
       ]
     }

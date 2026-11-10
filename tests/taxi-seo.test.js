@@ -97,7 +97,6 @@ test("FAQ : précise que l'offre ne se limite pas à Koh Lanta et qu'elle couvre
   const notOnly = taxi.faq.find((f) => /only drive from Koh Lanta/i.test(f.q));
   assert.ok(notOnly, "question « seulement depuis Koh Lanta »");
   assert.match(notOnly.a, /Southern Thailand/);
-  assert.match(notOnly.a, /Ko Lanta/);
   const airports = taxi.faq.find((f) => /airport transfers?/i.test(f.q));
   assert.ok(airports, "question sur les transferts aéroport");
   assert.match(airports.a, /Krabi/);
@@ -105,10 +104,9 @@ test("FAQ : précise que l'offre ne se limite pas à Koh Lanta et qu'elle couvre
   assert.match(airports.a, /Surat Thani/);
 });
 
-test("variante d'orthographe « Ko Lanta » présente mais pas répétée à outrance", () => {
-  const text = JSON.stringify(taxi);
-  const count = (text.match(/Ko Lanta/g) || []).length;
-  assert.ok(count >= 1 && count <= 3, `${count} occurrences de « Ko Lanta »`);
+// Jérémy, 10.11.2026 : « (also written Ko Lanta) » ne sert à rien, retiré de la FAQ.
+test("pas de variante d'orthographe « Ko Lanta » dans les données taxi", () => {
+  assert.doesNotMatch(JSON.stringify(taxi), /\bKo Lanta/);
 });
 
 test("From et To sont des listes déroulantes de lieux populaires où l'on peut aussi écrire librement", () => {

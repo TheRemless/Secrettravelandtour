@@ -1,0 +1,43 @@
+{
+  "_source": "Page /taxi/songthaew/ demandée par Jérémy le 10.11.2026 : « les taxis sur Koh Lanta, ce sont les songthaews », petite page pour qui ne connaît pas. Faits : songthaew = « deux rangées » en thaï (sens du mot) ; taxi privé sur l'île pour son groupe seulement (taxi.json services.local) ; hors de l'île toujours minivan (taxiRoutes.json _source, Jérémy 31.10.2026). Aucun prix publié. Photos : dépôt (Lanta Old Town) et photos libres avec auteur et licence. La photo du dépôt (secret/lanta-old-town.webp, réservée au songthaew par l'audit design) est copiée sous images/taxi/ pour cette page. Photo de Krabi : Wikimedia Commons, Ilya Plekhanov, CC BY-SA 3.0 (redimensionnée à 1200 px, crédit et licence sous la photo).",
+  "title": "What Is a Songthaew? Taxis on Koh Lanta | VIP Taxi Lanta",
+  "metaDescription": "On Koh Lanta, the taxis are songthaews: pickup trucks with a roof and two benches in the back. Book one for your group only with VIP Taxi Lanta.",
+  "h1": "What is a songthaew?",
+  "lead": "On Koh Lanta, the taxis are songthaews. If you have never seen one, here is what to expect.",
+  "sections": [
+    {
+      "h": "A pickup truck with two benches",
+      "p": [
+        "A songthaew is a pickup truck with a roof over the back and two benches facing each other. The name is Thai for two rows, after those benches.",
+        "You climb in at the back and sit on the benches, open to the air."
+      ]
+    },
+    {
+      "h": "Your own songthaew on Koh Lanta",
+      "p": [
+        "With VIP Taxi Lanta you book a songthaew for your group only, for a ride around the island: from your hotel to a beach, to Lanta Old Town or to the pier.",
+        "For an airport or another town, we drive a private minivan instead. Send your request and the team replies on WhatsApp with the price. You pay the driver in cash."
+      ]
+    }
+  ],
+  "photos": [
+    {
+      "src": "/images/taxi/songthaew-krabi.webp",
+      "width": 1200,
+      "height": 800,
+      "alt": "A blue and white songthaew seen from the back, with two blue benches facing each other and a step to climb in",
+      "caption": "A songthaew in Krabi Town: the two benches, the roof and the step at the back.",
+      "credit": "Ilya Plekhanov",
+      "creditUrl": "https://commons.wikimedia.org/wiki/File:Songthaew_in_Krabi_09.jpg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
+    },
+    {
+      "src": "/images/taxi/songthaew-lanta-old-town.webp",
+      "width": 800,
+      "height": 597,
+      "alt": "A white songthaew with two purple benches in the back, parked in the main street of Lanta Old Town",
+      "caption": "A songthaew in Lanta Old Town, Koh Lanta."
+    }
+  ]
+}

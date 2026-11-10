@@ -40,13 +40,13 @@ function walk(value, where, visit) {
   else if (value && typeof value === "object") for (const [k, v] of Object.entries(value)) walk(v, `${where}.${k}`, visit);
 }
 
-test("produits : 27 fichiers dans les bons dossiers", () => {
+test("produits : 29 fichiers dans les bons dossiers", () => {
   const count = (f) => files.filter((x) => x.folder === f).length;
   assert.equal(count("tours"), 6);
   assert.equal(count("activities"), 7);
   assert.equal(count(""), 1);
   assert.equal(count("secret-transfers"), 2);
-  assert.equal(count("taxi"), 11);
+  assert.equal(count("taxi"), 13); // + Koh Lanta ↔ Phuket et Pak Bara Pier (10.11.2026)
 });
 
 test("produits : champs obligatoires, marque, gabarit et slug cohérents", () => {
@@ -178,12 +178,12 @@ test("produits : toutes les pages /tours/ actuelles sont reprises", () => {
   assert.equal(Object.keys(content.pages).length, 15);
 });
 
-test("produits : les 17 trajets taxi sont repris (10 pages Koh Lanta + 7 regroupés)", () => {
+test("produits : les 19 trajets taxi sont repris (12 pages Koh Lanta + 7 regroupés)", () => {
   const old = require("../src/_data/taxiRoutes.json").routes;
   const taxi = files.filter((f) => f.folder === "taxi").map((f) => f.data);
   const south = taxi.find((p) => p.slug === "southern-thailand");
   const own = taxi.filter((p) => p !== south);
-  assert.equal(own.length, 10);
+  assert.equal(own.length, 12);
   assert.equal(south.routes.length, 7);
   for (const r of old) {
     const page = own.find((p) => p.slug === r.id);

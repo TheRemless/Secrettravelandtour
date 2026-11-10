@@ -1,4 +1,4 @@
-// Les 17 pages trajet de VIP Taxi Lanta et le hub /taxi/, sur un seul gabarit (refonte taxi v1, 10.11.2026).
+// Les pages trajet de VIP Taxi Lanta et le hub /taxi/, sur un seul gabarit (refonte taxi v1, 10.11.2026).
 // Source des faits : products/taxi/*.json (10 fiches) et products/taxi/southern-thailand.json (7 trajets regroupés),
 // dans l'ordre et avec les régions de taxiRoutes.json. Une donnée absente reste absente : pas de durée inventée.
 const fs = require("node:fs");
@@ -10,6 +10,9 @@ const legacy = require("./taxiRoutes.json");
 const DIR = path.join(__dirname, "products", "taxi");
 const read = (id) => JSON.parse(fs.readFileSync(path.join(DIR, id + ".json"), "utf8"));
 const south = read("southern-thailand");
+
+// Jérémy, 10.11.2026 : à l'aéroport, le chauffeur attend aux arrivées avec une pancarte au nom du client.
+const MEET = { title: "Met at arrivals", text: "For an airport pickup, your driver waits in the arrivals hall with a sign showing your name." };
 
 const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : "");
 
@@ -81,6 +84,7 @@ module.exports = function () {
       // Le titre se compose du trajet et de la suite du h1 (« by private minivan »).
       h1Tail: p.h1.startsWith(`${r.from} to ${r.to}`) ? p.h1.slice(`${r.from} to ${r.to}`.length).replace(/^[,\s]+/, "") : null,
       faq: p.faq || [],
+      how: /Airport/.test(`${r.from} ${r.to}`) ? (legacy.common.how || []).concat([MEET]) : legacy.common.how || [],
       booking: view.bookingRoute(p, site),
       fallback: view.fallbackText(p, site),
       jsonLd: schema.route(p, site)

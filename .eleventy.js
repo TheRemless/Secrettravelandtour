@@ -30,6 +30,15 @@ module.exports = async function (eleventyConfig) {
   const PLACES = require("./src/_data/site.json").brands.vip.places.concat(["Southern Thailand"]).filter((p) => p.includes(" ")).sort((a, b) => b.length - a.length);
   eleventyConfig.addFilter("nbspPlaces", (s) => PLACES.reduce((t, p) => t.split(p).join(p.replace(/ /g, "\u00a0")), String(s || "").replace(/[&<>"]/g, (c) => ESC[c])));
 
+  // Taxi : chaque « Secret Travel & Tour » mène à leur site (demande de Jérémy, 10.11.2026) et le premier « songthaew »
+  // mène à la page qui l'explique (sauf sur cette page). Texte échappé ici, comme nbspPlaces.
+  eleventyConfig.addFilter("taxiLinks", (s, song = true) => {
+    let t = PLACES.reduce((x, p) => x.split(p).join(p.replace(/ /g, "\u00a0")), String(s || "").replace(/[&<>"]/g, (c) => ESC[c]));
+    t = t.replace(/Secret Travel &amp; Tour/g, '<a class="link-stt" href="/">Secret Travel &amp; Tour</a>');
+    if (song) t = t.replace(/\b(songthaews?)\b/i, '<a href="/taxi/songthaew/">$1</a>');
+    return t;
+  });
+
   // Fichiers copiés tels quels, avec les mêmes adresses publiques.
   eleventyConfig.addPassthroughCopy({
     "src/css": "css",

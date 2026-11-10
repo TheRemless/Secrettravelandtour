@@ -37,7 +37,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 {% macro faq(items) %}
 <div class="faq">
   {%- for q in items %}
-  <details><summary><span>{{ q.q | nbspPlaces | safe }}</span><span class="faq-mark" aria-hidden="true"></span></summary><div class="faq-a"><p>{{ q.a }}</p></div></details>
+  <details><summary><span>{{ q.q | nbspPlaces | safe }}</span><span class="faq-mark" aria-hidden="true"></span></summary><div class="faq-a"><p>{{ q.a | taxiLinks | safe }}</p></div></details>
   {%- endfor %}
 </div>
 {% endmacro %}
@@ -50,7 +50,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
     <div class="stt-text">
       <img eleventy:ignore class="stt-emblem" src="/images/secret/emblem.webp" width="240" height="198" alt="Secret Travel &amp; Tour" loading="lazy" decoding="async">
       <h2 id="stt-h">{{ t.kicker }} on Koh Lanta</h2>
-      <p>{{ t.text }}</p>
+      <p>{{ t.text | taxiLinks | safe }}</p>
       <ul class="stt-links">
         <li><a href="/tours/4-islands/">4 Islands{{ chev() }}</a></li>
         <li><a href="/tours/koh-rok-koh-haa/">Koh Rok &amp; Koh Haa{{ chev() }}</a></li>

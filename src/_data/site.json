@@ -175,7 +175,9 @@
         "Phuket Bus Terminal",
         "Surat Thani Bus Terminal",
         "Donsak Pier",
-        "Cheow Lan Pier"
+        "Cheow Lan Pier",
+        "Phuket Town",
+        "Pak Bara Pier"
       ],
       "faq": [
         {
@@ -196,7 +198,7 @@
         },
         {
           "q": "Do you only drive from Koh Lanta?",
-          "a": "No. Koh Lanta (also written Ko Lanta) is our base, but we drive across Southern Thailand, including trips that never touch the island, such as Krabi Airport to Ao Nang or Phuket Airport to Khao Lak. Tell us where we pick you up and where you are going in the request form."
+          "a": "No. Koh Lanta is our base, but we drive across Southern Thailand, including trips that never touch the island, such as Krabi Airport to Ao Nang or Phuket Airport to Khao Lak. Tell us where we pick you up and where you are going in the request form."
         },
         {
           "q": "Can you take me to the airport when I leave Koh Lanta?",

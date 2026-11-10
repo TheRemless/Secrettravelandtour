@@ -10,9 +10,9 @@ const T = require("../src/_data/taxiPages.js")();
 const page = (url) => fs.readFileSync(path.join(SITE, url, "index.html"), "utf8");
 const config = (doc) => JSON.parse(doc.match(/<script type="application\/json" id="book-data">(.*?)<\/script>/)[1]);
 
-test("17 trajets, toutes les adresses d'avant gardées", () => {
+test("19 trajets, toutes les adresses d'avant gardées", () => {
   const before = require("../src/_data/taxiRoutes.json").routes.map((r) => `/taxi/${r.id}/`);
-  assert.equal(T.routes.length, 17);
+  assert.equal(T.routes.length, 19);
   assert.deepEqual(T.routes.map((r) => r.url), before);
   for (const url of before) assert.ok(fs.existsSync(path.join(SITE, url, "index.html")), url);
 });
@@ -91,4 +91,27 @@ test("sitemap : /taxi/ et les 17 trajets, une fois chacun", () => {
     const n = (xml.match(new RegExp(`<loc>https://secrettravelandtour\\.com${url}</loc>`, "g")) || []).length;
     assert.equal(n, 1, url);
   }
+});
+
+// Jérémy, 10.11.2026 : Secret Travel & Tour toujours en lien, songthaew expliqué, pancarte à l'aéroport, deux trajets ajoutés.
+test("taxi : chaque « Secret Travel & Tour » écrit dans le texte est un lien vers leur site", () => {
+  const pages = ["taxi/index.html", ...T.routes.map((r) => r.url.slice(1) + "index.html"), "taxi/songthaew/index.html"];
+  for (const rel of pages) {
+    const html = fs.readFileSync(path.join(SITE, rel), "utf8").replace(/<(script|style)[\s\S]*?<\/\1>/g, "").replace(/\s(alt|content|aria-label)="[^"]*"/g, "");
+    const text = html.replace(/<a\b[^>]*>[\s\S]*?<\/a>/g, "").replace(/<[^>]+>/g, " ");
+    assert.doesNotMatch(text, /Secret Travel (&amp;|&) Tour/, rel);
+  }
+});
+
+test("taxi : page songthaew liée depuis le hub, pancarte aux arrivées, Phuket et Pak Bara Pier", () => {
+  const hub = fs.readFileSync(path.join(SITE, "taxi", "index.html"), "utf8");
+  assert.match(hub, /href="\/taxi\/songthaew\/"/);
+  assert.match(hub, /arrivals hall with a sign showing your name/);
+  const song = fs.readFileSync(path.join(SITE, "taxi", "songthaew", "index.html"), "utf8");
+  assert.match(song, /<h1[^>]*>What is a songthaew\?<\/h1>/);
+  for (const id of ["koh-lanta-phuket", "koh-lanta-pak-bara-pier"]) assert.ok(T.byId[id], id);
+  const krabi = fs.readFileSync(path.join(SITE, "taxi", "krabi-airport-koh-lanta", "index.html"), "utf8");
+  assert.match(krabi, /Met at arrivals/);
+  const trang = fs.readFileSync(path.join(SITE, "taxi", "koh-lanta-trang", "index.html"), "utf8");
+  assert.doesNotMatch(trang, /Met at arrivals/);
 });
