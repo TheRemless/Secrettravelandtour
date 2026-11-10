@@ -89,7 +89,9 @@ test("la page insère les données structurées", () => {
 });
 
 test("FAQ : aucune durée, distance ni prix inventé", () => {
-  const all = JSON.stringify(taxi.faq);
+  // Seul montant permis : le ferry, 50 THB par personne au-delà de 4 (grille VIP Taxi Lanta, Jérémy 10.11.2026).
+  const all = JSON.stringify(taxi.faq.filter((f) => !/ferry to Koh Lanta included/.test(f.q)));
+  assert.match(taxi.faq.find((f) => /ferry to Koh Lanta included/.test(f.q)).a, /up to 4 people.*From the 5th person, the ferry is 50 THB per person/);
   assert.doesNotMatch(all, /\b\d+\s?(h|hr|hrs|hours?|min|minutes?|km|kms|baht|thb)\b|฿|€|\$/i);
 });
 

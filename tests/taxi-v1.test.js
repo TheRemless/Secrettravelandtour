@@ -55,8 +55,10 @@ test("aucun téléphone, aucun prix inventé, plus de « Minivan Taxi » sur le 
     const amounts = [...doc.matchAll(/(\d[\d,]*)\u00a0THB/g)].map((m) => Number(m[1].replace(/,/g, "")));
     if (!r.price) { assert.match(doc, /Price on WhatsApp<small>/, r.url); assert.ok(!r.booking.priceNote, r.url); }
     else assert.ok(amounts.includes(r.price.thb), r.url);
-    assert.ok(amounts.every((n) => T.routes.some((x) => x.price && x.price.thb === n)), `${r.url} : montant hors grille`);
-    if (r.price) assert.match(r.booking.priceNote, new RegExp(`${r.price.approx ? "About" : "From"} ${r.price.thb.toLocaleString("en-US")} THB for 1 or 2 people`), r.url);
+    // 50 THB : le ferry au-delà de 4 personnes, seulement sur les trajets qui passent par Koh Lanta.
+    assert.ok(amounts.every((n) => (n === 50 && /Koh Lanta/.test(r.from + r.to)) || T.routes.some((x) => x.price && x.price.thb === n)), `${r.url} : montant hors grille`);
+    assert.equal(/Ferry included/.test(doc), /Koh Lanta/.test(r.from + r.to), `${r.url} : ferry`);
+    if (r.price) assert.match(r.booking.priceNote, new RegExp(`${r.price.approx ? "About" : "From"} ${r.price.thb.toLocaleString("en-US")} THB per vehicle`), r.url);
   }
   assert.equal(T.byId["krabi-airport-koh-lanta"].price.thb, 2300);
   assert.equal(T.byId["koh-lanta-khao-sok"].price.label, "About 5,000\u00a0THB");

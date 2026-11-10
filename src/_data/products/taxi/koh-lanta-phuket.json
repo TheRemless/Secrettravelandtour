@@ -6,7 +6,7 @@
   "name": "Koh Lanta to Phuket",
   "seo": {
     "title": "Koh Lanta to Phuket Private Minivan | VIP Taxi Lanta",
-    "metaDescription": "Private minivan between Koh Lanta and Phuket, both directions, to Phuket Town or your hotel in Patong, Kata or Karon. Cash to the driver. Price on WhatsApp."
+    "metaDescription": "Private minivan between Koh Lanta and Phuket, both directions, to Phuket Town, Patong, Kata or Karon. Cash to the driver. Price on WhatsApp."
   },
   "h1": "Koh Lanta to Phuket by private minivan",
   "lead": "Between your hotel on Koh Lanta and Phuket Town, Patong, Kata or Karon, in either direction, in a private minivan.",
@@ -21,9 +21,14 @@
       "Kata",
       "Karon"
     ],
-    "region": "Phuket and Khao Lak"
+    "region": "Phuket and Khao Lak",
+    "drive": "about 5 hours"
   },
   "facts": [
+    {
+      "label": "Drive time",
+      "value": "About 5 hours, depending on traffic"
+    },
     {
       "label": "Pickup and drop-off",
       "value": "Your hotel on Koh Lanta, Phuket Town, Patong, Kata, Karon"
@@ -85,6 +90,10 @@
     {
       "field": "priceFrom",
       "from": "Grille « Private Taxi » de VIP Taxi Lanta, colonne Selling, prix pour 1 à 2 clients (base partenaires, ~/Downloads/Secret Travel & Tour/VIP Taxi Lanta - Private Taxi.jpg). Affichage « from » décidé par Jérémy le 10.11.2026. Ligne : From / to Phuket Airport / Phuket Town (Patong, Kata, Karon : 5 000)"
+    },
+    {
+      "field": "route.drive, facts[Drive time]",
+      "from": "Jérémy, 10.11.2026 : environ 5 h"
     }
   ],
   "priceFrom": {

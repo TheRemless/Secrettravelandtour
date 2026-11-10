@@ -15,7 +15,7 @@
     "to": "Koh Lanta",
     "code": "URT",
     "bothDirections": true,
-    "drive": "about 4 to 5 hours",
+    "drive": "about 5 hours",
     "points": [
       "Surat Thani Airport (URT)",
       "Surat Thani bus terminal",
@@ -27,7 +27,7 @@
   "facts": [
     {
       "label": "Drive time",
-      "value": "About 4 to 5 hours, depending on traffic"
+      "value": "About 5 hours, depending on traffic"
     },
     {
       "label": "Airport code",
@@ -121,6 +121,10 @@
     {
       "field": "priceFrom",
       "from": "Grille « Private Taxi » de VIP Taxi Lanta, colonne Selling, prix pour 1 à 2 clients (base partenaires, ~/Downloads/Secret Travel & Tour/VIP Taxi Lanta - Private Taxi.jpg). Affichage « from » décidé par Jérémy le 10.11.2026. Ligne : From / to Surat Thani /Airport / Train Station"
+    },
+    {
+      "field": "route.drive, facts[Drive time]",
+      "from": "Jérémy, 10.11.2026 : environ 5 h (5 h retenu pour Donsak aussi, « au moins on est large »)"
     }
   ],
   "priceFrom": {

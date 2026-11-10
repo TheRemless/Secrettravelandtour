@@ -65,7 +65,7 @@ eleventyExcludeFromCollections: true
       <p class="lead">{{ r.lead | taxiLinks | safe }}</p>
       <div class="hero-act">
         <a class="btn btn--gold" href="{{ fallback }}" data-book="">Check availability</a>
-        <p class="hero-note">{% if r.price %}<span class="hero-price">{{ r.price.label }}</span> for {{ r.price.people }} people, cash to the driver.{% else %}Price on WhatsApp.{% endif %}</p>
+        <p class="hero-note">{% if r.price %}<span class="hero-price">{{ r.price.label }}</span> per vehicle, cash to the driver.{% else %}Price on WhatsApp.{% endif %}</p>
       </div>
     </div>
   </div>

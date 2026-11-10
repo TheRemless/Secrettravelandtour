@@ -183,6 +183,21 @@
       "confirmed": true
     },
     {
+      "q": "Is the price per person or per vehicle?",
+      "a": "Per vehicle. The minivan seats 6 to 8 people, depending on how much luggage you have.",
+      "confirmed": true
+    },
+    {
+      "q": "Is the ferry to Koh Lanta included?",
+      "a": "Yes, for up to 4 people. VIP Taxi Lanta pays the ferry tickets for you. From the 5th person, the ferry is 50 THB per person.",
+      "confirmed": true
+    },
+    {
+      "q": "Can we stop on the way?",
+      "a": "Yes, short stops are fine. Just ask the driver. A long detour or a long stop costs extra, so ask the team for the price on WhatsApp.",
+      "confirmed": true
+    },
+    {
       "q": "Where do you drive in Southern Thailand?",
       "a": "Across Southern Thailand: Krabi Town and Krabi airport, Ao Nang, Phuket town and Phuket airport, Surat Thani airport and bus terminal, Trang, Pak Bara Pier, Khao Lak, Khao Sok, Donsak Pier and Cheow Lan Pier, and more.",
       "confirmed": true

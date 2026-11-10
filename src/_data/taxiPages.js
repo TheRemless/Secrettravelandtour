@@ -13,13 +13,15 @@ const south = read("southern-thailand");
 
 // Jérémy, 10.11.2026 : à l'aéroport, le chauffeur attend aux arrivées avec une pancarte au nom du client.
 const MEET = { title: "Met at arrivals", text: "For an airport pickup, your driver waits in the arrivals hall with a sign showing your name." };
+// Jérémy, 10.11.2026 : le ferry de Koh Lanta est offert jusqu'à 4 personnes, au-delà 50 THB par personne (grille).
+const FERRY = { title: "Ferry included", text: "VIP Taxi Lanta pays the ferry to and from Koh Lanta for up to 4 people. From the 5th person, it is 50\u00a0THB each." };
 
-// Prix d'appel de la grille VIP Taxi Lanta (1 ou 2 personnes) : « From 2,300 THB », ou « About 5,000 THB » si la grille dit « environ ».
+// Prix d'appel de la grille VIP Taxi Lanta, par véhicule (Jérémy, 10.11.2026) : « From 2,300 THB », ou « About 5,000 THB » si la grille dit « environ ».
 function priceOf(p) {
   const f = p.priceFrom;
   if (!f || !f.thb) return null;
   const amount = `${f.thb.toLocaleString("en-US")}\u00a0THB`;
-  return { thb: f.thb, approx: Boolean(f.approx), label: `${f.approx ? "About" : "From"} ${amount}`, people: f.people || "" };
+  return { thb: f.thb, approx: Boolean(f.approx), label: `${f.approx ? "About" : "From"} ${amount}` };
 }
 
 const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : "");
@@ -76,7 +78,7 @@ module.exports = function () {
     const r = p.route || {};
     const price = priceOf(p);
     // La méta dit le prix d'appel quand la grille en donne un.
-    const seo = price && p.seo ? { ...p.seo, metaDescription: p.seo.metaDescription.replace("Price on WhatsApp.", `${price.label.replace(/\u00a0/g, " ")}.`) } : p.seo;
+    const seo = price && p.seo ? { ...p.seo, metaDescription: p.seo.metaDescription.replace("Price on WhatsApp.", `${price.label.replace(/\u00a0/g, " ")} per vehicle.`) } : p.seo;
     return {
       id,
       product: p,
@@ -97,8 +99,8 @@ module.exports = function () {
       // Le titre se compose du trajet et de la suite du h1 (« by private minivan »).
       h1Tail: p.h1.startsWith(`${r.from} to ${r.to}`) ? p.h1.slice(`${r.from} to ${r.to}`.length).replace(/^[,\s]+/, "") : null,
       faq: p.faq || [],
-      how: /Airport/.test(`${r.from} ${r.to}`) ? (legacy.common.how || []).concat([MEET]) : legacy.common.how || [],
-      booking: view.bookingRoute(p, site, price ? { priceNote: `${price.label.replace(/\u00a0/g, " ")} for ${price.people} people` } : {}),
+      how: (legacy.common.how || []).concat(/Airport/.test(`${r.from} ${r.to}`) ? [MEET] : [], /Koh Lanta/.test(`${r.from} ${r.to}`) ? [FERRY] : []),
+      booking: view.bookingRoute(p, site, price ? { priceNote: `${price.label.replace(/\u00a0/g, " ")} per vehicle` } : {}),
       fallback: view.fallbackText(p, site),
       jsonLd: schema.route(p, site)
     };

@@ -65,7 +65,7 @@
   "legacyText": {
     "title": "Koh Lanta to Khao Lak Minivan Taxi | VIP Taxi Lanta",
     "body": [
-      "One vehicle from your hotel on Koh Lanta to your hotel in Khao Lak, with stops when you want them."
+      "One vehicle from your hotel on Koh Lanta to your hotel in Khao Lak, with short stops on the way if you need them."
     ]
   },
   "sources": [
@@ -104,6 +104,10 @@
     {
       "field": "priceFrom",
       "from": "Note sous la grille VIP Taxi Lanta : « env 5000 » (environ), affiché « About ». Jérémy, 10.11.2026. Ligne : Koh Lanta to Khao Lak : env 5000"
+    },
+    {
+      "field": "legacyText.body, faq[Can we stop on the way?]",
+      "from": "Jérémy, 10.11.2026 : petits arrêts possibles, grands détours ou longs arrêts en supplément sur demande"
     }
   ],
   "notes": [

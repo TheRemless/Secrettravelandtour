@@ -15,7 +15,8 @@ test("taxi.json : chaque entrée porte un booléen confirmed", () => {
 
 test("taxi.json : aucun prix et aucun contact direct dans les textes", () => {
   const all = JSON.stringify(taxi);
-  assert.doesNotMatch(all, /฿|\bTHB\b|\bbaht\b|€|\$/i);
+  // Seul montant permis : le ferry, 50 THB par personne au-delà de 4 (grille VIP Taxi Lanta, Jérémy 10.11.2026).
+  assert.doesNotMatch(all.replace("the ferry is 50 THB per person", ""), /฿|\bTHB\b|\bbaht\b|€|\$/i);
   assert.doesNotMatch(all, /wa\.me|tel:|@outlook|mailto:/i);
 });
 

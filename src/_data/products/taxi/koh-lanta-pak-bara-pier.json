@@ -18,9 +18,14 @@
       "Your hotel on Koh Lanta",
       "Pak Bara Pier"
     ],
-    "region": "Trang and the deep south"
+    "region": "Trang and the deep south",
+    "drive": "about 5 hours"
   },
   "facts": [
+    {
+      "label": "Drive time",
+      "value": "About 5 hours, depending on traffic"
+    },
     {
       "label": "Pickup and drop-off",
       "value": "Your hotel on Koh Lanta, Pak Bara Pier"
@@ -80,6 +85,10 @@
     {
       "field": "priceFrom",
       "from": "Grille « Private Taxi » de VIP Taxi Lanta, colonne Selling, prix pour 1 à 2 clients (base partenaires, ~/Downloads/Secret Travel & Tour/VIP Taxi Lanta - Private Taxi.jpg). Affichage « from » décidé par Jérémy le 10.11.2026. Ligne : From / to Pak Bara Pier"
+    },
+    {
+      "field": "route.drive, facts[Drive time]",
+      "from": "Jérémy, 10.11.2026 : environ 5 h"
     }
   ],
   "priceFrom": {

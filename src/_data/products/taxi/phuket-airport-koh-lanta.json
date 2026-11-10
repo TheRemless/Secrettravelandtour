@@ -56,7 +56,7 @@
     },
     {
       "q": "Can we stop on the way?",
-      "a": "Tell the driver. It is your vehicle for the trip."
+      "a": "Yes, short stops are fine. Just ask the driver. A long detour or a long stop costs extra, so ask the team for the price on WhatsApp."
     }
   ],
   "photos": [
@@ -89,7 +89,7 @@
   "legacyText": {
     "title": "Phuket Airport to Koh Lanta Minivan Taxi | VIP Taxi Lanta",
     "body": [
-      "You travel in one vehicle from Phuket Airport to your hotel door on Koh Lanta, with stops when you want them. Send your flight time, your hotel and the number of people, and the team replies with the price.",
+      "You travel in one vehicle from Phuket Airport to your hotel door on Koh Lanta, with short stops on the way if you need them. Send your flight time, your hotel and the number of people, and the team replies with the price.",
       "The same transfer runs from Koh Lanta to Phuket Airport for your departure."
     ]
   },
@@ -129,6 +129,10 @@
     {
       "field": "priceFrom",
       "from": "Grille « Private Taxi » de VIP Taxi Lanta, colonne Selling, prix pour 1 à 2 clients (base partenaires, ~/Downloads/Secret Travel & Tour/VIP Taxi Lanta - Private Taxi.jpg). Affichage « from » décidé par Jérémy le 10.11.2026. Ligne : From / to Phuket Airport / Phuket Town"
+    },
+    {
+      "field": "legacyText.body, faq[Can we stop on the way?]",
+      "from": "Jérémy, 10.11.2026 : petits arrêts possibles, grands détours ou longs arrêts en supplément sur demande"
     }
   ],
   "priceFrom": {
