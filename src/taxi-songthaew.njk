@@ -22,7 +22,7 @@ eleventyExcludeFromCollections: true
 <meta property="og:title" content="{{ S.title }}">
 <meta property="og:description" content="{{ S.metaDescription }}">
 <meta property="og:url" content="{{ site.url }}/taxi/songthaew/">
-<meta property="og:image" content="{{ site.url }}{{ S.photos[0].src }}">
+<meta property="og:image" content="{{ site.url }}{{ S.photos[0].og or S.photos[0].src }}">
 <meta property="og:image:alt" content="{{ S.photos[0].alt }}">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" sizes="32x32" href="/images/taxi/icon-32.png">
@@ -33,7 +33,8 @@ eleventyExcludeFromCollections: true
 <link rel="stylesheet" href="/css/booking.css?v={{ build.v }}">
 <link rel="stylesheet" href="/css/vip-taxi.css?v={{ build.v }}">
 <script>document.documentElement.classList.add("js");</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":{{ S.h1 | dump | safe }},"description":{{ S.metaDescription | dump | safe }},"image":{{ (site.url + S.photos[0].src) | dump | safe }},"mainEntityOfPage":{{ (site.url + "/taxi/songthaew/") | dump | safe }},"publisher":{"@id":"https://secrettravelandtour.com/taxi/#vip"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":{{ S.h1 | dump | safe }},"description":{{ S.metaDescription | dump | safe }},"image":{{ (site.url + (S.photos[0].og or S.photos[0].src)) | dump | safe }},"mainEntityOfPage":{{ (site.url + "/taxi/songthaew/") | dump | safe }},"publisher":{"@id":"https://secrettravelandtour.com/taxi/#vip"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"VIP Taxi Lanta","item":{{ (site.url + "/taxi/") | dump | safe }}},{"@type":"ListItem","position":2,"name":{{ S.h1 | dump | safe }},"item":{{ (site.url + "/taxi/songthaew/") | dump | safe }}}]}</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>

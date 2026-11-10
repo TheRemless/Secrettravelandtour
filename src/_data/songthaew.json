@@ -1,5 +1,5 @@
 {
-  "_source": "Page /taxi/songthaew/ demandée par Jérémy le 10.11.2026 : « les taxis sur Koh Lanta, ce sont les songthaews », petite page pour qui ne connaît pas. Faits : songthaew = « deux rangées » en thaï (sens du mot) ; taxi privé sur l'île pour son groupe seulement (taxi.json services.local) ; hors de l'île toujours minivan (taxiRoutes.json _source, Jérémy 31.10.2026). Aucun prix publié. Photos : dépôt (Lanta Old Town) et photos libres avec auteur et licence. La photo du dépôt (secret/lanta-old-town.webp, réservée au songthaew par l'audit design) est copiée sous images/taxi/ pour cette page. Photo de Krabi : Wikimedia Commons, Ilya Plekhanov, CC BY-SA 3.0 (redimensionnée à 1200 px, crédit et licence sous la photo).",
+  "_source": "Page /taxi/songthaew/ demandée par Jérémy le 10.11.2026 : « les taxis sur Koh Lanta, ce sont les songthaews », petite page pour qui ne connaît pas. Faits : songthaew = « deux rangées » en thaï (sens du mot) ; taxi privé sur l'île pour son groupe seulement (taxi.json services.local) ; hors de l'île toujours minivan (taxiRoutes.json _source, Jérémy 31.10.2026). Aucun prix publié. Photos : dépôt (Lanta Old Town) et photos libres avec auteur et licence. La photo du dépôt (secret/lanta-old-town.webp, réservée au songthaew par l'audit design) est copiée sous images/taxi/ pour cette page. Photo de Krabi : Wikimedia Commons, Ilya Plekhanov, CC BY-SA 3.0 (redimensionnée à 1200 px, crédit et licence sous la photo). Mise à jour du 11.11.2026 : photo de Krabi (Wikimedia) remplacée par une photo du partenaire (songthaew blanc vu de dos, banquettes violettes), usage accordé, aucun nom de prestataire lisible ; la capture de story (émoji sur la plaque, texte incrusté) n’est pas utilisée. og:image en JPEG.",
   "title": "What Is a Songthaew? Taxis on Koh Lanta | VIP Taxi Lanta",
   "metaDescription": "On Koh Lanta, the taxis are songthaews: pickup trucks with a roof and two benches in the back. Book one for your group only with VIP Taxi Lanta.",
   "h1": "What is a songthaew?",
@@ -22,15 +22,12 @@
   ],
   "photos": [
     {
-      "src": "/images/taxi/songthaew-krabi.webp",
+      "src": "/images/taxi/songthaew-back.webp",
+      "og": "/images/taxi/songthaew-back.jpg",
       "width": 1200,
-      "height": 800,
-      "alt": "A blue and white songthaew seen from the back, with two blue benches facing each other and a step to climb in",
-      "caption": "A songthaew in Krabi Town: the two benches, the roof and the step at the back.",
-      "credit": "Ilya Plekhanov",
-      "creditUrl": "https://commons.wikimedia.org/wiki/File:Songthaew_in_Krabi_09.jpg",
-      "license": "CC BY-SA 3.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
+      "height": 900,
+      "alt": "A white songthaew seen from the back, with two purple benches facing each other, the tailgate down and a step to climb in",
+      "caption": "The two benches, the roof and the step at the back."
     },
     {
       "src": "/images/taxi/songthaew-lanta-old-town.webp",
