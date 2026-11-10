@@ -181,6 +181,7 @@ const BEFORE = [
   ["helmets", "Helmets"],
   ["delivery", "Delivery"],
   ["bring", "Bring"],
+  ["luggage", "Luggage"],
   ["children", "Children"],
   ["health", "Health"],
   ["weather", "Weather"],

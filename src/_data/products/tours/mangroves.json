@@ -574,9 +574,6 @@
       "from": "décision client du 08.11.2026 : entrée de Thung Yee Peng 40 THB adulte, 20 THB enfant de 4 à 11 ans (frais publics, tarif kayak du dossier agence, audit D § 7) ; brochure kayak (audit B § 1.1) « Village Entrance Fee 40 baht » ; note interne « legacy price note » retirée"
     }
   ],
-  "todo": [
-    "TODO(client): l'accueil dit « Through the mangroves by longtail, gondola or kayak » (secret.json activities mangroves.description) ; la page parle d'un radeau en bois (« wooden raft »), jamais de gondole. Quel mot ?"
-  ],
   "notes": [
     "Les formules 4 à 7 (longtail, kayak, Old Town, fishing park) sont les mêmes que les sorties 4 à 7 de la page kayak, aux mêmes prix : risque de cannibalisation, à arbitrer dans la structure (rédaction)."
   ],

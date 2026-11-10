@@ -246,8 +246,8 @@
       "kind": "join-in",
       "boat": "catamaran",
       "from": "Ao Nang",
-      "feesToConfirm": true,
-      "note": "Leaves from Ao Nang, not from Koh Lanta: pickup at your hotel in Ao Nang at 06:00, transfer back at 17:00. Not recommended for children under 4. Whether the national park fee is included, we confirm on WhatsApp.",
+      "feesToConfirm": false,
+      "note": "Leaves from Ao Nang, not from Koh Lanta: pickup at your hotel in Ao Nang at 06:00, transfer back at 17:00. Not recommended for children under 4.",
       "prices": [
         {
           "label": "Adult",
@@ -262,6 +262,27 @@
             "max": 11
           },
           "unit": "per person"
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "National park fee, adult",
+          "amount": 400,
+          "unit": "per person",
+          "note": "Cash, paid to the ranger on the island",
+          "ages": {
+            "min": 12
+          }
+        },
+        {
+          "label": "National park fee, child",
+          "amount": 200,
+          "unit": "per person",
+          "note": "Cash, paid to the ranger on the island",
+          "ages": {
+            "min": 4,
+            "max": 11
+          }
         }
       ]
     }
@@ -582,11 +603,17 @@
     {
       "field": "options[sunset], day[sunset], included[later trip]",
       "from": "affiche publique « Rok Haa Island + Sunset » (audit A § 2.2) : 2 500 THB par personne, « Not including National park fee », programme de 10:00 à 17:50, en-cas à l'aller et boissons sur la croisière du retour ; aucun prix enfant sur l'affiche, rien d'inventé (décision client du 09.11.2026). Frais de parc : montants déjà sur la fiche (client, 08.11.2026)"
+    },
+    {
+      "field": "options[catamaran-ao-nang].notIncludedFees",
+      "from": "base partenaires, alerte A01 : aucun prestataire maritime n'inclut les frais de parc, payés en espèces au garde ; la brochure du catamaran ne les cite pas dans « Tour include ». Prise en charge à l'hôtel d'Ao Nang : pas de ponton à nommer (10.11.2026)"
+    },
+    {
+      "field": "options[private-longtail].prices",
+      "from": "base partenaires : tranches 1 à 3, 4 à 6, 6 à 8 et 8 à 10 personnes (bornes qui se chevauchent sur la fiche du partenaire) ; le site garde 7 à 8 et 9 à 10 pour ne pas chevaucher (10.11.2026)"
     }
   ],
   "todo": [
-    "TODO(client): Koh Rok en longtail privé, tranches « 7 to 8 people » (8 400 THB) et « 9 to 10 people » (9 400 THB) : déduites de la brochure selon le registre de faits, à confirmer.",
-    "TODO(client): catamaran au départ d'Ao Nang : frais de parc national inclus ou non (la brochure n'en dit rien), nom du ponton d'Ao Nang.",
     "TODO(client): Koh Rok avec coucher de soleil : jours de départ, prix enfant et âges (l'affiche ne donne que 2 500 THB par personne), ponton."
   ],
   "refPrefix": "ROK"
