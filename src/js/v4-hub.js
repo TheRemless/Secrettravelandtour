@@ -19,7 +19,8 @@
   if (["", "asc", "desc"].indexOf(st.sort) < 0) st.sort = "";
   var sortEl = $("[data-sort]"), sortV = $("[data-sort-v]"), n = $("[data-hub-n]"), bar = $("[data-bar]");
   sortEl.value = st.sort;
-  var LABEL = { all: ["trip or activity", "trips and activities"], boat: ["boat trip", "boat trips"], activity: ["activity", "activities"] };
+  // Titre de la liste selon le filtre, sans nombre (demande de Jérémy du 10.11.2026).
+  var LABEL = { all: "All trips and activities", boat: "Boat trips", activity: "Activities" };
 
   function visible() {
     var list = order.filter(function (c) { return st.type === "all" || c.getAttribute("data-kind") === st.type; });
@@ -43,8 +44,7 @@
     cards.forEach(function (c) { c.hidden = list.indexOf(c) < 0; });
     list.forEach(function (c) { grid.appendChild(c); });
     cards.filter(function (c) { return c.hidden; }).forEach(function (c) { grid.appendChild(c); });
-    var l = LABEL[st.type];
-    n.textContent = list.length + " " + (list.length === 1 ? l[0] : l[1]);
+    n.textContent = LABEL[st.type];
     sortV.textContent = sortEl.options[sortEl.selectedIndex].text;
     markNav();
     var u = new URLSearchParams();

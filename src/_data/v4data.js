@@ -301,7 +301,7 @@ module.exports = async function () {
   const hubData = {
     seo: { title: "Boat Trips and Activities from Koh Lanta | Secret Travel & Tour", metaDescription: "All the boat trips and island activities we book on Koh Lanta, with prices: 4 Islands, Koh Rok, Phi Phi, kayak, diving, elephants." },
     h1: "Boat trips and activities on Koh\u00a0Lanta",
-    lead: `${cap(WORDS[nBoats])} boat trips and ${WORDS[nActs]} activities, with their prices.`,
+    lead: `Each trip with its price. You book on ${site.booking.channel}.`,
     final: { photo: await photo("hub-final"), title: "Not sure which trip?", text: "Send us your dates and who is coming, on WhatsApp.", message: homeData.final.message }
   };
 

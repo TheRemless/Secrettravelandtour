@@ -48,7 +48,7 @@ permalink: /
         </a></li>
         {%- endfor %}
       </ul>
-      <a class="link hero__all" href="/tours/">All {{ d.counts.all }} trips and activities</a>
+      <a class="link hero__all" href="/tours/">See all trips and activities</a>
     </div>
   </section>
 
@@ -69,14 +69,14 @@ permalink: /
 
   <section class="sec sec--tight" id="boat-trips" aria-labelledby="boats-h">
     <div class="wrap">
-      <div class="sec__head"><h2 id="boats-h">More boat trips</h2><a class="link" href="/tours/#boat-trips">All {{ d.counts.boats | numwords }} boat trips</a></div>
+      <div class="sec__head"><h2 id="boats-h">More boat trips</h2><a class="link" href="/tours/#boat-trips">See all boat trips</a></div>
       <div class="grid grid--home">{% for t in h.moreBoats %}{{ v4.card(t, add=false) }}{% endfor %}</div>
     </div>
   </section>
 
   <section class="sec sec--tight" id="activities" aria-labelledby="acts-h">
     <div class="wrap rail-wrap">
-      <div class="sec__head"><h2 id="acts-h">Activities</h2><a class="link" href="/tours/#activities">All {{ d.counts.activities | numwords }} activities</a></div>
+      <div class="sec__head"><h2 id="acts-h">Activities</h2><a class="link" href="/tours/#activities">See all activities</a></div>
       <div class="rail" data-rail tabindex="0" role="region" aria-label="Activities, scroll sideways">
         {%- for t in h.activities %}{{ v4.card(t, "(min-width: 1024px) 360px, (min-width: 700px) 45vw, 74vw", add=false) }}{% endfor %}
       </div>
