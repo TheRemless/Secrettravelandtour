@@ -55,7 +55,7 @@ test("formulaires : la date est obligatoire, sur la feuille des pages refaites e
   assert.equal(booking.validate({ variant: "tour", options: [] }, { today: "2026-11-03", adults: 2, childAges: [], pickup: "x", name: "A" }).date, "Pick a date.");
   // Refonte taxi v1 (10.11.2026) : /taxi/ réserve aussi par la feuille, la date y est contrôlée par booking.js.
   assert.equal(radios(taxi, "dateChoice").length, 3);
-  assert.equal(booking.validate({ variant: "taxi" }, { today: "2026-11-03", adults: 2, childAges: [], from: "Koh Lanta", to: "Trang", time: "10:00", address: "x", name: "A" }).date, "Pick a date.");
+  assert.equal(booking.validate({ variant: "taxi" }, { today: "2026-11-03", adults: 2, childAges: [], from: "Koh Lanta", to: "Trang", time: "10:00", pickupAt: "x", dropoffAt: "y", name: "A" }).date, "Pick a date.");
 });
 
 // Pages v4 (08.11.2026) : les prix viennent de products/** ; la 4 Islands a son calculateur (id="h-prices"),

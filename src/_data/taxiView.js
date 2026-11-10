@@ -22,13 +22,15 @@ function jsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "TaxiService",
+    // Même nœud que le fournisseur des 17 pages trajet (components/schema.js, ids(site).vip).
+    "@id": "https://secrettravelandtour.com/taxi/#vip",
     name: b.name,
     alternateName: `${b.name} by ${b.owner}`,
     url: "https://secrettravelandtour.com/taxi/",
     image: "https://secrettravelandtour.com/images/taxi/og-taxi.jpg",
     logo: "https://secrettravelandtour.com/images/taxi/logo.webp",
     description: taxi.hero.lead,
-    serviceType: "Private minivan transfers and taxi rides on Koh Lanta",
+    serviceType: "Private minivan transfers across Southern Thailand, taxi rides on Koh Lanta",
     areaServed: b.areaServed.map((name) => ({ "@type": "Place", name })),
     provider: {
       "@type": "Organization",
@@ -43,7 +45,7 @@ function jsonLd() {
     // Catalogue des services, sans prix : aucun tarif n'a été validé.
     hasOfferCatalog: {
       "@type": "OfferCatalog",
-      name: "Private minivan transfers and taxi rides on Koh Lanta",
+      name: "Private minivan transfers across Southern Thailand, taxi rides on Koh Lanta",
       itemListElement: taxi.services.map((s) => ({
         "@type": "Offer",
         itemOffered: { "@type": "Service", name: s.title, description: s.text }

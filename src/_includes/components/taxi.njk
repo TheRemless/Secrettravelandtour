@@ -31,13 +31,13 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 
 {#- Une ligne par trajet : départ, arrivée, durée si elle est dans les données. Toute la ligne est le lien. -#}
 {% macro routeRow(r) %}
-<li><a class="rr" href="{{ r.url }}"><span class="rr-pair">{{ r.from }} <span class="rr-word">to</span> {{ r.to }}</span>{% if r.drive %}<span class="rr-time">{{ r.drive | capitalize }}</span>{% endif %}{{ chev() }}</a></li>
+<li><a class="rr" href="{{ r.url }}"><span class="rr-pair"><span class="rr-place">{{ r.from }}</span> <span class="rr-word">to</span> <span class="rr-place">{{ r.to }}</span></span>{% if r.drive %}<span class="rr-time">{{ r.drive | capitalize }}</span>{% endif %}{{ chev() }}</a></li>
 {% endmacro %}
 
 {% macro faq(items) %}
 <div class="faq">
   {%- for q in items %}
-  <details><summary><span>{{ q.q }}</span><span class="faq-mark" aria-hidden="true"></span></summary><div class="faq-a"><p>{{ q.a }}</p></div></details>
+  <details><summary><span>{{ q.q | nbspPlaces | safe }}</span><span class="faq-mark" aria-hidden="true"></span></summary><div class="faq-a"><p>{{ q.a }}</p></div></details>
   {%- endfor %}
 </div>
 {% endmacro %}

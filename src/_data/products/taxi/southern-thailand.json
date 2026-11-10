@@ -109,7 +109,7 @@
       "faq": [
         {
           "q": "Do you drive to Cheow Lan Pier?",
-          "a": "Yes. Enter Cheow Lan Pier as your destination with the time of your boat."
+          "a": "Yes. Write Cheow Lan Pier as the drop-off, with the time of your boat."
         }
       ]
     },
@@ -197,7 +197,7 @@
       "faq": [
         {
           "q": "Do you also drive to Krabi Town from Phuket Airport?",
-          "a": "Yes. Enter Krabi Town or your hotel as the destination."
+          "a": "Yes. Write Krabi Town or your hotel as the drop-off."
         }
       ]
     },
@@ -220,12 +220,6 @@
       "lead": "From Krabi Airport (KBV) to your hotel in Khao Lak, or back to the airport, in a private minivan.",
       "body": [
         "Give us your flight time, your hotel in Khao Lak and the number of people. The team confirms the price on WhatsApp and the driver waits for you at the airport."
-      ],
-      "faq": [
-        {
-          "q": "Is the Khao Lak transfer private?",
-          "a": "Yes. Every transfer is private, your group only."
-        }
       ]
     }
   ],

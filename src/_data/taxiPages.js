@@ -99,6 +99,7 @@ module.exports = function () {
     variant: "taxi",
     brand: site.brands.vip.name,
     product: "Private transfer",
+    kicker: "Request a transfer",
     productId: "taxi-hub",
     page: site.url.replace(/^https?:\/\//, "") + "/taxi/",
     whatsapp: site.whatsapp.number,

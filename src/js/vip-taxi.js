@@ -62,7 +62,10 @@
 (function () {
   var bar = document.querySelector(".vbar"), act = document.querySelector(".hero-act");
   if (!bar || !act || !("IntersectionObserver" in window)) return;
-  new IntersectionObserver(function (en) { bar.classList.toggle("is-off", en[0].isIntersecting); }).observe(act);
+  // Écran bas (téléphone en paysage) : la barre attend qu'on ait dépassé le bouton, elle ne couvre pas le haut de page.
+  var low = window.matchMedia && window.matchMedia("(max-height: 32rem)").matches;
+  new IntersectionObserver(function (en) { bar.classList.toggle("is-off", en[0].isIntersecting || en[0].boundingClientRect.top > 0); },
+    { rootMargin: low ? "0px 0px 100% 0px" : "0px" }).observe(act);
 })();
 
 /* Anciens liens du hub (QR codes, pages Secret) : /taxi/?from=…&to=… et /taxi/#request ouvraient le formulaire.
@@ -90,7 +93,7 @@
   var places = JSON.parse(data.textContent);
   var norm = function (s) { return String(s || "").toLowerCase().replace(/\s+/g, " ").trim(); };
 
-  function setup(input) {
+  function setup(input, otherId) {
     if (!input) return;
     var id = input.id + "-list";
     var pop = document.createElement("div");
@@ -121,16 +124,35 @@
     }
     function close() { pop.hidden = true; input.setAttribute("aria-expanded", "false"); setActive(-1); }
     // Un lieu déjà choisi remontre toute la liste ; un lieu libre sans correspondance la ferme.
+    // Le lieu déjà choisi dans l'autre champ n'est pas reproposé.
     function open(exact) {
-      var q = norm(input.value);
+      var q = norm(input.value), other = norm((document.getElementById(otherId) || {}).value);
       var all = !q || (exact && places.some(function (p) { return norm(p) === q; }));
       var n = 0;
-      items.forEach(function (li) { li.hidden = !(all || norm(li.textContent).indexOf(q) !== -1); if (!li.hidden) n++; });
+      items.forEach(function (li) {
+        var t = norm(li.textContent);
+        li.hidden = (other && t === other) || !(all || t.indexOf(q) !== -1);
+        if (!li.hidden) n++;
+      });
       if (!n) { close(); return; }
       pop.hidden = false;
       input.setAttribute("aria-expanded", "true");
       setActive(-1);
+      fit();
     }
+    // Au téléphone, le clavier couvre le bas de l'écran : le champ remonte en haut de la feuille
+    // et la liste s'arrête au-dessus du clavier.
+    function fit() {
+      if (window.innerWidth >= 768) return;
+      input.scrollIntoView({ block: "start", behavior: "smooth" });
+      window.requestAnimationFrame(function () {
+        var vv = window.visualViewport;
+        if (!vv) return;
+        var top = pop.getBoundingClientRect().top;
+        pop.style.maxHeight = Math.max(132, Math.min(240, vv.height + vv.offsetTop - top - 8)) + "px";
+      });
+    }
+    if (window.visualViewport) window.visualViewport.addEventListener("resize", function () { if (!pop.hidden) fit(); });
     function choose(li) {
       input.value = li.textContent;
       input.dispatchEvent(new Event("input", { bubbles: true }));
@@ -144,7 +166,8 @@
       var list = shown();
       if (e.key === "ArrowDown") { e.preventDefault(); if (pop.hidden) open(true); else setActive(active + 1 >= list.length ? 0 : active + 1); }
       else if (e.key === "ArrowUp") { e.preventDefault(); if (!pop.hidden) setActive(active <= 0 ? list.length - 1 : active - 1); }
-      else if (e.key === "Enter" && !pop.hidden && active >= 0) { e.preventDefault(); choose(list[active]); }
+      // Entrée, liste ouverte : choisit l'option active ou la seule restante, sinon ferme la liste sans envoyer la feuille.
+      else if (e.key === "Enter" && !pop.hidden) { e.preventDefault(); if (active >= 0) choose(list[active]); else if (list.length === 1) choose(list[0]); else close(); }
       else if (e.key === "Escape" && !pop.hidden) { e.preventDefault(); e.stopPropagation(); close(); }
     });
     // mousedown : le champ garde le focus, la liste ne se ferme pas avant le choix.
@@ -154,6 +177,6 @@
       if (li) choose(li);
     });
   }
-  setup(document.getElementById("book-from"));
-  setup(document.getElementById("book-to"));
+  setup(document.getElementById("book-from"), "book-to");
+  setup(document.getElementById("book-to"), "book-from");
 })();

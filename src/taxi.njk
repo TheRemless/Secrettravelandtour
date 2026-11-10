@@ -62,7 +62,7 @@ eleventyExcludeFromCollections: true
   <div class="wrap">
     <div class="sec-head">
       <h2 id="h-routes">Everywhere in Southern Thailand</h2>
-      <p>Every route runs both ways, in a private minivan. Prices on WhatsApp.</p>
+      <p>Every route runs both ways, in a private minivan.</p>
     </div>
     <div class="regions">
       {%- for g in T.regions %}
@@ -127,9 +127,10 @@ eleventyExcludeFromCollections: true
 <section class="qa" aria-labelledby="h-faq">
   <div class="wrap qa-in">
     <h2 id="h-faq">Questions</h2>
-    {#- « How do I pay? » est déjà dit par le bloc Payment juste au-dessus. -#}
+    {#- Déjà dit plus haut : le paiement (bloc Payment) et le privé (« Private only »). -#}
+    {%- set skip = ["How do I pay?", "Is the transfer private?"] -%}
     {%- set faqs = [] -%}
-    {%- for f in taxi.faq %}{% if f.q != "How do I pay?" %}{% set _x = faqs.push(f) %}{% endif %}{% endfor %}
+    {%- for f in taxi.faq %}{% if f.q not in skip %}{% set _x = faqs.push(f) %}{% endif %}{% endfor %}
     {{ tx.faq(faqs) }}
   </div>
 </section>

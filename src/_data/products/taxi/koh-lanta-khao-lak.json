@@ -40,12 +40,6 @@
     }
   ],
   "priceOnRequest": true,
-  "faq": [
-    {
-      "q": "Is the Khao Lak transfer private?",
-      "a": "Yes. Every transfer is private, your group only."
-    }
-  ],
   "photos": [
     {
       "file": "taxi/van-seats.webp",

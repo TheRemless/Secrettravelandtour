@@ -26,6 +26,10 @@ module.exports = async function (eleventyConfig) {
   const ESC = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" };
   eleventyConfig.addFilter("keephy", (s) => String(s || "").replace(/[&<>"]/g, (c) => ESC[c]).replace(/\b([A-Za-z]+-[A-Za-z]+)\b/g, '<span class="nw">$1</span>'));
 
+  // Taxi : noms de lieux à plusieurs mots gardés sur une ligne (« Koh Lanta », « Krabi Airport »). Texte échappé ici.
+  const PLACES = require("./src/_data/site.json").brands.vip.places.concat(["Southern Thailand"]).filter((p) => p.includes(" ")).sort((a, b) => b.length - a.length);
+  eleventyConfig.addFilter("nbspPlaces", (s) => PLACES.reduce((t, p) => t.split(p).join(p.replace(/ /g, "\u00a0")), String(s || "").replace(/[&<>"]/g, (c) => ESC[c])));
+
   // Fichiers copiés tels quels, avec les mêmes adresses publiques.
   eleventyConfig.addPassthroughCopy({
     "src/css": "css",

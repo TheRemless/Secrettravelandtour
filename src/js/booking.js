@@ -248,11 +248,9 @@
       lines.push("Guests: " + guestsLine(state.adults, state.childAges));
       if (state.childSeats > 0 && (state.childAges || []).length) lines.push("Child seats: " + state.childSeats);
       if (state.bags > 0) lines.push("Bags: " + state.bags);
-      if (clean(state.address)) {
-        // Vers la destination, l'adresse est celle de la dépose ; au retour, celle de la prise en charge.
-        var dropOff = config.from && config.to ? state.direction !== "back" : false;
-        lines.push((dropOff ? "Drop-off: " : "Pickup: ") + clean(state.address));
-      }
+      // Les deux bouts du trajet : où le chauffeur prend le client, où il le dépose (taxi v1, 10.11.2026).
+      if (clean(state.pickupAt)) lines.push("Pickup: " + clean(state.pickupAt));
+      if (clean(state.dropoffAt)) lines.push("Drop-off: " + clean(state.dropoffAt));
     } else if (config.variant === "rental") {
       var cat = findOption(config, state.option);
       lines.push("Rental request: " + (cat ? cat.title : config.product));
@@ -475,8 +473,9 @@
         if (!clean(state.to)) errors.to = "Tell us where you're going.";
       }
       if (!clean(state.time)) errors.time = "Choose a pickup time.";
-      // Le lieu côté Koh Lanta fait le prix : sans lui, la demande repart en question.
-      if (!clean(state.address)) errors.address = "Add your hotel or address.";
+      // Les deux adresses font le prix : sans elles, la demande repart en question.
+      if (!clean(state.pickupAt)) errors.pickupAt = "Add the pickup address.";
+      if (!clean(state.dropoffAt)) errors.dropoffAt = "Add the drop-off address.";
     } else if (config.variant === "speedboat") {
       if (!clean(state.pickup)) errors.pickup = "Add your hotel on Koh Lanta.";
     } else if (config.pickupRequired !== false && !clean(state.pickup)) {
@@ -513,7 +512,7 @@
     return {
       option: "", dateChoice: "", dateOther: "", adults: 2, childAges: [], pickup: "", name: "",
       vehicle: "", dateFrom: "", dateTo: "",
-      direction: "out", from: "", to: "", time: "", flight: "", bags: 0, childSeats: 0, address: "", addons: [],
+      direction: "out", from: "", to: "", time: "", flight: "", bags: 0, childSeats: 0, address: "", pickupAt: "", dropoffAt: "", addons: [],
       route: "", departure: "", tripType: "", returnDate: "", returnDeparture: "", returnTime: "",
       choices: {}, counts: {}, timeFrom: "", timeTo: "", vehicles: 1
     };
@@ -595,7 +594,7 @@
     }
 
     function fillForm() {
-      ["dateOther", "pickup", "name", "time", "flight", "address", "from", "to", "vehicle", "dateFrom", "dateTo", "timeFrom", "timeTo", "returnDate", "returnTime"].forEach(function (k) {
+      ["dateOther", "pickup", "name", "time", "flight", "address", "pickupAt", "dropoffAt", "from", "to", "vehicle", "dateFrom", "dateTo", "timeFrom", "timeTo", "returnDate", "returnTime"].forEach(function (k) {
         var el = field(k);
         if (el && typeof el.value === "string") el.value = state[k] || "";
       });
@@ -751,6 +750,25 @@
       Array.prototype.forEach.call(list, function (r) { r.checked = r.value === value; });
     }
 
+    var lastDirection = "out";
+    function swapEnds() {
+      if (state.direction === lastDirection) return;
+      lastDirection = state.direction;
+      var p = state.pickupAt; state.pickupAt = state.dropoffAt; state.dropoffAt = p;
+      if (field("pickupAt")) field("pickupAt").value = state.pickupAt || "";
+      if (field("dropoffAt")) field("dropoffAt").value = state.dropoffAt || "";
+    }
+
+    // Taxi sur une page trajet : le bout qui est un lieu précis (aéroport, jetée) est déjà rempli, dans le bon sens.
+    function presetEnds() {
+      var ends = config.ends;
+      if (config.variant !== "taxi" || !ends) return;
+      var back = state.direction === "back";
+      if (!clean(state.pickupAt)) state.pickupAt = (back ? ends.to : ends.from) || "";
+      if (!clean(state.dropoffAt)) state.dropoffAt = (back ? ends.from : ends.to) || "";
+      lastDirection = state.direction || "out";
+    }
+
     function updateAddressLabel() {
       var label = form.querySelector("[data-address-label]");
       if (!label || !(config.from && config.to)) return;
@@ -805,7 +823,11 @@
           if ((o.rows || []).some(function (r) { return r.label.toLowerCase() === clean(state.vehicle).toLowerCase(); })) { state.option = o.id; setRadio("option", o.id); clearError("option"); }
         });
       }
-      if (el.name === "direction") updateAddressLabel();
+      if (el.name === "direction") {
+        updateAddressLabel();
+        // Taxi : l'aéroport de l'aller devient l'arrivée du retour, les deux adresses s'échangent.
+        if (config.variant === "taxi" && el.checked) swapEnds();
+      }
       if (el.name === "route") { showDepartures(); setRadio("departure", state.departure); clearError("departure"); showReturn(); }
       if (el.name === "tripType") { showReturn(); clearError("returnTrip"); }
       if (el.name === "returnDate" || el.name === "returnDeparture" || el.name === "returnTime") clearError("returnTrip");
@@ -1073,6 +1095,7 @@
       sbSum = Boolean(attr("data-sb-route"));
       if (!state.option && (config.options || []).length === 1) state.option = config.options[0].id;
       sumMode = Boolean(optionId) && Boolean(findOption(config, state.option));
+      presetEnds();
       fillForm();
       showErrors({});
       show("form");
