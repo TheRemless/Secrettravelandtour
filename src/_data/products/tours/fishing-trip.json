@@ -6,15 +6,15 @@
   "name": "Fishing trip",
   "seo": {
     "title": "Fishing Trip from Koh Lanta | Secret Travel & Tour",
-    "metaDescription": "Fishing off Koh Lanta on a longtail, or on a private wooden raft in Ao Lanta with a seafood lunch cooked on board. Raft from 3,900 THB.",
+    "metaDescription": "Fishing from Koh Lanta: a private raft in Ao Lanta with a seafood lunch cooked on board, or a day of fishing and snorkelling at Koh Ma. Raft from 3,900 THB.",
     "draft": {
       "title": "Fishing Trip Koh Lanta – Longtail or Private Raft",
       "h1": "Fishing trips from Koh Lanta"
     }
   },
   "h1": "Fishing trip off Koh Lanta",
-  "lead": "A half day of fishing from a private wooden raft in the calm waters of Ao Lanta, with lunch cooked on board.",
-  "promise": "Half a day fishing from a private wooden raft",
+  "lead": "A half day of fishing from a private wooden raft in the calm waters of Ao Lanta, with lunch cooked on board, or a full day of fishing and snorkelling at Koh Ma by private boat.",
+  "promise": "Fishing from a private raft, or a day at Koh Ma",
   "facts": [
     {
       "label": "Duration",
@@ -27,6 +27,10 @@
     {
       "label": "Raft pier",
       "value": "Thung Yee Peng pier, check-in 10:00"
+    },
+    {
+      "label": "Koh Ma day",
+      "value": "Fishing and snorkelling, private boat, up to 6 people"
     }
   ],
   "price": {
@@ -69,6 +73,13 @@
           "unit": "per person"
         }
       ]
+    },
+    {
+      "id": "koh-ma-day",
+      "label": "Fishing and snorkelling at Koh Ma, full day",
+      "kind": "private",
+      "priceOnRequest": true,
+      "note": "A private boat for your group, up to 6 people: fishing and snorkelling around Koh Ma. Ask us for the price."
     }
   ],
   "day": [
@@ -130,7 +141,7 @@
     },
     {
       "q": "Do we eat what we catch?",
-      "a": "Lunch is fresh seafood cooked on board."
+      "a": "On the raft, lunch is fresh seafood cooked on board. For the Koh Ma day, ask us."
     }
   ],
   "photos": [
@@ -245,6 +256,10 @@
     {
       "field": "options, facts, lead, promise, faq",
       "from": "base partenaires : aucune pêche en longtail chez les partenaires, seule la pêche en radeau est vendue ; option longtail retirée le 10.11.2026"
+    },
+    {
+      "field": "options[koh-ma-day], facts[Koh Ma day], lead, promise, seo.metaDescription, faq",
+      "from": "Confidential Agency/Others.docx, dernière ligne : « One Day Trip to Koh Maa Fishing and snorkeling: 12000 THB max 6 people » (partenaire speedboat, montant sans doute net, non affiché). Type de bateau et horaires non donnés : « Price on WhatsApp ». Remis à la demande de Jérémy le 10.11.2026"
     }
   ],
   "refPrefix": "FISH"
