@@ -6,3 +6,7 @@ _site/
 /.claude/
 docs/refonte/design-v4/propositions/*/shots/
 docs/refonte/design-v4/build/shots/
+
+# Captures brutes des agents de la refonte taxi (lourdes) : la planche garde ses JPEG.
+docs/refonte/taxi-v1/propositions/*/shots/
+docs/refonte/taxi-v1/propositions/*/geo/node_modules/

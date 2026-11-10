@@ -46,6 +46,12 @@ module.exports = async function (eleventyConfig) {
       const skip = /[\\/](shots|tools|_build)([\\/]|$)|\.mjs$/;
       fs.cpSync("docs/refonte/design-v4", path.join(dir.output, "_v4"), { recursive: true, filter: (f) => !skip.test(f) });
       fs.cpSync("src/images", path.join(dir.output, "src/images"), { recursive: true });
+      // Propositions taxi v1 (10.11.2026) : servies sous /docs/refonte/taxi-v1/, avec les chemins absolus
+      // qu'utilisent les maquettes (/src/css/, /_site/js/, /_site/css/).
+      fs.cpSync("docs/refonte/taxi-v1", path.join(dir.output, "docs/refonte/taxi-v1"), { recursive: true, filter: (f) => !/[\\/](shots|node_modules)([\\/]|$)|\.(mjs|py|md)$/.test(f) });
+      fs.cpSync("src/css", path.join(dir.output, "src/css"), { recursive: true });
+      fs.cpSync("src/css", path.join(dir.output, "_site/css"), { recursive: true });
+      fs.cpSync("src/js", path.join(dir.output, "_site/js"), { recursive: true });
     });
   }
 
