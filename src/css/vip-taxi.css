@@ -452,7 +452,7 @@ details[open] .faq-mark::after { transform: rotate(0deg); }
 }
 
 /* Feuille du hub : liste des lieux populaires sous From et To (vip-taxi.js) */
-[data-brand="vip"] .sheet .combo { position: relative; scroll-margin-top: 8px; }
+[data-brand="vip"] .sheet .combo { position: relative; scroll-margin-top: 12px; }
 [data-brand="vip"] .sheet .combo-pop {
   position: absolute; left: 0; right: 0; z-index: 5; margin-top: 4px; max-height: 15rem; overflow-y: auto;
   background: var(--white); border: 1px solid var(--rule); border-radius: 4px; box-shadow: 0 10px 24px rgb(27 19 13 / .14);

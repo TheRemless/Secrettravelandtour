@@ -144,7 +144,7 @@
     // et la liste s'arrête au-dessus du clavier.
     function fit() {
       if (window.innerWidth >= 768) return;
-      input.scrollIntoView({ block: "start", behavior: "smooth" });
+      (input.closest(".f") || input).scrollIntoView({ block: "start", behavior: "smooth" });
       window.requestAnimationFrame(function () {
         var vv = window.visualViewport;
         if (!vv) return;
