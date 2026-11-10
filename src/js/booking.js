@@ -115,6 +115,21 @@
     return cat.title + ": " + (lo === hi ? thb(lo) : thb(lo).replace(" THB", "") + " to " + thb(hi)) + unit;
   }
 
+  // Total estimé d'une location : prix par 24 h du modèle choisi × nombre de périodes de 24 h × véhicules.
+  // Rien tant que le modèle n'est pas dans la liste ou que les dates manquent.
+  function rentalTotal(cat, state) {
+    if (!cat || !cat.rows || !state.dateFrom || !state.dateTo) return null;
+    var v = clean(state.vehicle).toLowerCase();
+    var row = v ? cat.rows.filter(function (r) { return r.label.toLowerCase() === v; })[0] : null;
+    if (!row || typeof row.amount !== "number" || !/24 hours|per day/i.test(row.unit || "")) return null;
+    var t = function (d, h) { return Date.parse(d + "T" + (/^\d{2}:\d{2}$/.test(clean(h)) ? clean(h) : "10:00") + ":00Z"); };
+    var hours = (t(state.dateTo, state.timeTo) - t(state.dateFrom, state.timeFrom)) / 36e5;
+    if (!(hours > 0)) return null;
+    var days = Math.max(1, Math.ceil(hours / 24 - 1e-9));
+    var n = state.vehicles > 0 ? state.vehicles : 1;
+    return { total: row.amount * days * n, days: days, n: n };
+  }
+
   // ---------- Sous-variantes d'une option (créneau, cours, karts, pilotes…) ----------
   // option.choices : [{ id, label, type: "one" | "text", required, values: [{ id, label, days?, row? }] }]
   //   une valeur avec `row` désigne une ligne de prix (cours de plongée, site) : le prix du message n'en garde que celle-là ;
@@ -296,8 +311,11 @@
       if (sum) lines.push(sum);
     }
     if (config.variant === "rental") {
-      var rp = rentalPrice(findOption(config, state.option), state.vehicle);
+      var rcat = findOption(config, state.option);
+      var rp = rentalPrice(rcat, state.vehicle);
       if (rp) lines.push("Price: " + rp);
+      var rt = rentalTotal(rcat, state);
+      if (rt) lines.push("Estimated total: " + thb(rt.total) + " (" + rt.days + (rt.days > 1 ? " days" : " day") + (rt.n > 1 ? ", " + rt.n + " vehicles" : "") + ")");
     }
     return lines.join("\n");
   }

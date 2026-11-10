@@ -26,18 +26,24 @@
   };
 
   // Script chargé une seule fois, au premier usage.
+  // Même version que v4.js (?v= du build) : /js/* est en cache d'un an, un script chargé ici doit changer d'adresse
+  // à chaque déploiement, sinon un visiteur qui revient garde l'ancien.
+  var main = doc.querySelector('script[src*="/js/v4.js?v="]');
+  var ver = main ? (main.getAttribute("src").split("?v=")[1] || "") : "";
   var loading = {};
   V.load = function (src) {
     if (!loading[src]) loading[src] = new Promise(function (ok, ko) {
       var s = doc.createElement("script");
-      s.src = src; s.onload = ok; s.onerror = ko;
+      s.src = ver && src.indexOf("?") < 0 ? src + "?v=" + ver : src; s.onload = ok; s.onerror = ko;
       doc.head.appendChild(s);
     });
     return loading[src];
   };
   var cat = null;
   V.catalog = function () {
-    if (!cat) cat = fetch("/data/catalog.json").then(function (r) { return r.json(); });
+    // Un échec (réseau coupé) n'est pas gardé : le prochain clic réessaie.
+    if (!cat) cat = fetch("/data/catalog.json").then(function (r) { if (!r.ok) throw new Error("catalog " + r.status); return r.json(); })
+      .catch(function (e) { cat = null; throw e; });
     return cat;
   };
 
@@ -303,6 +309,11 @@
     return b.then(function () { return V.load("/js/v4-trips.js"); });
   }
   V.openTrips = function (trigger) {
+    // Une sortie retirée du site (fiche fondue dans une autre) quitte la liste et le compteur.
+    V.catalog().then(function (c) {
+      var l = V.trips.get(), keep = l.items.filter(function (i) { return c[i.slug]; });
+      if (keep.length !== l.items.length) { l.items = keep; V.trips.set(l); }
+    }).catch(function () {});
     return tripsScripts().then(function () { window.V4_TRIPS.open(trigger); });
   };
   doc.addEventListener("trips-change", function () { paint(true); });

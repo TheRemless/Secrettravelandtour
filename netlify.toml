@@ -2,6 +2,9 @@
   command = "npm run build"
   publish = "_site"
 
+[build.environment]
+  NODE_VERSION = "20"
+
 # Cache navigateur. Les images générées dans /img/ portent un hash dans leur nom : cache d'un an.
 # Les sources (/images/) gardent un nom stable : une semaine, revalidation en arrière-plan.
 [[headers]]

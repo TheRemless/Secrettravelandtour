@@ -10,8 +10,8 @@ eleventyExcludeFromCollections: true
 <!DOCTYPE html>
 <html lang="en-GB" data-refonte data-page="lost">
 <head>
+{%- set noindex = true %}
 {% include "v4-head.njk" %}
-<meta name="robots" content="noindex, follow">
 </head>
 <body>
 {{ v4.header(d.contact, d.emblem) }}

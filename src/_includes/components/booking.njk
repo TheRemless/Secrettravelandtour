@@ -194,8 +194,8 @@
         <div class="f">
           <label for="book-vehicle">Model</label>
           <p class="f-hint" id="book-h-vehicle">Optional: the model you saw in the list.</p>
-          <input id="book-vehicle" name="vehicle" type="text" list="book-vehicles" autocomplete="off" aria-describedby="book-h-vehicle">
-          <datalist id="book-vehicles">{% for o in cfg.options %}{% for r in o.rows %}<option value="{{ r.label }}"></option>{% endfor %}{% endfor %}</datalist>
+          <input id="book-vehicle" name="vehicle" type="text" list="book-vehicle-list" autocomplete="off" aria-describedby="book-h-vehicle">
+          <datalist id="book-vehicle-list">{% for o in cfg.options %}{% for r in o.rows %}<option value="{{ r.label }}"></option>{% endfor %}{% endfor %}</datalist>
         </div>
         <div class="f">
           {{ stepper("vehicles", "Number of vehicles", 1, 1, 20) }}

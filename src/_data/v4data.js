@@ -237,7 +237,7 @@ module.exports = async function () {
   const vehFact = (label) => fact(rentalP, label);
   const homeData = {
     seo: {
-      title: "Koh Lanta Boat Trips, Activities and Transfers | Secret Travel & Tour",
+      title: "Secret Travel & Tour | Koh Lanta Trips and Transfers",
       metaDescription: `Boat trips, island activities and transfers on Koh Lanta. 4 Islands from ${bySlug["4-islands"].price.amount}, Koh Rok from ${bySlug["koh-rok-koh-haa"].price.amount}. Book on WhatsApp.`
     },
     h1: home.h1.replace("Koh Lanta", "Koh\u00a0Lanta"),
@@ -281,7 +281,7 @@ module.exports = async function () {
   const fourData = {
     product: four,
     seo: {
-      title: `4 Islands Tour from Koh Lanta, from ${view.thb(four.price.from)} | Secret Travel & Tour`,
+      title: "4 Islands Tour from Koh Lanta | Secret Travel & Tour",
       metaDescription: `Emerald Cave, Koh Ngai and two snorkelling stops, by longtail or speedboat. Join-in from ${view.thb(four.price.from)}, private longtail from ${view.thb(four.options.find((o) => o.kind === "private").prices[0].amount)}, hotel pickup included.`
     },
     hero: await photo("four-hero"),
@@ -304,7 +304,7 @@ module.exports = async function () {
   // ----- Hub -----
   const nBoats = boats.length, nActs = activities.length;
   const hubData = {
-    seo: { title: "Boat Trips and Activities from Koh Lanta | Secret Travel & Tour", metaDescription: "All the boat trips and island activities we book on Koh Lanta, with prices: 4 Islands, Koh Rok, Phi Phi, kayak, diving, elephants." },
+    seo: { title: "Koh Lanta Boat Trips and Activities | Secret Travel & Tour", metaDescription: "All the boat trips and island activities we book on Koh Lanta, with prices: 4 Islands, Koh Rok, Phi Phi, kayak, diving, elephants." },
     h1: "Boat trips and activities on Koh\u00a0Lanta",
     lead: `Each trip with its price. You book on ${site.booking.channel}.`,
     final: { photo: await photo("hub-final"), title: "Not sure which trip?", text: "Send us your dates and who is coming, on WhatsApp.", message: homeData.final.message }
