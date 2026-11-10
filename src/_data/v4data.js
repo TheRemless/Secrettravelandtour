@@ -237,12 +237,12 @@ module.exports = async function () {
   const vehFact = (label) => fact(rentalP, label);
   const homeData = {
     seo: {
-      title: "Koh Lanta Boat Trips, Activities and Transfers | Secret Travel & Tour",
+      title: "Secret Travel & Tour | Koh Lanta Trips and Transfers",
       metaDescription: `Boat trips, island activities and transfers on Koh Lanta. 4 Islands from ${bySlug["4-islands"].price.amount}, Koh Rok from ${bySlug["koh-rok-koh-haa"].price.amount}. Book on WhatsApp.`
     },
     h1: home.h1.replace("Koh Lanta", "Koh\u00a0Lanta"),
     // Une phrase : le comment (site.json booking). Le quoi est dans le titre et dans les trois sorties juste dessous.
-    lead: `You book on ${site.booking.channel}${site.booking.onlinePayment === false ? " and nothing is paid online" : ""}.`,
+    lead: `You book on ${site.booking.channel}.`,
     // Les trois sorties du haut : photos de leurs cartes, en plus grand (elles ne reparaissent pas plus bas).
     heroTrips: await Promise.all(["4-islands", "koh-rok-koh-haa", "koh-phi-phi"].map(async (s) => ({ ...bySlug[s], photo: await photo(CARD_PHOTO[s]) }))),
     // Toutes les sorties en bateau en bande, comme les activités (demande de Jérémy du 10.11.2026).
@@ -252,6 +252,7 @@ module.exports = async function () {
     around: {
       transfers: {
         lead: `Private minivans for your group only, run by ${site.brands.vip.name}.`,
+        vip: site.brands.vip.name,
         routes: MAIN_ROUTES.map((u) => taxi.find((t) => t.url === u)).filter(Boolean).map((t) => ({ href: t.url, name: t.name, drive: cap(t.drive) })),
         // Le texte de home.json sans sa dernière phrase (la prise en charge est dite sur la page du speedboat).
         speedboat: LIVE.has("/tours/speedboat/") ? (({ title, text }) => ({ href: "/tours/speedboat/", title, text: text.split(". ")[0].replace(/, on the [^,]*$/, "") }))(home.transfers.items.find((i) => i.href === "/tours/speedboat/")) : null
@@ -280,7 +281,7 @@ module.exports = async function () {
   const fourData = {
     product: four,
     seo: {
-      title: `4 Islands Tour from Koh Lanta, from ${view.thb(four.price.from)} | Secret Travel & Tour`,
+      title: "4 Islands Tour from Koh Lanta | Secret Travel & Tour",
       metaDescription: `Emerald Cave, Koh Ngai and two snorkelling stops, by longtail or speedboat. Join-in from ${view.thb(four.price.from)}, private longtail from ${view.thb(four.options.find((o) => o.kind === "private").prices[0].amount)}, hotel pickup included.`
     },
     hero: await photo("four-hero"),
@@ -303,7 +304,7 @@ module.exports = async function () {
   // ----- Hub -----
   const nBoats = boats.length, nActs = activities.length;
   const hubData = {
-    seo: { title: "Boat Trips and Activities from Koh Lanta | Secret Travel & Tour", metaDescription: "All the boat trips and island activities we book on Koh Lanta, with prices: 4 Islands, Koh Rok, Phi Phi, kayak, diving, elephants." },
+    seo: { title: "Koh Lanta Boat Trips and Activities | Secret Travel & Tour", metaDescription: "All the boat trips and island activities we book on Koh Lanta, with prices: 4 Islands, Koh Rok, Phi Phi, kayak, diving, elephants." },
     h1: "Boat trips and activities on Koh\u00a0Lanta",
     lead: `Each trip with its price. You book on ${site.booking.channel}.`,
     final: { photo: await photo("hub-final"), title: "Not sure which trip?", text: "Send us your dates and who is coming, on WhatsApp.", message: homeData.final.message }

@@ -101,7 +101,7 @@ permalink: /
       <div class="around">
         <div>
           <h3 id="tr-h">Private transfers</h3>
-          <p class="around__lead">{{ ar.transfers.lead }}</p>
+          <p class="around__lead">{{ ar.transfers.lead | replace(ar.transfers.vip, '<a class="link" href="/taxi/">' ~ ar.transfers.vip ~ '</a>') | safe }}</p>
           <ul class="lrows" aria-labelledby="tr-h">
             {%- for r in ar.transfers.routes %}
             <li><a class="lrow press" href="{{ r.href }}"><span><b>{{ r.name }}</b><small>{{ r.drive }}, both directions</small></span></a></li>

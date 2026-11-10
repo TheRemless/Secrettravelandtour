@@ -65,12 +65,20 @@
     }
     var byRow = [];
     var unpriced = [];
+    // Âge le plus haut des tranches enfant : au-dessus, un ado paie le prix adulte (comme les frais de parc).
+    var childMax = rows.reduce(function (m, x) { return x.ages && x.ages.max !== undefined && typeof x.amount === "number" ? Math.max(m, x.ages.max) : m; }, -1);
+    var teens = 0;
     kids.forEach(function (age) {
       var r = rows.filter(function (x) { return x.ages && typeof x.amount === "number" && age >= (x.ages.min || 0) && age <= (x.ages.max === undefined ? Infinity : x.ages.max); })[0];
+      if (!r && adult && childMax >= 0 && age > childMax) { teens++; return; }
       if (!r) { unpriced.push(age); return; }
       var hit = byRow.filter(function (b) { return b.r === r; })[0];
       if (hit) hit.n++; else byRow.push({ r: r, n: 1 });
     });
+    if (teens) {
+      total += teens * adult.amount;
+      lines.push([teens + " × " + adult.label.toLowerCase() + " (" + (childMax + 1) + " and over)", teens * adult.amount]);
+    }
     byRow.forEach(function (b) {
       total += b.n * b.r.amount;
       lines.push([b.n + " × " + b.r.label.toLowerCase(), b.n * b.r.amount]);
@@ -116,8 +124,9 @@
     if (g.row) {
       var row = rows.filter(function (r) { return r.label === g.row; })[0];
       if (!row || typeof row.amount !== "number") return null;
-      var min = row.ages && row.ages.min ? row.ages.min : 0;
-      var young = kids.filter(function (a) { return a < min; });
+      // Ligne sans âge minimum (plongée « Fun dives ») : rien ne dit qu'un enfant y a droit, il reste à confirmer.
+      var min = row.ages && row.ages.min ? row.ages.min : null;
+      var young = min === null ? kids.slice() : kids.filter(function (a) { return a < min; });
       var n = (g.adults || 0) + kids.length - young.length;
       if (n < 1) return null;
       var out = [[n + " × " + row.label, n * row.amount]];

@@ -200,7 +200,9 @@ test("location : catégorie, véhicule, nombre de véhicules, dates et heures, p
   assert.equal(B.buildMessage(cfg, st), [
     "Rental request: Big bikes", "Vehicle: Honda CRF 250", "Vehicles: 2",
     "From: Fri 20 Nov 2026, 09:00", "To: Mon 23 Nov 2026, 18:00", "Name: Anna",
-    "Price: Honda CRF 250: 900 THB per 24 hours"
+    "Price: Honda CRF 250: 900 THB per 24 hours",
+    // 81 heures : 4 périodes de 24 h × 2 motos × 900 THB (total ajouté le 11.11.2026, revue de code).
+    "Estimated total: 7,200 THB (4 days, 2 vehicles)"
   ].join("\n"));
   assert.ok(B.validate(cfg, { ...st, option: "" }).option);
   assert.ok(B.validate(cfg, { ...st, timeTo: "" }).dates);

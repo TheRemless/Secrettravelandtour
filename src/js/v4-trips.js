@@ -84,7 +84,7 @@
       '<div class="f"><label for="tl-name">First name</label><input id="tl-name" type="text" autocomplete="given-name" value="' + V.esc(l.name || "") + '" data-ttext="name" aria-describedby="tl-e-name"><p class="err" id="tl-e-name" hidden></p></div></div>' +
       '<details><summary>Read the message before you send it</summary><pre class="trips__msg" data-tmsg></pre></details>';
     foot.innerHTML = '<p class="err trips__miss" role="alert" data-tmiss hidden></p><a class="sheet-btn" href="#" target="_blank" rel="noopener" data-tsend>' + ICON.wa + "<span>" + (l.items.length === 1 ? "Send this trip on WhatsApp" : "Send the " + l.items.length + " trips in one message") + "</span></a>" +
-      '<p class="sheet-note">Nothing is booked until we confirm. Nothing is paid online.</p>';
+      '<p class="sheet-note">Nothing is booked until we confirm.</p>';
     message();
     if (focusId) { var f = document.getElementById(focusId); if (f) f.focus(); }
   }
