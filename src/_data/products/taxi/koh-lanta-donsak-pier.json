@@ -5,10 +5,10 @@
   "template": "route",
   "name": "Koh Lanta to Donsak Pier",
   "seo": {
-    "title": "Koh Lanta to Donsak Pier Minivan Taxi | VIP Taxi Lanta",
-    "metaDescription": "Private minivan taxi between Koh Lanta and Donsak Pier, both directions, timed with your ferry. Cash to the driver, no prepayment. Price on WhatsApp."
+    "title": "Koh Lanta to Donsak Pier Private Minivan | VIP Taxi Lanta",
+    "metaDescription": "Private minivan between Koh Lanta and Donsak Pier, both directions, timed with your ferry. Cash to the driver, no prepayment. Price on WhatsApp."
   },
-  "h1": "Koh Lanta to Donsak Pier, private transfer",
+  "h1": "Koh Lanta to Donsak Pier by private minivan",
   "lead": "From your hotel on Koh Lanta to Donsak Pier, timed with your ferry, and back. Private vehicle, your group only.",
   "route": {
     "from": "Koh Lanta",
@@ -101,6 +101,10 @@
     {
       "field": "schema",
       "from": "src/_data/taxiRoutesView.js"
+    },
+    {
+      "field": "seo.title, seo.metaDescription, h1",
+      "from": "Refonte taxi v1 (10.11.2026) : même forme que Krabi Airport, « Minivan Taxi » banni (03-audit-contenu §6.6). Même trajet, mêmes faits."
     }
   ]
 }

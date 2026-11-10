@@ -5,10 +5,10 @@
   "template": "route",
   "name": "Surat Thani Airport to Koh Lanta",
   "seo": {
-    "title": "Surat Thani to Koh Lanta Minivan Taxi | VIP Taxi Lanta",
-    "metaDescription": "Private minivan taxi between Surat Thani (airport, bus terminal or Donsak Pier) and Koh Lanta, both directions. Cash to the driver. Price on WhatsApp."
+    "title": "Surat Thani to Koh Lanta Private Minivan | VIP Taxi Lanta",
+    "metaDescription": "Private minivan between Surat Thani (airport, bus terminal or Donsak Pier) and Koh Lanta, both directions. Cash to the driver. Price on WhatsApp."
   },
-  "h1": "Surat Thani to Koh Lanta, private transfer",
+  "h1": "Surat Thani Airport to Koh Lanta by private minivan",
   "lead": "From Surat Thani Airport (URT), the bus terminal or Donsak Pier to your hotel on Koh Lanta, and back. Private vehicle, your group only.",
   "route": {
     "from": "Surat Thani Airport",
@@ -113,6 +113,10 @@
     {
       "field": "schema",
       "from": "src/_data/taxiRoutesView.js"
+    },
+    {
+      "field": "seo.title, seo.metaDescription, h1",
+      "from": "Refonte taxi v1 (10.11.2026) : même forme que Krabi Airport, « Minivan Taxi » banni (03-audit-contenu §6.6). Même trajet, mêmes faits."
     }
   ]
 }

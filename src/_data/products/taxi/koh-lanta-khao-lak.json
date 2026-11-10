@@ -5,10 +5,10 @@
   "template": "route",
   "name": "Koh Lanta to Khao Lak",
   "seo": {
-    "title": "Koh Lanta to Khao Lak Minivan Taxi | VIP Taxi Lanta",
-    "metaDescription": "Private minivan taxi between Koh Lanta and Khao Lak, both directions, hotel to hotel in one vehicle. Cash to the driver, no prepayment. Price on WhatsApp."
+    "title": "Koh Lanta to Khao Lak Private Minivan | VIP Taxi Lanta",
+    "metaDescription": "Private minivan between Koh Lanta and Khao Lak, both directions, hotel to hotel in one vehicle. Cash to the driver, no prepayment. Price on WhatsApp."
   },
-  "h1": "Koh Lanta to Khao Lak, private transfer",
+  "h1": "Koh Lanta to Khao Lak by private minivan",
   "lead": "Hotel to hotel between Koh Lanta and Khao Lak, in either direction, in a private minivan.",
   "route": {
     "from": "Koh Lanta",
@@ -102,6 +102,10 @@
     {
       "field": "schema",
       "from": "src/_data/taxiRoutesView.js"
+    },
+    {
+      "field": "seo.title, seo.metaDescription, h1",
+      "from": "Refonte taxi v1 (10.11.2026) : même forme que Krabi Airport, « Minivan Taxi » banni (03-audit-contenu §6.6). Même trajet, mêmes faits."
     }
   ],
   "notes": [

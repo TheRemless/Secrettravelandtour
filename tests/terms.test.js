@@ -27,7 +27,7 @@ test("conditions : tranches d'âge propres à chaque activité, pas de règle un
 const REBUILT = ["_includes/components/stt.njk", "_includes/components/vip.njk"];
 
 test("conditions : liées depuis l'accueil, les pages /tours/ et les pages taxi, plus vers les CGV de Zwald", () => {
-  for (const file of REBUILT.concat(["_includes/components/v4.njk", "taxi.njk", "taxi-route.njk"])) {
+  for (const file of REBUILT.concat(["_includes/components/v4.njk", "_includes/components/taxi.njk"])) {
     const page = read(file);
     assert.match(page, /href="\/terms\/"/, file + " ne renvoie pas vers /terms/");
     assert.doesNotMatch(page, /zwaldtravelplanner\.com\/cgv\//, file + " renvoie encore vers les CGV de Zwald");
@@ -61,11 +61,11 @@ test("aucune page en français : ni fichier /fr/, ni hreflang, ni lien « Versio
 });
 
 test("plus aucun lien vers les pages légales de Zwald depuis Secret et le taxi", () => {
-  for (const file of REBUILT.concat(["_includes/components/v4.njk", "taxi.njk", "taxi-route.njk", "terms.njk"])) {
+  for (const file of REBUILT.concat(["_includes/components/v4.njk", "_includes/components/taxi.njk", "taxi.njk", "taxi-route.njk", "terms.njk"])) {
     const page = read(file);
     assert.doesNotMatch(page, /zwaldtravelplanner\.com\/(cgv|mentions-legales|politique-confidentialite)\//, file);
   }
-  for (const file of REBUILT.concat(["_includes/components/v4.njk", "taxi.njk", "taxi-route.njk"])) {
+  for (const file of REBUILT.concat(["_includes/components/v4.njk", "_includes/components/taxi.njk"])) {
     assert.match(read(file), /href="\/legal\/"/, file);
     assert.match(read(file), /href="\/privacy\/"/, file);
   }

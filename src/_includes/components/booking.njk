@@ -322,7 +322,7 @@
     </div>
     <div class="sheet-body done-text">
       {% if facts.replyTime %}<p>{{ facts.replyTime }}</p>{% endif %}
-      <p>Nothing opened? Use the button below, or call <a class="done-num" href="tel:{{ facts.e164 }}">{{ facts.phoneDisplay }}</a>.</p>
+      <p>Nothing opened? Use the button below{% if not taxi %}{# VIP Taxi Lanta : aucun téléphone affiché, WhatsApp seulement. #}, or call <a class="done-num" href="tel:{{ facts.e164 }}">{{ facts.phoneDisplay }}</a>{% endif %}.</p>
       <p class="copy-status" data-copy-status role="status"></p>
     </div>
     <div class="sheet-foot sheet-foot--stack">

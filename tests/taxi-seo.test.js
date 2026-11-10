@@ -39,7 +39,7 @@ test("/taxi/ : un seul h1, qui contient le mot-clé principal", () => {
 test("/taxi/ : le service couvre tout le sud de la Thaïlande, Koh Lanta est la base", () => {
   assert.match(taxi.hero.lead, /Southern Thailand/);
   assert.match(taxi.hero.lead, /Koh Lanta/);
-  assert.match(njk, /h-services">[^<]*Southern Thailand/);
+  assert.match(njk, /h-routes">[^<]*Southern Thailand/);
   // Aucune question ne présente l'offre comme limitée au départ de Koh Lanta.
   // Exceptions : « to and from Koh Lanta » (les deux sens) et « Do you only drive from Koh Lanta? » (réponse : No).
   const restrictive = taxi.faq.filter((f) => /(?<!to and )from Koh Lanta/i.test(f.q) && !/only drive from Koh Lanta/i.test(f.q));
@@ -112,14 +112,16 @@ test("variante d'orthographe « Ko Lanta » présente mais pas répétée à out
 });
 
 test("From et To sont des listes déroulantes de lieux populaires où l'on peut aussi écrire librement", () => {
-  assert.doesNotMatch(njk, /h-routes|class="routes"|class="chips"|Request this transfer|<datalist|list="places"/);
-  assert.doesNotMatch(njk, /taxi\.routes/);
-  assert.match(njk, /macro combo\(/);
-  assert.match(njk, /combo\("from", "From", taxi\.places\)/);
-  assert.match(njk, /combo\("to", "To", taxi\.places\)/);
-  for (const attr of ['role="combobox"', 'aria-autocomplete="list"', 'aria-expanded="false"', 'role="listbox"', 'role="option"']) {
-    assert.ok(njk.includes(attr), attr);
+  // Refonte taxi v1 (10.11.2026) : les champs From et To de la feuille du hub, liste ajoutée par vip-taxi.js.
+  assert.doesNotMatch(njk, /class="chips"|<datalist|list="places"|Popular private transfers/);
+  assert.match(njk, /<script type="application\/json" id="taxi-places">\{\{ taxi\.places \| dump \| safe \}\}<\/script>/);
+  const js = read("src/js/vip-taxi.js");
+  for (const part of ['"combobox"', '"aria-autocomplete", "list"', '"aria-expanded"', 'role="listbox"', 'role="option"', '"book-from"', '"book-to"']) {
+    assert.ok(js.includes(part), part);
   }
+  const built = read("_site/taxi/index.html");
+  assert.match(built, /<input id="book-from"[^>]*type="text"/);
+  assert.match(built, /<input id="book-to"[^>]*type="text"/);
 });
 
 test("données structurées : catalogue des services sans prix", () => {
@@ -160,16 +162,16 @@ test("mise en page : la FAQ vient après le formulaire", () => {
   assert.ok(njk.indexOf('id="h-faq"') < njk.indexOf("</main>"), "FAQ dans <main>");
 });
 
-test("bloc Secret : encart publicitaire à part, avec son logo et sa couleur, pas une section du site", () => {
-  const partner = fs.readFileSync(path.join(__dirname, "../src/_includes/taxi-partner.njk"), "utf8");
-  const route = fs.readFileSync(path.join(__dirname, "../src/taxi-route.njk"), "utf8");
-  for (const page of [njk, route]) assert.match(page, /include "taxi-partner\.njk"/);
-  assert.match(partner, /<aside class="partner" aria-labelledby="h-tours">/);
-  assert.match(partner, /class="partner-tag">\{\{ taxi\.tours\.tag \}\}/);
-  assert.match(partner, /class="partner-logo"[^>]*src="\/images\/secret\/emblem\.webp"/);
-  assert.doesNotMatch(njk + route, /<section class="tours"/);
-  const css = fs.readFileSync(path.join(__dirname, "../src/css/taxi.css"), "utf8");
-  assert.match(css, /--sec-green:\s*#0A4C44/i);
-  assert.match(css, /font-family:\s*'Concert One'/);
-  assert.match(css, /\.partner\s*\{/);
+test("bloc Secret : encart à part, dans l'identité v4 de Secret, avec son emblème d'origine", () => {
+  // Refonte taxi v1 (10.11.2026) : plus de pastille « Our partner », de script ni de polaroïd.
+  const comp = read("src/_includes/components/taxi.njk");
+  const route = read("src/taxi-route.njk");
+  for (const page of [njk, route]) assert.match(page, /tx\.secretAside\(taxi\.tours/);
+  assert.match(comp, /<aside class="stt[^"]*"[^>]*aria-labelledby="stt-h"/);
+  assert.match(comp, /class="stt-emblem" src="\/images\/secret\/emblem\.webp"/);
+  assert.doesNotMatch(comp, /partner-tag|Our partner/);
+  const css = read("src/css/vip-taxi.css");
+  assert.match(css, /\.stt \{ background: #0B3B3C/);
+  assert.match(css, /"Cormorant Garamond"/);
+  assert.doesNotMatch(css, /Concert One|Kaushan/);
 });

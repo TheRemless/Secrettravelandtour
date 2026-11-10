@@ -78,6 +78,8 @@ module.exports = function () {
       drive: r.drive || "",
       points: r.points || [],
       region: regionOf[id] || r.region || "",
+      // Le titre se compose du trajet et de la suite du h1 (« by private minivan »).
+      h1Tail: p.h1.startsWith(`${r.from} to ${r.to}`) ? p.h1.slice(`${r.from} to ${r.to}`.length).replace(/^[,\s]+/, "") : null,
       faq: p.faq || [],
       booking: view.bookingRoute(p, site),
       fallback: view.fallbackText(p, site),
@@ -85,6 +87,11 @@ module.exports = function () {
     };
   });
   const byId = Object.fromEntries(routes.map((r) => [r.id, r]));
+  // Autres trajets de la même région, dans l'ordre des régions.
+  routes.forEach((r) => {
+    const g = (legacy.regions || []).find((x) => x.routes.includes(r.id));
+    r.others = g ? g.routes.filter((id) => id !== r.id).map((id) => byId[id]).filter(Boolean).map((o) => ({ url: o.url, from: o.from, to: o.to, drive: o.drive })) : [];
+  });
   const regions = (legacy.regions || []).map((g) => ({ name: g.name, intro: g.intro, routes: g.routes.map((id) => byId[id]).filter(Boolean) }));
 
   // Feuille du hub : From et To libres (aucun trajet imposé).
@@ -105,6 +112,7 @@ module.exports = function () {
     regions,
     further: legacy.further,
     commonFaq: (legacy.common || {}).faq || [],
+    how: (legacy.common || {}).how || [],
     hubBooking,
     rating: view.rating(site.brands.vip.rating),
     contact: view.contact(site)

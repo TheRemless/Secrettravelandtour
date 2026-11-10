@@ -11,7 +11,8 @@ const PRODUCTS = ["tours/4-islands", "tours/koh-rok-koh-haa", "tours/koh-phi-phi
   "activities/elephant-sanctuary", "activities/kayak", "activities/cooking-class", "activities/scuba-diving", "activities/atv", "activities/batik", "activities/go-kart",
   "rental", "secret-transfers/speedboat-ferry"].map(P);
 const ldOf = (doc) => [...doc.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((m) => JSON.parse(m[1]));
-const taxiRoutes = require("../src/_data/taxiRoutesView.js")();
+// Les 17 trajets taxi sur un seul gabarit (refonte taxi v1, 10.11.2026) : taxiPages.js.
+const taxiRoutes = require("../src/_data/taxiPages.js")();
 
 const root = path.join(__dirname, "..");
 const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
@@ -20,7 +21,7 @@ const html = (url) => read(path.join("_site", url, "index.html"));
 
 // La 4 Islands garde son titre validé avec le prix d'appel (v4data.js), contrôlé par design-v4.test.js.
 const all = PRODUCTS.filter((p) => p.slug !== "4-islands").map((p) => ({ url: p.url.replace(/^\/|\/$/g, ""), title: p.seo.title, desc: p.seo.metaDescription, jsonLd: ldOf(html(p.url)) }))
-  .concat(taxiRoutes.routes.map((r) => ({ url: `taxi/${r.id}`, title: r.title, desc: r.metaDescription, jsonLd: r.jsonLd })));
+  .concat(taxiRoutes.routes.map((r) => ({ url: `taxi/${r.id}`, title: r.seo.title, desc: r.seo.metaDescription, jsonLd: r.jsonLd })));
 
 test("pages : au moins 9 excursions et 9 trajets", () => {
   assert.ok(PRODUCTS.length >= 9);
@@ -51,7 +52,10 @@ test("pages taxi : ni prix, ni téléphone, ni e-mail affichés", () => {
     const doc = html(`taxi/${r.id}`);
     assert.doesNotMatch(doc, /\d+\s?(THB|฿|CHF|€)/, `${r.id} : prix`);
     assert.doesNotMatch(doc, /tel:|mailto:/, `${r.id} : contact direct`);
-    assert.match(doc, /\/taxi\/\?from=/, `${r.id} : lien vers le formulaire prérempli`);
+    // Depuis la refonte taxi v1, chaque trajet réserve par la feuille, avec un repli WhatsApp qui nomme le trajet.
+    assert.match(doc, /<dialog class="sheet" id="book"/, `${r.id} : feuille`);
+    assert.match(doc, /data-book="/, `${r.id} : bouton qui ouvre la feuille`);
+    assert.match(doc, new RegExp(`href="https://wa\\.me/66958683846\\?text=Transfer%20request%3A%20${encodeURIComponent(r.from + " to " + r.to)}"`), `${r.id} : repli WhatsApp`);
   }
 });
 
