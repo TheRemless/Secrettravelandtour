@@ -1,0 +1,458 @@
+{
+  "url": "https://secrettravelandtour.com",
+  "language": "en-GB",
+  "whatsapp": {
+    "number": "66958683846",
+    "display": "+66 95 868 38 46",
+    "e164": "+66958683846",
+    "link": "https://wa.me/66958683846",
+    "sharedBy": [
+      "secret",
+      "vip"
+    ]
+  },
+  "replyTime": {
+    "usual": "within 6 hours, Thailand time"
+  },
+  "languages": [
+    "Thai",
+    "English",
+    "German",
+    "Italian",
+    "French"
+  ],
+  "openingHours": "none",
+  "booking": {
+    "channel": "WhatsApp",
+    "onlinePayment": false,
+    "payment": [
+      "cash",
+      "bank transfer"
+    ],
+    "cancellationPolicy": "none",
+    "weather": "If the weather is bad, the trip can be moved to another date or refunded, when the conditions make it necessary.",
+    "pickup": "All of Koh Lanta in general, case by case.",
+    "terms": "/terms/"
+  },
+  "operator": {
+    "name": "Zwald Travel Planner Co., Ltd.",
+    "registration": "0815569000065",
+    "address": "292 Moo 2, Sala Dan, Koh Lanta Yai, Krabi 81150, Thailand",
+    "sister": {
+      "name": "Zwald Travel Planner",
+      "url": "https://zwaldtravelplanner.com/"
+    }
+  },
+  "brands": {
+    "secret": {
+      "name": "Secret Travel & Tour",
+      "url": "/",
+      "offer": [
+        "Boat trips",
+        "Island activities",
+        "Speedboat and ferry",
+        "Car and scooter rental"
+      ],
+      "address": {
+        "street": "292, Moo 2",
+        "locality": "Sala Dan, Koh Lanta Yai",
+        "region": "Krabi",
+        "postalCode": "81150",
+        "country": "TH",
+        "display": "292, Moo 2, Sala Dan, Koh Lanta Yai, Krabi 81150"
+      },
+      "geo": {
+        "lat": 7.5822378,
+        "lng": 99.0355083
+      },
+      "maps": "https://maps.google.com/?cid=9417984697980129551",
+      "phone": "+66958683846",
+      "licence": "34/04000",
+      "opened": 2026,
+      "googleRating": null,
+      "email": null,
+      "social": [],
+      "teamPhotos": false,
+      "partnerNames": false,
+      "boatsOwned": false,
+      "photos": [
+        {
+          "file": "secret/emblem.webp",
+          "slot": "logo",
+          "status": "keep",
+          "shot": "Current emblem, printed on the sign and flyers (client answer Q2)."
+        },
+        {
+          "file": "secret/lanta-old-town.webp",
+          "alt": "A songthaew parked in Lanta Old Town",
+          "slot": "island-tour",
+          "status": "keep",
+          "shot": "Kept for the songthaew island tour only, if that product is ever created."
+        },
+        {
+          "slot": "office",
+          "status": "missing",
+          "shot": "Front of the Sala Dan office and its sign, no team faces (client: no team photos)."
+        }
+      ],
+      "legacyText": {
+        "title": "Secret Travel & Tour | Transfers, Boat Tours & Activities in Koh Lanta",
+        "metaDescription": "Travel agency in Koh Lanta. Minivan and speedboat transfers, boat tours and island activities. Prices online for tours and activities, booking on WhatsApp.",
+        "h1": "Your travel agency in Koh Lanta",
+        "lead": "Transfers, boat tours and island activities, booked with a local team.",
+        "boatToursIncluded": "Every boat tour includes hotel transfer, lunch and snorkel gear.",
+        "zwaldBand": "Zwald Travel Planner, the team behind Secret Travel & Tour, designs tailor-made trips across Thailand and Southeast Asia.",
+        "footerOperated": "Secret Travel & Tour is operated by Zwald Travel Planner Co., Ltd.",
+        "islandDayTour": {
+          "name": "Island day tour by songthaew",
+          "description": "Old Town, viewpoints and beaches around Koh Lanta in a local songthaew.",
+          "info": [
+            "Full day"
+          ]
+        }
+      }
+    },
+    "vip": {
+      "name": "VIP Taxi Lanta",
+      "byline": "by Mr. Brown",
+      "owner": "Mr. Brown",
+      "url": "/taxi/",
+      "offer": [
+        "Private minivan transfers across Southern Thailand",
+        "Taxi rides on Koh Lanta"
+      ],
+      "address": {
+        "street": "292 Moo 2, Sala Dan",
+        "locality": "Koh Lanta",
+        "region": "Krabi",
+        "postalCode": "81150",
+        "country": "TH",
+        "display": "Koh Lanta, Krabi, Thailand"
+      },
+      "geo": {
+        "lat": 7.5821418,
+        "lng": 99.0352329
+      },
+      "maps": "https://maps.app.goo.gl/hnm3donEq7uR56Dr6",
+      "sameAs": [
+        "https://maps.app.goo.gl/hnm3donEq7uR56Dr6",
+        "https://viptaxilanta.wordpress.com/"
+      ],
+      "rating": {
+        "value": 5.0,
+        "count": 139,
+        "readOn": "2026-11-10",
+        "url": "https://maps.app.goo.gl/hnm3donEq7uR56Dr6"
+      },
+      "vehicles": "Minivans only. Taxis only for rides on Koh Lanta itself; outside the island, always a minivan.",
+      "private": true,
+      "payment": "Cash to the driver on the day. No prepayment.",
+      "childSeats": "Child seats and baby seats on request, only if confirmed in writing.",
+      "caseByCase": [
+        "Price",
+        "Vehicle model and capacity",
+        "Luggage",
+        "Airport meeting point",
+        "Waiting time if the flight is late",
+        "Ferry",
+        "Night supplement",
+        "Cancellation"
+      ],
+      "areaServed": [
+        "Southern Thailand",
+        "Koh Lanta",
+        "Krabi",
+        "Ao Nang",
+        "Phuket",
+        "Surat Thani",
+        "Trang",
+        "Khao Lak",
+        "Khao Sok",
+        "Hat Yai"
+      ],
+      "further": "Hua Hin, Bangkok and any other place in Thailand on request.",
+      "places": [
+        "Krabi Airport",
+        "Phuket Airport",
+        "Surat Thani Airport",
+        "Koh Lanta",
+        "Krabi Town",
+        "Ao Nang",
+        "Khao Lak",
+        "Khao Sok",
+        "Trang",
+        "Hat Yai",
+        "Phuket Bus Terminal",
+        "Surat Thani Bus Terminal",
+        "Donsak Pier",
+        "Cheow Lan Pier",
+        "Phuket Town",
+        "Pak Bara Pier"
+      ],
+      "faq": [
+        {
+          "q": "Is the transfer private?",
+          "a": "Yes. Every transfer is private, with no sharing, so you travel only with your group."
+        },
+        {
+          "q": "How do I pay?",
+          "a": "In cash to the driver on the day of the transfer. There is no prepayment and no hidden fees."
+        },
+        {
+          "q": "Can I travel with children or babies?",
+          "a": "Yes. The request form lets you add children and babies and ask for a child seat or a baby seat."
+        },
+        {
+          "q": "Is it a taxi or a minivan?",
+          "a": "Outside Koh Lanta we always drive a private minivan. On the island itself you can also book a taxi."
+        },
+        {
+          "q": "Do you only drive from Koh Lanta?",
+          "a": "No. Koh Lanta is our base, but we drive across Southern Thailand, including trips that never touch the island, such as Krabi Airport to Ao Nang or Phuket Airport to Khao Lak. Tell us where we pick you up and where you are going in the request form."
+        },
+        {
+          "q": "Can you take me to the airport when I leave Koh Lanta?",
+          "a": "Yes. Enter your hotel or Koh Lanta as the pickup and the airport as the destination, with your date and pickup time. We drive to Krabi, Phuket and Surat Thani airports."
+        },
+        {
+          "q": "Can you drive me to a pier such as Donsak or Cheow Lan?",
+          "a": "Yes. Donsak Pier and Cheow Lan Pier are among the places we drive to. Enter the pier as your pickup or destination in the request form."
+        },
+        {
+          "q": "Can I book day tours, boat trips or activities too?",
+          "a": "Yes, through our partner Secret Travel & Tour, a travel agency based on Koh Lanta. You can choose a trip and ask for a price on their page."
+        }
+      ],
+      "photos": [
+        {
+          "file": "taxi/hero-ceiling-1800.webp",
+          "alt": "Lit ceiling and tan leather seats inside the minivan",
+          "slot": "hero",
+          "status": "keep",
+          "shot": "The lit minivan ceiling, a real distinctive detail."
+        },
+        {
+          "file": "taxi/van-exterior.webp",
+          "alt": "Silver minivan seen from the side, parked on the street",
+          "slot": "gallery",
+          "status": "keep"
+        },
+        {
+          "file": "taxi/van-seats.webp",
+          "alt": "Minivan interior with diamond-stitched tan leather seats and a lit ceiling",
+          "slot": "gallery",
+          "status": "keep"
+        },
+        {
+          "file": "taxi/van-welcome.webp",
+          "alt": "Lit ceiling with a Welcome sign above rows of tan leather seats",
+          "slot": "gallery",
+          "status": "keep"
+        },
+        {
+          "file": "taxi/logo.webp",
+          "alt": "VIP Taxi Lanta, Mr. Brown",
+          "slot": "logo",
+          "status": "keep",
+          "shot": "VIP Taxi Lanta keeps its own identity (client answer Q1)."
+        },
+        {
+          "slot": "loading",
+          "status": "missing",
+          "shot": "Bags being loaded into the minivan in front of a hotel (no faces needed)."
+        }
+      ],
+      "legacyText": {
+        "title": "Minivan Transfers & Taxi, Southern Thailand | VIP Taxi Lanta",
+        "metaDescription": "Private minivan transfers across Southern Thailand and taxis on Koh Lanta: Krabi, Phuket, Surat Thani, Khao Lak and Trang. Request a price on WhatsApp.",
+        "tagline": "Private minivans and Koh Lanta taxis",
+        "heroTitle": "Private minivans across Southern Thailand, local taxis on Koh Lanta",
+        "heroLead": "Private minivan transfers between airports, piers, national parks and towns across Southern Thailand. Taxi rides on Koh Lanta, where we are based.",
+        "heroNote": "Private transfers, no sharing, no hidden fees.",
+        "rating": "Rated 5 stars on Google by international travelers",
+        "services": [
+          {
+            "id": "airport",
+            "title": "Airport transfers",
+            "text": "Private minivan to and from Krabi Airport (KBV), Phuket Airport (HKT) and Surat Thani Airport (URT), in both directions, for Koh Lanta or any other place in the south."
+          },
+          {
+            "id": "long-distance",
+            "title": "Long-distance private transfers",
+            "text": "Between any two places in Southern Thailand: Krabi Town, Ao Nang, Phuket, Khao Lak, Khao Sok, Surat Thani, Trang, Hat Yai, Donsak Pier, Cheow Lan Pier, with or without Koh Lanta on the way."
+          },
+          {
+            "id": "local",
+            "title": "Local taxi on Koh Lanta",
+            "text": "Private taxi rides around the island, for your group only."
+          }
+        ],
+        "why": [
+          {
+            "title": "Private only",
+            "text": "No sharing, no stress, no waiting."
+          },
+          {
+            "title": "Professional drivers",
+            "text": "Friendly drivers who know the region well."
+          },
+          {
+            "title": "Clean and comfortable vehicles",
+            "text": "Private minivans for your transfer, and taxis on Koh Lanta."
+          },
+          {
+            "title": "Direct confirmation",
+            "text": "The team confirms your booking with you on WhatsApp."
+          }
+        ],
+        "steps": [
+          {
+            "title": "Send your request",
+            "text": "Date, time, passengers, pick-up and drop-off."
+          },
+          {
+            "title": "Get your confirmation",
+            "text": "Our team replies on WhatsApp with the price and the details."
+          },
+          {
+            "title": "Meet your driver",
+            "text": "Your driver is on time at the pick-up point."
+          }
+        ],
+        "crossPromo": "Secret Travel & Tour runs private day tours around Koh Lanta, plus longtail and speedboat trips. Choose one on their page and ask for a price on WhatsApp.",
+        "footerSold": "Bookings are sold by Zwald Travel Planner Co., Ltd.",
+        "formAges": {
+          "adults": "12+",
+          "children": "3 to 11",
+          "babies": "0 to 2"
+        },
+        "otherFaq": [
+          {
+            "q": "How do I book a transfer?",
+            "a": "Fill in the request form on this page. It opens WhatsApp with your message ready, and the team replies with the price and the details."
+          },
+          {
+            "q": "Where do you drive in Southern Thailand?",
+            "a": "Across Southern Thailand: Krabi Town and Krabi airport, Ao Nang, Phuket and Phuket airport, Surat Thani airport and bus terminal, Trang, Khao Lak, Khao Sok, Donsak Pier and Cheow Lan Pier, and more."
+          },
+          {
+            "q": "Do you offer airport transfers?",
+            "a": "Yes. We drive private minivan transfers between Krabi, Phuket and Surat Thani airports and Koh Lanta, Ao Nang, Khao Lak or any other place in Southern Thailand, in both directions."
+          },
+          {
+            "q": "How do I get from Krabi Airport to Koh Lanta?",
+            "a": "Book a private minivan from Krabi Airport (KBV) to Koh Lanta. Enter Krabi Airport as the pickup and Koh Lanta as the destination in the request form, and the team replies with the price and the details."
+          },
+          {
+            "q": "How do I get from Phuket Airport to Khao Lak?",
+            "a": "Book a private minivan from Phuket Airport (HKT) to Khao Lak. Enter Phuket Airport as the pickup and Khao Lak as the destination in the request form, and the team replies with the price."
+          },
+          {
+            "q": "Can you pick me up at Phuket Airport and take me to Koh Lanta?",
+            "a": "Yes. We drive private minivan transfers from Phuket Airport (HKT) to Koh Lanta and back. Send your date and time in the request form and the team replies with the price."
+          }
+        ]
+      }
+    }
+  },
+  "sources": [
+    {
+      "field": "whatsapp, brands.secret.address, geo, maps, phone, licence",
+      "from": "secret.json business, contact, licence"
+    },
+    {
+      "field": "replyTime, languages, openingHours",
+      "from": "04-questions-client.md Q9"
+    },
+    {
+      "field": "replyTime",
+      "from": "réponse du client du 08.11.2026 : le plus vite possible, en général en moins de 6 heures, heure de Thaïlande"
+    },
+    {
+      "field": "booking.payment",
+      "from": "04-questions-client.md Q13"
+    },
+    {
+      "field": "booking.cancellationPolicy, booking.weather",
+      "from": "04-questions-client.md Q14 ; src/terms.njk art. 5 et 7"
+    },
+    {
+      "field": "booking.pickup",
+      "from": "04-questions-client.md Q15"
+    },
+    {
+      "field": "booking.onlinePayment",
+      "from": "04-questions-client.md Q5"
+    },
+    {
+      "field": "operator",
+      "from": "secret.json business.operator ; src/terms.njk art. 1 (numéro d'immatriculation)"
+    },
+    {
+      "field": "brands.secret.opened, googleRating",
+      "from": "04-questions-client.md Q7 et Q8 (ouverture en 2026, pas encore d'avis)"
+    },
+    {
+      "field": "brands.secret.email, social, teamPhotos, partnerNames, boatsOwned",
+      "from": "04-questions-client.md Q10, Q11, Q17, Q18"
+    },
+    {
+      "field": "brands.vip (sauf rating)",
+      "from": "taxi.json business, hero, services, why, steps, payment, faq, places ; taxiRoutes.json common, further ; registre de faits (véhicules, 31.10.2026)"
+    },
+    {
+      "field": "brands.vip.childSeats",
+      "from": "src/terms.njk art. 9 ; taxiRoutes.json common.how"
+    },
+    {
+      "field": "brands.vip.caseByCase",
+      "from": "04-questions-client.md Q28 (« Ça dépend vraiment de chaque situation »)"
+    },
+    {
+      "field": "brands.vip.rating",
+      "from": "Fiche Google de VIP Taxi Lanta, lue le 02.11.2026 (donnée par le chef de projet)"
+    },
+    {
+      "field": "brands.*.photos",
+      "from": "docs/refonte/01-audit-design.md §4 ; 04-questions-client.md Q1, Q2, Q10"
+    },
+    {
+      "field": "brands.secret.legacyText",
+      "from": "src/secret.njk ; secret.json boatToursIncluded, activities[id=island-day-tour]"
+    },
+    {
+      "field": "booking.weather",
+      "from": "réponse Q14 reformulée sans mentionner de prestataire (Q8 : ne pas révéler la sous-traitance), 03.11.2026"
+    },
+    {
+      "field": "brands.vip.payment",
+      "from": "réponse de Jérémy du 03.11.2026 : « seulement cash chauffeur en principe »"
+    },
+    {
+      "field": "brands.secret.licence",
+      "from": "numéro donné par Jérémy le 03.11.2026 (PR 9, secret.json)"
+    },
+    {
+      "field": "brands.vip.address.street, postalCode, geo, rating",
+      "from": "Fiche Google de VIP Taxi Lanta lue le 10.11.2026 (292, Saladan, Tambon Sala Dan, Ko Lanta District, Krabi 81150 ; 7.5821418, 99.0352329, Plus Code H2JP+V3 ; 5,0 sur 139 avis). Rue, code postal et coordonnées dans le JSON-LD seulement, jamais affichés. Validé par Jérémy : « Oui, données Google »."
+    },
+    {
+      "field": "faits du comptoir (next to the pier, two minutes on foot from Saladan Pier, pay on the day, nothing online, car ferry inclus sur Krabi Airport)",
+      "from": "confirmés par Jérémy le 03.11.2026 (point 2 du résumé v3)"
+    },
+    {
+      "field": "languages",
+      "from": "04-questions-client.md, réponse 9 : thaï, anglais, allemand, italien, français, remises sur le site (décision de Jérémy du 10.11.2026)"
+    }
+  ],
+  "todo": [
+    "TODO(client): avis Google de Secret Travel & Tour : aucun pour l'instant, à reprendre (note, nombre, date de lecture) dès qu'ils arrivent.",
+    "TODO(client): durées de trajet VIP relevées sur des guides de transport (12go, goasia, geckoroutes, amazinglanta) le 30.10.2026 : à remplacer par les chiffres de Mr. Brown."
+  ],
+  "notes": [
+    "« Every boat tour includes hotel transfer, lunch and snorkel gear » (accueil) est faux pour la pêche et le radeau au lever du soleil (audit contenu §1) : ne pas le reprendre tel quel.",
+    "Les formulaires actuels proposent des tranches fixes (12+, 3–11, 0–2) alors que le client confirme des âges par produit (Q16) : le nouveau formulaire demande l'âge de chaque enfant.",
+    "Ouverture en 2026 : ne jamais en tirer une ancienneté. Les prestataires partenaires ne sont jamais nommés.",
+    "La note Google de VIP Taxi Lanta est réelle, mais 02-audit-seo §6.3 et 00-BRIEF §7 proscrivent un AggregateRating déclaré par l'entreprise : l'afficher en texte avec lien, pas en JSON-LD."
+  ]
+}

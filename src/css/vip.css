@@ -1,0 +1,240 @@
+/* VIP Taxi Lanta (Mr. Brown), système de la refonte. Identité « Night cabin » de taxi.css, gardée par décision
+   du client (02.11.2026) : fond espresso, or, Marcellus pour les titres, Figtree pour le texte, logo d'origine.
+   Vit à côté de taxi.css tant que les anciennes pages existent. */
+@font-face { font-family: "Marcellus"; font-style: normal; font-weight: 400; font-display: swap;
+  src: url("/css/fonts/marcellus-400-normal-latin.woff2") format("woff2"); }
+@font-face { font-family: "Figtree"; font-style: normal; font-weight: 400; font-display: swap;
+  src: url("/css/fonts/figtree-400-normal-latin.woff2") format("woff2"); }
+@font-face { font-family: "Figtree"; font-style: normal; font-weight: 700; font-display: swap;
+  src: url("/css/fonts/figtree-700-normal-latin.woff2") format("woff2"); }
+
+:root {
+  /* Couleurs (contrastes mesurés dans tests/design-contrast.test.js) */
+  --bg: #140D09;
+  --bg-2: #1F140E;
+  --text: #F2E6D2;
+  --mute: #C2B199;
+  --amber: #F0B13A;
+  --amber-hi: #F6C25E;
+  --ink: #20130A;
+  --paper: #F2E6D2;
+  --mute-ink: #5A4A3A;
+  --ink-hover: #3A2412;
+  --err: #9B1C1C;
+  --white: #FFFFFF;
+  /* Bordure des cartes de trajet : 3:1 sur l'espresso, elle délimite une zone cliquable. */
+  --edge-line: #846428;
+  /* Filets décoratifs */
+  --line: rgb(240 177 58 / .24);
+  --perf: rgb(32 19 10 / .35);
+  /* Encart Secret Travel & Tour : ses propres couleurs, pour qu'on ne le prenne pas pour VIP Taxi Lanta. */
+  --stt-deep: #0A3F44;
+  --stt-lagoon: #BFE6DF;
+
+  --serif: "Marcellus", Georgia, serif;
+  --sans: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --s1: .5rem;
+  --s2: 1rem;
+  --s3: 1.5rem;
+  --s4: 2.5rem;
+  --s5: 4rem;
+  --margin: 20px;
+  --max: 1120px;
+  --measure: 66ch;
+  --radius: 16px;
+  --header-h: 64px;
+  --bar-h: 64px;
+
+  /* Jetons lus par booking.css : la feuille est une carte ivoire, comme l'ancien formulaire. */
+  --sheet-bg: var(--paper);
+  --sheet-field-bg: var(--white);
+  --sheet-ink: var(--ink);
+  --sheet-mute: var(--mute-ink);
+  --sheet-field: var(--mute-ink);
+  --sheet-accent: var(--ink);
+  --sheet-accent-ink: var(--paper);
+  --sheet-cta: var(--ink);
+  --sheet-cta-hover: var(--ink-hover);
+  --sheet-cta-ink: var(--paper);
+  --sheet-err: var(--err);
+  --sheet-soft: var(--white);
+  --sheet-rule: rgb(32 19 10 / .18);
+  --sheet-head: var(--serif);
+  --sheet-head-stretch: normal;
+  --sheet-head-weight: 400;
+  --sheet-text: var(--sans);
+  --sheet-backdrop: rgb(20 13 9 / .7);
+  --sheet-focus: 0 0 0 2px var(--paper), 0 0 0 5px var(--ink);
+}
+@media (min-width: 64rem) { :root { --margin: 32px; } }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-padding-top: calc(var(--header-h) + var(--s2)); }
+body { margin: 0; background: var(--bg); color: var(--text); font: 400 1.0625rem/1.65 var(--sans); }
+img { display: block; max-width: 100%; height: auto; }
+[hidden] { display: none !important; }
+h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 400; line-height: 1.1; text-wrap: balance; }
+h1 { font-size: clamp(2.4rem, 1.7rem + 3.4vw, 4.4rem); line-height: 1.04; letter-spacing: -.01em; }
+h2 { font-size: clamp(1.8rem, 1.4rem + 1.8vw, 2.6rem); }
+h3 { font-size: 1.375rem; line-height: 1.2; }
+p, ul, ol, dl { margin: 0; }
+p { max-width: var(--measure); }
+a { color: var(--amber); text-underline-offset: .18em; }
+.num { font-variant-numeric: tabular-nums; }
+:focus { outline: none; }
+:focus-visible { outline: 3px solid var(--amber); outline-offset: 3px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.skip { position: absolute; left: var(--margin); top: -10rem; z-index: 60; padding: .75rem 1rem; background: var(--amber); color: var(--ink); }
+.skip:focus { top: .5rem; }
+.wrap { width: 100%; max-width: calc(var(--max) + 2 * var(--margin)); margin-inline: auto; padding-inline: var(--margin); }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  min-height: 48px; padding: 0 1.3rem; border: 0; border-radius: 10px;
+  background: var(--amber); color: var(--ink); font: 700 1rem/1 var(--sans);
+  text-decoration: none; white-space: nowrap; cursor: pointer; touch-action: manipulation; transition: background-color .15s ease-out;
+}
+.btn:hover { background: var(--amber-hi); }
+.btn svg { width: 1.2rem; height: 1.2rem; flex: none; }
+
+/* ---------- Header : le logo de Mr. Brown sur sa plaque blanche ---------- */
+.vip-header { position: sticky; top: 0; z-index: 40; background: var(--bg); border-bottom: 1px solid var(--line); }
+.vip-header .wrap { display: flex; align-items: center; gap: var(--s2); min-height: var(--header-h); }
+.vip-brand { display: flex; align-items: center; gap: var(--s1); min-height: 44px; color: var(--text); text-decoration: none; }
+.vip-head-logo { width: 44px; height: 44px; border-radius: 6px; background: var(--white); }
+.vip-name { font: 400 1.375rem/1.05 var(--serif); }
+.vip-name small { display: block; margin-top: .15rem; font: 400 .875rem/1.2 var(--sans); color: var(--mute); }
+.vip-nav { display: block; margin-left: var(--s2); }
+.vip-nav ul { display: flex; gap: var(--s3); list-style: none; margin: 0; padding: 0; }
+.vip-nav a { display: flex; align-items: center; min-height: 44px; color: var(--text); }
+.vip-header .btn { margin-left: auto; min-height: 44px; }
+/* Téléphone : « All routes » double le logo et le fil d'Ariane (tous vers /taxi/) ; le nom tient sur une ligne. */
+@media (max-width: 479px) {
+  .vip-nav { display: none; }
+  .vip-name { white-space: nowrap; font-size: 1.125rem; }
+}
+@media (min-width: 64rem) {
+  .vip-nav { display: block; margin-left: var(--s4); }
+  .vip-nav ul { display: flex; gap: var(--s3); list-style: none; padding: 0; }
+  .vip-nav a { display: flex; align-items: center; min-height: 44px; color: var(--text); text-decoration: none; border-bottom: 1px solid transparent; }
+  .vip-nav a:hover, .vip-nav a[aria-current] { border-bottom-color: var(--amber); }
+}
+
+/* ---------- Liste des trajets : lignes réglées, toute la ligne est le lien ---------- */
+.routes-note { margin-bottom: var(--s2); color: var(--amber); font-weight: 700; }
+.route-list { list-style: none; padding: 0; border-top: 1px solid var(--edge-line); }
+.route-list li { border-bottom: 1px solid var(--edge-line); }
+.route-list a {
+  display: flex; justify-content: space-between; align-items: baseline; gap: var(--s2);
+  min-height: 56px; padding: .85rem 0; color: var(--text); text-decoration: none;
+}
+.route-list a:hover .rl-route { color: var(--amber); }
+.rl-route { font: 400 1.25rem/1.25 var(--serif); text-decoration: underline; text-decoration-color: rgba(240, 177, 58, .55); text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.route-sep { font: 400 1rem/1 var(--sans); color: var(--mute); }
+.rl-drive { flex: none; text-align: right; font-size: .9375rem; color: var(--mute); font-variant-numeric: tabular-nums; }
+
+/* ---------- Faits du trajet : le billet ivoire, lignes séparées par une perforation ---------- */
+.ticket { max-width: 44rem; margin: var(--s2) 0 0; padding: .25rem var(--s3); border-radius: var(--radius); background: var(--paper); color: var(--ink); }
+.ticket div { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: var(--s2); align-items: baseline; padding: .8rem 0; border-top: 1px dashed var(--perf); }
+.ticket div:first-child { border-top: 0; }
+.ticket dt { font-size: .9375rem; color: var(--mute-ink); }
+.ticket dd { margin: 0; font: 400 1.125rem/1.3 var(--serif); font-variant-numeric: tabular-nums; }
+
+/* ---------- Le minivan ---------- */
+.vehicle { display: grid; gap: var(--s3); }
+.vehicle-photos { display: grid; grid-auto-flow: column; grid-auto-columns: 82%; gap: var(--s1); overflow-x: auto; scroll-snap-type: x mandatory; list-style: none; padding: 0; scrollbar-width: none; }
+.vehicle-photos:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+.vehicle-photos li { scroll-snap-align: start; }
+.vehicle-photos img, .vehicle-photos .photo-slot { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius); }
+.vehicle-text { display: grid; gap: var(--s1); color: var(--text); }
+.vehicle-text .muted { color: var(--mute); }
+@media (min-width: 64rem) {
+  .vehicle-photos { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); overflow: visible; }
+}
+.photo-slot {
+  display: flex; align-items: center; justify-content: center; padding: var(--s2);
+  border: 2px dashed var(--mute); color: var(--mute); text-align: center; font-size: .9375rem;
+}
+
+/* ---------- Note Google : une ligne et un lien, jamais de balisage AggregateRating ---------- */
+.rating a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; }
+
+/* ---------- Encart Secret Travel & Tour : discret, à ses couleurs ---------- */
+.stt-ad { display: flex; align-items: center; gap: var(--s2); padding: var(--s2) var(--s3); border-radius: var(--radius); background: var(--stt-deep); color: var(--white); }
+/* Emblème d'origine de Secret, posé tel quel sur une pastille sable (marge = 1/4 de sa hauteur). */
+.stt-ad-pastille { flex: none; display: inline-flex; padding: var(--s1); border-radius: var(--s1); background: #F5F0E6; }
+.stt-ad-pastille img { width: auto; height: 32px; }
+.stt-ad a { color: var(--stt-lagoon); font-weight: 700; }
+.stt-ad a:focus-visible { outline-color: var(--white); }
+
+/* ---------- FAQ ---------- */
+.faq { border-top: 1px solid var(--line); }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary { display: flex; justify-content: space-between; align-items: center; gap: var(--s2); min-height: 56px; padding: .75rem 0; cursor: pointer; list-style: none; font: 400 1.2rem/1.3 var(--serif); }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary svg { flex: none; width: 1.25rem; height: 1.25rem; color: var(--amber); transition: transform .2s ease-out; }
+.faq details[open] summary svg { transform: rotate(180deg); }
+.faq .answer { padding-bottom: var(--s2); color: var(--mute); }
+
+/* ---------- Barre collante mobile ---------- */
+.vbar {
+  position: fixed; inset: auto 0 0 0; z-index: 35;
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s2);
+  min-height: calc(var(--bar-h) + env(safe-area-inset-bottom));
+  padding: .5rem var(--margin) calc(.5rem + env(safe-area-inset-bottom));
+  background: var(--bg-2); border-top: 1px solid var(--line);
+}
+.vbar p { font-weight: 700; line-height: 1.25; color: var(--text); }
+.has-vbar { padding-bottom: calc(var(--bar-h) + env(safe-area-inset-bottom)); }
+@media (min-width: 64rem) { .vbar { display: none; } .has-vbar { padding-bottom: 0; } }
+
+/* ---------- Footer ---------- */
+.vip-footer { margin-top: var(--s5); padding-block: var(--s5) var(--s4); border-top: 1px solid var(--line); }
+.vip-footer .wrap { display: grid; gap: var(--s4); }
+.vip-logo { width: 160px; height: 160px; border-radius: 18px; background: var(--white); }
+.vip-footer h2 { margin-bottom: .4rem; font-size: 1.25rem; }
+.vip-footer p { color: var(--mute); }
+.vip-footer p + p { margin-top: .4rem; }
+.vip-footer .link-wa { display: inline-flex; align-items: center; gap: .4rem; min-height: 44px; color: var(--amber); font-weight: 700; }
+.vip-footer .link-wa svg { width: 1.15rem; height: 1.15rem; }
+.vip-legal { display: flex; flex-wrap: wrap; gap: 0 var(--s3); padding-top: var(--s3); border-top: 1px solid var(--line); font-size: .9375rem; }
+.vip-legal ul { display: flex; flex-wrap: wrap; gap: 0 var(--s3); list-style: none; padding: 0; }
+.vip-legal a, .vip-legal p { display: inline-flex; align-items: center; min-height: 44px; color: var(--mute); }
+@media (min-width: 64rem) {
+  .vip-footer .wrap { grid-template-columns: auto repeat(2, minmax(0, 1fr)); }
+  .vip-legal { grid-column: 1 / -1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}
+
+/* Encart Secret sur les pages trajet : trois excursions suggérées (00-BRIEF §6.4). */
+.stt-ad-list { display: flex; flex-wrap: wrap; gap: 0 var(--s3); margin: var(--s1) 0 0; padding: 0; list-style: none; }
+.stt-ad-list a { display: inline-flex; align-items: center; min-height: 44px; }
+/* Page trajet : les deux sens, lieux en Marcellus. */
+.route-pair-v { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s1) var(--s2); margin-top: var(--s3); font-family: var(--serif); font-size: 1.25rem; }
+.route-pair-v .sep { flex: 1; min-width: var(--s4); height: 1px; background: var(--edge-line); }
+.route-both { margin-top: var(--s1); color: var(--mute); }
+.vip-page { padding-bottom: var(--s5); }
+.vip-page > section { margin-top: var(--s5); }
+.vip-page > section > h2 { margin-bottom: var(--s3); }
+.vip-hero img { width: auto; max-width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: var(--radius); }
+.vip-actions { display: flex; flex-wrap: wrap; gap: var(--s2); margin-top: var(--s3); }
+@media (min-width: 64rem) { .vip-two { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--s5); align-items: start; } }
+.vip-page .crumbs ol { display: flex; flex-wrap: wrap; margin: var(--s3) 0 var(--s2); padding: 0; list-style: none; color: var(--mute); }
+.vip-page .crumbs li + li::before { content: "/"; padding-inline: var(--s1); }
+.vip-page .crumbs a { display: inline-flex; align-items: center; min-height: 44px; }
+.vip-page .crumbs [aria-current] { display: inline-flex; align-items: center; min-height: 44px; }
+.vip-page h1 { margin-bottom: var(--s2); }
+.vip-page .lead { font-size: 1.125rem; color: var(--mute); }
+.vip-page .vip-two + .vehicle, .vip-page .vehicle + .vip-two, .vip-page .vip-two + section { margin-top: var(--s5); }
+.vip-page .vip-two { margin-top: var(--s3); }
+.vip-page .vip-two h2 { margin-bottom: var(--s3); }
+.vip-footer a { display: inline-flex; align-items: center; min-height: 44px; }
+/* Mesure : 66 caractères au plus en Figtree (28em mesurés). */
+.vip-page .lead, .vip-page .faq .answer p, .vip-page .vehicle-text p, .vip-page .route-both { max-width: 28em; }
+.stt-ad p a { display: inline-flex; align-items: center; min-height: 44px; }
+.vip-page .vip-two > section + section { margin-top: var(--s4); }
+@media (min-width: 64rem) { .vip-page .vip-two > section + section { margin-top: 0; } }

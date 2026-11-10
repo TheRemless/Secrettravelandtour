@@ -1,0 +1,152 @@
+{
+  "slug": "krabi-airport-koh-lanta",
+  "url": "/taxi/krabi-airport-koh-lanta/",
+  "brand": "vip",
+  "template": "route",
+  "name": "Krabi Airport to Koh Lanta",
+  "seo": {
+    "title": "Krabi Airport to Koh Lanta Private Minivan | VIP Taxi Lanta",
+    "metaDescription": "Private minivan between Krabi Airport (KBV) and your Koh Lanta hotel, both directions, about 2 to 3 hours. Child seats on request. Price on WhatsApp."
+  },
+  "h1": "Krabi Airport to Koh Lanta by private minivan",
+  "lead": "Door to door between Krabi Airport (KBV) and your hotel on Koh Lanta, both ways, in a minivan just for your group.",
+  "route": {
+    "from": "Krabi Airport",
+    "to": "Koh Lanta",
+    "code": "KBV",
+    "bothDirections": true,
+    "drive": "about 2 to 3 hours",
+    "points": [
+      "Krabi Airport (KBV)",
+      "Your hotel on Koh Lanta"
+    ],
+    "region": "Krabi province"
+  },
+  "facts": [
+    {
+      "label": "Drive time",
+      "value": "About 2 to 3 hours"
+    },
+    {
+      "label": "Pickup and drop-off",
+      "value": "Krabi Airport (KBV) and your hotel on Koh Lanta"
+    },
+    {
+      "label": "Directions",
+      "value": "Both directions"
+    }
+  ],
+  "priceOnRequest": true,
+  "faq": [
+    {
+      "q": "Where does the driver meet me at Krabi Airport?",
+      "a": "In the arrivals hall. Your driver waits with a sign showing your name. Send your flight number with your request."
+    },
+    {
+      "q": "Can I book the transfer back to Krabi Airport?",
+      "a": "Yes. Choose Koh Lanta to Krabi Airport in the form and add your hotel as the pickup, with your date and pickup time."
+    },
+    {
+      "q": "How long is the drive from Krabi Airport to Koh Lanta?",
+      "a": "About 2 to 3 hours, depending on traffic."
+    }
+  ],
+  "photos": [
+    {
+      "file": "taxi/van-seats.webp",
+      "alt": "Minivan interior with diamond-stitched tan leather seats and a lit ceiling",
+      "slot": "hero",
+      "status": "keep",
+      "shot": "Real photo of the VIP Taxi Lanta minivan, shared by every route page today: one photo per route later if possible."
+    },
+    {
+      "slot": "meeting-point",
+      "status": "missing",
+      "shot": "Where the driver meets you at Krabi Airport (arrivals exit, sign with the client's name), no faces needed."
+    }
+  ],
+  "related": [
+    "/taxi/southern-thailand/",
+    "/taxi/koh-lanta-krabi-town/",
+    "/taxi/koh-lanta-ao-nang/"
+  ],
+  "schema": {
+    "type": "TaxiService",
+    "legacyType": "TaxiService",
+    "serviceType": "Private minivan transfer",
+    "areaServed": [
+      "Krabi Airport",
+      "Koh Lanta"
+    ]
+  },
+  "legacyText": {
+    "title": "Krabi Airport to Koh Lanta Minivan Taxi | VIP Taxi Lanta",
+    "body": [
+      "Give us your flight number and landing time, your hotel on Koh Lanta and the number of people. The team confirms the price on WhatsApp and the driver waits in the arrivals hall with a sign showing your name.",
+      "For the way back, choose Koh Lanta to Krabi Airport in the form and add your hotel as the pickup, with the time you want to leave."
+    ]
+  },
+  "sources": [
+    {
+      "field": "name, seo, h1, lead, route, faq, legacyText",
+      "from": "taxiRoutes.json routes[id=krabi-airport-koh-lanta]"
+    },
+    {
+      "field": "route.drive, facts[Drive time]",
+      "from": "taxiRoutes.json routes[id=krabi-airport-koh-lanta].drive (durées approximatives relevées le 30.10.2026, registre de faits)"
+    },
+    {
+      "field": "route.points, facts[Pickup and drop-off]",
+      "from": "taxiRoutes.json routes[id=krabi-airport-koh-lanta].lead, body, faq"
+    },
+    {
+      "field": "route.region, related",
+      "from": "taxiRoutes.json regions"
+    },
+    {
+      "field": "priceOnRequest",
+      "from": "Décision client du 02.11.2026 : prix des transferts privés sur WhatsApp"
+    },
+    {
+      "field": "photos",
+      "from": "src/taxi-route.njk (van-seats.webp) ; docs/refonte/01-audit-design.md §4 (photos du van à garder) ; 00-BRIEF §6.4 (point de rencontre)"
+    },
+    {
+      "field": "schema",
+      "from": "src/_data/taxiRoutesView.js"
+    },
+    {
+      "field": "seo.title",
+      "from": "name, route.from/to, schema.serviceType « Private minivan transfer » ; « Minivan Taxi » retiré (§6.6)"
+    },
+    {
+      "field": "seo.metaDescription",
+      "from": "route (code KBV, bothDirections, drive « about 2 to 3 hours »), site.json brands.vip.private et childSeats, priceOnRequest ; mention du paiement retirée (contradiction cash / virement ouverte dans site.json todo)"
+    },
+    {
+      "field": "lead",
+      "from": "ancien lead (door to door, KBV, either direction, your group only), site.json brands.vip.private"
+    },
+    {
+      "field": "faq[0].a",
+      "from": "taxiRoutes.json routes[id=krabi-airport-koh-lanta].faq[0] et body[0], voix « we »"
+    },
+    {
+      "field": "faq[2]",
+      "from": "route.drive « about 2 to 3 hours » ; « depending on traffic » : affichage décidé le 30.10.2026 (registre de faits, src/taxi-route.njk)"
+    },
+    {
+      "field": "faq[Where does the driver meet me], legacyText.body",
+      "from": "Jérémy, 10.11.2026 : à l'aéroport, le chauffeur attend aux arrivées avec une pancarte au nom du client."
+    },
+    {
+      "field": "priceFrom",
+      "from": "Grille « Private Taxi » de VIP Taxi Lanta, colonne Selling, prix pour 1 à 2 clients (base partenaires, ~/Downloads/Secret Travel & Tour/VIP Taxi Lanta - Private Taxi.jpg). Affichage « from » décidé par Jérémy le 10.11.2026. Ligne : From / to Krabi Airport"
+    }
+  ],
+  "priceFrom": {
+    "thb": 2300,
+    "people": "1 or 2",
+    "approx": false
+  }
+}

@@ -1,0 +1,411 @@
+{
+  "slug": "elephant-sanctuary",
+  "url": "/tours/elephant-sanctuary/",
+  "brand": "secret",
+  "template": "activity",
+  "name": "Elephant sanctuary",
+  "seo": {
+    "title": "Elephant Sanctuary Koh Lanta | Secret Travel & Tour",
+    "metaDescription": "Time with the elephants on Koh Lanta, no riding and no show. Four programmes, from 1 hr 30 min to a full day, hotel transfer included. From 1,800 THB.",
+    "draft": {
+      "title": "Ethical Elephant Sanctuary Koh Lanta – No Riding",
+      "h1": "Ethical elephant sanctuary on Koh Lanta"
+    }
+  },
+  "h1": "Elephant sanctuary on Koh Lanta",
+  "lead": "Time with the elephants near the Klong Jark waterfall, with no riding and no show. Add the beach, a walk to a waterfall and a hidden cave, or a full day around Koh Lanta.",
+  "promise": "Four programmes, from 1 hr 30 min to a full day",
+  "facts": [
+    {
+      "label": "Riding",
+      "value": "None, no show"
+    },
+    {
+      "label": "Duration",
+      "value": "1 hr 30 min to a full day"
+    },
+    {
+      "label": "Sessions",
+      "value": "09:00, 12:00 and 15:00"
+    },
+    {
+      "label": "Where",
+      "value": "Near the Klong Jark waterfall"
+    },
+    {
+      "label": "Children",
+      "value": "4–10 child rate, under 4 free, adult rate from 11"
+    }
+  ],
+  "price": {
+    "from": 1800,
+    "currency": "THB",
+    "unit": "per adult, programme A"
+  },
+  "options": [
+    {
+      "id": "programme-a",
+      "label": "Programme A, 1 hr 30 min to 2 hours with the elephants",
+      "kind": "join-in",
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 1800,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 10",
+          "amount": 1400,
+          "ages": {
+            "min": 4,
+            "max": 10
+          },
+          "unit": "per person"
+        },
+        {
+          "label": "Child under 4",
+          "amount": 0,
+          "ages": {
+            "max": 3
+          }
+        }
+      ],
+      "choices": [
+        {
+          "id": "session",
+          "label": "Session",
+          "values": [
+            {
+              "id": "0900",
+              "label": "09:00, pickup 08:00–09:00"
+            },
+            {
+              "id": "1200",
+              "label": "12:00, pickup 11:00–12:00"
+            },
+            {
+              "id": "1500",
+              "label": "15:00, pickup 14:00–15:00"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "programme-b",
+      "label": "Programme B, the elephants and Klong Jark beach",
+      "kind": "join-in",
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 2000,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 10",
+          "amount": 1600,
+          "ages": {
+            "min": 4,
+            "max": 10
+          },
+          "unit": "per person"
+        },
+        {
+          "label": "Child under 4",
+          "amount": 0,
+          "ages": {
+            "max": 3
+          }
+        }
+      ],
+      "choices": [
+        {
+          "id": "session",
+          "label": "Session",
+          "values": [
+            {
+              "id": "0900",
+              "label": "09:00"
+            },
+            {
+              "id": "1200",
+              "label": "12:00"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "programme-c",
+      "label": "Programme C, the elephants, a waterfall and a hidden cave",
+      "kind": "join-in",
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 2200,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 10",
+          "amount": 1800,
+          "ages": {
+            "min": 4,
+            "max": 10
+          },
+          "unit": "per person"
+        },
+        {
+          "label": "Child under 4",
+          "amount": 0,
+          "ages": {
+            "max": 3
+          }
+        }
+      ],
+      "choices": [
+        {
+          "id": "session",
+          "label": "Session",
+          "values": [
+            {
+              "id": "0900",
+              "label": "09:00"
+            },
+            {
+              "id": "1200",
+              "label": "12:00"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "programme-d",
+      "label": "Programme D, a day on Koh Lanta with the elephants",
+      "kind": "join-in",
+      "note": "A shared day trip, not private. It runs with 2 paying guests at least.",
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 4500,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 10",
+          "amount": 3000,
+          "ages": {
+            "min": 4,
+            "max": 10
+          },
+          "unit": "per person"
+        },
+        {
+          "label": "Child under 4",
+          "amount": 0,
+          "ages": {
+            "max": 3
+          }
+        }
+      ]
+    }
+  ],
+  "day": [
+    {
+      "options": [
+        "programme-a"
+      ],
+      "title": "Programme A",
+      "steps": [
+        {
+          "label": "A",
+          "text": "About 1 hr 30 min to 2 hours with the elephants, with the feeding if you want it. Sessions at 09:00, 12:00 or 15:00."
+        }
+      ]
+    },
+    {
+      "options": [
+        "programme-b"
+      ],
+      "title": "Programme B",
+      "steps": [
+        {
+          "label": "B",
+          "text": "Time with the elephants, then about 2 hours of free time on Klong Jark beach. Sessions at 09:00 or 12:00."
+        }
+      ]
+    },
+    {
+      "options": [
+        "programme-c"
+      ],
+      "title": "Programme C",
+      "steps": [
+        {
+          "label": "C",
+          "text": "Time with the elephants, then a walk of about 2 hours there and back to a waterfall and a hidden cave, with a local guide who speaks little English. The waterfall is fullest in the rainy season. Sessions at 09:00 or 12:00."
+        }
+      ]
+    },
+    {
+      "options": [
+        "programme-d"
+      ],
+      "title": "Programme D",
+      "steps": [
+        {
+          "time": "08:00",
+          "text": "Pickup at your hotel between 08:00 and 08:50."
+        },
+        {
+          "text": "Time with the elephants, 1 hr 30 min to 2 hours."
+        },
+        {
+          "text": "Mu Ko Lanta National Park, about 1 hr 30 min."
+        },
+        {
+          "text": "Lunch with a sea view at the Phu Pha View restaurant."
+        },
+        {
+          "text": "Kantiang beach, about an hour."
+        },
+        {
+          "text": "Lanta Old Town, about an hour, then back to your hotel."
+        }
+      ],
+      "note": "The programme can change with the weather and the well-being of the elephants."
+    }
+  ],
+  "included": [
+    "Hotel transfer both ways, from selected areas of Koh Lanta",
+    "Accident insurance",
+    "Drinking water and fruit",
+    "English-speaking guide on programmes A, B and C",
+    "Feeding the elephants, if you want to",
+    "Programme D: the national park entrance and lunch"
+  ],
+  "beforeYouBook": {
+    "pickup": "Programme A: pickup 08:00–09:00, 11:00–12:00 or 14:00–15:00 for the 09:00, 12:00 or 15:00 session. Programme D: pickup 08:00–08:50 depending on your hotel. Transfers cover selected areas of Koh Lanta.",
+    "bring": [
+      "Closed shoes or sandals that stay on",
+      "Mosquito repellent",
+      "Sun cream",
+      "A hat",
+      "A camera",
+      "A water bottle"
+    ],
+    "children": "Children from 4 to 10 pay the child rate and children under 4 go free. From 11 it is the adult rate.",
+    "health": "The ground is natural and uneven. Tell us before you book if walking is hard for you, if you are pregnant, if you come with very young children or if you have a health problem."
+  },
+  "faq": [
+    {
+      "q": "Can we ride the elephants?",
+      "a": "No. There is no riding and no show."
+    },
+    {
+      "q": "How long does it take?",
+      "a": "1 hr 30 min to 2 hours with the elephants on programme A. Programme B adds about 2 hours on the beach, programme C a walk of about 2 hours to a waterfall and a hidden cave. Programme D is a full day around Koh Lanta."
+    },
+    {
+      "q": "Is it suitable for small children?",
+      "a": "Yes. Ages 4 to 10 pay the child rate and under 4 go free. The ground is uneven: tell us if you come with very young children."
+    }
+  ],
+  "photos": [
+    {
+      "slot": "hero",
+      "status": "keep",
+      "file": "secret/elephant-sanctuary.webp",
+      "alt": "An elephant at the sanctuary",
+      "shot": "Elephants in the mud bath or the pool, no riding (current file is real but only 635 px: replace later)."
+    },
+    {
+      "slot": "gallery",
+      "status": "replace",
+      "file": "secret/gallery/elephant-hug.webp",
+      "alt": "A visitor hugging an elephant at the sanctuary",
+      "shot": "Visitors walking with the elephants (current file is a brochure scan)."
+    },
+    {
+      "slot": "gallery",
+      "status": "replace",
+      "file": "secret/gallery/elephant-herbal.webp",
+      "alt": "Visitors preparing herbal food for the elephants",
+      "shot": "Preparing herbal remedies, programme B (current file is a brochure scan)."
+    },
+    {
+      "slot": "gallery",
+      "status": "replace",
+      "file": "secret/gallery/elephant-bath.webp",
+      "alt": "Visitors bathing with elephants in the pool",
+      "shot": "Bathing with the elephants in the pool (current file is a 710×264 brochure scan)."
+    }
+  ],
+  "related": [
+    "/tours/cooking-class/",
+    "/tours/atv/",
+    "/tours/batik/"
+  ],
+  "schema": {
+    "type": "TouristTrip",
+    "legacyType": "TouristAttraction",
+    "places": [
+      "Koh Lanta"
+    ]
+  },
+  "legacyText": {
+    "title": "Ethical Elephant Sanctuary Koh Lanta | Secret Travel",
+    "h1": "Ethical elephant",
+    "h1em": "sanctuary",
+    "intro": [
+      "The sanctuary is on Koh Lanta. There is no riding and no show. You spend the time next to the animals, feeding them bananas, walking with them and washing them.",
+      "Sessions start at 7:30, 10:00 and 13:00. Come in clothes that can get dirty and wet, with a towel and flip-flops."
+    ],
+    "cardDescription": "Feeding and walking with the elephants, no riding.",
+    "cardInfo": [
+      "From 1,800 THB per adult",
+      "Half day"
+    ],
+    "dayTitle": "The three programmes",
+    "goodToKnow": [
+      "Children from 4 to 10 pay a child rate. Under 4 go free.",
+      "Programme C takes two people per session only. Book it early.",
+      "You will get muddy. Bring a change of clothes."
+    ],
+    "priceNote": "Prices in Thai baht. Children under 4 go free.",
+    "caption": "No riding",
+    "photoPosition": "50% 72%"
+  },
+  "sources": [
+    {
+      "field": "name, legacyText.cardDescription, legacyText.cardInfo, photos[hero]",
+      "from": "secret.json activities[id=elephant-sanctuary]"
+    },
+    {
+      "field": "seo.draft",
+      "from": "docs/refonte/02-audit-seo.md §6.2 (points de départ, prix à valider)"
+    },
+    {
+      "field": "photos[].status, photos[].shot",
+      "from": "docs/refonte/01-audit-design.md §4"
+    },
+    {
+      "field": "schema",
+      "from": "secretPagesContent.json pages.elephant-sanctuary.schemaType, places ; type cible : docs/refonte/02-audit-seo.md §6.3"
+    },
+    {
+      "field": "refPrefix",
+      "from": "code court de la référence WhatsApp (critique, idée 5), 03.11.2026"
+    },
+    {
+      "field": "seo, lead, promise, facts, price, options, day, included, notIncluded, beforeYouBook, faq",
+      "from": "site du nouveau partenaire des éléphants, page des programmes (données transmises le 08.11.2026 (troisième message du coordinateur, vérifiées en ligne ou fournies par le client)) : programmes A à D, prix, âges (adulte dès 11 ans, enfant 4 à 10, gratuit 0 à 3), séances, inclus, à apporter, terrain. Tout ce qui venait de l'ancien partenaire est retiré (prix, programmes, séances de 07:30 et 10:00, frais d'entrée du C, papier souvenir). Conditions d'annulation du partenaire non reprises (paiement en ligne chez lui)"
+    }
+  ],
+  "refPrefix": "ELE",
+  "notIncluded": [
+    "Souvenir photos, sold on site if you want them"
+  ],
+  "notes": [
+    "Partenaire changé le 08.11.2026 : les photos de galerie (statut replace, non affichées) montrent encore l'ancien programme B (remèdes aux herbes) ; à remplacer par des photos du nouveau partenaire."
+  ]
+}

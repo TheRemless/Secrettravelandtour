@@ -1,0 +1,12 @@
+{#- Planches /design/ seulement : ouverture de la feuille par #sheet (cadres mobiles de la planche). -#}
+<script>
+(function () {
+  "use strict";
+  if (location.hash === "#sheet") {
+    addEventListener("load", function () {
+      var t = document.querySelector(".mbar [data-book]") || document.querySelector("main [data-book]");
+      if (t) t.click();
+    });
+  }
+})();
+</script>

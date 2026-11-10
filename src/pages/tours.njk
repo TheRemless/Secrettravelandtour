@@ -1,0 +1,81 @@
+---
+permalink: /tours/
+---
+{#- Hub des sorties, design v4 : filtres type et tri (les cartes glissent à leur place), compteur, état dans l'adresse,
+    comparateur avec tiroir. Les 13 cartes sont rendues au build, dans l'ordre des bateaux puis des activités. -#}
+{% import "components/v4.njk" as v4 %}
+{% from "components/icons.njk" import icon %}
+{%- set d = v4data -%}
+{%- set c = d.contact -%}
+{%- set waText = "Hello, I have a question: " -%}
+{%- set seo = d.hub.seo -%}
+{%- set pageUrl = "/tours/" -%}
+{%- set jsonLd = pages.jsonLd.hub -%}
+<!DOCTYPE html>
+<html lang="en-GB" data-refonte data-page="hub">
+<head>
+{% include "v4-head.njk" %}
+</head>
+<body>
+{{ v4.header(c, d.emblem, "", waText) }}
+<main id="main">
+  <nav class="wrap crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><span aria-current="page">Trips</span></li></ol></nav>
+  <div class="wrap top">
+    <h1>{{ d.hub.h1 }}</h1>
+    <p class="lead">{{ d.hub.lead }}</p>
+  </div>
+  {#- Une rangée collante, téléphone compris : type à gauche, tri à droite (le choix courant se lit sur bureau).
+      Elle ne colle que le long de la grille. -#}
+  <div class="hub-wrap">
+  <div class="bar" data-bar>
+    <div class="wrap bar__in">
+      <div class="seg" role="group" aria-label="Show" data-seg="type">
+        <button type="button" value="all" aria-pressed="true">All</button>
+        {%- for g in d.groups %}
+        <button type="button" value="{{ g.id }}" aria-pressed="false">{{ g.nav }}</button>
+        {%- endfor %}
+      </div>
+      <label class="sort" for="sort">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M7 4v16M4 17l3 3 3-3M14 7h7M14 12h5M14 17h3"/></svg>
+        <span class="sort__l">Sort</span><span class="sort__v" data-sort-v>Our order</span>
+        <select id="sort" data-sort><option value="">Our order</option><option value="asc">Lowest price first</option><option value="desc">Highest price first</option></select>
+      </label>
+    </div>
+  </div>
+  <section class="wrap hub" aria-labelledby="hub-h">
+    <div class="hub__head">
+      <h2 class="hub__n" id="hub-h"><span data-hub-n aria-live="polite">All trips and activities</span></h2>
+      <button class="link hub__cmp" type="button" data-cmp-mode aria-pressed="false">Compare trips</button>
+    </div>
+    <div class="grid" data-grid>
+      {%- for g in d.groups %}{% set first = loop.first %}{% for t in g.items %}{{ v4.card(t, eager=(first and loop.first), compare=true, anchor=g.hash if loop.first else "") }}{% endfor %}{% endfor %}
+    </div>
+  </section>
+  </div>
+  {#- Les pages de service, absentes de la grille : speedboat, transferts, location. -#}
+  {%- set ar = d.home.around -%}
+  <section class="wrap hub-more" aria-labelledby="ga-h">
+    <h2 id="ga-h">Getting around</h2>
+    <ul class="lrows lrows--3">
+      {%- if ar.transfers.speedboat %}<li><a class="lrow press" href="{{ ar.transfers.speedboat.href }}"><span><b>Speedboat timetable</b><small>{{ ar.transfers.speedboat.text }}</small></span></a></li>{% endif %}
+      <li><a class="lrow press" href="/taxi/"><span><b>Private transfers</b><small>{{ ar.transfers.lead | replace(".", "") }}</small></span></a></li>
+      <li><a class="lrow press" href="{{ ar.rental.href }}"><span><b>{{ ar.rental.title }}</b><small>{% for k in ar.rental.cats %}{{ k.label if loop.first else k.label | lower }}{% if loop.revindex == 2 %} and {% elif not loop.last %}, {% endif %}{% endfor %}, from {{ ar.rental.cats[0].lo }} THB {{ ar.rental.unit }}</small></span></a></li>
+    </ul>
+  </section>
+  {{ v4.endBand(d.hub.final, c) }}
+</main>
+{{ v4.footer(site, c, d.emblem, d.boats, d.activities, waText) }}
+<div class="tray" data-tray aria-label="Trips to compare" role="region" hidden>
+  <div class="tray__slots" data-slots></div>
+  <p class="tray__txt" data-tray-t aria-live="polite"></p>
+  <button class="btn btn--light press" type="button" data-cmp-go disabled>Compare</button>
+  <button class="x x--dark" type="button" data-cmp-clear>{{ icon("close") }}<span class="sr">Clear the comparison</span></button>
+</div>
+<dialog class="cmpd" data-cmpd aria-labelledby="cmpd-h">
+  <div class="cmpd__head"><h2 id="cmpd-h">Compare</h2><button class="x" type="button" data-close>{{ icon("close") }}<span class="sr">Close</span></button></div>
+  <div class="cmpd__scroll" data-cmpd-t tabindex="0"></div>
+</dialog>
+{{ v4.tripsRoot() }}
+{{ v4.scripts(build, "hub") }}
+</body>
+</html>

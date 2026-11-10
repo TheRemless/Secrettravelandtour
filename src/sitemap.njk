@@ -10,14 +10,22 @@ eleventyExcludeFromCollections: true
   <url>
     <loc>https://secrettravelandtour.com/taxi/</loc>
   </url>
-{%- for p in secretPages.pages %}
+{%- for u in ["/tours/", "/tours/4-islands/", "/tours/rental/", "/tours/speedboat/"] %}
   <url>
-    <loc>{{ p.url }}</loc>
+    <loc>https://secrettravelandtour.com{{ u }}</loc>
   </url>
 {%- endfor %}
-{%- for r in taxiRoutesView.routes %}
+{%- for p in v4data.productPages %}
   <url>
-    <loc>{{ r.url }}</loc>
+    <loc>https://secrettravelandtour.com{{ p.url }}</loc>
+  </url>
+{%- endfor %}
+  <url>
+    <loc>https://secrettravelandtour.com/taxi/songthaew/</loc>
+  </url>
+{%- for r in taxiPages.routes %}
+  <url>
+    <loc>https://secrettravelandtour.com{{ r.url }}</loc>
   </url>
 {%- endfor %}
 </urlset>

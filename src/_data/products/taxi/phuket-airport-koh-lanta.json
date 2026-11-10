@@ -1,0 +1,143 @@
+{
+  "slug": "phuket-airport-koh-lanta",
+  "url": "/taxi/phuket-airport-koh-lanta/",
+  "brand": "vip",
+  "template": "route",
+  "name": "Phuket Airport to Koh Lanta",
+  "seo": {
+    "title": "Phuket Airport to Koh Lanta Private Minivan | VIP Taxi Lanta",
+    "metaDescription": "Private minivan between Phuket Airport (HKT) and Koh Lanta, both directions, hotel to hotel, one vehicle. Cash to the driver. Price on WhatsApp."
+  },
+  "h1": "Phuket Airport to Koh Lanta by private minivan",
+  "lead": "A private minivan between Phuket Airport (HKT) and your hotel on Koh Lanta, in either direction, with no change of vehicle.",
+  "route": {
+    "from": "Phuket Airport",
+    "to": "Koh Lanta",
+    "code": "HKT",
+    "bothDirections": true,
+    "drive": "about 4 to 5 hours",
+    "points": [
+      "Phuket Airport (HKT)",
+      "Your hotel on Koh Lanta"
+    ],
+    "region": "Phuket and Khao Lak"
+  },
+  "facts": [
+    {
+      "label": "Drive time",
+      "value": "About 4 to 5 hours, depending on traffic"
+    },
+    {
+      "label": "Airport code",
+      "value": "HKT"
+    },
+    {
+      "label": "Pickup and drop-off",
+      "value": "Phuket Airport (HKT), Your hotel on Koh Lanta"
+    },
+    {
+      "label": "Directions",
+      "value": "Both directions"
+    },
+    {
+      "label": "Vehicle change",
+      "value": "None, one vehicle from the airport to your hotel"
+    },
+    {
+      "label": "Stops",
+      "value": "When you want them"
+    }
+  ],
+  "priceOnRequest": true,
+  "faq": [
+    {
+      "q": "Is it one vehicle all the way from Phuket Airport?",
+      "a": "Yes. A private minivan from the airport to your hotel on Koh Lanta, no change of vehicle."
+    },
+    {
+      "q": "Can we stop on the way?",
+      "a": "Yes, short stops are fine. Just ask the driver. A long detour or a long stop costs extra, so ask the team for the price on WhatsApp."
+    }
+  ],
+  "photos": [
+    {
+      "file": "taxi/van-seats.webp",
+      "alt": "Minivan interior with diamond-stitched tan leather seats and a lit ceiling",
+      "slot": "hero",
+      "status": "keep",
+      "shot": "Real photo of the VIP Taxi Lanta minivan, shared by every route page today: one photo per route later if possible."
+    },
+    {
+      "slot": "meeting-point",
+      "status": "missing",
+      "shot": "Where the driver meets you at Phuket Airport (arrivals exit, sign with the client's name), no faces needed."
+    }
+  ],
+  "related": [
+    "/taxi/southern-thailand/",
+    "/taxi/koh-lanta-khao-lak/"
+  ],
+  "schema": {
+    "type": "TaxiService",
+    "legacyType": "TaxiService",
+    "serviceType": "Private minivan transfer",
+    "areaServed": [
+      "Phuket Airport",
+      "Koh Lanta"
+    ]
+  },
+  "legacyText": {
+    "title": "Phuket Airport to Koh Lanta Minivan Taxi | VIP Taxi Lanta",
+    "body": [
+      "You travel in one vehicle from Phuket Airport to your hotel door on Koh Lanta, with short stops on the way if you need them. Send your flight time, your hotel and the number of people, and the team replies with the price.",
+      "The same transfer runs from Koh Lanta to Phuket Airport for your departure."
+    ]
+  },
+  "sources": [
+    {
+      "field": "name, seo, h1, lead, route, faq, legacyText",
+      "from": "taxiRoutes.json routes[id=phuket-airport-koh-lanta]"
+    },
+    {
+      "field": "route.drive, facts[Drive time]",
+      "from": "taxiRoutes.json routes[id=phuket-airport-koh-lanta].drive (durées approximatives relevées le 30.10.2026, registre de faits)"
+    },
+    {
+      "field": "route.points, facts[Pickup and drop-off]",
+      "from": "taxiRoutes.json routes[id=phuket-airport-koh-lanta].lead, body, faq"
+    },
+    {
+      "field": "route.region, related",
+      "from": "taxiRoutes.json regions"
+    },
+    {
+      "field": "priceOnRequest",
+      "from": "Décision client du 02.11.2026 : prix des transferts privés sur WhatsApp"
+    },
+    {
+      "field": "photos",
+      "from": "src/taxi-route.njk (van-seats.webp) ; docs/refonte/01-audit-design.md §4 (photos du van à garder) ; 00-BRIEF §6.4 (point de rencontre)"
+    },
+    {
+      "field": "schema",
+      "from": "src/_data/taxiRoutesView.js"
+    },
+    {
+      "field": "seo.title, seo.metaDescription, h1",
+      "from": "Refonte taxi v1 (10.11.2026) : même forme que Krabi Airport, « Minivan Taxi » banni (03-audit-contenu §6.6). Même trajet, mêmes faits."
+    },
+    {
+      "field": "priceFrom",
+      "from": "Grille « Private Taxi » de VIP Taxi Lanta, colonne Selling, prix pour 1 à 2 clients (base partenaires, ~/Downloads/Secret Travel & Tour/VIP Taxi Lanta - Private Taxi.jpg). Affichage « from » décidé par Jérémy le 10.11.2026. Ligne : From / to Phuket Airport / Phuket Town"
+    },
+    {
+      "field": "legacyText.body, faq[Can we stop on the way?]",
+      "from": "Jérémy, 10.11.2026 : petits arrêts possibles, grands détours ou longs arrêts en supplément sur demande"
+    }
+  ],
+  "priceFrom": {
+    "thb": 4500,
+    "people": "1 or 2",
+    "approx": false
+  }
+}

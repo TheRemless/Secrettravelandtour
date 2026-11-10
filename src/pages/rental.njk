@@ -1,0 +1,66 @@
+---
+permalink: /tours/rental/
+---
+{#- Location, design v4 : onglets par catégorie (scooters d'abord), chaque véhicule est une ligne qui ouvre la feuille
+    avec ce modèle. Puis « Before you book » et les autres pages (pas de photo déclarée, pas de déroulé, pas d'inclus). -#}
+{% import "components/v4.njk" as v4 %}
+{% import "components/v4-product.njk" as vp %}
+{% from "components/booking.njk" import bookingSheet %}
+{%- set d = v4data -%}
+{%- set t = d.rentalPage -%}
+{%- set c = d.contact -%}
+{%- set seo = t.seo -%}
+{%- set pageUrl = t.url -%}
+{%- set jsonLd = t.jsonLd -%}
+{%- set waText = t.ask -%}
+{%- set fallback = v4.waHref(c.number, t.fallback) -%}
+<!DOCTYPE html>
+<html lang="en-GB" data-refonte data-page="product">
+<head>
+{% include "v4-head.njk" %}
+</head>
+<body>
+{{ v4.header(c, d.emblem, t.nav, waText) }}
+<main id="main">
+  {{ vp.crumbs([{ label: "Home", href: "/" }, { label: t.crumb }]) }}
+  {#- Haut de page qui sert à choisir : titre, une phrase, puis tout de suite les véhicules, une catégorie à la fois
+      (sans JS, les trois listes se suivent). Bureau : texte à gauche, liste à droite. -#}
+  <div class="wrap rhero">
+    <div class="rhero__text">
+      <h1 id="h1">{{ t.h1 }}</h1>
+      <p class="lead">{{ t.lead }}</p>
+      <a class="link" href="{{ v4.waHref(c.number, t.ask) }}">Ask a question on WhatsApp</a>
+    </div>
+    <section class="rent" id="options" aria-labelledby="opt-h">
+      <h2 id="opt-h" class="rent__h">Vehicles and prices</h2>
+      <div class="seg rent__seg" role="group" aria-label="Vehicle type" data-seg="rent">
+        {%- for g in t.cats %}
+        <button type="button" value="{{ g.id }}" aria-pressed="{{ 'true' if loop.first else 'false' }}" aria-controls="cat-{{ g.id }}" data-from="{{ g.from }}" data-short="{{ g.short }}">{{ g.short }}<span class="rent__n">{{ g.count }}</span></button>
+        {%- endfor %}
+      </div>
+      {%- for g in t.cats %}
+      <div class="rent__cat" id="cat-{{ g.id }}" data-cat="{{ g.id }}" aria-labelledby="cat-{{ g.id }}-h">
+        <h3 class="rent__ch" id="cat-{{ g.id }}-h">{{ g.label }}</h3>
+        <p class="rent__range"><b>{{ g.lo | replace(" THB", "") }} to {{ g.hi }}</b>{% if g.unit %} <small>{{ g.unit }}</small>{% endif %}<span class="rent__tap">Choose a model to ask for it.</span></p>
+        <ul class="vrows">
+          {%- for r in g.rows %}
+          <li><a class="vrow press" href="{{ v4.waHref(c.number, r.fallback) }}" data-book="{{ g.id }}" data-vehicle="{{ r.label }}"><span>{{ r.label }}{% if r.spec %}<small class="vrow__spec">{{ r.spec }}</small>{% endif %}</span><span class="opts__amt"><b>{{ r.amount }}</b>{% if r.unit %} <small>{{ r.unit }}</small>{% endif %}</span></a></li>
+          {%- endfor %}
+        </ul>
+      </div>
+      {%- endfor %}
+    </section>
+  </div>
+
+  {%- if t.beforeBook.length or t.faq.length %}{{ vp.bybFaq(t.beforeBook, t.faq, "compact") }}{% endif %}
+  {{ vp.related(t.related) }}
+</main>
+{{ v4.footer(site, c, d.emblem, d.boats, d.activities, waText) }}
+{{ vp.dock(t.price, fallback, t.cats[0].id, "Choose a vehicle") }}
+{{ bookingSheet(t.booking, c) }}
+{{ v4.tripsRoot() }}
+<script src="/js/v4-price.js?v={{ build.v }}" defer></script>
+<script src="/js/booking.js?v={{ build.v }}" defer></script>
+{{ v4.scripts(build, "product") }}
+</body>
+</html>

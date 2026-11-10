@@ -35,37 +35,51 @@ test("aucun nom de prestataire dans les noms de fichiers d'images", () => {
 
 test("plongée : une page avec les niveaux, de l'essai d'un jour aux cours avancés", () => {
   const doc = fs.readFileSync(path.join(site, "tours", "scuba-diving", "index.html"), "utf8");
-  for (const level of ["Kids Scuba Explorer", "Basic Diver", "Open Water Diver", "Advanced Open Water Diver", "React Right", "Stress and Rescue Diver", "Deep Diver", "Nitrox"]) {
+  for (const level of ["Scuba Explorer", "Discover Basic Diver", "Open Water Diver", "Advanced Open Water Diver", "React Right", "Stress and Rescue Diver", "Deep Diver", "Nitrox"]) {
     assert.ok(doc.includes(level), level);
   }
-  assert.match(doc, /Koh Haa or Koh Bida/);
+  assert.match(doc, /Koh Haa, or Phi Phi and Koh Bida/);
   assert.match(doc, /medically fit/);
   assert.doesNotMatch(doc, /฿|CHF|€|per person\s*:?\s*\d/);
   const home = fs.readFileSync(path.join(site, "index.html"), "utf8");
   assert.match(home, /href="\/tours\/scuba-diving\/"/);
 });
 
-test("formulaires : la date est obligatoire (radios required) sur l'accueil et sur /taxi/", () => {
-  const home = fs.readFileSync(path.join(site, "index.html"), "utf8");
+test("formulaires : la date est obligatoire, sur la feuille des pages refaites et sur /taxi/", () => {
+  // Depuis l'étape 3, l'accueil n'a plus de formulaire : la feuille de réservation (booking.js) le remplace.
+  const tour = fs.readFileSync(path.join(site, "tours", "4-islands", "index.html"), "utf8");
   const taxi = fs.readFileSync(path.join(site, "taxi", "index.html"), "utf8");
   const radios = (doc, name) => doc.match(new RegExp(`<input type="radio" name="${name}"[^>]*>`, "g")) || [];
-  for (const [doc, name] of [[home, "dateChoice"], [taxi, "date_choice"]]) {
-    const found = radios(doc, name);
-    assert.equal(found.length, 3, name);
-    for (const tag of found) assert.match(tag, /\brequired\b/, tag);
-  }
+  assert.equal(radios(tour, "dateChoice").length, 3);
+  const booking = require("../src/js/booking.js");
+  assert.equal(booking.validate({ variant: "tour", options: [] }, { today: "2026-11-03", adults: 2, childAges: [], pickup: "x", name: "A" }).date, "Pick a date.");
+  // Refonte taxi v1 (10.11.2026) : /taxi/ réserve aussi par la feuille, la date y est contrôlée par booking.js.
+  assert.equal(radios(taxi, "dateChoice").length, 3);
+  assert.equal(booking.validate({ variant: "taxi" }, { today: "2026-11-03", adults: 2, childAges: [], from: "Koh Lanta", to: "Trang", time: "10:00", pickupAt: "x", dropoffAt: "y", name: "A" }).date, "Pick a date.");
 });
 
+// Pages v4 (08.11.2026) : les prix viennent de products/** ; la 4 Islands a son calculateur (id="h-prices"),
+// les autres fiches leur section « Options and prices » (id="opt-h") avec un bouton par option.
 test("prix : affichés sur les pages qui en ont, jamais dans les données structurées, jamais de net ni de commission", () => {
-  const pages = require("../src/_data/secretPages.js")();
-  const withPrices = pages.pages.filter((p) => p.prices && p.prices.length);
-  assert.ok(withPrices.length >= 12, String(withPrices.length));
+  const DATA = path.join(__dirname, "..", "src", "_data", "products");
+  const withPrices = ["tours", "activities"].flatMap((d) => fs.readdirSync(path.join(DATA, d)).map((f) => require(path.join(DATA, d, f))))
+    .concat([require(path.join(DATA, "rental.json"))]).filter((p) => (p.options || []).some((o) => (o.prices || []).length));
+  assert.ok(withPrices.length >= 9, String(withPrices.length));
+  const four = fs.readFileSync(path.join(site, "tours", "4-islands", "index.html"), "utf8");
+  assert.match(four, /id="h-prices"/);
   for (const p of withPrices) {
-    const doc = fs.readFileSync(path.join(site, "tours", p.id, "index.html"), "utf8");
-    assert.match(doc, /id="h-prices"/, p.id);
-    for (const g of p.prices) for (const r of g.rows) assert.match(r.price, /^(\+?[\d,]+( or [\d,]+)? THB|Free|\d+% off)$/, `${p.id} : ${r.label}`);
-    assert.match(doc, />Book now</, p.id);
-    assert.doesNotMatch(JSON.stringify(p.jsonLd), /"price"|priceCurrency/, p.id);
+    const doc = fs.readFileSync(path.join(site, p.url, "index.html"), "utf8");
+    if (p.slug !== "4-islands") {
+      assert.match(doc, /id="opt-h"/, p.slug);
+      // Phase 1 (09.11.2026) : un seul bouton de réservation dans le bloc des options (« Choose a date »).
+      // Phase 2 : la location n'a plus de bouton par catégorie, chaque véhicule ouvre la feuille (« Choose a vehicle »).
+      assert.match(doc, />(Choose a date|Choose a vehicle)</, p.slug);
+    }
+    for (const o of p.options || []) for (const r of o.prices || []) {
+      const shown = typeof r.amount === "number" ? (r.amount === 0 ? "Free" : Number(r.amount).toLocaleString("en-GB") + " THB") : r.text;
+      assert.match(shown, /^(\+?[\d,]+( or [\d,]+)? THB|Free|\d+% off)$/, `${p.slug} : ${r.label}`);
+    }
+    for (const m of doc.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) assert.doesNotMatch(m[1], /"price"|priceCurrency/, p.slug);
   }
   const all = JSON.stringify(require("../src/_data/secretPagesContent.json")) + JSON.stringify(require("../src/_data/secret.json"));
   assert.doesNotMatch(all, /commission|net price|agent price|selling price|contract rate/i);
@@ -78,17 +92,20 @@ test("nouvelles pages : batik, karting, kayak, location et speedboat existent et
     assert.match(sitemap, new RegExp(`/tours/${id}/`), id);
   }
   const speed = fs.readFileSync(path.join(site, "tours", "speedboat", "index.html"), "utf8");
-  assert.match(speed, /href="\/\?transfer=speedboat#tell-us"/);
-  assert.doesNotMatch(speed, /\d\s?THB/);
+  // Plus de formulaire d'accueil : chaque arrêt de la grille ouvre la feuille sur son trajet et son heure.
+  assert.match(speed, /data-sb-route="to-koh-phi-phi" data-sb-dep="to-koh-phi-phi@0900"/);
+  // Aucun prix de billet (aucun dans les données) : ni dans le haut de page ni dans la grille. Les cartes des sorties
+  // voisines, plus bas, gardent leur prix d'appel.
+  assert.doesNotMatch(speed.split('aria-labelledby="rel-h"')[0], /\d\s?THB/);
   const home = fs.readFileSync(path.join(site, "index.html"), "utf8");
   assert.match(home, /href="\/tours\/speedboat\/"/);
 });
 
 test("formulaires : l'heure de prise en charge est marquée obligatoire", () => {
-  const home = fs.readFileSync(path.join(site, "index.html"), "utf8");
+  const route = fs.readFileSync(path.join(site, "taxi", "krabi-airport-koh-lanta", "index.html"), "utf8");
   const taxi = fs.readFileSync(path.join(site, "taxi", "index.html"), "utf8");
-  assert.match(home, /<input id="f-t-time"[^>]*aria-required="true"/);
-  assert.match(taxi, /<input id="f-time"[^>]*aria-required="true"/);
+  assert.match(route, /<input id="book-time"[^>]*aria-required="true"/);
+  assert.match(taxi, /<input id="book-time"[^>]*aria-required="true"/);
 });
 
 test("photos : chaque excursion, activité et transfert a une photo qui existe, avec un texte alternatif", () => {
@@ -100,16 +117,26 @@ test("photos : chaque excursion, activité et transfert a une photo qui existe, 
   }
 });
 
-test("galeries : chaque photo citée existe, avec un texte alternatif, et s'affiche sur sa page", () => {
-  const pages = require("../src/_data/secretPages.js")();
-  const withGallery = pages.pages.filter((p) => p.gallery && p.gallery.length);
+// Les anciennes galeries (secretPagesContent.json) restent des fichiers vérifiés ; depuis la v4, une fiche n'affiche
+// que les photos de photos-v3.json (règle du design) : la photo de sa carte en haut de page, avec son texte alternatif.
+test("galeries : chaque photo citée existe, avec un texte alternatif ; chaque fiche montre sa photo déclarée", () => {
+  const content = require("../src/_data/secretPagesContent.json").pages;
+  const withGallery = Object.entries(content).filter(([, p]) => p.gallery && p.gallery.length);
   assert.ok(withGallery.length >= 8, String(withGallery.length));
-  for (const p of withGallery) {
-    const doc = fs.readFileSync(path.join(site, "tours", p.id, "index.html"), "utf8");
+  for (const [id, p] of withGallery) {
     for (const g of p.gallery) {
-      assert.ok(fs.existsSync(path.join(site, "images", "secret", "gallery", g.src)), `${p.id} : ${g.src}`);
-      assert.ok(g.alt.length > 15, `${p.id} : alt`);
-      assert.ok(doc.includes(`/images/secret/gallery/${g.src}`), `${p.id} : ${g.src} absent de la page`);
+      assert.ok(fs.existsSync(path.join(site, "images", "secret", "gallery", g.src)), `${id} : ${g.src}`);
+      assert.ok(g.alt.length > 15, `${id} : alt`);
     }
+  }
+  const photos = require("../src/_data/photos-v3.json").photos;
+  const CARD = { "koh-rok-koh-haa": "card-koh-rok", "koh-phi-phi": "card-koh-phi-phi", mangroves: "card-mangroves",
+    "fishing-trip": "card-fishing", "elephant-sanctuary": "card-elephant", kayak: "card-kayak", "cooking-class": "card-cooking", "scuba-diving": "card-scuba",
+    atv: "card-atv", batik: "card-batik", "go-kart": "card-go-kart" };
+  for (const [slug, id] of Object.entries(CARD)) {
+    const doc = fs.readFileSync(path.join(site, "tours", slug, "index.html"), "utf8");
+    const ph = photos.find((x) => x.id === id);
+    const hero = doc.split('class="phero__ph"')[1].split("</picture>")[0];
+    assert.ok(hero.includes(`alt="${ph.alt.replace(/'/g, "&#39;")}"`), `${slug} : photo du haut`);
   }
 });

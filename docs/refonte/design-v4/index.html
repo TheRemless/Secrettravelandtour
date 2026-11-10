@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>STT design v4, propositions</title>
+<style>
+  :root { --ink: #14262B; --mute: #546A65; --line: #E3DACB; --sand: #F6EFE4; --deep: #0B3B3C; --sea: #0F6B61; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 32px 20px 96px; background: #fff; color: var(--ink); font: 15px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 1320px; margin: 0 auto; }
+  h1 { margin: 0 0 8px; font-size: 28px; line-height: 1.2; }
+  h2 { margin: 56px 0 12px; padding-top: 24px; border-top: 1px solid var(--line); font-size: 22px; }
+  h3 { margin: 28px 0 8px; font-size: 17px; }
+  p { max-width: 78ch; }
+  a { color: var(--sea); }
+  .protos { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-top: 16px; }
+  .proto { padding: 16px; border: 1px solid var(--line); border-radius: 12px; }
+  .proto b { display: block; font-size: 16px; }
+  .proto p { margin: 6px 0 10px; color: var(--mute); font-size: 14px; }
+  .proto a { display: inline-block; margin-right: 12px; min-height: 32px; }
+  .shots { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) repeat(3, minmax(0, 150px)); gap: 10px; }
+  .shots figure { margin: 0; }
+  .shots figcaption { font-size: 12px; color: var(--mute); margin-bottom: 4px; }
+  .shots .box { height: 460px; overflow-y: auto; border: 1px solid var(--line); border-radius: 8px; }
+  .shots img { display: block; width: 100%; height: auto; }
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 14px; }
+  th, td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+  th { background: var(--sand); font-weight: 600; }
+  td:nth-child(3) { white-space: nowrap; font-weight: 600; }
+  .scroll { overflow-x: auto; }
+  .reco li { margin: 6px 0; }
+  @media (max-width: 900px) { .shots { grid-template-columns: repeat(3, minmax(0, 1fr)); } .shots .box { height: 320px; } }
+</style>
+</head>
+<body>
+<main>
+<h1>Secret Travel &amp; Tour, design v4 : cinq propositions et leur évaluation</h1>
+<p>Cinq agents ont travaillé chacun avec un regard différent sur les trois mêmes pages. Tous les prototypes marchent : on peut filtrer, calculer un prix, choisir une date et générer le message WhatsApp. Ils lisent les prix et les faits dans les données du site. Ce qui manque est marqué [DONNÉE À FOURNIR] dans les pages.</p>
+
+<h2>Les prototypes à essayer</h2>
+<div class="protos">
+  <div class="proto"><b>Réservation</b><p>Point de vue d'une grande plateforme de réservation : total du groupe partout, carte de réservation collante, liste de sorties, hub filtrable.</p><a href="propositions/reservation/home.html">Accueil</a><a href="propositions/reservation/4-islands.html">4 Islands</a><a href="propositions/reservation/tours.html">Hub</a><a href="propositions/reservation/variantes.html">Variantes</a></div>
+  <div class="proto"><b>Récit</b><p>Direction artistique éditoriale : grande typographie, photo franche, la journée 4 Islands sur une carte qui avance pendant la lecture.</p><a href="propositions/recit/home.html">Accueil</a><a href="propositions/recit/4-islands.html">4 Islands</a><a href="propositions/recit/tours.html">Hub</a><a href="propositions/recit/variantes.html">Variantes</a></div>
+  <div class="proto"><b>Mouvement</b><p>Fluidité et interactions : la photo de la carte devient le hero de la page suivante, galerie au doigt, feuille de réservation qui suit le geste.</p><a href="propositions/mouvement/home.html">Accueil</a><a href="propositions/mouvement/4-islands.html">4 Islands</a><a href="propositions/mouvement/tours.html">Hub</a><a href="propositions/mouvement/variantes.html">Variantes</a></div>
+  <div class="proto"><b>Mobile</b><p>Pensé d'abord pour le téléphone : ruban de dates qui filtre, « My week » en un seul message, comparateur de deux sorties.</p><a href="propositions/mobile/home.html">Accueil</a><a href="propositions/mobile/4-islands.html">4 Islands</a><a href="propositions/mobile/tours.html">Hub</a><a href="propositions/mobile/variantes.html">Variantes</a></div>
+  <div class="proto"><b>Rupture</b><p>Le site comme une carte marine : on touche une île et on voit ce qui y va. Frise de ce qui part tel jour.</p><a href="propositions/rupture/home.html">Accueil</a><a href="propositions/rupture/4-islands.html">4 Islands</a><a href="propositions/rupture/tours.html">Hub</a><a href="propositions/rupture/variantes.html">Variantes</a></div>
+</div>
+
+<h2>Captures (bureau 1440 puis mobile 390, faire défiler chaque cadre)</h2>
+<h3>Réservation</h3>
+<div class="shots">
+  <figure><figcaption>Accueil</figcaption><div class="box"><img src="board-img/reservation-home-1440.jpg" alt="Réservation, accueil, bureau" loading="lazy"></div></figure>
+  <figure><figcaption>4 Islands</figcaption><div class="box"><img src="board-img/reservation-4-islands-1440.jpg" alt="Réservation, 4 Islands, bureau" loading="lazy"></div></figure>
+  <figure><figcaption>Hub</figcaption><div class="box"><img src="board-img/reservation-tours-1440.jpg" alt="Réservation, hub, bureau" loading="lazy"></div></figure>
+  <figure><figcaption>Accueil</figcaption><div class="box"><img src="board-img/reservation-home-390.jpg" alt="Réservation, accueil, mobile" loading="lazy"></div></figure>
+  <figure><figcaption>4 Islands</figcaption><div class="box"><img src="board-img/reservation-4-islands-390.jpg" alt="Réservation, 4 Islands, mobile" loading="lazy"></div></figure>
+  <figure><figcaption>Hub</figcaption><div class="box"><img src="board-img/reservation-tours-390.jpg" alt="Réservation, hub, mobile" loading="lazy"></div></figure>
+</div>
+<h3>Récit</h3>
+<div class="shots">
+  <figure><figcaption>Accueil</figcaption><div class="box"><img src="board-img/recit-home-1440.jpg" alt="Récit, accueil, bureau" loading="lazy"></div></figure>
+  <figure><figcaption>4 Islands</figcaption><div class="box"><img src="board-img/recit-4-islands-1440.jpg" alt="Récit, 4 Islands, bureau" loading="lazy"></div></figure>
+  <figure><figcaption>Hub</figcaption><div class="box"><img src="board-img/recit-tours-1440.jpg" alt="Récit, hub, bureau" loading="lazy"></div></figure>
+  <figure><figcaption>Accueil</figcaption><div class="box"><img src="board-img/recit-home-390.jpg" alt="Récit, accueil, mobile" loading="lazy"></div></figure>
+  <figure><figcaption>4 Islands</figcaption><div class="box"><img src="board-img/recit-4-islands-390.jpg" alt="Récit, 4 Islands, mobile" loading="lazy"></div></figure>
+  <figure><figcaption>Hub</figcaption><div class="box"><img src="board-img/recit-tours-390.jpg" alt="Récit, hub, mobile" loading="lazy"></div></figure>
+</div>
+<h3>Mouvement</h3>
+<div class="shots">
+  <figure><figcaption>Accueil</figcaption><div class="box"><img src="board-img/mouvement-home-1440.jpg" alt="Mouvement, accueil, bureau" loading="lazy"></div></figure>
+  <figure><figcaption>4 Islands</figcaption><div class="box"><img src="board-img/mouvement-4-islands-1440.jpg" alt="Mouvement, 4 Islands, bureau" loading="lazy"></div></figure>
+  <figure><figcaption>Hub</figcaption><div class="box"><img src="board-img/mouvement-tours-1440.jpg" alt="Mouvement, hub, bureau" loading="lazy"></div></figure>
+  <figure><figcaption>Accueil</figcaption><div class="box"><img src="board-img/mouvement-home-390.jpg" alt="Mouvement, accueil, mobile" loading="lazy"></div></figure>
+  <figure><figcaption>4 Islands</figcaption><div class="box"><img src="board-img/mouvement-4-islands-390.jpg" alt="Mouvement, 4 Islands, mobile" loading="lazy"></div></figure>
+  <figure><figcaption>Hub</figcaption><div class="box"><img src="board-img/mouvement-tours-390.jpg" alt="Mouvement, hub, mobile" loading="lazy"></div></figure>
+</div>
+<h3>Mobile</h3>
+<div class="shots">
+  <figure><figcaption>Accueil</figcaption><div class="box"><img src="board-img/mobile-home-1440.jpg" alt="Mobile, accueil, bureau" loading="lazy"></div></figure>
+  <figure><figcaption>4 Islands</figcaption><div class="box"><img src="board-img/mobile-4-islands-1440.jpg" alt="Mobile, 4 Islands, bureau" loading="lazy"></div></figure>
+  <figure><figcaption>Hub</figcaption><div class="box"><img src="board-img/mobile-tours-1440.jpg" alt="Mobile, hub, bureau" loading="lazy"></div></figure>
+  <figure><figcaption>Accueil</figcaption><div class="box"><img src="board-img/mobile-home-390.jpg" alt="Mobile, accueil, mobile" loading="lazy"></div></figure>
+  <figure><figcaption>4 Islands</figcaption><div class="box"><img src="board-img/mobile-4-islands-390.jpg" alt="Mobile, 4 Islands, mobile" loading="lazy"></div></figure>
+  <figure><figcaption>Hub</figcaption><div class="box"><img src="board-img/mobile-tours-390.jpg" alt="Mobile, hub, mobile" loading="lazy"></div></figure>
+</div>
+<h3>Rupture</h3>
+<div class="shots">
+  <figure><figcaption>Accueil</figcaption><div class="box"><img src="board-img/rupture-home-1440.jpg" alt="Rupture, accueil, bureau" loading="lazy"></div></figure>
+  <figure><figcaption>4 Islands</figcaption><div class="box"><img src="board-img/rupture-4-islands-1440.jpg" alt="Rupture, 4 Islands, bureau" loading="lazy"></div></figure>
+  <figure><figcaption>Hub</figcaption><div class="box"><img src="board-img/rupture-tours-1440.jpg" alt="Rupture, hub, bureau" loading="lazy"></div></figure>
+  <figure><figcaption>Accueil</figcaption><div class="box"><img src="board-img/rupture-home-390.jpg" alt="Rupture, accueil, mobile" loading="lazy"></div></figure>
+  <figure><figcaption>4 Islands</figcaption><div class="box"><img src="board-img/rupture-4-islands-390.jpg" alt="Rupture, 4 Islands, mobile" loading="lazy"></div></figure>
+  <figure><figcaption>Hub</figcaption><div class="box"><img src="board-img/rupture-tours-390.jpg" alt="Rupture, hub, mobile" loading="lazy"></div></figure>
+</div>
+
+<h2>Évaluation idée par idée</h2>
+<p>Retenue : je la construis dans la v4. Plus tard : bonne idée qui attend une donnée ou une autre étape. Écartée : la raison est donnée. Les idées proches proposées par plusieurs agents sont regroupées.</p>
+<div class="scroll"><table>
+<thead><tr><th>Idée</th><th>Proposée par</th><th>Verdict</th><th>Raison</th></tr></thead>
+<tbody>
+<tr><td colspan="4"><b>Tout le site</b></td></tr>
+<tr><td>Prix pour le groupe : âge de chaque enfant, total ligne par ligne, frais de parc en espèces à part</td><td>les cinq</td><td>Retenue</td><td>Première question d'une famille. Calculé depuis les données, rien à inventer</td></tr>
+<tr><td>Liste de sorties sur plusieurs jours, envoyée en un seul message WhatsApp classé par jour</td><td>réservation, mobile, rupture</td><td>Retenue</td><td>Usage réel d'un voyageur qui reste une semaine. Une demande complète au lieu de trois</td></tr>
+<tr><td>Alerte quand deux sorties d'une journée tombent le même jour, annulation d'une suppression</td><td>réservation</td><td>Retenue</td><td>Évite une demande impossible, coût faible</td></tr>
+<tr><td>Groupe et dates gardés d'une page à l'autre, état dans l'adresse, lien à partager à un ami</td><td>réservation, mobile</td><td>Retenue</td><td>On ne ressaisit rien, le bouton retour garde les filtres</td></tr>
+<tr><td>Ruban de dates à l'heure de Bangkok (Today, Tomorrow, 14 jours, autre date)</td><td>réservation, mobile, mouvement, récit</td><td>Retenue</td><td>Choisir une date en un geste</td></tr>
+<tr><td>Disponibilité selon le jour : saison de Koh Rok, jours des cours de cuisine</td><td>mobile, rupture, réservation</td><td>Retenue</td><td>Seulement les règles écrites dans les fiches. Les autres sorties ne sont jamais dites « complètes »</td></tr>
+<tr><td>La photo de la carte devient le hero de la page suivante, préchargement au survol ou au toucher</td><td>mouvement</td><td>Retenue</td><td>Effet « app » le plus net pour un coût faible. Sans effet sur Safari, sans rien casser</td></tr>
+<tr><td>Retour au toucher sur boutons et cartes, en-tête qui se compacte au défilement</td><td>mouvement</td><td>Retenue</td><td>Petites choses qui font la sensation de qualité</td></tr>
+<tr><td>Vignette floue puis photo en fondu</td><td>mouvement</td><td>Retenue</td><td>Plus de trou blanc au chargement. Jamais sur la photo du haut</td></tr>
+<tr><td>Brouillon de demande gardé 7 jours, écran après ouverture de WhatsApp (copier le message, numéro de secours)</td><td>réservation</td><td>Retenue</td><td>Moins de demandes perdues entre le clic et l'envoi</td></tr>
+<tr><td>Recherche ⌘K dans les faits</td><td>mouvement</td><td>Plus tard</td><td>13 produits : le menu et les filtres suffisent aujourd'hui</td></tr>
+<tr><td>Barre d'onglets en bas sur mobile</td><td>mobile, mouvement, rupture</td><td>Écartée</td><td>Entre en conflit avec la barre de réservation des pages produit. Deux barres basses, c'est une de trop</td></tr>
+<tr><td>Mesure des étapes de réservation</td><td>réservation</td><td>Plus tard</td><td>Demande un choix d'outil de mesure et une bannière de consentement</td></tr>
+<tr><td colspan="4"><b>Accueil</b></td></tr>
+<tr><td>Grand titre, photo pleine largeur sans rien dessus, légende factuelle</td><td>récit</td><td>Retenue</td><td>Le plus vivant des cinq heros, la photo est montrée franchement</td></tr>
+<tr><td>Hero à trois sorties au choix qui changent la photo</td><td>mouvement</td><td>Plus tard</td><td>Bonne variante, gardée si le hero photo ne convainc pas</td></tr>
+<tr><td>La carte marine en accueil</td><td>rupture</td><td>Plus tard</td><td>Idée la plus originale, mais positions approximatives : il faut un vrai fond de carte. Elle entre d'abord sur 4 Islands</td></tr>
+<tr><td>La journée 4 Islands en règle horaire de 07:45 à 16:00</td><td>récit</td><td>Retenue</td><td>Signature du site, données réelles</td></tr>
+<tr><td>Sorties en bateau en double page : 4 Islands en grand, les autres décalées</td><td>récit</td><td>Retenue</td><td>Casse la grille de cartes identiques</td></tr>
+<tr><td>« What runs on … » : ce qui part tel jour, frise au bureau, matin, après-midi et soir sur mobile</td><td>rupture, mobile</td><td>Retenue</td><td>Répond à « on fait quoi demain ? », avec les horaires des fiches</td></tr>
+<tr><td>Activités en planche contact, chaque photo dans son format</td><td>récit</td><td>Retenue</td><td>Rythme différent des bateaux, plus vivant qu'un rail</td></tr>
+<tr><td>Rail d'activités au doigt</td><td>mouvement, mobile</td><td>Écartée</td><td>Cache la moitié des activités, la planche les montre toutes</td></tr>
+<tr><td>Transferts : chercheur De / Vers avec la durée et le lien vers /taxi/</td><td>mouvement</td><td>Retenue</td><td>Un geste au lieu d'une liste, la page reste celle de VIP Taxi</td></tr>
+<tr><td>Location : type de véhicule, fourchette de prix, message prérempli</td><td>mouvement, rupture</td><td>Retenue</td><td>Données de rental.json, la location était absente de l'accueil</td></tr>
+<tr><td>« How booking works » remplacé par le vrai message qui se compose quand on choisit une sortie</td><td>récit, réservation, mouvement</td><td>Retenue</td><td>Montre au lieu d'expliquer en trois étapes</td></tr>
+<tr><td>Trouveur en questions ou phrase à trous</td><td>réservation, récit, rupture</td><td>Plus tard</td><td>Le hub filtré fait le même travail. À tester après la mise en ligne</td></tr>
+<tr><td>Bande finale qui compose le message « Not sure which trip? »</td><td>récit</td><td>Retenue</td><td>La dernière section sert à quelque chose</td></tr>
+<tr><td colspan="4"><b>4 Islands</b></td></tr>
+<tr><td>Hero en grande typographie, faits en quatre cases, photo de la grotte jusqu'au bord</td><td>récit</td><td>Retenue</td><td>Lisible d'un coup d'œil</td></tr>
+<tr><td>Galerie en mosaïque, visionneuse au doigt (glisser, pincer, tirer pour fermer)</td><td>mouvement, mobile</td><td>Retenue</td><td>Les gestes d'une app photo, sans bibliothèque</td></tr>
+<tr><td>Carte du trajet qui reste à l'écran, le bateau avance avec la lecture, bascule longtail ou speedboat qui redessine la route</td><td>récit, mouvement</td><td>Retenue</td><td>L'idée la plus forte des cinq propositions. Contours d'îles OpenStreetMap, carte marquée schématique</td></tr>
+<tr><td>Comparateur des trois bateaux avec une ligne « pour votre groupe »</td><td>réservation</td><td>Retenue</td><td>La vraie hésitation est entre les bateaux</td></tr>
+<tr><td>Carte de réservation collante au bureau, feuille au doigt sur mobile, deux étapes</td><td>réservation, mouvement</td><td>Retenue</td><td>Le prix et le bouton restent sous les yeux</td></tr>
+<tr><td>Ordre des îles au choix en bateau privé</td><td>rupture</td><td>Plus tard</td><td>À confirmer avec l'opérateur avant de le proposer</td></tr>
+<tr><td>Curseur horaire qui déplace le bateau</td><td>récit, mouvement, rupture</td><td>Écartée</td><td>Doublon de la carte qui avance avec la lecture</td></tr>
+<tr><td>Réponses qui s'ouvrent en douceur</td><td>mouvement</td><td>Retenue</td><td>CSS seul</td></tr>
+<tr><td>« Plan the other days » en fin de page, relié à la liste</td><td>réservation</td><td>Retenue</td><td>Suite naturelle après une première sortie</td></tr>
+<tr><td colspan="4"><b>Hub</b></td></tr>
+<tr><td>Bloc « Your group and your dates » : chaque carte affiche le total du groupe</td><td>réservation</td><td>Retenue</td><td>Compare les vrais montants</td></tr>
+<tr><td>Filtres avec compteurs, état vide qui propose le filtre à retirer, cartes qui glissent à leur place</td><td>réservation, mouvement, mobile</td><td>Retenue</td><td>Jamais d'impasse</td></tr>
+<tr><td>Comparateur de deux ou trois sorties</td><td>réservation, mobile, mouvement, rupture</td><td>Retenue</td><td>Quatre agents sur cinq l'ont proposé</td></tr>
+<tr><td>Trois vues : collection, liste triable, carte</td><td>récit</td><td>Retenue sans la carte</td><td>La carte attend le vrai fond de carte</td></tr>
+<tr><td>Aperçu en feuille sans quitter le hub</td><td>mouvement, mobile</td><td>Plus tard</td><td>Double emploi avec la page produit et sa transition</td></tr>
+<tr><td>Calendrier mois par mois des 13 sorties</td><td>réservation</td><td>Plus tard</td><td>La saison manque pour 9 sorties sur 13</td></tr>
+</tbody>
+</table></div>
+
+<h2>Données que les agents ont tous cherchées</h2>
+<ul class="reco">
+  <li>4 Islands en speedboat : horaires étape par étape, ponton de départ, prix des moins de 4 ans.</li>
+  <li>Frais de parc : âge du tarif enfant, et si les moins de 4 ans paient.</li>
+  <li>Bateau privé : les enfants comptent-ils dans le nombre de personnes ?</li>
+  <li>Saison des 9 sorties qui n'en ont pas, mois de fermeture du parc national.</li>
+  <li>Tranche d'âge enfant : 4 à 11 ans sur le site, 4 à 10 ans dans le registre.</li>
+  <li>Prix de Koh Talabeng &amp; Koh Bubu, délai de réponse sur WhatsApp, conditions d'annulation.</li>
+  <li>Photos réelles : speedboat, Koh Ma, buffet sur la plage, location.</li>
+</ul>
+</main>
+</body>
+</html>

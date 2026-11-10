@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>VIP Taxi Lanta, quatre directions</title>
+<style>
+:root { --ink: #1d1f22; --mute: #5d636b; --line: #dfe2e6; --bg: #f5f6f7; --card: #fff; --accent: #0b5cad; }
+* { box-sizing: border-box; }
+body { margin: 0; font: 16px/1.6 -apple-system, "Segoe UI", system-ui, sans-serif; color: var(--ink); background: var(--bg); }
+main { max-width: 1180px; margin: 0 auto; padding: 24px 16px 80px; }
+h1 { font-size: 28px; line-height: 1.15; margin: 8px 0 12px; letter-spacing: -0.01em; }
+h2 { font-size: 24px; line-height: 1.2; margin: 0 0 6px; }
+h3 { font-size: 15px; margin: 22px 0 8px; color: var(--mute); font-weight: 600; }
+p { margin: 0 0 10px; max-width: 68ch; }
+a { color: var(--accent); }
+.intro { margin-bottom: 28px; }
+.dir { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px 16px 22px; margin: 0 0 28px; }
+.dir header p { color: var(--mute); }
+.strip { display: flex; gap: 12px; overflow-x: auto; padding: 4px 0 10px; scroll-snap-type: x mandatory; }
+.strip figure { margin: 0; flex: 0 0 auto; width: 210px; scroll-snap-align: start; }
+.strip img { width: 210px; height: auto; display: block; border-radius: 10px; border: 1px solid var(--line); }
+.strip figcaption { font-size: 13px; color: var(--mute); margin-top: 6px; }
+.desk { display: grid; gap: 12px; grid-template-columns: 1fr; }
+.desk img { width: 100%; height: auto; display: block; border-radius: 8px; border: 1px solid var(--line); }
+.desk figure { margin: 0; }
+.desk figcaption { font-size: 13px; color: var(--mute); margin-top: 6px; }
+.links { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 12px 0 4px; }
+.links a { display: inline-block; padding: 8px 0; min-height: 44px; }
+.pc { display: grid; gap: 14px; grid-template-columns: 1fr; margin-top: 8px; }
+.pc ul { margin: 0; padding-left: 18px; }
+.pc li { margin: 0 0 6px; }
+.pc b { display: block; margin-bottom: 4px; }
+.choice { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px 16px; }
+@media (min-width: 760px) {
+  main { padding: 40px 32px 100px; }
+  h1 { font-size: 40px; }
+  .dir { padding: 28px; }
+  .strip figure, .strip img { width: 240px; }
+  .desk { grid-template-columns: 1fr 1fr; }
+  .pc { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+<main>
+<div class="intro">
+<h1>VIP Taxi Lanta, quatre directions</h1>
+<p>Quatre designers ont refait le hub <code>/taxi/</code>, la page trajet et la feuille de réservation, chacun dans une direction différente. Mêmes textes, mêmes données, aucun fait ajouté. Les captures sont au téléphone (390 px), puis au bureau.</p>
+<p>Deux pages trajet par direction : Krabi Airport → Koh Lanta, la plus riche, et Krabi Airport → Khao Lak, qui n'a pas de durée dans les données. Le même gabarit servira ensuite aux 17 trajets. Les maquettes sont cliquables : la feuille s'ouvre et prépare le vrai message WhatsApp.</p>
+<p>Touche une capture pour voir la page entière.</p>
+</div>
+
+<section class="dir" aria-labelledby="d-avant">
+<header><h2 id="d-avant">Aujourd'hui</h2><p>Le hub et Krabi Airport n'ont pas la même mise en page, les 16 autres trajets non plus. L'encart Secret garde l'ancienne identité.</p></header>
+<div class="strip">
+<figure><img src="planche/img/avant-hub-390.jpg" width="780" height="1688" alt="Hub actuel au téléphone" loading="lazy"><figcaption>Hub</figcaption></figure>
+<figure><img src="planche/img/avant-krabi-390.jpg" width="780" height="1688" alt="Page Krabi Airport actuelle au téléphone" loading="lazy"><figcaption>Krabi Airport</figcaption></figure>
+<figure><img src="planche/img/avant-trang-390.jpg" width="780" height="1688" alt="Page Koh Lanta Trang actuelle au téléphone" loading="lazy"><figcaption>Koh Lanta → Trang</figcaption></figure>
+</div>
+</section>
+
+<section class="dir" aria-labelledby="d-laque">
+<header>
+<h2 id="d-laque">A. Laque et or</h2>
+<p>Tirée du logo de Mr. Brown : laque noire, papier ivoire, l'or en aplat comme seul accent. Polices thaïes Chonburi et Bai Jamjuree. Un trait d'or en arc de temple cadre une seule chose par page et se dessine à l'arrivée.</p>
+</header>
+<div class="strip">
+<figure><a href="planche/img/laque-hub-390-full.jpg"><img src="planche/img/laque-hub-390.jpg" width="780" height="1688" alt="Laque et or, hub au téléphone" loading="lazy"></a><figcaption>Hub</figcaption></figure>
+<figure><a href="planche/img/laque-krabi-390-full.jpg"><img src="planche/img/laque-krabi-390.jpg" width="780" height="1688" alt="Laque et or, Krabi Airport au téléphone" loading="lazy"></a><figcaption>Krabi Airport → Koh Lanta</figcaption></figure>
+<figure><a href="planche/img/laque-khaolak-390-full.jpg"><img src="planche/img/laque-khaolak-390.jpg" width="780" height="1688" alt="Laque et or, Khao Lak au téléphone" loading="lazy"></a><figcaption>Krabi Airport → Khao Lak</figcaption></figure>
+<figure><img src="planche/img/laque-sheet-390.jpg" width="780" height="1688" alt="Laque et or, feuille de réservation" loading="lazy"><figcaption>Feuille</figcaption></figure>
+<figure><img src="planche/img/laque-sheet-preview-390.jpg" width="780" height="1688" alt="Laque et or, aperçu du message" loading="lazy"><figcaption>Aperçu du message</figcaption></figure>
+</div>
+<div class="links"><a href="propositions/laque/hub.html">Ouvrir le hub</a><a href="propositions/laque/krabi-airport-koh-lanta.html">Ouvrir Krabi Airport</a><a href="propositions/laque/krabi-airport-khao-lak.html">Ouvrir Khao Lak</a></div>
+<h3>Au bureau</h3>
+<div class="desk"><figure><img src="planche/img/laque-hub-1440.jpg" width="1440" height="900" alt="Laque et or, hub au bureau" loading="lazy"><figcaption>Hub</figcaption></figure><figure><img src="planche/img/laque-krabi-1440.jpg" width="1440" height="900" alt="Laque et or, Krabi Airport au bureau" loading="lazy"><figcaption>Krabi Airport</figcaption></figure></div>
+<div class="pc"><div><b>Pour</b><ul><li>La plus haut de gamme, et la plus proche du logo : l'éléphant et l'or sont chez eux.</li><li>Typographie thaïe, on sait où on est sans photo.</li><li>Le trajet en titre (départ, durée, arrivée) se lit d'un coup.</li></ul></div><div><b>Contre</b><ul><li>Titre du hub sur quatre lignes au téléphone.</li><li>Khao Lak, sans durée, laisse un filet un peu vide.</li><li>Ivoire proche du crème qu'on voit partout, sauvé par la laque.</li></ul></div></div>
+</section>
+
+<section class="dir" aria-labelledby="d-cuir">
+<header>
+<h2 id="d-cuir">B. Cuir et lumière</h2>
+<p>Tirée de l'intérieur du van : le fauve des sièges devient la couleur de la marque, le capitonnage en losange sert de signature, les LED bleues du plafond dessinent le trajet et s'allument quand on le choisit. Une seule police, Archivo très large.</p>
+</header>
+<div class="strip">
+<figure><a href="planche/img/cuir-hub-390-full.jpg"><img src="planche/img/cuir-hub-390.jpg" width="780" height="1688" alt="Cuir et lumière, hub au téléphone" loading="lazy"></a><figcaption>Hub</figcaption></figure>
+<figure><a href="planche/img/cuir-krabi-390-full.jpg"><img src="planche/img/cuir-krabi-390.jpg" width="780" height="1688" alt="Cuir et lumière, Krabi Airport au téléphone" loading="lazy"></a><figcaption>Krabi Airport → Koh Lanta</figcaption></figure>
+<figure><a href="planche/img/cuir-khaolak-390-full.jpg"><img src="planche/img/cuir-khaolak-390.jpg" width="780" height="1688" alt="Cuir et lumière, Khao Lak au téléphone" loading="lazy"></a><figcaption>Krabi Airport → Khao Lak</figcaption></figure>
+<figure><img src="planche/img/cuir-sheet-390.jpg" width="780" height="1688" alt="Cuir et lumière, feuille de réservation" loading="lazy"><figcaption>Feuille</figcaption></figure>
+<figure><img src="planche/img/cuir-sheet-preview-390.jpg" width="780" height="1688" alt="Cuir et lumière, aperçu du message" loading="lazy"><figcaption>Aperçu du message</figcaption></figure>
+</div>
+<div class="links"><a href="propositions/cuir/hub.html">Ouvrir le hub</a><a href="propositions/cuir/krabi-airport-koh-lanta.html">Ouvrir Krabi Airport</a><a href="propositions/cuir/krabi-airport-khao-lak.html">Ouvrir Khao Lak</a></div>
+<h3>Au bureau</h3>
+<div class="desk"><figure><img src="planche/img/cuir-hub-1440.jpg" width="1440" height="900" alt="Cuir et lumière, hub au bureau" loading="lazy"><figcaption>Hub</figcaption></figure><figure><img src="planche/img/cuir-krabi-1440.jpg" width="1440" height="900" alt="Cuir et lumière, Krabi Airport au bureau" loading="lazy"><figcaption>Krabi Airport</figcaption></figure></div>
+<div class="pc"><div><b>Pour</b><ul><li>La plus chaleureuse, et la photo du plafond prend toute la place.</li><li>Le bloc fauve de la page trajet claque au premier écran.</li><li>Un détail propre au van (les LED) devient l'animation.</li></ul></div><div><b>Contre</b><ul><li>La liste des 17 trajets du hub est longue et sage.</li><li>Fauve et bleu nuit, c'est fort : à aimer.</li><li>Archivo a déjà servi à une ancienne version de Secret.</li></ul></div></div>
+</section>
+
+<section class="dir" aria-labelledby="d-route">
+<header>
+<h2 id="d-route">C. Panneaux de la route</h2>
+<p>Le langage des panneaux de direction : chaque trajet est un panneau bleu qu'on touche, la page trajet est un grand panneau avec sa flèche, le marquage jaune avance quand on fait défiler. Le logo est accroché sur une plaque blanche sous le panneau d'accueil.</p>
+</header>
+<div class="strip">
+<figure><a href="planche/img/route-hub-390-full.jpg"><img src="planche/img/route-hub-390.jpg" width="780" height="1688" alt="Panneaux de la route, hub au téléphone" loading="lazy"></a><figcaption>Hub</figcaption></figure>
+<figure><a href="planche/img/route-krabi-390-full.jpg"><img src="planche/img/route-krabi-390.jpg" width="780" height="1688" alt="Panneaux de la route, Krabi Airport au téléphone" loading="lazy"></a><figcaption>Krabi Airport → Koh Lanta</figcaption></figure>
+<figure><a href="planche/img/route-khaolak-390-full.jpg"><img src="planche/img/route-khaolak-390.jpg" width="780" height="1688" alt="Panneaux de la route, Khao Lak au téléphone" loading="lazy"></a><figcaption>Krabi Airport → Khao Lak</figcaption></figure>
+<figure><img src="planche/img/route-sheet-390.jpg" width="780" height="1688" alt="Panneaux de la route, feuille de réservation" loading="lazy"><figcaption>Feuille</figcaption></figure>
+<figure><img src="planche/img/route-sheet-preview-390.jpg" width="780" height="1688" alt="Panneaux de la route, aperçu du message" loading="lazy"><figcaption>Aperçu du message</figcaption></figure>
+</div>
+<div class="links"><a href="propositions/route/hub.html">Ouvrir le hub</a><a href="propositions/route/krabi-airport-koh-lanta.html">Ouvrir Krabi Airport</a><a href="propositions/route/krabi-airport-khao-lak.html">Ouvrir Khao Lak</a></div>
+<h3>Au bureau</h3>
+<div class="desk"><figure><img src="planche/img/route-hub-1440.jpg" width="1440" height="900" alt="Panneaux de la route, hub au bureau" loading="lazy"><figcaption>Hub</figcaption></figure><figure><img src="planche/img/route-krabi-1440.jpg" width="1440" height="900" alt="Panneaux de la route, Krabi Airport au bureau" loading="lazy"><figcaption>Krabi Airport</figcaption></figure></div>
+<div class="pc"><div><b>Pour</b><ul><li>La plus originale : personne ne vend un transfert avec un panneau de direction.</li><li>Lisible d'un coup d'œil, chaque panneau bleu est un trajet à toucher.</li><li>Les trois aéroports en tête du hub, flèches dans la vraie direction.</li></ul></div><div><b>Contre</b><ul><li>Bleu et jaune, loin de l'or du logo : deux mondes qui cohabitent.</li><li>Trois phrases de liaison écrites par le designer, à valider.</li><li>Moins « VIP », plus « transport ».</li></ul></div></div>
+</section>
+
+<section class="dir" aria-labelledby="d-carte">
+<header>
+<h2 id="d-carte">D. La carte du sud</h2>
+<p>Le hub s'ouvre sur une vraie carte dessinée du sud de la Thaïlande. Les 17 trajets partent en arcs de Koh Lanta et se dessinent au chargement, on touche une ligne pour voir le trajet. Sur la page trajet, la carte se resserre sur ce seul trajet.</p>
+</header>
+<div class="strip">
+<figure><a href="planche/img/carte-hub-390-full.jpg"><img src="planche/img/carte-hub-390.jpg" width="780" height="1688" alt="La carte du sud, hub au téléphone" loading="lazy"></a><figcaption>Hub</figcaption></figure>
+<figure><a href="planche/img/carte-krabi-390-full.jpg"><img src="planche/img/carte-krabi-390.jpg" width="780" height="1688" alt="La carte du sud, Krabi Airport au téléphone" loading="lazy"></a><figcaption>Krabi Airport → Koh Lanta</figcaption></figure>
+<figure><a href="planche/img/carte-khaolak-390-full.jpg"><img src="planche/img/carte-khaolak-390.jpg" width="780" height="1688" alt="La carte du sud, Khao Lak au téléphone" loading="lazy"></a><figcaption>Krabi Airport → Khao Lak</figcaption></figure>
+<figure><img src="planche/img/carte-sheet-390.jpg" width="780" height="1688" alt="La carte du sud, feuille de réservation" loading="lazy"><figcaption>Feuille</figcaption></figure>
+<figure><img src="planche/img/carte-sheet-preview-390.jpg" width="780" height="1688" alt="La carte du sud, aperçu du message" loading="lazy"><figcaption>Aperçu du message</figcaption></figure>
+</div>
+<div class="links"><a href="propositions/carte/hub.html">Ouvrir le hub</a><a href="propositions/carte/krabi-airport-koh-lanta.html">Ouvrir Krabi Airport</a><a href="propositions/carte/krabi-airport-khao-lak.html">Ouvrir Khao Lak</a></div>
+<h3>Au bureau</h3>
+<div class="desk"><figure><img src="planche/img/carte-hub-1440.jpg" width="1440" height="900" alt="La carte du sud, hub au bureau" loading="lazy"><figcaption>Hub</figcaption></figure><figure><img src="planche/img/carte-krabi-1440.jpg" width="1440" height="900" alt="La carte du sud, Krabi Airport au bureau" loading="lazy"><figcaption>Krabi Airport</figcaption></figure></div>
+<div class="pc"><div><b>Pour</b><ul><li>Montre tout le réseau en un écran : on comprend qu'ils vont partout dans le sud.</li><li>Chaque page trajet a sa propre carte, utile et différente des 16 autres.</li><li>La plus épurée et la plus claire.</li></ul></div><div><b>Contre</b><ul><li>Autour de Koh Lanta les lignes se croisent : au doigt, on touche parfois la voisine (la liste reste là).</li><li>Le trait de côte est un peu grossier en gros plan.</li><li>Plus lourde à maintenir : la carte se génère au build.</li></ul></div></div>
+</section>
+
+<section class="choice" aria-labelledby="d-choix">
+<h2 id="d-choix">Pour choisir</h2>
+<p>Réponds avec une lettre. Les idées se combinent aussi : par exemple la carte du sud sur le hub dans l'identité laque et or, ou les panneaux bleus pour la liste des trajets dans une autre direction.</p>
+<p>Ensuite, la direction choisie passe sur <code>/taxi/</code> et les 17 trajets, avec la feuille de réservation et l'encart Secret v4. Puis revue des défauts et captures avant et après.</p>
+</section>
+</main>
+</body>
+</html>

@@ -2,6 +2,14 @@
   command = "npm run build"
   publish = "_site"
 
+[build.environment]
+  NODE_VERSION = "22"
+
+# Mise en ligne avec 2 photos temporaires (haut de la 4 Islands, ponton de Lanta Old Town), créditées sur /credits/.
+# Accord de Jérémy du 11.11.2026. À retirer quand les vraies photos sont là.
+[context.production.environment]
+  STT_ALLOW_PLACEHOLDERS = "1"
+
 # Cache navigateur. Les images générées dans /img/ portent un hash dans leur nom : cache d'un an.
 # Les sources (/images/) gardent un nom stable : une semaine, revalidation en arrière-plan.
 [[headers]]
@@ -29,21 +37,41 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Les pages légales n'existent qu'en anglais. Les anciennes adresses /fr/ (en ligne le 02.11.2026) renvoient vers l'anglais.
+# Trajet Krabi Airport → Khao Lak retiré le 10.11.2026 (Jérémy) : l'ancienne adresse mène au hub taxi.
 [[redirects]]
-  from = "/terms/fr/"
+  from = "/taxi/krabi-airport-khao-lak/"
+  to = "/taxi/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/taxi/krabi-airport-khao-lak"
+  to = "/taxi/"
+  status = 301
+  force = true
+
+# Versions françaises des pages légales retirées le 02.11.2026 (site en anglais seulement pour l'instant).
+[[redirects]]
+  from = "/terms/fr/*"
   to = "/terms/"
   status = 301
   force = true
 
 [[redirects]]
-  from = "/legal/fr/"
+  from = "/legal/fr/*"
   to = "/legal/"
   status = 301
   force = true
 
 [[redirects]]
-  from = "/privacy/fr/"
+  from = "/privacy/fr/*"
   to = "/privacy/"
+  status = 301
+  force = true
+
+# Koh Talabeng & Koh Bubu fondue dans Kayaking le 10.11.2026 (les trois sorties y étaient déjà, mêmes prix).
+[[redirects]]
+  from = "/tours/koh-talabeng-koh-bubu/*"
+  to = "/tours/kayak/"
   status = 301
   force = true

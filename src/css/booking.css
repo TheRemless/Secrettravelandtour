@@ -1,0 +1,204 @@
+/* Feuille de réservation : bas d'écran sur mobile, panneau latéral sur desktop.
+   Commune à Secret Travel & Tour et à VIP Taxi Lanta : toutes les couleurs et polices viennent des jetons
+   --sheet-* définis par stt.css ou vip.css. Seul composant du site avec une ombre (un vrai objet posé au-dessus).
+   Erreurs : pictogramme, barre à gauche et texte, jamais le rouge du bouton principal. */
+html.sheet-open { overflow: hidden; }
+
+.sheet {
+  /* Mêmes pas d'espacement et de texte que stt.css, repris ici pour les pages VIP. */
+  --s0: .25rem; --s1: .5rem; --s2: 1rem; --s3: 1.5rem; --s4: 2.5rem;
+  --t1: .875rem; --l1: 1.45; --t2: 1rem; --l2: 1.5; --t3: 1.125rem; --l3: 1.6; --t4: 1.375rem; --l4: 1.3; --t5: 1.75rem; --l5: 1.2;
+  position: fixed; inset: auto 0 0 0;
+  width: 100%; max-width: 100%; max-height: 92dvh; margin: 0; padding: 0;
+  border: 0; border-radius: 12px 12px 0 0;
+  background: var(--sheet-bg); color: var(--sheet-ink);
+  font-family: var(--sheet-text);
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 -8px 32px rgb(0 0 0 / .22);
+  overflow: hidden;
+}
+.sheet[open] { display: flex; flex-direction: column; animation: sheet-up .22s ease-out; }
+.sheet.is-closing { animation: sheet-down .16s ease-in forwards; }
+.sheet::backdrop { background: var(--sheet-backdrop); }
+@keyframes sheet-up { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes sheet-down { from { transform: none; } to { transform: translateY(100%); } }
+
+@media (min-width: 64rem) {
+  .sheet {
+    inset: 0 0 0 auto;
+    width: min(30rem, 100%); max-height: none; height: 100dvh;
+    border-radius: 0;
+    box-shadow: -8px 0 32px rgb(0 0 0 / .22);
+  }
+  @keyframes sheet-up { from { transform: translateX(100%); } to { transform: none; } }
+  @keyframes sheet-down { from { transform: none; } to { transform: translateX(100%); } }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sheet[open], .sheet.is-closing { animation: none; }
+}
+
+.sheet :focus { outline: none; }
+.sheet :focus-visible { outline: 3px solid transparent; box-shadow: var(--sheet-focus); }
+/* Les titres reçoivent le focus par script (annonce au lecteur d'écran) : pas d'anneau, ce ne sont pas des commandes. */
+.sheet [data-focus]:focus, .sheet [data-focus]:focus-visible { box-shadow: none; }
+
+.sheet-head {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s2);
+  padding: var(--s2) var(--s3) var(--s1); border-bottom: 1px solid var(--sheet-rule);
+}
+.sheet-kicker { margin: 0; font-size: var(--t2); line-height: var(--l2); color: var(--sheet-mute); }
+.sheet-title {
+  margin: 0; font-family: var(--sheet-head); font-stretch: var(--sheet-head-stretch);
+  font-weight: var(--sheet-head-weight); font-size: var(--t4); line-height: var(--l4);
+}
+.sheet-close {
+  flex: none; display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; margin: calc(-1 * var(--s0)) calc(-1 * var(--s1)) 0 0; padding: 0;
+  border: 0; border-radius: 12px; background: transparent; color: var(--sheet-ink); cursor: pointer;
+}
+.sheet-close svg { width: 1.5rem; height: 1.5rem; }
+.sheet-body { flex: 1 1 auto; overflow-y: auto; overscroll-behavior: contain; padding: var(--s3) var(--s3) 0; }
+.sheet-foot {
+  padding: var(--s1) var(--s3) calc(var(--s1) + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--sheet-rule); background: var(--sheet-bg);
+}
+.sheet-foot--stack { display: grid; gap: var(--s1); }
+.sheet-screen { display: flex; flex-direction: column; min-height: 0; flex: 1 1 auto; }
+.sheet-screen[hidden] { display: none; }
+.sheet form { display: flex; flex-direction: column; min-height: 0; flex: 1 1 auto; }
+/* « flex: 1 » (base 0 %) donnait une feuille de 0 px de haut dans Safari 26 (iPhone et Mac) : sa hauteur vient du contenu. */
+/* Écran bas (paysage, clavier qui réduit la fenêtre) : tout l'écran de la feuille défile, pied compris ; le titre reste en haut. */
+@media (max-height: 560px) {
+  .sheet-screen { overflow-y: auto; overscroll-behavior: contain; }
+  .sheet form, .sheet-body { flex: none; }
+  .sheet-body { overflow: visible; }
+  .sheet-head { position: sticky; top: 0; z-index: 1; background: var(--sheet-bg); }
+}
+
+/* Champs */
+.f { margin: 0 0 var(--s3); padding: 0; border: 0; min-width: 0; }
+.f > label, .f > legend, .f-label { display: block; margin: 0 0 var(--s1); padding: 0; font-weight: 700; font-size: var(--t2); line-height: var(--l2); }
+.f-hint { margin: 0 0 var(--s1); font-size: var(--t2); line-height: var(--l2); color: var(--sheet-mute); }
+.sheet input[type="text"], .sheet input[type="date"], .sheet input[type="time"], .sheet select {
+  width: 100%; min-height: 48px; padding: var(--s1) var(--s2);
+  border: 1.5px solid var(--sheet-field); border-radius: 12px;
+  background: var(--sheet-field-bg, var(--sheet-bg)); color: var(--sheet-ink);
+  font: 400 var(--t3)/var(--l3) var(--sheet-text); font-variant-numeric: tabular-nums;
+}
+.sheet input:hover, .sheet select:hover, .sheet .is-hover { border-color: var(--sheet-accent); }
+.sheet input:disabled, .sheet select:disabled { opacity: .45; cursor: not-allowed; }
+.sheet select { appearance: none; padding-right: var(--s4); }
+.select { position: relative; display: block; }
+.select::after {
+  content: ""; position: absolute; right: var(--s2); top: 50%; width: .5rem; height: .5rem;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: translateY(-70%) rotate(45deg); pointer-events: none;
+}
+
+/* Erreur : barre de 4 px à gauche du groupe, pictogramme devant le message, bordures épaissies.
+   Couleur d'encre (Secret) ou de crème (VIP) : le rouge reste au seul bouton principal. */
+.f.is-invalid, .count.is-invalid { margin-left: calc(-1 * var(--s2)); padding-left: calc(var(--s2) - 4px); border-left: 4px solid var(--sheet-err); }
+.sheet :is(input, select)[aria-invalid="true"], .choice input[aria-invalid="true"] + span { border-color: var(--sheet-err); border-width: 2px; }
+.err {
+  display: flex; align-items: flex-start; gap: var(--s1);
+  margin: var(--s1) 0 0; color: var(--sheet-err); font-size: var(--t2); line-height: var(--l2); font-weight: 700;
+}
+.err::before {
+  content: ""; flex: none; width: 1.25rem; height: 1.25rem; margin-top: calc(var(--s0) / 2);
+  background: currentColor; border-radius: 50%;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm-1.2 4.8h2.4v7.6h-2.4Zm0 9.2h2.4v2.4h-2.4Z' fill-rule='evenodd'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm-1.2 4.8h2.4v7.6h-2.4Zm0 9.2h2.4v2.4h-2.4Z' fill-rule='evenodd'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.err[hidden] { display: none; }
+
+/* Choix segmentés (date, option, sens) : de vrais boutons radio, stylés. Choisi : mer profonde, prix en soleil. */
+.choice { display: grid; gap: var(--s1); }
+.choice--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.choice label { position: relative; display: block; }
+.choice input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.choice input + span {
+  display: flex; align-items: center; justify-content: center; gap: var(--s1); min-height: 48px; padding: var(--s1) var(--s2);
+  border: 1.5px solid var(--sheet-field); border-radius: 12px; background: var(--sheet-field-bg, var(--sheet-bg));
+  font-weight: 700; font-size: var(--t2); line-height: var(--l2); text-align: center; cursor: pointer;
+}
+.choice input + span:hover, .choice .is-hover { border-color: var(--sheet-accent); }
+.choice--list input + span { justify-content: space-between; text-align: left; font-weight: 400; }
+.choice--list input + span b { font-weight: 700; }
+.choice--list .opt-price { flex: none; text-align: right; line-height: var(--l2); color: var(--sheet-mute); }
+.choice--list .opt-price .num { font-weight: 700; }
+.choice--list .opt-price small { display: block; font-size: var(--t1); line-height: var(--l1); }
+.choice input:checked + span { border-color: var(--sheet-accent); background: var(--sheet-accent); color: var(--sheet-accent-ink); }
+.choice input:checked + span .opt-price { color: inherit; }
+.choice input:checked + span .num { color: var(--sheet-accent-num, inherit); }
+.choice input:focus-visible + span { box-shadow: var(--sheet-focus); }
+.choice input:disabled + span { opacity: .45; cursor: not-allowed; }
+.choice--3 input + span { flex-direction: column; gap: 0; height: 100%; }
+.choice [data-day] { font-weight: 400; font-size: var(--t1); line-height: var(--l1); color: var(--sheet-mute); }
+.choice [data-day]:empty { display: none; }
+.choice input:checked + span [data-day] { color: inherit; }
+.date-other { margin-top: var(--s1); }
+.dates { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s2); }
+
+/* Compteurs */
+.count { display: flex; align-items: center; justify-content: space-between; gap: var(--s2); min-height: 56px; border-top: 1px solid var(--sheet-rule); }
+.count:first-of-type { border-top: 0; }
+.count label { font-weight: 700; text-wrap: balance; }
+.count label small { display: block; font-weight: 400; font-size: var(--t2); line-height: var(--l2); color: var(--sheet-mute); }
+.stepper { display: flex; align-items: center; gap: var(--s0); }
+.stepper button {
+  width: 44px; height: 44px; padding: 0; border: 1.5px solid var(--sheet-field); border-radius: 12px;
+  background: var(--sheet-field-bg, var(--sheet-bg)); color: var(--sheet-ink); font: 700 var(--t4)/1 var(--sheet-text); cursor: pointer; touch-action: manipulation;
+}
+.stepper input {
+  width: 3rem; min-height: 44px; padding: 0; border: 0; background: transparent; color: var(--sheet-ink);
+  text-align: center; font: 700 var(--t3)/1 var(--sheet-text);
+  appearance: textfield; -moz-appearance: textfield;
+}
+.stepper input::-webkit-outer-spin-button, .stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.ages { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s2); margin: var(--s0) 0 var(--s2); }
+.ages .f { margin: 0; }
+
+/* Boutons de la feuille */
+.sheet-btn {
+  display: flex; align-items: center; justify-content: center; gap: var(--s1); width: 100%; min-height: 52px; padding: 0 var(--s2);
+  border: 2px solid transparent; border-radius: 14px; background: var(--sheet-cta); color: var(--sheet-cta-ink);
+  font: var(--sheet-head-weight) var(--t3)/1 var(--sheet-head); font-stretch: var(--sheet-head-stretch);
+  text-decoration: none; cursor: pointer; touch-action: manipulation;
+}
+.sheet-btn:hover { background: var(--sheet-cta-hover); }
+.sheet-btn svg { width: 1.3rem; height: 1.3rem; flex: none; }
+.sheet-btn--quiet { background: transparent; border-color: var(--sheet-field); color: var(--sheet-ink); }
+.sheet-btn--quiet:hover { background: var(--sheet-soft); border-color: var(--sheet-accent); }
+.sheet-note { margin: var(--s1) 0; font-size: var(--t2); line-height: var(--l2); color: var(--sheet-mute); }
+
+/* Aperçu : fiche de comptoir. Chaque ligne du message, libellé à gauche ; référence en tête ;
+   cash à prévoir pour le parc sous une perforation. */
+.slip { border: 1px solid var(--sheet-rule); border-radius: 12px; background: var(--sheet-soft); }
+.slip-total { padding: var(--s1) var(--s2); border-bottom: 1px solid var(--sheet-rule); font-weight: 700; font-size: var(--t3); line-height: var(--l3); }
+.slip-lines { margin: 0; padding: var(--s1) var(--s2); }
+.slip-lines div { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: var(--s2); padding: var(--s1) 0; border-top: 1px solid var(--sheet-rule); }
+.slip-lines div:first-child { border-top: 0; }
+.slip-lines .slip-first { grid-template-columns: 1fr; font-weight: 700; }
+.slip-lines .slip-first dt { display: none; }
+.slip-lines dt { font-size: var(--t2); line-height: var(--l2); color: var(--sheet-mute); }
+.slip-lines dd { margin: 0; overflow-wrap: anywhere; font-size: var(--t2); line-height: var(--l2); }
+.slip-cash { padding: var(--s2); border-top: 2px dashed var(--sheet-rule); }
+.slip-cash-label { font-size: var(--t2); line-height: var(--l2); font-weight: 700; }
+.slip-cash-sum { font: 700 var(--t4)/var(--l4) var(--sheet-head); font-stretch: var(--sheet-head-stretch); }
+.slip-cash-note { font-size: var(--t1); line-height: var(--l1); color: var(--sheet-mute); }
+
+.done-text p { margin: 0 0 var(--s2); }
+.sheet-link { justify-self: center; min-height: 44px; padding: 0 var(--s2); border: 0; background: transparent; color: var(--sheet-ink); font: 700 var(--t2)/1 var(--sheet-text); text-decoration: underline; text-underline-offset: .18em; cursor: pointer; }
+.done-num { display: inline; padding-block: 12px; font-weight: 700; white-space: nowrap; color: inherit; }
+.copy-status { min-height: 1.5em; margin: var(--s1) 0 0; font-weight: 700; }
+
+/* Poignée de la feuille : affichée par les pages du design v4 (v4.css), qui ajoutent le geste de fermeture. */
+.sheet-grab { display: none; }
+.sheet-foot--pair { display: grid; gap: var(--s1); }
+
+/* Sous-variantes d'une option (créneau, cours, karts) et suppléments à cocher */
+.opt-more { display: grid; gap: var(--s2); }
+.tick-row { display: flex; align-items: center; gap: 12px; min-height: 44px; cursor: pointer; }
+.tick-row input { width: 20px; height: 20px; margin: 0; flex: none; accent-color: var(--sheet-accent); }
+.tick-row small { color: var(--sheet-mute); }
+.dates--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }

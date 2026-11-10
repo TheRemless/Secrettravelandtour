@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Koh Lanta Boat Trips and Transfers | Secret Travel &amp; Tour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=Literata:ital,opsz,wght@1,7..72,400..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+<style>
+  .hero { display: grid; grid-template-columns: minmax(340px, 430px) 1fr; grid-template-areas: 'text chart' 'panel chart'; grid-template-rows: auto 1fr; gap: 0 48px; padding-block: 40px 72px; align-items: start; }
+  .hero-text { grid-area: text; padding-top: 24px; }
+  .hero-text h1 { font-size: clamp(2.6rem, 4.2vw, 3.9rem); }
+  .hero-text .lead { margin-top: 18px; }
+  .hero-chart { grid-area: chart; position: sticky; top: calc(var(--head) + 16px); }
+  .hero-panel { grid-area: panel; margin-top: 28px; }
+  .hero-panel .chips { margin-bottom: 22px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 20px; margin-top: 10px; font-size: .88rem; color: var(--ink-2); align-items: center; }
+  .legend i { display: inline-block; width: 28px; height: 0; border-top: 3px solid var(--route); vertical-align: middle; margin-right: 6px; }
+  .legend i.d { border-top: 2px dashed #6f949f; }
+  .legend i.f { border-top: 2px dotted var(--sea); }
+  .legend label { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; cursor: pointer; }
+  .legend input { width: 20px; height: 20px; accent-color: var(--sea); }
+  .panel-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 4px; }
+  .panel-head h2 { font-size: 1.9rem; }
+  .ferry { margin-top: 16px; padding: 14px 16px; background: var(--water); border-radius: var(--radius); font-size: .95rem; }
+  .ferry strong { display: block; }
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; grid-template-areas: 'text' 'chart' 'panel'; padding-block: 20px 48px; }
+    .hero-chart { position: static; margin-inline: calc(var(--gut) * -1); margin-top: 22px; }
+    .hero-chart .chart-box { border-radius: 0; }
+    .hero-chart .legend { padding-inline: var(--gut); }
+  }
+  .day-tools { display: grid; gap: 12px; margin-bottom: 28px; }
+  .untimed { margin-top: 22px; color: var(--ink-2); max-width: 70ch; }
+  .around { display: grid; grid-template-columns: 1.3fr 1fr; gap: 56px; }
+  .tt { width: 100%; border-collapse: collapse; font-size: .95rem; }
+  .tt th, .tt td { text-align: left; padding: 10px 12px 10px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .tt th { font-weight: 600; color: var(--ink-2); font-size: .85rem; }
+  .tt td:first-child { font-weight: 700; font-size: 1.1rem; width: 72px; }
+  .routes { list-style: none; padding: 0; margin: 14px 0 0; columns: 2; column-gap: 24px; }
+  .routes a { display: block; padding: 9px 0; border-bottom: 1px solid var(--line); color: var(--ink); text-decoration: none; font-weight: 550; break-inside: avoid; }
+  .routes a:hover { color: var(--sea); }
+  .vip img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius); margin-bottom: 18px; }
+  @media (max-width: 900px) { .around { grid-template-columns: 1fr; gap: 40px; } .routes { columns: 1; } }
+  .rent { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+  .fleet { max-height: 460px; overflow-y: auto; border-top: 1px solid var(--line); }
+  .fleet label { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; padding: 10px 6px; border-bottom: 1px solid var(--line); cursor: pointer; min-height: 48px; }
+  .fleet input { width: 20px; height: 20px; accent-color: var(--route); }
+  .fleet label:has(input:checked) { background: var(--route-tint); }
+  .rent-sum { position: sticky; top: calc(var(--head) + 20px); padding: 28px; border: 1.5px solid var(--ink); border-radius: var(--radius); display: grid; gap: 18px; }
+  .rent-sum .total { font-size: 2.4rem; font-weight: 700; line-height: 1; font-variation-settings: 'wdth' 80; }
+  .rent-sum select { min-height: 48px; border: 1.5px solid var(--field); border-radius: var(--radius); padding: 8px 10px; background: #fff; }
+  @media (max-width: 900px) { .rent { grid-template-columns: 1fr; gap: 24px; } .rent-sum { position: static; } }
+  .one { display: grid; grid-template-columns: 1fr 1.1fr; gap: 48px; align-items: start; }
+  .one .msg { min-height: 220px; }
+  @media (max-width: 900px) { .one { grid-template-columns: 1fr; } }
+  .band { background: var(--water); }
+</style>
+</head>
+<body>
+<div id="site-head"></div>
+<main id="main">
+  <section class="wrap hero" aria-labelledby="h1">
+    <div class="hero-text">
+      <h1 id="h1">Boat trips, activities and transfers on Koh Lanta</h1>
+      <p class="lead">Tap a place on the chart to see which trips go there, when they leave and what they cost.</p>
+    </div>
+    <div class="hero-chart">
+      <div id="chart"></div>
+      <div class="legend"><span><i></i>Trip route</span><span><i class="d"></i>Other trips</span><label><input type="checkbox" id="ferry">Speedboat transfers</label></div>
+    </div>
+    <div class="hero-panel">
+      <div class="chips" role="group" aria-label="How long" id="len"></div>
+      <div id="panel"></div>
+    </div>
+  </section>
+
+  <section class="section band" id="day" aria-labelledby="day-h">
+    <div class="wrap">
+      <div class="section-head"><h2 id="day-h">What runs on a given day</h2><p>Pickup to return, as written on each trip page. Pick a day to see what runs and what has already left.</p></div>
+      <div class="day-tools">
+        <div class="chips" role="group" aria-label="Day" id="days"></div>
+        <div class="chips" role="group" aria-label="Time of day" id="parts"></div>
+      </div>
+      <div id="dayline"></div>
+      <p class="untimed" id="untimed"></p>
+    </div>
+  </section>
+
+  <section class="section wrap" id="around" aria-labelledby="around-h">
+    <div class="section-head"><h2 id="around-h">Getting here and away</h2></div>
+    <div class="around">
+      <div>
+        <h3 id="sb-h"></h3>
+        <p class="mute small" id="sb-sub" style="margin:6px 0 14px"></p>
+        <div class="scroll-x"><table class="tt num" aria-describedby="sb-h"><thead><tr><th scope="col">Leaves</th><th scope="col">Stops, arrival time</th><th scope="col">Season</th></tr></thead><tbody id="sb"></tbody></table></div>
+        <p class="small mute" style="margin-top:12px" id="sb-notes"></p>
+        <p style="margin-top:20px"><strong id="mv-name"></strong><br><span class="mute" id="mv-lead"></span></p>
+      </div>
+      <div class="vip">
+        <img id="vip-img" alt="" loading="lazy" width="800" height="600">
+        <h3 id="vip-h"></h3>
+        <p class="mute small" style="margin-top:4px">Private minivans, run by our partner. Opens their pages.</p>
+        <ul class="routes" id="vip"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap" id="rental" aria-labelledby="rent-h">
+    <div class="section-head"><h2 id="rent-h"></h2><p id="rent-lead"></p></div>
+    <div class="rent">
+      <div>
+        <div class="chips" role="radiogroup" aria-label="Vehicle type" id="rent-kind"></div>
+        <fieldset class="fleet" id="fleet" style="margin-top:16px"><legend class="vh">Model</legend></fieldset>
+      </div>
+      <div class="rent-sum" aria-live="polite">
+        <div><span class="mute" id="rent-model"></span><div class="total num" id="rent-total"></div><span class="mute small" id="rent-calc"></span></div>
+        <div class="field"><label for="rent-from">From</label><select id="rent-from"></select></div>
+        <div class="guest-row"><span>Days</span><span id="rent-days"></span></div>
+        <a class="btn route" id="rent-send" target="_blank" rel="noopener" href="#"></a>
+        <p class="small mute">Tell us the model and your dates, we confirm it is available.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band" aria-labelledby="one-h">
+    <div class="wrap one">
+      <div>
+        <h2 id="one-h">Several trips, one message</h2>
+        <p class="lead" style="margin-top:16px">Add trips from the chart or the day above, give each one a date, and send the whole list to us on WhatsApp at once.</p>
+        <p style="margin-top:24px"><button class="btn" type="button" data-open-list>Open my list</button></p>
+      </div>
+      <pre class="msg" id="one-msg" aria-label="Preview of your message"></pre>
+    </div>
+  </section>
+</main>
+<div id="site-foot"></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+(() => {
+  const { S, L, $, esc, P, fmt, thb, cardPhoto, fromText, windowText, slugsAt, visitsAt, lengthOk, ferryAt, pageOf, defaultOption, chart, dayline, bkkToday, addDays, shortDate, fmtDate, DOWL, dow, photo, stepper, IMG, WA_ICON } = R;
+  R.boot('');
+
+  /* --- la carte et le panneau --- */
+  const st = { place: null, len: null };
+  const count = (id) => slugsAt(id).filter((s) => lengthOk(s, st.len)).length;
+  const ch = chart($('#chart'), {
+    label: 'Chart of Koh Lanta and the islands around it. Each place is a button.',
+    onPick: (id) => pick(id === st.place ? null : id),
+    ariaFor: (id) => { const n = count(id); return `${L.places[id].name}, ${n} trip${n === 1 ? '' : 's'}`; },
+  });
+  const LEN = [[null, 'Any length'], ...Object.entries(L.lengths).map(([k, v]) => [k, v.label])];
+  $('#len').innerHTML = LEN.map(([k, t]) => `<button type="button" class="chip" data-len="${k ?? ''}" aria-pressed="${st.len === k}">${t}</button>`).join('');
+  $('#len').onclick = (e) => { const b = e.target.closest('[data-len]'); if (!b) return; st.len = b.dataset.len || null; $('#len').querySelectorAll('.chip').forEach((c) => c.setAttribute('aria-pressed', c === b)); refresh(); };
+  $('#ferry').onchange = (e) => ch.set({ ferry: e.target.checked });
+
+  function pick(id) { st.place = id; refresh(); if (id && innerWidth < 900) $('#panel').scrollIntoView({ behavior: R.reduce ? 'auto' : 'smooth', block: 'start' }); }
+  function refresh() {
+    const ids = Object.keys(L.places).filter((id) => slugsAt(id).length);
+    const dim = ids.filter((id) => !count(id));
+    const slugs = st.place ? slugsAt(st.place).filter((s) => lengthOk(s, st.len)) : [];
+    ch.set({ on: st.place, dim, routesOn: slugs });
+    const panel = $('#panel');
+    if (!st.place) {
+      panel.innerHTML = `<div class="panel-head"><h2>Every place on the chart</h2></div>
+        <div class="place-list">${ids.map((id) => `<button type="button" data-p="${id}" ${count(id) ? '' : 'disabled'}>${esc(L.places[id].name)} <span class="num">${count(id)}</span></button>`).join('')}</div>
+        <p class="mute small" style="margin-top:14px">Or see <a href="tours.html">all ${R.allSlugs.length} trips and activities as a list</a>.</p>`;
+    } else {
+      const q = L.places[st.place];
+      const ferry = ferryAt(st.place);
+      panel.innerHTML = `<div class="panel-head"><h2>${esc(q.name)}</h2><button type="button" class="link" data-p="">All places</button></div>
+        <p class="mute">${slugs.length ? `${slugs.length} trip${slugs.length === 1 ? '' : 's'} go${slugs.length === 1 ? 'es' : ''} here${st.len ? `, ${L.lengths[st.len].label.toLowerCase()}` : ''}.` : 'Nothing of that length goes here.'}</p>
+        ${slugs.map((s) => {
+          const p = P(s); const ph = cardPhoto(s); const v = visitsAt(st.place).find((x) => x.slug === s); const w = windowText(s);
+          return `<article class="trip" data-slug="${s}">
+            <img src="${ph.src}" alt="${esc(ph.alt)}" width="112" height="84" loading="lazy" style="object-position:${ph.pos}">
+            <div><h3><a href="${pageOf(s)}">${esc(p.name)}</a></h3>
+              <p class="meta">${esc(v && v.quote.length > 28 ? v.quote : p.promise || p.lead)}</p>
+              <p class="meta num">${[R.fact(p, 'Duration'), w].filter(Boolean).map(esc).join(', ')}</p>
+              <p class="price">${fromText(p)}</p>
+              <div class="acts"><button type="button" class="link" data-add="${s}" data-option="${defaultOption(s) || ''}">Add to my list</button><a class="link" href="${pageOf(s)}">See the trip</a></div>
+            </div></article>`;
+        }).join('')}
+        ${ferry.length ? `<div class="ferry"><strong>Staying on ${esc(q.name)}?</strong>Speedboat from Koh Lanta: ${ferry.map((f) => `leaves ${f.departs}, here at ${f.arrives}${f.season ? ` (${esc(f.season)})` : ''}`).join('; ')}. <a href="#around">Timetable</a></div>` : ''}`;
+    }
+    $('#one-msg').textContent = oneMsg();
+  }
+  $('#panel').addEventListener('click', (e) => { const b = e.target.closest('[data-p]'); if (b) { pick(b.dataset.p || null); $('#panel h2').setAttribute('tabindex', '-1'); $('#panel h2').focus({ preventScroll: true }); } });
+  $('#panel').addEventListener('mouseover', (e) => { const a = e.target.closest('.trip'); if (a) ch.set({ routesOn: [a.dataset.slug] }); });
+  $('#panel').addEventListener('mouseleave', () => ch.set({ routesOn: st.place ? slugsAt(st.place).filter((s) => lengthOk(s, st.len)) : [] }));
+  refresh();
+
+  /* --- la journée --- */
+  const today = bkkToday();
+  let day = addDays(today, 1); let part = null;
+  const days = Array.from({ length: 7 }, (_, i) => addDays(today, i));
+  $('#days').innerHTML = days.map((d, i) => `<button type="button" class="chip num" data-d="${d}" aria-pressed="${d === day}">${i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : shortDate(d)}</button>`).join('');
+  $('#parts').innerHTML = [['', 'All day'], ['morning', 'Morning'], ['afternoon', 'Afternoon'], ['evening', 'Evening']].map(([k, t]) => `<button type="button" class="chip" data-part="${k}" aria-pressed="${(part || '') === k}">${t}</button>`).join('');
+  const dl = dayline($('#dayline'), { date: day, lab: innerWidth < 760 ? 0 : 300 });
+  const setHead = () => { $('#day-h').textContent = `What runs on ${DOWL[dow(day)]} ${fmtDate(day).split(' ').slice(1, 3).join(' ')}`; };
+  setHead();
+  $('#days').onclick = (e) => { const b = e.target.closest('[data-d]'); if (!b) return; day = b.dataset.d; $('#days').querySelectorAll('.chip').forEach((c) => c.setAttribute('aria-pressed', c === b)); setHead(); dl.set({ date: day }); };
+  $('#parts').onclick = (e) => { const b = e.target.closest('[data-part]'); if (!b) return; part = b.dataset.part || null; $('#parts').querySelectorAll('.chip').forEach((c) => c.setAttribute('aria-pressed', c === b)); dl.set({ part }); };
+  const timed = new Set(L.day.map((d) => d.slug));
+  const untimed = R.allSlugs.filter((s) => !timed.has(s));
+  $('#untimed').innerHTML = `No set time on the site for ${untimed.map((s) => `<a href="${pageOf(s)}">${esc(P(s).name)}</a>`).join(', ')}. Ask us on WhatsApp.`;
+
+  /* --- transferts --- */
+  const sb = S.transfers.find((t) => t.slug === 'speedboat-ferry'); const mv = S.transfers.find((t) => t.slug === 'shared-minivan');
+  $('#sb-h').textContent = `${sb.name}, from ${R.fact(sb, 'Departure pier')}`;
+  $('#sb-sub').textContent = `${sb.timetable.season} timetable. Hotel pickup ${R.fact(sb, 'Hotel pickup').charAt(0).toLowerCase()}${R.fact(sb, 'Hotel pickup').slice(1)}.`;
+  $('#sb').innerHTML = sb.timetable.outbound.map((r) => `<tr><td>${r.departs}</td><td>${r.stops.map((s) => `${esc(s.place)} ${s.time}`).join(', ')}</td><td>${esc(r.seasonRange?.label || '')}</td></tr>`).join('');
+  $('#sb-notes').textContent = `Check-in ${sb.timetable.checkIn.default}. ${sb.timetable.seasons.join(' ')}`;
+  $('#mv-name').textContent = mv.name; $('#mv-lead').textContent = mv.lead;
+  const vimg = photo('home-transfers'); $('#vip-img').src = vimg.src; $('#vip-img').alt = vimg.alt;
+  $('#vip-h').textContent = S.site.vip.name;
+  $('#vip').innerHTML = S.taxi.map((t) => `<li><a href="https://secrettravelandtour.com${t.url}">${esc(t.name)}</a></li>`).join('');
+
+  /* --- location --- */
+  const rent = S.rental;
+  $('#rent-h').textContent = rent.name; $('#rent-lead').textContent = rent.lead;
+  let kind = rent.options[2].id; let model = null; let rdays = 3; let from = today;
+  $('#rent-kind').innerHTML = rent.options.map((o) => `<button type="button" class="chip" role="radio" data-k="${o.id}" aria-checked="${o.id === kind}">${esc(o.label)}</button>`).join('');
+  $('#rent-from').innerHTML = Array.from({ length: 21 }, (_, i) => addDays(today, i)).map((d) => `<option value="${d}">${fmtDate(d)}</option>`).join('');
+  $('#rent-days').append(stepper('day', rdays, 1, 60, (v) => { rdays = v; rsum(); }));
+  function fleet() {
+    const o = rent.options.find((x) => x.id === kind);
+    model = o.prices[0].label;
+    $('#fleet').innerHTML = `<legend class="vh">${esc(o.label)}</legend>` + o.prices.map((p, i) => `<label><input type="radio" name="model" value="${esc(p.label)}" ${p.label === model ? 'checked' : ''}><span>${esc(p.label)}</span><span class="num">${thb(p.amount)}</span></label>`).join('');
+    rsum();
+  }
+  function rsum() {
+    const o = rent.options.find((x) => x.id === kind); const p = o.prices.find((x) => x.label === model);
+    $('#rent-model').textContent = p.label;
+    $('#rent-total').textContent = thb(p.amount * rdays);
+    $('#rent-calc').textContent = `${fmt(p.amount)} THB ${p.unit} × ${rdays} day${rdays === 1 ? '' : 's'}`;
+    const text = ['Hello Secret Travel & Tour,', `Rental request: ${p.label}`, `From: ${fmtDate(from)}, ${rdays} day${rdays === 1 ? '' : 's'}`, `Price on website: ${fmt(p.amount)} THB ${p.unit}`, 'Page: secrettravelandtour.com/tours/rental/'].join('\n');
+    $('#rent-send').innerHTML = `${WA_ICON}Ask for this ${o.id === 'cars-and-pick-ups' ? 'car' : 'bike'}`;
+    $('#rent-send').href = `${S.site.whatsapp.link}?text=${encodeURIComponent(text)}`;
+  }
+  $('#rent-kind').onclick = (e) => { const b = e.target.closest('[data-k]'); if (!b) return; kind = b.dataset.k; $('#rent-kind').querySelectorAll('.chip').forEach((c) => c.setAttribute('aria-checked', c === b)); fleet(); };
+  $('#fleet').onchange = (e) => { model = e.target.value; rsum(); };
+  $('#rent-from').onchange = (e) => { from = e.target.value; rsum(); };
+  fleet();
+
+  /* --- aperçu du message de la liste --- */
+  function oneMsg() {
+    let l = []; try { l = (JSON.parse(localStorage.getItem('stt-rupture-list')) || {}).v || []; } catch (e) {}
+    if (!l.length) return 'Your list is empty.\nAdd a trip from the chart and the message appears here.';
+    return ['Hello Secret Travel & Tour,', `Booking request, ${l.length} trip${l.length === 1 ? '' : 's'}:`, ...l.map((i, n) => `${n + 1}. ${P(i.slug).name} – ${R.optionOf(i.slug, i.option)?.label || ''}, ${i.date ? fmtDate(i.date) : '(date to choose)'}`), 'Guests: …', 'Pickup: …', 'Name: …'].join('\n');
+  }
+  document.addEventListener('click', (e) => { if (e.target.closest('[data-add]')) setTimeout(() => { $('#one-msg').textContent = oneMsg(); }, 0); });
+  document.addEventListener('focusin', () => { $('#one-msg').textContent = oneMsg(); });
+})();
+</script>
+</body>
+</html>

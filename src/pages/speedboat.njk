@@ -1,0 +1,89 @@
+---
+permalink: /tours/speedboat/
+---
+{#- Speedboat, design v4 : la saison en haut, puis la grille (un sens à la fois, une ligne repliée par destination).
+    Chaque bateau ouvre la feuille sur son trajet et son heure ; le prix des billets n'est pas sur le site. -#}
+{% import "components/v4.njk" as v4 %}
+{% import "components/v4-product.njk" as vp %}
+{% from "components/booking.njk" import bookingSheet %}
+{%- set d = v4data -%}
+{%- set t = d.speedboatPage -%}
+{%- set c = d.contact -%}
+{%- set seo = t.seo -%}
+{%- set pageUrl = t.url -%}
+{%- set jsonLd = t.jsonLd -%}
+{%- set waText = t.ask -%}
+{%- set fallback = v4.waHref(c.number, t.fallback) -%}
+<!DOCTYPE html>
+<html lang="en-GB" data-refonte data-page="product">
+<head>
+{% include "v4-head.njk" %}
+</head>
+<body>
+{{ v4.header(c, d.emblem, t.nav, waText) }}
+<main id="main">
+  {{ vp.crumbs([{ label: "Home", href: "/" }, { label: t.crumb }]) }}
+  <section class="wrap shero" aria-labelledby="h1">
+    <h1 id="h1">{{ t.h1 }}</h1>
+    <p class="lead">{{ t.lead }}</p>
+    {%- if t.season %}<p class="shero__season">{{ t.season }}</p>{% endif %}
+    <a class="link" href="{{ v4.waHref(c.number, t.ask) }}">Ask a question on WhatsApp</a>
+  </section>
+
+  {#- La grille : un sens à la fois (sans JS, les deux se suivent). Une ligne repliée par destination donne ses heures ;
+      ouverte, un petit tableau départ, arrivée, ponton, et chaque bateau ouvre la feuille sur son trajet et son heure. -#}
+  <section class="sec sec--sand sbs" id="options" aria-labelledby="opt-h">
+    <div class="wrap">
+      <h2 id="opt-h">Timetable</h2>
+      <div class="seg sb__seg" role="group" aria-label="Direction" data-seg="sb">
+        <button type="button" value="out" aria-pressed="true" aria-controls="sb-out">From Koh Lanta</button>
+        <button type="button" value="in" aria-pressed="false" aria-controls="sb-in">To Koh Lanta</button>
+      </div>
+      {%- for side in [{ id: "out", title: "From Koh Lanta", rows: t.dests }, { id: "in", title: "To Koh Lanta", rows: t.back }] %}
+      <div class="sbb" id="sb-{{ side.id }}" data-board="{{ side.id }}" aria-labelledby="sb-{{ side.id }}-h">
+        <h3 class="sbb__h" id="sb-{{ side.id }}-h">{{ side.title }}</h3>
+        <ul class="sbl">
+          {%- for r in side.rows %}
+          <li><details class="sbr">
+            <summary><span class="sbr__place"><b>{{ r.place }}</b>{% if r.season %}<small>{{ r.season }}</small>{% endif %}</span><span class="sbr__times">{% for dp in r.deps %}<span>{{ dp.time }}</span>{% endfor %}</span></summary>
+            <div class="sbr__in">
+              <table class="sbt">
+                <caption class="sr">{{ "Koh Lanta to " + r.place if side.id == "out" else r.place + " to Koh Lanta" }}</caption>
+                <thead><tr><th scope="col">Leaves</th><th scope="col">Arrives</th><th scope="col">Pier</th><th scope="col"><span class="sr">Book</span></th></tr></thead>
+                <tbody>
+                  {%- for dp in r.deps %}
+                  {%- set req = ('Speedboat request: Koh Lanta to ' + r.place) if side.id == "out" else ('Speedboat request: ' + r.place + ' to Koh Lanta') %}
+                  <tr>
+                    <td><b>{{ dp.time }}</b>{% if dp.season %}<small>{{ dp.season }}</small>{% endif %}</td>
+                    <td>{{ dp.arrives or "—" }}</td>
+                    <td>{{ dp.pier or "—" }}</td>
+                    <td><a class="sb__stop press" href="{{ v4.waHref(c.number, req + '\nDeparture: ' + dp.time + '\nDate: ') }}" data-book="" data-sb-route="{{ r.route }}" data-sb-dep="{{ dp.dep }}">Book<span class="sr"> the {{ dp.time }} boat{{ (" to " + r.place) if side.id == "out" else (" from " + r.place) }}</span></a></td>
+                  </tr>
+                  {%- endfor %}
+                </tbody>
+              </table>
+              {%- if r.lk %}<p class="sbr__note">{{ r.lk.text }}{% if r.lk.season %} Runs {{ r.lk.season }}.{% endif %}</p>{% endif %}
+              {%- if r.note %}<p class="sbr__note">{{ r.note }}</p>{% endif %}
+              {%- if r.via %}<p class="sbr__note">{{ r.via | capitalize }}.</p>{% endif %}
+            </div>
+          </details></li>
+          {%- endfor %}
+        </ul>
+      </div>
+      {%- endfor %}
+      {%- if t.checkIn %}<p class="sb__check">{{ t.checkIn }}</p>{% endif %}
+    </div>
+  </section>
+
+  {%- if t.beforeBook.length or t.faq.length %}{{ vp.bybFaq(t.beforeBook, t.faq, "compact") }}{% endif %}
+  {{ vp.related(t.related, "list") }}
+</main>
+{{ v4.footer(site, c, d.emblem, d.boats, d.activities, waText) }}
+{{ vp.dock(null, fallback, "", "Book a seat") }}
+{{ bookingSheet(t.booking, c) }}
+{{ v4.tripsRoot() }}
+<script src="/js/v4-price.js?v={{ build.v }}" defer></script>
+<script src="/js/booking.js?v={{ build.v }}" defer></script>
+{{ v4.scripts(build, "product") }}
+</body>
+</html>

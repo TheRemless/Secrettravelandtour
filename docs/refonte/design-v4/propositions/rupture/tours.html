@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boat Trips and Activities on Koh Lanta | Secret Travel &amp; Tour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=Literata:ital,opsz,wght@1,7..72,400..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+<style>
+  .intro { padding-block: 40px 8px; }
+  .intro h1 { font-size: clamp(2.4rem, 4.6vw, 4.2rem); max-width: 16ch; }
+  .say { margin-top: 28px; font-size: clamp(1.35rem, 2.6vw, 2.1rem); line-height: 1.75; font-weight: 500; letter-spacing: -.01em; max-width: 34em; font-variation-settings: 'wdth' 90; }
+  .say select { field-sizing: content; font: inherit; font-weight: 700; color: var(--route); border: 0; border-bottom: 2px solid var(--route); background: transparent; padding: 0 4px; min-height: 44px; cursor: pointer; border-radius: 0; max-width: 100%; }
+  .say select:focus-visible { outline-offset: 0; }
+  .say .ages select { margin-left: 4px; }
+  .bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 24px; margin-top: 40px; padding-block: 14px; border-block: 1px solid var(--line); position: sticky; top: var(--head); background: #fff; z-index: 20; }
+  .bar .count { font-weight: 650; }
+  .results { list-style: none; margin: 0; padding: 0; }
+  .row { display: grid; grid-template-columns: 150px 1fr 220px; gap: 8px 28px; padding: 26px 0; border-bottom: 1px solid var(--line); scroll-margin-top: calc(var(--head) + 80px); }
+  .row:target { background: var(--route-tint); box-shadow: 0 0 0 12px var(--route-tint); }
+  .row img { height: auto; width: 150px; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 4px; }
+  .row h3 { font-size: 1.45rem; }
+  .row h3 a { color: var(--ink); text-decoration: none; }
+  .row h3 a:hover { text-decoration: underline; }
+  .row .why { margin-top: 8px; font-size: .95rem; }
+  .row .why span { display: block; color: var(--ink-2); }
+  .row .why b { color: var(--route); font-weight: 650; }
+  .row .acts { display: flex; flex-wrap: wrap; gap: 0 18px; align-items: center; margin-top: 6px; }
+  .mini { position: relative; height: 12px; margin-top: 12px; background: var(--water); border-radius: 2px; max-width: 420px; }
+  .mini span { position: absolute; top: 0; bottom: 0; background: var(--ink); border-radius: 2px; }
+  .mini-l { position: relative; height: 18px; max-width: 420px; font-size: .75rem; color: var(--ink-2); }
+  .mini-l span { position: absolute; top: 2px; transform: translateX(-50%); }
+  .mini-l span:first-child { transform: none; } .mini-l span:last-child { transform: translateX(-100%); }
+  .money { text-align: right; }
+  .money .tot { font-size: 1.6rem; font-weight: 750; line-height: 1.05; font-variation-settings: 'wdth' 80; }
+  .money details { margin-top: 6px; font-size: .88rem; text-align: left; }
+  .money summary { cursor: pointer; color: var(--sea); font-weight: 600; min-height: 44px; display: flex; align-items: center; justify-content: flex-end; }
+  .money table { width: 100%; border-collapse: collapse; }
+  .money td { padding: 4px 0; border-bottom: 1px solid var(--line); }
+  .money td:last-child { text-align: right; white-space: nowrap; }
+  .row.miss { opacity: .62; }
+  .row.miss:hover, .row.miss:focus-within { opacity: 1; }
+  .sep { padding: 36px 0 8px; }
+  @media (max-width: 860px) {
+    .row { grid-template-columns: 72px 1fr; gap: 6px 14px; align-items: center; }
+    .row img { width: 72px; }
+    .row > div:not(.money) { display: contents; }
+    .row > div > :not(h3) { grid-column: 1 / -1; }
+    .money { grid-column: 1 / -1; text-align: left; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+    .money summary { justify-content: flex-start; }
+    .money details { flex-basis: 100%; }
+  }
+  .view-chart { margin-top: 24px; display: grid; grid-template-columns: 1fr; }
+  .cmp-bar { position: fixed; z-index: 36; left: 50%; bottom: 20px; transform: translateX(-50%); background: var(--ink); color: #fff; border-radius: var(--radius); padding: 8px 8px 8px 18px; display: flex; gap: 14px; align-items: center; max-width: calc(100% - 32px); }
+  .cmp-bar .btn { background: var(--route); border-color: var(--route); min-height: 44px; }
+  .cmp { width: 100%; border-collapse: collapse; font-size: .92rem; }
+  .cmp th, .cmp td { text-align: left; vertical-align: top; padding: 10px 8px 10px 0; border-bottom: 1px solid var(--line); }
+  .cmp thead th { font-size: 1.05rem; }
+  .cmp tbody th { color: var(--ink-2); font-weight: 600; width: 120px; }
+  .sheet.wide { width: min(880px, 100%); }
+  .more { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0 40px; }
+  .more a { display: block; padding: 12px 0; border-bottom: 1px solid var(--line); font-weight: 600; color: var(--ink); text-decoration: none; }
+  .more a span { display: block; font-weight: 400; color: var(--ink-2); font-size: .9rem; }
+</style>
+</head>
+<body>
+<div id="site-head"></div>
+<main id="main">
+  <section class="wrap intro" aria-labelledby="h1">
+    <h1 id="h1">Boat trips and activities on Koh Lanta</h1>
+    <form class="say" id="say" aria-label="Tell us about your group">
+      We are
+      <label class="vh" for="q-ad">Adults</label><select id="q-ad"></select> adults
+      and <label class="vh" for="q-kid">Children</label><select id="q-kid"></select><span class="ages" id="q-ages"></span>.
+      We have <label class="vh" for="q-len">How long</label><select id="q-len"></select>,
+      we'd like <label class="vh" for="q-what">What you'd like</label><select id="q-what"></select>,
+      on <label class="vh" for="q-date">Day</label><select id="q-date"></select>.
+    </form>
+  </section>
+
+  <div class="wrap">
+    <div class="bar">
+      <span class="count" id="count" aria-live="polite"></span>
+      <div class="chips" role="group" aria-label="Show">
+        <button type="button" class="chip" data-g="" aria-pressed="true">All</button>
+        <button type="button" class="chip" data-g="tours" aria-pressed="false">Boat trips</button>
+        <button type="button" class="chip" data-g="activities" aria-pressed="false">Activities</button>
+        <button type="button" class="chip" data-view aria-pressed="false">Show on the chart</button>
+      </div>
+    </div>
+    <div class="view-chart" id="vchart" hidden></div>
+    <ol class="results" id="fit"></ol>
+    <h2 class="sep" id="miss-h"></h2>
+    <ol class="results" id="miss"></ol>
+  </div>
+
+  <section class="section wrap" aria-labelledby="more-h">
+    <h2 id="more-h">Getting around</h2>
+    <div class="more mt" id="more"></div>
+  </section>
+</main>
+<div id="site-foot"></div>
+<div class="cmp-bar" id="cmpbar" hidden><span id="cmpn"></span><button type="button" class="btn" id="cmpgo">Compare</button></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+(() => {
+  const { S, L, $, $$, esc, P, fmt, thb, cardPhoto, fromText, windows, priceFor, cashFees, party, saveParty, inSeason, bkkToday, addDays, fmtDate, shortDate, dow, DOWL, pageOf, defaultOption, chart, slugsAt, fact, toMin, X_ICON } = R;
+  R.boot(location.hash === '#land' ? 'Activities' : 'Boat trips');
+  const today = bkkToday();
+  const q = { len: '', what: '', date: addDays(today, 1), group: location.hash === '#land' ? 'activities' : location.hash === '#boats' ? 'tours' : '', place: null };
+  const cmp = new Set();
+
+  /* --- la phrase --- */
+  const opt = (v, t, sel) => `<option value="${v}" ${sel ? 'selected' : ''}>${t}</option>`;
+  $('#q-ad').innerHTML = Array.from({ length: 12 }, (_, i) => opt(i + 1, i + 1, i + 1 === party.adults)).join('');
+  $('#q-kid').innerHTML = Array.from({ length: 7 }, (_, i) => opt(i, i === 0 ? 'no children' : `${i} child${i > 1 ? 'ren' : ''}`, i === party.ages.length)).join('');
+  $('#q-len').innerHTML = opt('', 'any amount of time') + Object.entries(L.lengths).map(([k, v]) => opt(k, v.label.toLowerCase())).join('');
+  $('#q-what').innerHTML = opt('', 'anything') + Object.entries(L.tags).map(([k, v]) => opt(k, v.label.toLowerCase())).join('');
+  $('#q-date').innerHTML = Array.from({ length: 21 }, (_, i) => addDays(today, i)).map((d, i) => opt(d, i === 0 ? 'today' : i === 1 ? 'tomorrow' : shortDate(d), d === q.date)).join('');
+  const ages = () => { $('#q-ages').innerHTML = party.ages.length ? ` aged ${party.ages.map((a, k) => `<label class="vh" for="age${k}">Age of child ${k + 1}</label><select id="age${k}" data-age="${k}">${Array.from({ length: 18 }, (_, v) => opt(v, v, v === a)).join('')}</select>`).join(' and ')}` : ''; };
+  ages();
+  $('#say').addEventListener('submit', (e) => e.preventDefault());
+  $('#say').addEventListener('change', (e) => {
+    const t = e.target;
+    if (t.id === 'q-ad') party.adults = Number(t.value);
+    if (t.id === 'q-kid') { const n = Number(t.value); while (party.ages.length < n) party.ages.push(6); party.ages.length = n; ages(); }
+    if (t.dataset.age != null) party.ages[Number(t.dataset.age)] = Number(t.value);
+    if (t.id === 'q-len') q.len = t.value;
+    if (t.id === 'q-what') q.what = t.value;
+    if (t.id === 'q-date') q.date = t.value;
+    saveParty(); render();
+  });
+
+  /* --- tri --- */
+  function judge(slug) {
+    const p = P(slug); const yes = []; const no = []; const info = [];
+    if (q.what) { const hit = L.tags[q.what].items.find(([s]) => s === slug); hit ? yes.push(hit[1]) : no.push(`Not listed under ${L.tags[q.what].label.toLowerCase()}`); }
+    if (q.len) { const hit = L.lengths[q.len].items.find(([s]) => s === slug); hit ? yes.push(hit[1]) : no.push(`Not ${L.lengths[q.len].label.toLowerCase()}`); }
+    const rule = L.ageRules[slug];
+    if (rule && party.ages.some((a) => a < rule.min)) no.push(rule.quote);
+    if (!inSeason(slug, q.date)) no.push(`Runs ${fact(p, 'Season')}`);
+    if (slug === 'cooking-class') {
+      const w = L.day.filter((d) => d.slug === slug && d.weekdays.includes(dow(q.date)));
+      if (!w.length) no.push(`No class listed on ${DOWL[dow(q.date)]}s`);
+      else info.push(`${DOWL[dow(q.date)]}: ${w.map((d) => `${d.label.toLowerCase()} ${d.spans[0].join('–')}`).join(', ')}`);
+    }
+    if (q.place && !slugsAt(q.place).includes(slug)) no.push(`Doesn't go to ${L.places[q.place].name}`);
+    return { yes, no, info };
+  }
+  function best(slug) {
+    const p = P(slug); let b = null;
+    for (const o of p.options || []) { const r = priceFor(o, party.adults, party.ages); if (r && !r.unknown.length && (!b || r.total < b.r.total)) b = { o, r }; }
+    return b;
+  }
+  function mini(slug) {
+    const w = windows(slug); if (!w.length) return '';
+    const pos = (t) => ((toMin(t) - 240) / (17 * 60)) * 100;
+    return `<div class="mini" aria-hidden="true">${w.flatMap((d) => d.spans).map(([a, b]) => `<span style="left:${pos(a)}%;width:${pos(b) - pos(a)}%"></span>`).join('')}</div><div class="mini-l" aria-hidden="true"><span style="left:0">04:00</span><span style="left:${pos('12:00')}%">12:00</span><span style="left:100%">21:00</span></div>`;
+  }
+  function row(slug, j) {
+    const p = P(slug); const ph = cardPhoto(slug); const b = best(slug); const fee = b ? cashFees(b.o, party.adults, party.ages) : null;
+    const times = windows(slug).map((d) => `${d.label}: ${d.spans.map((s) => s.join('–')).join(' or ')}`);
+    return `<li class="row ${j.no.length ? 'miss' : ''}" id="${slug}">
+      <img src="${ph.src}" alt="${esc(ph.alt)}" width="150" height="112" loading="lazy" style="object-position:${ph.pos}">
+      <div><h3><a href="${pageOf(slug)}">${esc(p.name)}</a></h3>
+        <p class="mute">${esc(p.lead)}</p>
+        <div class="why">${j.yes.map((y) => `<span>“${esc(y)}”</span>`).join('')}${j.info.map((y) => `<span>${esc(y)}</span>`).join('')}${j.no.map((n) => `<b>${esc(n)}</b> `).join('')}</div>
+        ${mini(slug)}${times.length ? `<span class="vh">${esc(times.join('. '))}</span>` : ''}
+        <div class="acts"><button type="button" class="link" data-add="${slug}" data-option="${b ? b.o.id : defaultOption(slug) || ''}" data-date="${q.date}">Add to my list for ${shortDate(q.date)}</button>
+          <label class="check small"><input type="checkbox" data-cmp="${slug}" ${cmp.has(slug) ? 'checked' : ''}>Compare</label></div>
+      </div>
+      <div class="money">${b ? `<span class="small mute">Your group, ${esc(b.o.label.toLowerCase())}</span><div class="tot num">${thb(b.r.total)}</div>
+        ${fee ? `<span class="small mute">+ ${thb(fee.total)} cash, ${esc(fee.label.toLowerCase())}</span>` : ''}
+        <details><summary>How it adds up</summary><table><tbody>${b.r.lines.map(([l, a]) => `<tr><td>${esc(l)}</td><td class="num">${thb(a)}</td></tr>`).join('')}</tbody></table></details>`
+        : `<div class="small">${fromText(p)}</div>`}</div>
+    </li>`;
+  }
+  function render() {
+    const slugs = R.allSlugs.filter((s) => !q.group || P(s).group === q.group);
+    const judged = slugs.map((s) => [s, judge(s)]);
+    const rank = (s) => (P(s).group === 'tours' ? 0 : 1);
+    const fit = judged.filter(([, j]) => !j.no.length).sort((a, b) => b[1].yes.length - a[1].yes.length || rank(a[0]) - rank(b[0]));
+    const miss = judged.filter(([, j]) => j.no.length);
+    $('#fit').innerHTML = fit.map(([s, j]) => row(s, j)).join('') || '<li class="empty mt">Nothing fits all of that. Change one answer above, or look at the trips below.</li>';
+    $('#miss-h').textContent = miss.length ? `${miss.length} more, not a match for ${q.date === today ? 'today' : shortDate(q.date)}` : '';
+    $('#miss').innerHTML = miss.map(([s, j]) => row(s, j)).join('');
+    $('#count').textContent = `${fit.length} of ${slugs.length} fit your group${q.place ? ` at ${L.places[q.place].name}` : ''}`;
+    if (vc) { const fitSlugs = fit.map(([s]) => s); vc.set({ routesOn: fitSlugs, dim: Object.keys(L.places).filter((id) => !slugsAt(id).some((s) => fitSlugs.includes(s))), on: q.place }); }
+    if (location.hash.length > 1) { const t = document.getElementById(location.hash.slice(1)); if (t && t.classList.contains('row') && !render.done) { render.done = true; setTimeout(() => t.scrollIntoView(), 50); } }
+  }
+
+  /* --- groupes, carte --- */
+  let vc = null;
+  $('.bar').addEventListener('click', (e) => {
+    const g = e.target.closest('[data-g]');
+    if (g) { q.group = g.dataset.g; $$('.bar [data-g]').forEach((c) => c.setAttribute('aria-pressed', c === g)); render(); }
+    const v = e.target.closest('[data-view]');
+    if (v) {
+      const on = v.getAttribute('aria-pressed') !== 'true'; v.setAttribute('aria-pressed', on); $('#vchart').hidden = !on;
+      if (on && !vc) vc = chart($('#vchart'), { label: 'Chart of the trips that fit your group. Pick a place to filter the list.', onPick: (id) => { q.place = q.place === id ? null : id; render(); } });
+      if (!on) { q.place = null; } render();
+    }
+  });
+  $$('.bar [data-g]').forEach((c) => c.setAttribute('aria-pressed', c.dataset.g === q.group));
+
+  /* --- comparer --- */
+  document.addEventListener('change', (e) => {
+    const c = e.target.closest('[data-cmp]'); if (!c) return;
+    if (c.checked) { if (cmp.size >= 3) { c.checked = false; R.toast('Compare up to three trips.'); return; } cmp.add(c.dataset.cmp); } else cmp.delete(c.dataset.cmp);
+    $('#cmpbar').hidden = cmp.size < 2; $('#cmpn').textContent = `${cmp.size} trips picked`;
+  });
+  $('#cmpgo').onclick = () => {
+    const ss = [...cmp];
+    const rows = [
+      ['Length', (s) => fact(P(s), 'Duration') || fact(P(s), 'Rides') || fact(P(s), 'Sessions') || '–'],
+      ['Times', (s) => windows(s).map((d) => `${d.label}: ${d.spans.map((x) => x.join('–')).join(' or ')}`).join('; ') || 'Not on the site'],
+      ['From', (s) => (P(s).price ? `${thb(P(s).price.from)} ${P(s).price.unit}` : 'Price on WhatsApp')],
+      ['Your group', (s) => { const b = best(s); return b ? `${thb(b.r.total)}, ${b.o.label.toLowerCase()}` : '–'; }],
+      ['Included', (s) => (P(s).included || []).join('. ')],
+      ['Not included', (s) => (P(s).notIncluded || []).join('. ') || '–'],
+      ['Children', (s) => P(s).beforeYouBook?.children || fact(P(s), 'Children') || fact(P(s), 'Ages') || '–'],
+    ];
+    const scrim = document.createElement('div'); scrim.className = 'scrim';
+    const sh = document.createElement('section'); sh.className = 'sheet wide'; sh.setAttribute('role', 'dialog'); sh.setAttribute('aria-modal', 'true'); sh.setAttribute('aria-labelledby', 'cmp-t');
+    sh.innerHTML = `<header><h2 id="cmp-t">Side by side</h2><button class="x" type="button" aria-label="Close">${X_ICON}</button></header>
+      <div class="body"><div class="scroll-x"><table class="cmp"><thead><tr><td></td>${ss.map((s) => `<th scope="col">${esc(P(s).name)}</th>`).join('')}</tr></thead>
+      <tbody>${rows.map(([l, f]) => `<tr><th scope="row">${l}</th>${ss.map((s) => `<td>${esc(f(s))}</td>`).join('')}</tr>`).join('')}</tbody></table></div></div>`;
+    document.body.append(scrim, sh);
+    const close = () => { sh.remove(); scrim.remove(); $('#cmpgo').focus(); };
+    scrim.onclick = close; $('.x', sh).onclick = close; sh.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+    $('.x', sh).focus();
+  };
+
+  /* --- transferts et location --- */
+  $('#more').innerHTML = [...S.transfers.map((t) => `<a href="#">${esc(t.name)}<span>${esc(t.lead)}</span></a>`),
+    `<a href="home.html#rental">${esc(S.rental.name)}<span>${esc(S.rental.lead)}</span></a>`,
+    `<a href="https://secrettravelandtour.com${S.site.vip.url}">${esc(S.site.vip.name)}<span>Private minivans, run by our partner.</span></a>`].join('');
+
+  render();
+})();
+</script>
+</body>
+</html>

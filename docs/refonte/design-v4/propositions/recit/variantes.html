@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Variantes, proposition récit | Secret Travel & Tour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/recit.css">
+<style>
+.v { padding: clamp(48px, 7vw, 96px) 0; }
+.v h2.t { font-size: var(--fs-h2); }
+.toc { padding: 24px 0; columns: 3 260px; font-size: .9375rem; }
+.toc a { display: block; padding: 4px 0; }
+
+/* Accueil, hero B : mosaïque */
+.mos { display: grid; grid-template-columns: repeat(12, 1fr); grid-template-rows: auto auto; gap: 16px; }
+.mos .a { grid-column: 1 / 8; grid-row: 1 / 3; } .mos .a .ph { height: 100%; min-height: 520px; }
+.mos .b { grid-column: 8 / 13; grid-row: 1; align-self: end; display: grid; gap: 18px; padding: 0 0 12px 12px; }
+.mos .b h1 { font-size: clamp(2.5rem, 4.6vw, 4.5rem); line-height: 1; }
+.mos .c { grid-column: 8 / 11; grid-row: 2; } .mos .c .ph { aspect-ratio: 4 / 5; }
+.mos .d { grid-column: 11 / 13; grid-row: 2; align-self: end; } .mos .d .ph { aspect-ratio: 3 / 4; }
+@media (max-width: 860px) { .mos { grid-template-columns: 1fr 1fr; } .mos > * { grid-column: auto !important; grid-row: auto !important; } .mos .b { grid-column: 1 / -1 !important; order: -1; padding: 0; } .mos .a { grid-column: 1 / -1 !important; } .mos .a .ph { min-height: 0; aspect-ratio: 4 / 3; } }
+
+/* Accueil, hero C : index des lieux */
+.idx { display: grid; grid-template-columns: 7fr 5fr; gap: clamp(24px, 4vw, 56px); align-items: start; }
+.idx h1 { font-size: 1.25rem; font-family: var(--text); font-weight: 600; color: var(--ink-2); margin-bottom: 18px; }
+.idx__names { font: 400 clamp(2rem, 4.6vw, 4.25rem)/1.12 var(--display); }
+.idx__names button { font: inherit; border: 0; background: none; padding: 0; cursor: pointer; color: var(--ink); text-align: left; }
+.idx__names button[aria-pressed="true"] { color: var(--ribbon); }
+.idx__names button:hover { color: var(--lagoon); }
+.idx__names .sep { color: var(--line); }
+.idx__card { position: sticky; top: 96px; display: grid; gap: 12px; }
+.idx__card .ph { aspect-ratio: 4 / 5; }
+.idx__card h2 { font-size: var(--fs-h3); }
+@media (max-width: 860px) { .idx { grid-template-columns: 1fr; } .idx__card { position: static; } .idx__card .ph { aspect-ratio: 4 / 3; } }
+
+/* Accueil, journée B : bande de photos au prorata du temps */
+.strip { display: flex; gap: 6px; height: clamp(300px, 42vw, 480px); }
+.strip figure { margin: 0; display: grid; grid-template-rows: 1fr auto; grid-template-columns: minmax(0, 1fr); gap: 10px; min-width: 0; }
+.strip .ph { height: 100%; }
+.strip figcaption b { display: block; font: 400 1.25rem/1.1 var(--display); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.strip figcaption span { font-size: .875rem; color: var(--ink-2); font-weight: 600; }
+.strip .ph--missing .todo { font-size: 11px; }
+@media (max-width: 760px) { .strip { flex-direction: column; height: auto; } .strip figure { grid-template-rows: auto auto; } .strip .ph { height: auto; aspect-ratio: var(--ar, 3 / 1); } }
+
+/* Accueil, sorties B : carte + liste */
+.mapl { display: grid; grid-template-columns: 6fr 6fr; gap: clamp(24px, 4vw, 56px); align-items: start; }
+.mapl ol { counter-reset: n; }
+.mapl li button { width: 100%; text-align: left; display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; align-items: baseline; padding: 16px 0; border: 0; border-top: 1px solid var(--line); background: none; cursor: pointer; min-height: 44px; }
+.mapl li button b { font: 400 1.625rem/1.1 var(--display); }
+.mapl li button[aria-pressed="true"] b { color: var(--ribbon); }
+.mapl li button span.s { grid-column: 1 / -1; font-size: .9375rem; color: var(--ink-2); }
+@media (max-width: 860px) { .mapl { grid-template-columns: 1fr; } }
+
+/* Accueil, activités B : index en lignes */
+.ix { border-top: 2px solid var(--ink); }
+.ix a { display: grid; grid-template-columns: 3fr 4fr 2fr; gap: 8px 28px; padding: 18px 0; border-bottom: 1px solid var(--line); text-decoration: none; align-items: baseline; }
+.ix a b { font: 400 clamp(1.5rem, 2.6vw, 2.25rem)/1.05 var(--display); }
+.ix a:hover b { color: var(--lagoon); }
+.ix a .price { justify-content: flex-end; }
+@media (max-width: 760px) { .ix a { grid-template-columns: 1fr; } .ix a .price { justify-content: flex-start; } }
+
+/* Accueil, réservation B */
+.lineup { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; border-top: 2px solid var(--ink); padding-top: 24px; }
+.lineup b { font: 400 1.5rem/1.15 var(--display); display: block; margin-bottom: 8px; }
+@media (max-width: 760px) { .lineup { grid-template-columns: 1fr; } }
+
+/* Accueil, trouver B */
+.big3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 28px; }
+.big3 button { min-height: 120px; border: 1px solid var(--ink); border-radius: var(--radius); background: var(--white); cursor: pointer; font: 400 clamp(1.5rem, 2.4vw, 2.25rem)/1.05 var(--display); text-align: left; padding: 20px; }
+.big3 button[aria-pressed="true"] { background: var(--ink); color: var(--white); }
+.big3 button small { display: block; font: 600 .9375rem/1.3 var(--text); margin-top: 8px; opacity: .8; }
+.chips-out { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 10px; }
+.chips-out a { display: inline-flex; gap: 10px; align-items: baseline; min-height: 44px; padding: 10px 16px; border-radius: var(--radius); background: var(--white); border: 1px solid var(--line); text-decoration: none; }
+.chips-out a b { font: 400 1.25rem/1 var(--display); }
+@media (max-width: 760px) { .big3 { grid-template-columns: 1fr; } .big3 button { min-height: 72px; } }
+
+/* Accueil, transferts B */
+.tcols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-top: 32px; }
+.tcols a { display: grid; gap: 8px; text-decoration: none; padding-top: 14px; border-top: 2px solid var(--ribbon); }
+.tcols a b { font: 400 1.5rem/1.1 var(--display); }
+.tcols a span { font-size: .9375rem; color: var(--ink-2); }
+@media (max-width: 960px) { .tcols { grid-template-columns: 1fr 1fr; } } @media (max-width: 520px) { .tcols { grid-template-columns: 1fr; } }
+
+/* 4 Islands, hero B : la carte en hero */
+.mh { display: grid; grid-template-columns: 7fr 5fr; gap: clamp(24px, 4vw, 56px); align-items: center; }
+.mh h1 { font-size: var(--fs-h1); line-height: 1; }
+.mh .lead { margin: 18px 0 24px; }
+@media (max-width: 860px) { .mh { grid-template-columns: 1fr; } .mh > div:last-child { order: -1; } }
+
+/* 4 Islands, hero C : le titre est la liste des îles */
+.isl { display: grid; grid-template-columns: 8fr 4fr; gap: 28px; align-items: end; }
+.isl ol li { display: grid; grid-template-columns: 6.5rem 1fr; align-items: baseline; gap: 16px; border-top: 1px solid var(--line); padding: 4px 0; }
+.isl ol li time { font-weight: 600; color: var(--ink-2); font-size: .9375rem; }
+.isl ol li b { font: 400 clamp(2.25rem, 6vw, 5.5rem)/1 var(--display); }
+.isl .tag { font-weight: 600; color: var(--ink-2); margin-bottom: 14px; }
+@media (max-width: 860px) { .isl { grid-template-columns: 1fr; } .isl ol li { grid-template-columns: 4.5rem 1fr; } }
+
+/* 4 Islands, trajet B : curseur horaire */
+.slide { display: grid; grid-template-columns: 7fr 5fr; gap: clamp(24px, 4vw, 56px); align-items: center; }
+.slide__now { font: 400 clamp(3rem, 7vw, 6rem)/1 var(--display); }
+.slide__where { font: 400 1.75rem/1.2 var(--display); margin-top: 12px; }
+.slide input[type=range] { width: 100%; margin-top: 28px; accent-color: var(--ribbon); height: 44px; }
+.slide__ticks { display: flex; justify-content: space-between; font-size: .8125rem; color: var(--ink-2); }
+@media (max-width: 860px) { .slide { grid-template-columns: 1fr; } }
+
+/* 4 Islands, trajet C : frise défilante */
+.rail { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(260px, 30%); gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 12px; overscroll-behavior-x: contain; }
+.rail article { scroll-snap-align: start; display: grid; gap: 10px; align-content: start; }
+.rail article .ph { aspect-ratio: 4 / 5; }
+.rail time { font-weight: 600; color: var(--ink-2); }
+.rail h3 { font-size: 2rem; }
+.rail__nav { display: flex; gap: 10px; margin-top: 16px; }
+@media (max-width: 760px) { .rail { grid-auto-columns: 78%; } }
+
+/* 4 Islands, comparatif B */
+.only { display: grid; gap: 0; border-top: 2px solid var(--ink); }
+.only > div { display: grid; grid-template-columns: 3fr 4fr 4fr; gap: 20px; padding: 22px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+.only .k { color: var(--ink-2); font-weight: 600; }
+.only b { font: 400 clamp(1.75rem, 3.4vw, 3rem)/1 var(--display); }
+.only small { display: block; font-size: .875rem; color: var(--ink-2); margin-bottom: 4px; }
+@media (max-width: 640px) { .only > div { grid-template-columns: 1fr 1fr; } .only .k { grid-column: 1 / -1; } }
+
+/* 4 Islands, prix B */
+.ptab { width: 100%; border-collapse: collapse; }
+.ptab th, .ptab td { text-align: left; padding: 12px 12px 12px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+.ptab th[scope=rowgroup] { font: 400 1.5rem/1.1 var(--display); padding-top: 28px; border-bottom: 2px solid var(--ink); }
+.ptab td:last-child { text-align: right; font-weight: 600; white-space: nowrap; }
+.quick { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: end; padding: 22px; background: var(--white); border-radius: var(--radius); }
+.quick select { min-height: 48px; border: 1px solid #7C8E8B; border-radius: var(--radius); padding: 0 12px; background: var(--white); }
+.quick__out { margin-left: auto; font: 400 2rem/1 var(--display); }
+
+/* 4 Islands, inclus B : l'argent liquide à prévoir */
+.cash { display: grid; grid-template-columns: 6fr 6fr; gap: clamp(24px, 4vw, 56px); align-items: start; }
+.cash__box { background: var(--ink); color: #E3ECEA; border-radius: 14px; padding: 28px; display: grid; gap: 16px; }
+.cash__box .row2 { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.cash__box .stepper { background: var(--white); color: var(--ink); }
+.cash__out { font: 400 3rem/1 var(--display); color: var(--white); }
+.cash label.chk { display: flex; gap: 10px; align-items: center; min-height: 44px; }
+.cash label.chk input { width: 22px; height: 22px; accent-color: var(--ribbon); }
+@media (max-width: 860px) { .cash { grid-template-columns: 1fr; } }
+
+/* 4 Islands, questions B */
+.qa { columns: 2 340px; column-gap: 56px; }
+.qa div { break-inside: avoid; padding: 18px 0; border-top: 1px solid var(--line); }
+.qa h3 { font-size: 1.5rem; margin-bottom: 8px; }
+.qa p { color: var(--ink-2); }
+
+/* Hub, en-tête B : phrase-filtre */
+.sent { font: 400 clamp(2rem, 4.4vw, 4rem)/1.2 var(--display); max-width: 22ch; }
+.sent select { -webkit-appearance: none; appearance: none; font: inherit; color: var(--ribbon); border: 0; border-bottom: 3px solid var(--ribbon); background: transparent; padding: 0 4px; cursor: pointer; max-width: 100%; }
+.sent-out { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* Hub, collection B : par durée */
+.bylen { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; align-items: start; }
+.bylen h3 { font-size: var(--fs-h3); padding-bottom: 12px; border-bottom: 2px solid var(--ink); margin-bottom: 18px; }
+.bylen a { display: grid; grid-template-columns: 96px 1fr; gap: 14px; align-items: center; text-decoration: none; padding: 10px 0; }
+.bylen a b { font: 400 1.25rem/1.1 var(--display); display: block; }
+.bylen .ph { aspect-ratio: 1; }
+@media (max-width: 860px) { .bylen { grid-template-columns: 1fr; } }
+
+/* Hub, fin B : message composé */
+.comp { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(24px, 4vw, 56px); align-items: start; }
+.comp form { display: grid; gap: 16px; }
+.comp .bubble { margin-top: 0; }
+@media (max-width: 860px) { .comp { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="proto">Prototype « récit » : variantes. <a href="home.html">Accueil</a> <a href="4-islands.html">4 Islands</a> <a href="tours.html">Hub</a></div>
+<div data-chrome="none"></div>
+<main id="main">
+<nav class="wrap toc" aria-label="Variantes" id="toc"></nav>
+
+<div class="proto proto--var" id="v1">Accueil, hero, version B : mosaïque de trois formats, le titre dans le blanc</div>
+<section class="v"><div class="wrap mos" id="mos"></div></section>
+
+<div class="proto proto--var" id="v2">Accueil, hero, version C : l'index des lieux, chaque nom ouvre la photo et la sortie</div>
+<section class="v"><div class="wrap idx"><div><h1>Boat trips and activities on Koh Lanta. Where do you want to go?</h1><p class="idx__names" id="idx"></p></div><div class="idx__card" id="idx-card" aria-live="polite"></div></div></section>
+
+<div class="proto proto--var" id="v3">Accueil, la journée 4 Islands, version B : les photos ont la largeur du temps passé à chaque arrêt</div>
+<section class="v"><div class="wrap"><h2 class="t" style="font-size:var(--fs-h3);margin-bottom:24px">09:00 to 15:30 on the 4 Islands longtail</h2><div class="strip" id="strip"></div><p class="small muted" style="margin-top:14px">Each photo is as wide as the time at that stop, from the times on the 4 Islands page. Times after 09:00 move with the sea.</p></div></section>
+
+<div class="proto proto--var" id="v4">Accueil, sorties en bateau, version B : la carte d'abord, la liste à côté</div>
+<section class="v"><div class="wrap"><h2 class="t" style="margin-bottom:32px">Where the boat trips go</h2><div class="mapl"><div class="map" id="hmap"></div><ol id="hlist"></ol></div></div></section>
+
+<div class="proto proto--var" id="v5">Accueil, activités, version B : index en lignes, sans photo</div>
+<section class="v"><div class="wrap"><h2 class="t" style="margin-bottom:28px">On the island</h2><div class="ix" id="ix"></div></div></section>
+
+<div class="proto proto--var" id="v6">Accueil, réservation, version B : trois phrases, pas d'objet</div>
+<section class="v"><div class="wrap"><h2 class="t" style="margin-bottom:28px">How booking works</h2><div class="lineup" id="lineup"></div></div></section>
+
+<div class="proto proto--var" id="v7">Accueil, trouver sa sortie, version B : une seule question, trois grands boutons</div>
+<section class="v"><div class="wrap"><h2 class="t">How much time do you have?</h2><div class="big3" id="big3"></div><div class="chips-out" id="big3-out" aria-live="polite"></div></div></section>
+
+<div class="proto proto--var" id="v8">Accueil, transferts, version B : quatre colonnes de texte, sans photo</div>
+<section class="v"><div class="wrap"><h2 class="t">Getting here and getting around</h2><div class="tcols" id="tcols"></div></div></section>
+
+<div class="proto proto--var" id="v9">4 Islands, hero, version B : la carte du trajet en hero</div>
+<section class="v"><div class="wrap mh"><div class="map" id="mh-map"></div><div><h1 id="mh-h1"></h1><p class="lead" id="mh-lead"></p><div id="mh-price"></div><p style="margin-top:22px"><a class="btn btn--big" href="4-islands.html#book">Check availability</a></p></div></div></section>
+
+<div class="proto proto--var" id="v10">4 Islands, hero, version C : le titre est la liste des îles, à l'heure</div>
+<section class="v"><div class="wrap isl"><div><p class="tag">4 Islands by join-in longtail, from Koh Lanta</p><ol id="isl"></ol></div><div><div id="isl-price"></div><p style="margin-top:20px"><a class="btn btn--big" href="4-islands.html#book">Check availability</a></p></div></div></section>
+
+<div class="proto proto--var" id="v11">4 Islands, le trajet, version B : un curseur horaire déplace le bateau</div>
+<section class="v"><div class="wrap slide"><div class="map" id="sl-map"></div><div><p class="small muted">Move the time</p><p class="slide__now" id="sl-now" aria-live="polite"></p><p class="slide__where" id="sl-where"></p><label class="sr" for="sl">Time of day</label><input type="range" id="sl" min="465" max="960" step="15" value="465"><div class="slide__ticks"><span>07:45</span><span>16:00</span></div><p class="small muted" style="margin-top:12px">Between two stops the boat is shown on the way; the data gives arrival times only.</p></div></div></section>
+
+<div class="proto proto--var" id="v12">4 Islands, le trajet, version C : frise qui défile, une carte par arrêt</div>
+<section class="v"><div class="wrap"><h2 class="t" style="margin-bottom:24px">The day, island by island</h2><div class="rail" id="rail" tabindex="0" aria-label="Stops of the day"></div><div class="rail__nav"><button class="btn btn--line" type="button" data-rail="-1">Previous stop</button><button class="btn btn--line" type="button" data-rail="1">Next stop</button></div></div></section>
+
+<div class="proto proto--var" id="v13">4 Islands, longtail ou speedboat, version B : seulement ce qui change</div>
+<section class="v"><div class="wrap"><h2 class="t" style="margin-bottom:28px">Longtail or speedboat: what changes</h2><div class="only" id="only"></div></div></section>
+
+<div class="proto proto--var" id="v14">4 Islands, prix, version B : le tableau des prix et un devis rapide</div>
+<section class="v"><div class="wrap"><h2 class="t" style="margin-bottom:8px">Prices</h2><div style="overflow-x:auto"><table class="ptab" id="ptab"></table></div><div class="quick"><div class="field"><label for="q-opt">Boat</label><select id="q-opt"></select></div><div class="field"><span class="lbl-txt" id="q-a-l">Adults</span><div class="stepper" aria-labelledby="q-a-l"><button type="button" data-q="a" data-d="-1" aria-label="One adult less">−</button><output id="q-a">2</output><button type="button" data-q="a" data-d="1" aria-label="One adult more">+</button></div></div><div class="field"><span class="lbl-txt" id="q-c-l">Children 4 to 11</span><div class="stepper" aria-labelledby="q-c-l"><button type="button" data-q="c" data-d="-1" aria-label="One child less">−</button><output id="q-c">0</output><button type="button" data-q="c" data-d="1" aria-label="One child more">+</button></div></div><p class="quick__out" id="q-out" aria-live="polite"></p></div></div></section>
+
+<div class="proto proto--var" id="v15">4 Islands, inclus et pas inclus, version B : l'argent liquide à prévoir pour le parc</div>
+<section class="v"><div class="wrap cash"><div><h2 class="t">Included, and the cash to bring</h2><p class="lead" id="cash-inc" style="margin-top:18px;max-width:52ch"></p></div><div class="cash__box on-dark" id="cash"></div></div></section>
+
+<div class="proto proto--var" id="v16">4 Islands, questions, version B : questions et réponses ouvertes, sur deux colonnes</div>
+<section class="v"><div class="wrap"><h2 class="t" style="margin-bottom:24px">Questions</h2><div class="qa" id="qa"></div></div></section>
+
+<div class="proto proto--var" id="v17">4 Islands, autres sorties, version B : en lignes, avec le prix</div>
+<section class="v"><div class="wrap"><h2 class="t" style="margin-bottom:24px">More boat trips</h2><div class="ix" id="rel"></div></div></section>
+
+<div class="proto proto--var" id="v18">Hub, en-tête et filtres, version B : une phrase qui filtre</div>
+<section class="v"><div class="wrap"><p class="sent">Show me <label class="sr" for="s-k">Type</label><select id="s-k"><option value="all">every trip</option><option value="boat">the boat trips</option><option value="activity">the activities</option></select> that take <label class="sr" for="s-l">Time</label><select id="s-l"><option value="any">any time</option><option value="short">a few hours</option><option value="half">half a day</option><option value="full">a full day</option></select></p><div class="chips-out sent-out" id="s-out" aria-live="polite"></div></div></section>
+
+<div class="proto proto--var" id="v19">Hub, collection, version B : rangée par durée</div>
+<section class="v"><div class="wrap bylen" id="bylen"></div></section>
+
+<div class="proto proto--var" id="v20">Hub, fin de page, version B : le message se compose dans la page</div>
+<section class="v"><div class="wrap comp"><div><h2 class="t">Not sure which one?</h2><form id="comp" style="margin-top:24px"><div class="field"><label for="c-d">Your dates on Koh Lanta</label><input class="input" id="c-d" placeholder="e.g. 12 to 18 December"></div><div class="field"><label for="c-p">Who's coming</label><input class="input" id="c-p" placeholder="e.g. 2 adults, children of 6 and 9"></div><div class="field"><label for="c-h">Where you're staying</label><input class="input" id="c-h"></div></form></div><div><div class="bubble" id="c-msg" aria-live="polite"></div><p style="margin-top:18px"><a class="btn btn--big" id="c-send" target="_blank" rel="noopener">Open WhatsApp to send</a></p></div></div></section>
+</main>
+<div data-foot></div>
+
+<script src="assets/data.js"></script>
+<script src="assets/recit.js"></script>
+<script>
+(function () {
+  var S = STT, R = RECIT, $ = function (id) { return document.getElementById(id); };
+  var F = S.four, P = R.product("4-islands"), steps = F.day[0].steps;
+  $("toc").innerHTML = Array.prototype.map.call(document.querySelectorAll(".proto--var"), function (b) { return '<a href="#' + b.id + '">' + R.esc(b.textContent) + "</a>"; }).join("");
+  var short = function (p) { return p.promise || p.lead.split(". ")[0] + "."; };
+  var LEN = { short: "A few hours", half: "Half day", full: "Full day" };
+
+  // v1
+  $("mos").innerHTML = '<div class="a">' + R.img("home-hero", { eager: true }) + '</div><div class="b"><h1>Boat trips and activities on Koh Lanta</h1><p class="muted">Choose a trip, an option and a date. The page writes the WhatsApp message for you.</p><p><a class="btn btn--big" href="home.html#boats">See the boat trips</a></p></div><div class="c">' + R.img("card-koh-phi-phi") + '<p class="cap"><b>Koh Phi Phi</b> by speedboat</p></div><div class="d">' + R.img("card-4-islands") + '<p class="cap"><b>4 Islands</b></p></div>';
+
+  // v2 : lieux écrits dans les faits des sorties
+  var spots = [["Koh Chueak", "4-islands"], ["Koh Mook", "4-islands"], ["Koh Ngai", "4-islands"], ["Koh Ma", "4-islands"], ["Koh Kradan", "4-islands"], ["Koh Rok", "koh-rok-koh-haa"], ["Koh Haa", "koh-rok-koh-haa"], ["Maya Bay", "koh-phi-phi"], ["Pileh Lagoon", "koh-phi-phi"], ["Bamboo Island", "koh-phi-phi"], ["Koh Talabeng", "koh-talabeng-koh-bubu"], ["Koh Bubu", "koh-talabeng-koh-bubu"], ["Thung Yee Peng", "mangroves"]];
+  $("idx").innerHTML = spots.map(function (s, i) { return '<button type="button" aria-pressed="' + (i === 1) + '" data-slug="' + s[1] + '">' + s[0] + "</button>"; }).join('<span class="sep" aria-hidden="true"> / </span>');
+  var idxShow = function (slug, place) { var p = R.product(slug); $("idx-card").innerHTML = R.img(p.photo) + '<p class="small muted">' + R.esc(place) + " is on</p><h2>" + R.esc(p.name) + "</h2>" + R.priceHTML(p) + '<p><a class="link" href="' + R.href(p) + '">Open ' + R.esc(p.name) + "</a></p>"; };
+  $("idx").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; this.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", x === b); }); idxShow(b.getAttribute("data-slug"), b.textContent); });
+  idxShow("4-islands", "Koh Mook");
+
+  // v3 : largeur = minutes jusqu'à l'arrêt suivant
+  var mins = function (t) { var p = t.split(":").map(Number); return p[0] * 60 + p[1]; };
+  var ph = { "Lanta Old Town pier": "four-gallery-pier", "Koh Chueak": "four-gallery-reef", "Koh Mook": "card-4-islands", "Koh Ngai": "four-gallery-ngai" };
+  var sea = steps.filter(function (s) { return s.kind !== "road"; });
+  $("strip").innerHTML = sea.slice(0, -1).map(function (s, i) {
+    var m = mins(sea[i + 1].time) - mins(s.time);
+    return '<figure style="flex:' + m + " 1 0;--ar:" + Math.max(2, 7 - m / 25).toFixed(1) + ' / 1">' + R.img(ph[s.place] || null, { missing: s.place }) + "<figcaption><b>" + R.esc(s.place) + "</b><span>" + (s.fixed ? "" : "≈ ") + s.time + ", " + m + " min</span></figcaption></figure>";
+  }).join("");
+
+  // v4 : carte des sorties en bateau
+  var boats = S.products.filter(function (p) { return p.kind === "boat"; });
+  var names = { chueak: "Koh Chueak", muk: "Koh Mook", ngai: "Koh Ngai", ma: "Koh Ma", kradan: "Koh Kradan", rok: "Koh Rok", haa: "Koh Haa", "phiphi-le": "Maya Bay", "phiphi-don": "Phi Phi Don", bamboo: "Bamboo Island", talabeng: "Koh Talabeng", bubu: "Koh Bubu", "thung-yee-peng": "Thung Yee Peng" };
+  var hsel = "koh-phi-phi";
+  var hdraw = function () {
+    var cur = R.product(hsel), used = {};
+    boats.forEach(function (p) { p.places.forEach(function (k) { used[k] = 1; }); });
+    R.map($("hmap"), { id: "hm", title: "Sketch map of where the boat trips go", frame: { lon0: 98.72, lon1: 99.42, lat0: 7.19, lat1: 7.84 }, width: 600, scaleKm: 10,
+      stops: Object.keys(used).map(function (k) { return { id: k, place: k, r: 6 }; }),
+      labels: [{ place: "lanta-yai", at: [99.0, 7.56], text: "Koh Lanta", big: true, anchor: "end" }].concat(cur.places.map(function (k) { return { place: k, text: names[k], dx: 12, dy: 5 }; })) });
+    $("hmap").querySelectorAll("[data-stop]").forEach(function (c) { c.classList.toggle("is-on", cur.places.indexOf(c.getAttribute("data-stop")) > -1); });
+    $("hlist").innerHTML = boats.map(function (p) { return '<li><button type="button" aria-pressed="' + (p.slug === hsel) + '" data-slug="' + p.slug + '"><b>' + R.esc(p.name) + "</b>" + R.priceHTML(p).replace(/<span class="price__unit">.*?<\/span>/, "") + '<span class="s">' + p.places.map(function (k) { return names[k]; }).join(", ") + "</span></button></li>"; }).join("");
+  };
+  $("hlist").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; hsel = b.getAttribute("data-slug"); hdraw(); $("hlist").querySelector('[data-slug="' + hsel + '"]').focus(); });
+  hdraw();
+
+  // v5
+  $("ix").innerHTML = S.products.filter(function (p) { return p.kind === "activity"; }).map(function (p) { return '<a href="' + R.href(p) + '"><b>' + R.esc(p.name) + '</b><span class="muted">' + R.esc(short(p)) + "</span>" + R.priceHTML(p) + "</a>"; }).join("");
+
+  // v6
+  $("lineup").innerHTML = '<div><b>Pick the option, the date and who\'s coming</b><p class="muted">Prices for adults and children come from the trip page.</p></div><div><b>Send the message the page writes</b><p class="muted">It opens in WhatsApp with a reference and the total.</p></div><div><b>Pay in ' + S.site.payment.join(" or ") + '</b><p class="muted">Nothing is paid online. ' + R.esc(S.site.weather) + "</p></div>";
+
+  // v7
+  var counts = function (l) { return S.products.filter(function (p) { return p.length.indexOf(l) > -1; }); };
+  $("big3").innerHTML = ["short", "half", "full"].map(function (l, i) { return '<button type="button" aria-pressed="' + (i === 2) + '" data-l="' + l + '">' + LEN[l] + "<small>" + counts(l).length + " trips</small></button>"; }).join("");
+  var b3 = function (l) { $("big3-out").innerHTML = counts(l).map(function (p) { return '<a href="' + R.href(p) + '"><b>' + R.esc(p.name) + "</b>" + (p.price ? '<span class="small muted">from ' + R.thb(p.price.from) + "</span>" : "") + "</a>"; }).join(""); };
+  $("big3").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; this.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", x === b); }); b3(b.getAttribute("data-l")); });
+  b3("full");
+
+  // v8
+  var fv = function (p, l) { return ((p.facts || []).filter(function (x) { return x.label === l; })[0] || {}).value || ""; };
+  $("tcols").innerHTML = [[S.transfers[0].url, S.transfers[0].name, fv(S.transfers[0], "Where")], [S.transfers[1].url, S.transfers[1].name, fv(S.transfers[1], "Destinations")], [S.taxi.url, S.taxi.name + ", " + S.taxi.byline, S.taxi.offer.join(". ") + "."], [S.rental.url, S.rental.name, S.rental.promise + ". From " + R.thb(S.rental.price.from) + " " + S.rental.price.unit + "."]]
+    .map(function (r) { return '<a href="' + R.liveHref(r[0]) + '"><b>' + R.esc(r[1]) + "</b><span>" + R.esc(r[2]) + "</span></a>"; }).join("");
+
+  // v9, v11 : carte du 4 Islands
+  var G = function (k) { return [S.geo[k].lon, S.geo[k].lat]; }, pier = [99.0985, 7.5305];
+  var lane = [pier, [99.19, 7.475], G("chueak"), G("muk"), G("ngai"), G("ma"), [99.135, 7.49], pier];
+  var fr = { lon0: 99.0, lon1: 99.335, lat0: 7.29, lat1: 7.555 };
+  var lab = [{ place: "lanta-yai", at: [99.05, 7.505], text: "Koh Lanta", big: true, anchor: "middle" }, { place: "old-town", at: pier, text: "Lanta Old Town", dx: 12, dy: -10 }, { place: "chueak", text: "Koh Chueak", dx: 12, dy: 18 }, { place: "muk", text: "Koh Mook", dy: -28, anchor: "middle" }, { place: "ngai", text: "Koh Ngai", dx: -14, dy: 5, anchor: "end" }, { place: "ma", text: "Koh Ma", dx: 4, dy: -16 }];
+  R.map($("mh-map"), { id: "mh", title: "Sketch map of the 4 Islands longtail route", frame: fr, width: 640, scaleKm: 5, routes: [{ id: "r", d: function (Pj) { return R.curve(lane, Pj); } }], stops: ["chueak", "muk", "ngai", "ma"].map(function (k) { return { id: k, place: k }; }), labels: lab });
+  $("mh-h1").textContent = F.h1; $("mh-lead").textContent = F.lead; $("mh-price").innerHTML = R.priceHTML(P, true);
+
+  // v10
+  $("isl").innerHTML = steps.filter(function (s) { return s.kind === "island"; }).map(function (s) { return "<li><time>≈ " + s.time + "</time><b>" + R.esc(s.place) + "</b></li>"; }).join("");
+  $("isl-price").innerHTML = R.priceHTML(P, true) + '<p class="small muted" style="margin-top:8px">' + R.esc(R.fact(F, "Hotel pickup")) + " pickup, back ≈ " + R.esc(steps[steps.length - 1].range) + ".</p>";
+
+  // v11 : curseur
+  var sm = R.map($("sl-map"), { id: "sl", title: "Sketch map with the boat at the chosen time", frame: fr, width: 640, scaleKm: 5, boat: true, routes: [{ id: "r", cls: "route--ghost", d: function (Pj) { return R.curve(lane, Pj); } }], stops: ["chueak", "muk", "ngai", "ma"].map(function (k) { return { id: k, place: k }; }), labels: lab });
+  var path = $("sl-map").querySelector("[data-route=r]"), total = path.getTotalLength();
+  // Longueur du tracé jusqu'à chaque arrêt : on cherche le point du tracé le plus proche de l'île.
+  var nearest = function (q) { var best = 0, bd = 1e9; for (var L = 0; L <= total; L += 2) { var p = path.getPointAtLength(L), d = (p.x - q[0]) * (p.x - q[0]) + (p.y - q[1]) * (p.y - q[1]); if (d < bd) { bd = d; best = L; } } return best; };
+  var marks = [{ t: mins("09:00"), L: 0, name: "Lanta Old Town pier" }];
+  var isl = steps.filter(function (s) { return s.kind === "island"; });
+  var lastL = 0; isl.forEach(function (s) { var key = { "Koh Chueak": "chueak", "Koh Mook": "muk", "Koh Ngai": "ngai", "Koh Ma": "ma" }[s.place]; var L = nearest(sm.P(G(key))); if (L < lastL) L = lastL; lastL = L; marks.push({ t: mins(s.time), L: L, name: s.place }); });
+  marks.push({ t: mins("15:30"), L: total, name: "Koh Lanta" });
+  var hm = function (m) { return ("0" + Math.floor(m / 60)).slice(-2) + ":" + ("0" + m % 60).slice(-2); };
+  var slide = function () {
+    var t = Number($("sl").value), L = 0, where;
+    if (t < marks[0].t) { where = "On the road to Lanta Old Town pier. Pickup " + R.fact(F, "Hotel pickup") + "."; L = 0; }
+    else if (t >= marks[marks.length - 1].t) { where = "Back on Koh Lanta, then the transfer to your hotel."; L = total; }
+    else for (var i = 0; i < marks.length - 1; i++) if (t >= marks[i].t && t < marks[i + 1].t) {
+      L = marks[i].L + (marks[i + 1].L - marks[i].L) * (t - marks[i].t) / (marks[i + 1].t - marks[i].t);
+      where = t === marks[i].t ? marks[i].name : "After " + marks[i].name + ", before " + marks[i + 1].name + " at ≈ " + hm(marks[i + 1].t);
+    }
+    var p = path.getPointAtLength(L);
+    $("sl-map").querySelector("[data-boat]").setAttribute("transform", "translate(" + p.x.toFixed(1) + " " + p.y.toFixed(1) + ")");
+    $("sl-now").textContent = hm(t); $("sl-where").textContent = where;
+    $("sl").setAttribute("aria-valuetext", hm(t) + ", " + where);
+  };
+  $("sl").addEventListener("input", slide); $("sl").value = 660; slide();
+
+  // v12 : frise
+  $("rail").innerHTML = steps.map(function (s) { return "<article><time>" + (s.fixed ? "" : "≈ ") + (s.range || s.time) + "</time>" + (s.kind === "island" || ph[s.place] ? R.img(ph[s.place] || null, { missing: s.place }) : "") + "<h3>" + R.esc(s.place) + '</h3><p class="muted">' + R.esc(s.detail) + "</p></article>"; }).join("");
+  document.querySelectorAll("[data-rail]").forEach(function (b) { b.addEventListener("click", function () { var r = $("rail"), w = r.querySelector("article").getBoundingClientRect().width + 20; r.scrollBy({ left: Number(b.getAttribute("data-rail")) * w, behavior: R.reduced ? "auto" : "smooth" }); }); });
+
+  // v13
+  var opt = function (id) { return P.options.filter(function (o) { return o.id === id; })[0]; };
+  var jl = opt("join-in-longtail"), js = opt("join-in-speedboat");
+  var islL = R.fact(F, "Islands, longtail").split(", "), islS = R.fact(F, "Islands, speedboat").split(", ");
+  var onlyL = islL.filter(function (x) { return islS.indexOf(x) < 0; }), onlyS = islS.filter(function (x) { return islL.indexOf(x) < 0; });
+  var lunch = R.fact(F, "Lunch");
+  $("only").innerHTML = '<div><span class="k"></span><b style="font-size:1.5rem">Longtail</b><b style="font-size:1.5rem">Speedboat</b></div>' +
+    '<div><span class="k">The island only this boat visits</span><b>' + onlyL.join(", ") + "</b><b>" + onlyS.join(", ") + "</b></div>" +
+    '<div><span class="k">Lunch on the beach</span><b>' + (/Koh Ngai by longtail/.test(lunch) ? "Koh Ngai" : "") + "</b><b>" + (/Koh Kradan by speedboat/.test(lunch) ? "Koh Kradan" : "") + "</b></div>" +
+    '<div><span class="k">Adult, join-in</span><b><small>from</small>' + R.thb(jl.prices[0].amount) + "</b><b><small>from</small>" + R.thb(js.prices[0].amount) + "</b></div>";
+
+  // v14
+  $("ptab").innerHTML = P.options.map(function (o) { return '<tbody><tr><th scope="rowgroup" colspan="2">' + R.esc(o.label) + "</th></tr>" + o.prices.map(function (r) { return "<tr><td>" + R.esc(r.label) + (r.unit ? ' <span class="small muted">' + R.esc(r.unit) + "</span>" : "") + "</td><td>" + (r.amount ? (r.supplement ? "+" : "") + R.thb(r.amount) : "Free") + "</td></tr>"; }).join("") + "</tbody>"; }).join("");
+  $("q-opt").innerHTML = P.options.map(function (o) { return '<option value="' + o.id + '">' + R.esc(o.label) + "</option>"; }).join("");
+  var qs = { a: 2, c: 0 };
+  var qd = function () {
+    $("q-a").textContent = qs.a; $("q-c").textContent = qs.c;
+    var o = opt($("q-opt").value), ages = []; for (var i = 0; i < qs.c; i++) ages.push(7);
+    var q = R.quote(o, qs.a, ages);
+    $("q-out").textContent = q.total ? R.thb(q.total) : "–";
+  };
+  document.querySelectorAll("[data-q]").forEach(function (b) { b.addEventListener("click", function () { var k = b.getAttribute("data-q"); qs[k] = Math.max(k === "a" ? 1 : 0, qs[k] + Number(b.getAttribute("data-d"))); qd(); }); });
+  $("q-opt").addEventListener("change", qd); qd();
+
+  // v15 : liquide pour le parc, d'après notIncludedFees
+  $("cash-inc").textContent = "Included: " + F.included.slice(0, 4).join(", ").toLowerCase().replace(/^./, function (c) { return c.toUpperCase(); }) + ". Not included: the national park fee, paid in cash to the ranger on the island.";
+  var fee = function (l) { return jl.fees.filter(function (f) { return f.label === l; })[0].amount; };
+  var cs = { a: 2, c: 0, thai: false };
+  $("cash").innerHTML = '<div class="row2"><span>Adults</span><div class="stepper"><button type="button" data-c="a" data-d="-1" aria-label="One adult less">−</button><output id="c-a">2</output><button type="button" data-c="a" data-d="1" aria-label="One adult more">+</button></div></div><div class="row2"><span>Children</span><div class="stepper"><button type="button" data-c="c" data-d="-1" aria-label="One child less">−</button><output id="c-c">0</output><button type="button" data-c="c" data-d="1" aria-label="One child more">+</button></div></div><label class="chk"><input type="checkbox" id="c-thai"> Thai nationals</label><p>Cash for the park fee</p><p class="cash__out" id="c-out" aria-live="polite"></p><p class="small" id="c-how" style="color:#C9D8D5"></p>';
+  var cd = function () {
+    var a = fee(cs.thai ? "National park fee, Thai national adult" : "National park fee, adult"), c = fee(cs.thai ? "National park fee, Thai national child" : "National park fee, child");
+    $("c-a").textContent = cs.a; $("c-c").textContent = cs.c;
+    $("c-out").textContent = R.thb(cs.a * a + cs.c * c);
+    $("c-how").textContent = cs.a + " × " + a + (cs.c ? " + " + cs.c + " × " + c : "") + ". " + jl.fees[0].note + ".";
+  };
+  $("cash").addEventListener("click", function (e) { var b = e.target.closest("[data-c]"); if (!b) return; var k = b.getAttribute("data-c"); cs[k] = Math.max(k === "a" ? 0 : 0, cs[k] + Number(b.getAttribute("data-d"))); cd(); });
+  $("c-thai").addEventListener("change", function () { cs.thai = this.checked; cd(); }); cd();
+
+  // v16, v17
+  $("qa").innerHTML = F.faq.map(function (f) { return "<div><h3>" + R.esc(f.q) + "</h3><p>" + R.esc(f.a) + "</p></div>"; }).join("");
+  $("rel").innerHTML = F.related.map(function (u) { return S.products.filter(function (p) { return p.url === u; })[0]; }).filter(Boolean).map(function (p) { return '<a href="' + R.href(p) + '"><b>' + R.esc(p.name) + '</b><span class="muted">' + R.esc(short(p)) + "</span>" + R.priceHTML(p) + "</a>"; }).join("");
+
+  // v18
+  var sf = function () {
+    var k = $("s-k").value, l = $("s-l").value;
+    var list = S.products.filter(function (p) { return (k === "all" || p.kind === k) && (l === "any" || p.length.indexOf(l) > -1); });
+    $("s-out").innerHTML = list.length ? list.map(function (p) { return '<a href="' + R.href(p) + '"><b>' + R.esc(p.name) + "</b>" + (p.price ? '<span class="small muted">from ' + R.thb(p.price.from) + "</span>" : "") + "</a>"; }).join("") : '<p class="muted">Nothing matches. Change one of the two words above.</p>';
+  };
+  $("s-k").addEventListener("change", sf); $("s-l").addEventListener("change", sf); sf();
+
+  // v19
+  $("bylen").innerHTML = ["short", "half", "full"].map(function (l) { return "<div><h3>" + LEN[l] + "</h3>" + counts(l).map(function (p) { return '<a href="' + R.href(p) + '">' + R.img(p.photo, { decorative: true }) + "<div><b>" + R.esc(p.name) + "</b>" + (p.price ? '<span class="small muted">from ' + R.thb(p.price.from) + "</span>" : '<span class="small muted">Price on WhatsApp</span>') + "</div></a>"; }).join("") + "</div>"; }).join("");
+
+  // v20
+  var cm = function () {
+    var t = "Hello, we're looking for a trip on Koh Lanta.";
+    if ($("c-d").value.trim()) t += "\nDates: " + $("c-d").value.trim();
+    if ($("c-p").value.trim()) t += "\nWho's coming: " + $("c-p").value.trim();
+    if ($("c-h").value.trim()) t += "\nStaying at: " + $("c-h").value.trim();
+    t += "\nWhich trip would you suggest, and what does it cost?";
+    $("c-msg").textContent = t; $("c-send").href = R.wa(t);
+  };
+  $("comp").addEventListener("input", cm); $("comp").addEventListener("submit", function (e) { e.preventDefault(); }); cm();
+  $("c-send").insertAdjacentHTML("afterbegin", R.WA_ICON);
+})();
+</script>
+</body>
+</html>

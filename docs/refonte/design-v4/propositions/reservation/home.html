@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Secret Travel &amp; Tour | Boat trips and activities on Koh Lanta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+<style>
+/* Hero : le formulaire de groupe est le premier geste de la page */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 56px; align-items: stretch; padding-block: 48px 72px; }
+.hero h1 { font-size: 64px; max-width: 13ch; }
+.hero .lead { margin-top: 18px; }
+.planner { margin-top: 32px; border: 1px solid var(--line); border-radius: var(--r); padding: 20px; display: grid; gap: 16px; background: #fff; max-width: 520px; }
+.planner .when { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.planner .row { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+.hero-ph { border-radius: var(--r); overflow: hidden; min-height: 560px; }
+.hero-ph img { width: 100%; height: 100%; object-fit: cover; }
+@media (max-width: 960px) {
+  .hero { grid-template-columns: 1fr; gap: 28px; padding-block: 28px 56px; }
+  .hero h1 { font-size: 44px; }
+  .hero-ph { min-height: 0; aspect-ratio: 16 / 10; margin: 0 calc(-1 * var(--gut)); border-radius: 0; order: -1; }
+  .planner { max-width: none; }
+}
+
+/* Démonstration du message */
+.demo { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+.demo .ctl { display: grid; gap: 16px; }
+.demo .msg { font-size: 15px; min-height: 280px; }
+.demo .phone { border: 1px solid var(--line); border-radius: 20px; padding: 16px; background: #fff; display: grid; gap: 10px; }
+.demo .phone .to { font-size: 14px; color: var(--ink-mute); border-bottom: 1px solid var(--line); padding-bottom: 10px; display: flex; gap: 8px; align-items: center; }
+.demo .phone .to svg { width: 18px; height: 18px; color: var(--sea); }
+@media (max-width: 860px) { .demo { grid-template-columns: 1fr; gap: 28px; } }
+
+/* Questions avant de réserver */
+.obj { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 48px; }
+.obj > div { border-top: 1px solid var(--line); padding: 18px 0 22px; display: grid; gap: 6px; align-content: start; }
+.obj h3 { font-size: 23px; }
+.obj p { color: var(--ink-soft); font-size: 16px; }
+.obj ul { margin: 4px 0 0; padding: 0; list-style: none; font-size: 15px; color: var(--ink-soft); display: grid; gap: 2px; }
+@media (max-width: 760px) { .obj { grid-template-columns: 1fr; } }
+
+/* Activités en liste */
+.alist { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px; }
+.alist li { display: grid; grid-template-columns: 132px 1fr; gap: 18px; padding: 18px 0; border-top: 1px solid var(--line); position: relative; align-items: start; }
+.alist .th { aspect-ratio: 4 / 3; border-radius: 10px; overflow: hidden; background: var(--shell); }
+.alist .th img { width: 100%; height: 100%; object-fit: cover; }
+.alist h3 { font-size: 23px; }
+.alist h3 a { color: inherit; text-decoration: none; }
+.alist p { font-size: 15px; color: var(--ink-mute); line-height: 1.45; }
+.alist .pr { margin-top: 6px; color: var(--ink); }
+.alist .pr b { font: 600 21px/1 var(--serif); }
+.alist .acts { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; margin-top: 6px; }
+@media (max-width: 860px) { .alist { grid-template-columns: 1fr; } }
+@media (max-width: 420px) { .alist li { grid-template-columns: 96px 1fr; gap: 14px; } }
+
+/* Liste de sorties */
+.tl-band { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+.tl-band .ph { border-radius: var(--r); overflow: hidden; aspect-ratio: 3 / 2; }
+.tl-band .ph img { width: 100%; height: 100%; object-fit: cover; }
+.tl-mini { list-style: none; margin: 18px 0; padding: 0; border-bottom: 1px solid var(--line); }
+.tl-mini li { border-top: 1px solid var(--line); padding: 10px 0; display: flex; justify-content: space-between; gap: 12px; font-size: 16px; }
+@media (max-width: 860px) { .tl-band { grid-template-columns: 1fr; gap: 28px; } }
+.xfer { display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: baseline; border-top: 1px solid var(--line); padding-top: 24px; margin-top: 56px; }
+.xfer h2 { font-size: 28px; }
+</style>
+</head>
+<body>
+<main id="main">
+  <div class="wrap hero">
+    <div>
+      <h1>Boat trips from Koh Lanta, priced for your group</h1>
+      <p class="lead">Choose a trip and a date, say who is coming, and the page writes your WhatsApp message with the total. Nothing to pay online.</p>
+      <form class="planner" id="planner" novalidate>
+        <div class="row"><h2 style="font-size:26px">Who is coming, and when</h2><span class="tiny mute">Kept on this phone</span></div>
+        <div id="h-grp"></div>
+        <div class="when">
+          <div class="field"><label for="h-month">Month</label><select class="input" id="h-month"></select></div>
+          <div class="field"><label for="h-date">Or a day</label><input class="input" type="date" id="h-date"></div>
+        </div>
+        <span class="err" id="h-err"></span>
+        <button class="btn big block" type="submit" id="h-go">See trips and totals</button>
+      </form>
+    </div>
+    <div class="hero-ph" id="hero-ph"></div>
+  </div>
+
+  <section class="sec tight" aria-labelledby="boats-t" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="boats-t">Boat trips</h2><a class="link" href="tours.html#type=boat" id="all-boats"></a></div>
+      <div class="cards" id="boats"></div>
+    </div>
+  </section>
+
+  <section class="sec sand" aria-labelledby="demo-t">
+    <div class="wrap demo">
+      <div class="ctl">
+        <h2 id="demo-t">The whole booking is one message</h2>
+        <p class="mute">Pick a trip here. This is the message the page writes for you. You send it on WhatsApp and we reply there.</p>
+        <div class="field"><label for="d-trip">Trip</label><select class="input" id="d-trip"></select></div>
+        <div class="field"><label for="d-opt">Option</label><select class="input" id="d-opt"></select></div>
+        <div class="field"><label for="d-date">Date</label><input class="input" type="date" id="d-date"></div>
+        <p class="small mute" id="d-who"></p>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center"><button type="button" class="btn" id="d-add">Add to trip list</button><a class="link" id="d-page" href="4-islands.html">Open the trip page</a></div>
+      </div>
+      <div class="phone" aria-live="polite">
+        <p class="to">${wa} To Secret Travel &amp; Tour, <span class="num" id="d-num"></span></p>
+        <div class="msg" id="d-msg"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="obj-t">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="obj-t">Before you book</h2><p class="mute">The answers people look for before they send a request.</p></div>
+      <div class="obj" id="obj"></div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="act-t" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="act-t">Island activities</h2><a class="link" href="tours.html#type=activity" id="all-acts"></a></div>
+      <ul class="alist" id="acts"></ul>
+    </div>
+  </section>
+
+  <section class="sec sand" aria-labelledby="tl-t">
+    <div class="wrap">
+      <div class="tl-band">
+        <div class="ph" id="tl-ph"></div>
+        <div>
+          <h2 id="tl-t">Several days on Koh Lanta?</h2>
+          <p class="mute" style="margin-top:12px">Add each trip to your list, choose a date for each one and send them all in one WhatsApp message. Two full-day trips on the same day are flagged before you send.</p>
+          <div id="tl-mini"></div>
+        </div>
+      </div>
+      <div class="xfer"><h2>Getting to Koh Lanta</h2><p class="mute">Private minivan transfers from Krabi, Phuket and Surat Thani airports are run by our partner, VIP Taxi Lanta.</p><a class="link" href="/taxi/">See transfers on VIP Taxi Lanta</a></div>
+    </div>
+  </section>
+</main>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+(function () {
+  var $ = R.$, esc = R.esc, thb = R.thb, D = R.D;
+  R.chrome({ title: "accueil" });
+  document.querySelector(".to").innerHTML = document.querySelector(".to").innerHTML.replace("${wa}", R.ICON.wa);
+  $("#d-num").textContent = R.WA.display;
+  var g = R.loadGroup();
+  var today = R.todayIso();
+
+  // ---------- Hero ----------
+  $("#hero-ph").innerHTML = R.img(D.photos["home-hero"], "", true);
+  R.groupControl($("#h-grp"), g, function () { R.saveGroup(g); renderBoats(); renderActs(); renderDemo(); }, "h");
+  var m0 = R.monthOf(today), y0 = +today.slice(0, 4), mo = '<option value="">Any month</option>';
+  for (var i = 0; i < 12; i++) { var mm = ((m0 - 1 + i) % 12) + 1; mo += '<option value="' + mm + '">' + R.MONTHS[mm - 1] + " " + (y0 + Math.floor((m0 - 1 + i) / 12)) + "</option>"; }
+  $("#h-month").innerHTML = mo; $("#h-month").value = g.month || "";
+  $("#h-date").min = today; $("#h-date").value = g.date || "";
+  $("#h-month").onchange = function () { g.month = this.value ? +this.value : null; g.date = null; $("#h-date").value = ""; R.saveGroup(g); renderBoats(); };
+  $("#h-date").onchange = function () { g.date = this.value || null; if (g.date) { g.month = R.monthOf(g.date); $("#h-month").value = g.month; } R.saveGroup(g); renderBoats(); renderDemo(); };
+  $("#planner").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var miss = g.ages.findIndex(function (a) { return a === "" || a == null; });
+    if (miss !== -1) {
+      var s = document.getElementById("h-age-" + miss);
+      var fld = s.closest(".field"); fld.classList.add("invalid"); s.setAttribute("aria-invalid", "true");
+      fld.querySelector(".err").textContent = "Choose the age of child " + (miss + 1) + ". Prices depend on it.";
+      s.focus(); R.track("hero_planner_error", { field: "age" }); return;
+    }
+    var h = new URLSearchParams(); h.set("a", g.adults); if (g.ages.length) h.set("c", g.ages.join(".")); if (g.date) h.set("d", g.date); else if (g.month) h.set("m", g.month);
+    R.track("hero_planner_submit", { adults: g.adults, children: g.ages.length, month: g.month, date: g.date });
+    location.href = "tours.html#" + h.toString();
+  });
+
+  // ---------- Bateaux ----------
+  var boats = D.products.filter(function (p) { return p.kind === "boat"; });
+  var acts = D.products.filter(function (p) { return p.kind === "activity"; });
+  $("#all-boats").textContent = "All " + boats.length + " boat trips";
+  $("#all-acts").textContent = "All " + acts.length + " activities";
+  function renderBoats() { $("#boats").innerHTML = ["4-islands", "koh-rok-koh-haa", "koh-phi-phi"].map(function (s) { return R.card(R.bySlug(s), { group: g, month: g.month }); }).join(""); }
+
+  // ---------- Démonstration du message ----------
+  $("#d-trip").innerHTML = D.products.map(function (p) { return '<option value="' + p.slug + '">' + esc(p.name) + "</option>"; }).join("");
+  $("#d-date").min = today; $("#d-date").value = g.date || R.addDays(today, 2);
+  function fillOpts() { var p = R.bySlug($("#d-trip").value); $("#d-opt").innerHTML = p.options.filter(function (o) { return o.kind !== "extra"; }).map(function (o) { return '<option value="' + o.id + '">' + esc(o.label) + "</option>"; }).join(""); var r = R.refOption(p); if (r) $("#d-opt").value = r.id; $("#d-page").href = p.slug === "4-islands" ? "4-islands.html" : "tours.html#q=" + p.slug; }
+  function renderDemo() {
+    var item = { slug: $("#d-trip").value, option: $("#d-opt").value, date: $("#d-date").value || null };
+    $("#d-msg").textContent = R.buildMessage([item], g, { pickup: g.pickup || "Your hotel", name: g.name || "Your first name" });
+    $("#d-who").textContent = "For " + R.guestsLine(g.adults, g.ages) + ", from “Who is coming” above.";
+  }
+  $("#d-trip").onchange = function () { fillOpts(); renderDemo(); R.track("demo_trip", { product: this.value }); };
+  $("#d-opt").onchange = renderDemo; $("#d-date").onchange = renderDemo;
+  $("#d-add").onclick = function () { R.addToList({ slug: $("#d-trip").value, option: $("#d-opt").value, date: $("#d-date").value || null, addOns: [] }); renderMini(); };
+  fillOpts();
+
+  // ---------- Questions avant de réserver (faits de site.json et des fichiers produits) ----------
+  var B = D.site.booking;
+  var kids = D.products.map(function (p) {
+    var r = null;
+    p.options.forEach(function (o) { (o.prices || []).forEach(function (x) { if (!r && x.ages && x.ages.max != null && x.ages.min != null && x.amount > 0) r = x.ages; }); });
+    return r ? { name: p.name, txt: r.min + " to " + r.max } : null;
+  }).filter(Boolean);
+  function byRange() {
+    var m = {}; kids.forEach(function (k) { (m[k.txt] = m[k.txt] || []).push(k.name); });
+    return Object.keys(m).map(function (t) { return { txt: t, names: m[t] }; }).sort(function (a, b) { return b.names.length - a.names.length; });
+  }
+  var parks = D.products.filter(function (p) { return R.fact(p, "National park fee"); });
+  $("#obj").innerHTML =
+    "<div><h3>Paying</h3><p>Nothing is paid online. You pay on the day, in cash or by bank transfer.</p></div>" +
+    "<div><h3>Weather</h3><p>" + esc(B.weather) + "</p></div>" +
+    "<div><h3>Hotel pickup</h3><p>Pickup is included on " + D.products.filter(function (p) { return p.included.some(function (x) { return /hotel transfer/i.test(x); }); }).map(function (p) { return p.name; }).length + " of the " + D.products.length + " trips. We pick up all over Koh Lanta in general, and confirm each address case by case.</p></div>" +
+    "<div><h3>National park fees</h3><p>Paid in cash on the island, never included:</p><ul>" + parks.map(function (p) { return "<li>" + esc(p.name) + ": " + esc(R.fact(p, "National park fee").replace(/, not included$/, "")) + "</li>"; }).join("") + "</ul></div>" +
+    "<div><h3>Children</h3><p>Each trip has its own child ages. We ask the age of each child, so the total is right. Child rate:</p><ul>" + byRange().map(function (k) { return "<li>" + esc(k.txt) + ": " + esc(R.listJoin(k.names)) + "</li>"; }).join("") + "</ul></div>" +
+    '<div><h3>After you send</h3><p>We reply on WhatsApp with the confirmation. Reply time: <span class="data-todo">[DONNÉE À FOURNIR : délai de réponse]</span>. Cancelling: <span class="data-todo">[DONNÉE À FOURNIR : conditions d\'annulation]</span></p></div>';
+
+  // ---------- Activités ----------
+  function renderActs() {
+    $("#acts").innerHTML = acts.map(function (p) {
+      var ro = R.refOption(p), q = ro ? R.quote(ro, g) : null;
+      var tot = q && (q.status === "ok" || q.status === "partial") ? " <span class=\"mute\">For " + esc(R.guestsLine(g.adults, g.ages)) + ":</span> <b class=\"num\">" + thb(q.total) + "</b>" : "";
+      return '<li><div class="th">' + R.img(p.photo) + '</div><div><h3><a href="tours.html#q=' + p.slug + '">' + esc(p.name) + "</a></h3>" +
+        (p.promise ? "<p>" + esc(p.promise) + "</p>" : "<p>" + esc(p.lead.split(". ")[0]) + ".</p>") +
+        '<p class="pr">' + (p.price ? 'from <b class="num">' + thb(p.price.from) + "</b> " + esc(p.price.unit) : "Price on WhatsApp") + "</p>" +
+        (tot ? '<p class="pr">' + tot + "</p>" : "") +
+        '<div class="acts"><button type="button" class="link" data-add="' + p.slug + '">Add to trip list</button></div></div></li>';
+    }).join("");
+  }
+
+  // ---------- Liste de sorties ----------
+  $("#tl-ph").innerHTML = R.img(D.photos["home-final"]);
+  function renderMini() {
+    var l = R.loadList();
+    $("#tl-mini").innerHTML = l.length
+      ? '<ul class="tl-mini">' + l.map(function (it) { var p = R.bySlug(it.slug); return "<li><span>" + esc(p.name) + '</span><span class="mute">' + (it.date ? R.shortDate(it.date) : "date to choose") + "</span></li>"; }).join("") + '</ul><button type="button" class="btn" data-open-list>Open your trip list</button>'
+      : '<p class="small mute" style="margin:18px 0">Your list is empty. Use “Add to trip list” on any trip.</p><a class="btn line" href="tours.html">Browse all trips</a>';
+    var b = $("#tl-mini [data-open-list]"); if (b) b.onclick = function () { R.openList(); };
+  }
+  document.addEventListener("click", function (e) { if (e.target.closest && e.target.closest("[data-add]")) setTimeout(renderMini, 0); });
+
+  renderBoats(); renderActs(); renderDemo(); renderMini();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,402 @@
+/* VIP Taxi Lanta, direction « La carte du sud ».
+   Mer d'Andaman claire, sable des côtes, encre de mer profonde, or du logo pour le trajet et la base de Koh Lanta.
+   Sofia Sans Condensed pour les titres et les noms de lieux, Sofia Sans pour le texte, Newsreader italique pour les mers seulement. */
+
+@font-face { font-family: "Sofia Sans Condensed"; font-weight: 1 1000; font-display: swap; src: url("/docs/refonte/taxi-v1/propositions/carte/fonts/sofia-sans-condensed-latin-wght-normal.woff2") format("woff2"); }
+@font-face { font-family: "Sofia Sans"; font-weight: 1 1000; font-display: swap; src: url("/docs/refonte/taxi-v1/propositions/carte/fonts/sofia-sans-latin-wght-normal.woff2") format("woff2"); }
+@font-face { font-family: "Newsreader"; font-style: italic; font-weight: 200 800; font-display: swap; src: url("/docs/refonte/taxi-v1/propositions/carte/fonts/newsreader-latin-wght-italic.woff2") format("woff2"); }
+/* Encart Secret : polices de Secret v4, telles quelles. */
+@font-face { font-family: "Cormorant Garamond"; font-weight: 600; font-display: swap; src: url("/src/css/fonts/cormorant-garamond-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Manrope"; font-weight: 400; font-display: swap; src: url("/src/css/fonts/manrope-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Manrope"; font-weight: 600; font-display: swap; src: url("/src/css/fonts/manrope-latin-600-normal.woff2") format("woff2"); }
+
+[data-brand="vip"] {
+  --paper: #F4F8F7;
+  --white: #FFFFFF;
+  --water: #D3EAE6;
+  --water-2: #B9DCD6;
+  --land: #F3E6CC;
+  --coast: #B39566;
+  --ink: #0F2E37;
+  --ink-2: #44606A;
+  --ink-hover: #1D4855;
+  --route: #2C5763;
+  --gold: #CC9A2C;
+  --gold-ink: #7A570D;
+  --rule: #CFDCDA;
+  --cond: "Sofia Sans Condensed", "Arial Narrow", sans-serif;
+  --text: "Sofia Sans", Arial, sans-serif;
+  --top: 64px;
+
+  --sheet-bg: var(--white);
+  --sheet-ink: var(--ink);
+  --sheet-mute: var(--ink-2);
+  --sheet-rule: var(--rule);
+  --sheet-field: #6C858C;
+  --sheet-field-bg: var(--white);
+  --sheet-accent: var(--ink);
+  --sheet-accent-ink: var(--white);
+  --sheet-cta: var(--ink);
+  --sheet-cta-ink: var(--white);
+  --sheet-cta-hover: var(--ink-hover);
+  --sheet-soft: #EDF6F4;
+  --sheet-err: #9B2F1E;
+  --sheet-focus: 0 0 0 2px var(--white), 0 0 0 5px var(--gold-ink);
+  --sheet-backdrop: rgb(15 46 55 / .55);
+  --sheet-text: var(--text);
+  --sheet-head: var(--cond);
+  --sheet-head-weight: 760;
+  --sheet-head-stretch: normal;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--top) + 8px); }
+body[data-brand="vip"] {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font: 400 1.0625rem/1.65 var(--text);
+  -webkit-font-smoothing: antialiased; overflow-x: clip;
+}
+img { display: block; max-width: 100%; height: auto; }
+h1, h2, h3 { margin: 0; font-family: var(--cond); text-wrap: balance; }
+p { margin: 0; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--gold-ink); outline-offset: 3px; }
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.skip { position: absolute; left: 8px; top: -60px; z-index: 50; padding: 12px 16px; background: var(--ink); color: var(--white); border-radius: 8px; }
+.skip:focus { top: 8px; }
+
+/* Boutons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 50px; padding: 0 22px; border: 2px solid var(--ink); border-radius: 10px;
+  background: var(--ink); color: var(--white); text-decoration: none; cursor: pointer;
+  font: 700 1.1875rem/1 var(--cond); letter-spacing: .005em;
+  touch-action: manipulation; transition: background-color .15s, transform .12s;
+}
+.btn:hover { background: var(--ink-hover); border-color: var(--ink-hover); }
+.btn:active { transform: scale(.97); }
+.btn svg { width: 1.25rem; height: 1.25rem; flex: none; }
+.btn--small { min-height: 44px; padding: 0 14px; font-size: 1.0625rem; }
+.btn--line { background: transparent; color: var(--ink); }
+.btn--line:hover { background: var(--ink); color: var(--white); }
+
+/* En-tête */
+.top {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  height: var(--top); padding: 0 16px; background: var(--paper); border-bottom: 1px solid var(--rule);
+}
+.brand { display: flex; align-items: center; gap: 10px; min-height: 44px; text-decoration: none; }
+.brand-logo { width: 46px; height: 46px; flex: none; overflow: hidden; border-radius: 50%; background: var(--white); border: 1px solid var(--rule); }
+/* Logo cadré sur l'éléphant et le van, jamais retouché. */
+.brand-logo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; transform: scale(1.8) translateY(10%); }
+.brand-name { display: flex; flex-direction: column; font: 760 1.25rem/1.05 var(--cond); }
+.brand-name small { font: 500 .8125rem/1.3 var(--text); color: var(--ink-2); }
+.top-link { display: inline-flex; align-items: center; min-height: 44px; padding: 0 4px; font-weight: 600; text-underline-offset: .2em; }
+
+/* Le grand ensemble : carte + texte. Téléphone : titre, carte, liste. */
+.atlas { display: grid; }
+/* Au téléphone, la carte vient juste sous le titre : elle est dans le premier écran. */
+.atlas-side, .intro { display: contents; }
+.intro > * { padding-inline: 16px; }
+.crumb { order: 0; padding-top: 14px; }
+.intro h1 { order: 1; padding-top: 20px; padding-bottom: 18px; }
+.crumb + h1 { padding-top: 0; }
+.atlas-map { order: 2; position: relative; background: var(--water); }
+.lead { order: 3; }
+.rating { order: 4; }
+.routes-list { order: 5; }
+.intro h1 { font-weight: 820; font-size: clamp(2.3rem, 10.4vw, 4.75rem); line-height: .98; letter-spacing: -.018em; }
+.route .intro h1 { font-size: clamp(2.1rem, 9.2vw, 4rem); }
+.lead { margin-top: 20px; max-width: 34em; font-size: 1.125rem; line-height: 1.55; }
+.rating { margin-top: 10px; }
+.rating a { display: inline-flex; align-items: baseline; gap: 8px; min-height: 44px; padding-top: 6px; font-weight: 600; text-decoration-color: var(--gold); text-decoration-thickness: 2px; text-underline-offset: .25em; }
+.rating-num { font: 820 1.5rem/1 var(--cond); color: var(--gold-ink); }
+
+/* ---------- La carte ---------- */
+.map-svg { display: block; width: 100%; height: auto; touch-action: manipulation; user-select: none; -webkit-user-select: none; }
+.map-sea { fill: var(--water); }
+.wl, .map-land { vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+.wl { fill: none; }
+.wl-1 { stroke: var(--water-2); stroke-width: 15px; }
+.wl-2 { stroke: var(--water); stroke-width: 10px; }
+.wl-3 { stroke: var(--water-2); stroke-width: 4px; }
+.map-land { fill: var(--land); stroke: var(--coast); stroke-width: 1px; }
+.sea { font: italic 400 34px var(--text); font-family: "Newsreader", Georgia, serif; letter-spacing: .28em; fill: #3D6B73; text-anchor: middle; }
+.sea--small { font-size: 23px; letter-spacing: .2em; }
+.further path { fill: none; stroke: var(--route); stroke-width: 1.6px; stroke-dasharray: 5 6; vector-effect: non-scaling-stroke; stroke-linecap: round; }
+.further path + path { stroke-dasharray: none; }
+.further text { font: 600 24px var(--cond); fill: var(--ink-2); }
+
+.rt-hit { fill: none; stroke: transparent; stroke-width: 20px; vector-effect: non-scaling-stroke; pointer-events: stroke; cursor: pointer; }
+.rt-line {
+  fill: none; stroke: var(--route); stroke-width: 2px; stroke-linecap: round; vector-effect: non-scaling-stroke; pointer-events: none;
+  stroke-dasharray: 1 1; stroke-dashoffset: 1;
+  animation: draw .9s cubic-bezier(.55, 0, .25, 1) forwards; animation-delay: calc(.3s + var(--i) * 75ms);
+  transition: stroke .15s, stroke-width .15s, opacity .15s;
+}
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.has-sel .rt-line { opacity: .28; }
+.rt.is-on .rt-line { opacity: 1; stroke: var(--gold); stroke-width: 5px; }
+.rt.is-on { isolation: isolate; }
+
+.pl-dot { fill: var(--ink); stroke: var(--paper); stroke-width: 3; }
+.pl--base .pl-dot { fill: var(--gold); stroke: var(--ink); stroke-width: 3.5; }
+.pl-ring { fill: none; stroke: var(--gold); stroke-width: 2.5; }
+.pl-name {
+  font: 680 31px var(--cond); fill: var(--ink); letter-spacing: .01em;
+  paint-order: stroke; stroke: var(--paper); stroke-width: 7px; stroke-linejoin: round;
+}
+.pl--base .pl-name { font-weight: 850; font-size: 36px; }
+.pl-code { font-weight: 500; fill: var(--ink-2); }
+.pl--minor .pl-dot { fill: var(--ink-2); }
+.pl--minor .pl-name { font-weight: 560; font-size: 25px; fill: var(--ink-2); }
+.pl.is-end .pl-name { font-weight: 860; }
+.pl.is-end .pl-dot { fill: var(--gold); stroke: var(--ink); }
+
+.readout {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  min-height: 64px; padding: 8px 12px 8px 16px; border-top: 1px solid var(--water-2); background: var(--water); color: var(--ink);
+  font: 600 1rem/1.3 var(--text);
+}
+.readout.is-on { background: var(--ink); color: var(--white); border-top-color: var(--ink); }
+.readout-hint { color: var(--ink-2); font-weight: 500; }
+.readout-words { display: flex; flex-direction: column; }
+.readout-name { font: 760 1.1875rem/1.15 var(--cond); }
+.readout-time { color: #CFE2E0; font-size: .9375rem; }
+.readout-go { flex: none; display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 8px; background: var(--gold); color: var(--ink); font: 760 1.0625rem/1 var(--cond); text-decoration: none; }
+.readout.is-on { animation: pop .18s ease-out; }
+@keyframes pop { from { opacity: .4; } to { opacity: 1; } }
+
+/* Page trajet : la ligne du trajet se dessine, seule. */
+.atlas-map--route .rt-line { stroke: var(--ink); stroke-width: 5px; animation-duration: 1.5s; animation-delay: .35s; animation-timing-function: cubic-bezier(.65, 0, .3, 1); }
+.atlas-map--route .pl--ctx .pl-dot { fill: #8EA3A9; stroke-width: 2; }
+.atlas-map--route .pl--ctx .pl-name { font-weight: 560; font-size: 29px; fill: var(--ink-2); }
+.atlas-map--route .pl--end .pl-name { font-weight: 860; font-size: 40px; }
+.atlas-map--route .pl--end .pl-dot { fill: var(--gold); stroke: var(--ink); stroke-width: 4; }
+.atlas-map--route .pl--end .pl-ring { stroke: var(--gold); }
+.drive {
+  font: italic 700 30px var(--cond); fill: var(--gold-ink);
+  paint-order: stroke; stroke: var(--paper); stroke-width: 8px; stroke-linejoin: round;
+  opacity: 0; animation: fade .4s ease-out 1.6s forwards;
+}
+@keyframes fade { to { opacity: 1; } }
+
+/* ---------- Liste des trajets ---------- */
+.routes-list { padding: 30px 16px 8px; }
+.routes-list > h2 { font-weight: 800; font-size: 2rem; line-height: 1.05; letter-spacing: -.01em; }
+.region { margin-top: 30px; }
+.region h3 { font-weight: 780; font-size: 1.3125rem; line-height: 1.2; }
+.region-intro { margin-top: 2px; color: var(--ink-2); font-size: .9688rem; line-height: 1.5; }
+.rows { margin: 12px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--rule); }
+.row {
+  display: grid; grid-template-columns: 16px minmax(0, 1fr) auto; align-items: center; gap: 14px;
+  min-height: 68px; padding: 10px 8px 10px 6px; border-bottom: 1px solid var(--rule);
+  text-decoration: none; transition: background-color .15s;
+}
+.row:hover, .row.is-on { background: #E4F1EE; }
+.row:active { background: var(--water); }
+.row:focus-visible { outline-offset: -3px; }
+.row-ends { display: flex; flex-direction: column; gap: 6px; font: 680 1.1875rem/1.1 var(--cond); }
+.row-time { max-width: 7.6em; text-align: right; font-size: .9063rem; line-height: 1.3; color: var(--ink-2); }
+/* Le trajet en signe : point de départ plein, trait, arrivée cerclée, comme sur la carte. */
+.glyph { position: relative; align-self: stretch; margin: 8px 0; }
+.glyph::before, .glyph::after { content: ""; position: absolute; left: 50%; transform: translateX(-50%); border-radius: 50%; }
+.glyph::before { top: 3px; width: 10px; height: 10px; background: var(--ink); box-shadow: 0 0 0 0 transparent; }
+.glyph::after { bottom: 3px; width: 13px; height: 13px; border: 2.5px solid var(--ink); background: var(--paper); }
+.glyph { background: linear-gradient(var(--route), var(--route)) center 8px / 2px calc(100% - 18px) no-repeat; }
+.row:hover .glyph::after, .row.is-on .glyph::after { background: var(--gold); }
+
+.further-box { margin: 34px 0 0; padding: 20px 18px; border-radius: 12px; background: var(--water); }
+.further-box p { margin-bottom: 14px; font-size: 1.0625rem; }
+.further-box b { font: 780 1.25rem/1.2 var(--cond); display: block; margin-bottom: 2px; }
+
+/* ---------- Sections du bas ---------- */
+.van, .how, .questions, .near { padding: 56px 16px 0; }
+.van h2, .how h2, .questions h2, .near h2 { font-weight: 800; font-size: 2rem; line-height: 1.05; letter-spacing: -.01em; }
+.van { display: grid; gap: 8px; grid-template-columns: 1fr 1fr; }
+.van-text { grid-column: 1 / -1; margin-bottom: 14px; }
+.van-text p { margin-top: 12px; max-width: 34em; }
+.van figure { margin: 0; }
+.van-main { grid-column: 1 / -1; margin: 0 -16px !important; }
+.van-main img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.van-a img, .van-b img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 6px; }
+.van-a img { object-position: 30% 50%; }
+
+/* Les trois temps de la réservation posés sur une ligne, comme un trajet. */
+.stops { position: relative; margin: 26px 0 0; padding: 0; list-style: none; }
+.stops li { position: relative; padding: 0 0 26px 36px; }
+.stops li::before { content: ""; position: absolute; left: 2px; top: 7px; width: 12px; height: 12px; border-radius: 50%; background: var(--ink); }
+.stops li:not(:last-child)::after { content: ""; position: absolute; left: 7px; top: 14px; bottom: -6px; width: 2px; background: var(--route); }
+.stops li:last-child::before { left: 0; top: 5px; width: 16px; height: 16px; border: 3px solid var(--ink); background: var(--gold); }
+.stops h3 { font-weight: 760; font-size: 1.3125rem; line-height: 1.2; }
+.stops p { margin-top: 2px; color: var(--ink-2); }
+.terms { margin: 10px 0 28px; border-top: 1px solid var(--rule); }
+.terms div { padding: 14px 0; border-bottom: 1px solid var(--rule); }
+.terms dt { font: 760 1.1875rem/1.25 var(--cond); }
+.terms dd { margin: 2px 0 0; color: var(--ink-2); }
+
+.faq { margin-top: 18px; border-top: 1px solid var(--rule); }
+.faq details { border-bottom: 1px solid var(--rule); }
+.faq summary {
+  position: relative; display: block; min-height: 56px; padding: 15px 44px 15px 0; cursor: pointer; list-style: none;
+  font: 650 1.0938rem/1.4 var(--text);
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::before, .faq summary::after { content: ""; position: absolute; right: 10px; top: 27px; width: 16px; height: 2px; background: var(--ink); transition: transform .2s; }
+.faq summary::after { transform: rotate(90deg); }
+.faq details[open] summary::after { transform: rotate(0); }
+.faq details p { padding: 0 0 18px; max-width: 38em; color: var(--ink-2); }
+
+/* ---------- Encart Secret Travel & Tour, dans l'identité v4 de Secret ---------- */
+.secret { margin-top: 72px; background: #0B3B3C; color: #EEF3F1; font-family: "Manrope", Arial, sans-serif; }
+.secret-photo { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: 50% 60%; }
+.secret-text { position: relative; padding: 0 16px 44px; }
+.secret-emblem { width: 92px; height: auto; margin: -46px 0 16px; padding: 8px; border-radius: 50%; background: #F6EFE4; }
+.secret h2 { font: 600 2rem/1.08 "Cormorant Garamond", Georgia, serif; color: #F6EFE4; letter-spacing: 0; }
+.secret-text > p { margin-top: 12px; max-width: 32em; font-size: 1rem; line-height: 1.7; color: #D4E2DF; }
+.secret-links { margin: 22px 0 0; padding: 0; list-style: none; border-top: 1px solid rgb(246 239 228 / .22); }
+.secret-links a {
+  display: flex; align-items: center; min-height: 56px; padding: 8px 0; border-bottom: 1px solid rgb(246 239 228 / .22);
+  font: 600 1.375rem/1.2 "Cormorant Garamond", Georgia, serif; color: #F6EFE4; text-decoration: none;
+}
+.secret-links a:hover { text-decoration: underline; text-underline-offset: .2em; }
+.secret-all { display: inline-flex; align-items: center; min-height: 48px; margin-top: 18px; font-weight: 600; color: #F6EFE4; text-underline-offset: .25em; }
+.secret :focus-visible { outline-color: #F6EFE4; }
+
+/* ---------- Pied ---------- */
+.foot { padding: 44px 16px 40px; border-top: 1px solid var(--rule); font-size: .9688rem; color: var(--ink-2); }
+.foot-in { display: grid; gap: 22px; }
+.foot-logo { width: 112px; height: 112px; overflow: hidden; border-radius: 50%; background: var(--white); border: 1px solid var(--rule); }
+.foot-name { font: 780 1.25rem/1.2 var(--cond); color: var(--ink); margin-bottom: 4px; }
+.foot a { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); font-weight: 600; }
+.foot-legal a { margin-right: 18px; }
+
+/* ---------- Page trajet ---------- */
+.crumb { margin-bottom: 4px; }
+.crumb a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; text-underline-offset: .2em; }
+.legend { order: 5; margin: 22px 16px 0; padding: 4px 18px; border: 1.5px solid var(--ink); border-radius: 12px; background: var(--white); }
+.legend div { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); gap: 12px; padding: 12px 0; border-top: 1px solid var(--rule); }
+.legend div:first-child { border-top: 0; }
+.legend dt { color: var(--ink-2); font-size: .9688rem; }
+.legend dd { margin: 0; font: 720 1.1875rem/1.3 var(--cond); }
+.btn--side { order: 6; display: none; }
+.route .body { order: 7; padding: 28px 16px 0; max-width: 40em; }
+.route .body p + p { margin-top: 14px; }
+.questions--route { order: 8; padding-top: 44px; }
+.questions--route h2 { font-size: 1.75rem; }
+.rows--near { margin-top: 18px; }
+.near-text p { margin-top: 6px; }
+.near-text a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; text-underline-offset: .2em; }
+.near-photo { margin: 28px -16px 0; }
+.near-photo img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; object-position: 50% 60%; }
+
+.bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 15;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); background: var(--paper); border-top: 1px solid var(--rule);
+}
+.bar-route { min-width: 0; display: flex; flex-direction: column; font: 760 1.0625rem/1.15 var(--cond); }
+.bar-route span + span { font-weight: 560; color: var(--ink-2); }
+.bar .btn { flex: none; padding: 0 18px; }
+.route ~ .foot { padding-bottom: 120px; }
+
+/* ---------- Feuille de réservation, restylée pour le taxi (balisage inchangé) ---------- */
+[data-brand="vip"] .sheet { border-radius: 16px 16px 0 0; }
+[data-brand="vip"] .sheet-head { padding: 18px 20px 14px; background: var(--water); border-bottom: 1.5px solid var(--ink); }
+[data-brand="vip"] .sheet-kicker { font-size: .9375rem; color: var(--ink-2); }
+[data-brand="vip"] .sheet-title { font-size: 1.75rem; line-height: 1.05; letter-spacing: -.01em; }
+[data-brand="vip"] .sheet-body { padding: 22px 20px 0; }
+[data-brand="vip"] .sheet-foot { padding: 12px 20px calc(12px + env(safe-area-inset-bottom)); }
+[data-brand="vip"] .f > label, [data-brand="vip"] .f > legend, [data-brand="vip"] .count label { font: 760 1.125rem/1.3 var(--cond); }
+[data-brand="vip"] .sheet input[type="text"], [data-brand="vip"] .sheet input[type="date"], [data-brand="vip"] .sheet input[type="time"], [data-brand="vip"] .sheet select { border-radius: 10px; }
+[data-brand="vip"] .choice input + span { border-radius: 10px; font: 720 1.0625rem/1.2 var(--cond); }
+[data-brand="vip"] .choice input:checked + span { box-shadow: inset 0 -4px 0 var(--gold); }
+[data-brand="vip"] .stepper button { border-radius: 10px; }
+[data-brand="vip"] .sheet-btn { border-radius: 10px; font-size: 1.25rem; }
+/* Aperçu : le message comme une fiche de trajet, la ligne du trajet sur le côté. */
+[data-brand="vip"] .slip { position: relative; border: 1.5px solid var(--ink); border-radius: 12px; background: var(--white); }
+[data-brand="vip"] .slip-lines { padding: 6px 16px 10px 40px; }
+[data-brand="vip"] .slip-lines::before { content: ""; position: absolute; left: 19px; top: 26px; bottom: 26px; width: 2px; background: var(--route); }
+[data-brand="vip"] .slip-lines::after { content: ""; position: absolute; left: 13px; bottom: 18px; width: 14px; height: 14px; border: 2.5px solid var(--ink); border-radius: 50%; background: var(--gold); }
+[data-brand="vip"] .slip-lines .slip-first { position: relative; font: 780 1.25rem/1.25 var(--cond); }
+[data-brand="vip"] .slip-lines .slip-first::before { content: ""; position: absolute; left: -26px; top: 15px; width: 12px; height: 12px; border-radius: 50%; background: var(--ink); }
+[data-brand="vip"] .slip-lines dt { color: var(--ink-2); }
+[data-brand="vip"] .slip-lines dd { font-weight: 600; }
+
+/* ---------- Bureau ---------- */
+@media (min-width: 48rem) {
+  .rows--near { display: grid; grid-template-columns: 1fr 1fr; column-gap: 24px; }
+  .van { grid-template-columns: 2fr 1fr; grid-template-rows: auto auto auto; }
+  .van-main { grid-column: 1; grid-row: 2 / 4; margin: 0 !important; }
+  .van-main img { height: 100%; border-radius: 6px; }
+  .van-a { grid-column: 2; grid-row: 2; }
+  .van-b { grid-column: 2; grid-row: 3; }
+}
+
+@media (min-width: 64rem) {
+  [data-brand="vip"] { --top: 72px; }
+  .top { padding: 0 32px; }
+  .brand-logo { width: 52px; height: 52px; }
+  .atlas { grid-template-columns: minmax(28rem, 36rem) minmax(0, 1fr); align-items: start; }
+  .atlas-side { display: block; padding: 48px 44px 64px; }
+  .atlas-map { position: sticky; top: var(--top); height: calc(100vh - var(--top)); overflow: hidden; }
+  .map-svg { width: 100%; height: 100%; }
+  .intro { display: block; }
+  .intro > * { padding-inline: 0; }
+  .intro h1 { padding: 0; }
+  .crumb { padding-top: 0; }
+  .lead { margin-top: 16px; }
+  .routes-list { padding: 40px 0 0; }
+  .readout { position: absolute; left: 24px; bottom: 24px; max-width: 26rem; min-height: 60px; border-radius: 12px; padding: 8px 10px 8px 18px; }
+  .readout:not(.is-on) { border: 1px solid var(--water-2); background: var(--paper); }
+  .pl-name { font-size: 20px; stroke-width: 5px; }
+  .pl--base .pl-name { font-size: 24px; }
+  .pl--minor .pl-name { font-size: 16px; }
+  .sea { font-size: 19px; }
+  .sea--small { font-size: 16px; }
+  .further text { font-size: 15px; }
+  .atlas-map--route .pl--end .pl-name { font-size: 27px; }
+  .atlas-map--route .pl--ctx .pl-name { font-size: 17px; }
+  .drive { font-size: 21px; }
+
+  .legend { margin: 28px 0 0; }
+  .btn--side { display: flex; margin-top: 18px; }
+  .route .body { padding: 30px 0 0; }
+  .questions--route { padding: 48px 0 0; }
+  .bar { display: none; }
+  .route ~ .foot { padding-bottom: 40px; }
+
+  .van, .how, .questions, .near { max-width: 76rem; margin: 0 auto; padding: 96px 32px 0; }
+  .questions--route { max-width: none; margin: 0; padding: 48px 0 64px; }
+  .van-text { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: end; }
+  .van h2, .how h2, .questions h2, .near h2 { font-size: 2.75rem; }
+  .how { display: grid; grid-template-columns: 1fr 1fr; column-gap: 64px; }
+  .how h2 { grid-column: 1 / -1; }
+  .stops { margin-top: 36px; }
+  .terms { margin-top: 36px; }
+  .how .btn { grid-column: 1; justify-self: start; }
+  .questions:not(.questions--route) { display: grid; grid-template-columns: 1fr 2fr; gap: 64px; }
+  .questions:not(.questions--route) .faq { margin-top: 0; }
+  .near { display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; }
+  .near-text { grid-column: 1 / -1; }
+  .near-photo { grid-column: 2; grid-row: 2 / 4; margin: 18px 0 0; }
+  .near-photo img { border-radius: 6px; }
+  .rows--near { grid-template-columns: 1fr; }
+
+  .secret { margin-top: 112px; }
+  .secret-in { display: grid; grid-template-columns: 1fr 1fr; max-width: 90rem; margin: 0 auto; }
+  .secret-photo { height: 100%; aspect-ratio: auto; min-height: 34rem; }
+  .secret-text { padding: 64px 56px; }
+  .secret-emblem { margin: 0 0 22px; }
+  .secret h2 { font-size: 2.75rem; }
+  .foot { padding: 56px 32px; }
+  .foot-in { max-width: 76rem; margin: 0 auto; grid-template-columns: auto 1fr 1fr 1.2fr; gap: 40px; align-items: start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rt-line { animation: none; stroke-dashoffset: 0; stroke-dasharray: none; }
+  .drive { animation: none; opacity: 1; }
+  .readout.is-on { animation: none; }
+  .btn, .row, .rt-line, .faq summary::after { transition: none; }
+}

@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Koh Lanta boat trips and activities | Secret Travel &amp; Tour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+<style>
+  .hero { padding: 0; border: 0; }
+  .hero-photo { aspect-ratio: 4 / 3; overflow: hidden; background: var(--mist); }
+  .hero-photo img { width: 100%; height: 100%; object-fit: cover; }
+  .hero-panel { position: relative; margin-top: -22px; background: #fff; border-radius: 22px 22px 0 0; padding-top: 24px; padding-bottom: 8px; }
+  .hero-panel h1 { max-width: 13em; }
+  .hero-panel .lead { margin-top: 12px; }
+  .pick { margin-top: 22px; }
+  .pick-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .pick-head output { font-size: 15px; color: var(--mute); }
+  .hero-panel .chips { margin-top: 6px; }
+
+  .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 14px; list-style: none; margin: 0; padding: 0; }
+  .tile { position: relative; }
+  .tile .ph { aspect-ratio: 4 / 3; border-radius: 12px; overflow: hidden; background: var(--mist); }
+  .tile .ph img { width: 100%; height: 100%; object-fit: cover; }
+  .tile h3 { font-size: 18px; margin-top: 8px; }
+  .tile h3 button { all: unset; cursor: pointer; }
+  .tile h3 button::after { content: ""; position: absolute; inset: 0; }
+  .tile h3 button:focus-visible::after { outline: 2px solid var(--sea); outline-offset: 3px; border-radius: 12px; }
+  .tile .price { font-size: 14px; display: block; margin-top: 2px; }
+  .tile.off { opacity: .55; }
+  .tile .why { font-size: 13.5px; }
+  .none { padding: 14px; background: var(--mist); border-radius: 12px; }
+
+  /* La semaine : l'élément signature de la proposition */
+  .weekstrip { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 18px; }
+  .wd { border: 1px solid var(--line); border-radius: 12px; background: #fff; min-height: 92px; padding: 8px 4px; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .wd .dw { font-size: 12.5px; font-weight: 600; color: var(--mute); }
+  .wd .dn { font-family: var(--serif); font-size: 24px; line-height: 1.1; }
+  .wd .dots { display: flex; gap: 3px; margin-top: auto; min-height: 8px; }
+  .wd .dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--deep); }
+  .wd[aria-pressed="true"] { border-color: var(--deep); box-shadow: inset 0 0 0 1px var(--deep); }
+  .wd-list { margin-top: 14px; min-height: 64px; }
+  .wd-list .week-item { border-bottom: 1px solid var(--line); padding: 10px 0; }
+  .week-cta { display: grid; gap: 8px; margin-top: 16px; }
+
+  .tr-rows { list-style: none; margin: 0; padding: 0; }
+  .tr-rows li { border-bottom: 1px solid var(--line); }
+  .tr-rows a { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; padding: 14px 0; color: var(--ink); text-decoration: none; }
+  .tr-rows b { font-size: 17px; }
+  .tr-rows span { grid-column: 1; color: var(--mute); font-size: 15px; line-height: 1.5; }
+  .tr-rows svg { grid-row: 1 / span 2; grid-column: 2; align-self: center; width: 22px; transform: rotate(180deg); color: var(--sea); }
+  .tr-photo { aspect-ratio: 16 / 9; border-radius: var(--r-card); overflow: hidden; margin: 18px 0 6px; background: var(--mist); }
+  .tr-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+  @media (min-width: 700px) { .tiles { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 1024px) {
+    .hero .grid { max-width: 1200px; margin-inline: auto; padding-inline: var(--gut); display: grid; grid-template-columns: 1.05fr 1fr; gap: 56px; align-items: center; padding-block: 40px 56px; }
+    .hero-photo { aspect-ratio: 4 / 5; border-radius: 20px; order: 2; max-height: 680px; width: 100%; }
+    .hero-panel { margin: 0; padding: 0; order: 1; }
+    .hero-panel h1 { font-size: 60px; }
+    #boats .rows { display: grid; grid-template-columns: 1fr 1fr; column-gap: 40px; }
+    #boats .row:first-child, #boats .row:nth-child(2) { padding-top: 0; }
+    .tiles { grid-template-columns: repeat(4, 1fr); gap: 28px 20px; }
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+    .weekstrip { gap: 10px; }
+    .wd { min-height: 120px; }
+    .wd .dn { font-size: 30px; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the trips</a>
+<header class="appbar"><div class="wrap">
+  <a class="brand" href="home.html"><img src="../../../../../src/images/secret/emblem.webp" alt="" width="38" height="38"><span>Secret Travel<br>&amp; Tour</span></a>
+  <nav class="topnav" aria-label="Main"></nav>
+</div></header>
+
+<main id="main">
+  <section class="hero" aria-labelledby="h1">
+    <div class="grid">
+      <div class="hero-photo" id="hero-photo"></div>
+      <div class="hero-panel wrap">
+        <h1 id="h1"></h1>
+        <p class="lead">Pick a day, see what runs that day, and send your booking in one WhatsApp message. Nothing is paid online.</p>
+        <div class="pick">
+          <div class="pick-head"><p class="bk-l" id="pick-l">Pick a day</p><output id="pick-out" class="num"></output></div>
+          <div class="ribbon" id="home-rib" aria-labelledby="pick-l"></div>
+          <div class="chips" id="home-chips" role="group" aria-label="Filter the trips"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="boats" aria-labelledby="boats-h"><div class="wrap">
+    <div class="sec-head"><h2 id="boats-h"></h2><a href="tours.html?type=boat" id="boats-all">See them in the list</a></div>
+    <ul class="rows" id="boat-rows"></ul>
+  </div></section>
+
+  <section id="acts" aria-labelledby="acts-h"><div class="wrap">
+    <div class="sec-head"><h2 id="acts-h"></h2><a href="tours.html?type=activity">See them in the list</a></div>
+    <ul class="tiles" id="act-tiles"></ul>
+  </div></section>
+
+  <section id="week" aria-labelledby="week-h"><div class="wrap split">
+    <div>
+      <h2 id="week-h">Your week on Koh Lanta</h2>
+      <p class="lead" style="margin-top:10px">Add a boat trip on Tuesday, the elephants on Thursday, a cooking class on Saturday. Everything goes to us in one WhatsApp message, day by day.</p>
+    </div>
+    <div>
+      <div class="weekstrip" id="weekstrip" role="group" aria-label="The next seven days"></div>
+      <div class="wd-list" id="wd-list" aria-live="polite"></div>
+      <div class="week-cta"><button class="btn" type="button" data-week>Open my week</button></div>
+    </div>
+  </div></section>
+
+  <section id="transfers" aria-labelledby="tr-h"><div class="wrap split">
+    <div>
+      <h2 id="tr-h"></h2>
+      <p class="lead" style="margin-top:10px" id="tr-lead"></p>
+      <div class="tr-photo" id="tr-photo"></div>
+    </div>
+    <ul class="tr-rows" id="tr-rows"></ul>
+  </div></section>
+
+  <section id="faq" aria-labelledby="faq-h"><div class="wrap split">
+    <h2 id="faq-h">Before you write to us</h2>
+    <div id="faq-list"></div>
+  </div></section>
+</main>
+
+<footer class="foot" id="foot"></footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+(() => {
+  const A = App, D = A.D, { $, esc } = A;
+  A.chrome("index");
+  A.footer($("#foot"));
+  $("#h1").textContent = D.home.h1;
+  $("#hero-photo").innerHTML = A.photo("home-hero", { eager: true });
+  $("#boats-h").textContent = D.home.boats.title;
+  $("#acts-h").textContent = D.home.activities.title;
+
+  const boats = A.products.filter((p) => p.folder === "tours");
+  const acts = A.products.filter((p) => p.folder === "activities");
+  const CHIPS = [["full", "Full day"], ["half", "Half day"], ["kids", "Child rate"], ["private", "Private option"]];
+  const st = { date: A.iso(A.today()), f: new Set() };
+  try { const s = JSON.parse(sessionStorage.getItem("stt-home")); if (s) { st.date = s.date >= st.date ? s.date : st.date; st.f = new Set(s.f); } } catch {}
+
+  A.ribbon($("#home-rib"), { selected: st.date, onSelect: (d) => { st.date = d; draw(); } });
+  $("#home-chips").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-f]"); if (!b) return;
+    st.f.has(b.dataset.f) ? st.f.delete(b.dataset.f) : st.f.add(b.dataset.f); draw();
+  });
+  const pass = (p) => [...st.f].every((k) => A.traits(p)[k]);
+
+  function draw() {
+    try { sessionStorage.setItem("stt-home", JSON.stringify({ date: st.date, f: [...st.f] })); } catch {}
+    const all = A.products.filter(pass);
+    const runs = all.filter((p) => A.availability(p, A.fromIso(st.date)).ok).length;
+    $("#pick-out").textContent = `${runs} of ${A.products.length} run on ${A.short(A.fromIso(st.date))}`;
+    $("#home-chips").innerHTML = CHIPS.map(([k, l]) => {
+      const n = A.products.filter((p) => A.traits(p)[k]).length;
+      return `<button type="button" class="chip" data-f="${k}" aria-pressed="${st.f.has(k)}">${l} <span class="n num">${n}</span></button>`;
+    }).join("");
+    const b = boats.filter(pass);
+    $("#boat-rows").innerHTML = b.length ? b.map((p) => A.rowHTML(p, { date: st.date })).join("") : `<li class="none">No boat trip matches these filters. <button class="link-btn" data-clear>Clear the filters</button></li>`;
+    const a = acts.filter(pass);
+    $("#act-tiles").innerHTML = a.length ? a.map((p) => {
+      const av = A.availability(p, A.fromIso(st.date));
+      return `<li class="tile ${av.ok ? "" : "off"}"><div class="ph">${A.photo(p.photo)}</div><h3><button type="button" data-ql="${p.slug}">${esc(p.name)}</button></h3>${A.priceFrom(p)}${av.ok ? "" : `<p class="why">${esc(av.why)}</p>`}</li>`;
+    }).join("") : `<li class="none" style="grid-column:1/-1">No activity matches these filters. <button class="link-btn" data-clear>Clear the filters</button></li>`;
+    $("#boats-all").href = "tours.html?type=boat&d=" + st.date;
+  }
+  document.addEventListener("click", (e) => {
+    const q = e.target.closest("[data-ql]"); if (q) A.quickLook(q.dataset.ql, st.date);
+    if (e.target.closest("[data-clear]")) { st.f.clear(); draw(); }
+  });
+  draw();
+
+  /* Semaine */
+  let wsel = A.iso(A.today());
+  function drawWeek() {
+    const items = A.store.get(), t = A.today();
+    $("#weekstrip").innerHTML = Array.from({ length: 7 }, (_, i) => {
+      const d = A.addDays(t, i), k = A.iso(d), n = items.filter((x) => x.date === k).length;
+      return `<button type="button" class="wd" data-wd="${k}" aria-pressed="${k === wsel}" aria-label="${A.long(d)}, ${n} trip${n === 1 ? "" : "s"}"><span class="dw">${i === 0 ? "Today" : A.DAYS[d.getDay()].slice(0, 3)}</span><span class="dn">${d.getDate()}</span><span class="dots">${"<i></i>".repeat(Math.min(n, 3))}</span></button>`;
+    }).join("");
+    const list = items.filter((x) => x.date === wsel);
+    $("#wd-list").innerHTML = list.length
+      ? list.map((it) => `<div class="week-item"><div><b>${esc(A.bySlug[it.slug].name)}</b><span>${esc(A.paxText(it.pax))}</span></div></div>`).join("")
+      : `<p class="small">Nothing on ${A.short(A.fromIso(wsel))}. <a href="tours.html?d=${wsel}">See what runs that day</a></p>`;
+  }
+  $("#weekstrip").addEventListener("click", (e) => { const b = e.target.closest("[data-wd]"); if (!b) return; wsel = b.dataset.wd; drawWeek(); });
+  document.addEventListener("week:change", drawWeek);
+  drawWeek();
+
+  /* Transferts et location */
+  $("#tr-h").textContent = D.home.transfers.title;
+  $("#tr-lead").textContent = D.home.transfersLead;
+  $("#tr-photo").innerHTML = A.photo("home-transfers");
+  const arrow = A.icon("back");
+  $("#tr-rows").innerHTML = D.home.transfers.items.map((t) => `<li><a href="#" data-out="${esc(t.href)}"><b>${esc(t.title)}</b>${arrow}<span>${esc(t.text)}</span></a></li>`).join("")
+    + `<li><a href="#" data-out="${esc(D.rental.url)}"><b>${esc(D.home.rental.title)}</b>${arrow}<span>${esc(D.home.rental.text)} From ${A.thb(D.rental.price.from)} ${esc(D.rental.price.unit)}.</span></a></li>`;
+
+  $("#faq-list").innerHTML = D.home.faq.map((f) => `<details class="qa"><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join("");
+})();
+</script>
+</body>
+</html>

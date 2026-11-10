@@ -1,0 +1,744 @@
+[
+ {
+  "src": "/images/secret/emblem.webp",
+  "pages": [
+   "home",
+   "taxi",
+   "taxi_hat-yai-koh-lanta",
+   "taxi_koh-lanta-ao-nang",
+   "taxi_koh-lanta-donsak-pier",
+   "taxi_koh-lanta-khao-lak",
+   "taxi_koh-lanta-khao-sok",
+   "taxi_koh-lanta-krabi-town",
+   "taxi_koh-lanta-trang",
+   "taxi_krabi-airport-ao-nang",
+   "taxi_krabi-airport-khao-lak",
+   "taxi_krabi-airport-koh-lanta",
+   "taxi_krabi-khao-sok",
+   "taxi_phuket-airport-ao-nang",
+   "taxi_phuket-airport-khao-lak",
+   "taxi_phuket-airport-koh-lanta",
+   "taxi_phuket-khao-sok",
+   "taxi_surat-thani-khao-sok",
+   "taxi_surat-thani-koh-lanta",
+   "tours_4-islands",
+   "tours_atv",
+   "tours_batik",
+   "tours_cooking-class",
+   "tours_elephant-sanctuary",
+   "tours_fishing-trip",
+   "tours_go-kart",
+   "tours_kayak",
+   "tours_koh-phi-phi",
+   "tours_koh-rok-koh-haa",
+   "tours_koh-talabeng-koh-bubu",
+   "tours_mangroves",
+   "tours_rental",
+   "tours_scuba-diving",
+   "tours_speedboat"
+  ],
+  "alts": [
+   "",
+   "Secret Travel &amp; Tour logo"
+  ],
+  "attrs": [
+   "240x198",
+   "240x198 lazy"
+  ],
+  "file": "img/images__secret__emblem.webp"
+ },
+ {
+  "src": "/images/secret/longtail.webp",
+  "pages": [
+   "home",
+   "tours_4-islands",
+   "tours_fishing-trip",
+   "tours_koh-phi-phi",
+   "tours_koh-rok-koh-haa",
+   "tours_koh-talabeng-koh-bubu",
+   "tours_mangroves"
+  ],
+  "alts": [
+   "Our longtail boat on clear turquoise water",
+   ""
+  ],
+  "attrs": [
+   "900x1600",
+   "900x600",
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__longtail.webp"
+ },
+ {
+  "src": "/images/secret/koh-rok.webp",
+  "pages": [
+   "home",
+   "tours_4-islands",
+   "tours_fishing-trip",
+   "tours_koh-phi-phi",
+   "tours_koh-rok-koh-haa",
+   "tours_koh-talabeng-koh-bubu",
+   "tours_mangroves"
+  ],
+  "alts": [
+   "A longtail boat moored on a white sand beach under the trees",
+   ""
+  ],
+  "attrs": [
+   "900x600",
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__koh-rok.webp"
+ },
+ {
+  "src": "/images/secret/koh-phi-phi.webp",
+  "pages": [
+   "home",
+   "taxi",
+   "taxi_hat-yai-koh-lanta",
+   "taxi_koh-lanta-ao-nang",
+   "taxi_koh-lanta-donsak-pier",
+   "taxi_koh-lanta-khao-lak",
+   "taxi_koh-lanta-khao-sok",
+   "taxi_koh-lanta-krabi-town",
+   "taxi_koh-lanta-trang",
+   "taxi_krabi-airport-ao-nang",
+   "taxi_krabi-airport-khao-lak",
+   "taxi_krabi-airport-koh-lanta",
+   "taxi_krabi-khao-sok",
+   "taxi_phuket-airport-ao-nang",
+   "taxi_phuket-airport-khao-lak",
+   "taxi_phuket-airport-koh-lanta",
+   "taxi_phuket-khao-sok",
+   "taxi_surat-thani-khao-sok",
+   "taxi_surat-thani-koh-lanta",
+   "tours_4-islands",
+   "tours_fishing-trip",
+   "tours_koh-phi-phi",
+   "tours_koh-rok-koh-haa",
+   "tours_koh-talabeng-koh-bubu",
+   "tours_mangroves",
+   "tours_speedboat"
+  ],
+  "alts": [
+   "",
+   "A longtail boat in turquoise water below limestone cliffs",
+   "The limestone cliffs of Koh Phi Phi, one of the speedboat stops",
+   "A longtail boat moored by the limestone cliffs of Koh Phi Phi"
+  ],
+  "attrs": [
+   "800x596 lazy",
+   "900x600",
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__koh-phi-phi.webp"
+ },
+ {
+  "src": "/images/secret/koh-talabeng-kayak.webp",
+  "pages": [
+   "home",
+   "tours_4-islands",
+   "tours_fishing-trip",
+   "tours_koh-phi-phi",
+   "tours_koh-rok-koh-haa",
+   "tours_koh-talabeng-koh-bubu",
+   "tours_mangroves"
+  ],
+  "alts": [
+   "",
+   "Two people kayaking past limestone islands"
+  ],
+  "attrs": [
+   "900x600",
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__koh-talabeng-kayak.webp"
+ },
+ {
+  "src": "/images/secret/mangrove-longtail.webp",
+  "pages": [
+   "home",
+   "tours_4-islands",
+   "tours_fishing-trip",
+   "tours_koh-phi-phi",
+   "tours_koh-rok-koh-haa",
+   "tours_koh-talabeng-koh-bubu",
+   "tours_mangroves"
+  ],
+  "alts": [
+   "",
+   "A longtail boat cruising through the mangroves"
+  ],
+  "attrs": [
+   "900x600",
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__mangrove-longtail.webp"
+ },
+ {
+  "src": "/images/secret/fishing.webp",
+  "pages": [
+   "home",
+   "tours_4-islands",
+   "tours_fishing-trip",
+   "tours_koh-phi-phi",
+   "tours_koh-rok-koh-haa",
+   "tours_koh-talabeng-koh-bubu",
+   "tours_mangroves"
+  ],
+  "alts": [
+   "",
+   "Fishing from a boat at sunset"
+  ],
+  "attrs": [
+   "900x600",
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__fishing.webp"
+ },
+ {
+  "src": "/images/secret/lanta-old-town.webp",
+  "pages": [
+   "home",
+   "tours_atv",
+   "tours_batik",
+   "tours_cooking-class",
+   "tours_elephant-sanctuary",
+   "tours_go-kart",
+   "tours_kayak",
+   "tours_rental",
+   "tours_scuba-diving"
+  ],
+  "alts": [
+   "",
+   "Scooters parked along the shopfronts of Lanta Old Town",
+   "A songthaew parked in Lanta Old Town"
+  ],
+  "attrs": [
+   "900x600",
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__lanta-old-town.webp"
+ },
+ {
+  "src": "/images/secret/scuba-diving.webp",
+  "pages": [
+   "home",
+   "tours_atv",
+   "tours_batik",
+   "tours_cooking-class",
+   "tours_elephant-sanctuary",
+   "tours_go-kart",
+   "tours_kayak",
+   "tours_rental",
+   "tours_scuba-diving"
+  ],
+  "alts": [
+   "",
+   "A scuba diver beside a coral reef, with a school of small silver fish and a clownfish in an anemone"
+  ],
+  "attrs": [
+   "900x600",
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__scuba-diving.webp"
+ },
+ {
+  "src": "/images/secret/atv.webp",
+  "pages": [
+   "home",
+   "tours_atv",
+   "tours_batik",
+   "tours_cooking-class",
+   "tours_elephant-sanctuary",
+   "tours_go-kart",
+   "tours_kayak",
+   "tours_rental",
+   "tours_scuba-diving"
+  ],
+  "alts": [
+   "",
+   "ATVs parked on a hilltop track with a view over Koh Lanta"
+  ],
+  "attrs": [
+   "900x600",
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__atv.webp"
+ },
+ {
+  "src": "/images/secret/mangrove-kayak.webp",
+  "pages": [
+   "home",
+   "tours_atv",
+   "tours_batik",
+   "tours_cooking-class",
+   "tours_elephant-sanctuary",
+   "tours_go-kart",
+   "tours_kayak",
+   "tours_rental",
+   "tours_scuba-diving"
+  ],
+  "alts": [
+   "",
+   "Kayaks paddling through the mangroves"
+  ],
+  "attrs": [
+   "900x600",
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__mangrove-kayak.webp"
+ },
+ {
+  "src": "/images/secret/elephant-sanctuary.webp",
+  "pages": [
+   "home",
+   "tours_atv",
+   "tours_batik",
+   "tours_cooking-class",
+   "tours_elephant-sanctuary",
+   "tours_go-kart",
+   "tours_kayak",
+   "tours_rental",
+   "tours_scuba-diving"
+  ],
+  "alts": [
+   "",
+   "An elephant at an ethical sanctuary"
+  ],
+  "attrs": [
+   "900x600",
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__elephant-sanctuary.webp"
+ },
+ {
+  "src": "/images/secret/cooking-class.webp",
+  "pages": [
+   "home",
+   "tours_atv",
+   "tours_batik",
+   "tours_cooking-class",
+   "tours_elephant-sanctuary",
+   "tours_go-kart",
+   "tours_kayak",
+   "tours_rental",
+   "tours_scuba-diving"
+  ],
+  "alts": [
+   "",
+   "A Thai cooking class with a local chef"
+  ],
+  "attrs": [
+   "900x600",
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__cooking-class.webp"
+ },
+ {
+  "src": "/images/secret/batik.webp",
+  "pages": [
+   "home",
+   "tours_atv",
+   "tours_batik",
+   "tours_cooking-class",
+   "tours_elephant-sanctuary",
+   "tours_go-kart",
+   "tours_kayak",
+   "tours_rental",
+   "tours_scuba-diving"
+  ],
+  "alts": [
+   "",
+   "A batik artist painting a colourful figure with a blue headdress on dark fabric"
+  ],
+  "attrs": [
+   "900x600",
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__batik.webp"
+ },
+ {
+  "src": "/images/secret/go-kart.webp",
+  "pages": [
+   "home",
+   "tours_atv",
+   "tours_batik",
+   "tours_cooking-class",
+   "tours_elephant-sanctuary",
+   "tours_go-kart",
+   "tours_kayak",
+   "tours_rental",
+   "tours_scuba-diving"
+  ],
+  "alts": [
+   "Two men racing electric go-karts on a track lined with tyres",
+   ""
+  ],
+  "attrs": [
+   "900x600",
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__go-kart.webp"
+ },
+ {
+  "src": "/images/taxi/hero-ceiling-1800.webp",
+  "pages": [
+   "taxi"
+  ],
+  "alts": [
+   "Lit ceiling and tan leather seats inside the minivan"
+  ],
+  "attrs": [
+   "1800x1350"
+  ],
+  "file": "img/images__taxi__hero-ceiling-1800.webp"
+ },
+ {
+  "src": "/images/taxi/hero-ceiling-900.webp",
+  "pages": [
+   "taxi"
+  ],
+  "alts": [
+   "(srcset of /images/taxi/hero-ceiling-1800.webp)"
+  ],
+  "attrs": [],
+  "file": "img/images__taxi__hero-ceiling-900.webp"
+ },
+ {
+  "src": "/images/taxi/logo.webp",
+  "pages": [
+   "taxi",
+   "taxi_hat-yai-koh-lanta",
+   "taxi_koh-lanta-ao-nang",
+   "taxi_koh-lanta-donsak-pier",
+   "taxi_koh-lanta-khao-lak",
+   "taxi_koh-lanta-khao-sok",
+   "taxi_koh-lanta-krabi-town",
+   "taxi_koh-lanta-trang",
+   "taxi_krabi-airport-ao-nang",
+   "taxi_krabi-airport-khao-lak",
+   "taxi_krabi-airport-koh-lanta",
+   "taxi_krabi-khao-sok",
+   "taxi_phuket-airport-ao-nang",
+   "taxi_phuket-airport-khao-lak",
+   "taxi_phuket-airport-koh-lanta",
+   "taxi_phuket-khao-sok",
+   "taxi_surat-thani-khao-sok",
+   "taxi_surat-thani-koh-lanta"
+  ],
+  "alts": [
+   "",
+   "VIP Taxi Lanta, Mr. Brown"
+  ],
+  "attrs": [
+   "640x640",
+   "640x640 lazy"
+  ],
+  "file": "img/images__taxi__logo.webp"
+ },
+ {
+  "src": "/images/taxi/van-exterior.webp",
+  "pages": [
+   "taxi"
+  ],
+  "alts": [
+   "Silver minivan seen from the side, parked on the street"
+  ],
+  "attrs": [
+   "900x675 lazy"
+  ],
+  "file": "img/images__taxi__van-exterior.webp"
+ },
+ {
+  "src": "/images/taxi/van-seats.webp",
+  "pages": [
+   "taxi",
+   "taxi_hat-yai-koh-lanta",
+   "taxi_koh-lanta-ao-nang",
+   "taxi_koh-lanta-donsak-pier",
+   "taxi_koh-lanta-khao-lak",
+   "taxi_koh-lanta-khao-sok",
+   "taxi_koh-lanta-krabi-town",
+   "taxi_koh-lanta-trang",
+   "taxi_krabi-airport-ao-nang",
+   "taxi_krabi-airport-khao-lak",
+   "taxi_krabi-airport-koh-lanta",
+   "taxi_krabi-khao-sok",
+   "taxi_phuket-airport-ao-nang",
+   "taxi_phuket-airport-khao-lak",
+   "taxi_phuket-airport-koh-lanta",
+   "taxi_phuket-khao-sok",
+   "taxi_surat-thani-khao-sok",
+   "taxi_surat-thani-koh-lanta"
+  ],
+  "alts": [
+   "Minivan interior with diamond-stitched tan leather seats and a lit ceiling"
+  ],
+  "attrs": [
+   "900x675",
+   "900x675 lazy"
+  ],
+  "file": "img/images__taxi__van-seats.webp"
+ },
+ {
+  "src": "/images/taxi/van-welcome.webp",
+  "pages": [
+   "taxi"
+  ],
+  "alts": [
+   "Lit ceiling with a Welcome sign above rows of tan leather seats"
+  ],
+  "attrs": [
+   "900x675 lazy"
+  ],
+  "file": "img/images__taxi__van-welcome.webp"
+ },
+ {
+  "src": "/images/secret/gallery/longtail-cave.webp",
+  "pages": [
+   "tours_4-islands"
+  ],
+  "alts": [
+   "The Emerald Cave lagoon with visitors on its small beach"
+  ],
+  "attrs": [
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__gallery__longtail-cave.webp"
+ },
+ {
+  "src": "/images/secret/gallery/beach-palm.webp",
+  "pages": [
+   "tours_4-islands"
+  ],
+  "alts": [
+   "A palm tree and a rock island above a beach on the Trang sea"
+  ],
+  "attrs": [
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__gallery__beach-palm.webp"
+ },
+ {
+  "src": "/images/secret/gallery/atv-riders.webp",
+  "pages": [
+   "tours_atv"
+  ],
+  "alts": [
+   "Three riders on ATVs with their arms raised on a mountain track"
+  ],
+  "attrs": [
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__gallery__atv-riders.webp"
+ },
+ {
+  "src": "/images/secret/gallery/batik-morning.webp",
+  "pages": [
+   "tours_batik"
+  ],
+  "alts": [
+   "People painting batik at a long table in an open-air room"
+  ],
+  "attrs": [
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__gallery__batik-morning.webp"
+ },
+ {
+  "src": "/images/secret/gallery/batik-afternoon.webp",
+  "pages": [
+   "tours_batik"
+  ],
+  "alts": [
+   "Colourful batik canvases hanging side by side"
+  ],
+  "attrs": [
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__gallery__batik-afternoon.webp"
+ },
+ {
+  "src": "/images/secret/gallery/batik-kayak.webp",
+  "pages": [
+   "tours_batik"
+  ],
+  "alts": [
+   "Kayakers paddling below limestone cliffs"
+  ],
+  "attrs": [
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__gallery__batik-kayak.webp"
+ },
+ {
+  "src": "/images/secret/gallery/elephant-hug.webp",
+  "pages": [
+   "tours_elephant-sanctuary"
+  ],
+  "alts": [
+   "A visitor hugging an elephant at the sanctuary"
+  ],
+  "attrs": [
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__gallery__elephant-hug.webp"
+ },
+ {
+  "src": "/images/secret/gallery/elephant-herbal.webp",
+  "pages": [
+   "tours_elephant-sanctuary"
+  ],
+  "alts": [
+   "Visitors preparing herbal food for the elephants"
+  ],
+  "attrs": [
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__gallery__elephant-herbal.webp"
+ },
+ {
+  "src": "/images/secret/gallery/elephant-bath.webp",
+  "pages": [
+   "tours_elephant-sanctuary"
+  ],
+  "alts": [
+   "Visitors bathing with elephants in the pool"
+  ],
+  "attrs": [
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__gallery__elephant-bath.webp"
+ },
+ {
+  "src": "/images/secret/gallery/kart-kid.webp",
+  "pages": [
+   "tours_go-kart"
+  ],
+  "alts": [
+   "A child in a yellow helmet driving a red electric go-kart"
+  ],
+  "attrs": [
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__gallery__kart-kid.webp"
+ },
+ {
+  "src": "/images/secret/gallery/kayak-cave-2.webp",
+  "pages": [
+   "tours_kayak"
+  ],
+  "alts": [
+   "A kayaker paddling towards a sea cave at Koh Talabeng"
+  ],
+  "attrs": [
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__gallery__kayak-cave-2.webp"
+ },
+ {
+  "src": "/images/secret/gallery/kayak-mangrove.webp",
+  "pages": [
+   "tours_kayak",
+   "tours_mangroves"
+  ],
+  "alts": [
+   "Two kayaks in a mangrove channel"
+  ],
+  "attrs": [
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__gallery__kayak-mangrove.webp"
+ },
+ {
+  "src": "/images/secret/gallery/kayak-karst.webp",
+  "pages": [
+   "tours_kayak",
+   "tours_koh-talabeng-koh-bubu"
+  ],
+  "alts": [
+   "Limestone cliffs and turquoise water at Koh Talabeng"
+  ],
+  "attrs": [
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__gallery__kayak-karst.webp"
+ },
+ {
+  "src": "/images/secret/gallery/phiphi-bay.webp",
+  "pages": [
+   "tours_koh-phi-phi"
+  ],
+  "alts": [
+   "A white sand beach below the limestone cliffs of Phi Phi"
+  ],
+  "attrs": [
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__gallery__phiphi-bay.webp"
+ },
+ {
+  "src": "/images/secret/gallery/rok-lagoon.webp",
+  "pages": [
+   "tours_koh-rok-koh-haa"
+  ],
+  "alts": [
+   "Snorkelers in the turquoise lagoon of Koh Rok"
+  ],
+  "attrs": [
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__gallery__rok-lagoon.webp"
+ },
+ {
+  "src": "/images/secret/gallery/kayak-cave.webp",
+  "pages": [
+   "tours_koh-talabeng-koh-bubu"
+  ],
+  "alts": [
+   "Two people lying in a kayak at the mouth of the Talabeng sea cave"
+  ],
+  "attrs": [
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__gallery__kayak-cave.webp"
+ },
+ {
+  "src": "/images/secret/gallery/mangrove-longtail.webp",
+  "pages": [
+   "tours_mangroves"
+  ],
+  "alts": [
+   "A longtail boat in a narrow mangrove channel"
+  ],
+  "attrs": [
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__gallery__mangrove-longtail.webp"
+ },
+ {
+  "src": "/images/secret/gallery/mangrove-guide.webp",
+  "pages": [
+   "tours_mangroves"
+  ],
+  "alts": [
+   "A guide and a young visitor in the mangrove"
+  ],
+  "attrs": [
+   "900x600 lazy"
+  ],
+  "file": "img/images__secret__gallery__mangrove-guide.webp"
+ },
+ {
+  "src": "/images/secret/brush.webp",
+  "pages": [
+   "css:secret.css"
+  ],
+  "alts": [
+   "(css bg)"
+  ],
+  "attrs": [],
+  "file": "img/images__secret__brush.webp"
+ }
+]

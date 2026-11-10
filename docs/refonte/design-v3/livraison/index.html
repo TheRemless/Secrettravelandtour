@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>STT design v3, livraison</title>
+<style>
+  :root { --ink: #14262B; --mute: #546A65; --line: #E3DACB; --sand: #F6EFE4; --deep: #0B3B3C; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 32px 24px 96px; background: #fff; color: var(--ink); font: 15px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 1480px; margin: 0 auto; }
+  h1 { margin: 0 0 8px; font-size: 28px; }
+  h2 { margin: 56px 0 16px; padding-top: 24px; border-top: 1px solid var(--line); font-size: 22px; }
+  h3 { margin: 32px 0 12px; font-size: 17px; }
+  a { color: var(--deep); }
+  .urls { margin: 16px 0 0; padding: 0; list-style: none; }
+  .urls li { margin: 4px 0; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+  .pair.mob { grid-template-columns: repeat(2, minmax(0, 390px)); }
+  .pair figure { margin: 0; }
+  .pair figcaption { margin-bottom: 8px; color: var(--mute); font-size: 13px; }
+  .pair img { display: block; width: 100%; height: auto; border: 1px solid var(--line); }
+  .stack img + img { border-top: 0; }
+  .none { padding: 24px; border: 1px dashed var(--line); color: var(--mute); }
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  th, td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+  th { background: var(--sand); font-weight: 600; }
+  td:nth-child(2) { white-space: nowrap; font-weight: 600; }
+  .scroll { overflow-x: auto; }
+  ul.list { margin: 8px 0 0; padding-left: 20px; }
+  @media (max-width: 800px) { .pair, .pair.mob { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main>
+<h1>Secret Travel &amp; Tour, design v3 : livraison</h1>
+<ul class="urls">
+  <li>Preview : <a href="https://deploy-preview-8--steady-capybara-eb28c9.netlify.app/">deploy-preview-8--steady-capybara-eb28c9.netlify.app</a></li>
+  <li>Composants : <a href="https://deploy-preview-8--steady-capybara-eb28c9.netlify.app/_components/">/_components/</a></li>
+  <li>Pages : <a href="https://deploy-preview-8--steady-capybara-eb28c9.netlify.app/">/</a> · <a href="https://deploy-preview-8--steady-capybara-eb28c9.netlify.app/tours/4-islands/">/tours/4-islands/</a> · <a href="https://deploy-preview-8--steady-capybara-eb28c9.netlify.app/tours/">/tours/</a></li>
+  <li>PR : <a href="https://github.com/TheRemless/Secrettravelandtour/pull/8">TheRemless/Secrettravelandtour#8</a> (brouillon, non fusionnée)</li>
+</ul>
+
+<h2>Accueil ↔ ZTP accueil</h2>
+<h3>Desktop 1440</h3>
+<div class="pair">
+  <figure><figcaption>STT /</figcaption><img src="img/home-1440.png" alt="STT accueil, desktop 1440, pleine page" loading="lazy"></figure>
+  <figure class="stack"><figcaption>ZTP accueil</figcaption>
+    <img src="../context/ztp_accueil_desk_0.png" alt="ZTP accueil, écran 1" loading="lazy"><img src="../context/ztp_accueil_desk_1.png" alt="ZTP accueil, écran 2" loading="lazy"><img src="../context/ztp_accueil_desk_2.png" alt="ZTP accueil, écran 3" loading="lazy"><img src="../context/ztp_accueil_desk_3.png" alt="ZTP accueil, écran 4" loading="lazy"><img src="../context/ztp_accueil_desk_4.png" alt="ZTP accueil, écran 5" loading="lazy"><img src="../context/ztp_accueil_desk_5.png" alt="ZTP accueil, écran 6" loading="lazy">
+  </figure>
+</div>
+<h3>Mobile 390 (DPR 2)</h3>
+<div class="pair mob">
+  <figure><figcaption>STT /</figcaption><img src="img/home-390.png" alt="STT accueil, mobile 390, pleine page" loading="lazy"></figure>
+  <figure><figcaption>ZTP accueil mobile (4 écrans fournis)</figcaption><img src="../context/ztp_accueil_mob.png" alt="ZTP accueil, mobile" loading="lazy"></figure>
+</div>
+
+<h2>4 Islands ↔ ZTP services</h2>
+<h3>Desktop 1440</h3>
+<div class="pair">
+  <figure><figcaption>STT /tours/4-islands/</figcaption><img src="img/tours_4-islands-1440.png" alt="STT 4 Islands, desktop 1440, pleine page" loading="lazy"></figure>
+  <figure class="stack"><figcaption>ZTP services</figcaption>
+    <img src="../context/ztp_services_desk_0.png" alt="ZTP services, écran 1" loading="lazy"><img src="../context/ztp_services_desk_1.png" alt="ZTP services, écran 2" loading="lazy"><img src="../context/ztp_services_desk_2.png" alt="ZTP services, écran 3" loading="lazy"><img src="../context/ztp_services_desk_3.png" alt="ZTP services, écran 4" loading="lazy">
+  </figure>
+</div>
+<h3>Mobile 390 (DPR 2)</h3>
+<div class="pair mob">
+  <figure><figcaption>STT /tours/4-islands/</figcaption><img src="img/tours_4-islands-390.png" alt="STT 4 Islands, mobile 390, pleine page" loading="lazy"></figure>
+  <figure><figcaption>ZTP services mobile</figcaption><p class="none">Pas de capture mobile de ZTP services dans le dossier fourni.</p></figure>
+</div>
+<h3>Formulaire, mobile 390 (barre collante, option préremplie, aperçu, envoi)</h3>
+<div class="pair" style="grid-template-columns:repeat(3,minmax(0,300px))">
+  <figure><figcaption>Feuille ouverte depuis la barre</figcaption><img src="img/03-sheet-open-390-barre.png" alt="Feuille de réservation ouverte, option join-in longtail préremplie" loading="lazy"></figure>
+  <figure><figcaption>Aperçu du message</figcaption><img src="img/03-preview-390-barre.png" alt="Aperçu du message WhatsApp" loading="lazy"></figure>
+  <figure><figcaption>Envoi</figcaption><img src="img/13-done-390-barre.png" alt="Écran après l'envoi sur WhatsApp" loading="lazy"></figure>
+</div>
+<p>Message envoyé : <code>Ref: 4I-0411-2A · Booking request: 4 Islands – Join-in longtail · Date: Wed 4 Nov 2026 · Guests: 2 adults · Pickup: Lanta Garden Hill · Name: Anna · Price on website · Page: secrettravelandtour.com/tours/4-islands/</code></p>
+
+<h2>Hub /tours/ ↔ ZTP accueil, section formules</h2>
+<h3>Desktop 1440</h3>
+<div class="pair">
+  <figure><figcaption>STT /tours/</figcaption><img src="img/tours-1440.png" alt="STT hub, desktop 1440, pleine page" loading="lazy"></figure>
+  <figure><figcaption>ZTP accueil, section formules</figcaption><img src="../context/ztp_accueil_desk_3.png" alt="ZTP accueil, section formules" loading="lazy"></figure>
+</div>
+<h3>Mobile 390 (DPR 2)</h3>
+<div class="pair mob">
+  <figure><figcaption>STT /tours/</figcaption><img src="img/tours-390.png" alt="STT hub, mobile 390, pleine page" loading="lazy"></figure>
+  <figure><figcaption>ZTP accueil mobile</figcaption><img src="../context/ztp_accueil_mob.png" alt="ZTP accueil, mobile" loading="lazy"></figure>
+</div>
+
+<h2>Page de composants /_components/</h2>
+<div class="pair">
+  <figure><figcaption>Desktop 1440</figcaption><img src="img/_components-1440.png" alt="Page de composants, desktop 1440" loading="lazy"></figure>
+  <figure><figcaption>Mobile 390 (DPR 2)</figcaption><img src="img/_components-390.png" alt="Page de composants, mobile 390" loading="lazy" style="max-width:390px"></figure>
+</div>
+
+<h2>Sections de §3</h2>
+<div class="scroll"><table>
+<thead><tr><th>Section</th><th>État</th><th>Raison</th><th>Ce qu'il manque</th></tr></thead>
+<tbody>
+<tr><td>Accueil S1 Hero</td><td>Fait</td><td></td><td></td></tr>
+<tr><td>Accueil S2 Bande comptoir</td><td>Fait</td><td></td><td>Horaires d'ouverture (remplaceront le 3e item)</td></tr>
+<tr><td>Accueil S3 Boat trips</td><td>Fait</td><td>Carte 4 Islands avec la vraie photo ZTP des falaises (alternative A validée)</td><td></td></tr>
+<tr><td>Accueil S4 Transfers</td><td>Partiel</td><td>« Private car or minivan » devient « Private minivan » (VIP ne roule qu'en minivan). Liens vers /taxi/ (décision du 03.11.2026). Photo placeholder car van-exterior fait 900 px</td><td>Photo du minivan VIP de 1 600 px ou plus</td></tr>
+<tr><td>Accueil S5 Island activities</td><td>Partiel</td><td>« All nine activities » devient « All seven activities » : les données comptent 7 activités (mangroves et pêche sont des sorties bateau)</td><td>Décision si d'autres activités s'ajoutent</td></tr>
+<tr><td>Accueil S6 How booking works</td><td>Fait</td><td></td><td>Délai de réponse (remplacera « We reply with the total »)</td></tr>
+<tr><td>Accueil S7 Our desk in Sala Dan</td><td>Fait</td><td>Photo placeholder de la rue de Sala Dan</td><td>Photo de la devanture</td></tr>
+<tr><td>Accueil S8 Reviews</td><td>Non fait</td><td>Section absente tant que les avis Google ne sont pas fournis (§3.1)</td><td>Note, nombre d'avis, avis choisis</td></tr>
+<tr><td>Accueil S9 Bande finale</td><td>Fait</td><td></td><td></td></tr>
+<tr><td>Accueil S10 Footer</td><td>Partiel</td><td>Pas de lien About, Contact ni FAQ : ces pages n'existent pas</td><td>Décision sur ces pages</td></tr>
+<tr><td>4 Islands S1 Hero</td><td>Fait</td><td></td><td></td></tr>
+<tr><td>4 Islands S2 Galerie</td><td>Partiel</td><td>4 photos au lieu de 5, sans le buffet (alternative D validée). Koh Kradan vue du sol et non du ciel (alternative C)</td><td>Photos réelles de la sortie</td></tr>
+<tr><td>4 Islands S3 Longtail or speedboat?</td><td>Fait</td><td>Vraie photo ZTP de la longtail</td><td></td></tr>
+<tr><td>4 Islands S4 Prices</td><td>Partiel</td><td>Ligne « Child under 4 » du speedboat masquée</td><td>Prix enfant de moins de 4 ans en speedboat</td></tr>
+<tr><td>4 Islands S5 The day</td><td>Fait</td><td></td><td></td></tr>
+<tr><td>4 Islands S6 Included / Not included</td><td>Fait</td><td></td><td></td></tr>
+<tr><td>4 Islands S7 Before you book</td><td>Partiel</td><td>3 rubriques confirmées (Pickup, Weather, Payment), donc pas de photo (règle des 4 rubriques)</td><td>Bring, Children, Health, Cancellation, The Emerald Cave</td></tr>
+<tr><td>4 Islands S8 Questions</td><td>Fait</td><td></td><td></td></tr>
+<tr><td>4 Islands S9 Who runs this trip</td><td>Fait</td><td>Licence TAT 34/04000 affichée</td><td>Nom du partenaire, photo de l'équipe</td></tr>
+<tr><td>4 Islands S10 More boat trips</td><td>Fait</td><td>Le lien transfert mène à /taxi/krabi-airport-koh-lanta/</td><td></td></tr>
+<tr><td>4 Islands S11 Barre mobile et pastille</td><td>Fait</td><td></td><td></td></tr>
+<tr><td>Page trajet §3.3 (S1 à S8)</td><td>Non fait</td><td>Retirée : les transferts restent sur VIP Taxi /taxi/ avec sa direction artistique (décision du 03.11.2026)</td><td></td></tr>
+<tr><td>Hub S1 En-tête</td><td>Partiel</td><td>« Fifteen » devient « Thirteen » et « (9) » devient « (7) » : 13 produits dans les données</td><td></td></tr>
+<tr><td>Hub S2 Boat trips</td><td>Partiel</td><td>Koh Talabeng &amp; Koh Bubu affiche « Price on WhatsApp »</td><td>Prix de Koh Talabeng &amp; Koh Bubu</td></tr>
+<tr><td>Hub S3 Bande sable</td><td>Partiel</td><td>Phrase ajustée : « Where a national park fee applies, it is paid in cash on the island. » Le droit de parc ne vaut pas pour toutes les sorties</td><td></td></tr>
+<tr><td>Hub S4 Island activities</td><td>Partiel</td><td>7 cartes au lieu de 9. Island tour by songthaew absent</td><td>Programme et prix du songthaew</td></tr>
+<tr><td>Hub S5 Bande finale</td><td>Fait</td><td></td><td></td></tr>
+</tbody>
+</table></div>
+
+<h2>Critères de §6</h2>
+<div class="scroll"><table>
+<thead><tr><th>Critère</th><th>État</th><th>Raison ou mesure</th><th>Ce qu'il manque</th></tr></thead>
+<tbody>
+<tr><td>1. Aucun aplat à la place d'une photo</td><td>Fait</td><td>scripts/check-v3.mjs sur les 3 pages</td><td></td></tr>
+<tr><td>2. Mesures</td><td>Fait</td><td>H1 64/42 px (hub 56 px, §3.4), H2 44/34 px, corps 17 px, sections 96/56 px, conteneur 1200 px. Rayons 12 px, 14 px boutons, 999 px pastilles</td><td></td></tr>
+<tr><td>3. Palette</td><td>Fait</td><td>14 hex, tous dans §2.1, blanc et #25D366</td><td></td></tr>
+<tr><td>4. Polices</td><td>Fait</td><td>3 woff2 auto-hébergés (Cormorant 600, Manrope 400 et 600), aucune requête Google Fonts</td><td></td></tr>
+<tr><td>5. Rien posé sur une photo</td><td>Partiel</td><td>La pastille WhatsApp fixe passe au-dessus de la photo du hero en desktop, comme sur ZTP</td><td>Décision : la garder ou la masquer sur le hero</td></tr>
+<tr><td>6. Une image, un usage</td><td>Fait</td><td>Le build échoue sur un doublon (scripts/photos-v3.mjs)</td><td></td></tr>
+<tr><td>7. Mobile</td><td>Fait</td><td>overflow-x seulement sur la galerie. Barre 64 px sur 4 Islands. Aucune cible isolée sous 44 px. Bas du hero avant la photo : 527, 656 et 565 px</td><td></td></tr>
+<tr><td>8. Contrastes</td><td>Fait</td><td>axe : 0 violation de contraste sur les 3 pages, 1440 et 390</td><td></td></tr>
+<tr><td>9. Performance mobile</td><td>Partiel</td><td>Lighthouse 12 mobile, 3 passes par page, cache chaud. LCP médian : accueil 1,61 s, 4 Islands 1,76 s, hub 1,57 s. CLS 0 sur les 9 passes. Poids initial hors outil Netlify de la preview : 276, 273 et 363 Ko (avec cet outil, absent en production : environ 1,9 Mo). Une passe sur 9 au-dessus : 4 Islands à 4,55 s</td><td>Mesure à refaire sur le site en production, sans l'outil Netlify</td></tr>
+<tr><td>10. Texte</td><td>Fait</td><td>scripts/check-dist.mjs : 0 mot interdit, 0 [À CONFIRMER], 0 TODO(client), 0 point d'exclamation</td><td></td></tr>
+<tr><td>11. Formulaire</td><td>Partiel</td><td>4 Islands à 390 (barre mobile) et 1440 : option préremplie, aperçu, message structuré avec référence et URL. Page Krabi Airport hors périmètre (reste sur /taxi/)</td><td></td></tr>
+<tr><td>12. Test de substitution</td><td>Au client</td><td>Captures STT et ZTP côte à côte ci-dessus</td><td></td></tr>
+</tbody>
+</table></div>
+
+<h2>Placeholders restants (src/data/placeholders.json, 18)</h2>
+<div class="scroll"><table>
+<thead><tr><th>Usage</th><th>Photo attendue</th><th>Placeholder actuel</th></tr></thead>
+<tbody>
+<tr><td>Accueil, hero</td><td>Longtail sur une plage de Koh Ngai ou Koh Kradan, lumière du matin</td><td>Koh Ngai, Siamways, CC BY-SA 4.0</td></tr>
+<tr><td>Carte Koh Rok &amp; Koh Haa</td><td>Plage de Koh Rok Nai vue du sable</td><td>Sittipong Haus, Unsplash</td></tr>
+<tr><td>Carte Koh Phi Phi</td><td>Lagon de Pileh, longtails au mouillage</td><td>David Gardiner, Unsplash</td></tr>
+<tr><td>Carte Koh Talabeng &amp; Koh Bubu</td><td>Kayaks entre les îlots de Koh Talabeng</td><td>Bowornpol P., Unsplash</td></tr>
+<tr><td>Carte Mangroves</td><td>Chenal de Thung Yee Peng</td><td>Stefan Fussan, CC BY-SA 4.0</td></tr>
+<tr><td>Carte Kayaking</td><td>Kayak dans la mangrove ou près du karst</td><td>Christophe95, CC BY-SA 4.0</td></tr>
+<tr><td>Carte Thai cooking class</td><td>Mortier, pâte de curry, mains</td><td>Ryan Snyder, CC BY 2.0</td></tr>
+<tr><td>Carte Scuba diving</td><td>Plongeur au-dessus d'un récif</td><td>Varakorn Kuldilok, CC BY-SA 3.0</td></tr>
+<tr><td>Carte Electric go-kart</td><td>Kart sur piste, casque</td><td>KengSiri, CC BY-SA 3.0</td></tr>
+<tr><td>Accueil, transferts</td><td>Minivan VIP Taxi Lanta, 1 600 px ou plus</td><td>Toyota Commuter, Patiparn, CC BY-SA 4.0</td></tr>
+<tr><td>Accueil, comptoir</td><td>Devanture du 292 Moo 2, Sala Dan</td><td>Rue de Sala Dan, Максим Улитин, CC BY 3.0</td></tr>
+<tr><td>Accueil, bande finale</td><td>Vue depuis un bateau, passagers de dos</td><td>Peter Emmett, Unsplash</td></tr>
+<tr><td>Hub, bande finale</td><td>Longtail vue du ciel sur eau turquoise</td><td>Yannick Apollon, Unsplash</td></tr>
+<tr><td>4 Islands, hero</td><td>Passage de la grotte d'Émeraude vu du lagon</td><td>Wayinoutcave, Uncharted25, CC BY-SA 4.0</td></tr>
+<tr><td>4 Islands, galerie : récif</td><td>Récif de Koh Chueak avec poissons</td><td>Thomas Quine, CC BY-SA 2.0</td></tr>
+<tr><td>4 Islands, galerie : Koh Ngai</td><td>Plage de Koh Ngai avec longtails</td><td>Marcin Konsek, CC BY-SA 4.0</td></tr>
+<tr><td>4 Islands, galerie : Koh Kradan</td><td>Koh Kradan</td><td>Ko_Kradan001, Tournasol7, CC BY-SA 4.0</td></tr>
+<tr><td>4 Islands, galerie : ponton</td><td>Ponton de Lanta Old Town au matin</td><td>Marcin Konsek, CC BY-SA 4.0</td></tr>
+</tbody>
+</table></div>
+<p>Le build de production échoue tant que cette liste n'est pas vide (STT_ALLOW_PLACEHOLDERS=1 sur la preview seulement).</p>
+
+<h2>Lignes masquées faute de donnée confirmée</h2>
+<ul class="list">
+  <li>Accueil S2 : horaires d'ouverture du comptoir.</li>
+  <li>Accueil S6 : délai de réponse sur WhatsApp.</li>
+  <li>Accueil S8 : toute la section avis.</li>
+  <li>4 Islands, prix : « Child under 4 » en speedboat join-in.</li>
+  <li>4 Islands, Before you book : Bring, Children, Health, Cancellation, The Emerald Cave.</li>
+  <li>4 Islands, faits : langue du guide, assurance, taille du groupe, zones de prise en charge.</li>
+  <li>4 Islands S9 : nom du partenaire qui opère la sortie.</li>
+  <li>Hub et cartes : prix de Koh Talabeng &amp; Koh Bubu (« Price on WhatsApp » à la place).</li>
+  <li>Hub S4 : Island tour by songthaew.</li>
+</ul>
+</main>
+</body>
+</html>

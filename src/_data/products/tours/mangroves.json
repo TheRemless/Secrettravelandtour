@@ -1,0 +1,387 @@
+{
+  "slug": "mangroves",
+  "url": "/tours/mangroves/",
+  "brand": "secret",
+  "template": "boat",
+  "name": "Mangroves by longtail",
+  "seo": {
+    "title": "Koh Lanta Mangrove Tour by Longtail | Secret Travel & Tour",
+    "metaDescription": "Half a day by longtail in the Thung Yee Peng mangrove on Koh Lanta, with lunch, monkeys and birds, plus Old Town or a fishing park. From 1,000 THB."
+  },
+  "h1": "The Thung Yee Peng mangrove by longtail",
+  "lead": "Half a day in the mangrove on the east side of Koh Lanta, by longtail through the narrow canals, with lunch. Add Lanta Old Town and a viewpoint, or a fishing park.",
+  "facts": [
+    {
+      "label": "Where",
+      "value": "Thung Yee Peng, east coast of Koh Lanta"
+    },
+    {
+      "label": "Duration",
+      "value": "Half day"
+    },
+    {
+      "label": "Times",
+      "value": "09:30–12:30 or 14:00–17:00"
+    },
+    {
+      "label": "Village entrance fee",
+      "value": "40 THB per adult, 20 THB per child from 4 to 11, not included"
+    }
+  ],
+  "price": {
+    "from": 1000,
+    "currency": "THB",
+    "unit": "per adult, half day"
+  },
+  "options": [
+    {
+      "id": "longtail-half-day",
+      "label": "Half day by longtail, with lunch",
+      "kind": "join-in",
+      "boat": "longtail",
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 1000,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 11",
+          "amount": 700,
+          "ages": {
+            "min": 4,
+            "max": 11
+          },
+          "unit": "per person"
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "Village entrance fee, adults",
+          "amount": 40,
+          "unit": "per person"
+        },
+        {
+          "label": "Village entrance fee, children 4 to 11",
+          "amount": 20,
+          "unit": "per person"
+        }
+      ],
+      "choices": [
+        {
+          "id": "slot",
+          "label": "Time",
+          "values": [
+            {
+              "id": "morning",
+              "label": "Morning, 09:30–12:30"
+            },
+            {
+              "id": "afternoon",
+              "label": "Afternoon, 14:00–17:00"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "longtail-old-town-viewpoint",
+      "label": "Longtail through the mangrove, then Old Town and a viewpoint",
+      "kind": "join-in",
+      "boat": "longtail",
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 1300,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 11",
+          "amount": 900,
+          "ages": {
+            "min": 4,
+            "max": 11
+          },
+          "unit": "per person"
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "Village entrance fee, adults",
+          "amount": 40,
+          "unit": "per person"
+        },
+        {
+          "label": "Village entrance fee, children 4 to 11",
+          "amount": 20,
+          "unit": "per person"
+        }
+      ],
+      "choices": [
+        {
+          "id": "slot",
+          "label": "Time",
+          "values": [
+            {
+              "id": "morning",
+              "label": "Morning, 09:30–12:30"
+            },
+            {
+              "id": "afternoon",
+              "label": "Afternoon, 14:00–17:00"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fishing-park",
+      "label": "Mangrove by kayak or longtail, then a fishing park",
+      "kind": "join-in",
+      "boat": "kayak or longtail",
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 1800,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 11",
+          "amount": 1200,
+          "ages": {
+            "min": 4,
+            "max": 11
+          },
+          "unit": "per person"
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "Village entrance fee, adults",
+          "amount": 40,
+          "unit": "per person"
+        },
+        {
+          "label": "Village entrance fee, children 4 to 11",
+          "amount": 20,
+          "unit": "per person"
+        }
+      ],
+      "choices": [
+        {
+          "id": "slot",
+          "label": "Time",
+          "values": [
+            {
+              "id": "morning",
+              "label": "Morning, 09:30–12:30"
+            },
+            {
+              "id": "afternoon",
+              "label": "Afternoon, 14:00–17:00"
+            }
+          ]
+        },
+        {
+          "id": "way",
+          "label": "By",
+          "error": "Choose kayak or longtail.",
+          "values": [
+            {
+              "id": "kayak",
+              "label": "Kayak"
+            },
+            {
+              "id": "longtail",
+              "label": "Longtail"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "day": [
+    {
+      "options": [
+        "longtail-half-day"
+      ],
+      "title": "The three trips",
+      "steps": [
+        {
+          "label": "Half day",
+          "text": "Mangrove boat trip with lunch. A longtail around the mangrove forest, then lunch, fruit and a soft drink at the mangrove restaurant. 09:30 to 12:30 or 14:00 to 17:00."
+        }
+      ]
+    },
+    {
+      "options": [
+        "longtail-old-town-viewpoint"
+      ],
+      "title": "The three trips",
+      "steps": [
+        {
+          "label": "Half day",
+          "text": "Mangrove, Old Town and viewpoint. A longtail through the narrow canals, with monkeys and birds, then lunch and a visit of Lanta Old Town. 09:30 to 12:30 or 14:00 to 17:00."
+        }
+      ]
+    },
+    {
+      "options": [
+        "fishing-park"
+      ],
+      "title": "The three trips",
+      "steps": [
+        {
+          "label": "Half day",
+          "text": "Mangrove and fishing park. The mangrove by kayak or longtail, lunch at the mangrove restaurant, then the fishing park. 09:30 to 12:30 or 14:00 to 17:00."
+        }
+      ]
+    }
+  ],
+  "included": [
+    "Hotel transfer both ways",
+    "Lunch, drinks and seasonal fruit",
+    "Local guide",
+    "Insurance"
+  ],
+  "beforeYouBook": {
+    "bring": [
+      "Mosquito repellent"
+    ],
+    "children": "Children from 4 to 11 have a child rate."
+  },
+  "faq": [
+    {
+      "q": "Which trip should I pick?",
+      "a": "The half day with lunch is the simplest. Pick Old Town and the viewpoint to see more of the island, or the fishing park if you are travelling with children."
+    }
+  ],
+  "photos": [
+    {
+      "slot": "gallery",
+      "status": "replace",
+      "file": "secret/gallery/mangrove-longtail.webp",
+      "alt": "A longtail boat in a narrow mangrove channel",
+      "shot": "Longtail in a narrow mangrove channel (current file is a brochure scan)."
+    },
+    {
+      "slot": "gallery",
+      "status": "replace",
+      "file": "secret/gallery/mangrove-guide.webp",
+      "alt": "A guide and a young visitor in the mangrove",
+      "shot": "Guide in the mangrove with visitors (current file is a brochure scan)."
+    }
+  ],
+  "related": [
+    "/tours/mangrove-kayaking/",
+    "/tours/sunset-dinner-raft/",
+    "/tours/sunrise-raft/"
+  ],
+  "schema": {
+    "type": "TouristTrip",
+    "legacyType": "TouristTrip",
+    "places": [
+      "Thung Yee Peng",
+      "Ao Lanta"
+    ]
+  },
+  "legacyText": {
+    "title": "Koh Lanta Mangrove Tour | Secret Travel & Tour",
+    "h1": "Mangroves of",
+    "h1em": "Thung Yee Peng",
+    "intro": [
+      "Thung Yee Peng is a village on the east coast of Koh Lanta with a protected mangrove behind it. The channels are calm. You see monkeys, birds and fiddler crabs on the mud at low tide.",
+      "Three ways to go. A longtail runs through the main channels. A private wooden raft, poled slowly, leaves from Thung Yee Peng pier for a sunrise, a fishing morning or a dinner at sunset. A kayak gets you into the narrow channels."
+    ],
+    "cardDescription": "Through the mangroves by longtail, gondola or kayak.",
+    "cardInfo": [
+      "From 1,000 THB per adult",
+      "Half day"
+    ],
+    "dayTitle": "The raft programmes",
+    "goodToKnow": [
+      "The raft is private, for your group only. Children from 3 to 9 have a child rate.",
+      "The kayak can be combined with an hour of ATV in the forest, two hours in all.",
+      "Bring mosquito repellent for sunrise and sunset."
+    ],
+    "priceNote": "Prices in Thai baht. On the longtail and kayak trips the village entrance fee, 40 THB per person, is not included.",
+    "caption": "Thung Yee Peng",
+    "photoPosition": "40% 60%"
+  },
+  "sources": [
+    {
+      "field": "name, legacyText.cardDescription, legacyText.cardInfo, photos[hero]",
+      "from": "secret.json tours[id=mangroves]"
+    },
+    {
+      "field": "seo, h1, lead, legacyText",
+      "from": "secretPagesContent.json pages.mangroves.title, metaDescription, h1, h1em, lead, intro"
+    },
+    {
+      "field": "facts, price",
+      "from": "secretPagesContent.json pages.mangroves (day, prices, goodToKnow, parkFee) et secret.json tours[id=mangroves].info, reformulés en lignes de faits"
+    },
+    {
+      "field": "options",
+      "from": "secretPagesContent.json pages.mangroves.prices, priceNote"
+    },
+    {
+      "field": "day",
+      "from": "secretPagesContent.json pages.mangroves.dayTitle, day"
+    },
+    {
+      "field": "included, notIncluded",
+      "from": "secretPagesContent.json pages.mangroves.included, notIncluded"
+    },
+    {
+      "field": "beforeYouBook",
+      "from": "secretPagesContent.json pages.mangroves.goodToKnow, intro, parkFee"
+    },
+    {
+      "field": "faq",
+      "from": "secretPagesContent.json pages.mangroves.faq"
+    },
+    {
+      "field": "seo.draft",
+      "from": "docs/refonte/02-audit-seo.md §6.2 (points de départ, prix à valider)"
+    },
+    {
+      "field": "photos[].status, photos[].shot",
+      "from": "docs/refonte/01-audit-design.md §4"
+    },
+    {
+      "field": "schema",
+      "from": "secretPagesContent.json pages.mangroves.schemaType, places ; type cible : docs/refonte/02-audit-seo.md §6.3"
+    },
+    {
+      "field": "options[].notIncludedFees",
+      "from": "secretPagesContent.json pages.mangroves.parkFee, priceNote, goodToKnow"
+    },
+    {
+      "field": "refPrefix",
+      "from": "code court de la référence WhatsApp (critique, idée 5), 03.11.2026"
+    },
+    {
+      "field": "options[raft-sunrise].prices[1]",
+      "from": "affiche Sunrise View Mangrove.jpg « Next person 1,500 THB/person » : supplément au-delà du forfait 3 500 pour 1 ou 2 (décision client du 08.11.2026 ; avant : « 3 or more people, per person »)"
+    },
+    {
+      "field": "day[0], day[2], beforeYouBook.pickup, faq[2], included",
+      "from": "affiches Sunrise View Mangrove.jpg (07:30 retour au ponton), Private Fishing Experience.jpg et Sunset Diner Mangrove.jpeg (16:50 check-in, singes, 19:30 ponton, 20:00 transfert ; inclus, transfert « Koh Lanta area ») ; brochure kayak (audit B § 1.1) (déjeuner, guide, assurance des demi-journées)"
+    },
+    {
+      "field": "options[longtail-half-day, kayak-half-day, longtail-old-town-viewpoint, fishing-park].choices ; facts[Half days]",
+      "from": "brochure kayak (audit B § 1.1) p. 3 à 5 : « Morning 09:30 - 12:30, Afternoon 14:00 - 17:00 », programme 7 « by kayaking or longtail boat »"
+    },
+    {
+      "field": "options[].notIncludedFees, facts[Village entrance fee]",
+      "from": "décision client du 08.11.2026 : entrée de Thung Yee Peng 40 THB adulte, 20 THB enfant de 4 à 11 ans (frais publics, tarif kayak du dossier agence, audit D § 7) ; brochure kayak (audit B § 1.1) « Village Entrance Fee 40 baht » ; note interne « legacy price note » retirée"
+    },
+    {
+      "field": "options, day, facts, included, faq, lead",
+      "from": "fiche réduite au longtail, déroulés de la brochure kayak (mêmes sorties) ; radeau et kayak sur leurs propres fiches (découpage des fiches, décision de Jérémy du 11.11.2026)"
+    }
+  ],
+  "refPrefix": "MANG",
+  "promise": "Half a day by longtail in the mangrove, with lunch"
+}

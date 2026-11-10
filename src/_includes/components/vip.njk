@@ -1,0 +1,122 @@
+{#- Composants de VIP Taxi Lanta (refonte), identité « Night cabin ». Importer avec :
+      {% import "components/vip.njk" as vip %}
+    Données en paramètres uniquement. Le logo est celui de Mr. Brown (images/taxi/logo.webp), jamais redessiné. -#}
+{% from "components/icons.njk" import icon %}
+
+{% macro waHref(number, text) -%}
+https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
+{%- endmacro %}
+
+{#- Header : logo de Mr. Brown et nom en Marcellus ; le logo en grand reste dans le pied de page.
+    Bouton WhatsApp toujours visible ; le lien de navigation reste visible sur téléphone. -#}
+{% macro header(brand, number, nav=[]) %}
+<header class="vip-header">
+  <div class="wrap">
+    {#- Logo de Mr. Brown tel quel (images/taxi/logo.webp, 640 × 640), le nom en texte à côté. -#}
+    <a class="vip-brand" href="{{ brand.url }}"><img eleventy:ignore class="vip-head-logo" src="/images/taxi/logo.webp" width="44" height="44" alt="" decoding="async"><span class="vip-name">{{ brand.name }}<small>{{ brand.owner }}</small></span></a>
+    {%- if nav.length %}
+    <nav class="vip-nav" aria-label="Main">
+      <ul>{% for item in nav %}<li><a href="{{ item.href }}">{{ item.label }}</a></li>{% endfor %}</ul>
+    </nav>
+    {%- endif %}
+    <a class="btn" href="{{ waHref(number) }}">{{ icon("whatsapp") }}<span>WhatsApp</span></a>
+  </div>
+</header>
+{% endmacro %}
+
+{#- Liste des trajets : une ligne réglée par trajet (départ, arrivée, durée indicative), toute la ligne est le lien.
+    Aucun prix de trajet publié : une seule mention au-dessus de la liste. -#}
+{% macro routeList(routes, note="Prices on WhatsApp") %}
+{% if note %}<p class="routes-note">{{ note }}</p>{% endif %}
+<ul class="route-list">
+  {%- for r in routes %}
+  <li><a href="{{ r.href }}"><span class="rl-route">{{ r.from }} <span class="route-sep">to</span> {{ r.to }}</span>{% if r.drive %}<span class="rl-drive">{{ r.drive }}</span>{% endif %}</a></li>
+  {%- endfor %}
+</ul>
+{% endmacro %}
+
+{#- Faits du trajet, posés comme un billet : libellé et valeur, cases séparées par une perforation. -#}
+{% macro routeFacts(facts, label="Route facts") %}
+<dl class="ticket" aria-label="{{ label }}">
+  {%- for f in facts %}{% if f.value %}<div><dt>{{ f.label }}</dt><dd>{{ f.value }}</dd></div>{% endif %}{% endfor %}
+</dl>
+{% endmacro %}
+
+{#- Le minivan : vraies photos (les manquantes en emplacement hors production) et faits de site.json. -#}
+{% macro vehicle(v, showSlots, id="h-vehicle") %}
+<section class="vehicle" aria-labelledby="{{ id }}">
+  <h2 id="{{ id }}">Our minivan</h2>
+  <ul class="vehicle-photos" tabindex="0" aria-label="Photos of the minivan">
+    {%- for p in v.photos %}
+      {%- if p.photo %}
+    <li><img eleventy:ignore src="{{ p.photo.src }}" alt="{{ p.photo.alt }}" width="{{ p.photo.width }}" height="{{ p.photo.height }}" loading="lazy" decoding="async"></li>
+      {%- elif showSlots and p.slot %}
+    <li><div class="photo-slot">Photo to supply: {{ p.slot }}</div></li>
+      {%- endif %}
+    {%- endfor %}
+  </ul>
+  <div class="vehicle-text">
+    {% if v.text %}<p>{{ v.text }}</p>{% endif %}
+    {% if v.childSeats %}<p class="muted">{{ v.childSeats }}</p>{% endif %}
+    {% if v.payment %}<p class="muted">{{ v.payment }}</p>{% endif %}
+  </div>
+</section>
+{% endmacro %}
+
+{#- Note Google réelle (view.rating) sur une ligne, avec le lien vers la fiche. La date de lecture reste dans les données.
+    Pas de citation d'avis tant que l'autorisation manque, jamais de balisage AggregateRating. -#}
+{% macro rating(r) %}
+{%- if r %}
+<p class="rating">{% if r.url %}<a href="{{ r.url }}">{% endif %}{{ r.value }} on Google · {{ r.count }} reviews{% if r.url %}</a>{% endif %}</p>
+{%- endif %}
+{% endmacro %}
+
+{#- Encart discret pour Secret Travel & Tour : l'emblème d'origine, tel quel, sur une pastille sable (fond sombre).
+    em : view.emblem(32). -#}
+{% macro secretAd(secret, em, tours=[]) %}
+<aside class="stt-ad" aria-label="{{ secret.name }}">
+  <span class="stt-ad-pastille"><picture><source type="image/avif" srcset="{{ em.avif }}"><img eleventy:ignore src="{{ em.src }}" srcset="{{ em.webp }}" width="{{ em.width }}" height="{{ em.height }}" alt=""></picture></span>
+  <div>
+    <p>Boat trips and day tours on Koh Lanta: <a href="{{ secret.url }}">{{ secret.name }}</a>.</p>
+    {%- if tours and tours.length %}
+    <ul class="stt-ad-list">{% for t in tours %}<li><a href="{{ t.href }}">{{ t.name }}</a></li>{% endfor %}</ul>
+    {%- endif %}
+  </div>
+</aside>
+{% endmacro %}
+
+{#- Barre collante mobile : « Price on WhatsApp » (aucun prix de trajet publié) et « Check availability ». -#}
+{% macro mobileBar(price, fallbackHref) %}
+<div class="vbar">
+  <p>{% if price %}From <span class="num">{{ price }}</span>{% else %}Price on WhatsApp{% endif %}</p>
+  <a class="btn" href="{{ fallbackHref }}" data-book="">{{ icon("whatsapp") }}<span>Check availability</span></a>
+</div>
+{% endmacro %}
+
+{#- Pied de page : logo, base, WhatsApp et délai de réponse, pages légales. -#}
+{% macro footer(site, contact) %}
+{%- set b = site.brands.vip -%}
+<footer class="vip-footer">
+  <div class="wrap">
+    <img eleventy:ignore class="vip-logo" src="/images/taxi/logo.webp" width="640" height="640" alt="{{ b.name }}, {{ b.owner }}" loading="lazy">
+    <div>
+      <h2>{{ b.name }}</h2>
+      <p>{{ b.owner }}, based on {{ b.address.locality }}.</p>
+      {% if b.maps %}<p><a href="{{ b.maps }}">Google Maps listing</a></p>{% endif %}
+    </div>
+    <div>
+      <h2>WhatsApp</h2>
+      <p><a class="link-wa" href="{{ waHref(contact.number) }}">{{ icon("whatsapp") }}<span class="num">{{ contact.phoneDisplay }}</span></a></p>
+      {% if contact.replyTime %}<p>{{ contact.replyTime }}</p>{% endif %}
+    </div>
+    <div class="vip-legal">
+      <p>Bookings sold by {{ site.operator.name }}</p>
+      <ul>
+        <li><a href="/terms/">Booking terms</a></li>
+        <li><a href="/legal/">Legal notice</a></li>
+        <li><a href="/privacy/">Privacy</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+{% endmacro %}

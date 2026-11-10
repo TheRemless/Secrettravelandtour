@@ -1,0 +1,505 @@
+{
+  "slug": "koh-rok-koh-haa",
+  "url": "/tours/koh-rok-koh-haa/",
+  "brand": "secret",
+  "template": "boat",
+  "name": "Koh Rok & Koh Haa",
+  "seo": {
+    "title": "Koh Rok & Koh Haa Day Trip | Secret Travel & Tour",
+    "metaDescription": "Koh Rok and Koh Haa from Koh Lanta, October to April, by speedboat or private longtail. Snorkeling and lunch on the beach. Speedboat from 2,000 THB.",
+    "draft": {
+      "title": "Koh Rok & Koh Haa Snorkeling Tour from Koh Lanta",
+      "metaDescription": "Speedboat or private longtail to Koh Rok and Koh Haa, October to April. Beach lunch, snorkel gear, hotel transfer. From 2,000 THB.",
+      "h1": "Koh Rok and Koh Haa snorkeling tour"
+    }
+  },
+  "h1": "Koh Rok and Koh Haa snorkelling day trip",
+  "lead": "Two islands of the Mu Ko Lanta National Park, open from mid-October to mid-May, by speedboat or private longtail. Snorkelling stops and lunch on the beach of Koh Rok.",
+  "promise": "Snorkelling at Koh Rok and Koh Haa, mid-October to mid-May",
+  "facts": [
+    {
+      "label": "Duration",
+      "value": "Full day"
+    },
+    {
+      "label": "Season",
+      "value": "Mid-October to mid-May"
+    },
+    {
+      "label": "Hotel pickup",
+      "value": "About 08:00"
+    },
+    {
+      "label": "Boat",
+      "value": "Speedboat or longtail"
+    },
+    {
+      "label": "Speedboat pier",
+      "value": "Lanta Old Town pier, join-in speedboat"
+    },
+    {
+      "label": "Islands",
+      "value": "Koh Rok Nok, Koh Rok Nai, Koh Haa"
+    },
+    {
+      "label": "Crossing",
+      "value": "About 1 hr 30 min each way by longtail, less by speedboat"
+    },
+    {
+      "label": "National park",
+      "value": "Mu Ko Lanta National Park"
+    },
+    {
+      "label": "National park fee",
+      "value": "400 THB per adult from 12, 200 THB per child from 4 to 11, free under 4, not included"
+    }
+  ],
+  "price": {
+    "from": 2000,
+    "currency": "THB",
+    "unit": "per adult, join-in speedboat"
+  },
+  "options": [
+    {
+      "id": "join-in-speedboat",
+      "label": "Join-in speedboat",
+      "kind": "join-in",
+      "boat": "speedboat",
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 2000,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 11",
+          "amount": 1000,
+          "ages": {
+            "min": 4,
+            "max": 11
+          },
+          "unit": "per person"
+        },
+        {
+          "label": "Child under 4",
+          "amount": 0,
+          "ages": {
+            "max": 3
+          }
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "National park fee, adult",
+          "amount": 400,
+          "unit": "per person",
+          "note": "Cash, paid to the ranger on the island",
+          "ages": {
+            "min": 12
+          }
+        },
+        {
+          "label": "National park fee, child",
+          "amount": 200,
+          "unit": "per person",
+          "note": "Cash, paid to the ranger on the island",
+          "ages": {
+            "min": 4,
+            "max": 11
+          }
+        }
+      ]
+    },
+    {
+      "id": "sunset",
+      "label": "Later trip, back at sunset",
+      "kind": "join-in",
+      "boat": "speedboat",
+      "note": "Pickup at your hotel at 10:00 by private car, Koh Rok and the Koh Haa lagoon, then a sunset cruise back to Koh Lanta at 17:50.",
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 2500,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 11",
+          "amount": 1800,
+          "ages": {
+            "min": 4,
+            "max": 11
+          },
+          "unit": "per person"
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "National park fee, adult",
+          "amount": 400,
+          "unit": "per person",
+          "note": "Cash, paid to the ranger on the island",
+          "ages": {
+            "min": 12
+          }
+        },
+        {
+          "label": "National park fee, child",
+          "amount": 200,
+          "unit": "per person",
+          "note": "Cash, paid to the ranger on the island",
+          "ages": {
+            "min": 4,
+            "max": 11
+          }
+        }
+      ]
+    },
+    {
+      "id": "private-longtail",
+      "label": "Private longtail to Koh Rok",
+      "kind": "private",
+      "boat": "longtail",
+      "note": "The whole boat for your group. Koh Rok only, 08:00 to 16:00, about 1 hr 30 min each way, your group only. Children from 4 count in the group size, under 4 do not.",
+      "prices": [
+        {
+          "label": "1 to 3 people",
+          "amount": 7400,
+          "group": {
+            "min": 1,
+            "max": 3
+          },
+          "unit": "per boat"
+        },
+        {
+          "label": "4 to 6 people",
+          "amount": 7900,
+          "group": {
+            "min": 4,
+            "max": 6
+          },
+          "unit": "per boat"
+        },
+        {
+          "label": "7 to 8 people",
+          "amount": 8400,
+          "group": {
+            "min": 7,
+            "max": 8
+          },
+          "unit": "per boat"
+        },
+        {
+          "label": "9 to 10 people",
+          "amount": 9400,
+          "group": {
+            "min": 9,
+            "max": 10
+          },
+          "unit": "per boat"
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "National park fee, adult",
+          "amount": 400,
+          "unit": "per person",
+          "note": "Cash, paid to the ranger on the island",
+          "ages": {
+            "min": 12
+          }
+        },
+        {
+          "label": "National park fee, child",
+          "amount": 200,
+          "unit": "per person",
+          "note": "Cash, paid to the ranger on the island",
+          "ages": {
+            "min": 4,
+            "max": 11
+          }
+        }
+      ]
+    }
+  ],
+  "day": [
+    {
+      "options": [
+        "join-in-speedboat"
+      ],
+      "title": "How the day goes (speedboat, join-in)",
+      "steps": [
+        {
+          "time": "08:00",
+          "text": "Pickup at your hotel, then Lanta Old Town pier and a light breakfast."
+        },
+        {
+          "time": "09:30",
+          "text": "The speedboat leaves for Koh Rok."
+        },
+        {
+          "time": "10:00",
+          "text": "A short snorkelling lesson, then the first snorkelling stop and time for photos."
+        },
+        {
+          "time": "11:00",
+          "text": "The second snorkelling stop."
+        },
+        {
+          "time": "12:00",
+          "text": "Thai buffet lunch on the beach of Koh Rok, where monitor lizards live."
+        },
+        {
+          "time": "13:00",
+          "text": "Time on the beach: swimming, sunbathing or snorkelling from the shore."
+        },
+        {
+          "time": "14:00",
+          "text": "Koh Haa and a third snorkelling stop in the lagoon."
+        },
+        {
+          "time": "15:30",
+          "text": "The speedboat leaves Koh Haa for Koh Lanta, then the transfer to your hotel by car or by boat."
+        }
+      ]
+    },
+    {
+      "options": [
+        "sunset"
+      ],
+      "title": "How the day goes (later trip, back at sunset)",
+      "steps": [
+        {
+          "time": "10:00",
+          "text": "Pickup at your hotel by private car."
+        },
+        {
+          "time": "11:00",
+          "text": "The boat leaves Koh Lanta for Koh Rok, with snacks on the way."
+        },
+        {
+          "time": "12:00",
+          "text": "The first snorkelling stop at Koh Rok: coral reefs and tropical fish."
+        },
+        {
+          "time": "13:30",
+          "text": "Thai buffet lunch on the beach, then time to swim, sunbathe or snorkel from the shore."
+        },
+        {
+          "time": "15:30",
+          "text": "The second snorkelling stop."
+        },
+        {
+          "time": "16:30",
+          "text": "The Koh Haa lagoon."
+        },
+        {
+          "time": "17:50",
+          "text": "Sunset cruise back to Koh Lanta with soft drinks on board, then the transfer to your hotel."
+        }
+      ],
+      "note": "Times are approximate and change with the tide and the weather."
+    }
+  ],
+  "included": [
+    "Hotel transfer both ways",
+    "Thai buffet lunch on the beach, water and fruit",
+    "Light breakfast at the pier on the join-in speedboat",
+    "Masks, snorkels and life jackets",
+    "Guide, English-speaking on the join-in speedboat",
+    "Insurance",
+    "On the later trip: snacks on the way out, soft drinks on the sunset cruise"
+  ],
+  "notIncluded": [
+    "National park fee, paid in cash on the island"
+  ],
+  "beforeYouBook": {
+    "pickup": "Pickup at your hotel around 08:00, light breakfast at Lanta Old Town pier.",
+    "bring": [
+      "Cash for the national park fee"
+    ],
+    "weather": "Mid-October to mid-May. The national park closes Koh Rok and Koh Haa from 16 May for the monsoon."
+  },
+  "faq": [
+    {
+      "q": "When can you go to Koh Rok?",
+      "a": "From mid-October to mid-May. The national park closes Koh Rok and Koh Haa from 16 May for the monsoon."
+    },
+    {
+      "q": "How long is the boat ride to Koh Rok?",
+      "a": "About an hour and a half by longtail. The speedboat is faster."
+    },
+    {
+      "q": "Is the national park fee included?",
+      "a": "No. You pay 400 THB per adult and 200 THB per child from 4 to 11 in cash to the ranger on Koh Rok. Children under 4 do not pay."
+    },
+    {
+      "q": "Speedboat or longtail?",
+      "a": "The join-in trip is by speedboat and includes Koh Haa. The private longtail goes to Koh Rok only, at your own pace."
+    }
+  ],
+  "photos": [
+    {
+      "slot": "hero",
+      "status": "replace",
+      "file": "secret/koh-rok.webp",
+      "legacyAlt": "A longtail boat moored on a white sand beach under the trees",
+      "shot": "Koh Rok: the beach or the lagoon between Koh Rok Nok and Koh Rok Nai (current file shows a karst landscape that does not look like Koh Rok, saturated like a stock photo)."
+    },
+    {
+      "slot": "gallery",
+      "status": "replace",
+      "file": "secret/gallery/rok-lagoon.webp",
+      "alt": "Snorkelers in the turquoise lagoon of Koh Rok",
+      "shot": "Snorkellers in the Koh Rok lagoon (current file is a 575 px brochure scan with leftover text)."
+    },
+    {
+      "slot": "gallery",
+      "status": "missing",
+      "shot": "Koh Haa lagoon, last snorkelling stop."
+    },
+    {
+      "slot": "gallery",
+      "status": "missing",
+      "shot": "Monitor lizard or the beach lunch on Koh Rok."
+    }
+  ],
+  "related": [
+    "/tours/4-islands/",
+    "/tours/koh-phi-phi/",
+    "/tours/scuba-diving/"
+  ],
+  "schema": {
+    "type": "TouristTrip",
+    "legacyType": "TouristTrip",
+    "places": [
+      "Koh Rok Nok",
+      "Koh Rok Nai",
+      "Koh Haa"
+    ]
+  },
+  "legacyText": {
+    "title": "Koh Rok & Koh Haa Day Trip | Secret Travel & Tour",
+    "h1": "Koh Rok and Koh Haa",
+    "h1em": "snorkeling day trip",
+    "intro": [
+      "Koh Rok is two islands, Koh Rok Nok and Koh Rok Nai, about an hour and a half south of Koh Lanta by longtail and less by speedboat. Koh Haa, the Five Islands, has a turquoise lagoon for the last snorkeling stop on the way back.",
+      "The park is closed in the rainy season. Tours run from October to April."
+    ],
+    "cardDescription": "Snorkeling around the islands of the Mu Ko Lanta National Park.",
+    "cardInfo": [
+      "Speedboat from 2,000 THB per adult",
+      "Full day",
+      "October to April"
+    ],
+    "dayTitle": "How the day goes (speedboat, join-in)",
+    "goodToKnow": [
+      "Private longtail option: Koh Rok only, 8:00 to 16:00, about 1h30 each way, your group only.",
+      "Private speedboat option: your group only, 9:00 to 16:00.",
+      "A later version with a sunset stop also exists on some days. Ask us.",
+      "Children from 4 to 11 pay a child rate on the speedboat."
+    ],
+    "priceNote": "Prices in Thai baht. The national park fee is paid on the island and is not included.",
+    "parkFee": "400 THB per adult and 200 THB per child",
+    "caption": "Koh Rok",
+    "photoPosition": "45% 60%"
+  },
+  "sources": [
+    {
+      "field": "name, legacyText.cardDescription, legacyText.cardInfo, photos[hero]",
+      "from": "secret.json tours[id=koh-rok-koh-haa]"
+    },
+    {
+      "field": "seo, h1, lead, legacyText",
+      "from": "secretPagesContent.json pages.koh-rok-koh-haa.title, metaDescription, h1, h1em, lead, intro"
+    },
+    {
+      "field": "facts, price",
+      "from": "secretPagesContent.json pages.koh-rok-koh-haa (day, prices, goodToKnow, parkFee) et secret.json tours[id=koh-rok-koh-haa].info, reformulés en lignes de faits"
+    },
+    {
+      "field": "options",
+      "from": "secretPagesContent.json pages.koh-rok-koh-haa.prices, priceNote"
+    },
+    {
+      "field": "day",
+      "from": "secretPagesContent.json pages.koh-rok-koh-haa.dayTitle, day"
+    },
+    {
+      "field": "included, notIncluded",
+      "from": "secretPagesContent.json pages.koh-rok-koh-haa.included, notIncluded"
+    },
+    {
+      "field": "beforeYouBook",
+      "from": "secretPagesContent.json pages.koh-rok-koh-haa.goodToKnow, intro, parkFee"
+    },
+    {
+      "field": "faq",
+      "from": "secretPagesContent.json pages.koh-rok-koh-haa.faq"
+    },
+    {
+      "field": "seo.draft",
+      "from": "docs/refonte/02-audit-seo.md §6.2 (points de départ, prix à valider)"
+    },
+    {
+      "field": "photos[].status, photos[].shot",
+      "from": "docs/refonte/01-audit-design.md §4"
+    },
+    {
+      "field": "schema",
+      "from": "secretPagesContent.json pages.koh-rok-koh-haa.schemaType, places ; type cible : docs/refonte/02-audit-seo.md §6.3"
+    },
+    {
+      "field": "options[priceOnRequest]",
+      "from": "secretPagesContent.json pages.koh-rok-koh-haa (goodToKnow, priceNote) ; décision client du 02.11.2026 : « Price on WhatsApp »"
+    },
+    {
+      "field": "options[].notIncludedFees",
+      "from": "secretPagesContent.json pages.koh-rok-koh-haa.parkFee, priceNote, goodToKnow"
+    },
+    {
+      "field": "promise",
+      "from": "lead du produit, raccourci à 60 caractères pour la carte (03.11.2026)"
+    },
+    {
+      "field": "refPrefix",
+      "from": "code court de la référence WhatsApp (critique, idée 5), 03.11.2026"
+    },
+    {
+      "field": "facts[Speedboat pier], day[0].steps, included, beforeYouBook.pickup",
+      "from": "brochure publique des sorties en speedboat join-in (audit A § 1.3) p. 2, Rok + Ha : 10:00 et 11:00 aux deux premiers spots, 13:00 plage, 15:30 départ de Koh Ha (et non arrivée à Lanta ; « at your hotel by 16:30 » retiré), « All tour include » p. 3 (décision client du 08.11.2026) Départ du ponton de Lanta Old Town (décision de Jérémy du 10.11.2026, la brochure donne une adresse sur Koh Lanta Noi)."
+    },
+    {
+      "field": "options[join-in-speedboat].prices[Child under 4] ; options[private-*].note ; options[].notIncludedFees[].ages ; facts[National park fee] ; faq",
+      "from": "décision client du 08.11.2026 (second message) : moins de 4 ans gratuits en speedboat join-in ; frais de parc gratuits sous 4 ans, enfant de 4 à 11 ans, adulte dès 12 ans (montants inchangés) ; en privé les enfants comptent dès 4 ans"
+    },
+    {
+      "field": "facts[Season], lead, promise, beforeYouBook.weather, faq[0]",
+      "from": "données transmises le 08.11.2026 (troisième message du coordinateur, vérifiées en ligne ou fournies par le client) : fermeture annuelle de Koh Rok et Koh Haa à partir du 16 mai pour 5 mois (annonce DMCR, dmcr.go.th ; Bangkokbiznews) ; « October to April » sans source retiré"
+    },
+    {
+      "field": "options[].notIncludedFees",
+      "from": "données transmises le 08.11.2026 (troisième message du coordinateur, vérifiées en ligne ou fournies par le client) : 400 / 200 THB concordants (brochure des sorties en speedboat, parc Mu Ko Lanta) ; tarif thaï 40 / 20 sans source pour Koh Rok, retiré"
+    },
+    {
+      "field": "options[sunset], day[sunset], included[later trip]",
+      "from": "affiche publique « Rok Haa Island + Sunset » (audit A § 2.2) : 2 500 THB par personne, « Not including National park fee », programme de 10:00 à 17:50, en-cas à l'aller et boissons sur la croisière du retour ; aucun prix enfant sur l'affiche, rien d'inventé (décision client du 09.11.2026). Frais de parc : montants déjà sur la fiche (client, 08.11.2026)"
+    },
+    {
+      "field": "options[private-longtail].prices",
+      "from": "base partenaires : tranches 1 à 3, 4 à 6, 6 à 8 et 8 à 10 personnes (bornes qui se chevauchent sur la fiche du partenaire) ; le site garde 7 à 8 et 9 à 10 pour ne pas chevaucher (10.11.2026)"
+    },
+    {
+      "field": "options",
+      "from": "speedboat privé retiré du site, proposé seulement sur demande (décision de Jérémy du 10.11.2026)"
+    },
+    {
+      "field": "options[sunset].prices",
+      "from": "adulte 2 500 THB (affiche publique), enfant 4 à 11 ans 1 800 THB (contrat du partenaire, page 2, colonne prix de vente) (décision de Jérémy du 10.11.2026)"
+    },
+    {
+      "field": "options, day, facts, lead, faq",
+      "from": "catamaran au départ d'Ao Nang retiré du site (décision de Jérémy du 11.11.2026)"
+    }
+  ],
+  "refPrefix": "ROK"
+}

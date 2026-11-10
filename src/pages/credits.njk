@@ -1,0 +1,32 @@
+---
+permalink: /credits/
+---
+{#- Crédits des photos sous licence (CC BY, CC BY-SA, Unsplash), tirés de src/_data/photos-v3.json. -#}
+{% import "components/v4.njk" as v4 %}
+{%- set d = v4data -%}
+{%- set seo = { title: "Photo credits | Secret Travel & Tour", metaDescription: "Credits and licences for the photos used on the Secret Travel & Tour website." } -%}
+{%- set pageUrl = "/credits/" -%}
+<!DOCTYPE html>
+<html lang="en-GB" data-refonte data-page="credits">
+<head>
+{%- set noindex = true %}
+{% include "v4-head.njk" %}
+</head>
+<body>
+{{ v4.header(d.contact, d.emblem) }}
+<main id="main" class="sec">
+  <div class="wrap credits">
+    <h1>Photo credits</h1>
+    <p class="lead">Some photos on this site are temporary and come from other photographers, under the licences below.</p>
+    <dl>
+      {%- for p in d.credits %}
+      <div><dt>{{ p.usage }}</dt><dd>{{ p.author }}, {{ p.source }}, {{ p.licence }}. <a class="link" href="{{ p.url }}">Source</a></dd></div>
+      {%- endfor %}
+    </dl>
+  </div>
+</main>
+{{ v4.footer(site, d.contact, d.emblem, d.boats, d.activities) }}
+{{ v4.tripsRoot() }}
+{{ v4.scripts(build) }}
+</body>
+</html>

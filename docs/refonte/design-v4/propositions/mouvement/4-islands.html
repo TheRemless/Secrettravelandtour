@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>4 Islands Tour from Koh Lanta | Secret Travel &amp; Tour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Manrope:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="mouvement.css">
+<!-- La page n'est peinte qu'une fois les sections rendues : la transition entre pages capture le vrai hero -->
+<link rel="expect" href="#ready" blocking="render">
+<style>
+.crumbs { padding-top: 20px; font-size: 14px; color: var(--ink-mute); }
+.crumbs ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 10px; }
+.crumbs li + li::before { content: "/"; margin-right: 10px; color: var(--line); }
+.crumbs li { padding: 10px 0; }
+.crumbs a { text-decoration: none; display: inline-block; padding: 10px 0; margin-block: -10px; }
+.crumbs a:hover { text-decoration: underline; }
+
+/* Hero produit : la photo reçoit celle de la carte cliquée (transition entre pages) */
+.phero { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 56px; align-items: center; padding-block: 16px 72px; }
+.phero h1 { max-width: 13ch; }
+.phero .lead { margin-top: 20px; }
+.keyf { margin: 26px 0 0; display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 4px 32px; }
+.keyf dt { font-size: 14px; color: var(--ink-mute); }
+.keyf dd { margin: 0; font-weight: 600; font-size: 16px; }
+.keyf div { display: grid; }
+.phero .price { margin-top: 26px; }
+.phero .price b { font-size: 40px; }
+.phero__go { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; }
+.phero__ph { margin-right: calc(-1 * max(var(--gut), (100vw - var(--max)) / 2)); }
+.phero__ph .ph { aspect-ratio: 4 / 3; border-radius: var(--r) 0 0 var(--r); view-transition-name: trip-photo; }
+@media (max-width: 899px) {
+  .phero { grid-template-columns: minmax(0, 1fr); gap: 24px; padding-bottom: 48px; }
+  .phero__ph { margin-inline: calc(-1 * var(--gut)); order: -1; }
+  .phero__ph .ph { border-radius: 0; aspect-ratio: 3 / 2; }
+  .keyf { grid-template-columns: 1fr 1fr; }
+  .phero .price b { font-size: 32px; }
+}
+
+/* Galerie : chaque vignette ouvre la visionneuse en grandissant depuis sa place */
+.gal { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 12px; aspect-ratio: 2.4 / 1; }
+.gal button { width: 100%; height: 100%; padding: 0; border: 0; background: none; border-radius: var(--r); overflow: hidden; cursor: zoom-in; position: relative; }
+.gal button .ph { height: 100%; border-radius: var(--r); }
+.gal button:first-child { grid-row: span 2; }
+.gal button:last-child { grid-column: span 2; }
+.gal button .ph img { transition: transform 600ms var(--out), opacity 320ms var(--out); }
+@media (hover: hover) { .gal button:hover .ph img { transform: scale(1.03); } }
+.gal__hint { margin-top: 12px; font-size: 14px; color: var(--ink-mute); }
+@media (max-width: 699px) {
+  .gal { display: grid; grid-template: none / none; grid-auto-flow: column; grid-auto-columns: 78%; aspect-ratio: auto; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: calc(-1 * var(--gut)); padding-inline: var(--gut); scroll-padding-inline: var(--gut); scrollbar-width: none; }
+  .gal button, .gal button:first-child, .gal button:last-child { grid-row: auto; grid-column: auto; aspect-ratio: 4 / 3; scroll-snap-align: start; }
+}
+
+/* Longtail ou speedboat : le parcours se réorganise, le prix roule */
+.boat { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: 56px; align-items: start; }
+.boat__intro { margin-top: 14px; color: var(--ink-soft); max-width: 58ch; }
+.boat .seg { margin-top: 28px; max-width: 100%; }
+.route { list-style: none; margin: 40px 0 0; padding: 0; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); position: relative; }
+.route::before { content: ""; position: absolute; left: 9px; right: 9px; top: 9px; height: 2px; background: repeating-linear-gradient(90deg, var(--sea) 0 6px, transparent 6px 11px); }
+.route li { position: relative; padding-top: 30px; padding-right: 8px; view-transition-class: isl; }
+.route li::before { content: ""; position: absolute; top: 0; left: 0; width: 20px; height: 20px; border-radius: 50%; background: var(--white); border: 2px solid var(--sea); }
+.route li.is-end::before { background: var(--sea); }
+.route b { display: block; font: 600 22px/1.1 var(--serif); }
+.route small { display: block; font-size: 14px; color: var(--ink-mute); margin-top: 4px; }
+.route .lunch { display: inline-block; margin-top: 8px; font: 600 13px/1 var(--sans); color: var(--white); background: var(--sea); padding: 6px 8px; border-radius: 6px; }
+/* Noms de transition posés seulement pendant un changement de bateau, pour ne rien animer à l'arrivée sur la page */
+.route.is-morph .lunch { view-transition-name: lunch; }
+.route .is-new b { color: var(--sea); }
+::view-transition-group(.isl) { animation-duration: 420ms; animation-timing-function: var(--spring); }
+::view-transition-group(lunch) { animation-duration: 520ms; animation-timing-function: var(--spring); }
+::view-transition-new(.isl):only-child { animation: 320ms var(--out) 120ms both isl-in; }
+::view-transition-old(.isl):only-child { animation: 200ms var(--in) both isl-out; }
+@keyframes isl-in { from { opacity: 0; transform: translateY(10px); } }
+@keyframes isl-out { to { opacity: 0; transform: translateY(-10px); } }
+.boat__note { margin-top: 28px; color: var(--ink-mute); font-size: 16px; max-width: 58ch; min-height: 3.2em; }
+.boat__ph { margin-top: 28px; position: relative; aspect-ratio: 16 / 9; max-width: 560px; }
+.boat__ph > * { position: absolute; inset: 0; transition: opacity 360ms var(--out); }
+.boat__ph .ph { height: 100%; }
+.boat__ph .miss { display: grid; place-items: center; text-align: center; padding: 24px; border: 1px dashed var(--field); border-radius: var(--r); background: var(--white); }
+.boat__ph [data-off] { opacity: 0; pointer-events: none; }
+.kr-page { display: flex; gap: 10px; align-items: center; min-height: 44px; margin-top: 16px; font-size: 16px; }
+.kr-page input { width: 20px; height: 20px; accent-color: var(--sea); }
+@media (max-width: 899px) {
+  .boat { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+  .boat .seg { display: grid; grid-auto-flow: row; width: 100%; }
+  .route { grid-auto-flow: row; grid-auto-columns: auto; gap: 0; margin-top: 32px; }
+  .route::before { left: 9px; right: auto; top: 10px; bottom: 10px; width: 2px; height: auto; background: repeating-linear-gradient(180deg, var(--sea) 0 6px, transparent 6px 11px); }
+  .route li { padding: 0 0 22px 36px; }
+  .route li .lunch { margin-top: 6px; }
+}
+@media (max-width: 899px) { .seg__thumb { display: none; } .boat .seg button[aria-pressed="true"] { background: var(--white); box-shadow: 0 1px 2px rgb(20 38 43 / .12); } }
+
+/* Calculateur : collant sur bureau, à côté du parcours */
+.calc { position: sticky; top: calc(var(--hd) + 24px); background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 24px; transition: top var(--t3) var(--out); }
+.hd-off .calc { top: 24px; }
+.calc h3 { font-size: 26px; }
+.calc__opt { margin-top: 4px; font-size: 15px; color: var(--ink-mute); }
+.calc .gs { margin-top: 20px; display: grid; gap: 14px; }
+.calc__total { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); }
+.calc__total b { font: 600 40px/1.1 var(--serif); display: block; }
+.calc__lines { list-style: none; margin: 8px 0 0; padding: 0; font-size: 14px; color: var(--ink-mute); }
+.calc__lines li { display: flex; justify-content: space-between; gap: 12px; padding: 2px 0; }
+.calc__park { margin-top: 14px; font-size: 14px; color: var(--ink-mute); }
+.calc .btn { width: 100%; margin-top: 20px; }
+@media (max-width: 899px) { .calc { position: static; } }
+
+/* La journée : la ligne se remplit avec le scroll, le bateau reste au milieu de l'écran */
+.day { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 56px; }
+.day__side p { margin-top: 14px; color: var(--ink-mute); }
+.tl { list-style: none; margin: 0; padding: 0 0 0 44px; position: relative; }
+.tl__rail { position: absolute; left: 11px; top: 14px; bottom: 14px; width: 2px; background: var(--line); }
+.tl__fill { position: absolute; inset: 0; background: var(--sea); transform-origin: top; transform: scaleY(1); }
+.tl__lane { position: absolute; left: 0; top: 0; bottom: 0; width: 24px; pointer-events: none; }
+.tl__boat { position: sticky; top: 50vh; display: block; width: 24px; height: 24px; margin-top: 2px; border-radius: 50%; background: var(--deep); box-shadow: 0 0 0 4px var(--sand); }
+.tl__boat svg { width: 14px; height: 14px; margin: 5px; color: #fff; }
+.tl li { position: relative; padding: 0 0 34px; display: grid; grid-template-columns: 112px 1fr; gap: 4px 16px; }
+.tl li::before { content: ""; position: absolute; left: -38px; top: 8px; width: 12px; height: 12px; border-radius: 50%; background: var(--sand); border: 2px solid var(--sea); }
+.tl time { font-size: 16px; color: var(--ink-mute); font-variant-numeric: tabular-nums; padding-top: 2px; }
+.tl time.fixed { color: var(--ink); font-weight: 700; }
+.tl b { font: 600 24px/1.15 var(--serif); }
+.tl p { grid-column: 2; color: var(--ink-mute); font-size: 16px; }
+.tl__note { margin-top: 4px; font-size: 14px; color: var(--ink-mute); }
+@supports (animation-timeline: view()) {
+  .tl { view-timeline: --tl block; }
+  .tl__fill { animation: fill linear both; animation-timeline: --tl; animation-range: cover 50vh cover calc(100% - 50vh); }
+  .tl li { view-timeline: --step block; }
+  .tl li::before { animation: on steps(1, end) both; animation-timeline: --step; animation-range: cover calc(50vh - 4px) cover calc(50vh + 4px); }
+}
+@keyframes fill { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes on { to { background: var(--sea); } }
+@media (prefers-reduced-motion: reduce) { .tl__lane { display: none; } .tl__fill { animation: none !important; } }
+@media (max-width: 899px) { .day { grid-template-columns: minmax(0, 1fr); gap: 28px; } .tl li { grid-template-columns: 1fr; } .tl p { grid-column: 1; } }
+
+/* Inclus / pas inclus */
+.inc { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+.rules { list-style: none; margin: 18px 0 0; padding: 0; }
+.rules li { padding: 14px 0; border-top: 1px solid var(--line); transition: background-color 600ms var(--out), box-shadow 600ms var(--out), color 600ms var(--out); }
+.rules li:last-child { border-bottom: 1px solid var(--line); }
+.rules li.is-lit { background: #E6F1EE; box-shadow: -12px 0 0 #E6F1EE, 12px 0 0 #E6F1EE; }
+.rules li.is-dim { color: var(--ink-mute); }
+@media (max-width: 760px) { .inc { grid-template-columns: minmax(0, 1fr); gap: 32px; } }
+
+/* Avant de réserver et questions : les réponses s'ouvrent en douceur (interpolate-size) */
+.byb { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 56px; }
+.byb dl { margin: 0; }
+.byb dl div { padding: 16px 0; border-top: 1px solid var(--line); }
+.byb dt { font: 600 22px/1.2 var(--serif); }
+.byb dd { margin: 4px 0 0; color: var(--ink-mute); }
+.faq { margin-top: 56px; }
+.faq details { border-top: 1px solid var(--line); }
+.faq details:last-child { border-bottom: 1px solid var(--line); }
+.faq summary { list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 64px; padding: 14px 0; cursor: pointer; font: 600 23px/1.2 var(--serif); }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: ""; flex: none; width: 12px; height: 12px; border-right: 2px solid var(--ink); border-bottom: 2px solid var(--ink); transform: translateY(-3px) rotate(45deg); transition: transform var(--t3) var(--spring); }
+.faq details[open] summary::after { transform: translateY(3px) rotate(-135deg); }
+.faq details p { padding: 0 0 20px; color: var(--ink-mute); max-width: 62ch; }
+@media (max-width: 899px) { .byb { grid-template-columns: minmax(0, 1fr); gap: 24px; } }
+.also { margin-top: 28px; font-size: 16px; color: var(--ink-mute); }
+</style>
+</head>
+<body>
+<div id="top"></div>
+<main id="main">
+  <nav class="wrap crumbs" aria-label="Breadcrumb"><ol><li><a href="home.html">Home</a></li><li><a href="tours.html?type=boat">Boat trips</a></li><li aria-current="page">4 Islands</li></ol></nav>
+
+  <section class="wrap phero">
+    <div>
+      <h1 id="h1"></h1>
+      <p class="lead" id="lead"></p>
+      <dl class="keyf" id="keyf"></dl>
+      <div id="hprice"></div>
+      <div class="phero__go">
+        <button class="btn btn--lg press" type="button" id="cta" data-book>Choose a date</button>
+        <a class="link" id="ask" target="_blank" rel="noopener">Ask a question on WhatsApp</a>
+      </div>
+    </div>
+    <div class="phero__ph" id="hero-ph"></div>
+  </section>
+
+  <section class="wrap" aria-label="Photos">
+    <div class="gal" id="gal"></div>
+    <p class="gal__hint">Tap a photo to open it. Swipe to the next one, pinch or double-tap to zoom, pull down to close.</p>
+  </section>
+
+  <section class="sec sec--sand" id="boat" aria-labelledby="boat-h">
+    <div class="wrap boat">
+      <div>
+        <h2 id="boat-h">Longtail or speedboat?</h2>
+        <p class="boat__intro" id="boat-intro"></p>
+        <div class="seg" id="opt-seg" role="group" aria-label="Choose the boat"></div>
+        <ol class="route" id="route" aria-label="Islands on the way, in order"></ol>
+        <label class="kr-page" id="kr-page" hidden><input type="checkbox"> <span></span></label>
+        <p class="boat__note" id="boat-note" aria-live="polite"></p>
+        <div class="boat__ph" id="boat-ph"></div>
+      </div>
+      <aside class="calc" aria-labelledby="calc-h">
+        <h3 id="calc-h">Your price</h3>
+        <p class="calc__opt" id="calc-opt"></p>
+        <div class="gs" id="calc-gs"></div>
+        <div class="calc__total" aria-live="polite">
+          <small class="mute" id="calc-lbl">Estimated total</small>
+          <b id="calc-b"><span class="odo" id="calc-odo"></span> THB</b>
+          <ul class="calc__lines" id="calc-lines"></ul>
+          <p class="calc__park" id="calc-park"></p>
+          <p class="calc__park" id="calc-miss" hidden></p>
+        </div>
+        <button class="btn btn--lg press" type="button" data-book>Choose a date</button>
+      </aside>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="day-h">
+    <div class="wrap day">
+      <div class="day__side"><h2 id="day-h"></h2><p id="day-note"></p><p id="day-todo" hidden></p></div>
+      <div>
+        <ol class="tl" id="tl"></ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec--sand" aria-label="What is included">
+    <div class="wrap inc">
+      <div><h2>Included</h2><ul class="rules" id="inc"></ul></div>
+      <div><h2>Not included</h2><ul class="rules" id="ninc"></ul></div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="byb-h">
+    <div class="wrap">
+      <div class="byb"><h2 id="byb-h">Before you book</h2><dl id="byb"></dl></div>
+      <div class="byb faq"><h2>Questions</h2><div id="faq"></div></div>
+    </div>
+  </section>
+
+  <section class="sec sec--sand" aria-labelledby="rel-h">
+    <div class="wrap">
+      <div class="sec__head"><h2 id="rel-h">More boat trips</h2><a class="link" href="tours.html?type=boat">Compare all boat trips</a></div>
+      <div class="grid" id="rel"></div>
+      <p class="also" id="also"></p>
+    </div>
+  </section>
+</main>
+<div id="foot"></div>
+<div class="dock" id="dock" aria-hidden="true"><p class="price" id="dock-p"></p><button class="btn press" type="button" data-book tabindex="-1">Choose a date</button></div>
+
+<script src="data.js"></script>
+<script src="mouvement.js"></script>
+<script src="reserve.js"></script>
+<script>
+(function () {
+  var S = STT, $ = M.$, $$ = M.$$;
+  var p = M.product("4-islands");
+  M.boot("boat");
+  var store = R.state(p);
+  R.mount(p, store);
+  document.addEventListener("click", function (e) { if (e.target.closest("[data-book]")) R.open(); });
+
+  // ----- hero -----
+  $("#h1").textContent = p.h1;
+  $("#lead").textContent = p.lead;
+  $("#keyf").innerHTML = ["Duration", "Hotel pickup", "Boat leaves"].map(function (l) { return "<div><dt>" + l + "</dt><dd>" + M.esc(M.fact(p, l)) + "</dd></div>"; }).join("");
+  $("#hprice").innerHTML = M.priceHTML(p);
+  $("#hero-ph").innerHTML = M.img("four-hero", { eager: true, cls: "" });
+  $("#ask").href = M.wa("Hello, I have a question about the " + p.name + " trip: ");
+
+  // ----- galerie -----
+  var gal = ["four-gallery-reef", "four-gallery-ngai", "four-gallery-kradan", "four-gallery-pier"];
+  $("#gal").innerHTML = gal.map(function (id, i) { return '<button type="button" class="press" aria-label="Open photo ' + (i + 1) + " of " + gal.length + ": " + M.esc(S.photos[id].alt) + '">' + M.img(id, { cls: "" }) + "</button>"; }).join("");
+  var thumbs = $$("#gal button");
+  var lb = M.lightbox(gal, thumbs);
+  thumbs.forEach(function (b, i) { b.addEventListener("click", function () { lb.open(i); }); });
+
+  // ----- longtail ou speedboat -----
+  $("#boat-intro").textContent = p.faq[0].a;
+  var seg = $("#opt-seg");
+  seg.innerHTML = p.options.map(function (o) { return '<button type="button" value="' + o.id + '" aria-pressed="false">' + M.esc(o.label) + "</button>"; }).join("");
+  var segCtl = M.seg(seg, function (v) { store.set({ option: v, kradan: false }, "seg"); });
+  var stops = {
+    longtail: M.fact(p, "Islands, longtail").split(", "),
+    speedboat: M.fact(p, "Islands, speedboat").split(", ")
+  };
+  var lunchFact = M.fact(p, "Lunch");
+  var lunch = {
+    longtail: (lunchFact.match(/(Koh \w+) by longtail/) || [])[1],
+    speedboat: (lunchFact.match(/(Koh \w+) by speedboat/) || [])[1]
+  };
+  var kr = p.options.map(function (o) { return o.prices.filter(function (r) { return r.supplement && /Koh Kradan/.test(r.label); })[0]; }).filter(Boolean)[0];
+  var krBox = $("#kr-page");
+  $("span", krBox).textContent = "Add Koh Kradan to the private longtail, " + M.thb(kr.amount) + " " + kr.unit;
+  $("input", krBox).addEventListener("change", function (e) { store.set({ kradan: e.target.checked }, "page"); });
+  var slug = function (s) { return "isl-" + s.toLowerCase().replace(/[^a-z]+/g, "-").replace(/-$/, ""); };
+  function routeHTML(opt, st) {
+    var list = stops[opt.boat].slice();
+    if (opt.kind === "private" && st.kradan) list.splice(list.length - 1, 0, "Koh Kradan");
+    var nodes = ["Koh Lanta"].concat(list, ["Koh Lanta"]);
+    return nodes.map(function (raw, i) {
+      var m = raw.match(/^(.*?) \((.*)\)$/), name = m ? m[1] : raw, tag = m ? m[2] : "";
+      var id = i === 0 ? "isl-start" : i === nodes.length - 1 ? "isl-end" : slug(name);
+      var detail = i === 0 ? (opt.boat === "longtail" && opt.pier || "") : i === nodes.length - 1 ? "Back to your hotel" : tag;
+      return '<li data-vt="' + id + '"' + (i === 0 || i === nodes.length - 1 ? ' class="is-end"' : "") + "><b>" + M.esc(name) + "</b>" +
+        (detail ? "<small>" + M.esc(detail) + "</small>" : "") + (name === lunch[opt.boat] ? '<span class="lunch">Lunch</span>' : "") + "</li>";
+    }).join("");
+  }
+  // Pied de photo : vraie photo du longtail, et un emplacement marqué pour le speedboat qui n'en a pas.
+  $("#boat-ph").innerHTML = '<div data-b="longtail">' + M.img("four-longtail", { cls: "" }) + '</div><div class="miss" data-b="speedboat"><span class="todo">[DONNÉE À FOURNIR : photo du speedboat join-in à son ponton]</span></div>';
+
+  // ----- calculateur -----
+  R.guests($("#calc-gs"), store, R.adultFrom(p), "calc-");
+
+  // ----- la journée -----
+  var day = p.day[0];
+  $("#day-h").textContent = "How the day goes";
+  $("#day-note").textContent = day.title.replace("The day, ", "Times for the ") + ". " + day.note;
+  $("#tl").innerHTML = '<span class="tl__rail" aria-hidden="true"><span class="tl__fill"></span></span><span class="tl__lane" aria-hidden="true"><span class="tl__boat"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 15h18l-2.5 4.5H5.5L3 15Zm8-11v9H5l6-9Zm2 2 5 7h-5V6Z"/></svg></span></span>' +
+    day.steps.map(function (s) {
+      var t = s.range || s.time;
+      return "<li><time class=\"" + (s.fixed ? "fixed" : "") + "\">" + (s.fixed ? "" : "≈ ") + t + "</time><b>" + M.esc(s.place) + "</b><p>" + M.esc(s.text) + "</p></li>";
+    }).join("");
+
+  // ----- inclus -----
+  $("#inc").innerHTML = p.included.map(function (x) { return "<li" + (/^On a private boat/.test(x) ? ' data-private' : "") + ">" + M.esc(x) + "</li>"; }).join("");
+  $("#ninc").innerHTML = p.notIncluded.map(function (x) { return "<li>" + M.esc(x) + "</li>"; }).join("") +
+    (function () {
+      var f = p.options[0].fees, amt = function (l) { return (f.filter(function (x) { return x.label === l; })[0] || {}).amount; };
+      return "<li>" + M.thb(amt("National park fee, adult")) + " per adult, " + M.thb(amt("National park fee, child")) + " per child, " +
+        amt("National park fee, Thai national adult") + " and " + M.thb(amt("National park fee, Thai national child")) + " for Thai nationals. " + M.esc(f[0].note) + ".</li>";
+    })();
+
+  // ----- avant de réserver -----
+  var b = p.beforeYouBook;
+  var how = { "cash": "in cash", "bank transfer": "by bank transfer" };
+  $("#byb").innerHTML = [["Pickup", b.pickup], ["Bring", b.bring.join(", ")], ["Payment", "Pay " + S.site.booking.payment.map(function (x) { return how[x] || x; }).join(" or ") + ". Nothing is paid online."], ["Weather", S.site.booking.weather]]
+    .map(function (r) { return "<div><dt>" + r[0] + "</dt><dd>" + M.esc(r[1]) + "</dd></div>"; }).join("");
+  $("#faq").innerHTML = p.faq.map(function (f) { return "<details><summary>" + M.esc(f.q) + "</summary><p>" + M.esc(f.a) + "</p></details>"; }).join("");
+
+  // ----- autres sorties -----
+  var rel = p.related.filter(function (u) { return /^\/tours\//.test(u); }).map(function (u) { return M.product(u.split("/")[2]); }).filter(Boolean);
+  $("#rel").innerHTML = rel.map(function (r) { return M.card(r); }).join("");
+  var taxiRel = p.related.filter(function (u) { return /^\/taxi\//.test(u); }).map(function (u) { return S.taxi.filter(function (t) { return t.url === u; })[0]; })[0];
+  if (taxiRel) $("#also").innerHTML = "Arriving at " + M.esc(taxiRel.from) + "? " + '<a class="link" href="' + taxiRel.url + '">See the ' + M.esc(taxiRel.name) + " transfer</a>";
+
+  // ----- tout ce qui suit l'état partagé -----
+  var lastRoute = "";
+  store.on(function (st, from) {
+    var opt = store.opt();
+    segCtl.select(opt.id, true);
+    var html = routeHTML(opt, st);
+    if (html !== lastRoute) {
+      var first = !lastRoute; lastRoute = html;
+      var route = $("#route");
+      var name = function (on) { route.classList.toggle("is-morph", on); $$("li", route).forEach(function (li) { li.style.viewTransitionName = on ? li.dataset.vt : ""; }); };
+      if (first) route.innerHTML = html;
+      else { name(true); M.vt(function () { route.innerHTML = html; name(true); }).then(function () { name(false); }); }
+    }
+    var priv = opt.kind === "private";
+    krBox.hidden = !priv; $("input", krBox).checked = !!st.kradan;
+    $("#boat-note").textContent = opt.note || (opt.stub ? opt.stub + "." : "");
+    $$("#boat-ph [data-b]").forEach(function (el) { if (el.dataset.b === opt.boat) el.removeAttribute("data-off"); else el.setAttribute("data-off", ""); });
+    $("#day-todo").hidden = opt.boat === "longtail";
+    $("#day-todo").innerHTML = '<span class="todo">[DONNÉE À FOURNIR : horaires du speedboat, la journée affichée est celle du longtail]</span>';
+    $$("#inc [data-private]").forEach(function (li) { li.classList.toggle("is-lit", priv); li.classList.toggle("is-dim", !priv); });
+
+    var ages = st.ages.filter(function (a) { return a !== ""; });
+    var est = M.estimate(opt, st.adults, ages, st.kradan && kr ? [kr.label] : []);
+    $("#calc-opt").textContent = opt.label + (st.kradan ? ", with Koh Kradan" : "");
+    if (est) { M.odo($("#calc-odo"), est.total); $("#calc-b").hidden = false; $("#calc-lbl").textContent = est.per ? "Estimated total, the whole boat" : "Estimated total"; }
+    $("#calc-lines").innerHTML = est ? est.lines.map(function (l) { return "<li><span>" + M.esc(l[0]) + "</span><span>" + l[1] + "</span></li>"; }).join("") : "";
+    var miss = $("#calc-miss");
+    miss.hidden = !(est && est.missing.length);
+    if (est && est.missing.length) miss.innerHTML = '<span class="todo">[DONNÉE À FOURNIR : ' + M.esc(est.missing.join(" ; ")) + "]</span>";
+    var park = M.parkCash(opt, st.adults, st.ages.length);
+    $("#calc-park").textContent = park ? "Plus the national park fee, in cash on the island: " + park.text + "." : "";
+    $("#dock-p").innerHTML = est && from !== "init" ? "<span>" + M.esc(M.guests(st.adults, ages)) + "</span><b>" + M.thb(est.total) + "</b>" : M.priceHTML(p).replace(/^<p class="price">|<\/p>$/g, "");
+  });
+
+  // ----- bande collante : visible quand le bouton du hero est sorti de l'écran et avant le pied de page -----
+  var dock = $("#dock"), heroOut = false, footIn = false;
+  function dockState() {
+    var on = heroOut && !footIn;
+    dock.classList.toggle("is-on", on); dock.setAttribute("aria-hidden", !on);
+    $("button", dock).tabIndex = on ? 0 : -1;
+  }
+  new IntersectionObserver(function (e) { heroOut = !e[0].isIntersecting && e[0].boundingClientRect.top < 0; dockState(); }).observe($("#cta"));
+  new IntersectionObserver(function (e) { footIn = e[0].isIntersecting; dockState(); }).observe($("#foot"));
+  new IntersectionObserver(function (e) { if (e[0].isIntersecting) { dock.classList.remove("is-on"); } else dockState(); }, { threshold: 0.3 }).observe($(".calc"));
+
+  M.bindImgs(document);
+})();
+</script>
+<div id="ready" hidden></div>
+</body>
+</html>

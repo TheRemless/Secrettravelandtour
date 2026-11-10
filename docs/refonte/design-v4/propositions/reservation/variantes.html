@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Variantes, proposition reservation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+<style>
+.vbar { background: #222; color: #eee; font: 600 14px/1.4 var(--sans); padding: 10px var(--gut); margin-top: 0; }
+.vbar small { display: block; font-weight: 400; color: #bbb; }
+.var { padding-block: 56px 72px; border-bottom: 6px solid #222; }
+.toc { padding-block: 32px; }
+.toc ol { columns: 2; gap: 32px; font-size: 15px; }
+.toc li { padding: 4px 0; }
+@media (max-width: 760px) { .toc ol { columns: 1; } }
+
+/* Hero B : trouveur */
+.finder { display: grid; grid-template-columns: 1fr 1.2fr; gap: 48px; align-items: start; }
+.finder fieldset { border: 0; padding: 0; margin: 0 0 18px; }
+.finder legend { font: 600 22px/1.2 var(--serif); margin-bottom: 10px; }
+.finder .res { display: grid; gap: 14px; }
+.fr { display: grid; grid-template-columns: 120px 1fr; gap: 16px; border-top: 1px solid var(--line); padding-top: 14px; }
+.fr .th { aspect-ratio: 4/3; border-radius: 10px; overflow: hidden; }
+.fr .th img { width: 100%; height: 100%; object-fit: cover; }
+.fr h3 { font-size: 22px; }
+@media (max-width: 860px) { .finder { grid-template-columns: 1fr; } }
+
+/* Étapes réelles */
+.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; counter-reset: s; }
+.steps li { border-top: 2px solid var(--ink); padding-top: 14px; counter-increment: s; }
+.steps li::before { content: counter(s); font: 600 40px/1 var(--serif); color: var(--sea); display: block; margin-bottom: 8px; }
+.steps h3 { margin-bottom: 6px; }
+.steps p { color: var(--ink-soft); font-size: 16px; }
+@media (max-width: 760px) { .steps { grid-template-columns: 1fr; } }
+
+/* Onglets */
+.tabs [role="tablist"] { display: flex; gap: 6px; flex-wrap: wrap; border-bottom: 1px solid var(--line); margin-bottom: 20px; }
+.tabs [role="tab"] { border: 0; background: none; min-height: 48px; padding: 8px 14px; font: 600 15px/1 var(--sans); color: var(--ink-mute); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.tabs [role="tab"][aria-selected="true"] { color: var(--ink); border-bottom-color: var(--sea); }
+.tabs [role="tabpanel"] { max-width: 62ch; font-size: 17px; color: var(--ink-soft); }
+
+/* Assistant en feuille */
+.wiz-step[hidden] { display: none; }
+.wiz-step { display: grid; gap: 14px; }
+.wiz-prog { font-size: 14px; color: var(--ink-mute); }
+.wiz-bar { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.wiz-bar span { display: block; height: 100%; background: var(--sea); transition: width .2s; }
+
+/* Phrase à compléter */
+.sentence { font: 600 34px/1.7 var(--serif); max-width: 30ch; }
+.sentence select, .sentence input { font: 600 26px/1.2 var(--serif); border: 0; border-bottom: 2px solid var(--sea); background: var(--sea-tint); padding: 2px 8px; border-radius: 6px 6px 0 0; color: var(--ink); min-height: 44px; max-width: 100%; }
+.sentence .tot { display: block; margin-top: 16px; font-size: 22px; color: var(--ink-soft); }
+@media (max-width: 640px) { .sentence { font-size: 26px; } .sentence select, .sentence input { font-size: 21px; } }
+
+/* Comparateur B */
+.c3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.c3 > div { border: 1px solid var(--line); border-radius: var(--r); padding: 20px; display: grid; gap: 10px; align-content: start; }
+.c3 > div.best { border: 2px solid var(--sea); padding: 19px; }
+.c3 .gt { font: 600 34px/1 var(--serif); }
+.c3 ul { margin: 0; padding: 0; list-style: none; font-size: 15px; color: var(--ink-soft); }
+.c3 li { border-top: 1px solid var(--line); padding: 8px 0; }
+@media (max-width: 860px) { .c3 { grid-template-columns: 1fr; } }
+
+/* Barre mobile B */
+.phone-frame { width: 100%; border: 1px solid var(--line); border-radius: 24px; overflow: hidden; position: relative; height: 300px; background: var(--sand); }
+.phone-frame .fake { padding: 20px; font-size: 15px; color: var(--ink-mute); }
+.phone-frame .mb { position: absolute; left: 0; right: 0; bottom: 0; background: #fff; border-top: 1px solid var(--line); padding: 10px 14px; display: grid; gap: 8px; }
+.phone-frame .mb .r1 { display: flex; justify-content: space-between; align-items: baseline; }
+.phone-frame .mb .r2 { display: grid; grid-template-columns: 1fr 1.4fr; gap: 8px; }
+.frames { display: flex; gap: 24px; flex-wrap: wrap; }
+.frames > div { flex: 1 1 300px; max-width: 390px; min-width: 0; }
+
+/* Hero produit B */
+.ph-b { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+.ph-b .pic { aspect-ratio: 4/3; border-radius: var(--r); overflow: hidden; }
+.ph-b .pic img { width: 100%; height: 100%; object-fit: cover; }
+.ph-b .pline { display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: center; margin-top: 24px; }
+.ph-b .pline .amt { font: 600 40px/1 var(--serif); }
+@media (max-width: 860px) { .ph-b { grid-template-columns: 1fr; } }
+
+/* Hub B : colonne latérale et lignes */
+.side { display: grid; grid-template-columns: 260px 1fr; gap: 40px; align-items: start; }
+.side aside { position: sticky; top: 90px; display: grid; gap: 18px; }
+.side fieldset { border: 0; padding: 0; margin: 0; }
+.side legend { font: 600 15px/1.3 var(--sans); margin-bottom: 4px; }
+.rowlist { list-style: none; margin: 0; padding: 0; }
+.rowlist li { display: grid; grid-template-columns: 180px 1fr auto; gap: 20px; padding: 16px 0; border-top: 1px solid var(--line); align-items: center; }
+.rowlist .th { aspect-ratio: 4/3; border-radius: 10px; overflow: hidden; }
+.rowlist .th img { width: 100%; height: 100%; object-fit: cover; }
+.rowlist .pr { text-align: right; }
+.rowlist .pr b { font: 600 24px/1 var(--serif); display: block; }
+@media (max-width: 860px) { .side { grid-template-columns: 1fr; } .side aside { position: static; } .rowlist li { grid-template-columns: 110px 1fr; } .rowlist .pr { grid-column: 2; text-align: left; } }
+
+/* Calendrier des saisons */
+.season-wrap { overflow-x: auto; }
+table.season { border-collapse: collapse; font-size: 14px; min-width: 760px; width: 100%; }
+.season th, .season td { border-top: 1px solid var(--line); padding: 8px 4px; text-align: center; }
+.season tbody th { text-align: left; font: 600 16px/1.2 var(--serif); padding-right: 12px; white-space: nowrap; }
+.season td.on { background: var(--sea-tint); color: var(--deep); font-weight: 700; }
+.season td.off { color: var(--ink-mute); }
+.season td.unk { color: var(--ink-mute); background: #fff; }
+.season thead button { border: 1px solid var(--line); background: #fff; border-radius: 8px; min-width: 44px; min-height: 44px; font: 600 13px/1 var(--sans); }
+.season thead button[aria-pressed="true"] { border: 2px solid var(--sea); background: var(--sea-tint); }
+.season .col-on { outline: 2px solid var(--sea); outline-offset: -2px; }
+
+/* Plateau en bas */
+.tray { border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+.tray-bar { display: flex; gap: 12px; align-items: center; padding: 12px 16px; background: var(--deep); color: #fff; flex-wrap: wrap; }
+.tray-bar .btn { background: #fff; color: var(--deep); margin-left: auto; }
+.tray-items { display: flex; gap: 10px; padding: 14px 16px; overflow-x: auto; background: #fff; }
+.tray-items .it { flex: none; border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; min-width: 200px; display: grid; gap: 2px; font-size: 14px; }
+.tray-items .it b { font: 600 18px/1.2 var(--serif); }
+
+/* Catalogue des messages */
+table.msgs { border-collapse: collapse; width: 100%; font-size: 15px; }
+.msgs th, .msgs td { text-align: left; vertical-align: top; padding: 12px 12px 12px 0; border-top: 1px solid var(--line); }
+.msgs thead th { border-top: 0; font-weight: 700; }
+.msgs td:first-child { color: var(--ink-mute); width: 28%; }
+.msgs-wrap { overflow-x: auto; }
+</style>
+</head>
+<body>
+<main id="main">
+  <nav class="wrap toc" aria-label="Variantes"><h1 style="font-size:40px">Variantes, proposition reservation</h1><ol id="toc"></ol></nav>
+
+  <!-- 1 -->
+  <section class="var" id="v-hero-b" data-title="Accueil, hero, version B : trouver une sortie en trois questions">
+    <div class="wrap finder">
+      <div>
+        <h2 style="margin-bottom:12px">What would you like to do on Koh Lanta?</h2>
+        <p class="mute" style="margin-bottom:20px">Three answers, and the page shows the trips that fit, with the total for your group.</p>
+        <div id="fb-grp" style="margin-bottom:18px"></div>
+        <fieldset><legend>How much of the day</legend><div class="toggles" id="fb-dur"></div></fieldset>
+        <fieldset><legend>On the water or on land</legend><div class="toggles" id="fb-kind"></div></fieldset>
+      </div>
+      <div><p class="small mute" id="fb-count" aria-live="polite"></p><div class="res" id="fb-res"></div></div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="var" id="v-how-b" data-title="Accueil, comment réserver, version B : les trois étapes réelles, sans démonstration">
+    <div class="wrap">
+      <h2 style="margin-bottom:28px">How booking works</h2>
+      <ol class="steps">
+        <li><h3>Choose a trip, a date and who is coming</h3><p>Each page shows the total for your group, child ages included.</p></li>
+        <li><h3>Send the message on WhatsApp</h3><p>The page writes it for you, to <span class="num" id="how-num"></span>. You read it before you send it.</p></li>
+        <li><h3>Pay on the day</h3><p>In cash or by bank transfer. National park fees are paid in cash on the island.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="var" id="v-obj-b" data-title="Accueil, questions avant de réserver, version B : onglets">
+    <div class="wrap tabs">
+      <h2 style="margin-bottom:20px">Before you book</h2>
+      <div role="tablist" aria-label="Questions" id="tabs"></div>
+      <div id="panels"></div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="var" id="v-hero4-b" data-title="4 Islands, hero, version B : prix du groupe et bouton dans le hero (la v3 améliorée)">
+    <div class="wrap ph-b">
+      <div>
+        <h2 style="font-size:52px;line-height:1">4 Islands boat tour from Koh Lanta</h2>
+        <p class="lead" style="margin-top:14px" id="h4-lead"></p>
+        <div class="pline"><span><span class="mute small" id="h4-k">from</span> <span class="amt num" id="h4-v"></span> <span class="mute small" id="h4-u"></span></span><button type="button" class="btn big" id="h4-go">Check price and date</button></div>
+        <p class="small mute" style="margin-top:10px" id="h4-g"></p>
+      </div>
+      <div class="pic" id="h4-pic"></div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="var" id="v-wiz" data-title="4 Islands, réservation, version B : assistant en feuille, une question par écran">
+    <div class="wrap">
+      <h2 style="margin-bottom:12px">Book the 4 Islands</h2>
+      <p class="mute" style="margin-bottom:20px">On a phone, one question per screen with a progress bar. Each step is measured, so the team sees where people stop.</p>
+      <button type="button" class="btn big" id="wiz-open">Check price and date</button>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="var" id="v-sentence" data-title="4 Islands, réservation, version C : une phrase à compléter">
+    <div class="wrap">
+      <p class="sentence" id="sent"></p>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-top:20px"><button type="button" class="btn big" id="sent-go">Open WhatsApp with this request</button><span class="err" id="sent-err"></span></div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="var" id="v-cmp-b" data-title="4 Islands, comparateur, version B : trois cartes avec le total du groupe">
+    <div class="wrap">
+      <h2 style="margin-bottom:8px">Which boat for your group?</h2>
+      <p class="mute" style="margin-bottom:20px" id="c3-who"></p>
+      <div class="c3" id="c3"></div>
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section class="var" id="v-bar-b" data-title="4 Islands, barre collante mobile : version A (retenue) et version B à deux actions">
+    <div class="wrap frames">
+      <div><p class="small" style="margin-bottom:8px"><b>A.</b> Total du groupe, un bouton</p><div class="phone-frame"><p class="fake">Page content</p><div class="mb" style="grid-template-columns:1fr auto;display:grid;align-items:center"><div style="display:grid;line-height:1.2"><small class="mute tiny">Your total</small><b class="num" style="font:600 22px/1.1 var(--serif)" id="fa-v"></b><small class="mute tiny" id="fa-u"></small></div><a class="btn" href="4-islands.html#book">Check price and date</a></div></div></div>
+      <div><p class="small" style="margin-bottom:8px"><b>B.</b> Question ou réservation</p><div class="phone-frame"><p class="fake">Page content</p><div class="mb"><div class="r1"><span class="tiny mute">from</span><b class="num" style="font:600 20px var(--serif)" id="fb-v"></b></div><div class="r2"><a class="btn line" href="https://wa.me/" id="fb-ask">Ask a question</a><a class="btn" href="4-islands.html#book">Book a date</a></div></div></div></div>
+    </div>
+  </section>
+
+  <!-- 9 -->
+  <section class="var" id="v-hub-b" data-title="Hub, filtres et résultats, version B : colonne de filtres et liste en lignes">
+    <div class="wrap side">
+      <aside aria-label="Filters">
+        <fieldset><legend>Type</legend><div id="sb-type"></div></fieldset>
+        <fieldset><legend>Duration</legend><div id="sb-dur"></div></fieldset>
+        <fieldset><legend>Month</legend><select class="input" id="sb-month"></select></fieldset>
+      </aside>
+      <div><p class="count" style="font:600 22px var(--serif);margin-bottom:8px" id="sb-count" aria-live="polite"></p><ul class="rowlist" id="sb-list"></ul></div>
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section class="var" id="v-season" data-title="Hub, saison, version C : calendrier des sorties mois par mois">
+    <div class="wrap">
+      <h2 style="margin-bottom:8px">When each trip runs</h2>
+      <p class="mute" style="margin-bottom:20px">Tap a month to see what runs. A question mark is a month we have not published yet.</p>
+      <div class="season-wrap"><table class="season" id="season"></table></div>
+      <p class="small" style="margin-top:12px" id="season-out" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <!-- 11 -->
+  <section class="var" id="v-tray" data-title="Hub, liste de sorties, version B : plateau en bas d'écran au lieu du tiroir">
+    <div class="wrap">
+      <p class="mute" style="margin-bottom:12px">The list stays visible while you browse. Uses the same saved list as the pages.</p>
+      <div class="tray"><div class="tray-bar"><b id="tray-n"></b><span id="tray-t" class="num"></span><button type="button" class="btn" data-open-list>Choose dates and send</button></div><div class="tray-items" id="tray-items"></div></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px" id="tray-add"></div>
+    </div>
+  </section>
+
+  <!-- 12 -->
+  <section class="var" id="v-msgs" data-title="Global, états vides, erreurs et confirmations : textes retenus">
+    <div class="wrap">
+      <h2 style="margin-bottom:16px">What the page says when something is missing</h2>
+      <div class="msgs-wrap"><table class="msgs"><thead><tr><th>Situation</th><th>Text on the page</th><th>Where</th></tr></thead><tbody id="msgs"></tbody></table></div>
+    </div>
+  </section>
+</main>
+
+<dialog class="drawer" id="wiz" aria-labelledby="wiz-t">
+  <div class="dr-in">
+    <div class="dr-head"><div style="display:grid;gap:6px;flex:1"><h2 id="wiz-t" style="font-size:26px">4 Islands</h2><p class="wiz-prog" id="wiz-prog"></p><div class="wiz-bar"><span id="wiz-bar"></span></div></div><button type="button" class="x" data-close aria-label="Close"></button></div>
+    <div class="dr-body" id="wiz-body"></div>
+    <div class="dr-foot"><div id="wiz-tot" class="small"></div><div style="display:flex;gap:10px"><button type="button" class="btn line" id="wiz-back">Back</button><button type="button" class="btn" style="flex:1" id="wiz-next">Next</button></div></div>
+  </div>
+</dialog>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+(function () {
+  var $ = R.$, $$ = R.$$, esc = R.esc, thb = R.thb, D = R.D;
+  R.chrome({ title: "variantes" });
+  // Barres de titre hors design
+  var toc = "";
+  $$(".var").forEach(function (s, i) {
+    var b = document.createElement("div"); b.className = "vbar"; b.innerHTML = esc(s.getAttribute("data-title")); s.parentNode.insertBefore(b, s);
+    b.id = s.id + "-t"; s.setAttribute("aria-labelledby", b.id);
+    toc += '<li><a href="#' + s.id + '-t">' + esc(s.getAttribute("data-title")) + "</a></li>";
+  });
+  $("#toc").innerHTML = toc;
+  $$(".x").forEach(function (x) { x.innerHTML = R.ICON.x; });
+  var g = R.loadGroup();
+  var P = R.bySlug("4-islands");
+  var today = R.todayIso();
+
+  // 1. Trouveur
+  var fb = { dur: "half", kind: "any" };
+  R.groupControl($("#fb-grp"), g, function () { R.saveGroup(g); finder(); }, "fb");
+  $("#fb-dur").innerHTML = [["short", "Up to 3 hours"], ["half", "Half day"], ["full", "Full day"]].map(function (x) { return '<button type="button" class="tg" data-dur="' + x[0] + '">' + x[1] + "</button>"; }).join("");
+  $("#fb-kind").innerHTML = [["boat", "On a boat"], ["activity", "On the island"], ["any", "Either"]].map(function (x) { return '<button type="button" class="tg" data-kind="' + x[0] + '">' + x[1] + "</button>"; }).join("");
+  $("#v-hero-b").addEventListener("click", function (e) {
+    var d = e.target.closest("[data-dur]"), k = e.target.closest("[data-kind]");
+    if (d) fb.dur = d.getAttribute("data-dur"); if (k) fb.kind = k.getAttribute("data-kind");
+    if (d || k) { finder(); R.track("finder_answer", fb); }
+  });
+  function finder() {
+    $$("#fb-dur [data-dur]").forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-dur") === fb.dur); });
+    $$("#fb-kind [data-kind]").forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-kind") === fb.kind); });
+    var r = D.products.filter(function (p) { return p.duration && p.duration.tags.indexOf(fb.dur) !== -1 && (fb.kind === "any" || p.kind === fb.kind); });
+    $("#fb-count").textContent = r.length ? R.plural(r.length, "trip fits", "trips fit") + "." : "";
+    $("#fb-res").innerHTML = r.length ? r.map(function (p) {
+      var o = R.refOption(p), q = o ? R.quote(o, g) : null;
+      return '<div class="fr" style="grid-template-columns:1fr"><div><h3>' + esc(p.name) + '</h3><p class="small mute">' + esc(R.fact(p, p.duration.from)) + "</p>" +
+        '<p class="small">' + (q && q.total != null ? "For " + esc(R.guestsLine(g.adults, g.ages)) + ': <b class="num">' + thb(q.total) + "</b>" : p.price ? "from " + thb(p.price.from) : "Price on WhatsApp") + "</p>" +
+        '<button type="button" class="link" data-add="' + p.slug + '">Add to trip list</button></div></div>';
+    }).join("") : '<p class="mute">Nothing fits these three answers. Try “Either”, or another length of day.</p>';
+  }
+  finder();
+
+  // 2
+  $("#how-num").textContent = R.WA.display;
+
+  // 3. Onglets
+  var B = D.site.booking;
+  var T = [
+    ["Paying", "Nothing is paid online. You pay on the day, in cash or by bank transfer."],
+    ["Weather", B.weather],
+    ["Pickup", "Hotel transfer both ways is included on " + D.products.filter(function (p) { return p.included.some(function (x) { return /hotel transfer/i.test(x); }); }).length + " of the " + D.products.length + " trips. All of Koh Lanta in general, each address confirmed case by case."],
+    ["Park fees", D.products.filter(function (p) { return R.fact(p, "National park fee"); }).map(function (p) { return p.name + ": " + R.fact(p, "National park fee"); }).join(". ") + "."],
+    ["Children", "Each trip has its own child ages. The pages ask the age of each child and count the right rate."],
+  ];
+  $("#tabs").innerHTML = T.map(function (t, i) { return '<button type="button" role="tab" id="tab-' + i + '" aria-controls="tp-' + i + '" aria-selected="' + (i === 0) + '" tabindex="' + (i ? -1 : 0) + '">' + t[0] + "</button>"; }).join("");
+  $("#panels").innerHTML = T.map(function (t, i) { return '<div role="tabpanel" id="tp-' + i + '" aria-labelledby="tab-' + i + '"' + (i ? " hidden" : "") + "><p>" + esc(t[1]) + "</p></div>"; }).join("");
+  function selTab(i) { $$('[role="tab"]').forEach(function (t, j) { t.setAttribute("aria-selected", i === j); t.tabIndex = i === j ? 0 : -1; $("#tp-" + j).hidden = i !== j; }); $("#tab-" + i).focus(); R.track("objection_tab", { tab: T[i][0] }); }
+  $("#tabs").addEventListener("click", function (e) { var t = e.target.closest('[role="tab"]'); if (t) selTab(+t.id.split("-")[1]); });
+  $("#tabs").addEventListener("keydown", function (e) { var cur = +document.activeElement.id.split("-")[1]; if (e.key === "ArrowRight") selTab((cur + 1) % T.length); if (e.key === "ArrowLeft") selTab((cur - 1 + T.length) % T.length); });
+
+  // 4. Hero produit B
+  $("#h4-lead").textContent = P.lead;
+  $("#h4-pic").innerHTML = R.img(D.photos["four-gallery-ngai"]);
+  var q4 = R.quote(R.refOption(P), g);
+  $("#h4-k").textContent = "For " + R.guestsLine(g.adults, g.ages) + ", join-in longtail";
+  $("#h4-v").textContent = thb(q4.total);
+  $("#h4-g").textContent = "From " + thb(P.price.from) + " " + P.price.unit + ". Park fee in cash on the island.";
+  $("#h4-go").onclick = function () { $("#wiz-open").click(); };
+
+  // 5. Assistant
+  var W = { step: 0, option: R.refOption(P).id, date: null, pickup: g.pickup || "", name: g.name || "" };
+  var STEPS = ["Boat", "Date", "Who is coming", "Pickup and name", "Your message"];
+  var wiz = $("#wiz"), wgc;
+  function wizRender() {
+    var b = $("#wiz-body");
+    $("#wiz-prog").textContent = "Step " + (W.step + 1) + " of " + STEPS.length + ": " + STEPS[W.step];
+    $("#wiz-bar").style.width = ((W.step + 1) / STEPS.length * 100) + "%";
+    $("#wiz-back").disabled = W.step === 0;
+    $("#wiz-next").innerHTML = W.step === 4 ? R.ICON.wa + " Open WhatsApp" : "Next";
+    if (W.step === 0) b.innerHTML = '<fieldset class="opts" id="w-opt"><legend class="vh">Boat</legend>' + P.options.map(function (o) { return '<label class="opt"><input type="radio" name="wopt" value="' + o.id + '"' + (W.option === o.id ? " checked" : "") + '><span class="t">' + esc(o.label) + '</span><span class="s">' + esc(o.note || o.stub || "") + "</span></label>"; }).join("") + "</fieldset>";
+    if (W.step === 1) {
+      var d = ""; for (var i = 0; i < 14; i++) { var iso = R.addDays(today, i), dt = R.toDate(iso); d += '<button type="button" class="day" data-wd="' + iso + '" aria-pressed="' + (W.date === iso) + '" aria-label="' + R.longDate(iso) + '"><span>' + R.DAYS[dt.getUTCDay()].slice(0, 3) + "</span><b>" + dt.getUTCDate() + "</b><span>" + R.MONTHS[dt.getUTCMonth()].slice(0, 3) + "</span></button>"; }
+      b.innerHTML = '<div class="days" style="grid-template-columns:repeat(auto-fill,minmax(64px,1fr));grid-auto-flow:row;overflow:visible">' + d + '</div><div class="field"><label for="w-od">Another date</label><input class="input" type="date" id="w-od" min="' + today + '" value="' + (W.date || "") + '"></div><span class="err" id="w-de"></span><p class="tiny mute">' + esc(B.weather) + "</p>";
+    }
+    if (W.step === 2) { b.innerHTML = '<div id="w-g"></div>'; wgc = R.groupControl($("#w-g"), g, function () { R.saveGroup(g); wizTot(); }, "w"); }
+    if (W.step === 3) b.innerHTML = '<div class="field"><label for="w-p">Hotel or address on Koh Lanta</label><input class="input" id="w-p" value="' + esc(W.pickup) + '" autocomplete="street-address"><span class="help">Pickup ' + esc(R.fact(P, "Hotel pickup")) + '.</span><span class="err" id="w-pe"></span></div><div class="field"><label for="w-n">Your first name</label><input class="input" id="w-n" value="' + esc(W.name) + '" autocomplete="given-name"><span class="err" id="w-ne"></span></div>';
+    if (W.step === 4) b.innerHTML = '<p class="msg-h">' + R.ICON.wa + ' The message you will send</p><div class="msg">' + esc(msgW()) + '</div><p class="tiny mute">Nothing to pay now. You pay on the day, in cash or by bank transfer.</p>';
+    wizTot();
+    var f = $("input, button.day", b); if (f) f.focus();
+  }
+  function msgW() { return R.buildMessage([{ slug: P.slug, option: W.option, date: W.date }], g, { pickup: W.pickup, name: W.name }); }
+  function wizTot() { var q = R.quote(R.optById(P, W.option), g); $("#wiz-tot").innerHTML = q.total != null ? "Total for " + esc(R.guestsLine(g.adults, g.ages)) + ': <b class="num">' + thb(q.total) + "</b>" : "Price on WhatsApp"; }
+  $("#wiz-body").addEventListener("change", function (e) { if (e.target.name === "wopt") { W.option = e.target.value; wizTot(); } if (e.target.id === "w-od") { W.date = e.target.value || null; wizRender(); } });
+  $("#wiz-body").addEventListener("click", function (e) { var d = e.target.closest("[data-wd]"); if (d) { W.date = d.getAttribute("data-wd"); wizRender(); } });
+  $("#wiz-body").addEventListener("input", function (e) { if (e.target.id === "w-p") W.pickup = e.target.value; if (e.target.id === "w-n") W.name = e.target.value; });
+  $("#wiz-open").onclick = function () { W.step = 0; wizRender(); wiz.showModal(); R.track("wizard_open", {}); };
+  $("#wiz-back").onclick = function () { if (W.step) { W.step--; wizRender(); } };
+  $("#wiz-next").onclick = function () {
+    if (W.step === 1 && !W.date) { $("#w-de").textContent = "Pick a date to continue."; return; }
+    if (W.step === 2) { var a = wgc.validate(); if (a) { a.focus(); return; } }
+    if (W.step === 3) { var ok = true; if (!W.pickup.trim()) { $("#w-pe").textContent = "Add your hotel or address."; ok = false; } if (!W.name.trim()) { $("#w-ne").textContent = "Add your first name."; ok = false; } if (!ok) return; g.pickup = W.pickup; g.name = W.name; R.saveGroup(g); }
+    R.track("wizard_step", { step: W.step + 1, name: STEPS[W.step] });
+    if (W.step === 4) { window.open(R.waUrl(msgW()), "_blank", "noopener"); R.track("whatsapp_open", { from: "wizard" }); wiz.close(); R.toast("WhatsApp opened with your message. Press send there."); return; }
+    W.step++; wizRender();
+  };
+  wiz.addEventListener("click", function (e) { if (e.target === wiz || e.target.closest("[data-close]")) { R.track("wizard_close", { at: W.step + 1 }); wiz.close(); } });
+
+  // 6. Phrase
+  var S = { option: R.refOption(P).id, date: R.addDays(today, 2) };
+  function sent() {
+    var q = R.quote(R.optById(P, S.option), g);
+    $("#sent").innerHTML = 'I would like the <label class="vh" for="s-o">Boat</label><select id="s-o">' + P.options.map(function (o) { return '<option value="' + o.id + '"' + (o.id === S.option ? " selected" : "") + ">" + esc(o.label.toLowerCase()) + "</option>"; }).join("") + "</select> to the 4 Islands on " +
+      '<label class="vh" for="s-d">Date</label><input type="date" id="s-d" min="' + today + '" value="' + S.date + '"> for ' +
+      '<label class="vh" for="s-a">Adults</label><select id="s-a">' + [1, 2, 3, 4, 5, 6, 7, 8].map(function (n) { return '<option value="' + n + '"' + (n === g.adults ? " selected" : "") + ">" + R.plural(n, "adult", "adults") + "</option>"; }).join("") + "</select>" +
+      (g.ages.length ? " and " + R.plural(g.ages.length, "child", "children") + " aged " + esc(R.listJoin(g.ages.map(String))) : "") + "." +
+      '<span class="tot">' + (q.total != null ? 'That is <b class="num">' + thb(q.total) + "</b> on the website, plus the park fee in cash." : "We send the price on WhatsApp.") + "</span>";
+  }
+  $("#sent").addEventListener("change", function (e) { if (e.target.id === "s-o") S.option = e.target.value; if (e.target.id === "s-d") S.date = e.target.value; if (e.target.id === "s-a") { g.adults = +e.target.value; R.saveGroup(g); } sent(); R.track("sentence_change", { field: e.target.id }); });
+  $("#sent-go").onclick = function () { if (!S.date) { $("#sent-err").textContent = "Pick a date in the sentence."; return; } window.open(R.waUrl(R.buildMessage([{ slug: P.slug, option: S.option, date: S.date }], g, {})), "_blank", "noopener"); R.track("whatsapp_open", { from: "sentence" }); };
+  sent();
+
+  // 7. Cartes de comparaison
+  $("#c3-who").textContent = "Totals for " + R.guestsLine(g.adults, g.ages) + ". Change the group at the top of the hub or on the trip page.";
+  var qs = P.options.map(function (o) { return R.quote(o, g); });
+  var best = qs.reduce(function (b, q, i) { return q.total != null && (b < 0 || q.total < qs[b].total) ? i : b; }, -1);
+  $("#c3").innerHTML = P.options.map(function (o, i) {
+    var q = qs[i];
+    return '<div class="' + (i === best ? "best" : "") + '"><h3>' + esc(o.label) + "</h3>" + (i === best ? '<p class="small"><b>Lowest total for your group</b></p>' : "") +
+      '<p class="gt num">' + (q.total != null ? thb(q.total) : "On WhatsApp") + '</p><p class="tiny mute">' + (q.total != null ? esc(R.breakdown(q)) : esc(q.reason || "")) + "</p>" +
+      "<ul><li>" + esc(o.boat === "speedboat" ? R.fact(P, "Islands, speedboat") : R.fact(P, "Islands, longtail")) + "</li><li>" + (o.kind === "private" ? "Your group only" : "Shared with other travellers") + "</li>" + (o.note ? "<li>" + esc(o.note) + "</li>" : "") + "</ul>" +
+      '<a class="btn line" href="4-islands.html#book">Choose ' + esc(o.label.toLowerCase()) + "</a></div>";
+  }).join("");
+
+  // 8. Barres
+  $("#fa-v").textContent = thb(q4.total); $("#fa-u").textContent = R.guestsLine(g.adults, g.ages);
+  $("#fb-v").textContent = thb(P.price.from) + " per adult";
+  $("#fb-ask").href = R.waUrl("Question about the 4 Islands: ");
+
+  // 9. Colonne de filtres
+  var sb = { type: "all", dur: [], month: null };
+  $("#sb-type").innerHTML = [["all", "All"], ["boat", "Boat trips"], ["activity", "Activities"]].map(function (t) { return '<label class="chk"><input type="radio" name="sbt" value="' + t[0] + '"' + (t[0] === "all" ? " checked" : "") + "> " + t[1] + "</label>"; }).join("");
+  $("#sb-dur").innerHTML = [["short", "Up to 3 hours"], ["half", "Half day"], ["full", "Full day"]].map(function (t) { return '<label class="chk"><input type="checkbox" name="sbd" value="' + t[0] + '"> ' + t[1] + "</label>"; }).join("");
+  var mo = '<option value="">Any month</option>'; for (var m = 1; m <= 12; m++) mo += '<option value="' + m + '">' + R.MONTHS[m - 1] + "</option>"; $("#sb-month").innerHTML = mo;
+  function sbRender() {
+    var r = D.products.filter(function (p) {
+      return (sb.type === "all" || p.kind === sb.type) && (!sb.dur.length || (p.duration && p.duration.tags.some(function (t) { return sb.dur.indexOf(t) !== -1; })));
+    });
+    $("#sb-count").textContent = R.plural(r.length, "trip", "trips");
+    $("#sb-list").innerHTML = r.map(function (p) {
+      var off = sb.month && R.runsInMonth(p, sb.month) === false;
+      var o = R.refOption(p), q = o ? R.quote(o, g) : null;
+      return '<li style="' + (off ? "opacity:.6" : "") + '"><div class="th">' + R.img(p.photo) + "</div><div><h3>" + esc(p.name) + '</h3><p class="small mute">' + esc(p.promise || p.lead.split(". ")[0]) + "</p>" + (off ? '<p class="small"><b>Not running in ' + R.MONTHS[sb.month - 1] + ". Season: " + esc(p.season.text) + "</b></p>" : "") + '</div><div class="pr">' +
+        (q && q.total != null ? '<span class="tiny mute">For ' + esc(R.guestsLine(g.adults, g.ages)) + '</span><b class="num">' + thb(q.total) + "</b>" : p.price ? '<span class="tiny mute">from</span><b class="num">' + thb(p.price.from) + "</b>" : "<b>On WhatsApp</b>") +
+        '<button type="button" class="link" data-add="' + p.slug + '">Add to trip list</button></div></li>';
+    }).join("");
+  }
+  $("#v-hub-b").addEventListener("change", function (e) {
+    if (e.target.name === "sbt") sb.type = e.target.value;
+    if (e.target.name === "sbd") sb.dur = $$('[name="sbd"]:checked').map(function (x) { return x.value; });
+    if (e.target.id === "sb-month") sb.month = e.target.value ? +e.target.value : null;
+    sbRender();
+  });
+  sbRender();
+
+  // 10. Calendrier des saisons
+  var selM = null;
+  function season() {
+    var head = "<thead><tr><th><span class=\"vh\">Trip</span></th>" + R.MONTHS.map(function (m, i) { return '<th scope="col"><button type="button" data-m="' + (i + 1) + '" aria-pressed="' + (selM === i + 1) + '">' + m.slice(0, 3) + "</button></th>"; }).join("") + "</tr></thead>";
+    var body = "<tbody>" + D.products.map(function (p) {
+      return '<tr><th scope="row">' + esc(p.name) + "</th>" + R.MONTHS.map(function (m, i) {
+        var r = R.runsInMonth(p, i + 1);
+        var cls = r === true ? "on" : r === false ? "off" : "unk";
+        return '<td class="' + cls + (selM === i + 1 ? " col-on" : "") + '">' + (r === true ? "Runs" : r === false ? "Closed" : "?") + "</td>";
+      }).join("") + "</tr>";
+    }).join("") + "</tbody>";
+    $("#season").innerHTML = '<caption class="vh">Season of each trip, month by month</caption>' + head + body;
+    if (selM) {
+      var on = D.products.filter(function (p) { return R.runsInMonth(p, selM) === true; }).map(function (p) { return p.name; });
+      var off = D.products.filter(function (p) { return R.runsInMonth(p, selM) === false; }).map(function (p) { return p.name; });
+      var unk = D.products.filter(function (p) { return R.runsInMonth(p, selM) === null; }).length;
+      $("#season-out").innerHTML = R.MONTHS[selM - 1] + ": " + (on.length ? esc(R.listJoin(on)) + " run. " : "") + (off.length ? esc(R.listJoin(off)) + " closed. " : "") + '<span class="data-todo">[DONNÉE À FOURNIR : saison de ' + unk + " sorties]</span>";
+    } else $("#season-out").textContent = "";
+  }
+  $("#season").addEventListener("click", function (e) { var b = e.target.closest("[data-m]"); if (b) { var m = +b.getAttribute("data-m"); selM = selM === m ? null : m; season(); R.track("season_month", { month: selM }); } });
+  season();
+
+  // 11. Plateau
+  function tray() {
+    var l = R.loadList();
+    $("#tray-n").textContent = l.length ? R.plural(l.length, "trip", "trips") + " in your list" : "Your list is empty";
+    var sum = 0; l.forEach(function (it) { var q = R.quote(R.optById(R.bySlug(it.slug), it.option), g); if (q.total != null) sum += q.total; });
+    $("#tray-t").textContent = l.length ? "Total on the website: " + thb(sum) : "";
+    $("#tray-items").innerHTML = l.length ? l.map(function (it) { var p = R.bySlug(it.slug); return '<div class="it"><b>' + esc(p.name) + '</b><span class="mute">' + esc(R.optById(p, it.option) ? R.optById(p, it.option).label : "") + "</span><span>" + (it.date ? R.shortDate(it.date) : "Date to choose") + "</span></div>"; }).join("") : '<p class="small mute">Add trips with the buttons below.</p>';
+    $("#tray-add").innerHTML = ["4-islands", "koh-phi-phi", "atv", "elephant-sanctuary"].map(function (s) { return '<button type="button" class="btn line" data-add="' + s + '">Add ' + esc(R.bySlug(s).name) + "</button>"; }).join("");
+  }
+  document.addEventListener("click", function (e) { if (e.target.closest && e.target.closest("[data-add]")) setTimeout(tray, 0); });
+  tray();
+
+  // 12. Textes d'états
+  var M = [
+    ["No date chosen", "Pick a date. The boat leaves at 09:00, so today is only possible if you ask early.", "Booking box, under the dates"],
+    ["Date in the past", "That date has passed. Pick today or a later day.", "Booking box, trip list"],
+    ["Child added without an age", "Choose the age of child 2. Prices depend on it.", "Under the age field"],
+    ["Age with no published price", "Age 2: no published price for this boat. Send the request anyway, we confirm it on WhatsApp.", "Price summary"],
+    ["Group bigger than the published prices", "No published price for 11 people on this option. Send the request, we reply with a price for your group.", "Price summary"],
+    ["Hotel missing", "Add your hotel or address. The pickup starts at 07:45, the driver needs to know where.", "Under the hotel field"],
+    ["First name missing", "Add your first name so we know who the request is from.", "Under the name field"],
+    ["Trip out of season", "Koh Rok & Koh Haa runs October to April. Pick another date.", "Trip list, hub card"],
+    ["Two full-day trips on one day", "4 Islands and Koh Phi Phi are both full-day trips on Sun 8 Nov. Move one of them to another day.", "Trip list"],
+    ["No result in the hub", "No trip matches all these filters. Remove one filter to see trips again: Remove “Speedboat”: 3 trips.", "Hub"],
+    ["Empty trip list", "No trips yet. Add trips from any page with “Add to trip list”.", "Trip list"],
+    ["After WhatsApp opens", "WhatsApp should now be open with your message. Press send in WhatsApp: the request only reaches us once you send it.", "Booking box, trip list"],
+    ["WhatsApp did not open", "WhatsApp did not open? Copy the message and send it to " + R.WA.display + ".", "Confirmation"],
+    ["Saved choices", "We kept your last choices on this phone. Start again", "Booking box, top"],
+  ];
+  $("#msgs").innerHTML = M.map(function (m) { return "<tr><td>" + esc(m[0]) + "</td><td>" + esc(m[1]) + "</td><td class=\"mute\">" + esc(m[2]) + "</td></tr>"; }).join("");
+})();
+</script>
+</body>
+</html>

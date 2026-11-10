@@ -1,0 +1,343 @@
+{#- Feuille de réservation (src/js/booking.js) : un seul <dialog id="book"> par page.
+    cfg : variant "tour" ou "taxi", brand, product, productId, page, whatsapp, options [{id, title, rows}],
+          pickupRequired (excursions), from et to (trajet fixé ; sans eux, deux champs libres).
+    facts : view.contact(site) (number, e164, phoneDisplay, replyTime, languages ; langues confirmées le 10.11.2026). -#}
+{% from "components/icons.njk" import icon %}
+
+{% macro stepper(name, label, value, min, max, hint) %}
+<div class="count">
+  <label for="book-{{ name }}">{{ label }}{% if hint %}<small>{{ hint }}</small>{% endif %}</label>
+  <div class="stepper">
+    <button type="button" data-step="-1" data-for="{{ name }}" aria-label="One less, {{ label | lower }}">&minus;</button>
+    <input id="book-{{ name }}" name="{{ name }}" type="number" inputmode="numeric" min="{{ min }}" max="{{ max }}" value="{{ value }}" aria-describedby="book-e-{{ name }}">
+    <button type="button" data-step="1" data-for="{{ name }}" aria-label="One more, {{ label | lower }}">+</button>
+  </div>
+</div>
+{% endmacro %}
+
+{% macro text(name, label, hint, required=false, autocomplete="off") %}
+<div class="f">
+  <label for="book-{{ name }}"{% if name == "address" %} data-address-label{% endif %}>{{ label }}</label>
+  {% if hint %}<p class="f-hint" id="book-h-{{ name }}">{{ hint }}</p>{% endif %}
+  <input id="book-{{ name }}" name="{{ name }}" type="text" autocomplete="{{ autocomplete }}"{% if required %} required aria-required="true"{% endif %} aria-describedby="{% if hint %}book-h-{{ name }} {% endif %}book-e-{{ name }}">
+  <p class="err" id="book-e-{{ name }}" hidden></p>
+</div>
+{% endmacro %}
+
+{% macro bookingSheet(cfg, facts) %}
+{%- set taxi = cfg.variant == "taxi" -%}
+{%- set rental = cfg.variant == "rental" -%}
+{%- set speedboat = cfg.variant == "speedboat" -%}
+<dialog class="sheet" id="book" aria-labelledby="book-title">
+  <div class="sheet-grab" aria-hidden="true"></div>
+  <div class="sheet-screen" data-screen="form">
+    <form novalidate>
+      <div class="sheet-head">
+        <div>
+          <p class="sheet-kicker">{% if cfg.kicker %}{{ cfg.kicker }}{% elif cfg.variant == "tour" %}Choose a date{% else %}Check availability{% endif %}</p>
+          <h2 class="sheet-title" id="book-title" tabindex="-1" data-focus data-route-title>{{ cfg.product }}</h2>
+        </div>
+        <button class="sheet-close" type="button" data-close>{{ icon("close") }}<span class="sr-only">Close</span></button>
+      </div>
+      <div class="sheet-body">
+        {%- if cfg.options and cfg.options.length > 1 %}
+        <fieldset class="f">
+          <legend>Option</legend>
+          {#- Ouverte depuis une option de la page : l'option en une ligne, « Change » rouvre la liste (booking.js). -#}
+          <div class="opt-sum" data-opt-sum hidden>
+            <p><b data-opt-sum-t></b><span data-opt-sum-p></span></p>
+            <button type="button" class="opt-sum__change" data-opt-change>Change<span class="sr-only"> the option</span></button>
+          </div>
+          <div class="choice choice--list" data-opt-list>
+            {%- for o in cfg.options %}
+            <label><input type="radio" name="option" value="{{ o.id }}" aria-describedby="book-e-option"><span><b>{{ o.title }}</b>{% if o.from %}<span class="opt-price"><span class="num">{{ o.from }}</span>{% if o.unit %} <small>{{ o.unit }}</small>{% endif %}</span>{% else %}<span class="opt-price">Ask on WhatsApp</span>{% endif %}</span></label>
+            {%- endfor %}
+          </div>
+          <p class="err" id="book-e-option" hidden></p>
+        </fieldset>
+        {%- endif %}
+
+        {%- if taxi %}
+          {%- if cfg.from and cfg.to %}
+        <fieldset class="f">
+          <legend>Direction</legend>
+          <div class="choice">
+            <label><input type="radio" name="direction" value="out"><span>{{ cfg.from }} to {{ cfg.to }}</span></label>
+            <label><input type="radio" name="direction" value="back"><span>{{ cfg.to }} to {{ cfg.from }}</span></label>
+          </div>
+        </fieldset>
+          {%- else %}
+        {{ text("from", "From", "", true) }}
+        {{ text("to", "To", "", true) }}
+          {%- endif %}
+        {%- endif %}
+
+        {#- Sous-variantes de chaque option (créneau, cours, nombre de karts…) : visibles quand l'option est choisie. -#}
+        {%- for o in cfg.options %}{% if o.choices or o.counts or o.extras %}
+        <div class="opt-more" data-opt-block="{{ o.id }}" hidden>
+          {%- for ch in o.choices %}
+          {%- set key = "c-" + o.id + "-" + ch.id %}
+          {%- if ch.type == "text" %}
+          <div class="f">
+            <label for="book-{{ key }}">{{ ch.label }}</label>
+            {% if ch.hint %}<p class="f-hint" id="book-h-{{ key }}">{{ ch.hint }}</p>{% endif %}
+            <input id="book-{{ key }}" name="{{ key }}" type="text" data-opt="{{ o.id }}" data-choice="{{ ch.id }}" autocomplete="off" aria-describedby="{% if ch.hint %}book-h-{{ key }} {% endif %}book-e-{{ key }}">
+            <p class="err" id="book-e-{{ key }}" hidden></p>
+          </div>
+          {%- else %}
+          <fieldset class="f">
+            <legend>{{ ch.label }}</legend>
+            <div class="choice choice--list">
+              {%- for v in ch.values %}
+              <label><input type="radio" name="{{ key }}" value="{{ v.id }}" data-opt="{{ o.id }}" data-choice="{{ ch.id }}" aria-describedby="book-e-{{ key }}"><span><b>{{ v.label }}</b>{% if v.price %}{% set pp = v.price.split(" per ") %}<span class="opt-price"><span class="num">{{ pp[0] }}</span>{% if pp.length == 2 %}<small>per {{ pp[1] }}</small>{% endif %}</span>{% endif %}</span></label>
+              {%- endfor %}
+            </div>
+            <p class="err" id="book-e-{{ key }}" hidden></p>
+          </fieldset>
+          {%- endif %}
+          {%- endfor %}
+          {%- if o.counts %}
+          <fieldset class="f">
+            <legend>{{ o.counts.label }}</legend>
+            {%- for r in o.counts.rows %}
+            {%- set nk = "n-" + o.id + "-" + loop.index0 %}
+            <div class="count">
+              <label for="book-{{ nk }}">{{ r }}{% if o.counts.prices[loop.index0] %}<small>{{ o.counts.prices[loop.index0] }}</small>{% endif %}</label>
+              <div class="stepper">
+                <button type="button" data-step="-1" data-for="{{ nk }}" aria-label="One less, {{ r | lower }}">&minus;</button>
+                <input id="book-{{ nk }}" name="{{ nk }}" type="number" inputmode="numeric" min="0" max="20" value="0" data-opt="{{ o.id }}" data-row="{{ loop.index0 }}" aria-describedby="book-e-n-{{ o.id }}">
+                <button type="button" data-step="1" data-for="{{ nk }}" aria-label="One more, {{ r | lower }}">+</button>
+              </div>
+            </div>
+            {%- endfor %}
+            <p class="err" id="book-e-n-{{ o.id }}" hidden></p>
+          </fieldset>
+          {%- endif %}
+          {%- if o.extras %}
+          <fieldset class="f">
+            <legend>Extras</legend>
+            {%- for x in o.extras %}
+            <label class="tick-row"><input type="checkbox" name="x-{{ o.id }}" value="{{ x.label }}" data-opt="{{ o.id }}"> <span>{{ x.label }}{% if x.price %} <small>{{ x.price }}</small>{% endif %}</span></label>
+            {%- endfor %}
+          </fieldset>
+          {%- endif %}
+        </div>
+        {%- endif %}{% endfor %}
+
+        {%- if speedboat %}
+        {#- Ouverte depuis un bateau de la grille : trajet et départ en une ligne, « Change » rouvre les deux champs. -#}
+        <div class="opt-sum" data-sb-sum hidden>
+          <p><b data-sb-sum-t></b><span data-sb-sum-p></span></p>
+          <button type="button" class="opt-sum__change" data-sb-change>Change<span class="sr-only"> the boat</span></button>
+        </div>
+        <div class="sb-pick" data-sb-pick>
+        <div class="f">
+          <label for="book-route">Trip</label>
+          <span class="select"><select id="book-route" name="route" aria-describedby="book-e-route">
+            <option value="">Choose where you are going</option>
+            {%- for g in cfg.groups %}
+            <optgroup label="{{ g.label }}">{% for r in g.routes %}<option value="{{ r.id }}">{{ r.label }}</option>{% endfor %}</optgroup>
+            {%- endfor %}
+          </select></span>
+          <p class="err" id="book-e-route" hidden></p>
+        </div>
+        <fieldset class="f" data-deps hidden>
+          <legend>Departure</legend>
+          <div class="choice choice--list">
+            {%- for r in cfg.routes %}{% for dep in r.deps %}
+            <label data-dep-route="{{ r.id }}" hidden><input type="radio" name="departure" value="{{ dep.id }}" aria-describedby="book-e-departure"><span><b>{{ dep.time }}</b><span class="opt-price">{% if dep.arrives %}arrives {{ dep.arrives }}{% endif %}{% if dep.detail %}<small>{{ dep.detail }}</small>{% endif %}</span></span></label>
+            {%- endfor %}{% endfor %}
+          </div>
+          <p class="err" id="book-e-departure" hidden></p>
+        </fieldset>
+        </div>
+        <fieldset class="f">
+          <legend>Date of the boat</legend>
+          <div class="choice choice--3">
+            <label><input type="radio" name="dateChoice" value="today" aria-describedby="book-e-date"><span>Today<small data-day></small></span></label>
+            <label><input type="radio" name="dateChoice" value="tomorrow" aria-describedby="book-e-date"><span>Tomorrow<small data-day></small></span></label>
+            <label><input type="radio" name="dateChoice" value="other" aria-describedby="book-e-date"><span>Other date</span></label>
+          </div>
+          <div class="date-other" data-date-other hidden>
+            <label class="f-label" for="book-dateOther">Date</label>
+            <input id="book-dateOther" name="dateOther" type="date" aria-describedby="book-e-date">
+          </div>
+          <p class="err" id="book-e-date" hidden></p>
+        </fieldset>
+        <fieldset class="f">
+          <legend>Ticket</legend>
+          <div class="choice choice--2">
+            <label><input type="radio" name="tripType" value="one-way" aria-describedby="book-e-tripType"><span>One way</span></label>
+            <label><input type="radio" name="tripType" value="return" aria-describedby="book-e-tripType"><span>Return</span></label>
+          </div>
+          <p class="err" id="book-e-tripType" hidden></p>
+        </fieldset>
+        <fieldset class="f" data-return hidden>
+          <legend>Return: <span data-ret-label>The way back</span></legend>
+          <label class="f-label" for="book-returnDate">Date of the return</label>
+          <input id="book-returnDate" name="returnDate" type="date" aria-describedby="book-e-returnTrip">
+          <p class="f-label sb-back-h" data-ret-deps-h hidden>Boat back</p>
+          <div class="choice choice--list" data-ret-deps hidden>
+            {%- for r in cfg.routes %}{% for dep in r.deps %}
+            <label data-ret-route="{{ r.id }}" hidden><input type="radio" name="returnDeparture" value="{{ dep.id }}" aria-describedby="book-e-returnTrip"><span><b>{{ dep.time }}</b><span class="opt-price">{% if dep.arrives %}arrives {{ dep.arrives }}{% endif %}{% if dep.detail %}<small>{{ dep.detail }}</small>{% endif %}</span></span></label>
+            {%- endfor %}{% endfor %}
+          </div>
+          <div data-ret-free hidden>
+            <label class="f-label" for="book-returnTime">When you want to come back</label>
+            <input id="book-returnTime" name="returnTime" type="text" autocomplete="off" aria-describedby="book-e-returnTrip">
+          </div>
+          <p class="err" id="book-e-returnTrip" hidden></p>
+        </fieldset>
+        {%- endif %}
+
+        {%- if rental %}
+        <div class="f">
+          <label for="book-vehicle">Model</label>
+          <p class="f-hint" id="book-h-vehicle">Optional: the model you saw in the list.</p>
+          <input id="book-vehicle" name="vehicle" type="text" list="book-vehicle-list" autocomplete="off" aria-describedby="book-h-vehicle">
+          <datalist id="book-vehicle-list">{% for o in cfg.options %}{% for r in o.rows %}<option value="{{ r.label }}"></option>{% endfor %}{% endfor %}</datalist>
+        </div>
+        <div class="f">
+          {{ stepper("vehicles", "Number of vehicles", 1, 1, 20) }}
+          <p class="err" id="book-e-vehicles" hidden></p>
+        </div>
+        <fieldset class="f">
+          <legend>Dates and times</legend>
+          <div class="dates">
+            <div><label class="f-label" for="book-dateFrom">Start date</label><input id="book-dateFrom" name="dateFrom" type="date" aria-describedby="book-e-dates"></div>
+            <div><label class="f-label" for="book-timeFrom">Start time</label><input id="book-timeFrom" name="timeFrom" type="time" aria-describedby="book-e-dates"></div>
+            <div><label class="f-label" for="book-dateTo">Return date</label><input id="book-dateTo" name="dateTo" type="date" aria-describedby="book-e-dates"></div>
+            <div><label class="f-label" for="book-timeTo">Return time</label><input id="book-timeTo" name="timeTo" type="time" aria-describedby="book-e-dates"></div>
+          </div>
+          <p class="err" id="book-e-dates" hidden></p>
+        </fieldset>
+        {%- elif not speedboat %}
+        <fieldset class="f">
+          <legend>Date</legend>
+          <div class="choice choice--3">
+            <label><input type="radio" name="dateChoice" value="today" aria-describedby="book-e-date"><span>Today<small data-day></small></span></label>
+            <label><input type="radio" name="dateChoice" value="tomorrow" aria-describedby="book-e-date"><span>Tomorrow<small data-day></small></span></label>
+            <label><input type="radio" name="dateChoice" value="other" aria-describedby="book-e-date"><span>Other date</span></label>
+          </div>
+          <div class="date-other" data-date-other hidden>
+            <label class="f-label" for="book-dateOther">Date</label>
+            <input id="book-dateOther" name="dateOther" type="date" aria-describedby="book-e-date">
+          </div>
+          <p class="err" id="book-e-date" hidden></p>
+        </fieldset>
+        {%- endif %}
+
+        {%- if taxi %}
+        <div class="f">
+          <label for="book-time">Pickup time</label>
+          <input id="book-time" name="time" type="time" required aria-required="true" aria-describedby="book-e-time">
+          <p class="err" id="book-e-time" hidden></p>
+        </div>
+        {%- if not (cfg.from and cfg.to) or cfg.transit %}
+        {{ text("flight", "Flight number or ferry time", "If we pick you up at an airport or a pier.") }}
+        {%- endif %}
+        {%- endif %}
+
+        {%- if not rental %}
+        <fieldset class="f" data-guests>
+          <legend>Guests</legend>
+          {{ stepper("adults", "Adults", 2, 0, 60) }}
+          <p class="err" id="book-e-adults" hidden></p>
+          {{ stepper("children", "Children", 0, 0, 12, "We ask each child's age") }}
+          <div class="ages" data-child-ages></div>
+          {%- if not taxi %}<p class="f-note" data-advice hidden></p>{% endif %}
+          {%- if taxi %}
+          <div data-child-seats hidden>{{ stepper("childSeats", "Child or baby seats", 0, 0, 12) }}</div>
+          {{ stepper("bags", "Bags", 0, 0, 30) }}
+          {%- endif %}
+        </fieldset>
+        {%- endif %}
+
+        {%- if taxi %}
+        {#- Taxi v1 (10.11.2026) : les deux bouts du trajet, chacun avec son adresse. -#}
+        {{ text("pickupAt", "Pickup", "Hotel, address, airport or pier.", true, "street-address") }}
+        {{ text("dropoffAt", "Drop-off", "Hotel, address, airport or pier.", true, "street-address") }}
+        {%- elif speedboat %}
+        {{ text("pickup", "Hotel on Koh Lanta", "Where you stay on the island.", true, "street-address") }}
+        {%- elif not rental %}
+        {%- set pLabel = cfg.pickupLabel or "Hotel or address" -%}
+        {%- set pHint = cfg.pickupHint or "We pick you up here." -%}
+        <div class="f">
+          <label for="book-pickup" data-label="{{ pLabel }}">{{ pLabel }}</label>
+          <p class="f-hint" id="book-h-pickup" data-hint="{{ pHint }}">{{ pHint }}</p>
+          <input id="book-pickup" name="pickup" type="text" autocomplete="street-address"{% if cfg.pickupRequired != false %} required aria-required="true"{% endif %} aria-describedby="book-h-pickup book-e-pickup">
+          <p class="err" id="book-e-pickup" hidden></p>
+        </div>
+        {%- endif %}
+
+        {{ text("name", "First name", "", true, "given-name") }}
+      </div>
+      <div class="sheet-foot{% if cfg.tripList %} sheet-foot--pair{% endif %}">
+        {%- if cfg.variant == "tour" %}<p class="sheet-total" data-total aria-live="polite" hidden></p>{% endif %}
+        <button class="sheet-btn" type="submit">Preview message</button>
+        {%- if cfg.tripList %}
+        <button class="sheet-link sheet-link--trip" type="button" data-trip>Add to my trip list</button>
+        {%- endif %}
+      </div>
+    </form>
+  </div>
+
+  <div class="sheet-screen" data-screen="preview" hidden>
+    <div class="sheet-head">
+      <div>
+        <p class="sheet-kicker" data-route-title>{{ cfg.product }}</p>
+        <h2 class="sheet-title" tabindex="-1" data-focus>Your message</h2>
+      </div>
+      <button class="sheet-close" type="button" data-close>{{ icon("close") }}<span class="sr-only">Close</span></button>
+    </div>
+    <div class="sheet-body">
+      <p class="f-hint">WhatsApp opens with this text. You can still change it there before sending.</p>
+      {#- Fiche de comptoir : chaque ligne du message, libellé à gauche ; le total en tête. -#}
+      <div class="slip">
+        <p class="slip-total" data-slip-total hidden></p>
+        <dl class="slip-lines" data-slip></dl>
+        <pre class="sr-only" data-message></pre>
+        {%- if cfg.variant == "tour" %}
+        <div class="slip-cash" data-cash hidden>
+          <p class="slip-cash-label" data-cash-label>{% if cfg.parkFee %}{{ cfg.parkFee.label }}, in cash on the day{% endif %}</p>
+          <p class="slip-cash-sum" data-cash-sum></p>
+          <p class="slip-cash-note">Not in the price and not in the message.{% if cfg.parkFee and cfg.parkFee.note %} <span data-cash-note>{{ cfg.parkFee.note }}.</span>{% endif %}</p>
+        </div>
+        {%- endif %}
+      </div>
+    </div>
+    <div class="sheet-foot">
+      <a class="sheet-btn" href="https://wa.me/{{ cfg.whatsapp }}" target="_blank" rel="noopener" data-send>{{ icon("whatsapp") }}<span>Send on WhatsApp</span></a>
+      <p class="sheet-note">Nothing is booked until we confirm.</p>
+      <button class="sheet-btn sheet-btn--quiet" type="button" data-edit>Edit details</button>
+    </div>
+  </div>
+
+  <div class="sheet-screen" data-screen="done" hidden>
+    <div class="sheet-head">
+      <h2 class="sheet-title" tabindex="-1" data-focus>WhatsApp should be open</h2>
+      <button class="sheet-close" type="button" data-close>{{ icon("close") }}<span class="sr-only">Close</span></button>
+    </div>
+    <div class="sheet-body done-text">
+      {% if facts.replyTime %}<p>{{ facts.replyTime }}</p>{% endif %}
+      {%- set langs = facts.languages or [] %}
+      {%- if langs.length %}<p>We speak {{ langs.slice(0, -1).join(", ") ~ " and " ~ langs | last if langs.length > 1 else langs[0] }}.</p>{% endif %}
+      <p>Nothing opened? Use the button below{% if not taxi %}{# VIP Taxi Lanta : aucun téléphone affiché, WhatsApp seulement. #}, or call <a class="done-num" href="tel:{{ facts.e164 }}">{{ facts.phoneDisplay }}</a>{% endif %}.</p>
+      <p class="copy-status" data-copy-status role="status"></p>
+    </div>
+    <div class="sheet-foot sheet-foot--stack">
+      <a class="sheet-btn" href="https://wa.me/{{ cfg.whatsapp }}" target="_blank" rel="noopener" data-again>{{ icon("whatsapp") }}<span>Open WhatsApp again</span></a>
+      <button class="sheet-btn sheet-btn--quiet" type="button" data-copy>Copy message</button>
+      <button class="sheet-link" type="button" data-close>Close</button>
+    </div>
+  </div>
+</dialog>
+<template id="book-age-tpl">
+  <div class="f">
+    <label></label>
+    <span class="select"><select><option value="">Age</option><option value="0">Under 1</option>{% for a in range(1, 18) %}<option value="{{ a }}">{{ a }}</option>{% endfor %}</select></span>
+    <p class="err" hidden></p>
+  </div>
+</template>
+<script type="application/json" id="book-data">{{ cfg | dump | safe }}</script>
+{% endmacro %}

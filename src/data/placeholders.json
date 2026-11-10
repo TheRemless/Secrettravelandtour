@@ -1,0 +1,24 @@
+[
+  {
+    "id": "four-hero",
+    "usage": "4 Islands, top photo",
+    "file": "placeholders/four-hero.jpg",
+    "source": "Wikimedia Commons",
+    "author": "Uncharted25",
+    "licence": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Wayinoutcave.jpg",
+    "downloaded_at": "2026-11-03",
+    "shot": "Emerald Cave passage seen from the inner lagoon."
+  },
+  {
+    "id": "four-gallery-pier",
+    "usage": "4 Islands, gallery: Lanta Old Town pier",
+    "file": "placeholders/four-gallery-pier.jpg",
+    "source": "Wikimedia Commons",
+    "author": "Marcin Konsek",
+    "licence": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:2016_Prowincja_Krabi,_Ko_Lanta_Yai,_Molo_w_Starym_Mie%C5%9Bcie_Lanta.jpg",
+    "downloaded_at": "2026-11-03",
+    "shot": "Lanta Old Town pier in the morning."
+  }
+]

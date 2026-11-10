@@ -52,6 +52,12 @@
       ]
     },
     {
+      "id": "koh-lanta-phuket",
+      "from": "Koh Lanta",
+      "to": "Phuket",
+      "added": "10.11.2026, demandé par Jérémy, fiche products/taxi/koh-lanta-phuket.json"
+    },
+    {
       "id": "surat-thani-koh-lanta",
       "from": "Surat Thani Airport",
       "to": "Koh Lanta",
@@ -63,7 +69,7 @@
       "body": [
         "We pick you up at Surat Thani Airport, at the bus terminal or at Donsak Pier, and drive you to your hotel on Koh Lanta. Tell us which one and at what time."
       ],
-      "drive": "about 4 to 5 hours",
+      "drive": "about 5 hours",
       "faq": [
         {
           "q": "Do you pick up at Donsak Pier?",
@@ -156,6 +162,12 @@
       ]
     },
     {
+      "id": "koh-lanta-pak-bara-pier",
+      "from": "Koh Lanta",
+      "to": "Pak Bara Pier",
+      "added": "10.11.2026, demandé par Jérémy, fiche products/taxi/koh-lanta-pak-bara-pier.json"
+    },
+    {
       "id": "koh-lanta-khao-lak",
       "from": "Koh Lanta",
       "to": "Khao Lak",
@@ -227,7 +239,7 @@
       "body": [
         "Give us your flight time, your hotel in Khao Lak and the number of people. The team confirms the price on WhatsApp and the driver waits for you at the airport."
       ],
-      "drive": "about 1h30 to 2 hours",
+      "drive": "about 1 hr 30 min to 2 hours",
       "faq": [
         {
           "q": "Do you serve all the beaches of Khao Lak?",
@@ -334,33 +346,13 @@
           "a": "Yes. Enter Krabi Town or your hotel as the destination."
         }
       ]
-    },
-    {
-      "id": "krabi-airport-khao-lak",
-      "from": "Krabi Airport",
-      "to": "Khao Lak",
-      "code": "KBV",
-      "title": "Krabi Airport to Khao Lak Minivan Taxi | VIP Taxi Lanta",
-      "metaDescription": "Private minivan taxi between Krabi Airport (KBV) and Khao Lak, both directions, straight to your hotel. Cash to the driver, no prepayment. Price on WhatsApp.",
-      "h1": "Krabi Airport to Khao Lak, private transfer",
-      "lead": "From Krabi Airport (KBV) to your hotel in Khao Lak, or back to the airport, in a private minivan.",
-      "body": [
-        "Give us your flight time, your hotel in Khao Lak and the number of people. The team confirms the price on WhatsApp and the driver waits for you at the airport."
-      ],
-      "drive": null,
-      "faq": [
-        {
-          "q": "Is the Khao Lak transfer private?",
-          "a": "Yes. Every transfer is private, your group only."
-        }
-      ]
     }
   ],
   "common": {
     "how": [
       {
         "title": "Private only",
-        "text": "A private minivan for your group only. No sharing, no waiting for other passengers."
+        "text": "A private minivan for your group only, with 6 to 8 seats depending on luggage. No sharing, no waiting for other passengers."
       },
       {
         "title": "Confirmed on WhatsApp",
@@ -398,8 +390,7 @@
         "krabi-airport-koh-lanta",
         "krabi-airport-ao-nang",
         "koh-lanta-krabi-town",
-        "koh-lanta-ao-nang",
-        "krabi-airport-khao-lak"
+        "koh-lanta-ao-nang"
       ]
     },
     {
@@ -407,6 +398,7 @@
       "intro": "Phuket Airport, Phuket town and the beaches of Khao Lak.",
       "routes": [
         "phuket-airport-koh-lanta",
+        "koh-lanta-phuket",
         "phuket-airport-khao-lak",
         "phuket-airport-ao-nang",
         "koh-lanta-khao-lak"
@@ -432,12 +424,13 @@
     },
     {
       "name": "Trang and the deep south",
-      "intro": "Trang, its airport and train station, and Hat Yai.",
+      "intro": "Trang, its airport and train station, Pak Bara Pier for Koh Lipe, and Hat Yai.",
       "routes": [
         "koh-lanta-trang",
+        "koh-lanta-pak-bara-pier",
         "hat-yai-koh-lanta"
       ]
     }
   ],
-  "further": "Hua Hin, Bangkok and any other place in Thailand on request."
+  "further": "We also drive to Hua Hin, Bangkok and anywhere else in Thailand. Tell us where you want to go and the team sends you a price on WhatsApp."
 }

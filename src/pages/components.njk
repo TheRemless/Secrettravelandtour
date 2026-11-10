@@ -1,0 +1,56 @@
+{#- Page de composants du design v4, avec les vraies données. Jamais en production. -#}
+{% import "components/v4.njk" as v4 %}
+{% from "components/icons.njk" import icon %}
+{%- set d = v4data -%}
+{%- set c = d.contact -%}
+{%- set seo = { title: "Components, design v4", metaDescription: "Component page of the Secret Travel & Tour design v4." } -%}
+{%- set pageUrl = "/_components/" -%}
+<!DOCTYPE html>
+<html lang="en-GB" data-board data-page="components">
+<head>
+{% include "v4-head.njk" %}
+<meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+{{ v4.header(c, d.emblem, "boats") }}
+<main id="main">
+  <section class="sec"><div class="wrap bd">
+    <h1>Components</h1>
+    <p class="lead">Every piece of the three pages, with real data from src/_data.</p>
+
+    <h2 class="bd__l">Type scale</h2>
+    <p class="bd__h1">Boat trips on Koh Lanta</p>
+    <p class="bd__h2">Longtail or speedboat?</p>
+    <p class="bd__h3">Koh Rok &amp; Koh Haa</p>
+    <p class="lead">Lead. {{ d.four.lead }}</p>
+    <p>Body. {{ d.four.day.note }}</p>
+
+    <h2 class="bd__l">Buttons and links</h2>
+    <div class="bd__row"><a class="btn press" href="#">Choose a date</a><a class="btn btn--lg press" href="#">{{ icon("whatsapp") }}Ask on WhatsApp</a><button class="btn btn--ghost press" type="button">Choose this boat</button><a class="link" href="#">Ask a question on WhatsApp</a></div>
+
+    <h2 class="bd__l">Price</h2>
+    {{ v4.price(d.four.price) }}
+    {{ v4.price(null) }}
+
+    <h2 class="bd__l">Segmented control and steppers</h2>
+    <div class="bd__row">
+      <div class="seg" role="group" aria-label="Show" data-seg="demo"><button type="button" value="a" aria-pressed="true">All</button><button type="button" value="b" aria-pressed="false">Boat trips</button><button type="button" value="c" aria-pressed="false">Activities</button></div>
+      <div class="stp-row"><span><b id="bd-a">Adults</b><small>{{ d.four.page.pick.calc.adultFrom }} and over</small></span><span class="stp" role="group" aria-labelledby="bd-a"><button type="button">−<span class="sr">One adult less</span></button><output>2</output><button type="button">+<span class="sr">One adult more</span></button></span></div>
+    </div>
+  </div></section>
+
+  <section class="sec sec--sand"><div class="wrap">
+    <h2 class="bd__l">Cards with the trip list button</h2>
+    <div class="grid">{% for t in d.home.moreBoats %}{{ v4.card(t, compare=loop.last) }}{% endfor %}</div>
+  </div></section>
+
+  <section class="sec"><div class="wrap byb">
+    <div><h2 class="bd__l">Rules</h2><dl>{% for b in d.four.beforeBook %}<div><dt>{{ b.label }}</dt><dd>{{ b.text }}</dd></div>{% endfor %}</dl></div>
+    <div class="faq"><h2 class="bd__l">Questions</h2>{% for f in d.four.faq %}<details><summary>{{ f.q }}</summary><p>{{ f.a }}</p></details>{% endfor %}</div>
+  </div></section>
+</main>
+{{ v4.footer(site, c, d.emblem, d.boats, d.activities) }}
+{{ v4.tripsRoot() }}
+{{ v4.scripts(build) }}
+</body>
+</html>

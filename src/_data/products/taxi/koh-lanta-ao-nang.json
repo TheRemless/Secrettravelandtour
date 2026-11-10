@@ -1,0 +1,118 @@
+{
+  "slug": "koh-lanta-ao-nang",
+  "url": "/taxi/koh-lanta-ao-nang/",
+  "brand": "vip",
+  "template": "route",
+  "name": "Koh Lanta to Ao Nang",
+  "seo": {
+    "title": "Koh Lanta to Ao Nang Private Minivan | VIP Taxi Lanta",
+    "metaDescription": "Private minivan between Koh Lanta and Ao Nang, both directions, hotel to hotel or to the pier. Cash to the driver, no prepayment. Price on WhatsApp."
+  },
+  "h1": "Koh Lanta to Ao Nang by private minivan",
+  "lead": "Hotel to hotel between Koh Lanta and Ao Nang, in either direction, in a private minivan.",
+  "route": {
+    "from": "Koh Lanta",
+    "to": "Ao Nang",
+    "bothDirections": true,
+    "drive": "about 3 hours",
+    "points": [
+      "Your hotel on Koh Lanta",
+      "Hotels in Ao Nang",
+      "Ao Nang piers for Railay"
+    ],
+    "region": "Krabi province"
+  },
+  "facts": [
+    {
+      "label": "Drive time",
+      "value": "About 3 hours, depending on traffic"
+    },
+    {
+      "label": "Pickup and drop-off",
+      "value": "Your hotel on Koh Lanta, Hotels in Ao Nang, Ao Nang piers for Railay"
+    },
+    {
+      "label": "Directions",
+      "value": "Both directions"
+    }
+  ],
+  "priceOnRequest": true,
+  "faq": [
+    {
+      "q": "Can you drop us at the Ao Nang pier for Railay?",
+      "a": "Yes. Tell us which pier and at what time in the request form."
+    }
+  ],
+  "photos": [
+    {
+      "file": "taxi/van-seats.webp",
+      "alt": "Minivan interior with diamond-stitched tan leather seats and a lit ceiling",
+      "slot": "hero",
+      "status": "keep",
+      "shot": "Real photo of the VIP Taxi Lanta minivan, shared by every route page today: one photo per route later if possible."
+    }
+  ],
+  "related": [
+    "/taxi/krabi-airport-koh-lanta/",
+    "/taxi/southern-thailand/",
+    "/taxi/koh-lanta-krabi-town/"
+  ],
+  "schema": {
+    "type": "TaxiService",
+    "legacyType": "TaxiService",
+    "serviceType": "Private minivan transfer",
+    "areaServed": [
+      "Koh Lanta",
+      "Ao Nang"
+    ]
+  },
+  "legacyText": {
+    "title": "Koh Lanta to Ao Nang Minivan Taxi | VIP Taxi Lanta",
+    "body": [
+      "We drop you at your hotel in Ao Nang or at the pier you tell us."
+    ]
+  },
+  "sources": [
+    {
+      "field": "name, seo, h1, lead, route, faq, legacyText",
+      "from": "taxiRoutes.json routes[id=koh-lanta-ao-nang]"
+    },
+    {
+      "field": "route.drive, facts[Drive time]",
+      "from": "taxiRoutes.json routes[id=koh-lanta-ao-nang].drive (durées approximatives relevées le 30.10.2026, registre de faits)"
+    },
+    {
+      "field": "route.points, facts[Pickup and drop-off]",
+      "from": "taxiRoutes.json routes[id=koh-lanta-ao-nang].lead, body, faq"
+    },
+    {
+      "field": "route.region, related",
+      "from": "taxiRoutes.json regions"
+    },
+    {
+      "field": "priceOnRequest",
+      "from": "Décision client du 02.11.2026 : prix des transferts privés sur WhatsApp"
+    },
+    {
+      "field": "photos",
+      "from": "src/taxi-route.njk (van-seats.webp) ; docs/refonte/01-audit-design.md §4 (photos du van à garder) ; 00-BRIEF §6.4 (point de rencontre)"
+    },
+    {
+      "field": "schema",
+      "from": "src/_data/taxiRoutesView.js"
+    },
+    {
+      "field": "seo.title, seo.metaDescription, h1",
+      "from": "Refonte taxi v1 (10.11.2026) : même forme que Krabi Airport, « Minivan Taxi » banni (03-audit-contenu §6.6). Même trajet, mêmes faits."
+    },
+    {
+      "field": "priceFrom",
+      "from": "Grille « Private Taxi » de VIP Taxi Lanta, colonne Selling, prix pour 1 à 2 clients (base partenaires, ~/Downloads/Secret Travel & Tour/VIP Taxi Lanta - Private Taxi.jpg). Affichage « from » décidé par Jérémy le 10.11.2026. Ligne : From / to Ao Nang"
+    }
+  ],
+  "priceFrom": {
+    "thb": 2700,
+    "people": "1 or 2",
+    "approx": false
+  }
+}

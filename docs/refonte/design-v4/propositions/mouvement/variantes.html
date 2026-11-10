@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Variantes, proposition mouvement</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Manrope:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="mouvement.css">
+<!-- La page n'est peinte qu'une fois les sections rendues : la transition entre pages capture le vrai hero -->
+<link rel="expect" href="#ready" blocking="render">
+<style>
+body { padding-top: 0; }
+/* Barre de prototype : hors design, sert seulement à nommer chaque variante */
+.proto { background: #2b2b2b; color: #fff; font: 600 14px/1.4 system-ui, sans-serif; padding: 10px var(--gut); position: sticky; top: 0; z-index: 20; }
+.proto small { display: block; font-weight: 400; color: #cfcfcf; }
+.v { padding-block: 56px 72px; }
+.v + .proto { margin-top: 0; }
+.v--sand { background: var(--sand); }
+.mt { margin-top: 24px; }
+.mb { margin-bottom: 24px; }
+
+/* A. Barre d'onglets en bas (mobile) */
+.phone { width: 390px; max-width: 100%; height: 640px; margin-inline: auto; border: 1px solid var(--line); border-radius: 28px; overflow: hidden; position: relative; background: var(--white); }
+.phone__scroll { height: 100%; overflow-y: auto; padding: 16px 20px 96px; overscroll-behavior: contain; }
+.phone__scroll .card { margin-bottom: 28px; }
+.tabbar { position: absolute; left: 12px; right: 12px; bottom: 12px; display: grid; grid-template-columns: repeat(4, 1fr); background: var(--white); border: 1px solid var(--line); border-radius: 18px; padding: 6px; transition: transform var(--t3) var(--out); }
+.tabbar.is-low { transform: translateY(calc(100% + 16px)); }
+.tabbar a, .tabbar button { display: grid; justify-items: center; gap: 2px; min-height: 52px; padding: 6px 0; border: 0; background: none; border-radius: 12px; text-decoration: none; font: 600 12px/1.2 var(--sans); color: var(--ink-mute); }
+.tabbar svg { width: 22px; height: 22px; }
+.tabbar .is-on { color: var(--ink); background: var(--sand); }
+.tabbar .wa { color: var(--white); background: var(--deep); }
+
+/* B. Bande de photos */
+.film { display: grid; grid-auto-flow: column; grid-auto-columns: min(420px, 78vw); gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 12px max(var(--gut), (100vw - var(--max)) / 2); scroll-padding-inline: max(var(--gut), (100vw - var(--max)) / 2); scrollbar-width: none; }
+.film::-webkit-scrollbar { display: none; }
+.film .card { scroll-snap-align: start; }
+@supports (animation-timeline: view()) {
+  .film .card .ph { animation: film-focus linear both; animation-timeline: view(inline); animation-range: cover 0% cover 100%; }
+}
+@keyframes film-focus { 0% { transform: scale(.94); opacity: .7; } 30%, 60% { transform: none; opacity: 1; } 100% { transform: scale(.94); opacity: .7; } }
+
+/* C. Recherche en vedette */
+.bigq { margin-top: 28px; max-width: 720px; position: relative; }
+.bigq .q { display: flex; align-items: center; gap: 12px; border: 2px solid var(--ink); border-radius: 16px; padding: 0 18px; min-height: 64px; background: var(--white); }
+.bigq .q svg { width: 22px; height: 22px; }
+.bigq input { flex: 1; border: 0; outline: 0; font-size: 19px; min-height: 60px; background: none; }
+.bigq .pal__list { max-height: none; border: 1px solid var(--line); border-radius: 16px; margin-top: 8px; background: var(--white); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.chips button { min-height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid var(--line); background: var(--white); font: 600 15px/1 var(--sans); transition: transform var(--t1) var(--out), background-color var(--t2); }
+.chips button:active { transform: scale(.96); }
+.chips button[aria-pressed="true"] { background: var(--deep); color: #fff; border-color: var(--deep); }
+
+/* D. Liste avec aperçu qui suit le curseur */
+.rows { list-style: none; margin: 0; padding: 0; position: relative; }
+.rows li a { display: grid; grid-template-columns: 1fr auto; gap: 4px 24px; align-items: baseline; padding: 22px 0; border-top: 1px solid var(--line); text-decoration: none; }
+.rows li:last-child a { border-bottom: 1px solid var(--line); }
+.rows b { font: 600 34px/1.1 var(--serif); transition: transform var(--t3) var(--out); }
+.rows a:hover b { transform: translateX(8px); }
+.rows small { grid-column: 1; color: var(--ink-mute); font-size: 15px; }
+.rows .pr { grid-row: 1 / span 2; grid-column: 2; font-size: 15px; color: var(--ink-mute); text-align: right; }
+.rows .pr strong { display: block; font: 600 24px/1 var(--serif); color: var(--ink); }
+.rows .thumb { display: none; }
+.peek { position: fixed; left: 0; top: 0; width: 300px; aspect-ratio: 4 / 3; border-radius: 12px; overflow: hidden; pointer-events: none; z-index: 15; opacity: 0; scale: .9; transition: opacity var(--t2) var(--out), scale var(--t3) var(--out); }
+.peek.is-on { opacity: 1; scale: 1; }
+.peek .ph { position: absolute; inset: 0; border-radius: 0; opacity: 0; transition: opacity var(--t2); }
+.peek .ph.is-on { opacity: 1; }
+@media (hover: none), (max-width: 760px) {
+  .peek { display: none; }
+  .rows li a { grid-template-columns: 96px 1fr; }
+  .rows .thumb { display: block; grid-row: span 3; width: 96px; }
+  .rows b { font-size: 26px; }
+  .rows small, .rows .pr { grid-column: 2; grid-row: auto; text-align: left; }
+}
+
+/* E. Grille filtrée */
+.ve-grid .hcard { view-transition-class: card; }
+
+/* F. Durées de trajet */
+.drives { list-style: none; margin: 0; padding: 0; }
+.drives li { border-top: 1px solid var(--line); }
+.drives button { width: 100%; display: grid; grid-template-columns: minmax(0, 15ch) 1fr auto; gap: 16px; align-items: center; min-height: 56px; padding: 10px 0; border: 0; background: none; text-align: left; }
+.drives b { font: 600 20px/1.2 var(--serif); }
+.drives .bar { height: 10px; background: var(--line); border-radius: 5px; position: relative; overflow: hidden; }
+.drives .bar i { position: absolute; inset: 0 auto 0 0; background: var(--sea); border-radius: 5px; width: var(--w); }
+.drives .bar i + i { background: repeating-linear-gradient(90deg, var(--sea) 0 4px, transparent 4px 8px); opacity: .5; left: var(--lo); width: calc(var(--w2) - var(--lo)); }
+.drives span.t { font-size: 15px; color: var(--ink-mute); white-space: nowrap; }
+.drives .more { padding: 0 0 16px; color: var(--ink-mute); font-size: 15px; }
+@media (max-width: 600px) { .drives button { grid-template-columns: 1fr auto; } .drives .bar { grid-column: 1 / -1; grid-row: 2; } }
+
+/* G. Message en direct */
+.try { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 40px; align-items: start; }
+.try .field + .field { margin-top: 14px; }
+.try .msg__bubble { background: var(--white); border: 1px solid var(--line); border-radius: 14px 14px 4px 14px; padding: 14px 16px; font-size: 15px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.try .msg__bubble mark { background: #DCEFEA; color: inherit; border-radius: 3px; animation: hl 900ms var(--out); }
+@keyframes hl { from { background: #9ED3C7; } }
+@media (max-width: 760px) { .try { grid-template-columns: minmax(0, 1fr); } }
+
+/* H. Galerie en bande avec parallaxe interne */
+.strip { display: grid; grid-auto-flow: column; grid-auto-columns: min(560px, 84vw); gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-inline: max(var(--gut), (100vw - var(--max)) / 2); scroll-padding-inline: max(var(--gut), (100vw - var(--max)) / 2); }
+.strip::-webkit-scrollbar { display: none; }
+.strip figure { margin: 0; scroll-snap-align: start; }
+.strip .ph { aspect-ratio: 3 / 2; }
+.strip .ph img { width: 120%; max-width: none; margin-left: -10%; }
+@supports (animation-timeline: view()) { .strip .ph img { animation: par linear both; animation-timeline: view(inline); } }
+@keyframes par { from { transform: translateX(8%); } to { transform: translateX(-8%); } }
+.strip figcaption { margin-top: 8px; font-size: 14px; color: var(--ink-mute); }
+.strip-count { margin-top: 14px; font-size: 15px; font-weight: 600; }
+
+/* I. Tableau comparatif à colonnes réactives */
+.cmpt { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 16px; }
+.cmpt th, .cmpt td { padding: 14px 18px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); transition: background-color var(--t2) var(--out), color var(--t2) var(--out); }
+.cmpt thead button { font: 600 24px/1.2 var(--serif); border: 0; background: none; padding: 6px 0; min-height: 44px; color: var(--ink-mute); transition: color var(--t2); text-align: left; }
+.cmpt tbody th { font-weight: 400; color: var(--ink-mute); width: 22%; }
+.cmpt .on { background: var(--white); }
+.cmpt thead .on button { color: var(--ink); }
+.cmpt td:not(.on) { color: var(--ink-mute); }
+.cmpt-wrap { overflow-x: auto; }
+
+/* J. Curseur de la journée */
+.scrub { max-width: 760px; }
+.scrub input[type=range] { width: 100%; accent-color: var(--sea); height: 44px; }
+.scrub__ticks { display: flex; justify-content: space-between; font-size: 13px; color: var(--ink-mute); font-variant-numeric: tabular-nums; }
+.scrub__now { margin-top: 24px; min-height: 140px; }
+.scrub__now time { font-size: 15px; color: var(--ink-mute); }
+.scrub__now b { display: block; font: 600 44px/1.05 var(--serif); margin-top: 4px; }
+.scrub__now p { margin-top: 8px; color: var(--ink-soft); max-width: 52ch; }
+
+/* K. Réservation pas à pas */
+.wiz { max-width: 560px; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: var(--white); }
+.wiz__prog { height: 4px; background: var(--line); }
+.wiz__prog i { display: block; height: 100%; background: var(--sea); transform-origin: left; transition: transform var(--t3) var(--spring); }
+.wiz__view { overflow: hidden; }
+.wiz__track { display: flex; transition: transform 420ms var(--spring); }
+.wiz__step { flex: 0 0 100%; padding: 24px; display: grid; gap: 14px; align-content: start; min-height: 360px; }
+.wiz__step h3 { font-size: 28px; }
+.wiz__nav { display: flex; justify-content: space-between; align-items: center; padding: 14px 24px; border-top: 1px solid var(--line); }
+.wiz__step[aria-hidden="true"] { visibility: hidden; transition: visibility 0s 420ms; }
+
+/* L. FAQ filtrable */
+.q { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 14px; border: 1px solid var(--field); border-radius: 12px; background: var(--white); }
+.q svg { width: 18px; height: 18px; color: var(--ink-mute); flex: none; }
+.q input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; font-size: 16px; min-height: 46px; }
+.q:focus-within { outline: 2px solid var(--sea); outline-offset: 1px; border-color: var(--sea); }
+.ff .q { max-width: 560px; }
+.ff details { border-top: 1px solid var(--line); }
+.ff summary { min-height: 60px; display: flex; align-items: center; font: 600 22px/1.2 var(--serif); cursor: pointer; padding: 10px 0; }
+.ff details p { padding-bottom: 16px; color: var(--ink-mute); }
+.ff mark { background: #DCEFEA; color: inherit; border-radius: 3px; }
+
+/* M. Budget au curseur */
+.budget { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-bottom: 28px; }
+.budget input { flex: 1 1 260px; accent-color: var(--sea); height: 44px; }
+.budget output { font: 600 28px/1 var(--serif); min-width: 9ch; }
+.budget-grid .ph { transition: opacity var(--t3) var(--out), filter var(--t3) var(--out); }
+.budget-grid .is-out .ph { opacity: .35; filter: grayscale(1); }
+.budget-grid .is-out .card__body, .budget-grid .is-out .price b { color: var(--ink-mute); }
+
+/* N. Liste dense dépliable */
+.dense { list-style: none; margin: 0; padding: 0; }
+.dense > li { border-top: 1px solid var(--line); }
+.dense > li:last-child { border-bottom: 1px solid var(--line); }
+.dense details summary { list-style: none; display: grid; grid-template-columns: 80px 1fr auto; gap: 16px; align-items: center; padding: 12px 0; min-height: 84px; cursor: pointer; }
+.dense summary::-webkit-details-marker { display: none; }
+.dense summary .ph { width: 80px; }
+.dense summary b { font: 600 24px/1.15 var(--serif); display: block; }
+.dense summary small { color: var(--ink-mute); font-size: 14px; }
+.dense summary .pr { font-size: 14px; color: var(--ink-mute); text-align: right; }
+.dense summary .pr strong { display: block; font: 600 20px/1 var(--serif); color: var(--ink); }
+.dense .body { padding: 0 0 20px 96px; color: var(--ink-soft); }
+.dense .body dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; font-size: 15px; margin: 12px 0 0; }
+.dense .body dt { color: var(--ink-mute); }
+.dense .body dd { margin: 0; }
+@media (max-width: 600px) { .dense summary { grid-template-columns: 64px 1fr; } .dense summary .ph { width: 64px; } .dense summary .pr { grid-column: 2; text-align: left; } .dense .body { padding-left: 0; } }
+
+/* O. Panneau latéral */
+.side-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+.side-list button { width: 100%; padding: 0; border: 0; background: none; text-align: left; }
+.side-list b { display: block; margin-top: 8px; font: 600 22px/1.15 var(--serif); }
+.sheet .ph { aspect-ratio: 3 / 2; }
+.sheet dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; font-size: 15px; margin: 16px 0 0; }
+.sheet dt { color: var(--ink-mute); }
+.sheet dd { margin: 0; }
+</style>
+</head>
+<body>
+<div id="top" hidden></div>
+<main id="main">
+
+<div class="proto">Accueil, en-tête, version B : barre d'onglets en bas sur mobile<small>Le pouce atteint tout. La barre descend quand on lit vers le bas, remonte dès qu'on remonte. Faites défiler l'écran ci-dessous.</small></div>
+<section class="v"><div class="wrap"><div class="phone"><div class="phone__scroll" id="ph-scroll"></div>
+  <nav class="tabbar" id="tabbar" aria-label="Main">
+    <a href="tours.html?type=boat" class="is-on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 16h18l-2 4H5l-2-4ZM12 3v10M12 4l6 9h-6"/></svg>Boat trips</a>
+    <a href="tours.html?type=activity"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>Activities</a>
+    <button type="button" data-pal><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search</button>
+    <a class="wa" id="tab-wa" target="_blank" rel="noopener"></a>
+  </nav></div></div></section>
+
+<div class="proto">Accueil, hero, version B : bande de photos à faire glisser<small>Les six sorties en bateau d'entrée. La carte au centre est nette, les voisines reculent (animation pilotée par le défilement horizontal, CSS seul). Souris : attraper et lancer.</small></div>
+<section class="v"><div class="wrap"><h1>Boat trips from Koh Lanta</h1></div><div class="film mt" id="film"></div></section>
+
+<div class="proto">Accueil, hero, version C : la recherche en vedette<small>Le visiteur tape ce qu'il connaît déjà (Maya Bay, Emerald Cave, elephants) et voit la sortie, son prix, à la frappe. Même moteur que ⌘K.</small></div>
+<section class="v v--sand"><div class="wrap"><h1>Where do you want to go from Koh Lanta?</h1>
+  <div class="bigq"><label class="q"><span class="sr">Search a place or a trip</span><span id="bq-ico"></span><input id="bq" type="search" placeholder="Maya Bay, Emerald Cave, elephants, Krabi Airport" autocomplete="off"></label>
+  <div class="chips" id="bq-chips"></div><ul class="pal__list" id="bq-list" hidden></ul></div></div></section>
+
+<div class="proto">Accueil, sorties en bateau, version B : liste avec aperçu qui suit le curseur<small>Sur ordinateur, la photo suit la souris avec un léger retard (ressort) ; au doigt, vignettes fixes dans chaque ligne.</small></div>
+<section class="v"><div class="wrap"><h2 class="mb">Boat trips</h2><ul class="rows" id="rows"></ul></div><div class="peek" id="peek" aria-hidden="true"></div></section>
+
+<div class="proto">Accueil, activités, version B : grille filtrée, réagencement animé<small>Les cartes qui restent glissent à leur nouvelle place, les autres s'effacent (View Transitions). Classement eau ou terre déduit du type d'activité, à valider.</small></div>
+<section class="v v--sand"><div class="wrap"><div class="sec__head"><h2>Activities</h2><div class="seg" id="ve-seg"><button type="button" value="all" aria-pressed="true">All</button><button type="button" value="water" aria-pressed="false">On the water</button><button type="button" value="land" aria-pressed="false">On land</button></div></div><div class="grid ve-grid" id="ve-grid"></div></div></section>
+
+<div class="proto">Accueil, transferts, version B : les durées de route côte à côte<small>Barre pleine pour la durée basse, pointillés jusqu'à la haute (« about 4 to 5 hours »). Un toucher déplie les points de prise en charge.</small></div>
+<section class="v"><div class="wrap"><h2 class="mb">Private minivan from Koh Lanta</h2><ul class="drives" id="drives"></ul></div></section>
+
+<div class="proto">Accueil, réservation expliquée, version B : essayer le message en direct<small>Chaque champ changé surligne la ligne du message qu'il modifie. On comprend le fonctionnement en le faisant.</small></div>
+<section class="v v--sand"><div class="wrap try"><div><h2>Try it</h2><div class="field mt"><label for="t-trip">Trip</label><select id="t-trip"></select></div><div class="field"><label for="t-ad">Adults</label><select id="t-ad"></select></div><div class="field"><label for="t-day">Day</label><select id="t-day"></select></div></div>
+  <div><p class="small mute">The message the page writes for you</p><div class="msg__bubble" id="t-msg" aria-live="polite"></div></div></div></section>
+
+<div class="proto">4 Islands, galerie, version B : bande défilante, la photo glisse dans son cadre<small>Parallaxe interne pilotée par le défilement horizontal (CSS seul), compteur mis à jour à la fin du geste.</small></div>
+<section class="v"><div class="strip" id="strip"></div><div class="wrap"><p class="strip-count" id="strip-n" aria-live="polite"></p></div></section>
+
+<div class="proto">4 Islands, longtail ou speedboat, version B : tableau à colonnes réactives<small>Choisir une colonne l'éclaire et estompe l'autre. Les différences restent lisibles d'un coup d'œil.</small></div>
+<section class="v v--sand"><div class="wrap"><h2 class="mb">Longtail or speedboat?</h2><div class="cmpt-wrap"><table class="cmpt" id="cmpt"></table></div></div></section>
+
+<div class="proto">4 Islands, journée, version B : faire défiler la journée au curseur<small>On glisse de 07:45 à 16:00, l'étape de l'heure choisie s'affiche. Flèches du clavier comprises.</small></div>
+<section class="v"><div class="wrap scrub"><h2>How the day goes</h2><input type="range" id="scrub" aria-label="Time of day"><div class="scrub__ticks" id="ticks"></div><div class="scrub__now" id="now" aria-live="polite"></div></div></section>
+
+<div class="proto">4 Islands, réservation, version B : une question par écran<small>Chaque étape glisse latéralement avec un ressort, la barre de progression suit. Retour possible à tout moment.</small></div>
+<section class="v v--sand"><div class="wrap"><div class="wiz" id="wiz"></div></div></section>
+
+<div class="proto">4 Islands, questions, version B : questions filtrables<small>La frappe filtre et surligne ; une seule réponse correspondante s'ouvre d'elle-même.</small></div>
+<section class="v"><div class="wrap ff"><h2>Questions</h2><label class="q mt mb"><span class="sr">Search the questions</span><span id="ff-ico"></span><input id="ff-q" type="search" placeholder="fee, children, private" autocomplete="off"></label><div id="ff"></div></div></section>
+
+<div class="proto">Hub, filtres, version B : budget maximum au curseur<small>Les sorties au-dessus du budget s'estompent sans bouger (aucun saut de mise en page), le compteur roule.</small></div>
+<section class="v v--sand"><div class="wrap"><div class="budget"><label for="bud" class="lbl">Up to</label><input type="range" id="bud"><output id="bud-o"></output><span class="mute small" id="bud-n"></span></div><div class="grid budget-grid" id="bud-grid"></div></div></section>
+
+<div class="proto">Hub, cartes, version B : liste dense qui se déplie<small>Treize lignes tiennent sur un écran ; un toucher ouvre les faits sans quitter la liste (hauteur animée en CSS, interpolate-size).</small></div>
+<section class="v"><div class="wrap"><ul class="dense" id="dense"></ul></div></section>
+
+<div class="proto">Hub, aperçu, version B : panneau latéral<small>La fiche glisse depuis la droite et la liste reste visible derrière. Sur mobile, c'est une feuille qu'on ferme d'un geste vers le bas.</small></div>
+<section class="v v--sand"><div class="wrap"><ul class="side-list" id="side"></ul></div></section>
+</main>
+<dialog class="sheet" id="side-sheet" aria-labelledby="side-h"><div class="sheet__scrim"></div><div class="sheet__panel"><div class="sheet__grab" aria-hidden="true"></div><div class="sheet__head"><h2 id="side-h"></h2><button class="x" type="button" data-close aria-label="Close"></button></div><div class="sheet__body" id="side-body"></div></div></dialog>
+<div id="foot"></div>
+
+<script src="data.js"></script>
+<script src="mouvement.js"></script>
+<script>
+(function () {
+  var S = STT, $ = M.$, $$ = M.$$;
+  M.boot("");
+  var boats = S.products.filter(function (p) { return p.kind === "boat"; });
+  var acts = S.products.filter(function (p) { return p.kind === "activity"; });
+
+  // A
+  $("#ph-scroll").innerHTML = boats.slice(0, 4).map(function (p) { return M.card(p); }).join("");
+  $("#tab-wa").innerHTML = M.icon.wa + "WhatsApp"; $("#tab-wa").href = M.wa();
+  (function () {
+    var sc = $("#ph-scroll"), bar = $("#tabbar"), last = 0, acc = 0;
+    sc.addEventListener("scroll", function () {
+      var y = sc.scrollTop, dy = y - last; last = y;
+      if ((dy > 0) !== (acc > 0)) acc = 0; acc += dy;
+      if (acc > 24 && y > 60) bar.classList.add("is-low"); else if (acc < -8) bar.classList.remove("is-low");
+    }, { passive: true });
+  })();
+
+  // B
+  $("#film").innerHTML = boats.map(function (p) { return M.card(p); }).join("");
+  M.rail($("#film"));
+
+  // C
+  $("#bq-ico").outerHTML = M.icon.search;
+  var chips = ["Emerald Cave", "Maya Bay", "Snorkelling", "Elephants", "Kayak", "Krabi Airport"];
+  $("#bq-chips").innerHTML = chips.map(function (c) { return '<button type="button" aria-pressed="false">' + c + "</button>"; }).join("");
+  function bq() {
+    var v = $("#bq").value, list = $("#bq-list");
+    $$("#bq-chips button").forEach(function (b) { b.setAttribute("aria-pressed", b.textContent.toLowerCase() === v.toLowerCase()); });
+    if (!v.trim()) { list.hidden = true; return; }
+    var res = M.search(v).slice(0, 6);
+    list.hidden = false;
+    list.innerHTML = res.length ? res.map(M.resultHTML).join("") : '<li class="pal__empty">Nothing matches. Ask us on WhatsApp.</li>';
+    M.bindImgs(list);
+  }
+  $("#bq").addEventListener("input", bq);
+  $("#bq-chips").addEventListener("click", function (e) { var b = e.target.closest("button"); if (b) { $("#bq").value = b.textContent; bq(); } });
+
+  // D : aperçu qui suit le curseur avec un ressort (lerp à chaque image, arrêté quand il a rejoint la souris)
+  $("#rows").innerHTML = boats.map(function (p, i) {
+    return '<li><a href="' + M.href(p) + '" data-i="' + i + '"><span class="thumb">' + M.img(p.photo, { decorative: true }) + "</span><b>" + M.esc(p.name) + "</b><small>" + M.esc(p.line) + '</small><span class="pr">' + (p.price ? "from<strong>" + M.thb(p.price.from) + "</strong>" : "<strong>Price on WhatsApp</strong>") + "</span></a></li>";
+  }).join("");
+  var peek = $("#peek");
+  peek.innerHTML = boats.map(function (p) { return M.img(p.photo, { cls: "", decorative: true }); }).join("");
+  (function () {
+    var tx = 0, ty = 0, x = 0, y = 0, raf = 0, on = false;
+    function loop() {
+      x += (tx - x) * 0.18; y += (ty - y) * 0.18;
+      peek.style.transform = "translate(" + (x + 24) + "px," + (y - 110) + "px)";
+      if (Math.abs(tx - x) > 0.3 || Math.abs(ty - y) > 0.3 || on) raf = requestAnimationFrame(loop); else raf = 0;
+    }
+    $("#rows").addEventListener("pointermove", function (e) {
+      if (e.pointerType !== "mouse") return;
+      tx = e.clientX; ty = e.clientY;
+      if (!on) { x = tx; y = ty; }
+      var a = e.target.closest("a[data-i]");
+      on = !!a; peek.classList.toggle("is-on", on);
+      if (a) $$(".ph", peek).forEach(function (ph, i) { ph.classList.toggle("is-on", i === +a.dataset.i); });
+      if (!raf) raf = requestAnimationFrame(loop);
+    });
+    $("#rows").addEventListener("pointerleave", function () { on = false; peek.classList.remove("is-on"); });
+  })();
+
+  // E
+  var water = ["kayak", "scuba-diving"];
+  $("#ve-grid").innerHTML = acts.map(function (p) { return '<div class="hcard" data-slug="' + p.slug + '" style="view-transition-name:ve-' + p.slug + '">' + M.card(p) + "</div>"; }).join("");
+  M.seg($("#ve-seg"), function (v) {
+    M.vt(function () { $$("#ve-grid .hcard").forEach(function (c) { var w = water.indexOf(c.dataset.slug) > -1; c.hidden = v === "water" ? !w : v === "land" ? w : false; }); });
+  });
+
+  // F
+  function hours(d) { var m = d.match(/(\d+)(?: to (\d+))?/); return [+m[1], +(m[2] || m[1])]; }
+  var max = Math.max.apply(null, S.taxi.map(function (t) { return hours(t.drive)[1]; }));
+  var drives = S.taxi.slice().sort(function (a, b) { return hours(a.drive)[0] - hours(b.drive)[0]; });
+  $("#drives").innerHTML = drives.map(function (t, i) {
+    var h = hours(t.drive), other = t.from === "Koh Lanta" ? t.to : t.from;
+    return '<li><button type="button" aria-expanded="false" aria-controls="dr-' + i + '"><b>' + M.esc(other) + '</b><span class="bar" aria-hidden="true"><i style="--w:' + (h[0] / max * 100) + '%"></i>' + (h[1] > h[0] ? '<i style="--lo:' + (h[0] / max * 100) + "%;--w2:" + (h[1] / max * 100) + '%"></i>' : "") + '</span><span class="t">' + M.esc(t.drive) + '</span></button><div class="more" id="dr-' + i + '" hidden>' + M.esc(t.name) + ", both directions, by private minivan with " + S.site.vip.name + '. <a class="link" href="' + t.url + '">See this transfer</a></div></li>';
+  }).join("");
+  $("#drives").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    var m = b.nextElementSibling, open = m.hidden;
+    m.hidden = !open; b.setAttribute("aria-expanded", open);
+    if (open && !M.reduce.matches) m.animate([{ opacity: 0, transform: "translateY(-4px)" }, { opacity: 1, transform: "none" }], { duration: 220, easing: "cubic-bezier(.22,1,.36,1)" });
+  });
+
+  // G
+  var priced = S.products.filter(function (p) { return p.options.length && p.refPrefix; });
+  $("#t-trip").innerHTML = priced.map(function (p) { return '<option value="' + p.slug + '">' + M.esc(p.name) + "</option>"; }).join("");
+  $("#t-ad").innerHTML = [1, 2, 3, 4, 5, 6].map(function (n) { return "<option" + (n === 2 ? " selected" : "") + ">" + n + "</option>"; }).join("");
+  $("#t-day").innerHTML = [1, 2, 3, 7].map(function (n) { var d = M.addDays(M.today(), n); return '<option value="' + d + '">' + M.dateLabel(d) + "</option>"; }).join("");
+  var prev = [];
+  function tmsg(changed) {
+    var p = M.product($("#t-trip").value);
+    var lines = M.message(p, p.options[0], { date: $("#t-day").value, adults: +$("#t-ad").value, ages: [], pickup: "[your hotel]", name: "[your first name]" });
+    $("#t-msg").innerHTML = lines.map(function (l, i) { return changed && prev[i] !== l ? "<mark>" + M.esc(l) + "</mark>" : M.esc(l); }).join("\n");
+    prev = lines;
+  }
+  ["#t-trip", "#t-ad", "#t-day"].forEach(function (s) { $(s).addEventListener("change", function () { tmsg(true); }); });
+  tmsg(false);
+
+  // H
+  var four = M.product("4-islands");
+  var gal = ["four-hero", "four-gallery-reef", "four-gallery-ngai", "four-gallery-kradan", "four-gallery-pier", "four-longtail"];
+  $("#strip").innerHTML = gal.map(function (id) { return "<figure>" + M.img(id, { cls: "" }) + "<figcaption>" + M.esc(S.photos[id].alt) + "</figcaption></figure>"; }).join("");
+  M.rail($("#strip"));
+  function count() { var s = $("#strip"), w = s.firstElementChild.offsetWidth + 16; $("#strip-n").textContent = (Math.round(s.scrollLeft / w) + 1) + " of " + gal.length; }
+  $("#strip").addEventListener("scrollend", count); $("#strip").addEventListener("scroll", function () { if (!("onscrollend" in window)) count(); }, { passive: true }); count();
+
+  // I
+  var cols = [["longtail", "Longtail"], ["speedboat", "Speedboat"]];
+  var rowsI = [
+    ["Islands", function (b) { return M.fact(four, "Islands, " + b); }],
+    ["Lunch", function (b) { return (M.fact(four, "Lunch").match(new RegExp("(Koh \\w+) by " + b)) || [])[1] + ", Thai buffet on the beach"; }],
+    ["Formats", function (b) { return four.options.filter(function (o) { return o.boat === b; }).map(function (o) { return o.label; }).join(", "); }],
+    ["Adult price", function (b) { var o = four.options.filter(function (o) { return o.boat === b && o.kind === "join-in"; })[0]; return "from " + M.thb(o.prices[0].amount) + " per adult, join-in"; }]
+  ];
+  function drawI(sel) {
+    $("#cmpt").innerHTML = '<thead><tr><td></td>' + cols.map(function (c) { return '<th scope="col" class="' + (c[0] === sel ? "on" : "") + '"><button type="button" aria-pressed="' + (c[0] === sel) + '" value="' + c[0] + '">' + c[1] + "</button></th>"; }).join("") + "</tr></thead><tbody>" +
+      rowsI.map(function (r) { return '<tr><th scope="row">' + r[0] + "</th>" + cols.map(function (c) { return '<td class="' + (c[0] === sel ? "on" : "") + '">' + M.esc(r[1](c[0])) + "</td>"; }).join("") + "</tr>"; }).join("") +
+      '<tr><th scope="row">The boat</th><td colspan="2">' + M.esc(four.faq[0].a) + "</td></tr></tbody>";
+  }
+  drawI("longtail");
+  $("#cmpt").addEventListener("click", function (e) { var b = e.target.closest("button"); if (b) { drawI(b.value); $('#cmpt button[value="' + b.value + '"]').focus(); } });
+
+  // J
+  var steps = four.day[0].steps, mins = function (t) { var a = t.split(":"); return +a[0] * 60 + +a[1]; };
+  var lo = mins(steps[0].time), hi = mins((steps[steps.length - 1].range || "").split("–")[1] || steps[steps.length - 1].time);
+  var sc = $("#scrub"); sc.min = lo; sc.max = hi; sc.step = 5; sc.value = lo;
+  $("#ticks").innerHTML = steps.map(function (s) { return "<span>" + s.time + "</span>"; }).join("");
+  function drawJ() {
+    var v = +sc.value, cur = steps.filter(function (s) { return mins(s.time) <= v; }).pop();
+    var hh = String(Math.floor(v / 60)).padStart(2, "0") + ":" + String(v % 60).padStart(2, "0");
+    sc.setAttribute("aria-valuetext", hh + ", " + cur.place);
+    var html = "<time>" + hh + (cur.fixed ? "" : " (times move with the sea)") + "</time><b>" + M.esc(cur.place) + "</b><p>" + M.esc(cur.text) + "</p>";
+    var now = $("#now");
+    if (now.dataset.k !== cur.time) { now.dataset.k = cur.time; now.innerHTML = html; if (!M.reduce.matches) now.animate([{ opacity: 0, transform: "translateY(6px)" }, { opacity: 1, transform: "none" }], { duration: 220, easing: "cubic-bezier(.22,1,.36,1)" }); }
+    else $("time", now).textContent = hh + (cur.fixed ? "" : " (times move with the sea)");
+  }
+  sc.addEventListener("input", drawJ); drawJ();
+
+  // K
+  var wst = { opt: four.options[0].id, date: "", adults: 2 }, wi = 0;
+  var wsteps = [
+    ["Which boat?", function () { return four.options.map(function (o) { return '<label class="opt press"><input type="radio" name="wopt" value="' + o.id + '"' + (o.id === wst.opt ? " checked" : "") + "><span><b>" + M.esc(o.label) + "</b></span></label>"; }).join(""); }],
+    ["Which day?", function () { return '<div class="days">' + [0, 1, 2, 3, 4, 5, 6, 7].map(function (n) { var d = M.addDays(M.today(), n), dt = new Date(d + "T00:00:00Z"); return '<button type="button" data-d="' + d + '" aria-selected="' + (wst.date === d) + '"><small>' + (n === 0 ? "Today" : n === 1 ? "Tomorrow" : dt.toLocaleDateString("en-GB", { timeZone: "UTC", weekday: "short" })) + "</small><b>" + dt.getUTCDate() + "</b><small>" + dt.toLocaleDateString("en-GB", { timeZone: "UTC", month: "short" }) + "</small></button>"; }).join("") + "</div>"; }],
+    ["How many adults?", function () { return '<div class="g-row"><b>Adults</b><div class="stepper"><button type="button" data-a="-1" aria-label="One adult less">−</button><output>' + wst.adults + '</output><button type="button" data-a="1" aria-label="One adult more">+</button></div></div>'; }],
+    ["Your message", function () { var o = four.options.filter(function (x) { return x.id === wst.opt; })[0]; var l = M.message(four, o, { date: wst.date, adults: wst.adults, ages: [] }); return '<pre class="preview__msg">' + M.esc(l.join("\n")) + '</pre><a class="btn btn--lg" target="_blank" rel="noopener" href="' + M.wa(l.join("\n")) + '">' + M.icon.wa + "Open WhatsApp</a>"; }]
+  ];
+  $("#wiz").innerHTML = '<div class="wiz__prog"><i></i></div><div class="wiz__view"><div class="wiz__track">' + wsteps.map(function (s, i) { return '<div class="wiz__step" data-i="' + i + '"></div>'; }).join("") + '</div></div><div class="wiz__nav"><button class="link" type="button" id="w-back">Back</button><button class="btn" type="button" id="w-next">Next</button></div>';
+  function wdraw() {
+    $$("#wiz .wiz__step").forEach(function (el, i) { el.innerHTML = "<h3>" + wsteps[i][0] + "</h3>" + wsteps[i][1](); el.setAttribute("aria-hidden", i !== wi); });
+    $("#wiz .wiz__track").style.transform = "translateX(" + (-wi * 100) + "%)";
+    $("#wiz .wiz__prog i").style.transform = "scaleX(" + ((wi + 1) / wsteps.length) + ")";
+    $("#w-back").style.visibility = wi ? "visible" : "hidden";
+    $("#w-next").hidden = wi === wsteps.length - 1;
+    $("#w-next").disabled = wi === 1 && !wst.date;
+  }
+  $("#wiz").addEventListener("click", function (e) {
+    var d = e.target.closest("[data-d]"), a = e.target.closest("[data-a]");
+    if (d) { wst.date = d.dataset.d; wdraw(); }
+    if (a) { wst.adults = M.clamp(wst.adults + +a.dataset.a, 1, 30); wdraw(); }
+    if (e.target.id === "w-next") { wi = Math.min(wi + 1, wsteps.length - 1); wdraw(); }
+    if (e.target.id === "w-back") { wi = Math.max(wi - 1, 0); wdraw(); }
+  });
+  $("#wiz").addEventListener("change", function (e) { if (e.target.name === "wopt") wst.opt = e.target.value; });
+  wdraw();
+
+  // L
+  $("#ff-ico").outerHTML = M.icon.search;
+  function ff() {
+    var q = $("#ff-q").value.trim().toLowerCase(), shown = [];
+    $("#ff").innerHTML = four.faq.map(function (f) {
+      var hit = !q || (f.q + " " + f.a).toLowerCase().indexOf(q) > -1;
+      if (hit) shown.push(f);
+      var mk = function (t) { return q ? M.esc(t).replace(new RegExp("(" + q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")", "ig"), "<mark>$1</mark>") : M.esc(t); };
+      return hit ? "<details><summary>" + mk(f.q) + "</summary><p>" + mk(f.a) + "</p></details>" : "";
+    }).join("") || '<p class="mute">No question mentions that. Ask us on WhatsApp.</p>';
+    if (shown.length === 1 && q) $("#ff details").open = true;
+  }
+  $("#ff-q").addEventListener("input", ff); ff();
+
+  // M
+  var priceds = S.products.filter(function (p) { return p.price; });
+  var pmax = Math.max.apply(null, priceds.map(function (p) { return p.price.from; }));
+  var bud = $("#bud"); bud.min = 500; bud.max = Math.ceil(pmax / 500) * 500; bud.step = 100; bud.value = 2000;
+  $("#bud-grid").innerHTML = S.products.map(function (p) { return '<div class="hcard" data-from="' + (p.price ? p.price.from : "") + '">' + M.card(p) + "</div>"; }).join("");
+  function budget() {
+    var v = +bud.value, n = 0;
+    $("#bud-o").textContent = M.thb(v);
+    $$("#bud-grid .hcard").forEach(function (c) { var f = c.dataset.from; var out = f !== "" && +f > v; c.classList.toggle("is-out", out); if (!out) n++; });
+    $("#bud-n").textContent = n + " of " + S.products.length + " trips start at or under this price (trips with a price on WhatsApp stay shown)";
+  }
+  bud.addEventListener("input", budget); budget();
+
+  // N
+  $("#dense").innerHTML = S.products.map(function (p) {
+    return "<li><details><summary>" + M.img(p.photo, { decorative: true }) + "<span><b>" + M.esc(p.name) + "</b><small>" + M.esc(p.line) + '</small></span><span class="pr">' + (p.price ? "from<strong>" + M.thb(p.price.from) + "</strong>" : "<strong>Price on WhatsApp</strong>") + '</span></summary><div class="body"><p>' + M.esc(p.lead) + "</p><dl>" + p.facts.slice(0, 5).map(function (f) { return "<dt>" + M.esc(f.label) + "</dt><dd>" + M.esc(f.value) + "</dd>"; }).join("") + '</dl><a class="link" href="' + M.href(p) + '">Open ' + M.esc(p.name) + "</a></div></details></li>";
+  }).join("");
+
+  // O
+  $("#side").innerHTML = acts.map(function (p) { return '<li><button type="button" class="press" data-slug="' + p.slug + '">' + M.img(p.photo, { decorative: true }) + "<b>" + M.esc(p.name) + "</b>" + M.priceHTML(p) + "</button></li>"; }).join("");
+  $("#side-sheet [data-close]").innerHTML = M.icon.close;
+  var side = M.sheet($("#side-sheet"));
+  $("#side").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-slug]"); if (!b) return;
+    var p = M.product(b.dataset.slug);
+    $("#side-h").textContent = p.name;
+    $("#side-body").innerHTML = M.img(p.photo, { cls: "" }) + '<p class="lead mt">' + M.esc(p.lead) + "</p><dl>" + p.facts.map(function (f) { return "<dt>" + M.esc(f.label) + "</dt><dd>" + M.esc(f.value) + "</dd>"; }).join("") + '</dl><p class="mt"><a class="btn" target="_blank" rel="noopener" href="' + M.wa("Hello, I'd like to book " + p.name + ".") + '">' + M.icon.wa + "Ask about " + M.esc(p.name) + "</a></p>";
+    M.bindImgs($("#side-body"));
+    side.open();
+  });
+
+  M.bindImgs(document);
+})();
+</script>
+<div id="ready" hidden></div>
+</body>
+</html>

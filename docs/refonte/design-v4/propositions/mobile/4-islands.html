@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>4 Islands boat tour from Koh Lanta | Secret Travel &amp; Tour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+<style>
+  body.pdp-page { padding-bottom: calc(84px + var(--safe-b)); }
+  .pdp-page .tabbar { display: none; }
+
+  /* galerie au doigt */
+  .gal { position: relative; }
+  .gal-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .gal-track::-webkit-scrollbar { display: none; }
+  .gal-track figure { flex: 0 0 100%; margin: 0; scroll-snap-align: center; aspect-ratio: 4 / 3; background: var(--mist); }
+  .gal-track img { width: 100%; height: 100%; object-fit: cover; }
+  .gal-count { position: absolute; right: 12px; bottom: 12px; background: rgba(20, 38, 43, .82); color: #fff; font-size: 14px; font-weight: 600; padding: 4px 10px; border-radius: 14px; }
+  .gal-open { position: absolute; left: 12px; bottom: 8px; min-height: 44px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; border-radius: 22px; border: 0; background: #fff; font-weight: 600; font-size: 14px; }
+  .gal-open svg { width: 18px; height: 18px; }
+  .gal-dots { display: flex; justify-content: center; gap: 6px; padding: 10px 0 0; }
+  .gal-dots i { width: 6px; height: 6px; border-radius: 3px; background: var(--line); transition: width .2s, background .2s; }
+  .gal-dots i.on { width: 18px; background: var(--deep); }
+
+  .pdp { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: "intro" "book" "rest"; }
+  .intro { grid-area: intro; padding-top: 18px; }
+  .intro .lead { margin-top: 10px; }
+  .intro .from { margin-top: 14px; font-size: 17px; }
+  .book { grid-area: book; }
+  .rest { grid-area: rest; min-width: 0; }
+  .book-card { border-top: 1px solid var(--line); padding-top: 26px; margin-top: 28px; }
+  .book-card h2 { font-size: 26px; margin-bottom: 16px; }
+  .wide-actions { display: none; }
+
+  /* trajet */
+  .route { list-style: none; margin: 18px calc(var(--gut) * -1) 0; padding: 0 var(--gut) 6px; display: flex; overflow-x: auto; scrollbar-width: none; }
+  .route::-webkit-scrollbar { display: none; }
+  .route li { position: relative; flex: none; max-width: 150px; padding: 0 22px 4px 0; display: flex; flex-direction: column; font-size: 14px; color: var(--mute); line-height: 1.35; }
+  .route li b { color: var(--ink); font-size: 16px; }
+  .route li::before { content: ""; display: block; width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--deep); background: #fff; margin-bottom: 6px; }
+  .route li.isl::before { background: var(--deep); }
+  .route li::after { content: ""; position: absolute; left: 14px; right: 4px; top: 6px; height: 2px; background: var(--deep); }
+  .route li:last-child::after { display: none; }
+
+  /* déroulé */
+  .tl { list-style: none; margin: 18px 0 0; padding: 0; }
+  .tl li { display: grid; grid-template-columns: 76px 1fr; gap: 12px; position: relative; padding-bottom: 18px; }
+  .tl li::before { content: ""; position: absolute; left: 82px; top: 8px; bottom: -6px; width: 2px; background: var(--line); }
+  .tl li:last-child::before { display: none; }
+  .tl time { font-variant-numeric: tabular-nums; font-size: 15px; color: var(--mute); padding-top: 1px; }
+  .tl time.fixed { font-weight: 700; color: var(--ink); }
+  .tl .pt { padding-left: 18px; position: relative; }
+  .tl .pt::before { content: ""; position: absolute; left: -6px; top: 7px; width: 10px; height: 10px; border-radius: 50%; background: var(--deep); }
+  .tl .pt b { display: block; }
+  .tl .pt span { color: var(--mute); font-size: 15px; }
+  .tl-note { font-size: 14px; color: var(--mute); }
+
+  /* longtail ou speedboat */
+  .vs-photo { aspect-ratio: 4 / 3; border-radius: var(--r-card); overflow: hidden; background: var(--mist); margin-top: 18px; }
+  .vs-photo img { width: 100%; height: 100%; object-fit: cover; }
+  .vs { width: 100%; border-collapse: collapse; margin-top: 18px; font-size: 15px; table-layout: fixed; }
+  .vs th, .vs td { text-align: left; vertical-align: top; padding: 10px 8px 10px 0; border-bottom: 1px solid var(--line); line-height: 1.45; }
+  .vs thead th { font-family: var(--serif); font-weight: 400; font-size: 19px; }
+  .vs tbody th { color: var(--mute); font-weight: 400; width: 30%; }
+  .vs .cur { background: var(--mist); padding-left: 8px; }
+
+  .lists { display: grid; gap: 24px; margin-top: 20px; }
+  .lists ul { margin: 10px 0 0; padding-left: 20px; }
+  .lists li { margin-bottom: 6px; }
+  .byb { display: grid; gap: 0; margin-top: 14px; }
+  .byb div { border-top: 1px solid var(--line); padding: 12px 0; }
+  .byb dt { font-weight: 700; }
+  .byb dd { margin: 2px 0 0; color: var(--mute); }
+
+  .friend { background: var(--mist); border-radius: var(--r-card); padding: 18px; display: grid; gap: 10px; }
+  .rel { display: grid; grid-auto-flow: column; grid-auto-columns: 74%; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gut); padding: 4px var(--gut) 8px; margin-inline: calc(var(--gut) * -1); scrollbar-width: none; list-style: none; margin-block: 0; }
+  .rel li { scroll-snap-align: start; position: relative; }
+  .rel .ph { aspect-ratio: 4 / 3; border-radius: 12px; overflow: hidden; background: var(--mist); }
+  .rel .ph img { width: 100%; height: 100%; object-fit: cover; }
+  .rel h3 { font-size: 19px; margin-top: 8px; }
+  .rel h3 button { all: unset; cursor: pointer; }
+  .rel h3 button::after { content: ""; position: absolute; inset: 0; }
+  .rel h3 button:focus-visible::after { outline: 2px solid var(--sea); outline-offset: 3px; border-radius: 12px; }
+  .rel p { font-size: 15px; color: var(--mute); }
+
+  /* barre d'action basse */
+  .actionbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; background: #fff; border-top: 1px solid var(--line); padding: 10px var(--gut) calc(10px + var(--safe-b)); display: flex; align-items: center; gap: 12px; }
+  .actionbar .sum { margin-right: auto; min-width: 0; line-height: 1.25; }
+  .actionbar .sum b { display: block; font-size: 19px; }
+  .actionbar .sum button { all: unset; cursor: pointer; font-size: 14px; color: var(--sea); text-decoration: underline; text-underline-offset: 3px; display: inline-block; padding: 6px 0; }
+  .actionbar .btn { flex: none; }
+
+  /* visionneuse */
+  .viewer { position: fixed; inset: 0; z-index: 130; background: #0d1c1e; display: flex; flex-direction: column; }
+  .viewer[hidden] { display: none; }
+  .viewer header { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; color: #fff; }
+  .viewer .icon-btn { background: transparent; color: #fff; border-color: rgba(255, 255, 255, .4); }
+  .viewer .v-track { flex: 1; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .viewer figure { flex: 0 0 100%; margin: 0; scroll-snap-align: center; display: flex; flex-direction: column; justify-content: center; padding: 0 0 12px; }
+  .viewer img { max-height: 78dvh; width: 100%; object-fit: contain; }
+  .viewer figcaption { color: #dfe8e6; font-size: 15px; padding: 12px 20px 0; }
+  .viewer .nav { display: none; }
+
+  @media (min-width: 1024px) {
+    body.pdp-page { padding-bottom: 0; }
+    .actionbar { display: none; }
+    .gal { max-width: 1200px; margin: 16px auto 0; padding-inline: var(--gut); }
+    .gal-track { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 220px 220px; gap: 8px; overflow: visible; border-radius: 18px; overflow: hidden; }
+    .gal-track figure { aspect-ratio: auto; cursor: zoom-in; }
+    .gal-track figure:first-child { grid-row: 1 / span 2; }
+    .gal-count, .gal-dots { display: none; }
+    .gal-open { left: auto; right: calc(var(--gut) + 14px); bottom: 14px; }
+    .pdp { grid-template-columns: minmax(0, 1fr) 400px; grid-template-areas: "intro book" "rest book"; column-gap: 64px; }
+    .intro { padding-top: 32px; }
+    .book { padding-top: 32px; }
+    .book-card { position: sticky; top: 92px; margin: 0; border: 1px solid var(--line); border-radius: 18px; padding: 22px; }
+    #week-btn { display: none; }
+    .wide-actions { display: grid; gap: 8px; margin-top: 14px; }
+    .rest section:first-child { border-top: 1px solid var(--line); margin-top: 32px; }
+    .lists { grid-template-columns: 1fr 1fr; }
+    .book-card .ribbon { flex-wrap: nowrap; overflow-x: auto; margin-inline: -22px; padding-inline: 22px; scroll-padding-inline: 22px; }
+    .vs-photo { aspect-ratio: 16 / 9; }
+    .rel { grid-auto-flow: row; grid-template-columns: repeat(3, 1fr); margin: 0; padding: 0; overflow: visible; }
+    .viewer .nav { display: grid; position: absolute; top: 50%; }
+    .viewer .prev { left: 16px; } .viewer .next { right: 16px; }
+  }
+</style>
+</head>
+<body class="pdp-page">
+<a class="skip" href="#main">Skip to the trip</a>
+<header class="appbar"><div class="wrap">
+  <a class="back-btn" id="back" href="tours.html">Trips</a>
+  <span class="title" id="bar-title" aria-hidden="true"></span>
+  <nav class="topnav" aria-label="Main"></nav>
+  <button class="icon-btn" type="button" data-week id="week-btn" aria-label="My week"></button>
+  <button class="icon-btn" type="button" id="share-btn" aria-label="Share this trip"></button>
+</div></header>
+
+<main id="main">
+  <div class="gal" id="gal" aria-roledescription="carousel" aria-label="Photos of the 4 Islands trip">
+    <div class="gal-track" id="gal-track" tabindex="0"></div>
+    <span class="gal-count num" id="gal-count" aria-live="polite"></span>
+    <button class="gal-open" type="button" id="gal-open"></button>
+  </div>
+  <div class="gal-dots" id="gal-dots" aria-hidden="true"></div>
+
+  <div class="wrap pdp">
+    <div class="intro">
+      <h1 id="h1"></h1>
+      <p class="lead" id="lead"></p>
+      <p class="from" id="from"></p>
+      <dl class="facts" id="facts"></dl>
+    </div>
+
+    <aside class="book" aria-labelledby="book-h">
+      <div class="book-card" id="book">
+        <h2 id="book-h">Your day</h2>
+        <div id="booker"></div>
+        <div class="wide-actions">
+          <button class="btn block" type="button" data-review>Send request on WhatsApp</button>
+          <button class="btn ghost block" type="button" data-add>Add to my week</button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="rest">
+      <section aria-labelledby="route-h">
+        <h2 id="route-h">Islands on your option</h2>
+        <ol class="route" id="route"></ol>
+        <h3 style="margin-top:28px" id="day-h">The day</h3>
+        <ol class="tl" id="tl"></ol>
+        <p class="tl-note" id="tl-note"></p>
+      </section>
+
+      <section aria-labelledby="vs-h">
+        <h2 id="vs-h">Longtail or speedboat?</h2>
+        <p class="lead" style="margin-top:10px" id="vs-a"></p>
+        <div class="vs-photo" id="vs-photo"></div>
+        <div style="overflow-x:auto"><table class="vs" id="vs"></table></div>
+      </section>
+
+      <section aria-labelledby="inc-h">
+        <h2 id="inc-h">What the price covers</h2>
+        <div class="lists">
+          <div><h3>Included</h3><ul id="inc"></ul></div>
+          <div><h3>Not included</h3><ul id="notinc"></ul></div>
+        </div>
+      </section>
+
+      <section aria-labelledby="byb-h">
+        <h2 id="byb-h">Before you book</h2>
+        <dl class="byb" id="byb"></dl>
+      </section>
+
+      <section aria-labelledby="faq-h">
+        <h2 id="faq-h">Questions</h2>
+        <div id="faq" style="margin-top:8px"></div>
+      </section>
+
+      <section aria-labelledby="fr-h">
+        <div class="friend">
+          <h2 id="fr-h" style="font-size:24px">Going with friends?</h2>
+          <p class="small">Send them this trip before you book. They get the link, the price and the day you picked.</p>
+          <a class="btn ghost" id="fr-wa" target="_blank" rel="noopener"></a>
+          <button class="link-btn" type="button" id="fr-share" style="justify-self:start">Copy or share the link</button>
+        </div>
+      </section>
+
+      <section aria-labelledby="rel-h">
+        <h2 id="rel-h">Other boat trips</h2>
+        <ul class="rel" id="rel" style="margin-top:16px"></ul>
+        <p style="margin-top:18px" id="rel-taxi"></p>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer class="foot" id="foot"></footer>
+
+<div class="actionbar" id="actionbar">
+  <div class="sum"><b class="num" id="ab-price"></b><button type="button" id="ab-change"></button></div>
+  <button class="btn" type="button" data-review>Book on WhatsApp</button>
+</div>
+
+<div class="viewer" id="viewer" hidden role="dialog" aria-modal="true" aria-label="Photos, full screen">
+  <header><span class="num" id="v-count"></span><button class="icon-btn" type="button" id="v-close" aria-label="Close the photos"></button></header>
+  <div class="v-track" id="v-track"></div>
+  <button class="icon-btn nav prev" type="button" aria-label="Previous photo" data-step="-1"></button>
+  <button class="icon-btn nav next" type="button" aria-label="Next photo" data-step="1"></button>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+(() => {
+  const A = App, D = A.D, { $, $$, esc } = A;
+  const p = A.bySlug["4-islands"];
+  A.chrome("tours");
+  A.footer($("#foot"));
+
+  $("#back").innerHTML = A.icon("back") + "Trips";
+  try { const u = sessionStorage.getItem("stt-hub-url"); if (u) $("#back").href = u; } catch {}
+  $("#week-btn").innerHTML = A.icon("week") + `<span class="count num" ${A.store.get().length ? "" : "hidden"}>${A.store.get().length}</span>`;
+  $("#week-btn").style.position = "relative";
+  $("#share-btn").innerHTML = A.icon("share");
+  $("#bar-title").textContent = p.name;
+
+  /* Galerie : photos déclarées pour cette page dans photos-v3.json, une fois chacune */
+  const GAL = ["four-hero", "four-gallery-reef", "four-gallery-ngai", "four-gallery-kradan", "four-gallery-pier"];
+  $("#gal-track").innerHTML = GAL.map((id, i) => `<figure data-i="${i}">${A.photo(id, { eager: i === 0 })}</figure>`).join("");
+  $("#gal-dots").innerHTML = GAL.map(() => "<i></i>").join("");
+  $("#gal-open").innerHTML = A.icon("expand") + `All ${GAL.length} photos`;
+  const track = $("#gal-track");
+  const setIdx = () => { const i = Math.round(track.scrollLeft / track.clientWidth) || 0; $("#gal-count").textContent = `${i + 1} / ${GAL.length}`; $$("#gal-dots i").forEach((d, k) => d.classList.toggle("on", k === i)); };
+  track.addEventListener("scroll", setIdx, { passive: true }); setIdx();
+  track.addEventListener("keydown", (e) => { if (e.key === "ArrowRight" || e.key === "ArrowLeft") { e.preventDefault(); track.scrollBy({ left: (e.key === "ArrowRight" ? 1 : -1) * track.clientWidth, behavior: "smooth" }); } });
+
+  const V = $("#viewer"), vt = $("#v-track");
+  vt.innerHTML = GAL.map((id) => `<figure>${A.photo(id)}<figcaption>${esc(D.photos[id].alt)}</figcaption></figure>`).join("");
+  $("#v-close").innerHTML = A.icon("close");
+  $(".viewer .prev").innerHTML = A.icon("back");
+  $(".viewer .next").innerHTML = `<span style="transform:rotate(180deg);display:grid">${A.icon("back")}</span>`;
+  const vIdx = () => { const i = Math.round(vt.scrollLeft / vt.clientWidth) || 0; $("#v-count").textContent = `${i + 1} / ${GAL.length}`; };
+  vt.addEventListener("scroll", vIdx, { passive: true });
+  let vFrom;
+  const openViewer = (i) => { vFrom = document.activeElement; V.hidden = false; document.documentElement.style.overflow = "hidden"; vt.scrollLeft = i * vt.clientWidth; vIdx(); $("#v-close").focus(); };
+  const closeViewer = () => { V.hidden = true; document.documentElement.style.overflow = ""; vFrom?.focus(); };
+  $("#gal-open").onclick = () => openViewer(Math.round(track.scrollLeft / track.clientWidth) || 0);
+  track.addEventListener("click", (e) => { const f = e.target.closest("figure"); if (f) openViewer(+f.dataset.i); });
+  $("#v-close").onclick = closeViewer;
+  V.addEventListener("click", (e) => { const b = e.target.closest("[data-step]"); if (b) vt.scrollBy({ left: +b.dataset.step * vt.clientWidth, behavior: "smooth" }); });
+  document.addEventListener("keydown", (e) => { if (V.hidden) return; if (e.key === "Escape") closeViewer(); if (e.key === "ArrowRight") vt.scrollBy({ left: vt.clientWidth }); if (e.key === "ArrowLeft") vt.scrollBy({ left: -vt.clientWidth }); });
+
+  /* Intro et faits */
+  $("#h1").textContent = p.h1;
+  $("#lead").textContent = p.lead;
+  $("#from").innerHTML = A.priceFrom(p);
+  const FACTS = ["Duration", "Hotel pickup", "Boat leaves", "Pier", "Format", "Boat"];
+  $("#facts").innerHTML = FACTS.map((l) => A.fact(p, l) ? `<div><dt>${esc(l)}</dt><dd class="num">${esc(A.fact(p, l))}</dd></div>` : "").join("");
+
+  /* Réservation : l'état vit dans l'URL (?o=&d=&a=&k=) pour qu'un lien partagé rouvre le même choix */
+  const q = new URLSearchParams(location.search);
+  const opts = p.options;
+  const init = {
+    option: opts.some((o) => o.id === q.get("o")) ? q.get("o") : opts[0].id,
+    date: q.get("d") && q.get("d") >= A.iso(A.today()) ? q.get("d") : A.iso(A.addDays(A.today(), 1)),
+    pax: { adults: Math.max(1, +q.get("a") || 2), kids: (q.get("k") || "").split(".").filter((x) => x !== "").map(Number) },
+    addons: [],
+  };
+  const bk = A.booker($("#booker"), p, { state: init, onChange: (st, qt) => sync(st, qt) });
+
+  function shareUrl(st) {
+    const u = new URL(D.site.url + p.url);
+    u.searchParams.set("o", st.option); u.searchParams.set("d", st.date); u.searchParams.set("a", st.pax.adults);
+    if (st.pax.kids.length) u.searchParams.set("k", st.pax.kids.join("."));
+    return u.toString();
+  }
+  function sync(st, qt) {
+    const o = opts.find((x) => x.id === st.option);
+    const u = new URL(location.href);
+    ["o", "d", "a", "k"].forEach((k) => u.searchParams.delete(k));
+    u.searchParams.set("o", st.option); u.searchParams.set("d", st.date); u.searchParams.set("a", st.pax.adults);
+    if (st.pax.kids.length) u.searchParams.set("k", st.pax.kids.join("."));
+    history.replaceState(null, "", u);
+    $("#ab-price").textContent = qt.total != null ? A.thb(qt.total) : "Price on WhatsApp";
+    $("#ab-change").textContent = `${A.rel(A.fromIso(st.date)) === "Today" || A.rel(A.fromIso(st.date)) === "Tomorrow" ? A.rel(A.fromIso(st.date)) : A.short(A.fromIso(st.date))}, ${A.paxText(st.pax).replace(/ \(age [^)]+\)/, "")}. Change`;
+    drawRoute(o, st); drawDay(o); drawVs(o);
+    const fr = `${p.name}, ${o.label}, on ${A.long(A.fromIso(st.date))}. ${qt.total != null ? A.thb(qt.total) + " for " + A.paxText(st.pax) + "." : ""} ${shareUrl(st)}`;
+    $("#fr-wa").href = "https://wa.me/?text=" + encodeURIComponent(fr);
+  }
+  $("#fr-wa").innerHTML = A.icon("wa") + "Send to a friend on WhatsApp";
+  $("#ab-change").onclick = () => $("#book").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  const doShare = () => A.share({ title: p.h1, text: p.promise, url: shareUrl(bk.state) });
+  $("#share-btn").onclick = doShare; $("#fr-share").onclick = doShare;
+
+  /* Trajet : les îles viennent des faits « Islands, longtail » et « Islands, speedboat » */
+  function drawRoute(o, st) {
+    const isl = (A.fact(p, `Islands, ${o.boat}`) || "").split(", ");
+    const add = st.addons.length ? st.addons.map((a) => a.replace(/^Add /, "").replace(/, per boat$/, "")) : [];
+    const stops = [`<li><b>${esc(o.pier || A.fact(p, "Pier"))}</b><span>${esc(A.fact(p, "Boat leaves") || "")}</span></li>`]
+      .concat(isl.concat(add).map((n) => `<li class="isl"><b>${esc(n)}</b></li>`))
+      .concat([`<li><b>Koh Lanta</b></li>`]);
+    $("#route").innerHTML = stops.join("");
+  }
+  /* Déroulé : publié pour le longtail seulement (TODO client pour le speedboat) */
+  function drawDay(o) {
+    const day = p.day[0];
+    if (o.boat === "speedboat") {
+      $("#day-h").textContent = "The day by speedboat";
+      $("#tl").innerHTML = `<li><time></time><div class="pt"><span class="missing">[DONNÉE À FOURNIR : horaires du speedboat, étape par étape]</span></div></li>`;
+      $("#tl-note").textContent = "";
+      return;
+    }
+    $("#day-h").textContent = o.kind === "private" ? "The day, as on the join-in longtail" : day.title.replace(/^The day, /, "The day, ");
+    $("#tl").innerHTML = day.steps.map((s) => `<li><time class="${s.fixed ? "fixed" : ""}">${s.fixed ? "" : "≈ "}${esc(s.range || s.time)}</time><div class="pt"><b>${esc(s.place)}</b><span>${esc(s.detail)}</span></div></li>`).join("");
+    $("#tl-note").textContent = (o.kind === "private" ? o.note + " " : "") + day.note;
+  }
+  /* Comparatif longtail / speedboat, colonne de l'option choisie surlignée */
+  function drawVs(o) {
+    const lunch = A.fact(p, "Lunch") || "";
+    const lt = opts.filter((x) => x.boat === "longtail"), sb = opts.filter((x) => x.boat === "speedboat");
+    const adult = (list) => list.map((x) => { const a = (x.prices || []).find((y) => y.label === "Adult"); return a ? `${A.thb(a.amount)} per adult, ${x.kind}` : `${x.label}: ${A.fromPrice(x)}`; }).join("<br>");
+    const rows = [
+      ["Islands", A.fact(p, "Islands, longtail"), A.fact(p, "Islands, speedboat")],
+      ["Lunch", (lunch.match(/(Koh \w+) by longtail/) || [])[1], (lunch.match(/(Koh \w+) by speedboat/) || [])[1]],
+      ["Price", adult(lt), adult(sb)],
+      ["Formats", lt.map((x) => x.kind).join(", "), sb.map((x) => x.kind).join(", ")],
+    ];
+    const c = o.boat === "speedboat" ? 2 : 1;
+    $("#vs").innerHTML = `<thead><tr><th><span class="sr">Detail</span></th><th class="${c === 1 ? "cur" : ""}">Longtail</th><th class="${c === 2 ? "cur" : ""}">Speedboat</th></tr></thead><tbody>${rows.map((r) => `<tr><th scope="row">${r[0]}</th><td class="${c === 1 ? "cur" : ""}">${r[1] || ""}</td><td class="${c === 2 ? "cur" : ""}">${r[2] || ""}</td></tr>`).join("")}</tbody>`;
+  }
+  $("#vs-a").textContent = p.faq.find((f) => /longtail or speedboat/i.test(f.q))?.a || "";
+  $("#vs-photo").innerHTML = A.photo("four-longtail");
+
+  $("#inc").innerHTML = p.included.map((x) => `<li>${esc(x)}</li>`).join("");
+  $("#notinc").innerHTML = p.notIncluded.map((x) => `<li>${esc(x)}${/park fee/i.test(x) && A.fact(p, "National park fee") ? ": " + esc(A.fact(p, "National park fee").replace(/, not included$/, "")) : ""}</li>`).join("");
+  const b = p.beforeYouBook, s = D.site.booking;
+  $("#byb").innerHTML = [
+    ["Pickup", b.pickup], ["Bring", (b.bring || []).join(", ")], ["Weather", s.weather],
+    ["Payment", "In " + s.payment.join(" or ") + ". Nothing is paid online."],
+  ].map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join("");
+  $("#faq").innerHTML = p.faq.filter((f) => !/longtail or speedboat/i.test(f.q)).map((f) => `<details class="qa"><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join("");
+
+  const rel = p.related.map((u) => A.products.find((x) => x.url === u)).filter(Boolean);
+  $("#rel").innerHTML = rel.map((r) => `<li><div class="ph">${A.photo(r.photo)}</div><h3><button type="button" data-ql="${r.slug}">${esc(r.name)}</button></h3><p>${esc(r.promise || "")}</p>${A.priceFrom(r)}</li>`).join("");
+  const taxi = p.related.find((u) => u.startsWith("/taxi/"));
+  if (taxi) $("#rel-taxi").innerHTML = `Arriving from Krabi Airport? Private minivans by ${esc(D.site.vip.name)}: <a href="#" data-out="${taxi}">Krabi Airport to Koh Lanta</a>`;
+  document.addEventListener("click", (e) => { const x = e.target.closest("[data-ql]"); if (x) A.quickLook(x.dataset.ql, bk.state.date); });
+
+  /* Feuille de relecture avant WhatsApp */
+  const rs = A.makeSheet("review", "Check and send");
+  const rb = $(".body", rs), rf = $("footer", rs);
+  let draft = {}; try { draft = JSON.parse(sessionStorage.getItem("stt-week-draft")) || {}; } catch {}
+  function review() {
+    const st = bk.state, o = bk.option(), qt = bk.quote();
+    rb.innerHTML = `<p><b>${esc(p.name)}, ${esc(o.label)}</b></p><p class="small">${A.long(A.fromIso(st.date))}. ${esc(A.paxText(st.pax))}.</p>
+      <div class="field"><label for="rv-hotel">Pickup hotel</label><input id="rv-hotel" value="${esc(draft.hotel || "")}"></div>
+      <div class="field"><label for="rv-name">Your name</label><input id="rv-name" autocomplete="name" value="${esc(draft.name || "")}"></div>
+      <p class="bk-l" style="margin-top:18px">Your message</p><div class="msg" id="rv-msg"></div>`;
+    rf.hidden = false;
+    rf.innerHTML = `<a class="btn block" id="rv-send" target="_blank" rel="noopener">${A.icon("wa")}Open WhatsApp with this message</a><button class="btn ghost block" type="button" data-add>Add to my week instead</button>`;
+    const up = () => {
+      draft.hotel = $("#rv-hotel").value.trim(); draft.name = $("#rv-name").value.trim();
+      try { sessionStorage.setItem("stt-week-draft", JSON.stringify(draft)); } catch {}
+      const m = A.message([{ slug: p.slug, option: st.option, date: st.date, pax: st.pax, addons: st.addons }], draft);
+      $("#rv-msg").textContent = m; $("#rv-send").href = A.waLink(m);
+    };
+    rb.oninput = up; up();
+    A.openSheet(rs);
+  }
+  document.addEventListener("click", (e) => {
+    if (e.target.closest("[data-review]")) review();
+    if (e.target.closest("[data-add]")) {
+      const st = bk.state;
+      A.store.add({ slug: p.slug, option: st.option, date: st.date, pax: structuredClone(st.pax), addons: [...st.addons] });
+      if (!rs.hidden) A.closeSheet();
+      A.toast(`4 Islands added to ${A.short(A.fromIso(st.date))}. Open My week to send it.`);
+    }
+  });
+})();
+</script>
+</body>
+</html>

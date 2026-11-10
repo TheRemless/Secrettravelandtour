@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Koh Lanta Boat Trips and Transfers | Secret Travel &amp; Tour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Manrope:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="mouvement.css">
+<!-- La page n'est peinte qu'une fois les sections rendues : la transition entre pages capture le vrai hero -->
+<link rel="expect" href="#ready" blocking="render">
+<script type="speculationrules">{"prerender":[{"where":{"selector_matches":"a.card, a[href='4-islands.html']"},"eagerness":"moderate"}]}</script>
+<style>
+/* Hero : trois sorties au choix, la photo et le bouton suivent le choix */
+.hero { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-template-areas: "text ph" "ctl ph"; column-gap: 56px; align-items: center; padding-block: 56px 96px; }
+.hero__text { grid-area: text; align-self: end; }
+.hero__ctl { grid-area: ctl; align-self: start; }
+.hero__ph { grid-area: ph; }
+.hero h1 { max-width: 14ch; }
+.hero .lead { margin-top: 22px; }
+.switch { margin-top: 36px; display: grid; position: relative; isolation: isolate; max-width: 460px; }
+.switch__pill { position: absolute; z-index: -1; left: -14px; right: -14px; top: 0; height: 0; border-radius: 12px; background: var(--sand); transition: transform var(--t3) var(--spring), height var(--t3) var(--spring); }
+.switch button { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 16px; text-align: left; border: 0; background: none; padding: 14px 0; min-height: 56px; border-top: 1px solid var(--line); }
+.switch button:last-child { border-bottom: 1px solid var(--line); }
+.switch button b { font: 600 26px/1.1 var(--serif); color: var(--ink-mute); transition: color var(--t2) var(--out); }
+.switch button span { font-size: 15px; color: var(--ink-mute); white-space: nowrap; }
+.switch button[aria-checked="true"] b { color: var(--ink); }
+.switch button[aria-checked="true"] span { color: var(--ink); }
+.hero__go { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; }
+.hero__go .btn span { display: inline-block; }
+.hero__ph { margin: 0; margin-right: calc(-1 * max(var(--gut), (100vw - var(--max)) / 2)); }
+.hero__ph .ph { aspect-ratio: 4 / 3; border-radius: var(--r) 0 0 var(--r); }
+.hero__ph .ph img { position: absolute; inset: 0; opacity: 0; transform: scale(1.03); transition: opacity 420ms var(--out), transform 900ms var(--out); }
+.hero__ph .ph img.is-on { opacity: 1; transform: none; }
+.hero__ph figcaption { margin-top: 12px; font-size: 15px; color: var(--ink-mute); min-height: 1.5em; }
+@media (max-width: 899px) {
+  .hero { grid-template-columns: minmax(0, 1fr); grid-template-areas: "text" "ph" "ctl"; row-gap: 24px; padding-block: 28px 56px; }
+  .hero__ph { margin-inline: calc(-1 * var(--gut)); }
+  .hero__ph .ph { border-radius: 0; aspect-ratio: 3 / 2; }
+  .hero__ph figcaption { padding-inline: var(--gut); }
+  .switch { margin-top: 24px; max-width: none; }
+  .switch__pill { left: -10px; right: -10px; }
+}
+
+/* Transferts : un chercheur de trajet, puis les autres façons de voyager */
+.tr { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 64px; align-items: start; }
+.tr h2 { max-width: 12ch; }
+.tr > div > p { margin-top: 16px; max-width: 46ch; color: var(--ink-soft); }
+.finder { margin-top: 32px; background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
+.finder__row { display: grid; grid-template-columns: 1fr 44px; gap: 12px; align-items: center; }
+.finder__pair { display: grid; gap: 10px; }
+.finder .field select { width: 100%; appearance: none; background: var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2314262B' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") right 12px center / 18px no-repeat; padding-right: 40px; }
+.finder .x { background: var(--sand); }
+.finder .x svg { transition: transform var(--t3) var(--spring); }
+.finder__out { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--line); }
+.finder__out b { font: 600 26px/1.15 var(--serif); display: block; }
+.finder__out p { color: var(--ink-mute); font-size: 15px; margin-top: 4px; }
+.ways { list-style: none; margin: 0; padding: 0; }
+.ways li { padding: 22px 0; border-top: 1px solid var(--line); }
+.ways li:last-child { border-bottom: 1px solid var(--line); }
+.ways h3 { font-size: 24px; }
+.ways p { margin-top: 6px; color: var(--ink-mute); font-size: 16px; }
+@media (max-width: 899px) { .tr { grid-template-columns: minmax(0, 1fr); gap: 40px; } }
+
+/* Location : on choisit une catégorie, la fourchette de prix roule jusqu'aux nouveaux chiffres */
+.rent { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 64px; align-items: center; }
+.rent__card { border: 1px solid var(--line); border-radius: 16px; padding: 28px; }
+.rent__range { margin-top: 24px; font: 600 40px/1 var(--serif); display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.rent__range small { font: 400 15px/1.4 var(--sans); color: var(--ink-mute); }
+.rent__models { margin-top: 10px; color: var(--ink-mute); font-size: 15px; min-height: 1.5em; }
+.rent__card .btn { margin-top: 24px; }
+.rent .seg { width: 100%; }
+@media (max-width: 899px) { .rent { grid-template-columns: minmax(0, 1fr); gap: 28px; } .rent__range { font-size: 32px; } .rent .seg button { padding: 0 8px; } }
+
+/* Comment on réserve : le message s'écrit au rythme du défilement */
+.how { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 64px; align-items: start; }
+.steps { list-style: none; margin: 32px 0 0; padding: 0; counter-reset: s; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 40px 1fr; gap: 4px 12px; padding: 20px 0; border-top: 1px solid var(--line); }
+.steps li::before { content: counter(s); grid-row: span 2; font: 600 20px/1.4 var(--sans); color: var(--sea); }
+.steps h3 { font-size: 24px; }
+.steps p { color: var(--ink-mute); font-size: 16px; }
+.msg { position: sticky; top: calc(var(--hd) + 24px); background: var(--white); border-radius: 16px; padding: 22px 22px 18px; border: 1px solid var(--line); }
+.msg__to { display: flex; align-items: center; gap: 10px; font: 600 15px/1.3 var(--sans); padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+.msg__to svg { width: 20px; height: 20px; color: var(--sea); }
+.msg__bubble { margin-top: 16px; background: var(--sand); border-radius: 14px 14px 4px 14px; padding: 14px 16px; font-size: 15px; line-height: 1.55; }
+.msg__l { display: block; overflow-wrap: anywhere; }
+.msg__note { margin-top: 12px; font-size: 14px; color: var(--ink-mute); }
+@supports (animation-timeline: view()) {
+  .how { view-timeline: --how block; }
+  .msg__l { animation: type linear both; animation-timeline: --how; animation-range: cover calc(18% + var(--i) * 4%) cover calc(22% + var(--i) * 4%); }
+}
+@keyframes type { from { clip-path: inset(0 100% 0 0); opacity: .2; } to { clip-path: inset(0 0 0 0); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .msg__l { animation: none !important; } }
+@media (max-width: 899px) { .how { grid-template-columns: minmax(0, 1fr); gap: 32px; } .msg { position: static; } }
+
+/* Bande finale */
+.end { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 56px; align-items: center; }
+.end .ph { margin-left: calc(-1 * max(var(--gut), (100vw - var(--max)) / 2)); border-radius: 0 var(--r) var(--r) 0; }
+.end p { margin-top: 16px; color: var(--ink-soft); max-width: 40ch; }
+.end .btn { margin-top: 28px; }
+@media (max-width: 899px) { .end { grid-template-columns: minmax(0, 1fr); gap: 28px; } .end .ph { margin-inline: calc(-1 * var(--gut)); border-radius: 0; } }
+</style>
+</head>
+<body>
+<div id="top"></div>
+<main id="main">
+
+  <section class="wrap hero" aria-labelledby="h1">
+    <div class="hero__text">
+      <h1 id="h1"></h1>
+      <p class="lead" id="lead"></p>
+    </div>
+    <figure class="hero__ph"><div class="ph" id="hero-ph"></div><figcaption id="hero-cap" aria-live="polite"></figcaption></figure>
+    <div class="hero__ctl">
+      <div class="switch" role="radiogroup" aria-label="Choose a boat trip" id="switch"><span class="switch__pill" aria-hidden="true"></span></div>
+      <div class="hero__go">
+        <a class="btn btn--lg press" id="go" data-photo="#hero-ph"></a>
+        <a class="link" href="tours.html">All 13 trips and activities</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec--sand" aria-labelledby="more-h">
+    <div class="wrap">
+      <div class="sec__head"><h2 id="more-h">More boat trips</h2><a class="link" href="tours.html?type=boat">Compare all boat trips</a></div>
+      <div class="grid" id="more"></div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="act-h">
+    <div class="wrap rail-wrap">
+      <div class="sec__head"><h2 id="act-h">Activities</h2><a class="link" href="tours.html?type=activity">See all seven</a></div>
+      <div class="rail" id="acts" tabindex="0" aria-label="Activities, scroll sideways"></div>
+      <div class="rail-ctl"><div class="rail-bar" aria-hidden="true"><i></i></div>
+        <div class="arrows"><button class="arrow" id="acts-prev" type="button" aria-label="Previous activities"></button><button class="arrow" id="acts-next" type="button" aria-label="Next activities"></button></div></div>
+    </div>
+  </section>
+
+  <section class="sec sec--sand" id="transfers" aria-labelledby="tr-h">
+    <div class="wrap tr">
+      <div>
+        <h2 id="tr-h">Getting to and from Koh Lanta</h2>
+        <p id="tr-lead"></p>
+        <form class="finder" id="finder" aria-label="Find a private transfer">
+          <div class="finder__row">
+            <div class="finder__pair">
+              <div class="field" id="f-from"><label for="from">From</label><select id="from"></select></div>
+              <div class="field" id="f-to"><label for="to">To</label><select id="to"></select></div>
+            </div>
+            <button class="x" type="button" id="swap" aria-label="Swap the two places"></button>
+          </div>
+          <div class="finder__out" id="route" aria-live="polite"></div>
+        </form>
+      </div>
+      <ul class="ways" id="ways"></ul>
+    </div>
+  </section>
+
+  <section class="sec" id="rental" aria-labelledby="rent-h">
+    <div class="wrap rent">
+      <div><h2 id="rent-h"></h2><p class="lead" id="rent-lead"></p></div>
+      <div class="rent__card">
+        <div class="seg" id="rent-seg" role="group" aria-label="Vehicle type"></div>
+        <p class="rent__range" aria-live="polite"><span class="odo" id="r-lo"></span><span>–</span><span class="odo" id="r-hi"></span><small>THB per day</small></p>
+        <p class="rent__models" id="r-models"></p>
+        <a class="btn press" id="r-go" target="_blank" rel="noopener"></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec--sand" aria-labelledby="how-h">
+    <div class="wrap how">
+      <div>
+        <h2 id="how-h">How booking works</h2>
+        <ol class="steps" id="steps"></ol>
+      </div>
+      <figure class="msg" aria-label="Example of the message the page writes for you">
+        <div class="msg__to"></div>
+        <div class="msg__bubble" id="msg"></div>
+        <figcaption class="msg__note">Example for the 4 Islands. Each trip page writes this message from your choices.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="end-h">
+    <div class="wrap end">
+      <div id="end-ph"></div>
+      <div>
+        <h2 id="end-h">Not sure which trip?</h2>
+        <p>Send us your dates and who is coming, on WhatsApp.</p>
+        <a class="btn btn--lg press" id="end-go" target="_blank" rel="noopener"></a>
+      </div>
+    </div>
+  </section>
+</main>
+<div id="foot"></div>
+
+<script src="data.js"></script>
+<script src="mouvement.js"></script>
+<script>
+(function () {
+  var S = STT, $ = M.$;
+  M.boot("");
+
+  // ----- hero -----
+  $("#h1").textContent = S.home.h1;
+  $("#lead").textContent = "Koh Rok, Phi Phi and the 4 Islands by boat, the elephant sanctuary, cooking classes and your transfers. You book on WhatsApp and nothing is paid online.";
+  var heroTrips = ["4-islands", "koh-rok-koh-haa", "koh-phi-phi"].map(M.product);
+  var ph = $("#hero-ph"), sw = $("#switch"), pill = $(".switch__pill", sw), go = $("#go"), cap = $("#hero-cap");
+  var first = S.photos[heroTrips[0].photo];
+  ph.style.setProperty("--c", first.color); ph.style.setProperty("--lq", "url(" + first.lqip + ")");
+  ph.innerHTML = heroTrips.map(function (p, i) {
+    var f = S.photos[p.photo];
+    return '<img src="' + f.src + '" alt="' + M.esc(f.alt) + '" width="' + f.w + '" height="' + f.h + '" style="object-position:' + f.position + '" decoding="async" ' + (i ? 'loading="lazy"' : 'fetchpriority="high" class="is-on"') + ">";
+  }).join("");
+  sw.insertAdjacentHTML("beforeend", heroTrips.map(function (p, i) {
+    return '<button type="button" role="radio" aria-checked="' + (i ? "false" : "true") + '" tabindex="' + (i ? -1 : 0) + '" data-i="' + i + '"><b>' + M.esc(p.name) + "</b><span>from " + M.thb(p.price.from) + "</span></button>";
+  }).join(""));
+  var btns = M.$$("button", sw), cur = -1;
+  function pick(i, focus) {
+    if (i === cur) return;
+    cur = i;
+    var p = heroTrips[i], b = btns[i];
+    btns.forEach(function (x, j) { x.setAttribute("aria-checked", j === i); x.tabIndex = j === i ? 0 : -1; });
+    pill.style.height = b.offsetHeight + "px";
+    pill.style.transform = "translateY(" + b.offsetTop + "px)";
+    M.$$("img", ph).forEach(function (im, j) { im.classList.toggle("is-on", j === i); im.setAttribute("aria-hidden", j !== i); });
+    go.href = M.href(p);
+    go.textContent = "See the " + p.name + " trip";
+    cap.textContent = p.line;
+    M.prefetch(M.href(p).split("#")[0]);
+    if (focus) b.focus();
+  }
+  pick(0);
+  // Survol avec intention (90 ms) sur souris, clic partout, flèches au clavier comme un vrai groupe radio.
+  var hov;
+  btns.forEach(function (b, i) {
+    b.addEventListener("click", function () { pick(i); });
+    b.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") { clearTimeout(hov); hov = setTimeout(function () { pick(i); }, 90); } });
+    b.addEventListener("pointerleave", function () { clearTimeout(hov); });
+  });
+  sw.addEventListener("keydown", function (e) {
+    var d = e.key === "ArrowDown" || e.key === "ArrowRight" ? 1 : e.key === "ArrowUp" || e.key === "ArrowLeft" ? -1 : 0;
+    if (d) { e.preventDefault(); pick((cur + d + btns.length) % btns.length, true); }
+  });
+  addEventListener("resize", function () { var b = btns[cur]; pill.style.transition = "none"; pill.style.height = b.offsetHeight + "px"; pill.style.transform = "translateY(" + b.offsetTop + "px)"; pill.offsetWidth; pill.style.transition = ""; });
+
+  // ----- autres sorties en bateau -----
+  $("#more").innerHTML = ["koh-talabeng-koh-bubu", "mangroves", "fishing-trip"].map(function (s) { return M.card(M.product(s)); }).join("");
+
+  // ----- activités en rail -----
+  $("#acts").innerHTML = S.products.filter(function (p) { return p.kind === "activity"; }).map(function (p) { return M.card(p); }).join("");
+  $("#acts-prev").innerHTML = M.icon.left; $("#acts-next").innerHTML = M.icon.right;
+  M.rail($("#acts"), $("#acts-prev"), $("#acts-next"));
+
+  // ----- transferts -----
+  $("#tr-lead").textContent = "Private minivans across Southern Thailand are run by " + S.site.vip.name + ". Pick the two ends of your trip.";
+  $("#ways").innerHTML = S.home.transfers.map(function (t) {
+    return "<li><h3>" + M.esc(t.title) + "</h3><p>" + M.esc(t.text) + '</p><a class="link" href="' + t.href + '">' +
+      (t.href === "/taxi/" ? "See " + S.site.vip.name : t.href === "/transfers/" ? "See minivan transfers" : "See the speedboat timetable") + "</a></li>";
+  }).join("");
+  var places = [];
+  S.taxi.forEach(function (t) { [t.from, t.to].forEach(function (x) { if (places.indexOf(x) < 0) places.push(x); }); });
+  places.sort(function (a, b) { return a === "Koh Lanta" ? -1 : b === "Koh Lanta" ? 1 : a.localeCompare(b); });
+  function routesFrom(a) { return S.taxi.filter(function (t) { return t.from === a || t.to === a; }).map(function (t) { return t.from === a ? t.to : t.from; }); }
+  var from = $("#from"), to = $("#to"), out = $("#route"), swap = $("#swap"), turns = 0;
+  swap.innerHTML = M.icon.swap;
+  from.innerHTML = places.map(function (p) { return "<option>" + M.esc(p) + "</option>"; }).join("");
+  function fillTo(keep) {
+    var list = routesFrom(from.value);
+    to.innerHTML = list.map(function (p) { return "<option>" + M.esc(p) + "</option>"; }).join("");
+    if (keep && list.indexOf(keep) > -1) to.value = keep;
+  }
+  function show(animate) {
+    var a = from.value, b = to.value;
+    var t = S.taxi.filter(function (r) { return (r.from === a && r.to === b) || (r.from === b && r.to === a); })[0];
+    if (!t) return;
+    var drive = t.drive.charAt(0).toUpperCase() + t.drive.slice(1);
+    out.innerHTML = "<b>" + M.esc(a) + " to " + M.esc(b) + "</b><p>" + drive + " by private minivan, both directions. Run by " + S.site.vip.name + ".</p>" +
+      '<a class="link" href="' + t.url + '">See the ' + M.esc(t.name) + " transfer</a>";
+    if (animate && !M.reduce.matches) out.animate([{ opacity: 0, transform: "translateY(6px)" }, { opacity: 1, transform: "none" }], { duration: 260, easing: "cubic-bezier(.22,1,.36,1)" });
+  }
+  from.value = "Krabi Airport"; fillTo("Koh Lanta"); show();
+  from.addEventListener("change", function () { fillTo(to.value); show(true); });
+  to.addEventListener("change", function () { show(true); });
+  // Inverser : les deux champs échangent leur place à l'écran, puis leurs valeurs (tous les trajets vont dans les deux sens).
+  swap.addEventListener("click", function () {
+    var a = from.value, b = to.value, fa = $("#f-from"), fb = $("#f-to");
+    var dy = fb.getBoundingClientRect().top - fa.getBoundingClientRect().top;
+    from.value = b; fillTo(a); show(true);
+    turns++; swap.firstChild.style.transform = "rotate(" + turns * 180 + "deg)";
+    if (!M.reduce.matches) {
+      var o = { duration: 360, easing: "cubic-bezier(.22,1,.36,1)" };
+      M.$("select", fa).animate([{ transform: "translateY(" + dy + "px)" }, { transform: "none" }], o);
+      M.$("select", fb).animate([{ transform: "translateY(" + -dy + "px)" }, { transform: "none" }], o);
+    }
+  });
+
+  // ----- location -----
+  $("#rent-h").textContent = S.rental.name;
+  $("#rent-lead").textContent = S.home.rental.text;
+  var fleet = M.fact({ facts: S.rental.facts }, "Fleet");
+  var cats = [["Scooters", "scooters and small bikes", "a scooter"], ["Big bikes", "big bikes", "a big bike"], ["Cars", "cars and pick-ups", "a car"]];
+  $("#rent-seg").innerHTML = cats.map(function (c, i) { return '<button type="button" value="' + c[0] + '" aria-pressed="' + (i ? "false" : "true") + '">' + c[0] + "</button>"; }).join("");
+  function rent(cat) {
+    var c = cats.filter(function (x) { return x[0] === cat; })[0];
+    var v = M.fact({ facts: S.rental.facts }, cat); // « 250–800 THB per day, Honda Scoopy to Honda Forza 350 »
+    var m = v.match(/^([\d,]+)–([\d,]+) THB per day, (.+)$/);
+    var count = (fleet.match(new RegExp("(\\d+) " + c[1])) || [])[1];
+    M.odo($("#r-lo"), Number(m[1].replace(/,/g, ""))); M.odo($("#r-hi"), Number(m[2].replace(/,/g, "")));
+    $("#r-models").textContent = (count ? count + " " + c[1] + ", " : "") + m[3];
+    var go = $("#r-go");
+    go.textContent = "Ask for " + c[2] + " on WhatsApp";
+    go.href = M.wa("Rental request: " + c[2] + "\nModel: \nFrom: \nTo: ");
+  }
+  M.seg($("#rent-seg"), rent);
+  rent("Scooters");
+
+  // ----- comment on réserve -----
+  var how = { "cash": "in cash", "bank transfer": "by bank transfer" };
+  var steps = [
+    ["Choose a trip, a date and who is coming", "Every trip page shows the prices for adults and children, and works out the total."],
+    ["Send the message on WhatsApp", "The page writes the message for you. You read it and send it yourself."],
+    ["Pay " + S.site.booking.payment.map(function (x) { return how[x] || x; }).join(" or "), "Nothing is paid online."]
+  ];
+  $("#steps").innerHTML = steps.map(function (s) { return "<li><h3>" + M.esc(s[0]) + "</h3><p>" + M.esc(s[1]) + "</p></li>"; }).join("");
+  var four = M.product("4-islands");
+  var lines = M.message(four, four.options[0], { date: M.addDays(M.today(), 2), adults: 2, ages: [7], pickup: "[your hotel]", name: "[your first name]" });
+  $(".msg__to").innerHTML = M.icon.wa + "To Secret Travel &amp; Tour, " + S.site.whatsapp.display;
+  $("#msg").innerHTML = lines.map(function (l, i) { return '<span class="msg__l" style="--i:' + i + '">' + M.esc(l) + "</span>"; }).join("");
+
+  // ----- fin -----
+  $("#end-ph").innerHTML = M.img("home-final", { cls: "ph--43" });
+  var eg = $("#end-go");
+  eg.innerHTML = M.icon.wa + "Ask on WhatsApp";
+  eg.href = M.wa("Hello, we are not sure which trip to choose.\nOur dates: \nWho is coming: ");
+
+  M.bindImgs(document);
+})();
+</script>
+<div id="ready" hidden></div>
+</body>
+</html>

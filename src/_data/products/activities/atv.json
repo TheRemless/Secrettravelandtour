@@ -1,0 +1,372 @@
+{
+  "slug": "atv",
+  "url": "/tours/atv/",
+  "brand": "secret",
+  "template": "activity",
+  "name": "ATV (quad bike)",
+  "seo": {
+    "title": "ATV Quad Ride Koh Lanta | Secret Travel & Tour",
+    "metaDescription": "ATV on Koh Lanta: 30 minutes on a closed track, an hour in the forest up to a sea viewpoint, or ATV plus mangrove kayak. From 1,200 THB, transfer included.",
+    "draft": {
+      "h1": "ATV on Koh Lanta"
+    }
+  },
+  "h1": "ATV ride on Koh Lanta",
+  "lead": "Thirty minutes on a closed track, an hour on the forest trails up to a viewpoint over the sea, or an hour of ATV followed by an hour of kayak in the mangrove.",
+  "promise": "Forest trails up to a sea viewpoint, or a closed track",
+  "facts": [
+    {
+      "label": "Rides",
+      "value": "30 min closed track, 1 hr forest and sea viewpoint, or 1 hr ATV plus 1 hr kayak"
+    },
+    {
+      "label": "Level",
+      "value": "30-minute track for beginners; forest rides for experienced riders only"
+    },
+    {
+      "label": "Season",
+      "value": "All year"
+    },
+    {
+      "label": "Ages",
+      "value": "Passengers from 4, drivers from 6 with staff supervision, no children under 4"
+    },
+    {
+      "label": "Cancellation",
+      "value": "At least 24 hours ahead; later, half the ride is charged"
+    }
+  ],
+  "price": {
+    "from": 1200,
+    "currency": "THB",
+    "unit": "per adult rider, 30 minutes"
+  },
+  "options": [
+    {
+      "id": "track-30-min",
+      "label": "30 minutes on a closed track",
+      "kind": "join-in",
+      "prices": [
+        {
+          "label": "Adult rider",
+          "amount": 1200,
+          "unit": "per person"
+        },
+        {
+          "label": "Adult passenger",
+          "amount": 900,
+          "unit": "per person"
+        },
+        {
+          "label": "Child rider, 6 to 12",
+          "amount": 900,
+          "ages": {
+            "min": 6,
+            "max": 12
+          },
+          "unit": "per person"
+        },
+        {
+          "label": "Child passenger, 4 to 12",
+          "amount": 600,
+          "ages": {
+            "min": 4,
+            "max": 12
+          },
+          "unit": "per person"
+        }
+      ],
+      "note": "Beginner level: you learn to drive on an enclosed track.",
+      "counts": {
+        "label": "Riders and passengers",
+        "rows": [
+          "Adult rider",
+          "Adult passenger",
+          "Child rider, 6 to 12",
+          "Child passenger, 4 to 12"
+        ]
+      }
+    },
+    {
+      "id": "forest-1-hr",
+      "label": "1 hour, forest and viewpoint",
+      "kind": "join-in",
+      "prices": [
+        {
+          "label": "Adult rider",
+          "amount": 1800,
+          "unit": "per person"
+        },
+        {
+          "label": "Adult passenger",
+          "amount": 1300,
+          "unit": "per person"
+        },
+        {
+          "label": "Child rider, 6 to 12",
+          "amount": 1500,
+          "ages": {
+            "min": 6,
+            "max": 12
+          },
+          "unit": "per person"
+        },
+        {
+          "label": "Child passenger, 4 to 12",
+          "amount": 1000,
+          "ages": {
+            "min": 4,
+            "max": 12
+          },
+          "unit": "per person"
+        }
+      ],
+      "note": "For experienced ATV riders only.",
+      "choices": [
+        {
+          "id": "experience",
+          "label": "Riding experience",
+          "type": "text",
+          "hint": "How much ATV riding has each rider done?"
+        }
+      ],
+      "counts": {
+        "label": "Riders and passengers",
+        "rows": [
+          "Adult rider",
+          "Adult passenger",
+          "Child rider, 6 to 12",
+          "Child passenger, 4 to 12"
+        ]
+      }
+    },
+    {
+      "id": "atv-kayak-2-hr",
+      "label": "1 hour of ATV and 1 hour of kayak",
+      "kind": "join-in",
+      "prices": [
+        {
+          "label": "Adult rider",
+          "amount": 2800,
+          "unit": "per person"
+        },
+        {
+          "label": "Adult passenger",
+          "amount": 2000,
+          "unit": "per person"
+        },
+        {
+          "label": "Child rider, 6 to 12",
+          "amount": 2500,
+          "ages": {
+            "min": 6,
+            "max": 12
+          },
+          "unit": "per person"
+        },
+        {
+          "label": "Child passenger, 4 to 12",
+          "amount": 1700,
+          "ages": {
+            "min": 4,
+            "max": 12
+          },
+          "unit": "per person"
+        }
+      ],
+      "note": "For experienced ATV riders only.",
+      "choices": [
+        {
+          "id": "experience",
+          "label": "Riding experience",
+          "type": "text",
+          "hint": "How much ATV riding has each rider done?"
+        }
+      ],
+      "counts": {
+        "label": "Riders and passengers",
+        "rows": [
+          "Adult rider",
+          "Adult passenger",
+          "Child rider, 6 to 12",
+          "Child passenger, 4 to 12"
+        ]
+      }
+    }
+  ],
+  "day": [
+    {
+      "options": [
+        "track-30-min"
+      ],
+      "title": "The three rides",
+      "steps": [
+        {
+          "label": "30 min",
+          "text": "On a closed, secured track. The ride for a first try."
+        }
+      ]
+    },
+    {
+      "options": [
+        "forest-1-hr"
+      ],
+      "title": "The three rides",
+      "steps": [
+        {
+          "label": "1 h",
+          "text": "On the forest trails, with the climb to a viewpoint over the sea."
+        }
+      ]
+    },
+    {
+      "options": [
+        "atv-kayak-2-hr"
+      ],
+      "title": "The three rides",
+      "steps": [
+        {
+          "label": "2 h",
+          "text": "One hour of ATV in the forest, then one hour of kayak in the protected mangrove of Thung Yee Peng, with its monkeys and fiddler crabs."
+        }
+      ]
+    }
+  ],
+  "included": [
+    "Hotel transfer both ways",
+    "Guide and safety equipment",
+    "Seasonal fruit and cold drinks",
+    "Kayak and life jacket on the combined ride"
+  ],
+  "beforeYouBook": {
+    "bring": [
+      "Closed shoes",
+      "Clothes that can get dusty"
+    ],
+    "children": "No children under 4. Passengers from 4, drivers from 6 with staff supervision.",
+    "cancellation": "Cancel at least 24 hours ahead. Later than that, half the ride is charged."
+  },
+  "faq": [
+    {
+      "q": "Can children drive?",
+      "a": "From 6, with closer supervision from the staff. Younger children ride as passengers from 4. Under 4 cannot come."
+    },
+    {
+      "q": "Which ride should I pick?",
+      "a": "The 30-minute track is for beginners and a first try. The one-hour forest ride gets you to the viewpoint and the two-hour ride adds the mangrove by kayak: both are for experienced ATV riders only."
+    }
+  ],
+  "photos": [
+    {
+      "slot": "hero",
+      "status": "keep",
+      "file": "secret/atv.webp",
+      "alt": "ATVs parked on a hilltop track with a view over Koh Lanta",
+      "shot": "ATVs on the forest track or at the sea viewpoint."
+    },
+    {
+      "slot": "gallery",
+      "status": "replace",
+      "file": "secret/gallery/atv-riders.webp",
+      "alt": "Three riders on ATVs with their arms raised on a mountain track",
+      "shot": "Riders on the track (current file is a brochure scan)."
+    }
+  ],
+  "related": [
+    "/tours/mangroves/",
+    "/tours/kayak/",
+    "/tours/go-kart/"
+  ],
+  "schema": {
+    "type": "TouristTrip",
+    "legacyType": "TouristAttraction",
+    "places": [
+      "Koh Lanta",
+      "Thung Yee Peng"
+    ]
+  },
+  "legacyText": {
+    "title": "ATV Quad Ride Koh Lanta | Secret Travel & Tour",
+    "h1": "ATV ride",
+    "h1em": "on Koh Lanta",
+    "intro": [
+      "Every ride comes with a guide, safety gear and a hotel transfer. Open all year. Children can ride as passengers from 4 and drive from 6 with closer supervision from the staff."
+    ],
+    "cardDescription": "An ATV ride on the dirt tracks of Koh Lanta.",
+    "cardInfo": [
+      "From 1,200 THB per rider"
+    ],
+    "dayTitle": "The three rides",
+    "goodToKnow": [
+      "No children under 4. Passengers from 4, drivers from 6 with staff supervision.",
+      "Cancel at least 24 hours ahead. Later than that, half the ride is charged.",
+      "Closed shoes and clothes that can get dusty."
+    ],
+    "priceNote": "Prices in Thai baht, per person.",
+    "caption": "Viewpoint",
+    "photoPosition": "50% 60%"
+  },
+  "sources": [
+    {
+      "field": "name, legacyText.cardDescription, legacyText.cardInfo, photos[hero]",
+      "from": "secret.json activities[id=atv]"
+    },
+    {
+      "field": "seo, h1, lead, legacyText",
+      "from": "secretPagesContent.json pages.atv.title, metaDescription, h1, h1em, lead, intro"
+    },
+    {
+      "field": "facts, price",
+      "from": "secretPagesContent.json pages.atv (day, prices, goodToKnow, parkFee) et secret.json activities[id=atv].info, reformulés en lignes de faits"
+    },
+    {
+      "field": "options",
+      "from": "secretPagesContent.json pages.atv.prices, priceNote"
+    },
+    {
+      "field": "day",
+      "from": "secretPagesContent.json pages.atv.dayTitle, day"
+    },
+    {
+      "field": "included, notIncluded",
+      "from": "secretPagesContent.json pages.atv.included, notIncluded"
+    },
+    {
+      "field": "beforeYouBook",
+      "from": "secretPagesContent.json pages.atv.goodToKnow, intro, parkFee"
+    },
+    {
+      "field": "faq",
+      "from": "secretPagesContent.json pages.atv.faq"
+    },
+    {
+      "field": "seo.draft",
+      "from": "docs/refonte/02-audit-seo.md §6.2 (points de départ, prix à valider)"
+    },
+    {
+      "field": "photos[].status, photos[].shot",
+      "from": "docs/refonte/01-audit-design.md §4"
+    },
+    {
+      "field": "schema",
+      "from": "secretPagesContent.json pages.atv.schemaType, places ; type cible : docs/refonte/02-audit-seo.md §6.3"
+    },
+    {
+      "field": "promise",
+      "from": "lead du produit, raccourci à 60 caractères pour la carte (03.11.2026)"
+    },
+    {
+      "field": "refPrefix",
+      "from": "code court de la référence WhatsApp (critique, idée 5), 03.11.2026"
+    },
+    {
+      "field": "options[].note, options[].choices, options[].counts, facts[Level], faq[1]",
+      "from": "brochure quad (audit B § 1.6) p. 2 et 3 : programme A « Beginner level », B et C « for experienced ATV drivers » ; tarifs pilote et passager (décision client du 08.11.2026)"
+    },
+    {
+      "field": "facts[Cancellation], beforeYouBook.cancellation",
+      "from": "décision client du 08.11.2026 : annulation au moins 24 heures avant, sinon 50 % (contrat du prestataire, audit D § 4) ; TODO levé"
+    }
+  ],
+  "refPrefix": "ATV"
+}

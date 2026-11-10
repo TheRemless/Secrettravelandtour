@@ -1,0 +1,488 @@
+/* VIP Taxi Lanta, direction « Panneaux de la route ».
+   Bleu = une route qu'on peut prendre (panneaux de direction, liens vers les trajets).
+   Jaune = le marquage au sol et l'action (boutons). Blanc partout ailleurs.
+   Une seule famille, Archivo variable (graisse 100 à 900, largeur 62 à 125 %) : serrée pour les panneaux, normale pour le texte.
+   Chemins de maquette (/src/...) : au portage, /css/fonts/ et /images/. */
+
+@font-face {
+  font-family: "Archivo";
+  src: url("/src/css/fonts/archivo-latin-wdth-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --sign: #0A4C9C;        /* bleu des panneaux, blanc dessus 8,3:1 */
+  --sign-deep: #073A78;   /* panneau pressé */
+  --sign-ink: #FFFFFF;
+  --sign-soft: #D3E1F4;   /* texte secondaire sur panneau, 6:1 */
+  --mark: #F4B400;        /* marquage jaune, encre dessus 8,6:1 */
+  --mark-deep: #DDA100;
+  --asphalt: #262B30;
+  --asphalt-2: #3A4047;
+  --post: #9AA1A8;
+  --ink: #1E2327;
+  --mute: #545D65;        /* 6,6:1 sur blanc */
+  --rule: #D9DCDF;
+  --concrete: #EFF1EE;
+  --paper: #FFFFFF;
+  --gold: #C29A45;        /* filet de la plaque du logo, rien d'autre */
+
+  --sans: "Archivo", "Arial Narrow", Arial, sans-serif;
+  --gutter: 16px;
+  --wrap: 1200px;
+  --radius: 14px;
+  --ease: cubic-bezier(.2, .8, .2, 1);
+  --bar-h: 72px;
+  color-scheme: light;
+}
+@media (min-width: 40rem) { :root { --gutter: 32px; } }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 16px; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font: 400 17px/1.6 var(--sans); font-stretch: 100%;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+h1, h2, h3 { font-stretch: 80%; font-weight: 760; letter-spacing: -.012em; text-wrap: balance; }
+
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.skip { position: absolute; left: 8px; top: -60px; z-index: 30; padding: 12px 16px; border-radius: 10px; background: var(--ink); color: #fff; font-weight: 700; }
+.skip:focus { top: 8px; }
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.sign :focus-visible { outline-color: var(--mark); outline-offset: -3px; }
+
+.wrap { width: 100%; max-width: calc(var(--wrap) + 2 * var(--gutter)); margin-inline: auto; padding-inline: var(--gutter); }
+
+/* ---------- Boutons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 52px; padding: 0 22px; border: 0; border-radius: 10px;
+  background: var(--mark); color: var(--ink);
+  font: 720 18px/1 var(--sans); font-stretch: 86%; letter-spacing: -.005em;
+  text-decoration: none; cursor: pointer; touch-action: manipulation;
+  transition: background-color .15s, transform .12s var(--ease);
+}
+.btn svg { width: 20px; height: 20px; flex: none; }
+.btn:hover { background: var(--mark-deep); }
+.btn:active { transform: translateY(2px); }
+.btn--line { background: transparent; box-shadow: inset 0 0 0 2px var(--ink); }
+.btn--line:hover { background: var(--concrete); }
+.text-link {
+  display: inline-flex; align-items: center; min-height: 44px;
+  font-weight: 650; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .22em;
+  text-decoration-color: var(--mark);
+}
+.text-link:hover { text-decoration-color: var(--ink); }
+
+/* ---------- En-tête ---------- */
+.top { border-bottom: 1px solid var(--rule); background: var(--paper); }
+.top-in { display: flex; align-items: center; gap: 16px; min-height: 68px; }
+.brand { display: flex; align-items: center; gap: 10px; margin-right: auto; text-decoration: none; min-height: 44px; }
+.brand img { width: 48px; height: 48px; }
+.brand-name { display: grid; font: 780 19px/1.05 var(--sans); font-stretch: 80%; letter-spacing: -.01em; }
+.brand-name small { font-size: 14px; font-weight: 500; font-stretch: 100%; letter-spacing: 0; color: var(--mute); }
+.top-nav { display: none; }
+.top-nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 6px; font-weight: 600; text-decoration: none; }
+.top-nav a:hover { text-decoration: underline; text-decoration-color: var(--mark); text-decoration-thickness: 2px; text-underline-offset: .25em; }
+.top .btn { min-height: 44px; padding: 0 14px; font-size: 16px; background: var(--paper); box-shadow: inset 0 0 0 2px var(--ink); }
+.top .btn:hover { background: var(--concrete); }
+@media (min-width: 40rem) { .top-nav { display: block; } }
+
+/* ---------- Panneau de direction ---------- */
+/* Un vrai panneau : aplat bleu, filet blanc en retrait, coins arrondis. Rien d'autre n'a ce filet. */
+.sign {
+  position: relative; z-index: 1;
+  border-radius: var(--radius); background: var(--sign); color: var(--sign-ink);
+  box-shadow: inset 0 0 0 5px var(--sign), inset 0 0 0 7px var(--sign-ink);
+  padding: 20px 22px;
+}
+.code {
+  display: inline-flex; align-items: center; height: 1.35em; padding: 0 .32em; border-radius: .18em;
+  background: var(--sign-ink); color: var(--sign);
+  font-weight: 800; font-stretch: 85%; font-size: .62em; letter-spacing: .02em; line-height: 1;
+  vertical-align: .18em;
+}
+
+/* Flèche de signalisation (corps + pointe), une seule forme tournée selon la direction. */
+.arw--nw { --r: -40deg; }
+.arw--e { --r: 90deg; }
+.arw { width: 30px; height: 30px; flex: none; transform: rotate(var(--r, 0deg)); fill: currentColor; }
+
+/* Panneau d'accueil : depuis Koh Lanta vers les aéroports. Chaque ligne est un lien. */
+.sign-head { padding: 2px 0 12px; font: 600 15px/1.3 var(--sans); color: var(--sign-soft); }
+.sign-rows li + li { border-top: 2px solid var(--sign-ink); }
+.sign-rows a {
+  display: grid; grid-template-columns: 34px 1fr; align-items: center; column-gap: 12px;
+  margin-inline: -10px; padding: 12px 10px; border-radius: 6px; text-decoration: none;
+  transition: background-color .15s;
+}
+.sign-rows .dest { font: 760 27px/1.05 var(--sans); font-stretch: 78%; letter-spacing: -.01em; }
+.sign-rows .time { grid-column: 2; font-size: 15px; line-height: 1.35; color: var(--sign-soft); }
+.sign-rows .arw { grid-row: span 2; transition: transform .18s var(--ease); }
+.sign-rows a:hover, .sign-rows a:active { background: var(--sign-deep); }
+.sign-rows a:hover .arw, .sign-rows a:active .arw { transform: rotate(var(--r, 0deg)) translateY(-4px); }
+
+/* Panneau de trajet : le h1. Origine en haut, flèche coudée qui descend puis file vers la destination. */
+.sign--route { display: grid; grid-template-columns: 30px 1fr; padding: 22px 22px 20px; }
+.sign--route h1 { display: contents; }
+.sr-from { grid-column: 1 / -1; grid-row: 1; font: 760 28px/1.05 var(--sans); font-stretch: 80%; }
+.sr-to { grid-column: 2; grid-row: 2; padding: 24px 0 8px 10px; font: 820 60px/.92 var(--sans); font-stretch: 72%; letter-spacing: -.02em; }
+.sr-bend {
+  grid-column: 1 / -1; grid-row: 2 / 4; align-self: stretch; z-index: -1;
+  margin: 8px 30px 13px 10px;
+  border-left: 12px solid var(--sign-ink); border-bottom: 12px solid var(--sign-ink); border-bottom-left-radius: 18px;
+}
+.sr-head { grid-column: 1 / -1; grid-row: 3; justify-self: end; width: 34px; height: 38px; background: var(--sign-ink); clip-path: polygon(0 0, 100% 50%, 0 100%); }
+.sr-tail { grid-column: 1 / -1; grid-row: 4; margin-top: 14px; padding-top: 12px; border-top: 2px solid var(--sign-ink); font: 650 18px/1.3 var(--sans); font-stretch: 90%; }
+.sr-tail::first-letter { text-transform: uppercase; }
+.sr-arrow { grid-column: 1 / -1; grid-row: 3; height: 38px; }
+.sr-drive { grid-column: 1 / -1; grid-row: 5; margin-top: 2px; font-size: 15px; color: var(--sign-soft); }
+.sr-drive::first-letter { text-transform: uppercase; }
+
+/* Panneaux de région : nom, phrase, puis les trajets. */
+.sign--region h3 { font: 780 26px/1.05 var(--sans); font-stretch: 78%; }
+.sign--region > p { margin: 6px 0 10px; font-size: 15px; line-height: 1.45; color: var(--sign-soft); }
+.route-rows li { border-top: 2px solid var(--sign-ink); }
+.route-rows a {
+  display: grid; gap: 2px;
+  margin-inline: -10px; padding: 11px 10px; min-height: 60px; border-radius: 6px; text-decoration: none;
+  transition: background-color .15s;
+}
+.route-rows .rr-name { font: 700 20px/1.15 var(--sans); font-stretch: 84%; }
+.route-rows .rr-name .arw { display: inline-block; width: 16px; height: 16px; margin: 0 5px 0 3px; vertical-align: -1px; transition: transform .18s var(--ease); }
+.route-rows .rr-time { font-size: 14.5px; line-height: 1.35; color: var(--sign-soft); }
+.route-rows a:hover, .route-rows a:active { background: var(--sign-deep); }
+.route-rows a:hover .arw, .route-rows a:active .arw { transform: rotate(var(--r)) translateY(-4px); }
+
+/* ---------- Ensemble panneau + plaque + poteaux ---------- */
+.assembly { position: relative; display: grid; gap: 14px; padding-bottom: 26px; }
+.assembly::before, .assembly::after {
+  content: ""; position: absolute; top: 40px; bottom: 0; width: 10px; background: var(--post); border-radius: 2px 2px 0 0;
+}
+.assembly::before { left: 22%; }
+.assembly::after { right: 22%; }
+.assembly > * { position: relative; z-index: 1; }
+
+.plate {
+  display: grid; grid-template-columns: 96px 1fr; align-items: center; gap: 14px;
+  padding: 12px 16px 12px 10px; border-radius: 10px; background: var(--paper);
+  box-shadow: inset 0 0 0 2px var(--asphalt), inset 0 0 0 5px var(--paper), inset 0 0 0 6px var(--gold);
+}
+.plate img { width: 96px; height: 96px; }
+.plate-name { font: 780 22px/1.05 var(--sans); font-stretch: 80%; }
+.plate p { font-size: 15px; line-height: 1.4; color: var(--mute); }
+.plate a { display: inline-flex; align-items: center; min-height: 44px; margin-bottom: -10px; font-size: 15px; font-weight: 650; color: var(--ink); text-decoration-color: var(--mark); text-decoration-thickness: 2px; text-underline-offset: .22em; }
+.plate a b { font-weight: 800; }
+
+/* ---------- La route : seul moment fort, le marquage avance quand on fait défiler ---------- */
+.road {
+  position: relative; height: 56px; overflow: hidden; background: var(--asphalt);
+  box-shadow: inset 0 7px 0 var(--asphalt), inset 0 10px 0 #E9EBE8, inset 0 -7px 0 var(--asphalt), inset 0 -10px 0 #E9EBE8;
+}
+.road-dash {
+  position: absolute; left: 0; top: 50%; width: calc(100% + 96px); height: 6px; margin-top: -3px;
+  background: repeating-linear-gradient(90deg, var(--mark) 0 48px, transparent 48px 96px);
+  transform: translate3d(calc(-1 * var(--drive, 0px)), 0, 0);
+  will-change: transform;
+}
+@media (min-width: 64rem) { .road { height: 72px; } }
+
+/* ---------- Mise en page commune ---------- */
+main { display: block; }
+.section { padding-block: 56px 0; }
+.section-h { font-size: 34px; line-height: 1.02; }
+.section-lead { max-width: 38rem; margin-top: 12px; color: var(--mute); }
+@media (min-width: 64rem) {
+  .section { padding-block: 96px 0; }
+  .section-h { font-size: 48px; }
+}
+
+/* ---------- Accueil : héro ---------- */
+.hero {
+  display: grid; grid-template-columns: var(--gutter) minmax(0, 1fr) var(--gutter);
+  padding-top: 24px;
+}
+.hero > * { grid-column: 2; }
+.hero > .road { grid-column: 1 / -1; grid-row: 3; }
+.hero > .assembly { grid-row: 2; }
+.hero-text { grid-row: 4; }
+.hero h1 { font-size: 40px; line-height: .98; font-weight: 800; font-stretch: 74%; letter-spacing: -.02em; margin-bottom: 22px; }
+.hero-text { padding-top: 28px; }
+.lead { font-size: 18px; line-height: 1.55; max-width: 34rem; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; margin-top: 22px; }
+
+@media (min-width: 64rem) {
+  .hero {
+    grid-template-columns: minmax(var(--gutter), 1fr) minmax(0, 560px) 64px minmax(0, 576px) minmax(var(--gutter), 1fr);
+    grid-template-rows: auto 1fr auto;
+    padding-top: 64px;
+  }
+  .hero h1 { grid-column: 2; grid-row: 1; font-size: 76px; margin: 8px 0 0; }
+  .hero .assembly { grid-column: 4; grid-row: 1 / 3; }
+  .hero-text { grid-column: 2; grid-row: 2; padding-top: 28px; }
+  .hero > .road { grid-row: 3; }
+  .sign-rows .dest { font-size: 34px; }
+  .plate { grid-template-columns: 136px 1fr; gap: 24px; padding: 14px 24px 14px 14px; }
+  .plate img { width: 136px; height: 136px; }
+  .plate p, .plate a { font-size: 17px; }
+}
+
+/* ---------- Accueil : trajets ---------- */
+/* La route continue : une voie verticale longe les panneaux de région, chaque panneau y est fixé par un bras. */
+.regions { position: relative; display: grid; gap: 22px; margin-top: 28px; padding: 18px 0 18px 26px; }
+.regions::before, .regions::after { content: ""; position: absolute; top: 0; bottom: 0; }
+.regions::before {
+  left: calc(-1 * var(--gutter)); width: calc(var(--gutter) + 14px);
+  background: var(--asphalt); box-shadow: inset -3px 0 0 #E9EBE8, inset -6px 0 0 var(--asphalt);
+}
+.regions::after {
+  left: calc((14px - var(--gutter)) / 2 - 2px); width: 4px;
+  background: repeating-linear-gradient(180deg, var(--mark) 0 48px, transparent 48px 96px) 0 calc(-1 * var(--drive, 0px)) / 4px 96px repeat-y;
+}
+.sign--region::before { content: ""; position: absolute; left: -14px; top: 30px; width: 14px; height: 10px; background: var(--post); }
+@media (min-width: 48rem) {
+  .regions { grid-template-columns: 1fr 1fr; column-gap: 140px; row-gap: 40px; align-items: start; padding: 40px 0; }
+  .regions::before { left: calc(50% - 24px); width: 48px; box-shadow: inset 3px 0 0 #E9EBE8, inset -3px 0 0 #E9EBE8; }
+  .regions::after { left: calc(50% - 3px); width: 6px; background-size: 6px 96px; }
+  .regions > :nth-child(odd)::before { left: auto; right: -46px; width: 46px; }
+  .regions > :nth-child(even)::before { left: -46px; width: 46px; }
+  .regions > :nth-child(even) { margin-top: 120px; }
+}
+
+.elsewhere {
+  display: grid; gap: 14px; margin-top: 20px; padding: 22px; border-radius: var(--radius);
+  background: var(--paper); box-shadow: inset 0 0 0 2px var(--asphalt), inset 0 0 0 5px var(--paper), inset 0 0 0 7px var(--asphalt);
+}
+.elsewhere h3 { font-size: 26px; line-height: 1.05; }
+.elsewhere .btn { justify-self: start; }
+.elsewhere p { max-width: 36rem; }
+.island { font-size: 15px; color: var(--mute); padding-top: 12px; border-top: 1px solid var(--rule); }
+.island b { color: var(--ink); font-weight: 700; }
+@media (min-width: 64rem) { .elsewhere { grid-template-columns: 1fr auto; align-items: center; column-gap: 40px; padding: 28px 32px; margin-top: 28px; } .elsewhere .island { grid-column: 1 / -1; } }
+
+/* ---------- Comment réserver ---------- */
+.steps { display: grid; margin-top: 24px; }
+.steps li { display: grid; gap: 4px; padding: 16px 0; border-top: 1px solid var(--rule); }
+.steps li:first-child { border-top: 2px solid var(--ink); }
+.steps h3 { font-size: 22px; line-height: 1.15; font-stretch: 84%; }
+.steps p { color: var(--mute); }
+.cash {
+  margin-top: 20px; padding: 26px 22px; background: var(--asphalt); color: #fff; border-radius: 4px;
+  box-shadow: inset 0 8px 0 var(--asphalt), inset 0 11px 0 #E9EBE8, inset 0 -8px 0 var(--asphalt), inset 0 -11px 0 #E9EBE8;
+}
+.cash-big { font: 800 34px/1 var(--sans); font-stretch: 74%; letter-spacing: -.015em; text-wrap: balance; }
+.cash p + p { margin-top: 10px; color: #D5D9DD; }
+@media (min-width: 64rem) {
+  .how { display: grid; grid-template-columns: 1fr 1fr; column-gap: 64px; align-items: start; }
+  .how .section-h { grid-column: 1 / -1; }
+  .cash { margin-top: 24px; padding: 32px; }
+  .cash-big { font-size: 44px; }
+}
+
+/* ---------- Photos du van ---------- */
+.photos { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 24px; }
+.photos img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; aspect-ratio: 4 / 3; }
+.photos .wide { grid-column: 1 / -1; }
+.photos .wide img { aspect-ratio: 3 / 2; }
+@media (min-width: 64rem) {
+  .photos { grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; gap: 12px; }
+  .photos .wide { grid-column: 1; grid-row: 1 / 3; }
+  .photos .wide img { aspect-ratio: auto; }
+}
+
+/* ---------- FAQ ---------- */
+.faq { margin-top: 20px; border-top: 2px solid var(--ink); }
+.faq details { border-bottom: 1px solid var(--rule); }
+.faq summary {
+  display: grid; grid-template-columns: 1fr 22px; align-items: center; gap: 16px;
+  min-height: 60px; padding: 14px 0; cursor: pointer; list-style: none;
+  font-weight: 650; font-size: 18px; line-height: 1.35;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary .arw { width: 20px; height: 20px; --r: 90deg; color: var(--sign); transition: transform .2s var(--ease); }
+.faq details[open] summary .arw { --r: 180deg; }
+.faq summary:hover { color: var(--sign); }
+.faq .answer { padding: 0 38px 18px 0; color: var(--mute); }
+@media (min-width: 64rem) { .faq-cols { columns: 2; column-gap: 64px; } .faq-cols details { break-inside: avoid; } }
+
+/* ---------- Encart Secret Travel & Tour (identité Secret v4) ---------- */
+@font-face { font-family: "Cormorant Garamond"; font-weight: 600; font-display: swap; src: url("/src/css/fonts/cormorant-garamond-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Manrope"; font-weight: 400; font-display: swap; src: url("/src/css/fonts/manrope-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Manrope"; font-weight: 600; font-display: swap; src: url("/src/css/fonts/manrope-latin-600-normal.woff2") format("woff2"); }
+.stt {
+  --stt-deep: #0B3B3C; --stt-deep-soft: #124B4C; --stt-sand: #F6EFE4; --stt-ink: #14262B; --stt-mute: #3B5551; --stt-sea: #0F6B61;
+  display: grid; overflow: hidden; border-radius: 12px; background: var(--stt-sand); color: var(--stt-ink);
+  font-family: "Manrope", system-ui, sans-serif; font-size: 16px; line-height: 1.6;
+}
+.stt-photo img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+.stt-body { position: relative; padding: 22px 20px 24px; }
+.stt-emblem { width: 72px; height: auto; margin: -58px 0 10px; padding: 6px; border-radius: 50%; background: var(--stt-sand); }
+.stt-name { font-weight: 600; font-size: 14px; color: var(--stt-mute); }
+.stt h2 { margin: 2px 0 10px; font: 600 34px/1.02 "Cormorant Garamond", Georgia, serif; letter-spacing: 0; font-stretch: normal; color: var(--stt-deep); }
+.stt p { color: var(--stt-mute); }
+.stt ul { display: flex; flex-wrap: wrap; gap: 0 18px; margin: 12px 0 16px; }
+.stt ul a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; color: var(--stt-sea); text-underline-offset: .2em; }
+.stt-btn {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 20px; border-radius: 14px;
+  background: var(--stt-deep); color: #fff; font-weight: 600; font-size: 15px; text-decoration: none;
+}
+.stt-btn:hover { background: var(--stt-deep-soft); }
+.stt :focus-visible { outline-color: var(--stt-deep); }
+@media (min-width: 48rem) {
+  .stt { grid-template-columns: 1fr 1fr; }
+  .stt-photo img { height: 100%; aspect-ratio: auto; }
+  .stt-body { padding: 36px 40px; align-self: center; }
+  .stt-emblem { margin: 0 0 14px; padding: 0; width: 84px; }
+  .stt h2 { font-size: 44px; }
+}
+
+/* ---------- Pied de page ---------- */
+.foot { margin-top: 72px; background: var(--asphalt); color: #E8EAEC; }
+.foot .road { box-shadow: inset 0 -7px 0 var(--asphalt), inset 0 -10px 0 #E9EBE8; }
+.foot-in { display: grid; gap: 28px; padding-block: 32px 40px; }
+.foot-logo { width: 132px; height: 132px; border-radius: 10px; background: #fff; padding: 4px; }
+.foot h2 { font-size: 22px; line-height: 1.1; color: #fff; margin-bottom: 6px; }
+.foot p { font-size: 16px; line-height: 1.5; color: #C9CED3; }
+.foot a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: #fff; text-decoration-color: var(--mark); text-decoration-thickness: 2px; text-underline-offset: .22em; }
+.foot a svg { width: 20px; height: 20px; }
+.foot :focus-visible { outline-color: var(--mark); }
+.legal { padding-top: 20px; border-top: 1px solid #454C53; font-size: 14px; }
+.legal p { font-size: 14px; }
+.legal ul { display: flex; flex-wrap: wrap; gap: 0 18px; }
+@media (min-width: 64rem) {
+  .foot-in { grid-template-columns: 160px 1fr 1fr; column-gap: 48px; padding-block: 48px; }
+  .legal { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; }
+}
+
+/* ---------- Barre du bas (téléphone) ---------- */
+.bar {
+  position: fixed; inset: auto 0 0 0; z-index: 20;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 10px var(--gutter) calc(10px + env(safe-area-inset-bottom));
+  background: var(--paper); border-top: 1px solid var(--rule);
+  transition: transform .2s var(--ease);
+}
+.bar p { font-size: 15px; line-height: 1.25; color: var(--mute); }
+.bar p b { display: block; color: var(--ink); font-weight: 700; }
+.bar .btn { flex: none; min-height: 48px; padding: 0 16px; font-size: 17px; }
+.has-bar .foot { padding-bottom: var(--bar-h); }
+html.sheet-open .bar { transform: translateY(110%); }
+@media (min-width: 64rem) { .bar { display: none; } .has-bar .foot { padding-bottom: 0; } }
+
+/* ---------- Page trajet ---------- */
+.crumbs { padding-top: 14px; font-size: 15px; color: var(--mute); }
+.crumbs ol { display: flex; flex-wrap: wrap; gap: 0 8px; padding: 0; list-style: none; }
+.crumbs li + li::before { content: "/"; margin-right: 8px; color: var(--post); }
+.crumbs a { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); text-decoration-color: var(--mark); text-decoration-thickness: 2px; text-underline-offset: .22em; }
+.crumbs [aria-current] { display: inline-flex; align-items: center; min-height: 44px; }
+
+.rhero { display: grid; grid-template-columns: var(--gutter) minmax(0, 1fr) var(--gutter); }
+.rhero > * { grid-column: 2; }
+.rhero > .road { grid-column: 1 / -1; grid-row: 3; }
+.rhero > .assembly { grid-row: 2; }
+.rhero > .rside { grid-row: 4; }
+.rhero .assembly { padding-top: 6px; }
+.rhero .assembly::before { left: 18%; top: 60px; }
+.rhero .assembly::after { right: 18%; top: 60px; }
+.rside { padding-top: 24px; }
+.facts { margin-top: 20px; border-top: 2px solid var(--ink); }
+.facts div { display: grid; grid-template-columns: 7.5rem 1fr; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--rule); }
+.facts dt { font-size: 15px; color: var(--mute); padding-top: 1px; }
+.facts dd { font-weight: 600; line-height: 1.45; }
+.facts dd::first-letter { text-transform: uppercase; }
+@media (min-width: 64rem) {
+  .rhero {
+    grid-template-columns: minmax(var(--gutter), 1fr) minmax(0, 680px) 64px minmax(0, 456px) minmax(var(--gutter), 1fr);
+    grid-template-rows: auto auto auto;
+  }
+  .rhero .crumbs { grid-column: 2 / 5; }
+  .rhero .assembly { grid-column: 2; grid-row: 2; padding-top: 8px; padding-bottom: 40px; }
+  .rhero .rside { grid-column: 4; grid-row: 2; padding-top: 8px; padding-bottom: 40px; }
+  .rhero > .road { grid-row: 3; }
+  .sign--route { grid-template-columns: 44px 1fr; padding: 34px 36px 30px; }
+  .sr-from { font-size: 44px; }
+  .sr-to { font-size: 96px; padding: 40px 0 14px 14px; }
+  .sr-bend { margin: 12px 46px 19px 14px; border-left-width: 18px; border-bottom-width: 18px; border-bottom-left-radius: 26px; }
+  .sr-head, .sr-arrow { height: 56px; }
+  .sr-head { width: 50px; }
+  .sr-tail { font-size: 22px; margin-top: 20px; padding-top: 14px; }
+  .sr-drive { font-size: 17px; }
+}
+
+.rbody { display: grid; gap: 0; }
+.rbody p { max-width: 38rem; margin-top: 14px; }
+@media (min-width: 64rem) {
+  .rbody { grid-template-columns: 5fr 7fr; column-gap: 64px; align-items: start; }
+  .rbody .section-h { grid-row: span 3; }
+  .rbody p { margin-top: 0; margin-bottom: 14px; font-size: 19px; }
+}
+.two { display: grid; gap: 56px; }
+.small-sign { margin-top: 20px; }
+.small-sign .route-rows li:first-child { border-top: 0; }
+@media (min-width: 64rem) {
+  .two { grid-template-columns: 1.15fr .85fr; gap: 64px; align-items: start; }
+}
+
+/* ---------- Feuille de réservation (balisage de booking.njk, inchangé) ---------- */
+[data-brand="vip"] .sheet {
+  --sheet-bg: var(--paper); --sheet-field-bg: var(--paper); --sheet-ink: var(--ink); --sheet-mute: var(--mute);
+  --sheet-field: #858D95; --sheet-accent: var(--sign); --sheet-accent-ink: #fff; --sheet-accent-num: #fff;
+  --sheet-cta: var(--mark); --sheet-cta-hover: var(--mark-deep); --sheet-cta-ink: var(--ink);
+  --sheet-err: #A8221A; --sheet-soft: var(--concrete); --sheet-rule: var(--rule);
+  --sheet-head: var(--sans); --sheet-head-stretch: 82%; --sheet-head-weight: 760; --sheet-text: var(--sans);
+  --sheet-backdrop: rgb(22 28 34 / .6); --sheet-focus: 0 0 0 2px #fff, 0 0 0 4.5px var(--sign);
+  border-radius: 16px 16px 0 0; box-shadow: 0 -10px 30px rgb(0 0 0 / .25);
+}
+/* La tête de la feuille est un panneau : bleu, titre blanc, filet en retrait. */
+[data-brand="vip"] .sheet .sheet-grab { display: grid; place-items: center; height: 20px; flex: none; background: var(--sign); }
+[data-brand="vip"] .sheet .sheet-grab::before { content: ""; width: 44px; height: 5px; border-radius: 3px; background: rgb(255 255 255 / .55); }
+[data-brand="vip"] .sheet .sheet-head {
+  align-items: center; padding: 6px 16px 18px 22px; border-bottom: 0; background: var(--sign); color: #fff;
+  box-shadow: inset 0 -6px 0 var(--sign), inset 0 -8px 0 rgb(255 255 255 / .9);
+}
+[data-brand="vip"] .sheet .sheet-kicker { color: var(--sign-soft); font-size: 15px; }
+[data-brand="vip"] .sheet .sheet-title { font-size: 28px; line-height: 1.02; letter-spacing: -.01em; }
+[data-brand="vip"] .sheet .sheet-close { color: #fff; margin: 0 -6px 0 0; border-radius: 10px; }
+[data-brand="vip"] .sheet .sheet-close:hover { background: var(--sign-deep); }
+[data-brand="vip"] .sheet .sheet-close:focus-visible { box-shadow: 0 0 0 3px var(--mark); }
+[data-brand="vip"] .sheet .sheet-body { padding: 22px 22px 0; }
+[data-brand="vip"] .sheet .f > label, [data-brand="vip"] .sheet .f > legend, [data-brand="vip"] .sheet .f-label { font-weight: 680; }
+[data-brand="vip"] .sheet :is(input[type="text"], input[type="date"], input[type="time"], select) { border-radius: 8px; border-width: 1.5px; }
+[data-brand="vip"] .sheet :is(input[type="text"], input[type="date"], input[type="time"], select):focus-visible { border-color: var(--sign); }
+[data-brand="vip"] .sheet .choice input + span { border-radius: 8px; font-weight: 650; transition: background-color .12s, color .12s, border-color .12s; }
+[data-brand="vip"] .sheet .choice input:checked + span { box-shadow: inset 0 0 0 3px var(--sign), inset 0 0 0 4.5px #fff; }
+[data-brand="vip"] .sheet .choice input:checked:focus-visible + span { box-shadow: inset 0 0 0 3px var(--sign), inset 0 0 0 4.5px #fff, 0 0 0 2px #fff, 0 0 0 4.5px var(--ink); }
+[data-brand="vip"] .sheet .stepper button { border-radius: 8px; transition: transform .1s, background-color .12s; }
+[data-brand="vip"] .sheet .stepper button:active { transform: scale(.94); background: var(--concrete); }
+[data-brand="vip"] .sheet .sheet-btn { border-radius: 10px; font-size: 19px; transition: background-color .15s, transform .12s; }
+[data-brand="vip"] .sheet .sheet-btn:active { transform: translateY(2px); }
+[data-brand="vip"] .sheet .sheet-btn--quiet { background: transparent; border-color: var(--ink); font-size: 17px; }
+[data-brand="vip"] .sheet .sheet-btn--quiet:hover { background: var(--concrete); }
+[data-brand="vip"] .sheet .sheet-foot { padding-top: 12px; }
+/* Aperçu : la fiche devient une plaque blanche à double filet, la première ligne (le trajet) en panneau. */
+[data-brand="vip"] .sheet .slip { border: 0; border-radius: 10px; background: var(--paper); box-shadow: inset 0 0 0 2px var(--ink); overflow: hidden; }
+[data-brand="vip"] .sheet .slip-lines { padding: 0 16px 6px; }
+[data-brand="vip"] .sheet .slip-lines .slip-first { margin: 0 -16px 4px; padding: 14px 16px; background: var(--sign); color: #fff; font: 760 21px/1.15 var(--sans); font-stretch: 82%; }
+[data-brand="vip"] .sheet .slip-lines .slip-first + div { border-top: 0; }
+[data-brand="vip"] .sheet .slip-lines dt { font-size: 15px; }
+[data-brand="vip"] .sheet .slip-lines dd { font-size: 16px; font-weight: 600; }
+[data-brand="vip"] .sheet .f.is-invalid, [data-brand="vip"] .sheet .count.is-invalid { margin-left: 0; padding-left: 0; border-left: 0; }
+@media (min-width: 64rem) {
+  [data-brand="vip"] .sheet { border-radius: 0; }
+  [data-brand="vip"] .sheet .sheet-grab { display: none; }
+  [data-brand="vip"] .sheet .sheet-head { padding-top: 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  .road-dash { transform: none; }
+}
+.top-nav ul { display: flex; gap: 8px; }

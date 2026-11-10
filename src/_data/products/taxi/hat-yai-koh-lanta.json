@@ -1,0 +1,122 @@
+{
+  "slug": "hat-yai-koh-lanta",
+  "url": "/taxi/hat-yai-koh-lanta/",
+  "brand": "vip",
+  "template": "route",
+  "name": "Hat Yai to Koh Lanta",
+  "seo": {
+    "title": "Hat Yai to Koh Lanta Private Minivan | VIP Taxi Lanta",
+    "metaDescription": "Private minivan between Hat Yai (airport, train station or town) and Koh Lanta, both directions, door to door. Cash to the driver. Price on WhatsApp."
+  },
+  "h1": "Hat Yai to Koh Lanta by private minivan",
+  "lead": "From Hat Yai Airport, the train station or your hotel in town to Koh Lanta, and back, in a private minivan.",
+  "route": {
+    "from": "Hat Yai",
+    "to": "Koh Lanta",
+    "bothDirections": true,
+    "drive": "about 6 hours",
+    "points": [
+      "Hat Yai Airport",
+      "Hat Yai train station",
+      "Hotels in Hat Yai",
+      "Your hotel on Koh Lanta"
+    ],
+    "region": "Trang and the deep south"
+  },
+  "facts": [
+    {
+      "label": "Drive time",
+      "value": "About 6 hours, depending on traffic"
+    },
+    {
+      "label": "Pickup and drop-off",
+      "value": "Hat Yai Airport, Hat Yai train station, Hotels in Hat Yai, Your hotel on Koh Lanta"
+    },
+    {
+      "label": "Directions",
+      "value": "Both directions"
+    }
+  ],
+  "priceOnRequest": true,
+  "faq": [
+    {
+      "q": "Can you pick up at Hat Yai Airport or train station?",
+      "a": "Yes. Give us your arrival time and the driver waits for you."
+    }
+  ],
+  "photos": [
+    {
+      "file": "taxi/van-seats.webp",
+      "alt": "Minivan interior with diamond-stitched tan leather seats and a lit ceiling",
+      "slot": "hero",
+      "status": "keep",
+      "shot": "Real photo of the VIP Taxi Lanta minivan, shared by every route page today: one photo per route later if possible."
+    },
+    {
+      "slot": "meeting-point",
+      "status": "missing",
+      "shot": "Where the driver meets you at Hat Yai (arrivals exit, sign with the client's name), no faces needed."
+    }
+  ],
+  "related": [
+    "/taxi/koh-lanta-trang/"
+  ],
+  "schema": {
+    "type": "TaxiService",
+    "legacyType": "TaxiService",
+    "serviceType": "Private minivan transfer",
+    "areaServed": [
+      "Hat Yai",
+      "Koh Lanta"
+    ]
+  },
+  "legacyText": {
+    "title": "Hat Yai to Koh Lanta Minivan Taxi | VIP Taxi Lanta",
+    "body": [
+      "Tell us where we pick you up in Hat Yai and at what time. The team confirms the price on WhatsApp."
+    ]
+  },
+  "sources": [
+    {
+      "field": "name, seo, h1, lead, route, faq, legacyText",
+      "from": "taxiRoutes.json routes[id=hat-yai-koh-lanta]"
+    },
+    {
+      "field": "route.drive, facts[Drive time]",
+      "from": "taxiRoutes.json routes[id=hat-yai-koh-lanta].drive (durées approximatives relevées le 30.10.2026, registre de faits)"
+    },
+    {
+      "field": "route.points, facts[Pickup and drop-off]",
+      "from": "taxiRoutes.json routes[id=hat-yai-koh-lanta].lead, body, faq"
+    },
+    {
+      "field": "route.region, related",
+      "from": "taxiRoutes.json regions"
+    },
+    {
+      "field": "priceOnRequest",
+      "from": "Décision client du 02.11.2026 : prix des transferts privés sur WhatsApp"
+    },
+    {
+      "field": "photos",
+      "from": "src/taxi-route.njk (van-seats.webp) ; docs/refonte/01-audit-design.md §4 (photos du van à garder) ; 00-BRIEF §6.4 (point de rencontre)"
+    },
+    {
+      "field": "schema",
+      "from": "src/_data/taxiRoutesView.js"
+    },
+    {
+      "field": "seo.title, seo.metaDescription, h1",
+      "from": "Refonte taxi v1 (10.11.2026) : même forme que Krabi Airport, « Minivan Taxi » banni (03-audit-contenu §6.6). Même trajet, mêmes faits."
+    },
+    {
+      "field": "priceFrom",
+      "from": "Grille « Private Taxi » de VIP Taxi Lanta, colonne Selling, prix pour 1 à 2 clients (base partenaires, ~/Downloads/Secret Travel & Tour/VIP Taxi Lanta - Private Taxi.jpg). Affichage « from » décidé par Jérémy le 10.11.2026. Ligne : From / to Hatyai Town/Airport"
+    }
+  ],
+  "priceFrom": {
+    "thb": 5000,
+    "people": "1 or 2",
+    "approx": false
+  }
+}

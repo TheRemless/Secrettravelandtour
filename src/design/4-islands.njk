@@ -1,0 +1,80 @@
+---
+boardPermalink: /design/4-islands/
+---
+{#- Page 4 Islands complète et cohérente (retour du 03.11.2026, point 18), dans l'ordre de 00-BRIEF §6.2.
+    Sert aussi aux cadres mobiles de la planche /design/. Jamais en production. -#}
+{% import "components/stt.njk" as stt %}
+{% from "components/booking.njk" import bookingSheet %}
+{%- set t = page -%}
+{%- set slots = buildContext.showPhotoSlots -%}
+{%- set fallback = stt.waHref(boardContact.number, t.fallback) -%}
+<!DOCTYPE html>
+<html lang="en-GB" data-board>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>4 Islands boat tour from Koh Lanta, design board</title>
+{% include "board-head-stt.njk" %}
+</head>
+<body class="has-mbar">
+<a class="skip" href="#main">Skip to content</a>
+{{ stt.header("boat-trips", boardContact, emblem.header, site) }}
+
+<main id="main" class="wrap">
+  {#- Haut de page de la maquette m2 : texte et billet sur 6 colonnes, photo sur 6 ; sur téléphone, la photo
+      passe en tête, pleine largeur. Seules les vraies photos s'affichent (règle « moins d'images »). -#}
+  <div class="grid pg-hero">
+    <div class="c-6">
+      {{ stt.breadcrumb([{ label: "Home", href: "/" }, { label: "Boat trips", href: "/tours/#boat-trips" }, { label: t.name }]) }}
+      <h1>{{ t.h1 }}</h1>
+      <p class="lead">{{ t.lead }}</p>
+      {{ stt.ticket(t.ticket, "Key facts, " + t.name) }}
+      <div class="pg-actions">
+        <a class="btn btn-primary" href="{{ fallback }}" data-book="{{ t.price.option }}">Check availability</a>
+        <a class="link-wa" href="{{ stt.waHref(boardContact.number) }}">Ask on WhatsApp</a>
+      </div>
+    </div>
+    <div class="pg-photo">{{ stt.gallery(t.gallery, "Photos, " + t.name, false) }}</div>
+  </div>
+
+  <section class="pg-sec" aria-labelledby="h-day">
+    <h2 id="h-day">{{ t.day.title }}</h2>
+    {{ stt.routeLine(t.day.steps, t.day.note) }}
+  </section>
+
+  <section class="pg-sec" id="prices" aria-labelledby="h-prices">
+    <h2 id="h-prices">Choose your boat</h2>
+    {{ stt.optionsPrices(t.options) }}
+  </section>
+
+  <div class="grid pg-sec pg-two">
+    <section class="c-6" aria-labelledby="h-incl">
+      <h2 id="h-incl">What's in the price</h2>
+      {{ stt.included(t.included, t.notIncluded) }}
+    </section>
+    <div class="c-6">{{ stt.beforeBook(t.beforeBook) }}</div>
+  </div>
+
+  <div class="grid pg-sec pg-two">
+    <section class="c-7" aria-labelledby="h-faq">
+      <h2 id="h-faq">Questions</h2>
+      {{ stt.faq(t.faq) }}
+    </section>
+    <div class="c-5">{{ stt.whoRuns(board.who) }}</div>
+  </div>
+
+  <section class="pg-sec" aria-labelledby="h-related">
+    <h2 id="h-related">More boat trips</h2>
+    {{ stt.related(t.related, t.transfer, false) }}
+  </section>
+</main>
+
+{{ stt.footer(site, boardContact, emblem.footer) }}
+{{ stt.mobileBar(t.price, fallback) }}
+{{ bookingSheet(t.booking, boardContact) }}
+<script src="/js/booking.js?v={{ build.v }}" defer></script>
+<script src="/js/ui.js?v={{ build.v }}" defer></script>
+{% include "board-tools.njk" %}
+</body>
+</html>

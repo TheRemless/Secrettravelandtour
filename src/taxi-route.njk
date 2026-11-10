@@ -1,127 +1,123 @@
 ---
 pagination:
-  data: taxiRoutesView.routes
+  data: taxiPages.routes
   size: 1
   alias: r
-permalink: "/taxi/{{ r.id }}/"
+permalink: "{{ r.url }}"
 eleventyExcludeFromCollections: true
 ---
-{#- Une page par trajet de VIP Taxi Lanta (option A du chantier SEO, 30.10.2026).
-    Même direction « Night cabin » que /taxi/, hors base.njk. Pas de prix, de note, d'avis, de téléphone
-    ni d'e-mail (décisions de Jérémy). Le bouton renvoie au formulaire de /taxi/ avec From et To préremplis.
-    Pas de bloc de liens ni de pastilles : les autres trajets sont une simple liste en bas de page. -#}
+{#- Les pages trajet de VIP Taxi Lanta sur un seul gabarit, identité « Laque et or » (10.11.2026).
+    Données : taxiPages.js (products/taxi). Une donnée absente ne s'affiche pas (une durée inconnue, par exemple).
+    Prix d'appel de la grille VIP Taxi Lanta (« From … THB ») quand il existe, sinon « Price on WhatsApp ». Réservation par la feuille (booking.js, variante taxi, aller ou retour). -#}
+{% import "components/taxi.njk" as tx %}
+{% from "components/booking.njk" import bookingSheet %}
+{%- set T = taxiPages -%}
+{%- set pair = r.from + " to " + r.to -%}
+{%- set fallback = tx.waHref(T.contact.number, r.fallback) -%}
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="en-GB" data-refonte data-brand="vip">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{ r.title }}</title>
-<meta name="description" content="{{ r.metaDescription }}">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{ r.seo.title }}</title>
+<meta name="description" content="{{ r.seo.metaDescription }}">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<link rel="canonical" href="{{ r.url }}">
+<link rel="canonical" href="{{ site.url }}{{ r.url }}">
 <meta property="og:type" content="website">
-<meta property="og:url" content="{{ r.url }}">
-<meta property="og:title" content="{{ r.title }}">
-<meta property="og:description" content="{{ r.metaDescription }}">
-<meta property="og:image" content="https://secrettravelandtour.com/images/taxi/og-taxi.jpg">
+<meta property="og:site_name" content="VIP Taxi Lanta">
+<meta property="og:title" content="{{ r.seo.title }}">
+<meta property="og:description" content="{{ r.seo.metaDescription }}">
+<meta property="og:url" content="{{ site.url }}{{ r.url }}">
+<meta property="og:image" content="{{ site.url }}/images/taxi/og-taxi.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="VIP Taxi Lanta, Mr. Brown, private taxis and minivans">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" sizes="32x32" href="/images/taxi/icon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/images/taxi/apple-touch-icon.png">
-<meta name="theme-color" content="#140D09">
-<link rel="preload" as="font" type="font/woff2" href="/css/fonts/marcellus-400-normal-latin.woff2" crossorigin>
-<link rel="preload" as="font" type="font/woff2" href="/css/fonts/figtree-400-normal-latin.woff2" crossorigin>
-<link rel="stylesheet" href="/css/taxi.css?v={{ build.v }}">
-<script>document.documentElement.className = "js";</script>
-{%- for block in r.jsonLd %}
-<script type="application/ld+json">{{ block | dump | safe }}</script>
+<meta name="theme-color" content="#1B130D">
+<link rel="preload" as="font" type="font/woff2" href="/css/fonts/chonburi-400-normal-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/css/fonts/bai-jamjuree-400-normal-latin.woff2" crossorigin>
+<link rel="stylesheet" href="/css/booking.css?v={{ build.v }}">
+<link rel="stylesheet" href="/css/vip-taxi.css?v={{ build.v }}">
+<script>document.documentElement.classList.add("js");</script>
+{%- for j in r.jsonLd %}
+<script type="application/ld+json">{{ j | jsonld | safe }}</script>
 {%- endfor %}
 </head>
-<body class="route">
+<body>
 <a class="skip" href="#main">Skip to content</a>
+{{ tx.top(T.contact) }}
+<main id="main" class="is-route">
+<section class="hero hero--route" aria-labelledby="h1">
+  <div class="wrap hero-in">
+    <nav class="crumb" aria-label="Breadcrumb"><a href="/taxi/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M15 5l-7 7 7 7"/></svg><span>All routes</span></a></nav>
+    <div class="cart" data-frame="">
+      {%- if r.code %}<p class="c-code"><span class="sr-only">Airport code </span>{{ r.code }}</p>{% endif %}
+      {%- if r.h1Tail %}
+      <h1 id="h1" class="cart-h1"><span class="c-from">{{ r.from }}</span> <span class="c-word">to</span> <span class="c-to">{{ r.to }}</span><span class="c-tail"> {{ r.h1Tail }}</span></h1>
+      {%- else %}
+      <h1 id="h1" class="cart-h1 cart-h1--plain">{{ r.h1 }}</h1>
+      {%- endif %}
+      {%- if r.drive %}<p class="c-drive">{{ r.drive | capitalize }}<span class="sr-only"> by road</span></p>{% endif %}
+    </div>
+    <div class="route-lead">
+      <p class="lead">{{ r.lead | taxiLinks | safe }}</p>
+      <div class="hero-act">
+        <a class="btn btn--gold" href="{{ fallback }}" data-book="">Check availability</a>
+        <p class="hero-note">{% if r.price %}<span class="hero-price">{{ r.price.label }}</span> per vehicle, cash to the driver.{% else %}Price on WhatsApp.{% endif %}</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-<header class="route-top">
-  <a class="bar-link" href="/taxi/">
-    <span class="plate"><img eleventy:ignore src="/images/taxi/logo.webp" width="640" height="640" alt="VIP Taxi Lanta, Mr. Brown"></span>
-    <span class="word">VIP TAXI LANTA<small>{{ taxi.business.tagline }}, {{ taxi.business.owner }}</small></span>
-  </a>
-  <a class="all" href="/taxi/">All transfers</a>
-</header>
-
-<main id="main">
-  <section class="ticket" aria-labelledby="h-route">
-    <div class="ticket-in">
-      <p class="ticket-kind">Private taxi or minivan</p>
-      <h1 id="h-route"><span class="from">{{ r.from }}</span><span class="to">to {{ r.to }}</span></h1>
-      <p class="ticket-lead">{{ r.lead }}</p>
-      <dl class="ticket-facts">
-        <div><dt>Vehicle</dt><dd>Taxi or minivan, your group only</dd></div>
-        <div><dt>Payment</dt><dd>Cash to the driver, no prepayment</dd></div>
-        {%- if r.drive %}<div><dt>Drive</dt><dd>{{ r.drive | capitalize }}, depending on traffic</dd></div>{% endif %}
-        <div><dt>Return</dt><dd>{{ r.to }} to {{ r.from }} on request</dd></div>
+<section class="detail" aria-labelledby="h-detail">
+  <div class="wrap detail-in">
+    <div class="detail-text">
+      <h2 id="h-detail">How this transfer works</h2>
+      {%- if r.body.length %}
+      <div class="prose">{% for para in r.body %}<p>{{ para | taxiLinks | safe }}</p>{% endfor %}</div>
+      {%- endif %}
+      <dl class="why why--route">
+        {%- for x in r.how %}
+        <div><dt>{{ x.title }}</dt><dd>{{ x.text }}</dd></div>
+        {%- endfor %}
       </dl>
-      <a class="btn" href="{{ r.formHref }}">Request this transfer</a>
+      {#- Une ou deux questions : elles restent ici plutôt que d'ouvrir une section presque vide. -#}
+      {%- if r.faq.length and r.faq.length < 3 %}
+      <h3 class="qa-inline" id="h-faq">Questions<span class="sr-only"> about {{ pair }}</span></h3>
+      {{ tx.faq(r.faq) }}
+      {%- endif %}
     </div>
-    <img eleventy:ignore class="ticket-photo" src="/images/taxi/van-seats.webp" width="900" height="675" alt="Minivan interior with diamond-stitched tan leather seats and a lit ceiling" fetchpriority="high">
-  </section>
+    {{ tx.arch("/images/taxi/van-seats.webp", "Minivan interior with diamond-stitched tan leather seats and a lit ceiling", 900, 675, cls="arch arch--still", draw=false) }}
+  </div>
+</section>
 
-  <section class="sec route-body" aria-label="About this transfer">
-    {%- for para in r.body %}
-    <p>{{ para }}</p>
-    {%- endfor %}
-  </section>
+{%- if r.faq.length >= 3 %}
+<section class="qa" aria-labelledby="h-faq">
+  <div class="wrap qa-in">
+    <h2 id="h-faq">Questions<span class="sr-only"> about {{ pair }}</span></h2>
+    {{ tx.faq(r.faq) }}
+  </div>
+</section>
+{%- endif %}
 
-  <section class="sec" aria-labelledby="h-how">
-    <h2 id="h-how">How it works</h2>
-    <ol class="steps">
-      {%- for st in taxi.steps %}
-      <li><div><h3>{{ st.title }}</h3><p>{{ st.text }}</p></div></li>
-      {%- endfor %}
-    </ol>
-    <p class="pay">{{ taxi.payment.text }} Children and babies: add them in the form and ask for a child seat or a baby seat.</p>
-  </section>
+{%- if r.others.length %}
+<section class="others" aria-labelledby="h-others">
+  <div class="wrap">
+    <div class="sec-head"><h2 id="h-others">Other routes in {{ r.region }}</h2></div>
+    <ul class="rr-list rr-list--wide">{% for o in r.others %}{{ tx.routeRow(o) }}{% endfor %}</ul>
+    <p class="all-routes"><a class="link-ink" href="/taxi/#routes">See all routes</a></p>
+  </div>
+</section>
+{%- endif %}
 
-  <section class="sec" aria-labelledby="h-faq">
-    <h2 id="h-faq">Questions about this transfer</h2>
-    <div class="faq">
-      {%- for f in r.faqAll %}
-      <div><h3>{{ f.q }}</h3><p>{{ f.a }}</p></div>
-      {%- endfor %}
-    </div>
-  </section>
-
-  <section class="sec routes-more" aria-labelledby="h-more">
-    <h2 id="h-more">Other private transfers</h2>
-    <div class="routes-cols">
-      <div>
-        <h3>Airports</h3>
-        <ul>
-          {%- for o in taxiRoutesView.routes %}{% if o.code and o.id != r.id %}
-          <li><a href="/taxi/{{ o.id }}/">{{ o.label }}</a></li>
-          {%- endif %}{% endfor %}
-        </ul>
-      </div>
-      <div>
-        <h3>Towns, parks and piers</h3>
-        <ul>
-          {%- for o in taxiRoutesView.routes %}{% if not o.code and o.id != r.id %}
-          <li><a href="/taxi/{{ o.id }}/">{{ o.label }}</a></li>
-          {%- endif %}{% endfor %}
-        </ul>
-      </div>
-    </div>
-    <p>Anywhere else in Southern Thailand: <a href="/taxi/#request">send us the pickup and the destination</a>.</p>
-  </section>
-
-  {% include "taxi-partner.njk" %}
+{{ tx.secretAside(taxi.tours, true) }}
 </main>
-
-<footer>
-  <div class="plate"><img eleventy:ignore src="/images/taxi/logo.webp" width="640" height="640" alt="" loading="lazy"></div>
-  <p>VIP Taxi Lanta by {{ taxi.business.owner }}</p>
-  <p>{{ taxi.business.place }}</p>
-  <p><a href="/taxi/">All transfers and the request form</a></p>
-  <p class="foot-legal">Bookings are sold by {{ secret.business.operator }} · <a href="/terms/">Booking terms</a> · <a href="/legal/">Legal notice</a> · <a href="/privacy/">Privacy</a></p>
-</footer>
+{{ tx.footer(site, T.contact) }}
+{{ tx.vbar("Check availability", fallback, r.price) }}
+{{ bookingSheet(r.booking, T.contact) }}
+<script src="/js/booking.js?v={{ build.v }}" defer></script>
+<script src="/js/vip-taxi.js?v={{ build.v }}" defer></script>
 </body>
 </html>

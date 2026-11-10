@@ -1,0 +1,33 @@
+{#- En-tête des pages du design v4. Variables : seo {title, metaDescription}, pageUrl, ogImage, jsonLd, preloadImg. -#}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{ seo.title }}</title>
+<meta name="description" content="{{ seo.metaDescription }}">
+{%- if not noindex %}<link rel="canonical" href="{{ site.url }}{{ pageUrl }}">{% endif %}
+<meta name="robots" content="{{ 'noindex, follow' if noindex else 'index, follow, max-image-preview:large' }}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Secret Travel &amp; Tour">
+<meta property="og:title" content="{{ seo.title }}">
+<meta property="og:description" content="{{ seo.metaDescription }}">
+<meta property="og:url" content="{{ site.url }}{{ pageUrl }}">
+<meta property="og:image" content="{{ site.url }}{{ ogImage or '/images/secret/og-secret.jpg' }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="preload" as="font" type="font/woff2" href="/css/fonts/cormorant-garamond-latin-600-normal.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/css/fonts/manrope-latin-400-normal.woff2" crossorigin>
+{%- if preloadImg %}
+<link rel="preload" as="image" type="image/avif" imagesrcset="{{ preloadImg.avif }}" imagesizes="{{ preloadSizes }}" fetchpriority="high">
+{%- endif %}
+<link rel="stylesheet" href="/css/tokens.css?v={{ build.v }}">
+<link rel="stylesheet" href="/css/v4.css?v={{ build.v }}">
+<link rel="stylesheet" href="/css/booking.css?v={{ build.v }}">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/secret/favicon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/images/secret/favicon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/secret/favicon-180.png">
+{%- for j in jsonLd %}
+<script type="application/ld+json">{{ j | jsonld | safe }}</script>
+{%- endfor %}
+{#- Classe js tout de suite (styles des comportements), et fondu des photos dès leur décodage, même avant v4.js. -#}
+<script>document.documentElement.classList.add("js");addEventListener("load",function(e){var t=e.target;if(t.tagName==="IMG"&&t.classList.contains("fade"))t.classList.add("is-in")},true);</script>
+{#- Préchargement des pages de sorties : au survol prolongé ou au premier contact (Chrome, Edge). -#}
+<script type="speculationrules">{"prefetch":[{"where":{"and":[{"href_matches":"/tours/*"},{"not":{"href_matches":"/tours/"}}]},"eagerness":"moderate"}]}</script>

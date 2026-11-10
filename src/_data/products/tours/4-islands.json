@@ -1,0 +1,631 @@
+{
+  "slug": "4-islands",
+  "url": "/tours/4-islands/",
+  "brand": "secret",
+  "template": "boat",
+  "name": "4 Islands",
+  "seo": {
+    "title": "4 Islands Tour from Koh Lanta | Secret Travel & Tour",
+    "metaDescription": "Koh Chueak, the Emerald Cave on Koh Mook, Koh Ngai and Koh Ma or Kradan. Full day, beach lunch and hotel transfer included. Join-in from 1,000 THB.",
+    "draft": {
+      "title": "4 Islands Tour from Koh Lanta – Emerald Cave",
+      "metaDescription": "Longtail or speedboat to the Emerald Cave, Koh Ngai, Koh Chueak and Koh Ma or Kradan. Lunch and snorkel gear included. From 1,000 THB.",
+      "h1": "4 Islands tour from Koh Lanta"
+    }
+  },
+  "h1": "4 Islands boat tour from Koh Lanta",
+  "lead": "Koh Chueak, Koh Mook's Emerald Cave and Koh Ngai, plus Koh Ma by longtail or Koh Kradan by speedboat. Join-in or private.",
+  "promise": "Emerald Cave and three more islands, lunch on the beach",
+  "facts": [
+    {
+      "label": "Duration",
+      "value": "Full day"
+    },
+    {
+      "label": "Hotel pickup",
+      "value": "07:45–08:30"
+    },
+    {
+      "label": "Boat leaves",
+      "value": "09:00"
+    },
+    {
+      "label": "Boat",
+      "value": "Longtail or speedboat"
+    },
+    {
+      "label": "Format",
+      "value": "Join-in or private"
+    },
+    {
+      "label": "Longtail pier",
+      "value": "Lanta Old Town pier"
+    },
+    {
+      "label": "Speedboat pier",
+      "value": "Lanta Old Town pier, join-in speedboat"
+    },
+    {
+      "label": "Islands, longtail",
+      "value": "Koh Chueak, Koh Mook (Emerald Cave), Koh Ngai, Koh Ma"
+    },
+    {
+      "label": "Islands, speedboat",
+      "value": "Koh Chueak, Koh Mook (Emerald Cave), Koh Kradan, Koh Ngai"
+    },
+    {
+      "label": "Lunch",
+      "value": "Thai buffet on the beach: Koh Ngai by longtail, Koh Kradan by speedboat"
+    },
+    {
+      "label": "National park fee",
+      "value": "200 THB per adult from 12, 100 THB per child from 4 to 11, free under 4, not included"
+    }
+  ],
+  "price": {
+    "from": 1000,
+    "currency": "THB",
+    "unit": "per adult, join-in longtail"
+  },
+  "options": [
+    {
+      "id": "join-in-longtail",
+      "label": "Join-in longtail",
+      "kind": "join-in",
+      "boat": "longtail",
+      "note": "A shared boat with other travellers. Children under 4 go free.",
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 1000,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 11",
+          "amount": 600,
+          "ages": {
+            "min": 4,
+            "max": 11
+          },
+          "unit": "per person"
+        },
+        {
+          "label": "Child under 4",
+          "amount": 0,
+          "ages": {
+            "max": 3
+          }
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "National park fee, adult",
+          "amount": 200,
+          "unit": "per person",
+          "note": "Cash, paid to the ranger on the island",
+          "ages": {
+            "min": 12
+          }
+        },
+        {
+          "label": "National park fee, child",
+          "amount": 100,
+          "unit": "per person",
+          "note": "Cash, paid to the ranger on the island",
+          "ages": {
+            "min": 4,
+            "max": 11
+          }
+        },
+        {
+          "label": "National park fee, Thai national adult",
+          "amount": 40,
+          "unit": "per person",
+          "note": "Cash, paid to the ranger on the island"
+        },
+        {
+          "label": "National park fee, Thai national child",
+          "amount": 20,
+          "unit": "per person",
+          "note": "Cash, paid to the ranger on the island"
+        }
+      ],
+      "pier": "Lanta Old Town pier",
+      "stub": "Shared boat"
+    },
+    {
+      "id": "join-in-speedboat",
+      "label": "Join-in speedboat",
+      "kind": "join-in",
+      "boat": "speedboat",
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 2000,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 11",
+          "amount": 1000,
+          "ages": {
+            "min": 4,
+            "max": 11
+          },
+          "unit": "per person"
+        },
+        {
+          "label": "Child under 4",
+          "amount": 0,
+          "ages": {
+            "max": 3
+          }
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "National park fee, adult",
+          "amount": 200,
+          "unit": "per person",
+          "note": "Cash, paid to the ranger on the island",
+          "ages": {
+            "min": 12
+          }
+        },
+        {
+          "label": "National park fee, child",
+          "amount": 100,
+          "unit": "per person",
+          "note": "Cash, paid to the ranger on the island",
+          "ages": {
+            "min": 4,
+            "max": 11
+          }
+        },
+        {
+          "label": "National park fee, Thai national adult",
+          "amount": 40,
+          "unit": "per person",
+          "note": "Cash, paid to the ranger on the island"
+        },
+        {
+          "label": "National park fee, Thai national child",
+          "amount": 20,
+          "unit": "per person",
+          "note": "Cash, paid to the ranger on the island"
+        }
+      ],
+      "stub": "Koh Kradan instead of Koh Ma",
+      "pier": "Lanta Old Town pier",
+      "note": "A shared speedboat from Lanta Old Town pier, with a light breakfast at the pier and an English-speaking guide."
+    },
+    {
+      "id": "private-longtail",
+      "label": "Private longtail",
+      "kind": "private",
+      "boat": "longtail",
+      "note": "The whole boat for your group. The schedule is flexible and you choose the order of the islands. Children from 4 count in the group size, under 4 do not.",
+      "prices": [
+        {
+          "label": "1 to 2 people",
+          "amount": 5900,
+          "group": {
+            "min": 1,
+            "max": 2
+          },
+          "unit": "per boat"
+        },
+        {
+          "label": "3 to 4 people",
+          "amount": 6400,
+          "group": {
+            "min": 3,
+            "max": 4
+          },
+          "unit": "per boat"
+        },
+        {
+          "label": "Each extra person",
+          "amount": 400,
+          "supplement": true,
+          "unit": "per person"
+        },
+        {
+          "label": "Add Koh Kradan, per boat",
+          "amount": 500,
+          "supplement": true,
+          "unit": "per boat"
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "National park fee, adult",
+          "amount": 200,
+          "unit": "per person",
+          "note": "Cash, paid to the ranger on the island",
+          "ages": {
+            "min": 12
+          }
+        },
+        {
+          "label": "National park fee, child",
+          "amount": 100,
+          "unit": "per person",
+          "note": "Cash, paid to the ranger on the island",
+          "ages": {
+            "min": 4,
+            "max": 11
+          }
+        },
+        {
+          "label": "National park fee, Thai national adult",
+          "amount": 40,
+          "unit": "per person",
+          "note": "Cash, paid to the ranger on the island"
+        },
+        {
+          "label": "National park fee, Thai national child",
+          "amount": 20,
+          "unit": "per person",
+          "note": "Cash, paid to the ranger on the island"
+        }
+      ],
+      "pier": "Lanta Old Town pier",
+      "stub": "Your order of islands"
+    }
+  ],
+  "day": [
+    {
+      "title": "The day, join-in longtail",
+      "steps": [
+        {
+          "time": "07:45",
+          "text": "Pickup at your hotel until 08:30, then Lanta Old Town pier.",
+          "fixed": true,
+          "place": "Your hotel",
+          "detail": "Pickup until 08:30",
+          "kind": "road",
+          "range": "07:45–08:30"
+        },
+        {
+          "time": "09:00",
+          "text": "The boat leaves. The longtail takes about 45 minutes to reach the first island.",
+          "fixed": true,
+          "place": "Lanta Old Town pier",
+          "detail": "About 45 minutes to the first island",
+          "kind": "pier"
+        },
+        {
+          "time": "09:45",
+          "text": "Koh Chueak, snorkelling over the reef, about 45 minutes.",
+          "place": "Koh Chueak",
+          "detail": "Snorkelling over the reef",
+          "kind": "island"
+        },
+        {
+          "time": "11:00",
+          "text": "Koh Mook, swim through the Emerald Cave to the hidden lagoon.",
+          "place": "Koh Mook",
+          "detail": "Swim through the Emerald Cave",
+          "kind": "island"
+        },
+        {
+          "time": "12:00",
+          "text": "Lunch buffet on the beach, then time to swim.",
+          "place": "Koh Ngai",
+          "detail": "Thai buffet on the beach",
+          "kind": "island",
+          "range": "12:00–13:30"
+        },
+        {
+          "time": "13:45",
+          "text": "Koh Ma, snorkelling for about 45 minutes.",
+          "place": "Koh Ma",
+          "detail": "One more snorkelling stop",
+          "kind": "island"
+        },
+        {
+          "time": "14:30",
+          "text": "Back on Koh Lanta between 14:30 and 15:30, depending on the sea, then transfer to your hotel.",
+          "place": "Koh Lanta",
+          "detail": "14:30 to 15:30, then your hotel",
+          "kind": "pier",
+          "range": "14:30–15:30"
+        }
+      ],
+      "note": "Bold times are fixed. Times with ≈ move with the sea and the season."
+    },
+    {
+      "options": [
+        "join-in-speedboat"
+      ],
+      "title": "The day, join-in speedboat",
+      "steps": [
+        {
+          "time": "08:00",
+          "range": "08:00–09:00",
+          "text": "Pickup at your hotel, then Lanta Old Town pier and a light breakfast.",
+          "place": "Your hotel",
+          "detail": "Pickup, then breakfast at the pier",
+          "kind": "road"
+        },
+        {
+          "time": "09:00",
+          "range": "09:00–10:40",
+          "text": "The speedboat leaves for Koh Chueak, snorkelling over the reef.",
+          "place": "Koh Chueak",
+          "detail": "Snorkelling over the reef",
+          "kind": "island"
+        },
+        {
+          "time": "10:40",
+          "range": "10:40–11:30",
+          "text": "Koh Mook, swim through the Emerald Cave to the small beach inside.",
+          "place": "Koh Mook",
+          "detail": "Swim through the Emerald Cave",
+          "kind": "island"
+        },
+        {
+          "time": "11:30",
+          "range": "11:30–14:00",
+          "text": "Koh Kradan, buffet lunch, time on the beach, then snorkelling again.",
+          "place": "Koh Kradan",
+          "detail": "Buffet lunch, beach and snorkelling",
+          "kind": "island"
+        },
+        {
+          "time": "14:00",
+          "range": "14:00–15:00",
+          "text": "Koh Ngai, swimming and time on the beach.",
+          "place": "Koh Ngai",
+          "detail": "Swimming and time on the beach",
+          "kind": "island"
+        },
+        {
+          "time": "15:00",
+          "range": "15:00–16:00",
+          "text": "Back to Koh Lanta, then the transfer to your hotel by car or by boat.",
+          "place": "Koh Lanta",
+          "detail": "Then your hotel",
+          "kind": "pier"
+        }
+      ],
+      "note": "Times are approximate and change with the tide and the weather."
+    }
+  ],
+  "included": [
+    "Hotel transfer both ways",
+    "Thai buffet lunch on the beach, water and fruit",
+    "Light breakfast at the pier on the join-in speedboat",
+    "Masks, snorkels and life jackets",
+    "Local guide, English-speaking on the join-in speedboat",
+    "Insurance",
+    "On a private boat: the boat and the captain for your group only"
+  ],
+  "notIncluded": [
+    "National park fee, paid in cash on the island"
+  ],
+  "beforeYouBook": {
+    "pickup": "From your hotel. The longtails and the join-in speedboat leave from Lanta Old Town pier.",
+    "bring": [
+      "Swimwear",
+      "Sun cream",
+      "A hat",
+      "Sunglasses",
+      "A towel",
+      "A camera",
+      "Cash for the national park fee"
+    ],
+    "weather": "The national park can close an island at short notice, for example for jellyfish. We then change the route or move the date."
+  },
+  "faq": [
+    {
+      "q": "Longtail or speedboat for the 4 Islands?",
+      "a": "The longtail is the traditional wooden boat, slower and open, and it visits Koh Ma. The speedboat is faster and visits Koh Kradan instead. Both include lunch and snorkel gear."
+    },
+    {
+      "q": "Is the 4 Islands tour private?",
+      "a": "It can be. Join a shared boat, or take a private longtail for your group only, with its own captain."
+    },
+    {
+      "q": "Is the national park fee included?",
+      "a": "No. You pay 200 THB per adult and 100 THB per child from 4 to 11 in cash to the ranger on the island. Children under 4 do not pay."
+    },
+    {
+      "q": "Can children come?",
+      "a": "Yes. Children from 4 to 11 pay a child rate and children under 4 travel free on the join-in boats. Life jackets are on board. Give us the ages when you book."
+    }
+  ],
+  "photos": [
+    {
+      "slot": "hero",
+      "status": "keep",
+      "file": "secret/longtail-4x3.webp",
+      "alt": "Bow of a longtail boat with garlands and coloured ribbons, moored in clear shallow water",
+      "shot": "Longtail at Lanta Old Town pier, landscape, early light. The current photo is real but reused three times: keep it here only. Cropped to 4:3 from longtail.webp, with the name painted on the hull kept (Jérémy, 03.11.2026)."
+    },
+    {
+      "slot": "gallery",
+      "status": "replace",
+      "file": "secret/gallery/longtail-cave.webp",
+      "alt": "The Emerald Cave lagoon with visitors on its small beach",
+      "shot": "Emerald Cave on Koh Mook: the lagoon or the cave entrance, sharp, natural colours (current file is a brochure scan with a magenta cast)."
+    },
+    {
+      "slot": "gallery",
+      "status": "replace",
+      "file": "secret/gallery/beach-palm.webp",
+      "alt": "A palm tree and a rock island above a beach on the Trang sea",
+      "shot": "Koh Ngai beach at the lunch stop (current file is a brochure scan)."
+    },
+    {
+      "slot": "gallery",
+      "status": "missing",
+      "shot": "Snorkelling over the reef at Koh Chueak."
+    },
+    {
+      "slot": "gallery",
+      "status": "missing",
+      "shot": "The join-in speedboat at its pier, boarding."
+    },
+    {
+      "slot": "gallery",
+      "status": "missing",
+      "shot": "Thai buffet lunch on the beach."
+    }
+  ],
+  "related": [
+    "/tours/koh-rok-koh-haa/",
+    "/tours/koh-phi-phi/",
+    "/tours/kayak/",
+    "/taxi/krabi-airport-koh-lanta/"
+  ],
+  "schema": {
+    "type": "TouristTrip",
+    "legacyType": "TouristTrip",
+    "places": [
+      "Koh Chueak",
+      "Koh Mook",
+      "Koh Ngai",
+      "Koh Ma",
+      "Koh Kradan"
+    ]
+  },
+  "legacyText": {
+    "title": "4 Islands Tour from Koh Lanta | Secret Travel & Tour",
+    "h1": "4 Islands boat tour",
+    "h1em": "from Koh Lanta",
+    "intro": [
+      "The 4 Islands sit south of Koh Lanta, in the Trang sea. The longtail route stops at Koh Chueak, Koh Mook, Koh Ngai and Koh Ma. The speedboat route swaps Koh Ma for Koh Kradan. On a private longtail you can add Koh Kradan as a detour.",
+      "At Koh Mook you swim through the Emerald Cave and come out in a lagoon enclosed by cliffs. Lunch is a Thai buffet on the beach, on Koh Ngai with the longtail and on Koh Kradan with the speedboat."
+    ],
+    "cardDescription": "Koh Ma, Koh Mook and Koh Chueak, plus Koh Kradan or Koh Ngai: your choice.",
+    "cardInfo": [
+      "From 1,000 THB per adult",
+      "Longtail or speedboat",
+      "Full day"
+    ],
+    "dayTitle": "How the day goes",
+    "goodToKnow": [
+      "Join-in or private. On a private longtail the schedule is flexible and you choose the order of the islands.",
+      "Children have their own rate. Children under 4 go free on the join-in boats. Give us the ages when you book.",
+      "Times vary a little with the sea and the season. The longtail is back between 14:30 and 15:30."
+    ],
+    "priceNote": "Prices in Thai baht. The national park fee is paid on the island and is not included.",
+    "parkFee": "200 THB per adult and 100 THB per child (Thai nationals 40 and 20 THB)",
+    "caption": "Koh Ngai",
+    "photoPosition": "50% 55%"
+  },
+  "sources": [
+    {
+      "field": "name, legacyText.cardDescription, legacyText.cardInfo, photos[hero]",
+      "from": "secret.json tours[id=4-islands]"
+    },
+    {
+      "field": "seo, h1, lead, legacyText",
+      "from": "secretPagesContent.json pages.4-islands.title, metaDescription, h1, h1em, lead, intro"
+    },
+    {
+      "field": "facts, price",
+      "from": "secretPagesContent.json pages.4-islands (day, prices, goodToKnow, parkFee) et secret.json tours[id=4-islands].info, reformulés en lignes de faits"
+    },
+    {
+      "field": "options",
+      "from": "secretPagesContent.json pages.4-islands.prices, priceNote"
+    },
+    {
+      "field": "day",
+      "from": "secretPagesContent.json pages.4-islands.dayTitle, day"
+    },
+    {
+      "field": "included, notIncluded",
+      "from": "secretPagesContent.json pages.4-islands.included, notIncluded"
+    },
+    {
+      "field": "beforeYouBook",
+      "from": "secretPagesContent.json pages.4-islands.goodToKnow, intro, parkFee"
+    },
+    {
+      "field": "faq",
+      "from": "secretPagesContent.json pages.4-islands.faq"
+    },
+    {
+      "field": "seo.draft",
+      "from": "docs/refonte/02-audit-seo.md §6.2 (points de départ, prix à valider)"
+    },
+    {
+      "field": "photos[].status, photos[].shot",
+      "from": "docs/refonte/01-audit-design.md §4"
+    },
+    {
+      "field": "schema",
+      "from": "secretPagesContent.json pages.4-islands.schemaType, places ; type cible : docs/refonte/02-audit-seo.md §6.3"
+    },
+    {
+      "field": "options[].notIncludedFees",
+      "from": "secretPagesContent.json pages.4-islands.parkFee, priceNote, goodToKnow"
+    },
+    {
+      "field": "facts[Boat leaves], day[0].steps[].fixed",
+      "from": "day[0].steps[1] « 09:00 The boat leaves » ; heures fixes : prise en charge et départ, les autres heures varient (day[0].note)"
+    },
+    {
+      "field": "promise",
+      "from": "lead du produit, raccourci à 60 caractères pour la carte (03.11.2026)"
+    },
+    {
+      "field": "day[0].steps[].place, detail, kind ; options[].pier, stub ; refPrefix",
+      "from": "texte des étapes (day[0].steps[].text), facts Lunch et Longtail pier, beforeYouBook.pickup, notes des options ; maquette m2 de la critique du 03.11.2026"
+    },
+    {
+      "field": "seo.metaDescription",
+      "from": "facts (Islands, longtail ; Islands, speedboat ; Duration ; Lunch), included[0] « Hotel transfer both ways », price.from 1000 (join-in longtail) ; réécrit le 03.11.2026"
+    },
+    {
+      "field": "lead",
+      "from": "facts Islands, longtail et Islands, speedboat ; options[].kind (join-in, private) ; réécrit à 25 mots le 03.11.2026"
+    },
+    {
+      "field": "faq[1].a",
+      "from": "options[id=private-longtail] (seul bateau privé publié), included[4] « the boat and the captain for your group only » ; l'ancienne réponse laissait croire à un speedboat privé (TODO client)"
+    },
+    {
+      "field": "options[join-in-longtail].prices[Child, 4 to 11].amount",
+      "from": "brochure du 4 Islands en longtail join-in (audit A § 1.1) p. 2 « CHILD 600.- » (décision client du 08.11.2026 : la brochure fait foi, 700 avant)"
+    },
+    {
+      "field": "options[join-in-speedboat].pier, note ; facts[Speedboat pier] ; day[1] ; included (petit-déjeuner, guide anglophone)",
+      "from": "brochure publique des sorties en speedboat join-in (audit A § 1.3) p. 3, 4 Islands : programme 08:00 à 16:00 ; départ du ponton de Lanta Old Town (décision de Jérémy du 10.11.2026, la brochure donne une adresse sur Koh Lanta Noi), « All tour include » (décision client du 08.11.2026). Le nom du ponton n'est pas écrit : il porte le nom du prestataire (tests/partenaires.test.js)"
+    },
+    {
+      "field": "included[Insurance] ; beforeYouBook.bring",
+      "from": "brochure du 4 Islands en longtail join-in (audit A § 1.1) p. 2 « What to bring » et p. 3 « All trips included » ; brochure des sorties en speedboat p. 3 « Insurance »"
+    },
+    {
+      "field": "day[0].steps[4..6]",
+      "from": "brochure du 4 Islands en longtail join-in (audit A § 1.1) p. 2 : 12:00 à 13:30 Ko Ngai, 13:45 Ko Maa 45 min, 14:30 à 15:30 retour (décision client du 08.11.2026 (second message) : horaires de la brochure ; avant : 15:30 à 16:00, réponse de Jérémy du 03.11.2026)"
+    },
+    {
+      "field": "options[join-in-speedboat].prices[Child under 4] ; options[private-longtail].note ; options[].notIncludedFees[].ages ; facts[National park fee] ; faq",
+      "from": "décision client du 08.11.2026 (second message) : moins de 4 ans gratuits en speedboat join-in ; frais de parc gratuits sous 4 ans, tarif enfant de 4 à 11 ans, adulte dès 12 ans (montants inchangés, officiels attendus) ; en privé les enfants comptent dès 4 ans"
+    },
+    {
+      "field": "beforeYouBook.weather",
+      "from": "données transmises le 08.11.2026 (troisième message du coordinateur, vérifiées en ligne ou fournies par le client) : toute l'année (brochure du longtail join-in, sortie privée « high and low season » ; aucune fermeture annuelle du parc Hat Chao Mai) ; Koh Ngai fermé temporairement en juin et en octobre 2026 (méduses). Tarif thaï 40 / 20 THB confirmé pour Hat Chao Mai"
+    },
+    {
+      "field": "options[join-in-longtail].prices",
+      "from": "âge enfant 4 à 11 ans (décision de Jérémy du 10.11.2026) ; la brochure du longtail ne donne pas d'âge maximum"
+    },
+    {
+      "field": "options, day, facts, lead, faq",
+      "from": "catamaran au départ d'Ao Nang retiré du site (décision de Jérémy du 11.11.2026)"
+    }
+  ],
+  "notes": [
+    "FAQ « Is the national park fee included? » : la phrase affirmant qu'aucun opérateur de l'île n'inclut les frais de parc est retirée (affirmation fausse, décision client du 02.11.2026). Même chose pour l'ancien encadré parkFeeNote, non repris.",
+    "Texte alternatif de la photo du longtail corrigé : l'ancien présentait le bateau comme celui de l'agence, or les bateaux appartiennent aux partenaires (réponse client Q18).",
+    "Photo du longtail : le nom peint « HANTHALE PRIVATE TOURS » reste visible, accord de Jérémy du 03.11.2026.",
+    "Saison : toute l'année (données du 08.11.2026), aucune fermeture annuelle du parc ; fermetures ponctuelles possibles (méduses), dites dans beforeYouBook.weather. Pas de fait « Season » affiché tant que le client ne le demande pas."
+  ],
+  "refPrefix": "FOUR"
+}

@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Boat trips and activities on Koh Lanta | Secret Travel &amp; Tour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+<style>
+  .hub-head { padding-block: 18px 6px; }
+  .hub-head .lead { margin-top: 8px; }
+  .search { position: relative; margin-top: 18px; }
+  .search svg { position: absolute; left: 14px; top: 50%; width: 20px; height: 20px; transform: translateY(-50%); color: var(--mute); }
+  .search input { width: 100%; min-height: 50px; border-radius: 12px; border: 1px solid var(--field); padding: 0 14px 0 44px; font-size: 16px; background: #fff; }
+  .day-wrap { margin-top: 16px; }
+
+  .filterbar { position: sticky; top: 60px; z-index: 30; background: #fff; border-bottom: 1px solid var(--line); padding-top: 8px; }
+  .filterbar .chips { padding-bottom: 10px; }
+  .chip.sort { border-color: var(--field); }
+  .resbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 0 10px; }
+  .resbar output { font-weight: 600; }
+  .resbar .seg { grid-auto-columns: 64px; padding: 3px; }
+  .resbar .seg button { min-height: 40px; font-size: 14px; }
+
+  .group-h { font-family: var(--sans); font-size: 15px; font-weight: 700; color: var(--mute); margin: 26px 0 12px; }
+  .grid-view .rows { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 14px; }
+  .grid-view .row { grid-template-columns: 1fr; padding: 0; border: 0; gap: 8px; }
+  .grid-view .row .thumb { width: 100%; aspect-ratio: 4 / 3; }
+  .grid-view .row p { display: none; }
+  .grid-view .row .meta:first-of-type { display: none; }
+  .grid-view .row h3 { font-size: 18px; }
+
+  .tray { position: fixed; left: 12px; right: 12px; bottom: calc(var(--tabbar) + var(--safe-b) + 10px); z-index: 45; background: var(--deep); color: #fff; border-radius: 16px; padding: 10px 10px 10px 16px; display: flex; align-items: center; gap: 10px; transform: translateY(160%); transition: transform .28s var(--ease); }
+  .tray.show { transform: none; }
+  .tray:not(.show) { visibility: hidden; transition: transform .28s var(--ease), visibility 0s .28s; }
+  .tray p { margin-right: auto; font-size: 15px; line-height: 1.3; min-width: 0; }
+  .tray p b { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tray .btn { background: #fff; color: var(--deep); border-color: #fff; min-height: 46px; }
+  .tray .icon-btn { background: transparent; color: #fff; border-color: rgba(255, 255, 255, .45); }
+
+  .cmp { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 15px; }
+  .cmp th, .cmp td { text-align: left; vertical-align: top; padding: 10px 6px 10px 0; border-bottom: 1px solid var(--line); line-height: 1.45; }
+  .cmp thead td { border: 0; }
+  .cmp thead img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 10px; }
+  .cmp thead b { font-family: var(--serif); font-weight: 400; font-size: 19px; display: block; margin-top: 6px; line-height: 1.2; }
+  .cmp tbody th { font-size: 13.5px; color: var(--mute); font-weight: 600; padding-bottom: 0; border: 0; }
+  .cmp tr.lbl th { padding-top: 14px; }
+  .cmp ul { margin: 0; padding-left: 16px; }
+  .cmp .same { color: var(--mute); }
+  .toggle { display: flex; align-items: center; gap: 10px; min-height: 48px; font-weight: 600; }
+  .toggle input { width: 22px; height: 22px; accent-color: var(--deep); }
+
+  .more { display: grid; gap: 10px; }
+  .more a { color: var(--ink); }
+
+  @media (min-width: 1024px) {
+    .hub { display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 48px; align-items: start; }
+    .rail { padding-top: 24px; }
+    .filterbar { position: static; border: 0; padding: 0; margin-top: 20px; }
+    .filterbar .chips { flex-wrap: wrap; }
+    .day-wrap .ribbon { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+    .day-wrap .day { min-width: 0; }
+    .rows { display: grid; grid-template-columns: 1fr 1fr; column-gap: 36px; }
+    .row:nth-child(2) { padding-top: 0; }
+    .grid-view .rows { grid-template-columns: repeat(3, 1fr); gap: 32px 22px; }
+    .tray { left: auto; right: 32px; bottom: 32px; width: 460px; }
+    .hub-head { padding-top: 0; }
+    .hub-head h1 { font-size: 40px; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#results">Skip to the results</a>
+<header class="appbar"><div class="wrap">
+  <a class="brand" href="home.html"><img src="../../../../../src/images/secret/emblem.webp" alt="" width="38" height="38"><span>Secret Travel<br>&amp; Tour</span></a>
+  <nav class="topnav" aria-label="Main"></nav>
+</div></header>
+
+<main id="main" class="wrap hub">
+  <div class="rail">
+    <div class="hub-head">
+      <h1>Trips and activities on Koh Lanta</h1>
+      <p class="lead" id="hub-lead"></p>
+      <div class="search"><label class="sr" for="q">Search the trips</label><input id="q" type="search" placeholder="Search: Emerald Cave, kayak, elephants" autocomplete="off"></div>
+      <div class="day-wrap"><p class="bk-l" id="day-l">Day</p><div class="ribbon" id="rib" aria-labelledby="day-l"></div></div>
+    </div>
+    <div class="filterbar" id="filterbar"><div class="chips" id="chips" role="group" aria-label="Filters"></div></div>
+  </div>
+
+  <div id="results">
+    <div class="resbar">
+      <output id="count" aria-live="polite"></output>
+      <div class="seg" role="group" aria-label="View"><button type="button" data-v="list" aria-pressed="true">List</button><button type="button" data-v="grid" aria-pressed="false">Photos</button></div>
+    </div>
+    <div id="out"></div>
+    <section aria-labelledby="more-h" style="margin-top:32px">
+      <h2 id="more-h" style="font-size:26px">Also on WhatsApp</h2>
+      <div class="more" id="more" style="margin-top:12px"></div>
+    </section>
+  </div>
+</main>
+
+<div class="tray" id="tray" aria-live="polite">
+  <p id="tray-t"></p>
+  <button class="icon-btn" type="button" id="tray-x" aria-label="Clear the comparison"></button>
+  <button class="btn" type="button" id="tray-go">Compare</button>
+</div>
+
+<footer class="foot" id="foot"></footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+(() => {
+  const A = App, D = A.D, { $, $$, esc } = A;
+  A.chrome("tours");
+  A.footer($("#foot"));
+  $(".search").insertAdjacentHTML("afterbegin", A.icon("search"));
+  $("#hub-lead").textContent = `${A.products.length} trips. Pick a day, filter, compare two, then book on WhatsApp.`;
+
+  const F = [
+    ["boat", D.home.boats.title], ["activity", D.home.activities.title], ["full", "Full day"], ["half", "Half day"],
+    ["kids", "Child rate"], ["private", "Private option"], ["priceShown", "Price on the site"],
+  ];
+  const SORTS = { "": "Suggested order", up: "Price, low to high", down: "Price, high to low" };
+
+  /* État : l'URL est la source, pour que Retour et un lien partagé rouvrent la même vue */
+  const P = new URLSearchParams(location.search);
+  const st = {
+    f: new Set((P.get("f") || "").split(",").filter(Boolean)),
+    d: P.get("d") && P.get("d") >= A.iso(A.today()) ? P.get("d") : A.iso(A.today()),
+    s: P.get("s") || "", v: P.get("v") || "list", q: P.get("q") || "", cmp: (P.get("c") || "").split(",").filter(Boolean),
+  };
+  if (P.get("type") === "boat") st.f.add("boat");
+  if (P.get("type") === "activity") st.f.add("activity");
+  if (location.hash && A.bySlug[location.hash.slice(1)]) setTimeout(() => A.quickLook(location.hash.slice(1), st.d), 300);
+
+  const tr = (p) => ({ ...A.traits(p), activity: p.folder === "activities" });
+  const save = () => {
+    const u = new URLSearchParams();
+    if (st.f.size) u.set("f", [...st.f].join(","));
+    if (st.d !== A.iso(A.today())) u.set("d", st.d);
+    if (st.s) u.set("s", st.s); if (st.v !== "list") u.set("v", st.v); if (st.q) u.set("q", st.q);
+    if (st.cmp.length) u.set("c", st.cmp.join(","));
+    const url = location.pathname.split("/").pop() + (u.toString() ? "?" + u : "");
+    history.replaceState(null, "", url);
+    try { sessionStorage.setItem("stt-hub-url", url); } catch {}
+  };
+  /* Position de défilement gardée pour le retour depuis une fiche */
+  addEventListener("pagehide", () => { try { sessionStorage.setItem("stt-hub-scroll", JSON.stringify({ url: location.search, y: scrollY })); } catch {} });
+
+  $("#q").value = st.q;
+  $("#q").addEventListener("input", (e) => { st.q = e.target.value.trim(); draw(); });
+  A.ribbon($("#rib"), { selected: st.d, onSelect: (d) => { st.d = d; draw(); } });
+  $("#chips").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-f]");
+    if (b) { const k = b.dataset.f; st.f.has(k) ? st.f.delete(k) : st.f.add(k); if (k === "boat") st.f.delete("activity"); if (k === "activity") st.f.delete("boat"); draw(); }
+    if (e.target.closest("[data-sort]")) openSort();
+  });
+  $$("[data-v]").forEach((b) => b.addEventListener("click", () => { st.v = b.dataset.v; draw(); }));
+
+  const hay = (p) => [p.name, p.h1, p.lead, p.promise, ...(p.facts || []).map((f) => f.value), ...(p.options || []).map((o) => o.label)].join(" ").toLowerCase();
+  function list() {
+    let L = A.products.filter((p) => [...st.f].every((k) => tr(p)[k]));
+    if (st.q) { const w = st.q.toLowerCase().split(/\s+/); L = L.filter((p) => w.every((x) => hay(p).includes(x))); }
+    const pr = (p) => (p.priceOnRequest || !p.price ? Infinity : p.price.from);
+    if (st.s === "up") L = [...L].sort((a, b) => pr(a) - pr(b));
+    if (st.s === "down") L = [...L].sort((a, b) => (pr(b) === Infinity ? -1 : pr(b)) - (pr(a) === Infinity ? -1 : pr(a)));
+    return L;
+  }
+  function draw() {
+    save();
+    const L = list(), d = A.fromIso(st.d);
+    const ok = L.filter((p) => A.availability(p, d).ok), off = L.filter((p) => !A.availability(p, d).ok);
+    $("#count").textContent = `${ok.length} run ${A.rel(d) === "Today" || A.rel(d) === "Tomorrow" ? A.rel(d).toLowerCase() : "on " + A.short(d)}`;
+    $("#chips").innerHTML = `<button type="button" class="chip sort" data-sort aria-haspopup="dialog">${A.icon("sort")}${st.s ? SORTS[st.s] : "Sort"}</button>` +
+      F.map(([k, l]) => `<button type="button" class="chip" data-f="${k}" aria-pressed="${st.f.has(k)}">${l} <span class="n num">${A.products.filter((p) => tr(p)[k]).length}</span></button>`).join("");
+    $$("[data-v]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.v === st.v));
+    $("#results").classList.toggle("grid-view", st.v === "grid");
+    const rows = (arr) => `<ul class="rows">${arr.map((p) => A.rowHTML(p, { date: st.d, compare: true, compared: st.cmp.includes(p.slug) })).join("")}</ul>`;
+    $("#out").innerHTML = !L.length
+      ? `<div class="empty"><p><b>No trip matches.</b></p><p class="small">Remove a filter or change the search.</p><p style="margin-top:12px"><button class="btn ghost" type="button" data-reset>Clear filters and search</button></p></div>`
+      : rows(ok) + (off.length ? `<h2 class="group-h">Not on ${A.short(d)}</h2>` + rows(off) : "");
+    tray();
+  }
+  document.addEventListener("click", (e) => {
+    const q = e.target.closest("[data-ql]"); if (q) { A.quickLook(q.dataset.ql, st.d); }
+    const k = e.target.closest("[data-keep]"); if (k) save();
+    if (e.target.closest("[data-reset]")) { st.f.clear(); st.q = ""; $("#q").value = ""; draw(); }
+    const c = e.target.closest("[data-cmp]");
+    if (c) {
+      const s = c.dataset.cmp;
+      if (st.cmp.includes(s)) st.cmp = st.cmp.filter((x) => x !== s);
+      else { st.cmp.push(s); if (st.cmp.length > 2) { const old = st.cmp.shift(); A.toast(`Two at a time: ${A.bySlug[old].name} left the comparison`); } }
+      draw();
+    }
+  });
+
+  /* Tri */
+  function openSort() {
+    const s = A.makeSheet("sort", "Sort the trips");
+    $(".body", s).innerHTML = `<div class="opt-list">${Object.entries(SORTS).map(([k, l]) => `<button type="button" class="opt" data-s="${k}" aria-pressed="${st.s === k}">${l}</button>`).join("")}</div><p class="small" style="margin-top:12px">Prices are the “from” price of each trip. Trips priced on WhatsApp come last.</p>`;
+    $(".body", s).onclick = (e) => { const b = e.target.closest("[data-s]"); if (!b) return; st.s = b.dataset.s; A.closeSheet(); draw(); };
+    A.openSheet(s);
+  }
+
+  /* Comparateur de deux sorties */
+  $("#tray-x").innerHTML = A.icon("close");
+  $("#tray-x").onclick = () => { st.cmp = []; draw(); };
+  function tray() {
+    const t = $("#tray"), n = st.cmp.length;
+    t.classList.toggle("show", n > 0);
+    $("#tray-t").innerHTML = n ? `<b>${st.cmp.map((s) => esc(A.bySlug[s].name)).join(" and ")}</b>${n === 1 ? "Pick one more to compare" : "Ready to compare"}` : "";
+    $("#tray-go").disabled = n < 2;
+  }
+  $("#tray-go").onclick = () => {
+    const [a, b] = st.cmp.map((s) => A.bySlug[s]);
+    const s = A.makeSheet("cmp-sheet", "Compare");
+    const cell = (p, k) => {
+      const t = A.traits(p);
+      const kidRates = [...new Set((p.options || []).flatMap((o) => o.prices || []).filter((x) => x.ages && /child/i.test(x.label)).map((x) => x.label))];
+      const fees = [...new Set((p.options || []).flatMap((o) => o.notIncludedFees || []).filter((f) => !/thai national/i.test(f.label)).map((f) => `${f.label}: ${A.thb(f.amount)}`))];
+      return {
+        price: p.priceOnRequest ? "Price on WhatsApp" : `from ${A.thb(p.price.from)}, ${p.price.unit}`,
+        length: t.duration || A.fact(p, "Rides") || A.fact(p, "Sessions") || "",
+        pickup: t.pickup || p.beforeYouBook?.pickup || "",
+        boat: A.fact(p, "Boat") || "",
+        season: t.season || "",
+        options: (p.options || []).map((o) => o.label),
+        kids: kidRates.join(", "),
+        included: p.included || [],
+        fees: fees.concat(p.notIncluded || []),
+        today: A.availability(p, A.fromIso(st.d)).ok ? "Yes" : A.availability(p, A.fromIso(st.d)).why,
+      }[k];
+    };
+    const ROWS = [["price", "Price"], ["today", `On ${A.short(A.fromIso(st.d))}`], ["length", "Length"], ["pickup", "Pickup"], ["boat", "Boat"], ["season", "Season"], ["options", "Options"], ["kids", "Child rates"], ["included", "Included"], ["fees", "Not included"]];
+    const fmt = (v) => (Array.isArray(v) ? (v.length ? `<ul>${v.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : "") : esc(v));
+    const render = (diffOnly) => {
+      const body = ROWS.map(([k, l]) => {
+        const va = cell(a, k), vb = cell(b, k), same = JSON.stringify(va) === JSON.stringify(vb);
+        if ((!va || !va.length) && (!vb || !vb.length)) return "";
+        if (diffOnly && same) return "";
+        return `<tr class="lbl"><th colspan="2" scope="colgroup">${l}${same ? " (same)" : ""}</th></tr><tr class="${same ? "same" : ""}"><td>${fmt(va) || "Not given"}</td><td>${fmt(vb) || "Not given"}</td></tr>`;
+      }).join("");
+      $("#cmp-t", s).innerHTML = `<thead><tr><td>${A.photo(a.photo)}<b>${esc(a.name)}</b></td><td>${A.photo(b.photo)}<b>${esc(b.name)}</b></td></tr></thead><tbody>${body}</tbody>`;
+    };
+    $(".body", s).innerHTML = `<label class="toggle"><input type="checkbox" id="cmp-diff"> Show only the differences</label><table class="cmp" id="cmp-t"></table>`;
+    $("#cmp-diff", s).onchange = (e) => render(e.target.checked);
+    render(false);
+    const f = $("footer", s); f.hidden = false;
+    f.innerHTML = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">${[a, b].map((p) => A.pageUrl(p) ? `<a class="btn ghost" href="${A.pageUrl(p)}" data-keep>Open ${esc(p.name)}</a>` : `<button class="btn ghost" type="button" data-ql="${p.slug}">Choose ${esc(p.name)}</button>`).join("")}</div>`;
+    A.openSheet(s);
+  };
+
+  /* Liens vers les autres services */
+  $("#more").innerHTML = D.home.transfers.items.map((t) => `<p><a href="#" data-out="${esc(t.href)}">${esc(t.title)}</a><br><span class="small">${esc(t.text)}</span></p>`).join("")
+    + `<p><a href="#" data-out="${esc(D.rental.url)}">${esc(D.home.rental.title)}</a><br><span class="small">${esc(D.home.rental.text)}</span></p>`;
+
+  draw();
+  /* Retour depuis une fiche : même filtres (URL) et même position */
+  try {
+    const sc = JSON.parse(sessionStorage.getItem("stt-hub-scroll"));
+    if (sc && sc.url === location.search) requestAnimationFrame(() => scrollTo(0, sc.y));
+  } catch {}
+})();
+</script>
+</body>
+</html>

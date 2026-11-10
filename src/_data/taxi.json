@@ -23,8 +23,8 @@
     ]
   },
   "hero": {
-    "title": "Private minivans across Southern Thailand, taxis on Koh Lanta",
-    "lead": "Airports, piers, national parks and towns across Southern Thailand, from Phuket and Khao Lak to Trang and Hat Yai, by private minivan. Taxi rides on Koh Lanta, where we are based.",
+    "title": "Private minivans across Southern Thailand, local taxis on Koh Lanta",
+    "lead": "Private minivan transfers between airports, piers, national parks and towns across Southern Thailand. We have songthaew taxis too.",
     "note": "Private transfers, no sharing, no hidden fees.",
     "photo": {
       "src": "/images/taxi/hero-ceiling-1800.webp",
@@ -61,8 +61,8 @@
   "tours": {
     "tag": "Our partner",
     "title": "Ready to explore?",
-    "kicker": "Day tours and boat trips",
-    "text": "Secret Travel & Tour runs private day tours around Koh Lanta, plus longtail and speedboat trips. Choose one on their page and ask for a price on WhatsApp.",
+    "kicker": "Day tours, boat trips and activities",
+    "text": "Our partner Secret Travel & Tour is a travel agency based on Koh Lanta. They arrange day tours, boat trips, activities and transfers with local providers. Choose a trip on their site and ask for a price on WhatsApp.",
     "link": {
       "href": "/",
       "label": "Visit Secret Travel & Tour"
@@ -92,7 +92,7 @@
     {
       "id": "long-distance",
       "title": "Long-distance private transfers",
-      "text": "Between any two places in Southern Thailand: Krabi Town, Ao Nang, Phuket, Khao Lak, Khao Sok, Surat Thani, Trang, Hat Yai, Donsak Pier, Cheow Lan Pier, with or without Koh Lanta on the way.",
+      "text": "Between any two places in Southern Thailand: Krabi Town, Ao Nang, Phuket, Khao Lak, Khao Sok, Surat Thani, Trang, Hat Yai, Pak Bara Pier, Donsak Pier, Cheow Lan Pier, with or without Koh Lanta on the way.",
       "photo": null,
       "link": null,
       "confirmed": true,
@@ -108,7 +108,7 @@
     {
       "id": "local",
       "title": "Local taxi on Koh Lanta",
-      "text": "Private taxi rides around the island, for your group only.",
+      "text": "Private songthaew taxi rides around the island, for your group only.",
       "photo": null,
       "link": null,
       "confirmed": true
@@ -127,7 +127,7 @@
     },
     {
       "title": "Clean and comfortable vehicles",
-      "text": "Private minivans for your transfer, and taxis on Koh Lanta.",
+      "text": "Private minivans for your transfer, and songthaews for rides on Koh Lanta.",
       "confirmed": true
     },
     {
@@ -143,7 +143,7 @@
   "steps": [
     {
       "title": "Send your request",
-      "text": "Date, time, passengers, pick-up and drop-off.",
+      "text": "Date, time, passengers, pickup and drop-off.",
       "confirmed": true
     },
     {
@@ -153,7 +153,7 @@
     },
     {
       "title": "Meet your driver",
-      "text": "Your driver is on time at the pick-up point.",
+      "text": "Your driver is on time at the pickup point. At the airport, they wait in the arrivals hall with a sign showing your name.",
       "confirmed": true
     }
   ],
@@ -174,7 +174,7 @@
     },
     {
       "q": "Is it a taxi or a minivan?",
-      "a": "Outside Koh Lanta we always drive a private minivan. On the island itself you can also book a taxi.",
+      "a": "Outside Koh Lanta we always drive a private minivan. On the island, the taxis are songthaews: pickup trucks with a roof and two benches in the back. You can book one for your group only.",
       "confirmed": true
     },
     {
@@ -183,18 +183,38 @@
       "confirmed": true
     },
     {
+      "q": "Is the price per person or per vehicle?",
+      "a": "Per vehicle. The minivan seats 6 to 8 people, depending on how much luggage you have.",
+      "confirmed": true
+    },
+    {
+      "q": "Is the ferry to Koh Lanta included?",
+      "a": "Yes, for up to 4 people. VIP Taxi Lanta pays the ferry tickets for you. From the 5th person, the ferry is 60 THB per person.",
+      "confirmed": true
+    },
+    {
+      "q": "Can we stop on the way?",
+      "a": "Yes, short stops are fine. Just ask the driver. A long detour or a long stop costs extra, so ask the team for the price on WhatsApp.",
+      "confirmed": true
+    },
+    {
       "q": "Where do you drive in Southern Thailand?",
-      "a": "Across Southern Thailand: Krabi Town and Krabi airport, Ao Nang, Phuket and Phuket airport, Surat Thani airport and bus terminal, Trang, Khao Lak, Khao Sok, Donsak Pier and Cheow Lan Pier, and more.",
+      "a": "Across Southern Thailand: Krabi Town and Krabi airport, Ao Nang, Phuket town and Phuket airport, Surat Thani airport and bus terminal, Trang, Pak Bara Pier, Khao Lak, Khao Sok, Donsak Pier and Cheow Lan Pier, and more.",
       "confirmed": true
     },
     {
       "q": "Do you only drive from Koh Lanta?",
-      "a": "No. Koh Lanta (also written Ko Lanta) is our base, but we drive across Southern Thailand, including trips that never touch the island, such as Krabi Airport to Ao Nang or Phuket Airport to Khao Lak. Tell us where we pick you up and where you are going in the request form.",
+      "a": "No. Koh Lanta is our base, but we drive across Southern Thailand, including trips that never touch the island, such as Krabi Airport to Ao Nang or Phuket Airport to Khao Lak. Tell us where we pick you up and where you are going in the request form.",
       "confirmed": true
     },
     {
       "q": "Do you offer airport transfers?",
       "a": "Yes. We drive private minivan transfers between Krabi, Phuket and Surat Thani airports and Koh Lanta, Ao Nang, Khao Lak or any other place in Southern Thailand, in both directions.",
+      "confirmed": true
+    },
+    {
+      "q": "Where does the driver meet me at the airport?",
+      "a": "In the arrivals hall. Your driver waits with a sign showing your name. Send your flight number with your request.",
       "confirmed": true
     },
     {
@@ -228,8 +248,8 @@
       "confirmed": true
     },
     {
-      "q": "Can I book day tours or boat trips too?",
-      "a": "Day tours around Koh Lanta and boat trips are handled by Secret Travel & Tour. You can choose a trip and ask for a price on their page.",
+      "q": "Can I book day tours, boat trips or activities too?",
+      "a": "Yes, through our partner Secret Travel & Tour, a travel agency based on Koh Lanta. They arrange day tours, boat trips, activities and transfers with local providers. Choose a trip on their site and ask for a price on WhatsApp.",
       "confirmed": true
     }
   ],
@@ -247,6 +267,8 @@
     "Phuket Bus Terminal",
     "Surat Thani Bus Terminal",
     "Donsak Pier",
-    "Cheow Lan Pier"
+    "Cheow Lan Pier",
+    "Phuket Town",
+    "Pak Bara Pier"
   ]
 }
