@@ -141,6 +141,26 @@ test("adresse de la fiche Google : dans le JSON-LD, jamais dans le texte visible
     assert.doesNotMatch(doc.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g, ""), /292 Moo|81150|7\.5821418/, `${url} : hors JSON-LD`);
   }
   const hub = JSON.parse(page("/taxi/").match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
-  assert.equal(hub.provider.address.streetAddress, "292 Moo 2, Sala Dan");
-  assert.equal(hub.provider.geo.latitude, 7.5821418);
+  const biz = hub["@graph"].find((n) => n["@type"] === "LocalBusiness");
+  assert.equal(biz.address.streetAddress, "292 Moo 2, Sala Dan");
+  assert.equal(biz.geo.latitude, 7.5821418);
+});
+
+test("lot du 11.11.2026 : feuille songthaew, préremplissage, prix de la ligne, durée d'un seul tenant", () => {
+  const sg = T.songthaewBooking;
+  assert.equal(sg.productId, "taxi-songthaew");
+  assert.equal(sg.product, "Songthaew");
+  assert.equal(sg.vehicle, "songthaew");
+  const cfg = config(page("/taxi/songthaew/"));
+  assert.equal(cfg.productId, "taxi-songthaew");
+  // Surat Thani : aéroport, gare routière ou Donsak, rien de prérempli ; Krabi Airport reste prérempli.
+  assert.deepEqual(T.byId["surat-thani-koh-lanta"].booking.ends, { from: "", to: "" });
+  assert.equal(T.byId["krabi-airport-koh-lanta"].booking.ends.from, "Krabi Airport (KBV)");
+  assert.match(T.byId["phuket-airport-khao-lak"].drive, /1\u00a0hr\u00a030\u00a0min/);
+  // Le titre de la feuille et l'en-tête de l'aperçu suivent le sens du trajet.
+  assert.equal((page("/taxi/krabi-airport-koh-lanta/").match(/data-route-title/g) || []).length, 2);
+  // Encart Secret : photo passée par l'optimiseur d'images, plus le JPEG brut de 411 Ko.
+  assert.doesNotMatch(page("/taxi/"), /card-4-islands\.jpg/);
+  // Toutes les pages trajet ont la question sur les zones.
+  for (const r of T.routes) assert.match(r.faq.at(-1).q, /^Do you cover every part of /, r.url);
 });

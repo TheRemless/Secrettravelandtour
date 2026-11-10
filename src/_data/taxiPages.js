@@ -102,7 +102,8 @@ module.exports = function () {
       to: r.to,
       code: r.code || "",
       both: Boolean(r.bothDirections),
-      drive: r.drive || "",
+      // « 1 hr 30 min » d'un seul tenant (espaces insécables), sinon la ligne se coupe au milieu.
+      drive: (r.drive || "").replace(/(\d+) hr (\d+) min/g, "$1\u00a0hr\u00a0$2\u00a0min"),
       points: r.points || [],
       region: regionOf[id] || r.region || "",
       // Le titre se compose du trajet et de la suite du h1 (« by private minivan »).
@@ -135,9 +136,20 @@ module.exports = function () {
     to: ""
   };
 
+  // Feuille de la page songthaew : sa propre demande et son propre brouillon, le véhicule écrit dans le message.
+  const songthaewBooking = {
+    ...hubBooking,
+    product: "Songthaew",
+    kicker: "Request a songthaew",
+    productId: "taxi-songthaew",
+    vehicle: "songthaew",
+    page: site.url.replace(/^https?:\/\//, "") + "/taxi/songthaew/"
+  };
+
   return {
     routes,
     byId,
+    songthaewBooking,
     regions,
     further: legacy.further,
     commonFaq: (legacy.common || {}).faq || [],

@@ -21,35 +21,43 @@ function toConfirm() {
 // vérifié), pas de téléphone ni d'e-mail (le formulaire est le canal unique), pas de prix.
 function jsonLd() {
   const b = taxi.business;
+  const VIP = "https://secrettravelandtour.com/taxi/#vip";
   return {
     "@context": "https://schema.org",
-    "@type": "TaxiService",
-    // Même nœud que le fournisseur des 17 pages trajet (components/schema.js, ids(site).vip).
-    "@id": "https://secrettravelandtour.com/taxi/#vip",
-    name: b.name,
-    alternateName: `${b.name} by ${b.owner}`,
-    url: "https://secrettravelandtour.com/taxi/",
-    image: "https://secrettravelandtour.com/images/taxi/og-taxi.jpg",
-    logo: "https://secrettravelandtour.com/images/taxi/logo.webp",
-    description: taxi.hero.lead,
-    serviceType: "Private minivan transfers across Southern Thailand, taxi rides on Koh Lanta",
-    areaServed: b.areaServed.map((name) => ({ "@type": "Place", name })),
-    // Adresse et coordonnées : JSON-LD seulement (fiche Google, 10.11.2026), jamais sur la page.
-    provider: {
-      "@type": "LocalBusiness",
-      name: b.name,
-      ...vipPlace(site)
-    },
-    // Catalogue des services, sans prix : aucun tarif n'a été validé.
-    hasOfferCatalog: {
-      "@type": "OfferCatalog",
-      name: "Private minivan transfers across Southern Thailand, taxi rides on Koh Lanta",
-      itemListElement: taxi.services.map((s) => ({
-        "@type": "Offer",
-        itemOffered: { "@type": "Service", name: s.title, description: s.text }
-      }))
-    },
-    sameAs: b.sameAs
+    "@graph": [
+      // L'entreprise : même @id que le fournisseur des pages trajet (components/schema.js, ids(site).vip).
+      // Adresse et coordonnées : JSON-LD seulement (fiche Google, 10.11.2026), jamais sur la page.
+      {
+        "@type": "LocalBusiness",
+        "@id": VIP,
+        name: b.name,
+        alternateName: `${b.name} by ${b.owner}`,
+        url: "https://secrettravelandtour.com/taxi/",
+        image: "https://secrettravelandtour.com/images/taxi/og-taxi.jpg",
+        logo: "https://secrettravelandtour.com/images/taxi/logo.webp",
+        ...vipPlace(site),
+        sameAs: b.sameAs
+      },
+      // Le service : son propre @id, rattaché à l'entreprise.
+      {
+        "@type": "TaxiService",
+        "@id": "https://secrettravelandtour.com/taxi/#service",
+        name: b.name,
+        description: taxi.hero.lead,
+        serviceType: "Private minivan transfers across Southern Thailand, taxi rides on Koh Lanta",
+        areaServed: b.areaServed.map((name) => ({ "@type": "Place", name })),
+        provider: { "@id": VIP },
+        // Catalogue des services, sans prix : les prix d'appel sont sur les pages trajet.
+        hasOfferCatalog: {
+          "@type": "OfferCatalog",
+          name: "Private minivan transfers across Southern Thailand, taxi rides on Koh Lanta",
+          itemListElement: taxi.services.map((s) => ({
+            "@type": "Offer",
+            itemOffered: { "@type": "Service", name: s.title, description: s.text }
+          }))
+        }
+      }
+    ]
   };
 }
 

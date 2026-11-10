@@ -73,16 +73,21 @@ test("/taxi/ : questions fréquentes tirées du site de VIP Taxi Lanta, chacune 
 });
 
 test("données structurées : TaxiService, zone desservie, aucun fait non vérifié", () => {
-  const ld = taxiView().jsonLd;
-  assert.equal(ld["@context"], "https://schema.org");
-  assert.equal(ld["@type"], "TaxiService");
-  assert.equal(ld.url, "https://secrettravelandtour.com/taxi/");
+  const graph = taxiView().jsonLd;
+  assert.equal(graph["@context"], "https://schema.org");
+  // Un @id par nœud : #vip pour l'entreprise (LocalBusiness), #service pour le service (TaxiService).
+  const biz = graph["@graph"].find((n) => n["@type"] === "LocalBusiness");
+  const ld = graph["@graph"].find((n) => n["@type"] === "TaxiService");
+  assert.equal(biz["@id"], "https://secrettravelandtour.com/taxi/#vip");
+  assert.equal(ld["@id"], "https://secrettravelandtour.com/taxi/#service");
+  assert.equal(ld.provider["@id"], biz["@id"]);
+  assert.equal(biz.url, "https://secrettravelandtour.com/taxi/");
   const area = JSON.stringify(ld.areaServed);
   for (const place of ["Southern Thailand", "Koh Lanta", "Krabi", "Phuket", "Surat Thani"]) assert.match(area, new RegExp(place));
   // Pas de note ni d'avis inventés, pas de téléphone ni d'e-mail (décision : le formulaire est le canal unique).
-  assert.doesNotMatch(JSON.stringify(ld), /aggregateRating|"review"|ratingValue|telephone|email|priceRange/i);
+  assert.doesNotMatch(JSON.stringify(graph), /aggregateRating|"review"|ratingValue|telephone|email|priceRange/i);
   // Le JSON-LD doit rester du JSON valide une fois sérialisé pour la page.
-  assert.doesNotThrow(() => JSON.parse(JSON.stringify(ld)));
+  assert.doesNotThrow(() => JSON.parse(JSON.stringify(graph)));
 });
 
 test("la page insère les données structurées", () => {
@@ -127,7 +132,7 @@ test("From et To sont des listes déroulantes de lieux populaires où l'on peut 
 });
 
 test("données structurées : catalogue des services sans prix", () => {
-  const ld = taxiView().jsonLd;
+  const ld = taxiView().jsonLd["@graph"].find((n) => n["@type"] === "TaxiService");
   assert.equal(ld.hasOfferCatalog["@type"], "OfferCatalog");
   const items = ld.hasOfferCatalog.itemListElement;
   assert.ok(items.length >= 3);

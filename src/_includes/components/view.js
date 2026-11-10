@@ -283,9 +283,11 @@ function bookingRoute(product, site, extra = {}) {
   const r = product.route || {};
   // Bout du trajet qui est un lieu précis (aéroport avec son code, jetée) : prérempli dans la feuille.
   const exact = (name) => (name && /Airport$/.test(name) && r.code ? `${name} (${r.code})` : /Pier$/.test(name || "") ? name : "");
+  // Plusieurs points de prise en charge précis (aéroport, gare routière, jetée) : rien de prérempli, le client choisit.
+  const several = (r.points || []).filter((x) => /airport|pier|terminal|station/i.test(x)).length > 1;
   return {
     ...extra,
-    ends: { from: exact(r.from), to: exact(r.to) },
+    ends: several ? { from: "", to: "" } : { from: exact(r.from), to: exact(r.to) },
     // Champ « vol ou ferry » seulement si un bout est un aéroport, une jetée, une gare ou un terminal.
     transit: /airport|pier|station|terminal/i.test([r.from, r.to].concat(r.points || []).join(" ")),
     variant: "taxi",

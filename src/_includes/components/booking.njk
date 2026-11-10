@@ -35,7 +35,7 @@
       <div class="sheet-head">
         <div>
           <p class="sheet-kicker">{% if cfg.kicker %}{{ cfg.kicker }}{% elif cfg.variant == "tour" %}Choose a date{% else %}Check availability{% endif %}</p>
-          <h2 class="sheet-title" id="book-title" tabindex="-1" data-focus>{{ cfg.product }}</h2>
+          <h2 class="sheet-title" id="book-title" tabindex="-1" data-focus data-route-title>{{ cfg.product }}</h2>
         </div>
         <button class="sheet-close" type="button" data-close>{{ icon("close") }}<span class="sr-only">Close</span></button>
       </div>
@@ -285,7 +285,7 @@
   <div class="sheet-screen" data-screen="preview" hidden>
     <div class="sheet-head">
       <div>
-        <p class="sheet-kicker">{{ cfg.product }}</p>
+        <p class="sheet-kicker" data-route-title>{{ cfg.product }}</p>
         <h2 class="sheet-title" tabindex="-1" data-focus>Your message</h2>
       </div>
       <button class="sheet-close" type="button" data-close>{{ icon("close") }}<span class="sr-only">Close</span></button>

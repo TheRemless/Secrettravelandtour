@@ -185,3 +185,17 @@ test("transfert : l'option choisie suit le trajet sur la première ligne", () =>
   const msg = B.buildMessage(cfg, { option: "shared", from: "Koh Lanta", to: "Krabi Airport", dateChoice: "today", today: "2026-11-03", adults: 2, childAges: [], time: "09:00", name: "Anna" });
   assert.equal(msg.split("\n")[0], "Transfer request: Koh Lanta to Krabi Airport – Shared minivan");
 });
+
+test("taxi : une heure déjà passée aujourd'hui est refusée (heure de Bangkok)", () => {
+  const s = taxiState({ dateChoice: "today", time: "09:00", nowTime: "14:05" });
+  assert.equal(B.validate(TAXI, s).time, "That time has passed. Choose a later time.");
+  assert.equal(B.validate(TAXI, taxiState({ dateChoice: "today", time: "15:00", nowTime: "14:05" })).time, undefined);
+  // Demain : l'heure n'est pas comparée.
+  assert.equal(B.validate(TAXI, taxiState({ dateChoice: "tomorrow", time: "09:00", nowTime: "14:05" })).time, undefined);
+});
+
+test("taxi : la ligne de prix (par véhicule) n'est envoyée que pour 8 personnes au plus", () => {
+  const cfg = Object.assign({}, TAXI, { priceNote: "From 2,300 THB per vehicle" });
+  assert.match(B.buildMessage(cfg, taxiState({ adults: 6, childAges: [5, 7] })), /Price on the site: From 2,300 THB per vehicle/);
+  assert.doesNotMatch(B.buildMessage(cfg, taxiState({ adults: 9, childAges: [5] })), /Price on the site/);
+});

@@ -46,7 +46,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 {% macro secretAside(t, compact=false) %}
 <aside class="stt{% if compact %} stt--compact{% endif %}" aria-labelledby="stt-h">
   <div class="wrap stt-in">
-    <figure class="stt-photo"><img eleventy:ignore src="/images/secret/v3/card-4-islands.jpg" width="1421" height="1066" loading="lazy" decoding="async" alt="Snorkellers in turquoise water at the foot of a limestone cliff"></figure>
+    <figure class="stt-photo"><img src="/images/secret/v3/card-4-islands.jpg" sizes="(min-width: 768px) 40vw, 100vw" width="1421" height="1066" loading="lazy" decoding="async" alt="Snorkellers in turquoise water at the foot of a limestone cliff"></figure>
     <div class="stt-text">
       <img eleventy:ignore class="stt-emblem" src="/images/secret/emblem.webp" width="240" height="198" alt="Secret Travel &amp; Tour" loading="lazy" decoding="async">
       <h2 id="stt-h">{{ t.kicker }} on Koh Lanta</h2>

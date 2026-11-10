@@ -158,7 +158,8 @@
       input.dispatchEvent(new Event("input", { bubbles: true }));
       close();
     }
-    input.addEventListener("focus", function () { open(true); });
+    // Focus donné par la feuille sur une erreur : pas de liste par-dessus le message.
+    input.addEventListener("focus", function () { if (!input.hasAttribute("data-quiet-focus")) open(true); });
     input.addEventListener("click", function () { if (pop.hidden) open(true); });
     input.addEventListener("input", function (e) { if (e.isTrusted) open(false); });
     input.addEventListener("blur", close);
