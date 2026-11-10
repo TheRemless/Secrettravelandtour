@@ -7,7 +7,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 // Fiches produit /tours/<slug>/ du design v4 (08.11.2026) : lues dans products/**, la source des pages.
 const P = (rel) => JSON.parse(fs.readFileSync(path.join(__dirname, "..", "src/_data/products", rel + ".json"), "utf8"));
-const PRODUCTS = ["tours/4-islands", "tours/koh-rok-koh-haa", "tours/koh-phi-phi", "tours/koh-talabeng-koh-bubu", "tours/mangroves", "tours/fishing-trip",
+const PRODUCTS = ["tours/4-islands", "tours/koh-rok-koh-haa", "tours/koh-phi-phi", "tours/mangroves", "tours/fishing-trip",
   "activities/elephant-sanctuary", "activities/kayak", "activities/cooking-class", "activities/scuba-diving", "activities/atv", "activities/batik", "activities/go-kart",
   "rental", "secret-transfers/speedboat-ferry"].map(P);
 const ldOf = (doc) => [...doc.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((m) => JSON.parse(m[1]));

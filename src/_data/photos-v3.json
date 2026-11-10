@@ -61,20 +61,6 @@
       "shot": "Pileh Lagoon between the cliffs, longtails at anchor."
     },
     {
-      "id": "card-talabeng",
-      "usage": "Koh Talabeng & Koh Bubu card",
-      "file": "secret/v3/card-talabeng.jpg",
-      "ratio": "4:3",
-      "position": "50% 50%",
-      "alt": "Kayaks at the mouth of the sea cave on Koh Talabeng",
-      "placeholder": false,
-      "source": "Photo d'un partenaire, accord donné à Jérémy (10.11.2026)",
-      "author": "Photo d'un partenaire, accord donné à Jérémy (10.11.2026)",
-      "licence": "Propriété du client ou du partenaire, usage autorisé",
-      "url": "",
-      "shot": "Kayaks among the limestone islets of Koh Talabeng, sea cave."
-    },
-    {
       "id": "card-mangroves",
       "usage": "Mangroves card",
       "file": "secret/v3/card-mangroves.jpg",
@@ -149,14 +135,14 @@
       "usage": "Kayaking card",
       "file": "secret/v3/card-kayak.jpg",
       "ratio": "4:3",
-      "position": "50% 55%",
-      "alt": "Two guests paddling a kayak among the mangrove roots at Thung Yee Peng",
+      "position": "50% 50%",
+      "alt": "Kayaks at the mouth of the sea cave on Koh Talabeng",
       "placeholder": false,
       "source": "Photo d'un partenaire, accord donné à Jérémy (10.11.2026)",
       "author": "Photo d'un partenaire, accord donné à Jérémy (10.11.2026)",
       "licence": "Propriété du client ou du partenaire, usage autorisé",
       "url": "",
-      "shot": "Sea kayak in the mangrove or near the karst, seen from the water."
+      "shot": "Kayaks at the Koh Talabeng sea cave, or in the Thung Yee Peng mangrove."
     },
     {
       "id": "card-cooking",

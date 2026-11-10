@@ -212,6 +212,8 @@ html.has-trips.hd-off:has(.dock.is-on) .toast { bottom: calc(138px + env(safe-ar
 .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 44px 28px; }
 @media (max-width: 1023px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (min-width: 700px) and (max-width: 1023px) { .grid--home { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px 20px; } .grid--home .card__title { font-size: 22px; } }
+/* Deux cartes seulement (« More boat trips » depuis la fusion de Koh Talabeng dans Kayaking) : deux colonnes, pas de trou. */
+@media (min-width: 700px) { .grid--home:has(> :nth-child(2):last-child) { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .card { position: relative; display: flex; flex-direction: column; min-width: 0; }
 .card__link { display: flex; flex-direction: column; flex: 1; text-decoration: none; }
 .card .ph img { transition: transform 600ms var(--out), opacity 320ms var(--out); }

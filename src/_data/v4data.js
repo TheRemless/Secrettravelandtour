@@ -17,11 +17,11 @@ const P = (rel) => JSON.parse(fs.readFileSync(path.join(DATA, "products", rel + 
 const home = JSON.parse(fs.readFileSync(path.join(DATA, "home.json"), "utf8"));
 const PHOTOS = JSON.parse(fs.readFileSync(path.join(DATA, "photos-v3.json"), "utf8")).photos;
 
-const BOATS = ["4-islands", "koh-rok-koh-haa", "koh-phi-phi", "koh-talabeng-koh-bubu", "mangroves", "fishing-trip"];
+const BOATS = ["4-islands", "koh-rok-koh-haa", "koh-phi-phi", "mangroves", "fishing-trip"];
 const ACTIVITIES = ["elephant-sanctuary", "kayak", "cooking-class", "scuba-diving", "atv", "batik", "go-kart"];
 const CARD_PHOTO = {
   "4-islands": "card-4-islands", "koh-rok-koh-haa": "card-koh-rok", "koh-phi-phi": "card-koh-phi-phi",
-  "koh-talabeng-koh-bubu": "card-talabeng", mangroves: "card-mangroves", "fishing-trip": "card-fishing",
+  mangroves: "card-mangroves", "fishing-trip": "card-fishing",
   "scuba-diving": "card-scuba", atv: "card-atv", kayak: "card-kayak", "elephant-sanctuary": "card-elephant",
   "cooking-class": "card-cooking", batik: "card-batik", "go-kart": "card-go-kart"
 };
@@ -242,7 +242,7 @@ module.exports = async function () {
     lead: `You book on ${site.booking.channel}${site.booking.onlinePayment === false ? " and nothing is paid online" : ""}.`,
     // Les trois sorties du haut : photos de leurs cartes, en plus grand (elles ne reparaissent pas plus bas).
     heroTrips: await Promise.all(["4-islands", "koh-rok-koh-haa", "koh-phi-phi"].map(async (s) => ({ ...bySlug[s], photo: await photo(CARD_PHOTO[s]) }))),
-    moreBoats: ["koh-talabeng-koh-bubu", "mangroves", "fishing-trip"].map((s) => bySlug[s]),
+    moreBoats: ["mangroves", "fishing-trip"].map((s) => bySlug[s]),
     activities,
     // Transferts et location réunis : trois trajets en liens, le speedboat, puis les trois fourchettes de la location.
     around: {

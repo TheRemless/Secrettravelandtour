@@ -47,3 +47,10 @@
   to = "/privacy/"
   status = 301
   force = true
+
+# Koh Talabeng & Koh Bubu fondue dans Kayaking le 10.11.2026 (les trois sorties y étaient déjà, mêmes prix).
+[[redirects]]
+  from = "/tours/koh-talabeng-koh-bubu/*"
+  to = "/tours/kayak/"
+  status = 301
+  force = true

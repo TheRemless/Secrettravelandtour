@@ -12,7 +12,7 @@ const price = require("../src/js/v4-price.js");
 const B = require("../src/js/booking.js");
 const four = P("tours/4-islands");
 const opt = (id) => four.options.find((o) => o.id === id);
-const SLUGS = ["tours/4-islands", "tours/koh-rok-koh-haa", "tours/koh-phi-phi", "tours/koh-talabeng-koh-bubu", "tours/mangroves", "tours/fishing-trip",
+const SLUGS = ["tours/4-islands", "tours/koh-rok-koh-haa", "tours/koh-phi-phi", "tours/mangroves", "tours/fishing-trip",
   "activities/elephant-sanctuary", "activities/kayak", "activities/cooking-class", "activities/scuba-diving", "activities/atv", "activities/batik", "activities/go-kart"];
 
 test("v4 : aucune donnée manquante affichée, un seul H1, ni adresse ni comptoir sur les trois pages", () => {
@@ -24,12 +24,12 @@ test("v4 : aucune donnée manquante affichée, un seul H1, ni adresse ni comptoi
   }
 });
 
-test("v4 : l'accueil et le hub mènent aux 13 fiches", () => {
+test("v4 : l'accueil et le hub mènent aux 12 fiches (Koh Talabeng fondue dans Kayaking le 10.11.2026)", () => {
   for (const f of ["index.html", "tours/index.html"]) {
     const h = site(f);
     for (const s of SLUGS) assert.match(h, new RegExp(`href="${P(s).url}"`), `${f} : ${s}`);
   }
-  assert.equal((site("tours/index.html").match(/<article class="card[ "]/g) || []).length, 13);
+  assert.equal((site("tours/index.html").match(/<article class="card[ "]/g) || []).length, 12);
 });
 
 test("accueil : plus de bloc « What runs on … » (client, 09.11.2026), la fiche cuisine garde ses jours", () => {
@@ -87,7 +87,7 @@ test("message de réservation : les suppléments ne suivent que l'option qui les
 
 test("liste de sorties : un message classé par jour, un prix par sortie, total de la liste, alerte le même jour", () => {
   const cat = JSON.parse(site("data/catalog.json"));
-  assert.equal(Object.keys(cat).length, 13);
+  assert.equal(Object.keys(cat).length, 12);
   const list = {
     adults: 2, childAges: [7], pickup: "Lanta Sand Resort", name: "Anna",
     items: [

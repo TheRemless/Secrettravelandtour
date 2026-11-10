@@ -39,7 +39,7 @@ function fourIslands() {
     faq: four.faq,
     gallery: view.gallery(four, ALLOWED),
     fallback: view.fallbackText(four, site),
-    related: ["tours/koh-rok-koh-haa", "tours/koh-phi-phi", "tours/koh-talabeng-koh-bubu"].map((r) => card(P(r))),
+    related: ["tours/koh-rok-koh-haa", "tours/koh-phi-phi", "activities/kayak"].map((r) => card(P(r))),
     transfer: { href: "/taxi/krabi-airport-koh-lanta/", label: "Arriving at Krabi Airport? Private minivan to Koh Lanta" },
     booking: view.bookingTour(four, site)
   };
@@ -76,7 +76,7 @@ module.exports = async function () {
     board: {
       cards: ["tours/4-islands", "tours/fishing-trip", "activities/atv", "activities/elephant-sanctuary", "activities/batik", "activities/kayak"].map((r) => card(P(r))),
       cardNoPhoto: card(P("tours/koh-rok-koh-haa")),
-      cardNoPrice: card(P("tours/koh-talabeng-koh-bubu")),
+      cardNoPrice: card(P("tours/mangroves")),
       departures: view.departureBoard(P("secret-transfers/speedboat-ferry")),
       boatCards: ["tours/4-islands", "tours/koh-rok-koh-haa", "tours/fishing-trip"].map((r) => card(P(r))),
       seasonKohRok: view.seasonRuler(P("tours/koh-rok-koh-haa")),
