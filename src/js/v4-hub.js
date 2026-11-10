@@ -11,19 +11,20 @@
   if (!grid) return;
   var cards = $$(".card", grid);
   var order = cards.slice();
-  var HASH = { "boat-trips": "boat", activities: "activity" };
+  // Ancres des groupes ; « boat-trips » et « activities » (anciens liens) restent comprises.
+  var HASH = { islands: "islands", mangroves: "mangrove", "on-land": "land", "boat-trips": "islands", activities: "land" };
   var q = new URLSearchParams(location.search);
   var hash = location.hash.slice(1);
   var st = { type: q.get("type") || HASH[hash] || "all", sort: q.get("sort") || "" };
-  if (["all", "boat", "activity"].indexOf(st.type) < 0) st.type = "all";
+  if (["all", "islands", "mangrove", "land"].indexOf(st.type) < 0) st.type = "all";
   if (["", "asc", "desc"].indexOf(st.sort) < 0) st.sort = "";
   var sortEl = $("[data-sort]"), sortV = $("[data-sort-v]"), n = $("[data-hub-n]"), bar = $("[data-bar]");
   sortEl.value = st.sort;
   // Titre de la liste selon le filtre, sans nombre (demande de Jérémy du 10.11.2026).
-  var LABEL = { all: "All trips and activities", boat: "Boat trips", activity: "Activities" };
+  var LABEL = { all: "All trips and activities", islands: "Island trips", mangrove: "Mangrove trips", land: "On land" };
 
   function visible() {
-    var list = order.filter(function (c) { return st.type === "all" || c.getAttribute("data-kind") === st.type; });
+    var list = order.filter(function (c) { return st.type === "all" || c.getAttribute("data-group") === st.type; });
     if (st.sort) list = list.slice().sort(function (a, b) {
       var pa = Number(a.getAttribute("data-from")) || Infinity, pb = Number(b.getAttribute("data-from")) || Infinity;
       if (pa === pb) return 0;
@@ -34,7 +35,7 @@
   }
   // Menu (en-tête et tiroir) : « Boat trips » ou « Activities » marqué selon le filtre, rien sur « All ».
   function markNav() {
-    var cur = st.type === "boat" ? "boats" : st.type === "activity" ? "activities" : "";
+    var cur = st.type === "all" ? "" : st.type;
     $$("[data-nav]").forEach(function (a) {
       if (a.getAttribute("data-nav") === cur) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
     });

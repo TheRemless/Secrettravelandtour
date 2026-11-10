@@ -71,7 +71,7 @@ permalink: /
     <div class="wrap rail-wrap">
       <div class="sec__head"><h2 id="{{ id }}-h">{{ title }}</h2><a class="link" href="{{ href }}">{{ linkText }}</a></div>
       <div class="rail" data-rail tabindex="0" role="region" aria-label="{{ title }}, scroll sideways">
-        {%- for t in items %}{{ v4.card(t, "(min-width: 1024px) 360px, (min-width: 700px) 45vw, 74vw", add=false) }}{% endfor %}
+        {%- for t in items %}{{ v4.card(t, "(min-width: 1024px) 360px, (min-width: 700px) 45vw, 74vw") }}{% endfor %}
       </div>
       <div class="rail-ctl" data-rail-ctl hidden>
         <div class="rail-bar" aria-hidden="true"><i></i></div>
@@ -83,9 +83,9 @@ permalink: /
     </div>
   </section>
   {%- endmacro %}
-  {{ rail("boat-trips", "Boat trips", "/tours/#boat-trips", "See all boat trips", h.boats, "boat trips") }}
-
-  {{ rail("activities", "Activities", "/tours/#activities", "See all activities", h.activities, "activities") }}
+  {%- for g in h.groups %}
+  {{ rail(g.id, g.title, "/tours/#" ~ g.hash, "See all", g.items, g.title | lower) }}
+  {%- endfor %}
 
   {#- Se déplacer : trois trajets en liens, le speedboat, la location et ses trois fourchettes. -#}
   {%- set ar = h.around -%}

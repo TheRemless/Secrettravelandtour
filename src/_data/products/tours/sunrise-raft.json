@@ -1,0 +1,151 @@
+{
+  "slug": "sunrise-raft",
+  "url": "/tours/sunrise-raft/",
+  "brand": "secret",
+  "template": "boat",
+  "name": "Sunrise raft",
+  "seo": {
+    "title": "Sunrise Raft, Koh Lanta Mangrove | Secret Travel & Tour",
+    "metaDescription": "A private wooden raft in the Thung Yee Peng mangrove at dawn, breakfast on board and the sunrise over the hills. Hotel pickup at 04:40. From 3,500 THB."
+  },
+  "h1": "Sunrise on a private raft in the mangrove",
+  "lead": "A wooden raft for your group only, out on the Thung Yee Peng mangrove before the sun comes up, with breakfast on board.",
+  "promise": "Sunrise in the mangrove, breakfast on board",
+  "facts": [
+    {
+      "label": "Where",
+      "value": "Thung Yee Peng, east coast of Koh Lanta"
+    },
+    {
+      "label": "Hotel pickup",
+      "value": "Around 04:40"
+    },
+    {
+      "label": "Back at the pier",
+      "value": "07:30"
+    },
+    {
+      "label": "On board",
+      "value": "Light breakfast, coffee and tea"
+    }
+  ],
+  "price": {
+    "from": 3500,
+    "currency": "THB",
+    "unit": "per raft"
+  },
+  "options": [
+    {
+      "id": "raft-sunrise",
+      "label": "Private raft at sunrise",
+      "kind": "private",
+      "boat": "raft",
+      "note": "On the water by 05:30, breakfast on board.",
+      "prices": [
+        {
+          "label": "The private raft",
+          "amount": 3500,
+          "group": {
+            "min": 1,
+            "max": 2
+          },
+          "unit": "per raft"
+        },
+        {
+          "label": "Each extra person",
+          "amount": 1500,
+          "supplement": true,
+          "unit": "per person"
+        },
+        {
+          "label": "Child 3 to 9, per person",
+          "amount": 1200,
+          "ages": {
+            "min": 3,
+            "max": 9
+          },
+          "unit": "per person"
+        }
+      ]
+    }
+  ],
+  "day": [
+    {
+      "options": [
+        "raft-sunrise"
+      ],
+      "title": "The morning on the raft",
+      "steps": [
+        {
+          "time": "04:40",
+          "text": "Pickup at your hotel."
+        },
+        {
+          "time": "05:00",
+          "text": "Check-in at Thung Yee Peng pier."
+        },
+        {
+          "time": "05:30",
+          "text": "The raft moves off slowly into the mangrove."
+        },
+        {
+          "time": "06:00",
+          "text": "Sunrise over the hills, reflected in the water."
+        },
+        {
+          "time": "06:30",
+          "text": "Light breakfast on the raft, with coffee and tea, while you watch the monkeys and the birds."
+        },
+        {
+          "time": "07:30",
+          "text": "Back at the pier, then the transfer to your hotel."
+        }
+      ]
+    }
+  ],
+  "included": [
+    "Hotel transfer both ways",
+    "Light breakfast, coffee, tea and snacks on the raft",
+    "The raft for your group only"
+  ],
+  "beforeYouBook": {
+    "pickup": "Pickup around 04:40 at your hotel, back at the pier at 07:30.",
+    "bring": [
+      "Mosquito repellent"
+    ],
+    "children": "The raft is private, for your group only. Children from 3 to 9 have a child rate."
+  },
+  "faq": [
+    {
+      "q": "How early is the pickup?",
+      "a": "Around 04:40, and the raft is back at the pier at 07:30, in time for a second breakfast."
+    }
+  ],
+  "photos": [
+    {
+      "slot": "hero",
+      "status": "keep",
+      "file": "secret/v3/card-sunrise-raft.jpg",
+      "alt": "Calm water and the mangrove at Thung Yee Peng at dawn",
+      "shot": "The mangrove at dawn from the raft."
+    }
+  ],
+  "related": [
+    "/tours/sunset-dinner-raft/",
+    "/tours/fishing-trip/",
+    "/tours/mangroves/"
+  ],
+  "schema": {
+    "type": "TouristTrip",
+    "places": [
+      "Thung Yee Peng",
+      "Ao Lanta"
+    ]
+  },
+  "sources": [
+    {
+      "field": "options, day, facts, included",
+      "from": "affiches du partenaire du radeau (Sunrise View, Sunset Dinner) et base partenaires, déroulé du programme ; option reprise de la fiche Mangroves (découpage des fiches, décision de Jérémy du 11.11.2026). « 1 to 2 people » retiré de l'affichage, même calcul"
+    }
+  ]
+}

@@ -17,12 +17,22 @@ const P = (rel) => JSON.parse(fs.readFileSync(path.join(DATA, "products", rel + 
 const home = JSON.parse(fs.readFileSync(path.join(DATA, "home.json"), "utf8"));
 const PHOTOS = JSON.parse(fs.readFileSync(path.join(DATA, "photos-v3.json"), "utf8")).photos;
 
-const BOATS = ["4-islands", "koh-rok-koh-haa", "koh-phi-phi", "mangroves", "fishing-trip"];
-const ACTIVITIES = ["elephant-sanctuary", "kayak", "cooking-class", "scuba-diving", "atv", "batik", "go-kart"];
+// Dossier de chaque fiche : tours/ (bateaux) ou activities/.
+const BOATS = ["4-islands", "koh-rok-koh-haa", "koh-phi-phi", "sunset-dinner-raft", "sunrise-raft", "fishing-trip", "mangroves"];
+const ACTIVITIES = ["scuba-diving", "snorkelling", "kayak", "mangrove-kayaking", "elephant-sanctuary", "atv", "cooking-class", "batik", "go-kart"];
+// Groupes des vignettes (filtres du hub, bandes de l'accueil, pied de page), dans l'ordre d'affichage.
+// Décision de Jérémy du 11.11.2026 : plus de vignettes, moins d'options par fiche.
+const GROUPS = [
+  { id: "islands", title: "Island trips", nav: "Islands", hash: "islands", slugs: ["4-islands", "koh-rok-koh-haa", "koh-phi-phi", "scuba-diving", "snorkelling"] },
+  { id: "mangrove", title: "Mangrove trips", nav: "Mangroves", hash: "mangroves", slugs: ["sunset-dinner-raft", "sunrise-raft", "fishing-trip", "mangroves", "kayak", "mangrove-kayaking"] },
+  { id: "land", title: "On land", nav: "On land", hash: "on-land", slugs: ["elephant-sanctuary", "atv", "cooking-class", "batik", "go-kart"] }
+];
+const groupOf = (slug) => (GROUPS.find((g) => g.slugs.includes(slug)) || {}).id || "";
 const CARD_PHOTO = {
   "4-islands": "card-4-islands", "koh-rok-koh-haa": "card-koh-rok", "koh-phi-phi": "card-koh-phi-phi",
   mangroves: "card-mangroves", "fishing-trip": "card-fishing",
   "scuba-diving": "card-scuba", atv: "card-atv", kayak: "card-kayak", "elephant-sanctuary": "card-elephant",
+  "sunset-dinner-raft": "card-sunset-raft", "sunrise-raft": "card-sunrise-raft", "mangrove-kayaking": "card-mangrove-kayak", snorkelling: "card-snorkelling",
   "cooking-class": "card-cooking", batik: "card-batik", "go-kart": "card-go-kart"
 };
 const WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen"];
@@ -82,7 +92,7 @@ async function card(slug) {
   const p = product(slug);
   const pr = view.price(p);
   return {
-    slug, kind: BOATS.includes(slug) ? "boat" : "activity",
+    slug, kind: BOATS.includes(slug) ? "boat" : "activity", group: groupOf(slug),
     href: p.url, title: p.name, promise: p.promise || "",
     meta: cardMeta(p),
     price: pr ? { amount: pr.amount, unit: p.price.unit, from: p.price.from } : null,
@@ -245,9 +255,8 @@ module.exports = async function () {
     lead: `You book on ${site.booking.channel}.`,
     // Les trois sorties du haut : photos de leurs cartes, en plus grand (elles ne reparaissent pas plus bas).
     heroTrips: await Promise.all(["4-islands", "koh-rok-koh-haa", "koh-phi-phi"].map(async (s) => ({ ...bySlug[s], photo: await photo(CARD_PHOTO[s]) }))),
-    // Toutes les sorties en bateau en bande, comme les activités (demande de Jérémy du 10.11.2026).
-    boats,
-    activities,
+    // Une bande par groupe de vignettes (îles, mangrove, sur terre).
+    groups: GROUPS.map((g) => ({ id: g.id, title: g.title, hash: g.hash, items: g.slugs.map((s) => bySlug[s]) })),
     // Transferts et location réunis : trois trajets en liens, le speedboat, puis les trois fourchettes de la location.
     around: {
       transfers: {
@@ -301,7 +310,7 @@ module.exports = async function () {
   // ----- Hub -----
   const nBoats = boats.length, nActs = activities.length;
   const hubData = {
-    seo: { title: "Koh Lanta Boat Trips and Activities | Secret Travel & Tour", metaDescription: "All the boat trips and island activities we book on Koh Lanta, with prices: 4 Islands, Koh Rok, Phi Phi, kayak, diving, elephants." },
+    seo: { title: "Koh Lanta Boat Trips and Activities | Secret Travel & Tour", metaDescription: "All the boat trips and activities we book on Koh Lanta, with prices: 4 Islands, Koh Rok, Phi Phi, mangrove rafts, kayaks, diving and elephants." },
     h1: "Boat trips and activities on Koh\u00a0Lanta",
     lead: `Each trip with its price. You book on ${site.booking.channel}.`,
     final: { photo: await photo("hub-final"), title: "Still deciding?", text: "Tell us your dates and a little about your group: ages, what you enjoy, how much time you have. We'll suggest the trips that suit you best.", message: homeData.final.message }
@@ -313,7 +322,7 @@ module.exports = async function () {
   const ctx = { site, schema, cardsByUrl, taxi, live: new Set([...LIVE, ...boats.concat(activities).map((c) => c.href)]) };
   const productPages = [];
   for (const slug of BOATS.concat(ACTIVITIES).filter((x) => x !== "4-islands")) {
-    productPages.push(vp.productPage(product(slug), { ...ctx, hero: await photo(CARD_PHOTO[slug]) }));
+    productPages.push(vp.productPage(product(slug), { ...ctx, hero: await photo(CARD_PHOTO[slug]), group: GROUPS.find((g) => g.slugs.includes(slug)) }));
   }
   // 4 Islands : même gabarit de fiche, bloc « Choose your boat » ; la ligne de chaque bateau dit l'île qui change et
   // l'île du déjeuner, son détail le ponton (et ce que la brochure du catamaran dit du bord et du déjeuner).
@@ -345,6 +354,7 @@ module.exports = async function () {
     emblem: await view.emblem(44),
     whatsapp: site.whatsapp,
     boats, activities,
+    groups: GROUPS.map((g) => ({ id: g.id, title: g.title, nav: g.nav, hash: g.hash, items: g.slugs.map((s) => bySlug[s]) })),
     counts: { boats: nBoats, activities: nActs, all: nBoats + nActs },
     catalog,
     home: homeData,

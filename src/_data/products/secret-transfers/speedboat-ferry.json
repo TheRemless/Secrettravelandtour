@@ -188,6 +188,10 @@
     {
       "field": "beforeYouBook.luggage",
       "from": "base partenaires, fiche de la seconde compagnie de speedboat : bagages personnels seulement, vélos et objets volumineux avec supplément selon la place, ni animaux ni matières dangereuses (10.11.2026)"
+    },
+    {
+      "field": "timetable.seasons[0]",
+      "from": "deux compagnies : 15 oct. au 30 avr. (grille complète) et 15 oct. au 20 mai (seconde compagnie) ; phrase générale, saison de chaque bateau dans la grille (contrôle du 11.11.2026)"
     }
   ],
   "notes": [
@@ -526,7 +530,7 @@
       }
     ],
     "seasons": [
-      "Departures from Koh Lanta run from 15 October to 30 April.",
+      "Most boats from Koh Lanta run from mid-October to the end of April or May. Each boat shows its own dates.",
       "Langkawi runs from 1 November to 15 April.",
       "Krabi, Railay, Koh Yao and the 14:30 boat to Ao Nang from 1 December."
     ],

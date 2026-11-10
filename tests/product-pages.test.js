@@ -15,7 +15,7 @@ const thb = (n) => Number(n).toLocaleString("en-GB") + " THB";
 const cfgOf = (doc) => JSON.parse(doc.match(/<script type="application\/json" id="book-data">([\s\S]*?)<\/script>/)[1]);
 const outsideSheet = (doc) => doc.replace(/<dialog class="sheet" id="book"[\s\S]*?<\/dialog>/, "");
 
-const TOURS = ["tours/koh-rok-koh-haa", "tours/koh-phi-phi", "tours/mangroves", "tours/fishing-trip",
+const TOURS = ["tours/koh-rok-koh-haa", "tours/koh-phi-phi", "tours/mangroves", "tours/fishing-trip", "tours/sunset-dinner-raft", "tours/sunrise-raft", "activities/mangrove-kayaking", "activities/snorkelling", 
   "activities/elephant-sanctuary", "activities/kayak", "activities/cooking-class", "activities/scuba-diving", "activities/atv", "activities/batik", "activities/go-kart"].map(P);
 const RENTAL = P("rental");
 const SPEED = P("secret-transfers/speedboat-ferry");
@@ -160,7 +160,7 @@ test("sous-variantes : un message sans créneau, cours, site, karts ou pilotes e
       }
     }
   }
-  for (const k of ["elephant-sanctuary:session", "kayak:slot", "kayak:way", "batik:course", "cooking-class:class", "scuba-diving:course",
+  for (const k of ["elephant-sanctuary:session", "kayak:slot", "batik:course", "cooking-class:class", "scuba-diving:course",
     "scuba-diving:sites", "scuba-diving:trip", "scuba-diving:cert", "go-kart:counts", "atv:counts", "mangroves:way"]) assert.ok(seen.has(k), k);
 });
 
