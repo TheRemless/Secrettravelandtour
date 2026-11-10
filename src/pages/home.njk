@@ -59,9 +59,9 @@ permalink: /
         <h2 id="how-h">Your trip is one WhatsApp message away</h2>
         <p>Pick a trip and a day, send the message, and we reply with your pickup time.</p>
       </div>
-      <figure class="chat" aria-label="Example of a booking on WhatsApp">
-        <p class="chat__out">4 Islands, Saturday<br>2 adults, 1 child<br>Pimalai Resort<span class="chat__t">18:42 {{ v4.glyph("check") }}</span></p>
-        <p class="chat__in">Confirmed! Pickup at 08:10.<span class="chat__t">18:51</span></p>
+      <figure class="chat" aria-label="Example of a booking request sent from this site">
+        <p class="chat__to">{{ icon("whatsapp") }}Secret Travel &amp; Tour</p>
+        <p class="chat__out">{% for l in h.howSample.split("\n") %}{{ l | replace("-", "‑") }}{% if not loop.last %}<br>{% endif %}{% endfor %}<span class="chat__t">18:42 {{ v4.glyph("check") }}</span></p>
       </figure>
     </div>
   </section>

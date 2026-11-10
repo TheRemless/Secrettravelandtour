@@ -342,8 +342,12 @@ module.exports = async function () {
     });
     page.single = page.pick.sel;
     Object.assign(fourData, { page, booking: page.booking });
-    // Accueil : le message d'exemple est celui que la feuille de la 4 Islands écrit pour son prix d'appel (join-in
-    // longtail, 2 adultes), total estimé compris. Ni date ni référence : l'exemple ne vieillit pas.
+    // Accueil : le message d'exemple est celui que la feuille de la 4 Islands écrit vraiment (Jérémy, 11.11.2026 :
+    // une vraie demande venue du site, sans notre réponse). Date : le samedi qui suit d'au moins 5 jours le build.
+    const today = booking.bangkokToday(new Date());
+    let sat = booking.addDays(today, 5);
+    while (new Date(sat + "T12:00:00Z").getUTCDay() !== 6) sat = booking.addDays(sat, 1);
+    homeData.howSample = booking.buildMessage(page.booking, { ...booking.emptyState(), option: view.price(four).option, dateChoice: "other", dateOther: sat, today, adults: 2, childAges: [7], pickup: "Pimalai Resort", name: "Anna" });
   }
   const rentalPage = vp.rentalPage(rentalP, ctx);
   const speedboatPage = vp.speedboatPage(P("secret-transfers/speedboat-ferry"), ctx);
