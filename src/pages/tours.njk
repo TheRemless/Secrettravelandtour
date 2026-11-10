@@ -31,8 +31,9 @@ permalink: /tours/
     <div class="wrap bar__in">
       <div class="seg" role="group" aria-label="Show" data-seg="type">
         <button type="button" value="all" aria-pressed="true">All</button>
-        <button type="button" value="boat" aria-pressed="false">Boat trips</button>
-        <button type="button" value="activity" aria-pressed="false">Activities</button>
+        {%- for g in d.groups %}
+        <button type="button" value="{{ g.id }}" aria-pressed="false">{{ g.nav }}</button>
+        {%- endfor %}
       </div>
       <label class="sort" for="sort">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M7 4v16M4 17l3 3 3-3M14 7h7M14 12h5M14 17h3"/></svg>
@@ -47,8 +48,7 @@ permalink: /tours/
       <button class="link hub__cmp" type="button" data-cmp-mode aria-pressed="false">Compare trips</button>
     </div>
     <div class="grid" data-grid>
-      {%- for t in d.boats %}{{ v4.card(t, eager=loop.first, compare=true, anchor="boat-trips" if loop.first else "") }}{% endfor %}
-      {%- for t in d.activities %}{{ v4.card(t, compare=true, anchor="activities" if loop.first else "") }}{% endfor %}
+      {%- for g in d.groups %}{% set first = loop.first %}{% for t in g.items %}{{ v4.card(t, eager=(first and loop.first), compare=true, anchor=g.hash if loop.first else "") }}{% endfor %}{% endfor %}
     </div>
   </section>
   </div>

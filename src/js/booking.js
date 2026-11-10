@@ -289,6 +289,8 @@
       lines.push("Speedboat request: " + (route ? route.label : config.product));
       if (dep) lines.push("Departure: " + dep.time + (dep.arrives ? ", arrives " + dep.arrives : ""));
       if (date) lines.push("Date: " + formatDate(date));
+      // Bateau saisonnier : la saison part avec la demande, pour qu'on la vérifie avant de confirmer.
+      if (dep && dep.season) lines.push("Season: " + String(dep.season).replace(/\u00a0/g, " "));
       if (state.tripType === "one-way") lines.push("Ticket: one way");
       if (state.tripType === "return") {
         var back = findRoute(config, route && route.back);

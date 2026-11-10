@@ -52,17 +52,16 @@ permalink: /
     </div>
   </section>
 
-  {#- Réserver : un message WhatsApp. Exemple fixe, écrit par la même fonction que la feuille de la 4 Islands. -#}
+  {#- Réserver : un message WhatsApp suffit (Jérémy, 11.11.2026 : clair, peu de texte). Exemple illustratif. -#}
   <section class="sec sec--tight" id="how" aria-labelledby="how-h">
     <div class="wrap how">
       <div class="how__text">
-        <h2 id="how-h">Booking is one WhatsApp message</h2>
-        <p>On each trip page you choose the day and who is coming. WhatsApp opens with the message, you send it and we confirm the price and your pickup time.</p>
-        <p class="how__pay">{{ h.how.payment }}</p>
+        <h2 id="how-h">Your trip is one WhatsApp message away</h2>
+        <p>Pick a trip and a day, send the message, and we reply with your pickup time.</p>
       </div>
-      <figure class="msg" aria-label="Example message">
-        <p class="msg__to">{{ icon("whatsapp") }}To Secret Travel &amp; Tour</p>
-        <div class="msg__bubble">{% for l in h.how.sample.split("\n") %}<span class="msg__l">{{ l }}</span>{% endfor %}</div>
+      <figure class="chat" aria-label="Example of a booking on WhatsApp">
+        <p class="chat__out">4 Islands, Saturday<br>2 adults, 1 child<br>Pimalai Resort<span class="chat__t">18:42 {{ v4.glyph("check") }}</span></p>
+        <p class="chat__in">Confirmed! Pickup at 08:10.<span class="chat__t">18:51</span></p>
       </figure>
     </div>
   </section>
@@ -72,7 +71,7 @@ permalink: /
     <div class="wrap rail-wrap">
       <div class="sec__head"><h2 id="{{ id }}-h">{{ title }}</h2><a class="link" href="{{ href }}">{{ linkText }}</a></div>
       <div class="rail" data-rail tabindex="0" role="region" aria-label="{{ title }}, scroll sideways">
-        {%- for t in items %}{{ v4.card(t, "(min-width: 1024px) 360px, (min-width: 700px) 45vw, 74vw", add=false) }}{% endfor %}
+        {%- for t in items %}{{ v4.card(t, "(min-width: 1024px) 360px, (min-width: 700px) 45vw, 74vw") }}{% endfor %}
       </div>
       <div class="rail-ctl" data-rail-ctl hidden>
         <div class="rail-bar" aria-hidden="true"><i></i></div>
@@ -84,9 +83,9 @@ permalink: /
     </div>
   </section>
   {%- endmacro %}
-  {{ rail("boat-trips", "Boat trips", "/tours/#boat-trips", "See all boat trips", h.boats, "boat trips") }}
-
-  {{ rail("activities", "Activities", "/tours/#activities", "See all activities", h.activities, "activities") }}
+  {%- for g in h.groups %}
+  {{ rail(g.id, g.title, "/tours/#" ~ g.hash, "See all", g.items, g.title | lower) }}
+  {%- endfor %}
 
   {#- Se déplacer : trois trajets en liens, le speedboat, la location et ses trois fourchettes. -#}
   {%- set ar = h.around -%}

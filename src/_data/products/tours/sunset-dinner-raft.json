@@ -1,0 +1,153 @@
+{
+  "slug": "sunset-dinner-raft",
+  "url": "/tours/sunset-dinner-raft/",
+  "brand": "secret",
+  "template": "boat",
+  "name": "Sunset dinner raft",
+  "seo": {
+    "title": "Sunset Dinner Raft, Koh Lanta | Secret Travel & Tour",
+    "metaDescription": "Sunset in the Koh Lanta mangrove on a private wooden raft, a seafood dinner by candlelight, then the glowing plankton in the dark water. From 3,900 THB."
+  },
+  "h1": "Sunset dinner on a private raft",
+  "lead": "The mangrove at the end of the day, a seafood dinner by candlelight on your own wooden raft, then the plankton glowing in the dark water.",
+  "promise": "Sunset, seafood dinner and glowing plankton",
+  "facts": [
+    {
+      "label": "Where",
+      "value": "Thung Yee Peng, east coast of Koh Lanta"
+    },
+    {
+      "label": "Hotel pickup",
+      "value": "16:30"
+    },
+    {
+      "label": "Back at your hotel",
+      "value": "Around 20:00"
+    },
+    {
+      "label": "Dinner",
+      "value": "Fresh seafood by candlelight"
+    }
+  ],
+  "price": {
+    "from": 3900,
+    "currency": "THB",
+    "unit": "per raft"
+  },
+  "options": [
+    {
+      "id": "raft-sunset-dinner",
+      "label": "Private raft, sunset dinner",
+      "kind": "private",
+      "boat": "raft",
+      "note": "Seafood dinner and the plankton after dark.",
+      "prices": [
+        {
+          "label": "The private raft",
+          "amount": 3900,
+          "group": {
+            "min": 1,
+            "max": 2
+          },
+          "unit": "per raft"
+        },
+        {
+          "label": "From 3 people, per person",
+          "amount": 1800,
+          "group": {
+            "min": 3
+          },
+          "unit": "per person"
+        },
+        {
+          "label": "Child 3 to 9, per person",
+          "amount": 1500,
+          "ages": {
+            "min": 3,
+            "max": 9
+          },
+          "unit": "per person"
+        }
+      ]
+    }
+  ],
+  "day": [
+    {
+      "options": [
+        "raft-sunset-dinner"
+      ],
+      "title": "The evening on the raft",
+      "steps": [
+        {
+          "time": "16:30",
+          "text": "Pickup at your hotel."
+        },
+        {
+          "time": "16:50",
+          "text": "Check-in at Thung Yee Peng pier, then a slow cruise through the mangrove to see the wildlife and feed the monkeys."
+        },
+        {
+          "time": "17:30",
+          "text": "Sunset over the river."
+        },
+        {
+          "time": "18:15",
+          "text": "Seafood dinner by candlelight on the raft."
+        },
+        {
+          "time": "19:00",
+          "text": "Once it is dark, the plankton lights up when the water moves."
+        },
+        {
+          "time": "19:30",
+          "text": "Back at the pier, and at your hotel around 20:00."
+        }
+      ]
+    }
+  ],
+  "included": [
+    "Hotel transfer both ways, within the Koh Lanta area",
+    "Seafood dinner, drinks and fruit",
+    "Local guide and life jackets",
+    "The raft for your group only"
+  ],
+  "beforeYouBook": {
+    "bring": [
+      "Mosquito repellent"
+    ],
+    "children": "The raft is private, for your group only. Children from 3 to 9 have a child rate."
+  },
+  "faq": [
+    {
+      "q": "Can we see the plankton?",
+      "a": "Yes, once it is dark the plankton lights up when the water moves."
+    }
+  ],
+  "photos": [
+    {
+      "slot": "hero",
+      "status": "keep",
+      "file": "secret/v3/card-sunset-raft.jpg",
+      "alt": "A table set for dinner on the wooden raft at sunset",
+      "shot": "The dinner table on the raft at sunset."
+    }
+  ],
+  "related": [
+    "/tours/sunrise-raft/",
+    "/tours/fishing-trip/",
+    "/tours/mangroves/"
+  ],
+  "schema": {
+    "type": "TouristTrip",
+    "places": [
+      "Thung Yee Peng",
+      "Ao Lanta"
+    ]
+  },
+  "sources": [
+    {
+      "field": "options, day, facts, included, faq",
+      "from": "affiches du partenaire du radeau (Sunrise View, Sunset Dinner) et base partenaires, déroulé du programme ; 19:00 pour le plancton déduit de « once it is dark » entre le dîner de 18:15 et le retour de 19:30 ; option reprise de la fiche Mangroves (découpage des fiches, décision de Jérémy du 11.11.2026)"
+    }
+  ]
+}

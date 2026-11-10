@@ -40,10 +40,10 @@ function walk(value, where, visit) {
   else if (value && typeof value === "object") for (const [k, v] of Object.entries(value)) walk(v, `${where}.${k}`, visit);
 }
 
-test("produits : 28 fichiers dans les bons dossiers (Koh Talabeng fondue dans Kayaking)", () => {
+test("produits : 32 fichiers dans les bons dossiers (découpage des fiches du 11.11.2026, taxi 13)", () => {
   const count = (f) => files.filter((x) => x.folder === f).length;
-  assert.equal(count("tours"), 5);
-  assert.equal(count("activities"), 7);
+  assert.equal(count("tours"), 7);
+  assert.equal(count("activities"), 9);
   assert.equal(count(""), 1);
   assert.equal(count("secret-transfers"), 2);
   assert.equal(count("taxi"), 13); // + Koh Lanta ↔ Phuket et Pak Bara Pier (10.11.2026)
@@ -205,6 +205,23 @@ test("produits : les 18 trajets taxi sont repris (12 pages Koh Lanta + 6 regroup
 const CORRIGES = {
   "4-islands|Join-in longtail|Child, 4 to 11|700": "Join-in longtail|Child, 4 to 11|600",
   "mangroves|Private raft at sunrise|3 or more people, per person|1500": "Private raft at sunrise|Each extra person|1500",
+  // Kayak de la fiche Mangroves : même sortie que celle de la fiche Mangrove kayaking (découpage du 11.11.2026).
+  "mangroves|Half day by kayak, with lunch|Adult|1000": "Mangrove kayaking with lunch, half day|Adult|1000",
+  "mangroves|Half day by kayak, with lunch|Child, 4 to 11|700": "Mangrove kayaking with lunch, half day|Child, 4 to 11|700",
+  // Sorties longtail de la fiche Kayaking : sur la fiche Mangroves, sous son libellé (découpage du 11.11.2026).
+  "kayak|Mangrove boat trip with lunch, half day|Adult|1000": "Half day by longtail, with lunch|Adult|1000",
+  "kayak|Mangrove boat trip with lunch, half day|Child, 4 to 11|700": "Half day by longtail, with lunch|Child, 4 to 11|700",
+  "kayak|Mangrove, Old Town and viewpoint, half day|Adult|1300": "Longtail through the mangrove, then Old Town and a viewpoint|Adult|1300",
+  "kayak|Mangrove, Old Town and viewpoint, half day|Child, 4 to 11|900": "Longtail through the mangrove, then Old Town and a viewpoint|Child, 4 to 11|900",
+  "kayak|Mangrove and fishing park, half day|Adult|1800": "Mangrove by kayak or longtail, then a fishing park|Adult|1800",
+  "kayak|Mangrove and fishing park, half day|Child, 4 to 11|1200": "Mangrove by kayak or longtail, then a fishing park|Child, 4 to 11|1200",
+  // Radeaux : « 1 to 2 people » retiré de l'affichage (décision de Jérémy du 11.11.2026), mêmes montants.
+  "mangroves|Private raft at sunrise|1 to 2 people, the raft|3500": "Private raft at sunrise|The private raft|3500",
+  "mangroves|Private raft, sunset dinner|1 to 2 people, the raft|3900": "Private raft, sunset dinner|The private raft|3900",
+  "mangroves|Private raft, sunset dinner|3 or more people, per person|1800": "Private raft, sunset dinner|From 3 people, per person|1800",
+  "mangroves|Private raft, fishing morning|1 to 2 people, the raft|3900": "Private raft, fishing and seafood lunch|The private raft|3900",
+  "mangroves|Private raft, fishing morning|3 or more people, per person|1800": "Private raft, fishing and seafood lunch|From 3 people, per person|1800",
+  "mangroves|Private raft, fishing morning|Child 3 to 9, per person|1500": "Private raft, fishing and seafood lunch|Child 3 to 9, per person|1500",
   // Pêche : « 1 to 2 people » retiré de l'affichage (décision de Jérémy du 11.11.2026), mêmes montants.
   "fishing-trip|Private raft, fishing and seafood lunch|1 to 2 people, the raft|3900": "Private raft, fishing and seafood lunch|The private raft|3900",
   "fishing-trip|Private raft, fishing and seafood lunch|3 or more people, per person|1800": "Private raft, fishing and seafood lunch|From 3 people, per person|1800",
@@ -214,6 +231,13 @@ const CORRIGES = {
 // Partenaire remplacé : les prix de l'ancien partenaire ne sont plus vendus.
 // Pages fondues dans une autre (décision de Jérémy du 10.11.2026) : leurs sorties et leurs prix y sont repris.
 const FUSIONNES = { "koh-talabeng-koh-bubu": "/tours/kayak/" };
+// Pages découpées le 11.11.2026 : leurs sorties sont réparties sur plusieurs fiches (prix cherchés dans toutes).
+const DECOUPEES = {
+  mangroves: ["/tours/mangroves/", "/tours/sunrise-raft/", "/tours/sunset-dinner-raft/", "/tours/fishing-trip/", "/tours/mangrove-kayaking/"],
+  kayak: ["/tours/kayak/", "/tours/mangrove-kayaking/", "/tours/mangroves/"],
+  "koh-talabeng-koh-bubu": ["/tours/kayak/"],
+  "scuba-diving": ["/tours/scuba-diving/", "/tours/snorkelling/"]
+};
 const REMPLACES = ["elephant-sanctuary"];
 
 test("produits : tous les prix de l'ancien site sont repris à l'identique", () => {
@@ -221,8 +245,8 @@ test("produits : tous les prix de l'ancien site sont repris à l'identique", () 
   const byUrl = Object.fromEntries(files.map((f) => [f.data.url, f.data]));
   for (const [id, page] of Object.entries(content.pages)) {
     if (REMPLACES.includes(id)) continue;
-    const p = byUrl[FUSIONNES[id] || `/tours/${id}/`];
-    const rows = (p.options || []).flatMap((o) => (o.prices || []).map((r) => `${o.label}|${r.label}|${r.amount !== undefined ? r.amount : r.text}`));
+    const pages = (DECOUPEES[id] || [FUSIONNES[id] || `/tours/${id}/`]).map((u) => byUrl[u]);
+    const rows = pages.flatMap((p) => (p.options || []).flatMap((o) => (o.prices || []).map((r) => `${o.label}|${r.label}|${r.amount !== undefined ? r.amount : r.text}`)));
     for (const g of page.prices || []) {
       for (const r of g.rows) {
         const m = /^\+?([\d,]+) THB$/.exec(r.price);

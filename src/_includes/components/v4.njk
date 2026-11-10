@@ -45,7 +45,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
     avec son unité toujours dessous. Téléphone (hub, accueil) : carte horizontale, photo carrée de 112 px à gauche.
     À côté du lien : l'ajout à la liste de sorties (add=false sur l'accueil) et la case de comparaison du hub. -#}
 {% macro card(c, sizes="(min-width: 1024px) 380px, (min-width: 700px) calc(50vw - 46px), 112px", eager=false, compare=false, hx="h3", anchor="", add=true) %}
-<article class="card{% if add %} card--add{% endif %}"{% if anchor %} id="{{ anchor }}"{% endif %} data-slug="{{ c.slug }}" data-kind="{{ c.kind }}"{% if c.price %} data-from="{{ c.price.from }}"{% endif %}>
+<article class="card{% if add %} card--add{% endif %}"{% if anchor %} id="{{ anchor }}"{% endif %} data-slug="{{ c.slug }}" data-kind="{{ c.kind }}" data-group="{{ c.group }}"{% if c.price %} data-from="{{ c.price.from }}"{% endif %}>
   <a class="card__link press" href="{{ c.href }}">
     {{ photo(c.photo, sizes, eager, "ph--43") }}
     <span class="card__body">
@@ -71,8 +71,9 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 {#- waText : le message prérempli du bouton WhatsApp, qui dit de quelle page il part (produit et adresse sur une fiche). -#}
 {% macro header(contact, em, current="", waText="") %}
 {%- set items = [
-  { id: "boats", label: "Boat trips", href: "/tours/#boat-trips" },
-  { id: "activities", label: "Activities", href: "/tours/#activities" },
+  { id: "islands", label: "Islands", href: "/tours/#islands" },
+  { id: "mangrove", label: "Mangroves", href: "/tours/#mangroves" },
+  { id: "land", label: "On land", href: "/tours/#on-land" },
   { id: "speedboat", label: "Speedboat", href: "/tours/speedboat/" },
   { id: "transfers", label: "Transfers", href: "/taxi/" },
   { id: "rental", label: "Rental", href: "/tours/rental/" }
@@ -109,8 +110,10 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
         <p class="ft__wa"><a class="link link--light" href="{{ waHref(contact.number, waText) }}">WhatsApp {{ contact.phoneDisplay }}</a></p>
       </div>
       {#- Sur téléphone, les deux listes de sorties se replient (v4.js les ferme) ; « More » reste ouvert. -#}
-      <details class="ft__col" open data-ft-fold><summary><h2 class="ft__h">Boat trips</h2></summary><ul>{% for c in boats %}<li><a href="{{ c.href }}">{{ c.title }}</a></li>{% endfor %}</ul></details>
-      <details class="ft__col" open data-ft-fold><summary><h2 class="ft__h">Activities</h2></summary><ul>{% for c in activities %}<li><a href="{{ c.href }}">{{ c.title }}</a></li>{% endfor %}</ul></details>
+      {%- set all = boats.concat(activities) %}
+      {%- for g in [["islands", "Island trips"], ["mangrove", "Mangrove trips"], ["land", "On land"]] %}
+      <details class="ft__col" open data-ft-fold><summary><h2 class="ft__h">{{ g[1] }}</h2></summary><ul>{% for c in all %}{% if c.group == g[0] %}<li><a href="{{ c.href }}">{{ c.title }}</a></li>{% endif %}{% endfor %}</ul></details>
+      {%- endfor %}
       <details class="ft__col" open><summary><h2 class="ft__h">More</h2></summary><ul><li><a href="/tours/speedboat/">Speedboat timetable</a></li><li><a href="/taxi/">Private transfers</a></li><li><a href="/tours/rental/">Scooter and car rental</a></li><li><a href="/credits/">Photo credits</a></li></ul></details>
     </div>
     <div class="ft__meta">

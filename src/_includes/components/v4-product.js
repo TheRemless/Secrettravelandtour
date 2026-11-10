@@ -424,8 +424,10 @@ function productPage(p, ctx) {
   const pick = pickOf(p, site, { help: help ? help.a : "" });
   return {
     slug: p.slug, kind: p.template, url: p.url, name: p.name,
-    nav: p.template === "boat" ? "boats" : "activities",
-    crumb: p.template === "boat" ? { label: "Boat trips", href: "/tours/#boat-trips" } : { label: "Activities", href: "/tours/#activities" },
+    // Groupe de la vignette (îles, mangrove, sur terre) : menu marqué et fil d'Ariane vers son filtre du hub.
+    nav: ctx.group ? ctx.group.id : p.template === "boat" ? "boats" : "activities",
+    crumb: ctx.group ? { label: ctx.group.nav, href: "/tours/#" + ctx.group.hash }
+      : p.template === "boat" ? { label: "Boat trips", href: "/tours/#boat-trips" } : { label: "Activities", href: "/tours/#activities" },
     seo: p.seo, h1: nb(p.h1), lead: p.lead, promise: p.promise || "",
     keyFacts: facts.hero,
     price: pr ? { amount: pr.amount, unit: p.price.unit } : null,

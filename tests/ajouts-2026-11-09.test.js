@@ -74,6 +74,6 @@ test("speedboat : les départs de la seconde compagnie sont sur leur destination
   const st = Object.assign(B.emptyState({}), { today: "2026-11-09", route: "to-ao-nang", departure: "to-ao-nang@0900", dateChoice: "other", dateOther: "2026-11-20", adults: 2, childAges: [], tripType: "one-way", pickup: "Lanta Sand Resort", name: "Anna" });
   assert.deepEqual(B.validate(cfg, st), {});
   const sbMsg = B.buildMessage(cfg, st);
-  assert.match(sbMsg, /^Speedboat request: Koh Lanta to Ao Nang\nDeparture: 09:00, arrives 10:30\nDate: Fri 20 Nov 2026\nTicket: one way\n/);
+  assert.match(sbMsg, /^Speedboat request: Koh Lanta to Ao Nang\nDeparture: 09:00, arrives 10:30\nDate: Fri 20 Nov 2026\nSeason: 1 Nov – 4 May\nTicket: one way\n/);
   assert.doesNotMatch(sbMsg, /Ref:|Page:/);
 });
