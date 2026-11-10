@@ -8,7 +8,7 @@ eleventyExcludeFromCollections: true
 ---
 {#- Les pages trajet de VIP Taxi Lanta sur un seul gabarit, identité « Laque et or » (10.11.2026).
     Données : taxiPages.js (products/taxi). Une donnée absente ne s'affiche pas (durée de Krabi Airport → Khao Lak).
-    Aucun prix publié : « Price on WhatsApp ». Réservation par la feuille (booking.js, variante taxi, aller ou retour). -#}
+    Prix d'appel de la grille VIP Taxi Lanta (« From … THB ») quand il existe, sinon « Price on WhatsApp ». Réservation par la feuille (booking.js, variante taxi, aller ou retour). -#}
 {% import "components/taxi.njk" as tx %}
 {% from "components/booking.njk" import bookingSheet %}
 {%- set T = taxiPages -%}
@@ -65,7 +65,7 @@ eleventyExcludeFromCollections: true
       <p class="lead">{{ r.lead | taxiLinks | safe }}</p>
       <div class="hero-act">
         <a class="btn btn--gold" href="{{ fallback }}" data-book="">Check availability</a>
-        <p class="hero-note">Price on WhatsApp.</p>
+        <p class="hero-note">{% if r.price %}<span class="hero-price">{{ r.price.label }}</span> for {{ r.price.people }} people, cash to the driver.{% else %}Price on WhatsApp.{% endif %}</p>
       </div>
     </div>
   </div>
@@ -115,7 +115,7 @@ eleventyExcludeFromCollections: true
 {{ tx.secretAside(taxi.tours, true) }}
 </main>
 {{ tx.footer(site, T.contact) }}
-{{ tx.vbar("Check availability", fallback) }}
+{{ tx.vbar("Check availability", fallback, r.price) }}
 {{ bookingSheet(r.booking, T.contact) }}
 <script src="/js/booking.js?v={{ build.v }}" defer></script>
 <script src="/js/vip-taxi.js?v={{ build.v }}" defer></script>

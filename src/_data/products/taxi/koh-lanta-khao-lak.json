@@ -100,9 +100,18 @@
     {
       "field": "seo.title, seo.metaDescription, h1",
       "from": "Refonte taxi v1 (10.11.2026) : même forme que Krabi Airport, « Minivan Taxi » banni (03-audit-contenu §6.6). Même trajet, mêmes faits."
+    },
+    {
+      "field": "priceFrom",
+      "from": "Note sous la grille VIP Taxi Lanta : « env 5000 » (environ), affiché « About ». Jérémy, 10.11.2026. Ligne : Koh Lanta to Khao Lak : env 5000"
     }
   ],
   "notes": [
     "La FAQ « Is the Khao Lak transfer private? » répète la FAQ commune « Is the transfer private? » (site.json brands.vip.faq) : doublon relevé par l'audit contenu."
-  ]
+  ],
+  "priceFrom": {
+    "thb": 5000,
+    "people": "1 or 2",
+    "approx": true
+  }
 }

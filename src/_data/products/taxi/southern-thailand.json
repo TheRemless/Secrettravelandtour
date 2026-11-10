@@ -53,7 +53,12 @@
           "q": "Can you drop us at a pier in Ao Nang for Railay?",
           "a": "Yes. Tell us which pier and at what time in the request form."
         }
-      ]
+      ],
+      "priceFrom": {
+        "thb": 700,
+        "people": "1 or 2",
+        "approx": false
+      }
     },
     {
       "id": "phuket-airport-khao-lak",
@@ -282,6 +287,10 @@
     {
       "field": "seo.title, seo.metaDescription, h1",
       "from": "Refonte taxi v1 (10.11.2026) : même forme que Krabi Airport, « Minivan Taxi » banni (03-audit-contenu §6.6). Même trajet, mêmes faits."
+    },
+    {
+      "field": "routes[krabi-airport-ao-nang].priceFrom",
+      "from": "Note sous la grille VIP Taxi Lanta : « Krabi Airport to Ao Nang : 700-750THB ». Affiché « from 700 ». Jérémy, 10.11.2026."
     }
   ],
   "todo": [

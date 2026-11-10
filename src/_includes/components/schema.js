@@ -96,8 +96,12 @@ function mainId(product, site) {
 const place = (name) => ({ "@type": "Place", name });
 
 function offer(site, product) {
-  // Pas de prix (décision de Jérémy) : l'offre dit seulement où demander et que c'est disponible.
-  return { "@type": "Offer", url: abs(site, product.url), availability: IN_STOCK };
+  // Pas de prix sur les fiches (décision de Jérémy) : l'offre dit où demander et que c'est disponible.
+  const o = { "@type": "Offer", url: abs(site, product.url), availability: IN_STOCK };
+  // Taxi (10.11.2026) : prix d'appel de la grille VIP Taxi Lanta, seulement s'il n'est pas « environ ».
+  const f = product.priceFrom;
+  if (f && f.thb && !f.approx) o.priceSpecification = { "@type": "PriceSpecification", minPrice: f.thb, priceCurrency: "THB" };
+  return o;
 }
 
 function itinerary(places) {

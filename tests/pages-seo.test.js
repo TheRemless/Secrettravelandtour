@@ -47,10 +47,12 @@ test("pages : aucun prix, aucune note, aucun avis dans les données structurées
   }
 });
 
-test("pages taxi : ni prix, ni téléphone, ni e-mail affichés", () => {
+// Depuis le 10.11.2026, un trajet affiche le prix d'appel de la grille VIP Taxi Lanta s'il en a un, et rien d'autre.
+test("pages taxi : prix d'appel seulement s'il est dans la grille, ni téléphone ni e-mail", () => {
   for (const r of taxiRoutes.routes) {
     const doc = html(`taxi/${r.id}`);
-    assert.doesNotMatch(doc, /\d+\s?(THB|฿|CHF|€)/, `${r.id} : prix`);
+    if (r.price) assert.match(doc, new RegExp(r.price.label), `${r.id} : prix`);
+    else assert.match(doc, /<p class="hero-note">Price on WhatsApp\.<\/p>/, `${r.id} : sans prix, WhatsApp`);
     assert.doesNotMatch(doc, /tel:|mailto:/, `${r.id} : contact direct`);
     // Depuis la refonte taxi v1, chaque trajet réserve par la feuille, avec un repli WhatsApp qui nomme le trajet.
     assert.match(doc, /<dialog class="sheet" id="book"/, `${r.id} : feuille`);

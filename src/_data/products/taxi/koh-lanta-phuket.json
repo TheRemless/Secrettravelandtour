@@ -81,6 +81,15 @@
     {
       "field": "seo, h1, lead, body, faq",
       "from": "Rédigé le 10.11.2026 sur le modèle des autres trajets, sans fait nouveau hors grille."
+    },
+    {
+      "field": "priceFrom",
+      "from": "Grille « Private Taxi » de VIP Taxi Lanta, colonne Selling, prix pour 1 à 2 clients (base partenaires, ~/Downloads/Secret Travel & Tour/VIP Taxi Lanta - Private Taxi.jpg). Affichage « from » décidé par Jérémy le 10.11.2026. Ligne : From / to Phuket Airport / Phuket Town (Patong, Kata, Karon : 5 000)"
     }
-  ]
+  ],
+  "priceFrom": {
+    "thb": 4500,
+    "people": "1 or 2",
+    "approx": false
+  }
 }

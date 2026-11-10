@@ -47,10 +47,20 @@ test("aucun téléphone, aucun prix inventé, plus de « Minivan Taxi » sur le 
   for (const url of ["/taxi/"].concat(T.routes.map((r) => r.url))) {
     const doc = page(url);
     assert.doesNotMatch(doc, /href="tel:|mailto:/, url);
-    assert.doesNotMatch(doc, /\d+\s?(THB|฿|CHF|€)/, url);
     assert.doesNotMatch(doc, /minivan taxi/i, url);
-    assert.match(doc, /Price on WhatsApp/, url);
   }
+  // Prix d'appel (10.11.2026) : le montant de la grille sur la page, dans la barre et dans le message ; sinon « Price on WhatsApp ».
+  for (const r of T.routes) {
+    const doc = page(r.url).replace(/<script[\s\S]*?<\/script>/g, "");
+    const amounts = [...doc.matchAll(/(\d[\d,]*)\u00a0THB/g)].map((m) => Number(m[1].replace(/,/g, "")));
+    if (!r.price) { assert.match(doc, /Price on WhatsApp<small>/, r.url); assert.ok(!r.booking.priceNote, r.url); }
+    else assert.ok(amounts.includes(r.price.thb), r.url);
+    assert.ok(amounts.every((n) => T.routes.some((x) => x.price && x.price.thb === n)), `${r.url} : montant hors grille`);
+    if (r.price) assert.match(r.booking.priceNote, new RegExp(`${r.price.approx ? "About" : "From"} ${r.price.thb.toLocaleString("en-US")} THB for 1 or 2 people`), r.url);
+  }
+  assert.equal(T.byId["krabi-airport-koh-lanta"].price.thb, 2300);
+  assert.equal(T.byId["koh-lanta-khao-sok"].price.label, "About 5,000\u00a0THB");
+  assert.equal(T.byId["phuket-khao-sok"].price, null);
 });
 
 test("hub : les 17 trajets en liens, une feuille libre From et To, la liste des lieux", () => {

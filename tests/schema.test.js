@@ -99,10 +99,12 @@ test("types attendus sur les cinq pages, jamais TouristAttraction", () => {
 test("aucun prix : ni price, ni priceCurrency, ni priceRange, ni montant en THB hors FAQ", () => {
   for (const { name, blocks } of everything) {
     const keys = keysOf(blocks);
-    for (const k of keys) assert.doesNotMatch(k, /price|lowPrice|highPrice/i, `${name} : ${k}`);
+    // Trajets taxi (10.11.2026) : prix d'appel de la grille VIP Taxi Lanta en PriceSpecification.minPrice, rien d'autre.
+    const taxi = /^\/taxi\//.test(name);
+    for (const k of keys) if (!(taxi && /^(priceSpecification|minPrice|priceCurrency)$/.test(k))) assert.doesNotMatch(k, /price|lowPrice|highPrice/i, `${name} : ${k}`);
     // Les réponses de FAQ reprennent le texte de la page (frais de parc, par exemple) ; tout le reste est sans montant.
     const rest = blocks.filter((b) => b["@type"] !== "FAQPage");
-    assert.doesNotMatch(JSON.stringify(rest), /\d[\d,.]*\s?(THB|baht)|฿/i, name);
+    if (!taxi) assert.doesNotMatch(JSON.stringify(rest), /\d[\d,.]*\s?(THB|baht)|฿/i, name);
   }
   for (const { blocks } of everything) {
     walk(blocks, "", (v) => {

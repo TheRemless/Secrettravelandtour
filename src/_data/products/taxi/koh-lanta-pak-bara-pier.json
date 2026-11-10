@@ -76,6 +76,15 @@
     {
       "field": "legacyText.body (Koh Lipe)",
       "from": "Géographie publique : Pak Bara, port des bateaux pour Koh Lipe ; la base partenaires a des trajets entre ce quai et Koh Lipe."
+    },
+    {
+      "field": "priceFrom",
+      "from": "Grille « Private Taxi » de VIP Taxi Lanta, colonne Selling, prix pour 1 à 2 clients (base partenaires, ~/Downloads/Secret Travel & Tour/VIP Taxi Lanta - Private Taxi.jpg). Affichage « from » décidé par Jérémy le 10.11.2026. Ligne : From / to Pak Bara Pier"
     }
-  ]
+  ],
+  "priceFrom": {
+    "thb": 4500,
+    "people": "1 or 2",
+    "approx": false
+  }
 }

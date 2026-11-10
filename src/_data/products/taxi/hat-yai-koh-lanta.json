@@ -108,6 +108,15 @@
     {
       "field": "seo.title, seo.metaDescription, h1",
       "from": "Refonte taxi v1 (10.11.2026) : même forme que Krabi Airport, « Minivan Taxi » banni (03-audit-contenu §6.6). Même trajet, mêmes faits."
+    },
+    {
+      "field": "priceFrom",
+      "from": "Grille « Private Taxi » de VIP Taxi Lanta, colonne Selling, prix pour 1 à 2 clients (base partenaires, ~/Downloads/Secret Travel & Tour/VIP Taxi Lanta - Private Taxi.jpg). Affichage « from » décidé par Jérémy le 10.11.2026. Ligne : From / to Hatyai Town/Airport"
     }
-  ]
+  ],
+  "priceFrom": {
+    "thb": 5000,
+    "people": "1 or 2",
+    "approx": false
+  }
 }

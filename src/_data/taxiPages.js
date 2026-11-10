@@ -14,6 +14,14 @@ const south = read("southern-thailand");
 // Jérémy, 10.11.2026 : à l'aéroport, le chauffeur attend aux arrivées avec une pancarte au nom du client.
 const MEET = { title: "Met at arrivals", text: "For an airport pickup, your driver waits in the arrivals hall with a sign showing your name." };
 
+// Prix d'appel de la grille VIP Taxi Lanta (1 ou 2 personnes) : « From 2,300 THB », ou « About 5,000 THB » si la grille dit « environ ».
+function priceOf(p) {
+  const f = p.priceFrom;
+  if (!f || !f.thb) return null;
+  const amount = `${f.thb.toLocaleString("en-US")}\u00a0THB`;
+  return { thb: f.thb, approx: Boolean(f.approx), label: `${f.approx ? "About" : "From"} ${amount}`, people: f.people || "" };
+}
+
 const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : "");
 
 // Un trajet regroupé dans southern-thailand.json prend la forme d'une fiche produit.
@@ -42,7 +50,8 @@ function fromSouth(r) {
     faq: r.faq || [],
     body: r.body || [],
     photos: [],
-    schema: { type: "TaxiService", serviceType: "Private minivan transfer", areaServed: [r.from, r.to] }
+    schema: { type: "TaxiService", serviceType: "Private minivan transfer", areaServed: [r.from, r.to] },
+    priceFrom: r.priceFrom
   };
 }
 
@@ -65,12 +74,16 @@ module.exports = function () {
   const routes = ids.map((id) => {
     const p = product(id);
     const r = p.route || {};
+    const price = priceOf(p);
+    // La méta dit le prix d'appel quand la grille en donne un.
+    const seo = price && p.seo ? { ...p.seo, metaDescription: p.seo.metaDescription.replace("Price on WhatsApp.", `${price.label.replace(/\u00a0/g, " ")}.`) } : p.seo;
     return {
       id,
       product: p,
       url: p.url,
       name: p.name,
-      seo: p.seo,
+      seo,
+      price,
       h1: p.h1,
       lead: p.lead,
       body: p.body,
@@ -85,7 +98,7 @@ module.exports = function () {
       h1Tail: p.h1.startsWith(`${r.from} to ${r.to}`) ? p.h1.slice(`${r.from} to ${r.to}`.length).replace(/^[,\s]+/, "") : null,
       faq: p.faq || [],
       how: /Airport/.test(`${r.from} ${r.to}`) ? (legacy.common.how || []).concat([MEET]) : legacy.common.how || [],
-      booking: view.bookingRoute(p, site),
+      booking: view.bookingRoute(p, site, price ? { priceNote: `${price.label.replace(/\u00a0/g, " ")} for ${price.people} people` } : {}),
       fallback: view.fallbackText(p, site),
       jsonLd: schema.route(p, site)
     };
@@ -94,7 +107,7 @@ module.exports = function () {
   // Autres trajets de la même région, dans l'ordre des régions.
   routes.forEach((r) => {
     const g = (legacy.regions || []).find((x) => x.routes.includes(r.id));
-    r.others = g ? g.routes.filter((id) => id !== r.id).map((id) => byId[id]).filter(Boolean).map((o) => ({ url: o.url, from: o.from, to: o.to, drive: o.drive })) : [];
+    r.others = g ? g.routes.filter((id) => id !== r.id).map((id) => byId[id]).filter(Boolean).map((o) => ({ url: o.url, from: o.from, to: o.to, drive: o.drive, price: o.price })) : [];
   });
   const regions = (legacy.regions || []).map((g) => ({ name: g.name, intro: g.intro, routes: g.routes.map((id) => byId[id]).filter(Boolean) }));
 

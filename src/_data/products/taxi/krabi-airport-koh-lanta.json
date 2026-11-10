@@ -138,6 +138,15 @@
     {
       "field": "faq[Where does the driver meet me], legacyText.body",
       "from": "Jérémy, 10.11.2026 : à l'aéroport, le chauffeur attend aux arrivées avec une pancarte au nom du client."
+    },
+    {
+      "field": "priceFrom",
+      "from": "Grille « Private Taxi » de VIP Taxi Lanta, colonne Selling, prix pour 1 à 2 clients (base partenaires, ~/Downloads/Secret Travel & Tour/VIP Taxi Lanta - Private Taxi.jpg). Affichage « from » décidé par Jérémy le 10.11.2026. Ligne : From / to Krabi Airport"
     }
-  ]
+  ],
+  "priceFrom": {
+    "thb": 2300,
+    "people": "1 or 2",
+    "approx": false
+  }
 }

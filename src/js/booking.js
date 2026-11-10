@@ -251,6 +251,8 @@
       // Les deux bouts du trajet : où le chauffeur prend le client, où il le dépose (taxi v1, 10.11.2026).
       if (clean(state.pickupAt)) lines.push("Pickup: " + clean(state.pickupAt));
       if (clean(state.dropoffAt)) lines.push("Drop-off: " + clean(state.dropoffAt));
+      // Prix d'appel affiché sur la page du trajet (grille VIP Taxi Lanta), rappelé à la fin.
+      if (config.priceNote) lines.push("Price on the site: " + config.priceNote);
     } else if (config.variant === "rental") {
       var cat = findOption(config, state.option);
       lines.push("Rental request: " + (cat ? cat.title : config.product));

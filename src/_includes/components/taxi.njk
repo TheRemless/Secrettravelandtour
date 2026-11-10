@@ -31,7 +31,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 
 {#- Une ligne par trajet : départ, arrivée, durée si elle est dans les données. Toute la ligne est le lien. -#}
 {% macro routeRow(r) %}
-<li><a class="rr" href="{{ r.url }}"><span class="rr-pair"><span class="rr-place">{{ r.from }}</span> <span class="rr-word">to</span> <span class="rr-place">{{ r.to }}</span></span>{% if r.drive %}<span class="rr-time">{{ r.drive | capitalize }}</span>{% endif %}{{ chev() }}</a></li>
+<li><a class="rr" href="{{ r.url }}"><span class="rr-pair"><span class="rr-place">{{ r.from }}</span> <span class="rr-word">to</span> <span class="rr-place">{{ r.to }}</span></span>{% if r.drive or r.price %}<span class="rr-time">{% if r.drive %}<span class="rr-drive">{{ r.drive | capitalize }}</span>{% endif %}{% if r.price %}<span class="rr-price">{{ r.price.label }}</span>{% endif %}</span>{% endif %}{{ chev() }}</a></li>
 {% endmacro %}
 
 {% macro faq(items) %}
@@ -86,7 +86,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 </footer>
 {% endmacro %}
 
-{#- Barre du bas au téléphone : aucun prix de trajet publié, paiement au chauffeur. Ouvre la feuille. -#}
-{% macro vbar(label, href) %}
-<aside class="vbar" aria-label="{{ label }}"><p>Price on WhatsApp<small>Cash to the driver</small></p><a class="btn btn--gold" href="{{ href }}" data-book="">{{ label }}</a></aside>
+{#- Barre du bas au téléphone : prix d'appel du trajet s'il existe, sinon prix sur WhatsApp ; paiement au chauffeur. Ouvre la feuille. -#}
+{% macro vbar(label, href, price=null) %}
+<aside class="vbar" aria-label="{{ label }}"><p>{% if price %}{{ price.label }}<small>{{ price.people | capitalize }} people, cash to the driver</small>{% else %}Price on WhatsApp<small>Cash to the driver</small>{% endif %}</p><a class="btn btn--gold" href="{{ href }}" data-book="">{{ label }}</a></aside>
 {% endmacro %}

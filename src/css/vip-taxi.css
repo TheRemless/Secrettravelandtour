@@ -498,3 +498,10 @@ details[open] .faq-mark::after { transform: rotate(0deg); }
   .hero--sg .hero-in { grid-template-columns: minmax(0, 46rem); grid-template-rows: none; row-gap: 20px; }
   .hero--sg .hero-in > h1 { grid-column: auto; grid-row: auto; padding-top: 8px; }
 }
+
+/* Prix d'appel des trajets (grille VIP Taxi Lanta, 10.11.2026). */
+.rr-price { display: inline-block; font-weight: 600; color: var(--ink); white-space: nowrap; transition: color .14s var(--ease); }
+.rr-drive + .rr-price { margin-left: .9em; }
+.rr:active .rr-price { color: var(--gold); }
+@media (hover: hover) { .rr:hover .rr-price { color: var(--gold); } }
+.hero-price { font-weight: 600; font-size: 17px; color: var(--gold); }
