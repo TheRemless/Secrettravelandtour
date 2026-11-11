@@ -269,9 +269,11 @@
 
     if (config.variant === "taxi") {
       var vehicle = findOption(config, state.option);
-      lines.push("Transfer request: " + routeLabel(config, state) + (vehicle ? " – " + vehicle.title : config.vehicle ? " (" + config.vehicle + ")" : ""));
+      // Minivan partagé (page /transfers/) : la demande est au nom de Secret Travel & Tour, sur le même WhatsApp que VIP Taxi Lanta.
+      if (config.shared) lines.push("Shared minivan request (" + config.brand + "): " + routeLabel(config, state));
+      else lines.push("Transfer request: " + routeLabel(config, state) + (vehicle ? " – " + vehicle.title : config.vehicle ? " (" + config.vehicle + ")" : ""));
       if (date) lines.push("Date: " + formatDate(date));
-      if (clean(state.time)) lines.push("Pickup time: " + clean(state.time));
+      if (clean(state.time)) lines.push((config.shared ? "Preferred pickup time: " : "Pickup time: ") + clean(state.time));
       if (clean(state.flight)) lines.push("Flight or ferry: " + clean(state.flight));
       lines.push("Guests: " + guestsLine(state.adults, state.childAges));
       if (state.childSeats > 0 && (state.childAges || []).length) lines.push("Child seats: " + state.childSeats);

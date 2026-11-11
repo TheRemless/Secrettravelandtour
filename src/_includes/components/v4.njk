@@ -75,7 +75,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
   { id: "mangrove", label: "Mangroves", href: "/tours/#mangroves" },
   { id: "land", label: "On land", href: "/tours/#on-land" },
   { id: "speedboat", label: "Speedboat", href: "/tours/speedboat/" },
-  { id: "transfers", label: "Transfers", href: "/taxi/" },
+  { id: "transfers", label: "Transfers", href: "/transfers/" },
   { id: "rental", label: "Rental", href: "/tours/rental/" }
 ] -%}
 <a class="skip" href="#main">Skip to content</a>
@@ -114,7 +114,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
       {%- for g in [["islands", "Island trips"], ["mangrove", "Mangrove trips"], ["land", "On land"]] %}
       <details class="ft__col" open data-ft-fold><summary><h2 class="ft__h">{{ g[1] }}</h2></summary><ul>{% for c in all %}{% if c.group == g[0] %}<li><a href="{{ c.href }}">{{ c.title }}</a></li>{% endif %}{% endfor %}</ul></details>
       {%- endfor %}
-      <details class="ft__col" open><summary><h2 class="ft__h">More</h2></summary><ul><li><a href="/tours/speedboat/">Speedboat timetable</a></li><li><a href="/taxi/">Private transfers</a></li><li><a href="/tours/rental/">Scooter and car rental</a></li><li><a href="/credits/">Photo credits</a></li></ul></details>
+      <details class="ft__col" open><summary><h2 class="ft__h">More</h2></summary><ul><li><a href="/tours/speedboat/">Speedboat timetable</a></li><li><a href="/transfers/">Transfers</a></li><li><a href="/taxi/">Private minivan transfers</a></li><li><a href="/tours/rental/">Scooter and car rental</a></li><li><a href="/credits/">Photo credits</a></li></ul></details>
     </div>
     <div class="ft__meta">
       <span>{{ b.name }} is operated by {{ site.operator.name }}</span>

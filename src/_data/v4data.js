@@ -232,7 +232,7 @@ module.exports = async function () {
   const taxi = fs.readdirSync(path.join(DATA, "products", "taxi")).map((f) => P("taxi/" + f.replace(/\.json$/, "")))
     .filter((t) => t.route && t.route.from && t.route.to)
     .map((t) => ({ url: t.url, name: t.name, from: t.route.from, to: t.route.to, drive: t.route.drive || "" }));
-  const LIVE = new Set(["/", "/taxi/", "/tours/speedboat/", "/tours/rental/"].concat(taxi.map((t) => t.url)));
+  const LIVE = new Set(["/", "/taxi/", "/transfers/", "/tours/speedboat/", "/tours/rental/"].concat(taxi.map((t) => t.url)));
   // Unité de la location : « per 24 hours », celle des lignes de prix (réponse du client), dite une seule fois.
   const rentalUnit = rentalP.options[0].prices[0].unit;
 
@@ -345,9 +345,12 @@ module.exports = async function () {
   }
   const rentalPage = vp.rentalPage(rentalP, ctx);
   const speedboatPage = vp.speedboatPage(P("secret-transfers/speedboat-ferry"), ctx);
+  // /transfers/ : les prix d'appel des trajets privés cités en exemple viennent de la grille VIP Taxi Lanta (taxiPages.js),
+  // donc suivent toute correction de prix sans retoucher la page.
+  const transfersPage = vp.transfersPage(P("secret-transfers/shared-minivan"), { ...ctx, privateRoutes: require("./taxiPages.js")().routes });
 
   const data = {
-    productPages, rentalPage, speedboatPage,
+    productPages, rentalPage, speedboatPage, transfersPage,
     contact,
     emblem: await view.emblem(44),
     whatsapp: site.whatsapp,

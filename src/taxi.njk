@@ -127,7 +127,7 @@ eleventyExcludeFromCollections: true
 <section class="qa" aria-labelledby="h-faq">
   <div class="wrap qa-in">
     <h2 id="h-faq">Questions</h2>
-    {#- Déjà dit plus haut : le paiement (bloc Payment) et le privé (« Private only »). -#}
+    {#- Déjà dit plus haut : le paiement (bloc Payment) et le privé (« Always private »). -#}
     {%- set skip = ["How do I pay?", "Is the transfer private?"] -%}
     {%- set faqs = [] -%}
     {%- for f in taxi.faq %}{% if f.q not in skip %}{% set _x = faqs.push(f) %}{% endif %}{% endfor %}

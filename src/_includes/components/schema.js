@@ -287,6 +287,35 @@ function transfer(product, site) {
   return pageBlocks(main, breadcrumb(site, product, null), faqPage(site, product));
 }
 
+// Page d'orientation /transfers/ : le minivan partagé de Secret (Service sans offre : aucun prix sur le site), la liste
+// des trois choix (les pages privées et songthaew sont celles de VIP Taxi Lanta), fil d'Ariane et questions.
+function transferHub(product, site, links) {
+  const s = product.schema || {};
+  const url = abs(site, product.url);
+  const ch = product.choices || {};
+  const main = block({
+    "@type": "Service",
+    "@id": `${url}#service`,
+    name: "Shared minivan transfer",
+    serviceType: s.serviceType || "Shared minivan transfer",
+    description: ch.shared && ch.shared.text,
+    url,
+    provider: agencyRef(site),
+    areaServed: (s.areaServed || []).map(place)
+  });
+  const list = block({
+    "@type": "ItemList",
+    "@id": `${url}#options`,
+    name: "Transfer options",
+    itemListElement: [
+      { name: "Private minivan across Southern Thailand", url: abs(site, links.privateUrl) },
+      { name: "Shared minivan", url: `${url}#shared` },
+      { name: "Local taxi (songthaew) on Koh Lanta", url: abs(site, links.localUrl) }
+    ].map((it, i) => ({ "@type": "ListItem", position: i + 1, name: it.name, url: it.url }))
+  });
+  return pageBlocks(main, list, breadcrumb(site, { ...product, name: "Transfers" }, null), faqPage(site, product));
+}
+
 // Trajet VIP Taxi Lanta : TaxiService (les deux extrémités en areaServed), fourni par l'organisation VIP
 // (@id …/taxi/#vip), décrite en entier ici puisque aucune page Secret ne la définit.
 // Adresse et coordonnées de la fiche Google de VIP Taxi Lanta (10.11.2026) : JSON-LD seulement, jamais affichées.
@@ -388,4 +417,4 @@ function hub(site, products) {
   ];
 }
 
-module.exports = { home, tour, activity, rental, transfer, route, hub, toScript, clean, mainId, ids, vipPlace };
+module.exports = { home, tour, activity, rental, transfer, transferHub, route, hub, toScript, clean, mainId, ids, vipPlace };

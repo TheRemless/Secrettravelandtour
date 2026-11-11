@@ -229,7 +229,7 @@
 
         {%- if taxi %}
         <div class="f">
-          <label for="book-time">Pickup time</label>
+          <label for="book-time">{{ "Preferred pickup time" if cfg.shared else "Pickup time" }}</label>
           <input id="book-time" name="time" type="time" required aria-required="true" aria-describedby="book-e-time">
           <p class="err" id="book-e-time" hidden></p>
         </div>
@@ -322,7 +322,7 @@
       {% if facts.replyTime %}<p>{{ facts.replyTime }}</p>{% endif %}
       {%- set langs = facts.languages or [] %}
       {%- if langs.length %}<p>We speak {{ langs.slice(0, -1).join(", ") ~ " and " ~ langs | last if langs.length > 1 else langs[0] }}.</p>{% endif %}
-      <p>Nothing opened? Use the button below{% if not taxi %}{# VIP Taxi Lanta : aucun téléphone affiché, WhatsApp seulement. #}, or call <a class="done-num" href="tel:{{ facts.e164 }}">{{ facts.phoneDisplay }}</a>{% endif %}.</p>
+      <p>Nothing opened? Use the button below{% if not taxi or cfg.shared %}{# VIP Taxi Lanta : aucun téléphone affiché, WhatsApp seulement (le minivan partagé est une demande Secret : numéro affiché). #}, or call <a class="done-num" href="tel:{{ facts.e164 }}">{{ facts.phoneDisplay }}</a>{% endif %}.</p>
       <p class="copy-status" data-copy-status role="status"></p>
     </div>
     <div class="sheet-foot sheet-foot--stack">

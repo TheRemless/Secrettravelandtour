@@ -183,7 +183,7 @@
       "faq": [
         {
           "q": "Is the Khao Lak transfer private?",
-          "a": "Yes. Every transfer is private, your group only."
+          "a": "Yes. Every VIP Taxi Lanta transfer is private, your group only."
         }
       ]
     },
@@ -351,7 +351,7 @@
   "common": {
     "how": [
       {
-        "title": "Private only",
+        "title": "Always private",
         "text": "A private minivan for your group only, with 6 to 8 seats depending on luggage. No sharing, no waiting for other passengers."
       },
       {
@@ -370,7 +370,7 @@
     "faq": [
       {
         "q": "Is the transfer private?",
-        "a": "Yes. Every transfer is private, with no sharing, so you travel only with your group."
+        "a": "Yes. Every VIP Taxi Lanta transfer is private, with no sharing, so you travel only with your group."
       },
       {
         "q": "How do I pay?",

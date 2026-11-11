@@ -16,7 +16,7 @@ const BYB = ["pickup", "deposit", "licence", "insurance", "helmets", "delivery",
 // Pages existantes ou prévues (décisions client du 02.11.2026) vers lesquelles related[] peut pointer.
 const PLANNED = ["/", "/tours/", "/transfers/", "/taxi/", "/about/", "/contact/", "/faq/"];
 // Même liste que tests/partenaires.test.js.
-const PARTENAIRES = /rattana|lacha ?ru|sukho|lanta ?atv|atv adventure|lanta elephant|lanta longtail|lanta batik|lanta kayaking|lanta ?e-?gokart|noom|bundhaya|satun|pakbara|blue ?planet|octopusea/i;
+const PARTENAIRES = /rattana|lacha ?ru|sukho|lanta ?atv|atv adventure|lanta elephant|lanta longtail|lanta batik|lanta kayaking|lanta ?e-?gokart|noom|bundhaya|satun|pakbara|at ?lanta vacation|blue ?planet|octopusea/i;
 
 function load() {
   const out = [];
