@@ -58,7 +58,7 @@ permalink: /tours/
     <h2 id="ga-h">Getting around</h2>
     <ul class="lrows lrows--3">
       {%- if ar.transfers.speedboat %}<li><a class="lrow press" href="{{ ar.transfers.speedboat.href }}"><span><b>Speedboat timetable</b><small>{{ ar.transfers.speedboat.text }}</small></span></a></li>{% endif %}
-      <li><a class="lrow press" href="/taxi/"><span><b>Private transfers</b><small>{{ ar.transfers.lead | replace(".", "") }}</small></span></a></li>
+      <li><a class="lrow press" href="/transfers/"><span><b>Transfers</b><small>Private minivan, shared minivan or a songthaew taxi on Koh Lanta</small></span></a></li>
       <li><a class="lrow press" href="{{ ar.rental.href }}"><span><b>{{ ar.rental.title }}</b><small>{% for k in ar.rental.cats %}{{ k.label if loop.first else k.label | lower }}{% if loop.revindex == 2 %} and {% elif not loop.last %}, {% endif %}{% endfor %}, from {{ ar.rental.cats[0].lo }} THB {{ ar.rental.unit }}</small></span></a></li>
     </ul>
   </section>

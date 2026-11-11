@@ -672,4 +672,48 @@ function speedboatPage(p, ctx) {
   };
 }
 
-module.exports = { pickOf, helpOf, bookingOf, cashOf, heroFacts, formOf, withForms, productPage, rentalPage, speedboatPage, speedboatRoutes, publicText, askText, sortFacts, optionsOf, programme };
+// ---------- /transfers/ : « What kind of transfer are you looking for? », trois choix ----------
+// Textes et faits : products/secret-transfers/shared-minivan.json (choices, faq, beforeYouBook). Le minivan partagé
+// n'a ni tarif ni nom de prestataire sur le site : seule la demande WhatsApp de Secret Travel & Tour.
+// ctx.privateRoutes : trajets privés cités en exemple, avec le prix d'appel de la grille VIP Taxi Lanta (taxiPages.js).
+function transfersPage(p, ctx) {
+  const { site, schema } = ctx;
+  const host = site.url.replace(/^https?:\/\//, "");
+  const ch = p.choices;
+  const own = p.beforeYouBook || {};
+  const examples = ch.private.routes.map((id) => {
+    const r = (ctx.privateRoutes || []).find((x) => x.id === id);
+    if (!r) throw new Error(`[transfersPage] trajet privé introuvable : ${id}`);
+    return r;
+  })
+    .map((r) => ({ href: r.url, name: `${r.from} to ${r.to}`, price: r.price ? r.price.label : "" }));
+  const links = [
+    { href: "/tours/speedboat/", label: "Speedboat timetable" },
+    { href: "/tours/rental/", label: "Scooter and car rental" },
+    { href: "/tours/", label: "Boat trips and activities" }
+  ];
+  return {
+    slug: p.slug, kind: "transfers", url: p.url, name: p.name, crumb: "Transfers", nav: "transfers",
+    seo: p.seo, h1: p.h1, lead: p.lead,
+    choices: { ...ch, private: { ...ch.private, routes: examples } },
+    beforeBook: [
+      { label: "Children", text: own.children },
+      { label: "Travel times", text: own.weather }
+    ].filter((b) => b.text),
+    faq: p.faq || [],
+    related: { title: "Also from Koh Lanta", cards: [], links, all: null, transfer: null },
+    ask: "Transfer question: ",
+    unsureText: "Transfer question: \nFrom: \nTo: \nDate: ",
+    fallback: "Shared minivan request (Secret Travel & Tour): \nFrom: \nTo: \nDate: ",
+    // Même feuille que /taxi/ (variante taxi, From et To libres), au nom de Secret Travel & Tour : le message dit
+    // « Shared minivan request (Secret Travel & Tour) » pour qu'on ne le prenne pas pour une demande VIP Taxi Lanta.
+    booking: {
+      variant: "taxi", shared: true, brand: site.brands[p.brand].name, product: ch.shared.title,
+      kicker: ch.shared.cta, productId: "transfers-shared",
+      page: host + p.url, whatsapp: site.whatsapp.number, from: "", to: ""
+    },
+    jsonLd: schema.transferHub(p, site, { privateUrl: ch.private.href, localUrl: ch.local.href })
+  };
+}
+
+module.exports = { pickOf, helpOf, bookingOf, cashOf, heroFacts, formOf, withForms, productPage, rentalPage, speedboatPage, transfersPage, speedboatRoutes, publicText, askText, sortFacts, optionsOf, programme };

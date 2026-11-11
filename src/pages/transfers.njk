@@ -1,0 +1,92 @@
+---
+permalink: /transfers/
+---
+{#- Transfers, design v4 : une question, trois réponses (décision de Jérémy, 11.11.2026).
+    1. Minivan privé dans le sud de la Thaïlande : pages /taxi/ de VIP Taxi Lanta. C'est le choix recommandé, donc le seul
+       qui a un bloc à lui (photo, trois trajets avec leur prix d'appel, bouton plein).
+    2. Minivan partagé : un autre prestataire, jamais présenté comme VIP Taxi Lanta, aucun tarif ni nom sur le site ;
+       la feuille WhatsApp (booking.js, variante taxi, shared) écrit une demande au nom de Secret Travel & Tour.
+    3. Taxi local sur Koh Lanta (songthaew) : /taxi/songthaew/.
+    Textes et faits : products/secret-transfers/shared-minivan.json. Rien sur /taxi/ ne parle du minivan partagé. -#}
+{% import "components/v4.njk" as v4 %}
+{% import "components/v4-product.njk" as vp %}
+{% from "components/booking.njk" import bookingSheet %}
+{%- set d = v4data -%}
+{%- set t = d.transfersPage -%}
+{%- set c = d.contact -%}
+{%- set ch = t.choices -%}
+{%- set seo = t.seo -%}
+{%- set pageUrl = t.url -%}
+{%- set jsonLd = t.jsonLd -%}
+{%- set waText = t.ask -%}
+{%- set fallback = v4.waHref(c.number, t.fallback) -%}
+<!DOCTYPE html>
+<html lang="en-GB" data-refonte data-page="transfers">
+<head>
+{% include "v4-head.njk" %}
+<link rel="stylesheet" href="/css/v4-transfers.css?v={{ build.v }}">
+</head>
+<body>
+{{ v4.header(c, d.emblem, t.nav, waText) }}
+<main id="main">
+  {{ vp.crumbs([{ label: "Home", href: "/" }, { label: t.crumb }]) }}
+  <section class="wrap thero" aria-labelledby="h1">
+    <h1 id="h1">{{ t.h1 }}</h1>
+    <p class="lead">{{ t.lead }}</p>
+    <p class="tjump">Also on this page: <a class="link" href="#shared">{{ ch.shared.title }}</a><a class="link" href="#local">Songthaew taxi on Koh Lanta</a></p>
+  </section>
+
+  <div class="wrap tchoice">
+    {#- 1. Le choix recommandé : le seul bloc plein de la page. -#}
+    <section class="tpriv on-dark" id="private" aria-labelledby="tp-h">
+      <div class="tpriv__ph"><img src="/images/taxi/van-welcome.webp" width="900" height="675" alt="Lit ceiling with a Welcome sign above rows of tan leather seats in a private minivan" fetchpriority="high" decoding="async"></div>
+      <div class="tpriv__body">
+        <p class="tpriv__tag">{{ ch.private.tag }}</p>
+        <h2 id="tp-h">{{ ch.private.title }}</h2>
+        <p>{{ ch.private.text }}</p>
+        <p class="tpriv__by">{{ ch.private.by }}</p>
+        {%- if ch.private.routes.length %}
+        <h3 class="tpriv__ex" id="tp-ex">{{ ch.private.examples }}</h3>
+        <ul class="trow" aria-labelledby="tp-ex">
+          {%- for r in ch.private.routes %}
+          <li><a class="trow__a press" href="{{ r.href }}"><span>{{ r.name }}</span>{% if r.price %}<b>{{ r.price }}</b>{% endif %}</a></li>
+          {%- endfor %}
+        </ul>
+        {%- endif %}
+        <a class="btn btn--light btn--lg press tpriv__cta" href="{{ ch.private.href }}">{{ ch.private.cta }}</a>
+      </div>
+    </section>
+
+    {#- 2 et 3 : deux lignes sobres, sans photo ni prix ; la demande du minivan partagé ouvre la feuille. -#}
+    <div class="tmore">
+      <section class="tline" id="shared" aria-labelledby="ts-h">
+        <div class="tline__text">
+          <h2 id="ts-h">{{ ch.shared.title }}</h2>
+          <p>{{ ch.shared.text }}</p>
+          <p class="tline__price"><b>{{ ch.shared.price }}.</b> <span>{{ ch.shared.ask }}</span></p>
+        </div>
+        <a class="btn btn--ghost press tline__cta" href="{{ fallback }}" data-book="">{{ ch.shared.cta }}</a>
+      </section>
+      <section class="tline" id="local" aria-labelledby="tl-h">
+        <div class="tline__text">
+          <h2 id="tl-h">{{ ch.local.title }}</h2>
+          <p>{{ ch.local.text }}</p>
+          <p class="tline__by">{{ ch.local.by }}</p>
+        </div>
+        <a class="btn btn--ghost press tline__cta" href="{{ ch.local.href }}">{{ ch.local.cta }}</a>
+      </section>
+    </div>
+
+    <p class="tunsure"><b>{{ ch.unsure.title }}</b> {{ ch.unsure.text }} <a class="link" href="{{ v4.waHref(c.number, t.unsureText) }}">{{ ch.unsure.cta }}</a></p>
+  </div>
+
+  {{ vp.bybFaq(t.beforeBook, t.faq, "compact") }}
+  {{ vp.related(t.related) }}
+</main>
+{{ v4.footer(site, c, d.emblem, d.boats, d.activities, waText) }}
+{{ bookingSheet(t.booking, c) }}
+{{ v4.tripsRoot() }}
+<script src="/js/booking.js?v={{ build.v }}" defer></script>
+{{ v4.scripts(build) }}
+</body>
+</html>

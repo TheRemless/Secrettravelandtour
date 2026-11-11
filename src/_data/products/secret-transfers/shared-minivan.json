@@ -3,25 +3,25 @@
   "url": "/transfers/",
   "brand": "secret",
   "template": "transfer",
-  "name": "Minivan transfers, private or shared",
+  "name": "Transfers: private, shared or songthaew",
   "seo": {
-    "title": "Secret Travel & Tour | Transfers, Boat Tours & Activities in Koh Lanta",
-    "metaDescription": "Travel agency in Koh Lanta. Minivan and speedboat transfers, boat tours and island activities. Prices online for tours and activities, booking on WhatsApp."
+    "title": "Koh Lanta Minivan and Taxi Transfers | Secret Travel & Tour",
+    "metaDescription": "Private minivan across Southern Thailand, shared minivan, or a songthaew taxi on Koh Lanta. Choose your transfer and request it on WhatsApp."
   },
-  "h1": "Transfers by minivan or speedboat, private & shared",
-  "lead": "By minivan: hotel to hotel, airports, piers and ferries. Krabi, Phuket, Ao Nang, Khao Sok, Surat Thani, Trang and more. By speedboat: from one island to another.",
+  "h1": "What kind of transfer are you looking for?",
+  "lead": "Pick the one that fits your trip. We reply on WhatsApp.",
   "facts": [
     {
-      "label": "Vehicle",
-      "value": "Minivan"
+      "label": "Private minivan",
+      "value": "Your group only, across Southern Thailand. Booked on the VIP Taxi Lanta pages"
     },
     {
-      "label": "Format",
-      "value": "Private or shared"
+      "label": "Shared minivan",
+      "value": "Seats in a minivan with other passengers, arranged with a local transport partner. Price on WhatsApp"
     },
     {
-      "label": "Where",
-      "value": "Hotel to hotel, airports, piers and ferries: Krabi, Phuket, Ao Nang, Khao Sok, Surat Thani, Trang and more"
+      "label": "Songthaew taxi",
+      "value": "Local taxi on Koh Lanta, your group only. Booked on the VIP Taxi Lanta pages"
     },
     {
       "label": "Shared transfers",
@@ -46,12 +46,12 @@
       "label": "Private minivan",
       "kind": "private",
       "priceOnRequest": true,
-      "note": "Private car and minivan transfers are also sold as VIP Taxi Lanta on /taxi/."
+      "note": "Private minivan transfers are sold as VIP Taxi Lanta, see /taxi/."
     }
   ],
   "beforeYouBook": {
     "pickup": "Tell us the pickup and the destination: your hotel, an airport, a pier, a town.",
-    "children": "Child and baby seats are only provided if confirmed in writing. The current form asks for adults (12+), children (3–11) and babies (0–2).",
+    "children": "Child and baby seats are only provided if confirmed in writing.",
     "weather": "Travel times are estimates. They depend on traffic, ferries, weather and road or sea conditions. Please allow enough time for your flight, ferry or other connection."
   },
   "photos": [
@@ -128,11 +128,68 @@
     {
       "field": "priceOnRequest",
       "from": "Décision client du 02.11.2026 : prix sur WhatsApp"
+    },
+    {
+      "field": "seo, h1, lead, facts, faq (11.11.2026)",
+      "from": "Demande de Jérémy du 11.11.2026, faits de taxiRoutes.json, taxi.json, songthaew.json et terms.njk"
     }
   ],
   "notes": [
-    "URL /transfers/ : page à créer (décision client), commune au minivan partagé et au speedboat. Le speedboat garde son URL actuelle /tours/speedboat/.",
-    "Contradiction relevée par l'audit : l'accueil dit « private & shared », /taxi/ dit « no sharing ». Réponse client Q4 : le partagé est possible. Rangé ici sous Secret Travel & Tour (décision du chef de projet), VIP Taxi Lanta reste privé.",
-    "Minivan partagé : seulement si un client le demande sur WhatsApp, rien sur le site (décision de Jérémy du 10.11.2026)."
-  ]
+    "URL /transfers/ : page d'orientation créée le 11.11.2026 (demande de Jérémy) : minivan privé (pages /taxi/, VIP Taxi Lanta), minivan partagé (autre prestataire, demande WhatsApp de Secret Travel & Tour), songthaew sur Koh Lanta (/taxi/songthaew/). Le speedboat garde son URL /tours/speedboat/.",
+    "Minivan partagé : aucun tarif ni nom du prestataire sur le site, jamais présenté comme VIP Taxi Lanta (décision de Jérémy du 11.11.2026, qui remplace celle du 10.11.2026 « rien sur le site »). Prix sur WhatsApp seulement.",
+    "Faits des trois choix : taxiRoutes.json (privé, 6 à 8 places, sans partage), taxi.json et songthaew.json (songthaew pour le groupe seul), terms.njk art. 5 et 9 (partagé : arrêts possibles, le chauffeur peut ne pas attendre)."
+  ],
+  "faq": [
+    {
+      "q": "What is the difference between a private and a shared minivan?",
+      "a": "A private minivan is for your group only. A shared minivan carries other passengers too, so it may stop to pick them up or drop them off. The driver may not be able to wait for you."
+    },
+    {
+      "q": "How much does a shared minivan cost?",
+      "a": "Send your route and date on WhatsApp and we reply with the price."
+    },
+    {
+      "q": "Which one is the taxi on Koh Lanta?",
+      "a": "On Koh Lanta the taxis are songthaews: pickup trucks with a roof and two benches in the back. You can book one for your group only."
+    },
+    {
+      "q": "Can I get a child seat?",
+      "a": "Child and baby seats are on request, and only if we confirm them in writing."
+    }
+  ],
+  "choices": {
+    "private": {
+      "title": "Private minivan across Southern Thailand",
+      "tag": "Our recommendation",
+      "text": "A minivan for your group only, between airports, piers, national parks and towns. It seats 6 to 8 depending on luggage. No sharing, no waiting for other passengers.",
+      "by": "Run by VIP Taxi Lanta.",
+      "examples": "Examples, price per vehicle",
+      "routes": [
+        "krabi-airport-koh-lanta",
+        "phuket-airport-koh-lanta",
+        "koh-lanta-ao-nang"
+      ],
+      "cta": "See all private routes",
+      "href": "/taxi/"
+    },
+    "shared": {
+      "title": "Shared minivan",
+      "text": "Seats in a minivan with other passengers, arranged by Secret Travel & Tour with a local transport partner. It may stop to pick up or drop off other passengers. The driver may not be able to wait for you.",
+      "price": "Price on WhatsApp",
+      "ask": "Send your route, the date and your group size. We reply with the price.",
+      "cta": "Request a shared minivan"
+    },
+    "local": {
+      "title": "Local taxi (songthaew) on Koh Lanta",
+      "text": "On the island the taxis are songthaews, pickup trucks with a roof and two benches in the back. You can book one for your group only.",
+      "by": "Run by VIP Taxi Lanta.",
+      "cta": "See songthaew taxis",
+      "href": "/taxi/songthaew/"
+    },
+    "unsure": {
+      "title": "Not sure which one fits?",
+      "text": "Tell us where you are going and when. We point you to the right one.",
+      "cta": "Ask on WhatsApp"
+    }
+  }
 }

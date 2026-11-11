@@ -17,7 +17,7 @@ function htmlFiles(dir) {
 }
 
 // VIP Taxi Lanta est la marque de transferts assumée sur le site, elle n'est donc pas dans cette liste.
-const PARTENAIRES = /rattana|lacha ?ru|sukho|lanta ?atv|atv adventure|lanta elephant|lanta longtail|lanta batik|lanta kayaking|lanta ?e-?gokart|noom|bundhaya|satun|pakbara|blue ?planet/i;
+const PARTENAIRES = /rattana|lacha ?ru|sukho|lanta ?atv|atv adventure|lanta elephant|lanta longtail|lanta batik|lanta kayaking|lanta ?e-?gokart|noom|bundhaya|satun|pakbara|at ?lanta vacation|blue ?planet/i;
 
 test("aucun nom de prestataire dans les pages générées", () => {
   const files = htmlFiles(site);
