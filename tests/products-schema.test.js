@@ -203,9 +203,8 @@ test("produits : les 18 trajets taxi sont repris (12 pages Koh Lanta + 6 regroup
 // Écarts voulus avec l'ancien site (mise à jour d'après les brochures, décisions du client du 08.11.2026,
 // docs/refonte/design-v4/build/NOTES.md) : la nouvelle valeur est exigée à la place de l'ancienne.
 const CORRIGES = {
-  // Tours privés en longtail : grille du partenaire aux bornes exactes de son document (décision de Jérémy du 11.11.2026,
-  // « 7 400 » pour 5 personnes). Le « +400 par personne » de l'ancien site est remplacé par la première tranche au-delà de 4.
-  "4-islands|Private longtail|Each extra person|400": "Private longtail|5 to 7 people|7400",
+  // Koh Rok, tour privé en longtail : grille du partenaire aux bornes exactes de son document (décision de Jérémy du 11.11.2026).
+  // Le longtail privé 4 Îles garde le « +400 par personne » : bornes qui se touchent à trancher (7, 12 et 14 personnes).
   "koh-rok-koh-haa|Private longtail to Koh Rok|7 to 8 people|8400": "Private longtail to Koh Rok|6 to 8 people|8400",
   "koh-rok-koh-haa|Private longtail to Koh Rok|9 to 10 people|9400": "Private longtail to Koh Rok|8 to 10 people|9400",
   // Batik, forfait journée complète (Kayaking and painting, 08:00 à 17:00) : 2 200 adulte et 1 600 enfant

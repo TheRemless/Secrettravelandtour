@@ -51,25 +51,15 @@ test("calculateur 4 Islands : total ligne par ligne, rien de deviné", () => {
   assert.equal(price.estimate(opt("private-longtail"), 2, [7], []).total, 6400);
   assert.equal(price.estimate(opt("private-longtail"), 2, [2], []).total, 5900, "bateau privé : les moins de 4 ans ne comptent pas dans le groupe");
   assert.equal(price.parkCash({ adult: 200, child: 100, childAges: { min: 4, max: 11 } }, 2, [2, 7, 12]).total, 3 * 200 + 100, "frais de parc : gratuit sous 4 ans, enfant de 4 à 11, adulte dès 12");
-  assert.equal(price.estimate(opt("private-longtail"), 5, [], []).total, 7400, "5 personnes : 7 400, grille du partenaire (Jérémy, 11.11.2026), plus de +400 par personne");
+  assert.equal(price.estimate(opt("private-longtail"), 5, [], []).total, 6400 + 400);
   assert.equal(price.estimate(opt("private-longtail"), 2, [], ["Add Koh Kradan, per boat"]).total, 5900 + 500);
   assert.equal(price.estimate({ priceOnRequest: true }, 2, [], []), null);
   assert.deepEqual(price.parkCash({ adult: 200, child: 100 }, 2, 1), { total: 500, text: "2 × 200 + 1 × 100 = 500 THB" });
   assert.equal(price.adultFrom(four.options), 12);
 });
 
-test("tour privé en longtail : grille du partenaire, un groupe pile sur une borne qui se touche n'est pas deviné", () => {
-  const f = opt("private-longtail");
+test("tour privé en longtail Koh Rok : grille du partenaire, un groupe pile sur une borne qui se touche n'est pas deviné", () => {
   const total = (o, n) => { const e = price.estimate(o, n, [], []); return e && e.total; };
-  assert.deepEqual([1, 2, 3, 4, 5, 6].map((n) => total(f, n)), [5900, 5900, 6400, 6400, 7400, 7400]);
-  assert.deepEqual([8, 9, 10, 11, 13, 15, 16].map((n) => total(f, n)), [7900, 7900, 8900, 8900, 9900, 10900, 10900]);
-  for (const n of [7, 12, 14]) assert.equal(total(f, n), null, `${n} personnes : deux tranches se touchent`);
-  assert.equal(total(f, 17), null, "au-delà de la grille : WhatsApp");
-  assert.ok(!f.prices.some((r) => /extra person/i.test(r.label)), "plus de supplément par personne");
-  assert.equal(price.estimate(f, 2, [], ["Add Koh Kradan, per boat"]).total, 5900 + 500);
-  // Les enfants de 4 ans et plus comptent dans le groupe, ceux de moins de 4 ans non.
-  assert.equal(price.estimate(f, 4, [5], []).total, 7400);
-  assert.equal(price.estimate(f, 4, [2], []).total, 6400);
   const rok = P("tours/koh-rok-koh-haa").options.find((o) => o.id === "private-longtail");
   assert.deepEqual([1, 3, 4, 5, 7, 9, 10].map((n) => total(rok, n)), [7400, 7400, 7900, 7900, 8400, 9400, 9400]);
   for (const n of [6, 8]) assert.equal(total(rok, n), null, `Koh Rok, ${n} personnes : deux tranches se touchent`);
