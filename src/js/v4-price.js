@@ -32,8 +32,8 @@
     var total = 0;
     var tiers = rows.filter(function (r) { return r.group && typeof r.amount === "number"; });
     if (tiers.length) {
-      // Radeaux : un tarif enfant à côté d'un prix par radeau, ou une tranche ouverte (« 3 or more people, per person ») :
-      // la règle de calcul n'est pas écrite, rien n'est deviné (prix confirmé sur WhatsApp).
+      // Un tarif enfant à côté de tranches de groupe sans « Each extra person » : la règle de calcul n'est pas écrite,
+      // rien n'est deviné (prix confirmé sur WhatsApp). Les radeaux, eux, ont leur règle juste en dessous.
       var ageRows = rows.some(function (r) { return r.ages && typeof r.amount === "number" && r.amount > 0; });
       // Radeau privé (Lacha Ru A, B, C, décision du 11.11.2026) : le prix de base couvre 1 ou 2 adultes, chaque adulte
       // en plus paie « Each extra person », chaque enfant paie son tarif d'âge. Un âge sans tarif (moins de 3 ans) n'est pas deviné.
