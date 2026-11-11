@@ -301,7 +301,8 @@ function transferHub(product, site, links) {
     description: ch.shared && ch.shared.text,
     url,
     provider: agencyRef(site),
-    areaServed: (s.areaServed || []).map(place)
+    // Seul lieu sûr : Koh Lanta. Les autres lieux de la fiche valaient pour l'ancien texte privé et partagé, rien ne dit où roule le minivan partagé.
+    areaServed: [place("Koh Lanta")]
   });
   const list = block({
     "@type": "ItemList",

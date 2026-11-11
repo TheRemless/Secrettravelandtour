@@ -681,7 +681,11 @@ function transfersPage(p, ctx) {
   const host = site.url.replace(/^https?:\/\//, "");
   const ch = p.choices;
   const own = p.beforeYouBook || {};
-  const examples = ch.private.routes.map((id) => (ctx.privateRoutes || []).find((r) => r.id === id)).filter(Boolean)
+  const examples = ch.private.routes.map((id) => {
+    const r = (ctx.privateRoutes || []).find((x) => x.id === id);
+    if (!r) throw new Error(`[transfersPage] trajet privé introuvable : ${id}`);
+    return r;
+  })
     .map((r) => ({ href: r.url, name: `${r.from} to ${r.to}`, price: r.price ? r.price.label : "" }));
   const links = [
     { href: "/tours/speedboat/", label: "Speedboat timetable" },
@@ -691,7 +695,7 @@ function transfersPage(p, ctx) {
   return {
     slug: p.slug, kind: "transfers", url: p.url, name: p.name, crumb: "Transfers", nav: "transfers",
     seo: p.seo, h1: p.h1, lead: p.lead,
-    choices: { ...ch, private: { ...ch.private, examples: ch.private.examples, routes: examples } },
+    choices: { ...ch, private: { ...ch.private, routes: examples } },
     beforeBook: [
       { label: "Children", text: own.children },
       { label: "Travel times", text: own.weather }
@@ -699,7 +703,7 @@ function transfersPage(p, ctx) {
     faq: p.faq || [],
     related: { title: "Also from Koh Lanta", cards: [], links, all: null, transfer: null },
     ask: "Transfer question: ",
-    unsureHref: "Transfer question: \nFrom: \nTo: \nDate: ",
+    unsureText: "Transfer question: \nFrom: \nTo: \nDate: ",
     fallback: "Shared minivan request (Secret Travel & Tour): \nFrom: \nTo: \nDate: ",
     // Même feuille que /taxi/ (variante taxi, From et To libres), au nom de Secret Travel & Tour : le message dit
     // « Shared minivan request (Secret Travel & Tour) » pour qu'on ne le prenne pas pour une demande VIP Taxi Lanta.
