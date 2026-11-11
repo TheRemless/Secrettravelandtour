@@ -77,7 +77,7 @@ test("prix : affichés sur les pages qui en ont, jamais dans les données struct
     }
     for (const o of p.options || []) for (const r of o.prices || []) {
       const shown = typeof r.amount === "number" ? (r.amount === 0 ? "Free" : Number(r.amount).toLocaleString("en-GB") + " THB") : r.text;
-      assert.match(shown, /^(\+?[\d,]+( or [\d,]+)? THB|Free|\d+% off)$/, `${p.slug} : ${r.label}`);
+      assert.match(shown, /^(\+?[\d,]+( or [\d,]+)? THB|Free|\d+% off|On request)$/, `${p.slug} : ${r.label}`);
     }
     for (const m of doc.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) assert.doesNotMatch(m[1], /"price"|priceCurrency/, p.slug);
   }

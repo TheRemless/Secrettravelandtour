@@ -30,6 +30,10 @@
       "value": "Join-in speedboat"
     },
     {
+      "label": "Guests per boat",
+      "value": "25 to 45 guests"
+    },
+    {
       "label": "Speedboat pier",
       "value": "Lanta Old Town pier, join-in speedboat"
     },
@@ -308,6 +312,10 @@
     {
       "field": "options",
       "from": "speedboat privé retiré du site, proposé seulement sur demande (décision de Jérémy du 10.11.2026)"
+    },
+    {
+      "field": "facts[Guests per boat]",
+      "from": "Jérémy, 11.11.2026 : bateaux des tours partagés seulement (jamais les tours privés) ; speedboat 25 à 45 invités, longtail 25 à 35."
     }
   ],
   "refPrefix": "PP",

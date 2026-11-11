@@ -131,7 +131,8 @@
         }
       ],
       "pier": "Lanta Old Town pier",
-      "stub": "Shared boat"
+      "stub": "Shared boat",
+      "guests": "25 to 35 guests"
     },
     {
       "id": "join-in-speedboat",
@@ -196,14 +197,15 @@
       ],
       "stub": "Koh Kradan instead of Koh Ma",
       "pier": "Lanta Old Town pier",
-      "note": "A shared speedboat from Lanta Old Town pier, with a light breakfast at the pier and an English-speaking guide."
+      "note": "A shared speedboat from Lanta Old Town pier, with a light breakfast at the pier and an English-speaking guide.",
+      "guests": "25 to 45 guests"
     },
     {
       "id": "private-longtail",
       "label": "Private longtail",
       "kind": "private",
       "boat": "longtail",
-      "note": "The whole boat for your group. The schedule is flexible and you choose the order of the islands. Children from 4 count in the group size, under 4 do not.",
+      "note": "The whole boat for your group. The schedule is flexible and you choose the order of the islands. Children from 4 count in the group size, under 4 do not. For 7 people or more, ask us for the price on WhatsApp.",
       "prices": [
         {
           "label": "1 to 2 people",
@@ -224,10 +226,17 @@
           "unit": "per boat"
         },
         {
-          "label": "Each extra person",
-          "amount": 400,
-          "supplement": true,
-          "unit": "per person"
+          "label": "5 to 6 people",
+          "amount": 7400,
+          "group": {
+            "min": 5,
+            "max": 6
+          },
+          "unit": "per boat"
+        },
+        {
+          "label": "7 people or more",
+          "text": "On request"
         },
         {
           "label": "Add Koh Kradan, per boat",
@@ -619,6 +628,14 @@
     {
       "field": "options, day, facts, lead, faq",
       "from": "catamaran au départ d'Ao Nang retiré du site (décision de Jérémy du 11.11.2026)"
+    },
+    {
+      "field": "options[join-in-longtail, join-in-speedboat].guests",
+      "from": "Jérémy, 11.11.2026 : bateaux des tours partagés seulement (jamais le tour privé) ; speedboat 25 à 45 invités, longtail 25 à 35."
+    },
+    {
+      "field": "options[private-longtail].prices",
+      "from": "Décision de Jérémy du 11.11.2026 : prix jusqu'à 6 personnes (5 900, 6 400, 7 400), ensuite sur demande. Le +400 par personne et les tranches de 7 personnes et plus sont retirés."
     }
   ],
   "notes": [

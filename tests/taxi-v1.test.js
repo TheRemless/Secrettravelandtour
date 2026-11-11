@@ -164,3 +164,11 @@ test("lot du 11.11.2026 : feuille songthaew, préremplissage, prix de la ligne, 
   // Toutes les pages trajet ont la question sur les zones.
   for (const r of T.routes) assert.match(r.faq.at(-1).q, /^Do you cover every part of /, r.url);
 });
+
+test("prix par lieu (11.11.2026) : Donsak Pier à 5 000 sur la page Surat Thani, Patong, Kata et Karon à 5 000 sur la page Phuket", () => {
+  const doc = (u) => fs.readFileSync(path.join(__dirname, "..", "_site", u, "index.html"), "utf8").replace(/ /g, " ");
+  const rows = (u) => [...doc(u).matchAll(/<div><dt>([^<]+)<\/dt><dd><b>From ([\d,]+) THB<\/b> per vehicle<\/dd><\/div>/g)].map((m) => [m[1], m[2]]);
+  assert.deepEqual(rows("taxi/surat-thani-koh-lanta"), [["Surat Thani Airport and bus terminal", "4,500"], ["Donsak Pier", "5,000"]]);
+  assert.deepEqual(rows("taxi/koh-lanta-phuket"), [["Phuket Town", "4,500"], ["Patong, Kata and Karon", "5,000"]]);
+  assert.deepEqual(rows("taxi/koh-lanta-donsak-pier"), [], "une page à un seul prix n'a pas de liste par lieu");
+});

@@ -125,11 +125,25 @@
     {
       "field": "route.drive, facts[Drive time]",
       "from": "Jérémy, 10.11.2026 : environ 5 h (5 h retenu pour Donsak aussi, « au moins on est large »)"
+    },
+    {
+      "field": "pricePoints",
+      "from": "Grille « Private Taxi » de VIP Taxi Lanta, colonne Selling, 1 à 2 clients : ligne « Surat Thani / Airport / Train Station » 4 500 et ligne « Donak Pier » 5 000 (Jérémy, 11.11.2026 : Donsak à 5 000). La gare routière est rangée avec l'aéroport, la grille ne dit que « Train Station » : à confirmer."
     }
   ],
   "priceFrom": {
     "thb": 4500,
     "people": "1 or 2",
     "approx": false
-  }
+  },
+  "pricePoints": [
+    {
+      "label": "Surat Thani Airport and bus terminal",
+      "thb": 4500
+    },
+    {
+      "label": "Donsak Pier",
+      "thb": 5000
+    }
+  ]
 }

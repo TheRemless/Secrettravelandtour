@@ -32,13 +32,39 @@
     var total = 0;
     var tiers = rows.filter(function (r) { return r.group && typeof r.amount === "number"; });
     if (tiers.length) {
-      // Radeaux : un tarif enfant à côté d'un prix par radeau, ou une tranche ouverte (« 3 or more people, per person ») :
-      // la règle de calcul n'est pas écrite, rien n'est deviné (prix confirmé sur WhatsApp).
+      // Un tarif enfant à côté de tranches de groupe sans « Each extra person » : la règle de calcul n'est pas écrite,
+      // rien n'est deviné (prix confirmé sur WhatsApp). Les radeaux, eux, ont leur règle juste en dessous.
       var ageRows = rows.some(function (r) { return r.ages && typeof r.amount === "number" && r.amount > 0; });
+      // Radeau privé (Lacha Ru A, B, C, décision du 11.11.2026) : le prix de base couvre 1 ou 2 adultes, chaque adulte
+      // en plus paie « Each extra person », chaque enfant paie son tarif d'âge. Un âge sans tarif (moins de 3 ans) n'est pas deviné.
+      var raftExtra = rows.filter(function (r) { return r.supplement && /extra person/i.test(r.label) && typeof r.amount === "number"; })[0];
+      var raftBase = tiers.length === 1 && tiers[0].group.max !== undefined ? tiers[0] : null;
+      if (ageRows && raftExtra && raftBase) {
+        if (adults < 1) return null;
+        var rl = [], rt = raftBase.amount, unpricedKids = [], byAge = [];
+        rl.push([raftBase.label, raftBase.amount]);
+        if (adults > raftBase.group.max) {
+          var more = adults - raftBase.group.max;
+          rt += more * raftExtra.amount;
+          rl.push([more + " × extra " + (more === 1 ? "person" : "people"), more * raftExtra.amount]);
+        }
+        kids.forEach(function (age) {
+          var cr = rows.filter(function (x) { return x.ages && typeof x.amount === "number" && age >= (x.ages.min || 0) && age <= (x.ages.max === undefined ? Infinity : x.ages.max); })[0];
+          if (!cr) { unpricedKids.push(age); return; }
+          var hit = byAge.filter(function (b) { return b.r === cr; })[0];
+          if (hit) hit.n++; else byAge.push({ r: cr, n: 1 });
+        });
+        byAge.forEach(function (b) { rt += b.n * b.r.amount; rl.push([b.n + " × " + b.r.label.toLowerCase(), b.n * b.r.amount]); });
+        return { total: rt, lines: rl, unpriced: unpricedKids, perBoat: false };
+      }
       if (ageRows && kids.length) return null;
       // Bateau privé : les enfants comptent dans le groupe dès 4 ans, les moins de 4 ans ne comptent pas (client, 08.11.2026).
       var n = adults + kids.filter(function (a) { return a >= 4; }).length;
-      var tier = tiers.filter(function (r) { return n >= r.group.min && n <= r.group.max; })[0];
+      var hits = tiers.filter(function (r) { return n >= r.group.min && n <= r.group.max; });
+      // Deux tranches du partenaire qui se touchent (« 5 to 7 » et « 7 to 9 ») : un groupe pile sur la borne n'a pas un prix
+      // écrit, il n'est pas deviné (prix confirmé sur WhatsApp).
+      if (hits.some(function (r) { return r.amount !== hits[0].amount; })) return null;
+      var tier = hits[0];
       var top = tiers[tiers.length - 1];
       var extra = rows.filter(function (r) { return r.supplement && /extra person/i.test(r.label); })[0];
       if (tier && tier.group.max === undefined) return null;

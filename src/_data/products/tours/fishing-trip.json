@@ -40,10 +40,10 @@
       "label": "Private raft, fishing and seafood lunch",
       "kind": "private",
       "boat": "raft",
-      "note": "Four hours on the water, fishing gear and bait included.",
+      "note": "Four hours on the water, fishing gear and bait included. The price covers 1 or 2 people. Each extra person adds 1,800 THB, so a group of 3 pays 5,700 THB. Children from 3 to 9 pay 1,500 THB each.",
       "prices": [
         {
-          "label": "The private raft",
+          "label": "1 or 2 people, the raft",
           "amount": 3900,
           "group": {
             "min": 1,
@@ -52,11 +52,9 @@
           "unit": "per raft"
         },
         {
-          "label": "From 3 people, per person",
+          "label": "Each extra person",
           "amount": 1800,
-          "group": {
-            "min": 3
-          },
+          "supplement": true,
           "unit": "per person"
         },
         {

@@ -186,6 +186,12 @@
   function priceSummary(option, state) {
     var q = option && PRICE && Array.isArray(option.prices) ? quoteOf(option, state) : null;
     if (q) return "Estimated total: " + thb(q.total);
+    // Bateau privé : une ligne « 7 people or more : On request » et un groupe de cette taille, le prix est à donner sur WhatsApp.
+    var onReq = option && (option.rows || []).filter(function (r) { return r.price === "On request" && /^\d+ people or more$/i.test(r.label); })[0];
+    if (onReq) {
+      var size = (state.adults || 0) + (state.childAges || []).filter(function (a) { return a !== "" && a !== null && a !== undefined && Number(a) >= 4; }).length;
+      if (size >= parseInt(onReq.label, 10)) return "Price: on request, group of " + size + " people";
+    }
     var price = priceLine(pricedOption(option, state));
     return price ? "Price: " + price : "";
   }

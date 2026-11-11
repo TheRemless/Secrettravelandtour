@@ -6,7 +6,7 @@
   "name": "Batik painting",
   "seo": {
     "title": "Batik Painting Class Koh Lanta | Secret Travel & Tour",
-    "metaDescription": "Batik painting on Koh Lanta: morning or afternoon course, or kayak and paint. Hotel transfer and your finished canvas included. Adults 1,500 THB.",
+    "metaDescription": "Batik painting on Koh Lanta: morning or afternoon course, or kayak and paint. Hotel transfer and your finished canvas included. From 1,500 THB for adults.",
     "draft": {
       "h1": "Batik on Koh Lanta"
     }
@@ -25,7 +25,7 @@
     },
     {
       "label": "Kayak and painting",
-      "value": "Pickup 08:00–09:00, Koh Talabeng by longtail and kayak, painting from 13:00, back 17:00"
+      "value": "Full day. Pickup 08:00–09:00, Koh Talabeng by longtail and kayak, painting from 13:00, back 17:00"
     },
     {
       "label": "Your canvas",
@@ -83,15 +83,16 @@
       "id": "kayak-and-painting",
       "label": "Kayaking and painting",
       "kind": "join-in",
+      "note": "Full day, 08:00 to 17:00.",
       "prices": [
         {
           "label": "Adult",
-          "amount": 1500,
+          "amount": 2200,
           "unit": "per person"
         },
         {
           "label": "Child, 3 to 10",
-          "amount": 1000,
+          "amount": 1600,
           "ages": {
             "min": 3,
             "max": 10

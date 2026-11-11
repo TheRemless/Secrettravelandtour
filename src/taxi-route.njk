@@ -78,6 +78,14 @@ eleventyExcludeFromCollections: true
       {%- if r.body.length %}
       <div class="prose">{% for para in r.body %}<p>{{ para | taxiLinks | safe }}</p>{% endfor %}</div>
       {%- endif %}
+      {%- if r.pricePoints.length %}
+      <h3 class="pp-h" id="h-points">Price by place</h3>
+      <dl class="pp" aria-labelledby="h-points">
+        {%- for x in r.pricePoints %}
+        <div><dt>{{ x.label }}</dt><dd><b>{{ x.text }}</b> per vehicle</dd></div>
+        {%- endfor %}
+      </dl>
+      {%- endif %}
       <dl class="why why--route">
         {%- for x in r.how %}
         <div><dt>{{ x.title }}</dt><dd>{{ x.text }}</dd></div>
