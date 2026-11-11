@@ -40,10 +40,10 @@
       "label": "Private raft at sunrise",
       "kind": "private",
       "boat": "raft",
-      "note": "On the water by 05:30, breakfast on board.",
+      "note": "On the water by 05:30, breakfast on board. The price covers 1 or 2 people. Each extra person adds 1,500 THB, so a group of 3 pays 5,000 THB. Children from 3 to 9 pay 1,200 THB each.",
       "prices": [
         {
-          "label": "The private raft",
+          "label": "1 or 2 people, the raft",
           "amount": 3500,
           "group": {
             "min": 1,

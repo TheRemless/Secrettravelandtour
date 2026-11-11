@@ -105,6 +105,8 @@ module.exports = function () {
       // « 1 hr 30 min » d'un seul tenant (espaces insécables), sinon la ligne se coupe au milieu.
       drive: (r.drive || "").replace(/(\d+) hr (\d+) min/g, "$1\u00a0hr\u00a0$2\u00a0min"),
       points: r.points || [],
+      // Prix propre à chaque point de prise en charge ou de dépose quand ils diffèrent (Jérémy, 11.11.2026) : chacun son prix.
+      pricePoints: (p.pricePoints || []).map((x) => ({ label: x.label, thb: x.thb, text: `From ${x.thb.toLocaleString("en-US")}\u00a0THB` })),
       region: regionOf[id] || r.region || "",
       // Le titre se compose du trajet et de la suite du h1 (« by private minivan »).
       h1Tail: p.h1.startsWith(`${r.from} to ${r.to}`) ? p.h1.slice(`${r.from} to ${r.to}`.length).replace(/^[,\s]+/, "") : null,

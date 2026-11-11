@@ -332,7 +332,7 @@ module.exports = async function () {
         const lunch = lunchOf(four, o.boat);
         return cap([own.length ? "with " + own.join(" and ") : "", lunch ? "lunch on " + lunch : ""].filter(Boolean).join(", "));
       },
-      facts: (o) => [["Pier", o.pier || ""], ["On board", o.onBoard || ""], ["Lunch", o.lunch || ""]].filter((r) => r[1])
+      facts: (o) => [["Pier", o.pier || ""], ["Guests", o.guests || ""], ["On board", o.onBoard || ""], ["Lunch", o.lunch || ""]].filter((r) => r[1])
     });
     page.single = page.pick.sel;
     Object.assign(fourData, { page, booking: page.booking });

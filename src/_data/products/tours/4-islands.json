@@ -131,7 +131,8 @@
         }
       ],
       "pier": "Lanta Old Town pier",
-      "stub": "Shared boat"
+      "stub": "Shared boat",
+      "guests": "25 to 35 guests"
     },
     {
       "id": "join-in-speedboat",
@@ -196,14 +197,15 @@
       ],
       "stub": "Koh Kradan instead of Koh Ma",
       "pier": "Lanta Old Town pier",
-      "note": "A shared speedboat from Lanta Old Town pier, with a light breakfast at the pier and an English-speaking guide."
+      "note": "A shared speedboat from Lanta Old Town pier, with a light breakfast at the pier and an English-speaking guide.",
+      "guests": "25 to 45 guests"
     },
     {
       "id": "private-longtail",
       "label": "Private longtail",
       "kind": "private",
       "boat": "longtail",
-      "note": "The whole boat for your group. The schedule is flexible and you choose the order of the islands. Children from 4 count in the group size, under 4 do not.",
+      "note": "The whole boat for your group. The schedule is flexible and you choose the order of the islands. Children from 4 count in the group size, under 4 do not. A group of exactly 7, 12 or 14 people falls between two prices, so we confirm it on WhatsApp.",
       "prices": [
         {
           "label": "1 to 2 people",
@@ -224,10 +226,49 @@
           "unit": "per boat"
         },
         {
-          "label": "Each extra person",
-          "amount": 400,
-          "supplement": true,
-          "unit": "per person"
+          "label": "5 to 7 people",
+          "amount": 7400,
+          "group": {
+            "min": 5,
+            "max": 7
+          },
+          "unit": "per boat"
+        },
+        {
+          "label": "7 to 9 people",
+          "amount": 7900,
+          "group": {
+            "min": 7,
+            "max": 9
+          },
+          "unit": "per boat"
+        },
+        {
+          "label": "10 to 12 people",
+          "amount": 8900,
+          "group": {
+            "min": 10,
+            "max": 12
+          },
+          "unit": "per boat"
+        },
+        {
+          "label": "12 to 14 people",
+          "amount": 9900,
+          "group": {
+            "min": 12,
+            "max": 14
+          },
+          "unit": "per boat"
+        },
+        {
+          "label": "14 to 16 people",
+          "amount": 10900,
+          "group": {
+            "min": 14,
+            "max": 16
+          },
+          "unit": "per boat"
         },
         {
           "label": "Add Koh Kradan, per boat",
@@ -619,6 +660,14 @@
     {
       "field": "options, day, facts, lead, faq",
       "from": "catamaran au départ d'Ao Nang retiré du site (décision de Jérémy du 11.11.2026)"
+    },
+    {
+      "field": "options[private-longtail].prices",
+      "from": "Grille du partenaire (tranches 1-2, 3-4, 5-7, 7-9, 10-12, 12-14, 14-16 : bornes du document, qui se touchent à 7, 12 et 14). Prix de vente de la base de Jérémy (5-7 7 400, 7-9 7 900, 10-12 8 900, 12-14 9 900, 14-16 10 900), décision du 11.11.2026 : « 7 400 » pour 5 personnes. Le +400 par personne de l'ancien site est retiré. Groupe pile sur une borne : prix confirmé sur WhatsApp."
+    },
+    {
+      "field": "options[join-in-longtail, join-in-speedboat].guests",
+      "from": "Jérémy, 11.11.2026 : bateaux des tours partagés seulement (jamais le tour privé) ; speedboat 25 à 45 invités, longtail 25 à 35."
     }
   ],
   "notes": [

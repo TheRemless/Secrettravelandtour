@@ -167,8 +167,7 @@
     "h1": "Electric go-kart",
     "h1em": "on Koh Lanta",
     "intro": [
-      "There are four kinds of kart: small single seat, small double seat, large single seat and large double seat. Pick the one that fits your group, then the length of the session.",
-      "The price list is for a minimum of 2 programmes."
+      "There are four kinds of kart: small single seat, small double seat, large single seat and large double seat. Pick the one that fits your group, then the length of the session."
     ],
     "cardDescription": "Small and large electric karts, single or double seats, and koi fish to feed.",
     "cardInfo": [
@@ -197,7 +196,7 @@
     "goodToKnow": [
       "Need a ride to the track? Ask us for a transfer."
     ],
-    "priceNote": "Prices in Thai baht, for a minimum of 2 programmes.",
+    "priceNote": "Prices in Thai baht.",
     "caption": "Electric karts",
     "photoPosition": "50% 40%"
   },

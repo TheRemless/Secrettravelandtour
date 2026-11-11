@@ -203,6 +203,15 @@ test("produits : les 18 trajets taxi sont repris (12 pages Koh Lanta + 6 regroup
 // Écarts voulus avec l'ancien site (mise à jour d'après les brochures, décisions du client du 08.11.2026,
 // docs/refonte/design-v4/build/NOTES.md) : la nouvelle valeur est exigée à la place de l'ancienne.
 const CORRIGES = {
+  // Tours privés en longtail : grille du partenaire aux bornes exactes de son document (décision de Jérémy du 11.11.2026,
+  // « 7 400 » pour 5 personnes). Le « +400 par personne » de l'ancien site est remplacé par la première tranche au-delà de 4.
+  "4-islands|Private longtail|Each extra person|400": "Private longtail|5 to 7 people|7400",
+  "koh-rok-koh-haa|Private longtail to Koh Rok|7 to 8 people|8400": "Private longtail to Koh Rok|6 to 8 people|8400",
+  "koh-rok-koh-haa|Private longtail to Koh Rok|9 to 10 people|9400": "Private longtail to Koh Rok|8 to 10 people|9400",
+  // Batik, forfait journée complète (Kayaking and painting, 08:00 à 17:00) : 2 200 adulte et 1 600 enfant
+  // (décision de Jérémy du 11.11.2026, le flyer à 1 500 et 1 000 était faux ; les cours matin et après-midi restent à 1 500 et 1 000).
+  "batik|Kayaking and painting|Adult|1500": "Kayaking and painting|Adult|2200",
+  "batik|Kayaking and painting|Child, 3 to 10|1000": "Kayaking and painting|Child, 3 to 10|1600",
   "4-islands|Join-in longtail|Child, 4 to 11|700": "Join-in longtail|Child, 4 to 11|600",
   "mangroves|Private raft at sunrise|3 or more people, per person|1500": "Private raft at sunrise|Each extra person|1500",
   // Kayak de la fiche Mangroves : même sortie que celle de la fiche Mangrove kayaking (découpage du 11.11.2026).
@@ -216,15 +225,15 @@ const CORRIGES = {
   "kayak|Mangrove and fishing park, half day|Adult|1800": "Mangrove by kayak or longtail, then a fishing park|Adult|1800",
   "kayak|Mangrove and fishing park, half day|Child, 4 to 11|1200": "Mangrove by kayak or longtail, then a fishing park|Child, 4 to 11|1200",
   // Radeaux : « 1 to 2 people » retiré de l'affichage (décision de Jérémy du 11.11.2026), mêmes montants.
-  "mangroves|Private raft at sunrise|1 to 2 people, the raft|3500": "Private raft at sunrise|The private raft|3500",
-  "mangroves|Private raft, sunset dinner|1 to 2 people, the raft|3900": "Private raft, sunset dinner|The private raft|3900",
-  "mangroves|Private raft, sunset dinner|3 or more people, per person|1800": "Private raft, sunset dinner|From 3 people, per person|1800",
-  "mangroves|Private raft, fishing morning|1 to 2 people, the raft|3900": "Private raft, fishing and seafood lunch|The private raft|3900",
-  "mangroves|Private raft, fishing morning|3 or more people, per person|1800": "Private raft, fishing and seafood lunch|From 3 people, per person|1800",
+  "mangroves|Private raft at sunrise|1 to 2 people, the raft|3500": "Private raft at sunrise|1 or 2 people, the raft|3500",
+  "mangroves|Private raft, sunset dinner|1 to 2 people, the raft|3900": "Private raft, sunset dinner|1 or 2 people, the raft|3900",
+  "mangroves|Private raft, sunset dinner|3 or more people, per person|1800": "Private raft, sunset dinner|Each extra person|1800",
+  "mangroves|Private raft, fishing morning|1 to 2 people, the raft|3900": "Private raft, fishing and seafood lunch|1 or 2 people, the raft|3900",
+  "mangroves|Private raft, fishing morning|3 or more people, per person|1800": "Private raft, fishing and seafood lunch|Each extra person|1800",
   "mangroves|Private raft, fishing morning|Child 3 to 9, per person|1500": "Private raft, fishing and seafood lunch|Child 3 to 9, per person|1500",
   // Pêche : « 1 to 2 people » retiré de l'affichage (décision de Jérémy du 11.11.2026), mêmes montants.
-  "fishing-trip|Private raft, fishing and seafood lunch|1 to 2 people, the raft|3900": "Private raft, fishing and seafood lunch|The private raft|3900",
-  "fishing-trip|Private raft, fishing and seafood lunch|3 or more people, per person|1800": "Private raft, fishing and seafood lunch|From 3 people, per person|1800",
+  "fishing-trip|Private raft, fishing and seafood lunch|1 to 2 people, the raft|3900": "Private raft, fishing and seafood lunch|1 or 2 people, the raft|3900",
+  "fishing-trip|Private raft, fishing and seafood lunch|3 or more people, per person|1800": "Private raft, fishing and seafood lunch|Each extra person|1800",
   "scuba-diving|One-day experience, 2 dives|Kids Scuba Explorer, from age 8|4500": "One-day experience, 2 dives|Scuba Explorer, from age 8|4500",
   "scuba-diving|One-day experience, 2 dives|Basic Diver, from age 10|4500": "One-day experience, 2 dives|Discover Basic Diver, from age 10|4500"
 };

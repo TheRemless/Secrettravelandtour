@@ -386,6 +386,17 @@ details[open] .faq-mark::after { transform: rotate(0deg); }
 .detail-in { display: grid; gap: 40px; }
 .prose { margin-top: 18px; display: grid; gap: 14px; font-size: 18px; line-height: 1.7; max-width: 36em; }
 .why--route { margin-top: 28px; }
+/* Prix de chaque lieu quand ils diffèrent : une ligne par lieu, le montant à droite. */
+.pp-h { margin-top: 28px; font-size: 18px; font-weight: 600; }
+.pp { margin-top: 8px; max-width: 36em; }
+.pp > div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 16px; padding: 12px 0; border-top: 1px solid var(--rule); }
+.pp > div:last-child { border-bottom: 1px solid var(--rule); }
+.pp dt { font-weight: 600; }
+.pp dd { color: var(--ink-2); }
+@media (max-width: 40rem) { .pp > div { flex-direction: column; } }
+@media (min-width: 40.01rem) { .pp dd { margin-left: auto; } }
+.pp b { color: var(--ink); font-variant-numeric: tabular-nums; }
+.pp + .why--route { margin-top: 36px; }
 .detail .arch { max-width: 24rem; }
 @media (min-width: 64rem) {
   .detail { padding: 96px 0; }
