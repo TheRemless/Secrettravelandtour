@@ -51,19 +51,32 @@ test("calculateur 4 Islands : total ligne par ligne, rien de deviné", () => {
   assert.equal(price.estimate(opt("private-longtail"), 2, [7], []).total, 6400);
   assert.equal(price.estimate(opt("private-longtail"), 2, [2], []).total, 5900, "bateau privé : les moins de 4 ans ne comptent pas dans le groupe");
   assert.equal(price.parkCash({ adult: 200, child: 100, childAges: { min: 4, max: 11 } }, 2, [2, 7, 12]).total, 3 * 200 + 100, "frais de parc : gratuit sous 4 ans, enfant de 4 à 11, adulte dès 12");
-  assert.equal(price.estimate(opt("private-longtail"), 5, [], []).total, 6400 + 400);
+  assert.equal(price.estimate(opt("private-longtail"), 5, [], []).total, 7400, "5 personnes : 7 400 (décision de Jérémy, 11.11.2026), plus de +400 par personne");
   assert.equal(price.estimate(opt("private-longtail"), 2, [], ["Add Koh Kradan, per boat"]).total, 5900 + 500);
   assert.equal(price.estimate({ priceOnRequest: true }, 2, [], []), null);
   assert.deepEqual(price.parkCash({ adult: 200, child: 100 }, 2, 1), { total: 500, text: "2 × 200 + 1 × 100 = 500 THB" });
   assert.equal(price.adultFrom(four.options), 12);
 });
 
-test("tour privé en longtail Koh Rok : grille du partenaire, un groupe pile sur une borne qui se touche n'est pas deviné", () => {
-  const total = (o, n) => { const e = price.estimate(o, n, [], []); return e && e.total; };
+test("tours privés en longtail (11.11.2026) : prix jusqu'à 6 personnes, 7 et plus sur demande, rien de deviné", () => {
+  const total = (o, n, ages) => { const e = price.estimate(o, n, ages || [], []); return e && e.total; };
+  const four4 = opt("private-longtail");
   const rok = P("tours/koh-rok-koh-haa").options.find((o) => o.id === "private-longtail");
-  assert.deepEqual([1, 3, 4, 5, 7, 9, 10].map((n) => total(rok, n)), [7400, 7400, 7900, 7900, 8400, 9400, 9400]);
-  for (const n of [6, 8]) assert.equal(total(rok, n), null, `Koh Rok, ${n} personnes : deux tranches se touchent`);
-  assert.equal(total(rok, 11), null);
+  assert.deepEqual([1, 2, 3, 4, 5, 6].map((n) => total(four4, n)), [5900, 5900, 6400, 6400, 7400, 7400]);
+  assert.deepEqual([7, 8, 10, 12, 14, 16].map((n) => total(four4, n)), [null, null, null, null, null, null], "4 Îles : 7 personnes et plus sur demande");
+  assert.ok(!four4.prices.some((r) => /extra person/i.test(r.label)), "plus de supplément par personne");
+  assert.equal(four4.prices.filter((r) => typeof r.amount === "number" && r.amount > 7400 && !r.supplement).length, 0, "aucun prix pour 7 personnes et plus");
+  assert.ok(four4.prices.some((r) => r.label === "7 people or more" && r.text === "On request"));
+  assert.equal(price.estimate(four4, 2, [], ["Add Koh Kradan, per boat"]).total, 5900 + 500);
+  assert.equal(price.estimate(four4, 6, [], ["Add Koh Kradan, per boat"]).total, 7400 + 500);
+  // Les enfants de 4 ans et plus comptent dans le groupe, ceux de moins de 4 ans non.
+  assert.equal(total(four4, 4, [5]), 7400);
+  assert.equal(total(four4, 4, [2]), 6400);
+  assert.equal(total(four4, 6, [5]), null, "7 avec l'enfant : sur demande");
+  assert.deepEqual([1, 3, 4, 5, 6].map((n) => total(rok, n)), [7400, 7400, 7900, 7900, 7900]);
+  for (const n of [7, 8, 10, 11]) assert.equal(total(rok, n), null, `Koh Rok, ${n} personnes : sur demande`);
+  assert.ok(!rok.prices.some((r) => typeof r.amount === "number" && r.amount > 7900));
+  assert.ok(rok.prices.some((r) => r.label === "7 people or more" && r.text === "On request"));
 });
 
 test("calculateur des radeaux Lacha Ru (11.11.2026) : base pour 1 ou 2 adultes, adulte en plus, enfant à son tarif", () => {
@@ -127,7 +140,7 @@ test("bloc « Choose your boat » de la 4 Islands : chaque prix affiché vient d
   const h = site("tours/4-islands/index.html");
   const pick = h.split('id="opt-h"')[1].split("</section>")[0];
   for (const o of four.options) for (const r of o.prices) {
-    const shown = r.amount === 0 ? "Free" : (r.supplement ? "+" : "") + r.amount.toLocaleString("en-GB") + " THB";
+    const shown = typeof r.amount !== "number" ? r.text : r.amount === 0 ? "Free" : (r.supplement ? "+" : "") + r.amount.toLocaleString("en-GB") + " THB";
     const block = pick.split(`data-po="${o.id}"`)[1].split('class="po"')[0];
     // Le libellé affiché perd la fin qui redit l'unité (« Add Koh Kradan, per boat » devient « Add Koh Kradan »).
     const tail = r.unit ? ", " + r.unit.toLowerCase() : "";
@@ -148,6 +161,17 @@ test("message de réservation : les suppléments ne suivent que l'option qui les
   const base = Object.assign(B.emptyState(cfg), { dateChoice: "other", dateOther: "2026-11-20", today: "2026-11-08", adults: 2, addons: ["Add Koh Kradan, per boat"] });
   assert.match(B.buildMessage(cfg, Object.assign({}, base, { option: "private-longtail" })), /\nExtras: Add Koh Kradan, per boat\n/);
   assert.doesNotMatch(B.buildMessage(cfg, Object.assign({}, base, { option: "join-in-longtail" })), /Extras/);
+});
+
+test("message de réservation : un groupe de 7 sur un bateau privé donne « on request » et le nombre de personnes", () => {
+  for (const slug of ["4-islands", "koh-rok-koh-haa"]) {
+    const cfg = JSON.parse(site(`tours/${slug}/index.html`).match(/id="book-data">([\s\S]*?)<\/script>/)[1]);
+    const st = (n, kids) => Object.assign(B.emptyState(cfg), { dateChoice: "other", dateOther: "2026-11-20", today: "2026-11-08", adults: n, childAges: kids || [], option: "private-longtail" });
+    assert.match(B.buildMessage(cfg, st(7)), /\nGuests: 7 adults\n[\s\S]*Price: on request, group of 7 people/, slug);
+    assert.match(B.buildMessage(cfg, st(6, [5])), /Price: on request, group of 7 people/, `${slug} : enfant de 5 ans compté`);
+    assert.doesNotMatch(B.buildMessage(cfg, st(6, [2])), /on request/, `${slug} : moins de 4 ans ne comptent pas`);
+    assert.match(B.buildMessage(cfg, st(6)), /Estimated total: 7,[49]00 THB/, slug);
+  }
 });
 
 test("liste de sorties : un message classé par jour, un prix par sortie, total de la liste, alerte le même jour", () => {
