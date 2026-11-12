@@ -162,7 +162,8 @@
     "bring": [
       "Cash for the national park fee"
     ],
-    "weather": "Maya Bay has its own rules set by the national park. The stop depends on the day and the season."
+    "weather": "Maya Bay has its own rules set by the national park. The stop depends on the day and the season.",
+    "cancellation": "Tell us at least 12 hours before departure, or the full price is charged."
   },
   "faq": [
     {
@@ -316,6 +317,10 @@
     {
       "field": "facts[Guests per boat]",
       "from": "Jérémy, 11.11.2026 : bateaux des tours partagés seulement (jamais les tours privés) ; speedboat 25 à 45 invités, longtail 25 à 35."
+    },
+    {
+      "field": "beforeYouBook.cancellation",
+      "from": "Base de gestion (export du 12.11.2026) : au moins 12 h avant, sinon 100 % (page 1 du contrat : un jour avant, à clarifier)."
     }
   ],
   "refPrefix": "PP",

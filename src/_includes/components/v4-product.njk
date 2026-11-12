@@ -232,7 +232,7 @@
 {% macro bybFaq(byb, faq, variant="") %}
 <section class="sec sec--sand{% if variant %} byb-sec--{{ variant }}{% endif %}" aria-labelledby="{{ 'byb-h' if byb.length else 'faq-h' }}">
   <div class="wrap">
-    {%- if byb.length %}<div class="byb"><h2 id="byb-h">Before you book</h2><dl>{% for b in byb %}<div><dt>{{ b.label }}</dt><dd>{{ b.text }}</dd></div>{% endfor %}</dl></div>{% endif %}
+    {%- if byb.length %}<div class="byb"><h2 id="byb-h">Before you book</h2><dl>{% for b in byb %}<div><dt>{{ b.label }}</dt><dd>{{ b.text }}{% if b.href %} <a class="link" href="{{ b.href }}">{{ b.hrefLabel }}</a>{% endif %}</dd></div>{% endfor %}</dl></div>{% endif %}
     {%- if faq.length %}<div class="byb faq{% if not byb.length %} faq--first{% endif %}"><h2 id="faq-h">Questions</h2><div>{% for f in faq %}<details><summary>{{ f.q }}</summary><p>{{ f.a }}</p></details>{% endfor %}</div></div>{% endif %}
   </div>
 </section>

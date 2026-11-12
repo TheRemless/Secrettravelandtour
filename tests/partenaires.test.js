@@ -60,7 +60,7 @@ test("formulaires : la date est obligatoire, sur la feuille des pages refaites e
 
 // Pages v4 (08.11.2026) : les prix viennent de products/** ; la 4 Islands a son calculateur (id="h-prices"),
 // les autres fiches leur section « Options and prices » (id="opt-h") avec un bouton par option.
-test("prix : affichés sur les pages qui en ont, jamais dans les données structurées, jamais de net ni de commission", () => {
+test("prix : affichés sur les pages qui en ont, dans les données structurées seulement le prix « à partir de » (priceSpecification), jamais de net ni de commission", () => {
   const DATA = path.join(__dirname, "..", "src", "_data", "products");
   const withPrices = ["tours", "activities"].flatMap((d) => fs.readdirSync(path.join(DATA, d)).map((f) => require(path.join(DATA, d, f))))
     .concat([require(path.join(DATA, "rental.json"))]).filter((p) => (p.options || []).some((o) => (o.prices || []).length));
@@ -79,7 +79,7 @@ test("prix : affichés sur les pages qui en ont, jamais dans les données struct
       const shown = typeof r.amount === "number" ? (r.amount === 0 ? "Free" : Number(r.amount).toLocaleString("en-GB") + " THB") : r.text;
       assert.match(shown, /^(\+?[\d,]+( or [\d,]+)? THB|Free|\d+% off|On request)$/, `${p.slug} : ${r.label}`);
     }
-    for (const m of doc.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) assert.doesNotMatch(m[1], /"price"|priceCurrency/, p.slug);
+    for (const m of doc.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) assert.doesNotMatch(m[1], /"price"|"lowPrice"|"highPrice"|"priceRange"/, p.slug);
   }
   const all = JSON.stringify(require("../src/_data/secretPagesContent.json")) + JSON.stringify(require("../src/_data/secret.json"));
   assert.doesNotMatch(all, /commission|net price|agent price|selling price|contract rate/i);

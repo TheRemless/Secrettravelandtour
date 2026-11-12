@@ -52,7 +52,8 @@
   "beforeYouBook": {
     "pickup": "Tell us the pickup and the destination: your hotel, an airport, a pier, a town.",
     "children": "Child and baby seats are only provided if confirmed in writing.",
-    "weather": "Travel times are estimates. They depend on traffic, ferries, weather and road or sea conditions. Please allow enough time for your flight, ferry or other connection."
+    "weather": "Travel times are estimates. They depend on traffic, ferries, weather and road or sea conditions. Please allow enough time for your flight, ferry or other connection.",
+    "cancellation": "Cancel at least 1 day before departure. If you cancel on the day or do not show up, there is no refund and the full price is charged."
   },
   "photos": [
     {
@@ -132,6 +133,10 @@
     {
       "field": "seo, h1, lead, facts, faq (11.11.2026)",
       "from": "Demande de Jérémy du 11.11.2026, faits de taxiRoutes.json, taxi.json, songthaew.json et terms.njk"
+    },
+    {
+      "field": "beforeYouBook.cancellation",
+      "from": "Base de gestion (export du 12.11.2026) : au moins 1 jour avant le départ ; le jour du départ ou no show : aucun remboursement, facturation totale."
     }
   ],
   "notes": [

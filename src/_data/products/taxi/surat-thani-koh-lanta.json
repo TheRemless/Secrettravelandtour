@@ -5,11 +5,11 @@
   "template": "route",
   "name": "Surat Thani Airport to Koh Lanta",
   "seo": {
-    "title": "Surat Thani to Koh Lanta Private Minivan | VIP Taxi Lanta",
-    "metaDescription": "Private minivan between Surat Thani (airport, bus terminal or Donsak Pier) and Koh Lanta, both directions. Cash to the driver. Price on WhatsApp."
+    "title": "Surat Thani Airport to Koh Lanta Minivan | VIP Taxi Lanta",
+    "metaDescription": "Private minivan between Surat Thani Airport or bus terminal and Koh Lanta, both directions. Cash to the driver. Price on WhatsApp."
   },
   "h1": "Surat Thani Airport to Koh Lanta by private minivan",
-  "lead": "From Surat Thani Airport (URT), the bus terminal or Donsak Pier to your hotel on Koh Lanta, and back. Private vehicle, your group only.",
+  "lead": "From Surat Thani Airport (URT) or the bus terminal to your hotel on Koh Lanta, and back. Private vehicle, your group only.",
   "route": {
     "from": "Surat Thani Airport",
     "to": "Koh Lanta",
@@ -19,7 +19,6 @@
     "points": [
       "Surat Thani Airport (URT)",
       "Surat Thani bus terminal",
-      "Donsak Pier",
       "Your hotel on Koh Lanta"
     ],
     "region": "Surat Thani and the Gulf"
@@ -35,7 +34,7 @@
     },
     {
       "label": "Pickup and drop-off",
-      "value": "Surat Thani Airport (URT), Surat Thani bus terminal, Donsak Pier, Your hotel on Koh Lanta"
+      "value": "Surat Thani Airport (URT), Surat Thani bus terminal, Your hotel on Koh Lanta"
     },
     {
       "label": "Directions",
@@ -46,7 +45,7 @@
   "faq": [
     {
       "q": "Do you pick up at Donsak Pier?",
-      "a": "Yes. Donsak Pier is one of the places we drive to and from. Write it as the pickup or the drop-off."
+      "a": "Yes, but it has its own page. The ride from Donsak Pier to Koh Lanta is the same private minivan, with a pickup time set from your ferry."
     },
     {
       "q": "Can you pick up at Surat Thani bus terminal?",
@@ -82,7 +81,7 @@
   "legacyText": {
     "title": "Surat Thani to Koh Lanta Minivan Taxi | VIP Taxi Lanta",
     "body": [
-      "We pick you up at Surat Thani Airport, at the bus terminal or at Donsak Pier, and drive you to your hotel on Koh Lanta. Tell us which one and at what time."
+      "We pick you up at Surat Thani Airport or at the bus terminal, and drive you to your hotel on Koh Lanta. Tell us which one and at what time."
     ]
   },
   "sources": [
@@ -129,6 +128,10 @@
     {
       "field": "pricePoints",
       "from": "Grille « Private Taxi » de VIP Taxi Lanta, colonne Selling, 1 à 2 clients : ligne « Surat Thani / Airport / Train Station » 4 500 et ligne « Donak Pier » 5 000 (Jérémy, 11.11.2026 : Donsak à 5 000). La gare routière est rangée avec l'aéroport, la grille ne dit que « Train Station » : à confirmer."
+    },
+    {
+      "field": "seo, lead, route.points, facts, faq",
+      "from": "Jérémy, 12.11.2026 : une seule page vise Donsak Pier (/taxi/koh-lanta-donsak-pier/) ; cette page vise l'aéroport et la gare routière de Surat Thani, titre et h1 alignés, Donsak y reste en ligne de prix avec un lien."
     }
   ],
   "priceFrom": {
@@ -143,7 +146,8 @@
     },
     {
       "label": "Donsak Pier",
-      "thb": 5000
+      "thb": 5000,
+      "url": "/taxi/koh-lanta-donsak-pier/"
     }
   ]
 }

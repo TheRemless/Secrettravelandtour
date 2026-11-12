@@ -1,0 +1,40 @@
+---
+permalink: /cancellation/
+---
+{#- Conditions d'annulation de chaque sortie, transfert et location (12.11.2026). Données : _data/cancellation.js, qui lit
+    beforeYouBook.cancellation de chaque fiche. Aucun nom de prestataire ; les règles internes à l'agence n'y sont pas. -#}
+{% import "components/v4.njk" as v4 %}
+{%- set d = v4data -%}
+{%- set c = cancellation -%}
+{%- set seo = { title: "Cancellation rules | Secret Travel & Tour", metaDescription: "How to cancel or change a trip, a transfer or a rental with Secret Travel & Tour, and what happens if the weather stops a trip." } -%}
+{%- set pageUrl = "/cancellation/" -%}
+<!DOCTYPE html>
+<html lang="en-GB" data-refonte data-page="cancellation">
+<head>
+{%- set noindex = true %}
+{% include "v4-head.njk" %}
+</head>
+<body>
+{{ v4.header(d.contact, d.emblem) }}
+<main id="main" class="sec">
+  <div class="wrap cancel">
+    <h1>Cancellation rules</h1>
+    <p class="lead">{{ c.summary }}</p>
+    {%- for g in c.groups %}
+    <h2 id="{{ g.id }}">{{ g.title }}</h2>
+    <dl>
+      {%- for i in g.items %}
+      <div><dt><a href="{{ i.url }}">{{ i.name }}</a></dt><dd>{{ i.rule }}</dd></div>
+      {%- endfor %}
+    </dl>
+    {%- endfor %}
+    <h2 id="weather">If the weather or the operator cancels</h2>
+    <p>{{ site.booking.weather }} The full wording is in section 7 of our <a class="link" href="/terms/">booking terms</a>.</p>
+    <p>To cancel or change a booking, write to us on <a class="link" href="{{ v4.waHref(d.contact.number, 'Cancellation request') }}">WhatsApp {{ d.contact.phoneDisplay }}</a>.</p>
+  </div>
+</main>
+{{ v4.footer(site, d.contact, d.emblem, d.boats, d.activities) }}
+{{ v4.tripsRoot() }}
+{{ v4.scripts(build) }}
+</body>
+</html>

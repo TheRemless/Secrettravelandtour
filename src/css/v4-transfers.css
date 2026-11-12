@@ -63,3 +63,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) { .tpriv * { transition: none !important; } }
+
+/* Note Google de VIP Taxi Lanta sous « Run by VIP Taxi Lanta » (12.11.2026) : même ligne que sur les pages /taxi/, aux couleurs de la page. */
+.grate { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 2px 10px; min-height: 44px; font-size: 15px; color: var(--on-dark-mute); text-decoration: none; }
+.grate-s { display: inline-flex; gap: 2px; color: var(--shell); }
+.grate-s svg { width: 14px; height: 14px; }
+.grate b { font-weight: 600; color: var(--on-dark); }
+.grate-t { text-decoration: underline; text-decoration-color: var(--shell); text-underline-offset: .25em; }
+.grate:hover { color: var(--on-dark); }

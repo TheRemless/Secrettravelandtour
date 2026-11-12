@@ -38,6 +38,7 @@ eleventyExcludeFromCollections: true
 <link rel="stylesheet" href="/css/booking.css?v={{ build.v }}">
 <link rel="stylesheet" href="/css/vip-taxi.css?v={{ build.v }}">
 <script>document.documentElement.classList.add("js");</script>
+{% include "consent-head.njk" %}
 <script type="application/ld+json">{{ taxiView.jsonLd | dump | safe }}</script>
 </head>
 <body>
@@ -72,6 +73,11 @@ eleventyExcludeFromCollections: true
         <ul class="rr-list">{% for r in g.routes %}{{ tx.routeRow(r) }}{% endfor %}</ul>
       </section>
       {%- endfor %}
+      <section class="region" aria-labelledby="rg-day">
+        <h3 id="rg-day">Day trip</h3>
+        <p class="region-intro">A day in Krabi with your own driver, with the stops you choose.</p>
+        <ul class="rr-list"><li><a class="rr" href="{{ T.dayTrip.url }}"><span class="rr-pair"><span class="rr-place">Koh Lanta</span> <span class="rr-word">to</span> <span class="rr-place">Krabi</span></span><span class="rr-time"><span class="rr-drive">Day trip</span><span class="rr-price">{{ T.dayTrip.price.label }}</span></span>{{ tx.chev() }}</a></li></ul>
+      </section>
       <div class="elsewhere">
         <div>
           <h3>Not on the list?</h3>

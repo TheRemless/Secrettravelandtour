@@ -516,3 +516,19 @@ details[open] .faq-mark::after { transform: rotate(0deg); }
 .rr:active .rr-price { color: var(--gold); }
 @media (hover: hover) { .rr:hover .rr-price { color: var(--gold); } }
 .hero-price { font-weight: 600; font-size: 17px; color: var(--gold); }
+
+/* Note Google de VIP Taxi Lanta (12.11.2026) : une ligne sous le prix d'appel, étoiles dorées petites, le texte souligné mène à la fiche. */
+.grate { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 2px 10px; width: 100%; min-height: 44px; font-size: 15px; color: var(--lac-mute); text-decoration: none; }
+.grate-s { display: inline-flex; gap: 2px; color: var(--gold); }
+.grate-s svg { width: 14px; height: 14px; }
+.grate b { font-weight: 600; color: var(--ivory); }
+.grate-t { text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: .25em; }
+.grate:hover { color: var(--ivory); }
+
+/* Pied de page : « Cookie settings » rouvre le choix de mesure d'audience (consent.js). */
+.foot-cookie { font: inherit; color: inherit; background: none; border: 0; padding-block: 11px; margin-block: -11px; text-decoration: underline; text-underline-offset: .2em; cursor: pointer; }
+
+/* Excursion d'une journée vers Krabi (12.11.2026) : les stops au choix, trois lignes sobres. */
+.stops { margin-top: 12px; display: grid; gap: 0; max-width: 28em; }
+.stops li { padding: 12px 0; border-top: 1px solid var(--rule); font-weight: 600; }
+.stops li:last-child { border-bottom: 1px solid var(--rule); }

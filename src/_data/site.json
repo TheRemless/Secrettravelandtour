@@ -22,6 +22,9 @@
     "French"
   ],
   "openingHours": "none",
+  "analytics": {
+    "ga4": "G-TH3QSF8359"
+  },
   "booking": {
     "channel": "WhatsApp",
     "onlinePayment": false,
@@ -29,7 +32,11 @@
       "cash",
       "bank transfer"
     ],
-    "cancellationPolicy": "none",
+    "cancellationPolicy": {
+      "url": "/cancellation/",
+      "summary": "Each trip, transfer and rental follows the cancellation conditions of the company that runs it. They are listed on the cancellation page, and we confirm them to you before your booking is confirmed.",
+      "default": "Tell us as early as you can on WhatsApp. We confirm the conditions with you before your booking is confirmed."
+    },
     "weather": "If the weather is bad, the trip can be moved to another date or refunded, when the conditions make it necessary.",
     "pickup": "All of Koh Lanta in general, case by case.",
     "terms": "/terms/"

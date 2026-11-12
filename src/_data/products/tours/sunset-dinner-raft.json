@@ -113,7 +113,8 @@
     "bring": [
       "Mosquito repellent"
     ],
-    "children": "The raft is private, for your group only. Children from 3 to 9 have a child rate."
+    "children": "The raft is private, for your group only. Children from 3 to 9 have a child rate.",
+    "cancellation": "Please tell us at least 24 hours before."
   },
   "faq": [
     {
@@ -146,6 +147,10 @@
     {
       "field": "options, day, facts, included, faq",
       "from": "affiches du partenaire du radeau (Sunrise View, Sunset Dinner) et base partenaires, déroulé du programme ; 19:00 pour le plancton déduit de « once it is dark » entre le dîner de 18:15 et le retour de 19:30 ; option reprise de la fiche Mangroves (découpage des fiches, décision de Jérémy du 11.11.2026)"
+    },
+    {
+      "field": "beforeYouBook.cancellation",
+      "from": "Base de gestion (export du 12.11.2026) : « préavis de 24 h recommandé »."
     }
   ]
 }

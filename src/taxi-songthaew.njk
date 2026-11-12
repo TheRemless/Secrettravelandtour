@@ -33,6 +33,7 @@ eleventyExcludeFromCollections: true
 <link rel="stylesheet" href="/css/booking.css?v={{ build.v }}">
 <link rel="stylesheet" href="/css/vip-taxi.css?v={{ build.v }}">
 <script>document.documentElement.classList.add("js");</script>
+{% include "consent-head.njk" %}
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":{{ S.h1 | dump | safe }},"description":{{ S.metaDescription | dump | safe }},"image":{{ (site.url + (S.photos[0].og or S.photos[0].src)) | dump | safe }},"mainEntityOfPage":{{ (site.url + "/taxi/songthaew/") | dump | safe }},"publisher":{"@id":"https://secrettravelandtour.com/taxi/#vip"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"VIP Taxi Lanta","item":{{ (site.url + "/taxi/") | dump | safe }}},{"@type":"ListItem","position":2,"name":{{ S.h1 | dump | safe }},"item":{{ (site.url + "/taxi/songthaew/") | dump | safe }}}]}</script>
 </head>
@@ -49,6 +50,7 @@ eleventyExcludeFromCollections: true
       <div class="hero-act">
         <a class="btn btn--gold" href="{{ fallback }}" data-book="">Book a songthaew</a>
         <p class="hero-note">Price on WhatsApp.</p>
+        {{ tx.googleLine(T.rating) }}
       </div>
     </div>
   </div>

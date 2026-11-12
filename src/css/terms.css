@@ -53,3 +53,7 @@ li { margin-bottom: 6px; }
   .terms { padding-top: 48px; }
   h1 { font-size: 40px; }
 }
+
+/* Lien « Cookie settings » en bas des pages légales : rouvre le choix de mesure d'audience (consent.js). */
+.cookie-link { margin-top: 32px; }
+.cookie-link button { font: inherit; color: inherit; background: none; border: 0; padding: 12px 0; text-decoration: underline; text-underline-offset: .2em; cursor: pointer; }

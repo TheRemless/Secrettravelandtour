@@ -698,7 +698,9 @@ function transfersPage(p, ctx) {
     choices: { ...ch, private: { ...ch.private, routes: examples } },
     beforeBook: [
       { label: "Children", text: own.children },
-      { label: "Travel times", text: own.weather }
+      { label: "Travel times", text: own.weather },
+      // Minivan partagé : sa règle d'annulation, avec le lien vers la page des conditions (12.11.2026).
+      { label: "Cancellation", text: own.cancellation, href: (site.booking.cancellationPolicy || {}).url, hrefLabel: "All cancellation rules" }
     ].filter((b) => b.text),
     faq: p.faq || [],
     related: { title: "Also from Koh Lanta", cards: [], links, all: null, transfer: null },

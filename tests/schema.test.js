@@ -1,5 +1,5 @@
-// JSON-LD des pages refaites (src/_includes/components/schema.js) : structure valide, aucun prix, aucune note
-// ni avis, @id cohérents, fil d'Ariane vers des adresses existantes, FAQPage seulement avec des questions,
+// JSON-LD des pages refaites (src/_includes/components/schema.js) : structure valide, seulement le prix « à partir de »
+// de la page (jamais price, lowPrice, priceRange ni le prix de chaque ligne), aucune note ni avis, @id cohérents, fil d'Ariane vers des adresses existantes, FAQPage seulement avec des questions,
 // aucun nom de prestataire, image seulement pour une photo « keep ». Module pur : pas besoin du build.
 const test = require("node:test");
 const assert = require("node:assert/strict");
@@ -97,15 +97,15 @@ test("types attendus sur les cinq pages, jamais TouristAttraction", () => {
   assert.equal(mainOf(schema.activity(legacy, site))["@type"], "TouristTrip");
 });
 
-test("aucun prix : ni price, ni priceCurrency, ni priceRange, ni montant en THB hors FAQ", () => {
+test("prix : seulement « à partir de » en priceSpecification.minPrice, ni price, ni priceRange, ni prix de ligne, ni montant en THB hors FAQ", () => {
   for (const { name, blocks } of everything) {
     const keys = keysOf(blocks);
-    // Trajets taxi (10.11.2026) : prix d'appel de la grille VIP Taxi Lanta en PriceSpecification.minPrice, rien d'autre.
-    const taxi = /^\/taxi\//.test(name);
-    for (const k of keys) if (!(taxi && /^(priceSpecification|minPrice|priceCurrency)$/.test(k))) assert.doesNotMatch(k, /price|lowPrice|highPrice/i, `${name} : ${k}`);
-    // Les réponses de FAQ reprennent le texte de la page (frais de parc, par exemple) ; tout le reste est sans montant.
+    // Trajets taxi (10.11.2026) et fiches Secret (12.11.2026) : prix d'appel de la page en PriceSpecification.minPrice, rien d'autre.
+    const priced = name !== "home";
+    for (const k of keys) if (!(priced && /^(priceSpecification|minPrice|priceCurrency)$/.test(k))) assert.doesNotMatch(k, /price|lowPrice|highPrice/i, `${name} : ${k}`);
+    // Les réponses de FAQ reprennent le texte de la page (frais de parc, par exemple) ; tout le reste est sans montant écrit « 1,000 THB ».
     const rest = blocks.filter((b) => b["@type"] !== "FAQPage");
-    if (!taxi) assert.doesNotMatch(JSON.stringify(rest), /\d[\d,.]*\s?(THB|baht)|฿/i, name);
+    assert.doesNotMatch(JSON.stringify(rest), /\d[\d,.]*\s?(THB|baht)|฿/i, name);
   }
   for (const { blocks } of everything) {
     walk(blocks, "", (v) => {
@@ -115,6 +115,26 @@ test("aucun prix : ni price, ni priceCurrency, ni priceRange, ni montant en THB 
       }
     });
   }
+});
+
+test("prix « from » des fiches Secret (12.11.2026) : le montant de la page, une seule offre, rien pour une page sur demande", () => {
+  const secret = all.filter((p) => p.brand === "secret" && BUILDER[p.template]);
+  let n = 0;
+  for (const p of secret) {
+    const main = mainOf(BUILDER[p.template](p, site));
+    const spec = main.offers.priceSpecification;
+    if (p.price && typeof p.price.from === "number" && !p.priceOnRequest) {
+      n++;
+      assert.deepEqual([spec.minPrice, spec.priceCurrency], [p.price.from, "THB"], p.url);
+      assert.ok(!("price" in main.offers) && !("lowPrice" in main.offers), p.url);
+      assert.match(spec.description, /^From price, \S/, p.url);
+    } else assert.equal(spec, undefined, `${p.url} : page sans prix, pas de priceSpecification`);
+  }
+  assert.equal(n, 17, "17 fiches Secret avec un prix de départ");
+  // Une fiche passée sur demande perd son prix.
+  const onRequest = clone(secret.find((p) => p.price && p.price.from));
+  onRequest.priceOnRequest = true;
+  assert.equal(mainOf(BUILDER[onRequest.template](onRequest, site)).offers.priceSpecification, undefined);
 });
 
 test("aucune note ni avis (Secret n'en a pas, celle de VIP reste en texte sur la page)", () => {

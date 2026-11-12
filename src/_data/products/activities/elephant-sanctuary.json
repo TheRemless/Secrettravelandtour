@@ -294,7 +294,8 @@
       "A water bottle"
     ],
     "children": "Children from 4 to 10 pay the child rate and children under 4 go free. From 11 it is the adult rate.",
-    "health": "The ground is natural and uneven. Tell us before you book if walking is hard for you, if you are pregnant, if you come with very young children or if you have a health problem."
+    "health": "The ground is natural and uneven. Tell us before you book if walking is hard for you, if you are pregnant, if you come with very young children or if you have a health problem.",
+    "cancellation": "Please tell us at least 2 hours before your pickup time."
   },
   "faq": [
     {
@@ -399,6 +400,10 @@
     {
       "field": "seo, lead, promise, facts, price, options, day, included, notIncluded, beforeYouBook, faq",
       "from": "site du nouveau partenaire des éléphants, page des programmes (données transmises le 08.11.2026 (troisième message du coordinateur, vérifiées en ligne ou fournies par le client)) : programmes A à D, prix, âges (adulte dès 11 ans, enfant 4 à 10, gratuit 0 à 3), séances, inclus, à apporter, terrain. Tout ce qui venait de l'ancien partenaire est retiré (prix, programmes, séances de 07:30 et 10:00, frais d'entrée du C, papier souvenir). Conditions d'annulation du partenaire non reprises (paiement en ligne chez lui)"
+    },
+    {
+      "field": "beforeYouBook.cancellation",
+      "from": "Base de gestion (export du 12.11.2026) : prévenir au moins 2 heures avant l'heure de ramassage. Ajout demandé le 12.11.2026 (ligne Cancellation sur chaque fiche) : le reste de la fiche ne change pas."
     }
   ],
   "refPrefix": "ELE",

@@ -45,7 +45,9 @@
     "pickup": "Boats leave from Sala Dan pier. We book your seat and arrange the hotel pickup on Koh Lanta, at a time that depends on your beach.",
     "weather": "Times are for the 2026-2027 season and change with the weather and the sea.",
     "children": "Children from 3 to 9 pay the child fare. Children under 3 travel free.",
-    "luggage": "Personal luggage only. Bikes and bulky items travel for an extra fee when there is room. No animals and no dangerous goods."
+    "luggage": "Personal luggage only. Bikes and bulky items travel for an extra fee when there is room. No animals and no dangerous goods.",
+    "cancellation": "Cancel at least 1 day before departure at no cost. Later than that, or if you do not show up, the full ticket price is charged.",
+    "passport": "For Langkawi, your passport must be valid for at least 6 months. Bring your voucher and your passport, for every passenger, and check in 1 hour 30 minutes before departure for the immigration check."
   },
   "faq": [
     {
@@ -54,7 +56,7 @@
     },
     {
       "q": "Can I go to Langkawi?",
-      "a": "Yes, from Koh Lanta with a change of boat at Koh Lipe. The speedboat leaves at 10:30, and the 16:00 ferry from Koh Lipe arrives in Langkawi at 18:30 Malaysia time."
+      "a": "Yes, from Koh Lanta with a change of boat at Koh Lipe. The speedboat leaves at 10:30, and the 16:00 ferry from Koh Lipe arrives in Langkawi at 18:30 Malaysia time. Your passport must be valid for at least 6 months, and check-in is 1 hour 30 minutes before departure for the immigration check."
     },
     {
       "q": "How do I book a seat?",
@@ -192,6 +194,14 @@
     {
       "field": "timetable.seasons[0]",
       "from": "deux compagnies : 15 oct. au 30 avr. (grille complète) et 15 oct. au 20 mai (seconde compagnie) ; phrase générale, saison de chaque bateau dans la grille (contrôle du 11.11.2026)"
+    },
+    {
+      "field": "beforeYouBook.cancellation",
+      "from": "Base de gestion (export du 12.11.2026) : les deux compagnies de speedboat disent annulation sans frais plus de 24 h ou 1 jour avant ; no show 100 % chez l'une. « Plus tard : prix entier » est une déduction à faire relire."
+    },
+    {
+      "field": "beforeYouBook.passport, faq[Langkawi]",
+      "from": "Validité de 6 mois : tâche de Jérémy dans Gestion « Langkawi, passeport et check-in » (règle à rappeler aux clients dès la réservation). Voucher et passeport de chaque passager : check-in du partenaire, base de gestion (export du 12.11.2026). Ouverture 1 h 30 avant : brochure de la compagnie (« check in 1.5 hours before departure to complete the immigration procedure »). Les passeports gardés par le capitaine ne valent que pour l'autre compagnie : non publié."
     }
   ],
   "notes": [

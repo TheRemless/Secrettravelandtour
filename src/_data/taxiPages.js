@@ -106,7 +106,7 @@ module.exports = function () {
       drive: (r.drive || "").replace(/(\d+) hr (\d+) min/g, "$1\u00a0hr\u00a0$2\u00a0min"),
       points: r.points || [],
       // Prix propre à chaque point de prise en charge ou de dépose quand ils diffèrent (Jérémy, 11.11.2026) : chacun son prix.
-      pricePoints: (p.pricePoints || []).map((x) => ({ label: x.label, thb: x.thb, text: `From ${x.thb.toLocaleString("en-US")}\u00a0THB` })),
+      pricePoints: (p.pricePoints || []).map((x) => ({ label: x.label, thb: x.thb, url: x.url || "", text: `From ${x.thb.toLocaleString("en-US")}\u00a0THB` })),
       region: regionOf[id] || r.region || "",
       // Le titre se compose du trajet et de la suite du h1 (« by private minivan »).
       h1Tail: p.h1.startsWith(`${r.from} to ${r.to}`) ? p.h1.slice(`${r.from} to ${r.to}`.length).replace(/^[,\s]+/, "") : null,
@@ -148,9 +148,25 @@ module.exports = function () {
     page: site.url.replace(/^https?:\/\//, "") + "/taxi/songthaew/"
   };
 
+  // Excursion privée d'une journée vers Krabi (12.11.2026) : une page propre, pas un trajet de A à B ; sa demande WhatsApp
+  // demande les stops voulus. Données : krabiDayTrip.json. JSON-LD : TaxiService avec le prix « from ».
+  const dt = require("./krabiDayTrip.json");
+  const dayTrip = {
+    ...dt,
+    price: { thb: dt.priceFrom.thb, label: `From ${dt.priceFrom.thb.toLocaleString("en-US")}\u00a0THB` },
+    jsonLd: schema.route({
+      slug: dt.slug, url: dt.url, brand: "vip", template: "route", name: dt.name, h1: dt.h1, lead: dt.lead,
+      route: { from: "Koh Lanta", to: "Krabi" },
+      faq: dt.faq,
+      priceFrom: dt.priceFrom,
+      schema: { type: "TaxiService", serviceType: "Private day trip with a driver", areaServed: ["Koh Lanta", "Krabi"] }
+    }, site)
+  };
+
   return {
     routes,
     byId,
+    dayTrip,
     songthaewBooking,
     regions,
     further: legacy.further,

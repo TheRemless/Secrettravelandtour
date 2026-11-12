@@ -1,0 +1,39 @@
+{
+  "_source": "Décision de Jérémy du 12.11.2026 (relayée par la session Gestion) : une seule fiche à la place de visa run, Emerald Pool + sources chaudes et tour de Koh Lanta ; ses mots : « des excursions depuis Koh Lanta sur Krabi comprenant Emerald Pool, Tiger Temple, hot spring à la journée, dès 3 500 en fonction du nombre de stops et d'heures de l'excursion ». Chauffeur de VIP Taxi Lanta, comme les autres taxis. Prix de départ : prestation « Full-day trip, Emerald Pool and Krabi Hot Springs » de Gestion, 3 500 par véhicule (clé dans gestion-keys.json). Rien d'autre : ni horaires, ni durées, ni prix par stop.",
+  "slug": "koh-lanta-krabi-day-trip",
+  "url": "/taxi/koh-lanta-krabi-day-trip/",
+  "name": "Private day trip from Koh Lanta to Krabi",
+  "title": "Private Day Trip from Koh Lanta to Krabi | VIP Taxi Lanta",
+  "metaDescription": "Private day trip with a driver from Koh Lanta to Krabi. Choose your stops: Emerald Pool, Tiger Cave Temple, hot springs. From 3,500 THB per vehicle.",
+  "h1": "Private day trip from Koh Lanta to Krabi",
+  "lead": "A day in Krabi with your own driver, for your group only. You pick the stops, and the price follows the number of stops and the hours.",
+  "priceFrom": { "thb": 3500 },
+  "stops": ["Emerald Pool", "Tiger Cave Temple", "The hot springs"],
+  "stopsIntro": "Choose from these stops:",
+  "sections": [
+    {
+      "h": "What the day looks like",
+      "p": [
+        "Your driver collects you at your hotel on Koh Lanta and takes you to the stops you chose in Krabi.",
+        "You decide which stops, and how many. A day with more stops or more hours costs more."
+      ]
+    },
+    {
+      "h": "Price",
+      "p": [
+        "From 3,500 THB per vehicle, depending on the number of stops and the hours of the trip. Tell us the stops you want and we reply with the price."
+      ]
+    },
+    {
+      "h": "How to book",
+      "p": [
+        "Write to us on WhatsApp with the date, the number of people, your hotel on Koh Lanta and the stops you want."
+      ]
+    }
+  ],
+  "faq": [
+    { "q": "What decides the price?", "a": "The number of stops and the hours of the trip. It starts at 3,500 THB per vehicle." },
+    { "q": "Which stops can I choose?", "a": "Emerald Pool, Tiger Cave Temple and the hot springs. Tell us on WhatsApp which ones you want." }
+  ],
+  "message": "Private day trip from Koh Lanta to Krabi\nStops I would like (Emerald Pool, Tiger Cave Temple, hot springs): \nDate: \nNumber of people: \nHotel on Koh Lanta: "
+}
