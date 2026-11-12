@@ -13,7 +13,7 @@
     }
   },
   "h1": "Fishing trip off Koh Lanta",
-  "lead": "A half day of fishing from a private wooden raft in the calm waters of Ao Lanta, with lunch cooked on board.",
+  "lead": "A half day of fishing from a private wooden raft in the calm waters of Ao Lanta, with a fresh seafood lunch on the raft.",
   "promise": "Half a day fishing from a private wooden raft",
   "facts": [
     {
@@ -86,15 +86,15 @@
         },
         {
           "time": "10:45",
-          "text": "Fishing in Ao Lanta."
+          "text": "Fishing in the calm waters of Ao Lanta."
         },
         {
           "time": "11:45",
-          "text": "A look at how the local fishermen live and work."
+          "text": "Time to relax and learn how the local fishermen live and work."
         },
         {
           "time": "12:15",
-          "text": "Seafood lunch cooked on the raft, drinks and fruit."
+          "text": "Fresh seafood lunch on the raft, with drinks and fruit."
         },
         {
           "time": "13:15",
@@ -125,11 +125,11 @@
   "faq": [
     {
       "q": "Do I need fishing experience?",
-      "a": "No. The captain shows you how to use the gear."
+      "a": "No. The gear and the bait are on board, and a local guide is with you."
     },
     {
-      "q": "Do we eat what we catch?",
-      "a": "Lunch is fresh seafood cooked on board."
+      "q": "Who is it for?",
+      "a": "Couples, families and friends. The raft is for your group only."
     }
   ],
   "photos": [
@@ -256,6 +256,10 @@
     {
       "field": "beforeYouBook.cancellation",
       "from": "Base de gestion (export du 12.11.2026) : « préavis de 24 h recommandé »."
+    },
+    {
+      "field": "lead, day[10:45, 11:45, 12:15], faq",
+      "from": "affiche Private Fishing Experience.jpg : « Fresh Seafood Lunch on Raft », « Delicious local meal with drinks & fruits », « Enjoy fishing in peaceful waters », « Relax & Explore / Learn local fishing lifestyle », « Local guide » (pas de capitaine qui initie, pas de cuisine à bord écrite), « Perfect for couples, families and friends » (audit des affiches du 12.11.2026, demande de Jérémy de reprendre tout ce que disent les affiches) ; question « Do we eat what we catch? » retirée, l'affiche ne le dit pas"
     }
   ],
   "refPrefix": "FISH"

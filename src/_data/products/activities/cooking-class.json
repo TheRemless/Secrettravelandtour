@@ -13,11 +13,15 @@
     }
   },
   "h1": "Thai cooking class on Koh Lanta",
-  "lead": "A morning at the market, then four dishes you cook yourself with a local cook: a starter, a soup and two mains with curry paste made from scratch. Then you eat it all.",
+  "lead": "Four Thai dishes you cook yourself with an English-speaking Thai chef, plus a curry paste or sauce made by hand. The menu changes with the day, chicken or vegetarian. Then you eat it all.",
   "facts": [
     {
+      "label": "Where",
+      "value": "Khlong Khong, Koh Lanta"
+    },
+    {
       "label": "Dishes",
-      "value": "Four: a starter, a soup and two mains with curry paste made by hand"
+      "value": "Four dishes and a paste or sauce made by hand. The menu changes with the day, chicken or vegetarian"
     },
     {
       "label": "Lunch class",
@@ -33,7 +37,11 @@
     },
     {
       "label": "Children",
-      "value": "Suitable for children"
+      "value": "Partner chef recommended for children from 5 to 12 cooking with a parent"
+    },
+    {
+      "label": "Season",
+      "value": "All year"
     }
   ],
   "price": {
@@ -177,18 +185,28 @@
       "title": "Market tour and lunch class: Monday, Wednesday, Saturday",
       "steps": [
         {
-          "text": "Pickup at your hotel, welcome drinks and snacks at the school."
+          "time": "09:00",
+          "fixed": true,
+          "text": "Start of the class: pickup at your hotel, welcome drinks and snacks at the school."
         },
         {
+          "time": "09:30",
           "text": "Visit to the local market to pick the ingredients."
         },
         {
-          "text": "Cooking: four dishes, including two mains with a curry paste pounded by hand."
+          "time": "10:30",
+          "text": "Cooking: how to choose the tools and the ingredients, then the four dishes of the day and the paste or sauce made by hand."
         },
         {
-          "text": "Lunch with what you cooked, then transfer back to your hotel around 14:00."
+          "time": "13:00",
+          "text": "Lunch with what you cooked."
+        },
+        {
+          "time": "14:00",
+          "text": "End of the class, then the transfer back to your hotel."
         }
-      ]
+      ],
+      "note": "Times with ≈ are approximate."
     },
     {
       "options": [
@@ -198,16 +216,38 @@
       "title": "Dinner class: Tuesday, Thursday, Friday, 16:00–21:00",
       "steps": [
         {
-          "text": "Pickup at your hotel, welcome drink and snack at the school."
+          "time": "16:00",
+          "fixed": true,
+          "text": "Start of the class: pickup at your hotel, welcome drink and snack at the school."
         },
         {
+          "time": "16:30",
           "text": "The story of the ingredients, herbs and spices of Thai cooking."
         },
         {
-          "text": "Cooking: four dishes, including two mains with a curry paste made by hand."
+          "time": "17:00",
+          "text": "Cooking: the four dishes of the day and the paste or sauce made by hand."
         },
         {
-          "text": "Dinner with what you cooked. The class ends at 21:00, then the transfer back to your hotel."
+          "time": "19:30",
+          "text": "Dinner with what you cooked."
+        },
+        {
+          "time": "21:00",
+          "text": "End of the class, then the transfer back to your hotel."
+        }
+      ],
+      "note": "Times with ≈ are approximate."
+    },
+    {
+      "options": [
+        "carving"
+      ],
+      "title": "Fruit and vegetable carving",
+      "steps": [
+        {
+          "label": "3 hours",
+          "text": "Coffee and tea, then the carving tools and the basics of carving fruit and vegetables to decorate a dish. You take your carvings home, with a carving certificate."
         }
       ]
     }
@@ -220,22 +260,30 @@
     "Welcome drink and snack, coffee, tea, drinking water, wifi"
   ],
   "beforeYouBook": {
-    "children": "Suitable for children. Partner chef is recommended for children from 5 to 12 cooking with a parent. Tell us their ages.",
-    "pickup": "Hotel transfer both ways. Back at your hotel around 14:00 after the lunch class. The dinner class ends at 21:00.",
+    "children": "Partner chef is recommended for children from 5 to 12 cooking with a parent. Tell us their ages.",
+    "pickup": "Hotel transfer both ways. The lunch class ends at 14:00 and the dinner class at 21:00, then the transfer back to your hotel.",
     "cancellation": "Please tell us at least 24 hours before."
   },
   "faq": [
     {
       "q": "What do we cook?",
-      "a": "Four dishes: a starter, a soup and two main courses, with the curry paste made by hand during the class."
+      "a": "Four dishes and a curry paste or sauce made by hand. The menu depends on the day, and most dishes come with chicken or as a vegetarian version."
+    },
+    {
+      "q": "What is on the menu at the lunch class?",
+      "a": "Monday: Goong Hom Sabi (prawn spring rolls), Tom Kha (coconut soup), Pad Thai with its homemade sauce, mango sticky rice. Wednesday: Kanom Pang Na Gai (chicken on toast), Tom Yam Goong, green curry with its homemade paste, Tub Tim Grob (red rubies in coconut milk). Saturday: Wihok Non Rang (bird-shaped shrimp), Tom Jiw Gai (potato soup with chicken), Pad Thai with its homemade sauce, mango sticky rice."
+    },
+    {
+      "q": "What is on the menu at the dinner class?",
+      "a": "Tuesday: Poh Pia Puk Tod (vegetable spring rolls), pineapple fried rice, Panang curry with its homemade paste, Buay Loy Kai Wan (rice balls in sweet coconut milk). Thursday: Toong Tong (golden bags), Tom Kha, Khao Pad Ga Prao Gai (holy basil chicken with rice), red curry with its homemade paste. Friday: Som Tum Thai (papaya salad), Tom Yum Goong, Massaman curry with its homemade paste, Tub Tim Grob."
     },
     {
       "q": "Can children join?",
-      "a": "Yes. The class is suitable for children. Tell us their ages."
+      "a": "Yes. The partner chef option, where you share a station and make a double portion, is made for children from 5 to 12 cooking with a parent. Tell us their ages."
     },
     {
       "q": "Is the market visit included?",
-      "a": "Yes, on the lunch class (Monday, Wednesday, Saturday). You go to the local market with the cook before cooking. The dinner class starts with the story of the ingredients instead."
+      "a": "Yes, on the lunch class (Monday, Wednesday, Saturday). You go to the local market with the chef before cooking. The dinner class starts with the story of the ingredients instead."
     }
   ],
   "photos": [
@@ -348,6 +396,10 @@
     {
       "field": "beforeYouBook.cancellation",
       "from": "Base de gestion (export du 12.11.2026) : préavis de 24 h."
+    },
+    {
+      "field": "lead, facts, day, beforeYouBook, faq",
+      "from": "brochure du cours de cuisine p. 1 « OPEN ALL YEAR », « KLONGKHONG – KOH LANTA » ; p. 2 menus de chaque jour (quatre plats et une pâte ou sauce maison, « Chicken / Veg. »), Single chef « Recommended to get the full experience », Partner chef « Particularly suitable for children 5 -12years old cooking with a parent » ; p. 3 « Thai chefs who speak English very well », « how to choose equipment. Selection of ingredients », sculpture « free coffee and tea », « basic carving fruit and vegetable. Food decoration », « certificate of carving program », « bring back your fruit and vegetable carving ». « a starter, a soup and two mains » retiré (vrai seulement le jeudi), « Suitable for children » général retiré, cours fini à 14:00 puis transfert (et non retour à l'hôtel à 14:00). Heures intermédiaires approximatives (≈) à la demande de Jérémy du 12.11.2026"
     }
   ],
   "refPrefix": "COOK"

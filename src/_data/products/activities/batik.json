@@ -16,6 +16,10 @@
   "promise": "Paint your own batik canvas with a local instructor",
   "facts": [
     {
+      "label": "Where",
+      "value": "Workshop on Koh Lanta Noi, hotel pickup by car"
+    },
+    {
       "label": "Morning course",
       "value": "Pickup 08:00–09:00, back around 13:00"
     },
@@ -118,13 +122,14 @@
       "steps": [
         {
           "label": "Morning",
-          "text": "Pickup at 08:00 to 09:00. Introduction to batik at 09:00, then you create your artwork from 10:00 to 12:00. Back at your hotel around 13:00."
+          "text": "Pickup by car at 08:00 to 09:00. At 09:00, an introduction to batik: the tools, the colours and how the wax is applied. From 10:00 to 12:00 you paint and colour your own canvas, with an instructor to guide you. Back at your hotel around 13:00."
         },
         {
           "label": "Afternoon",
-          "text": "Pickup at 12:00 to 13:00. Introduction at 13:00, then you create your artwork from 14:00 to 16:00. Back at your hotel by 17:00."
+          "text": "Pickup by car at 12:00 to 13:00. At 13:00, an introduction to batik: the tools, the colours and how the wax is applied. From 14:00 to 16:00 you paint and colour your own canvas, with an instructor to guide you. Back at your hotel by 17:00."
         }
-      ]
+      ],
+      "note": "Times are approximate and can change with the tide and the weather."
     },
     {
       "options": [
@@ -136,7 +141,8 @@
           "label": "Kayak",
           "text": "Pickup at 08:00 to 09:00 for Thung Yee Peng pier. A longtail to Koh Talabeng, paddling around the islets, the sea cave and the beach. Lunch at the mangrove restaurant at 12:00, painting from 13:00, back at your hotel at 17:00."
         }
-      ]
+      ],
+      "note": "Times are approximate and can change with the tide and the weather."
     }
   ],
   "included": [
@@ -157,6 +163,10 @@
     {
       "q": "Which programme should I pick?",
       "a": "Morning or afternoon if you only want to paint. Kayak and painting if you want a day out with the sea cave first."
+    },
+    {
+      "q": "What is batik?",
+      "a": "A way of dyeing cloth with wax that comes from Java in Indonesia. UNESCO recognised it in 2009."
     }
   ],
   "photos": [
@@ -284,6 +294,10 @@
     {
       "field": "options[morning-or-afternoon].choices",
       "from": "brochure batik (audit B § 1.2) p. 2 : Morning Program 08:00 à 13:00, Afternoon Program 12:00 à 17:00 ; âges 3 à 10 ans confirmés par la brochure (décision client du 08.11.2026)"
+    },
+    {
+      "field": "facts[Where], day, faq[What is batik?]",
+      "from": "brochure du batik p. 1 adresse sur Koh Lanta Noi et « originating from Java, Indonesia, recognized by UNESCO in 2009 » ; p. 2 « Pick up from your hotel by car », « learn about the tools used, the colors employed, and the techniques for applying wax », « paint and color freely with guidance from an experienced instructor », « Program and timing are approximate and may be modified … tide and local weather conditions » (audit du 12.11.2026, demande de Jérémy)"
     }
   ],
   "refPrefix": "BATIK"

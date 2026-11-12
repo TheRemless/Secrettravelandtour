@@ -9,7 +9,7 @@
     "metaDescription": "Half a day by kayak in the Thung Yee Peng mangrove on Koh Lanta, morning or afternoon, with lunch at the mangrove restaurant and hotel transfer. From 1,000 THB."
   },
   "h1": "Kayaking in the Thung Yee Peng mangrove",
-  "lead": "Half a day paddling through the mangrove channels on the east coast of Koh Lanta, then lunch at the mangrove restaurant.",
+  "lead": "Half a day paddling sit-on-top kayaks through the mangrove channels on the east coast of Koh Lanta, past fiddler crabs, herons and monkeys, then lunch at the mangrove restaurant.",
   "promise": "Half a day by kayak in the mangrove, with lunch",
   "facts": [
     {
@@ -90,11 +90,29 @@
       "options": [
         "mangrove-kayak-half-day"
       ],
-      "title": "The half day",
+      "title": "Mangrove kayaking with lunch",
+      "note": "Times with ≈ are approximate and move with the tide and the weather. The afternoon trip follows the same programme from 14:00 to 17:00.",
       "steps": [
         {
-          "label": "Half day",
-          "text": "Mangrove kayaking with lunch. You paddle around the mangrove forest, then eat at the mangrove restaurant. 09:30 to 12:30 or 14:00 to 17:00."
+          "time": "09:30",
+          "text": "Pickup at your hotel, then the drive to Thung Yee Peng pier on the east coast of Koh Lanta.",
+          "fixed": true
+        },
+        {
+          "text": "With the guide, kayaking around the mangrove forest. Watch for fiddler crabs on the mud and for herons and sea eagles over the trees.",
+          "time": "10:00"
+        },
+        {
+          "text": "A stop to see the monkeys.",
+          "time": "11:00"
+        },
+        {
+          "text": "Lunch, seasonal fruit and a soft drink at the mangrove restaurant.",
+          "time": "11:30"
+        },
+        {
+          "time": "12:30",
+          "text": "End of the trip and transfer back to your hotel."
         }
       ]
     }
@@ -103,16 +121,33 @@
     "Hotel transfer both ways",
     "Experienced local guide",
     "Lunch, drinks and seasonal fruit",
+    "Sit-on-top kayaks, paddles and life jackets",
     "Insurance"
   ],
   "faq": [
     {
       "q": "Is lunch included?",
-      "a": "Yes. Lunch, drinks and seasonal fruit come with every trip. The village entrance fee is the only extra."
+      "a": "Yes. Lunch, a soft drink and seasonal fruit at the mangrove restaurant. The village entrance fee is the only extra."
+    },
+    {
+      "q": "Morning or afternoon?",
+      "a": "The morning trip runs from 09:30 to 12:30 and the afternoon trip from 14:00 to 17:00, hotel transfer included. The programme is the same."
+    },
+    {
+      "q": "Will we see monkeys?",
+      "a": "Monkeys and birds live in the mangrove and the guide looks out for them on the way. They are wild animals, so nobody can promise them."
     },
     {
       "q": "Can children come?",
       "a": "Yes. Children from 4 to 11 have their own rate."
+    },
+    {
+      "q": "Can we go in the rainy season?",
+      "a": "Yes. The mangrove trips run all year."
+    },
+    {
+      "q": "Is the village entrance fee included?",
+      "a": "No. Thung Yee Peng village charges 40 THB per adult and 20 THB per child from 4 to 11, paid on the spot."
     }
   ],
   "photos": [
@@ -139,6 +174,14 @@
     {
       "field": "options, day, facts, included, faq",
       "from": "brochure kayak, sortie « Mangrove kayaking with lunch » ; reprise de la fiche Kayaking (découpage des fiches, décision de Jérémy du 11.11.2026)"
+    },
+    {
+      "field": "lead, day, included, faq",
+      "from": "brochure kayak (audit B § 1.1) programme 5 : prise en charge vers le ponton de Thung Yee Peng, kayak autour de la mangrove, déjeuner, fruits et boisson au restaurant de la mangrove, « available all year » ; site du partenaire kayak, pages Full day, Half day et Mangrove kayaking (consultées le 12.11.2026) : « sit-on-top kayak », « Kayak equipment », « Life jacket », crabes violonistes, « Cranes, sea eagles », Koh Talabeng « off the east coast of Koh Lanta Noi », grottes avec « stalagmites and stalactites » ; horaires et prix du site partenaire non repris (plus anciens que la brochure) ; « Monkey sightseeing » au programme Mangrove kayaking du site partenaire (demande de Jérémy du 12.11.2026)"
+    },
+    {
+      "field": "day[].steps[].time",
+      "from": "heures intermédiaires approximatives (≈), estimées entre l'heure de prise en charge et l'heure de fin de la brochure, à la demande de Jérémy du 12.11.2026 (« mets quand même des heures approximatives »)"
     }
   ]
 }

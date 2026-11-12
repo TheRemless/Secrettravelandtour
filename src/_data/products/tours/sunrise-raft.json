@@ -82,19 +82,19 @@
         },
         {
           "time": "05:00",
-          "text": "Check-in at Thung Yee Peng pier."
+          "text": "Check-in at Thung Yee Peng pier and the raft gets ready."
         },
         {
           "time": "05:30",
-          "text": "The raft moves off slowly into the mangrove."
+          "text": "The raft moves off slowly into the mangrove, in the cool morning air."
         },
         {
           "time": "06:00",
-          "text": "Sunrise over the hills, reflected in the water."
+          "text": "Sunrise over the mountains, reflected in the water. A good time for photos."
         },
         {
           "time": "06:30",
-          "text": "Light breakfast on the raft, with coffee and tea, while you watch the monkeys and the birds."
+          "text": "Light breakfast on the raft, with coffee and tea, while you watch the birds, the monkeys and the village waking up."
         },
         {
           "time": "07:30",
@@ -151,6 +151,10 @@
     {
       "field": "beforeYouBook.cancellation",
       "from": "Base de gestion (export du 12.11.2026) : « préavis de 24 h recommandé »."
+    },
+    {
+      "field": "day",
+      "from": "affiche Sunrise View Mangrove.jpg : 05:00 « Prepare for rafting », 05:30 « fresh morning air », 06:00 « beautiful mountain ranges », « Take beautiful photos in nature », 06:30 « Observe local wildlife and village lifestyle » (audit des affiches du 12.11.2026, demande de Jérémy de reprendre tout ce que disent les affiches)"
     }
   ]
 }

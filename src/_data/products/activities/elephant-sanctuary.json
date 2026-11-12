@@ -254,25 +254,36 @@
       "steps": [
         {
           "time": "08:00",
+          "fixed": true,
+          "range": "08:00–08:50",
           "text": "Pickup at your hotel between 08:00 and 08:50."
         },
         {
+          "time": "09:00",
           "text": "Time with the elephants, 1 hr 30 min to 2 hours."
         },
         {
+          "time": "11:00",
           "text": "Mu Ko Lanta National Park, about 1 hr 30 min."
         },
         {
+          "time": "12:45",
           "text": "Lunch with a sea view at the Phu Pha View restaurant."
         },
         {
+          "time": "14:00",
           "text": "Kantiang beach, about an hour."
         },
         {
-          "text": "Lanta Old Town, about an hour, then back to your hotel."
+          "time": "15:30",
+          "text": "Lanta Old Town, about an hour."
+        },
+        {
+          "time": "16:30",
+          "text": "Back at your hotel."
         }
       ],
-      "note": "The programme can change with the weather and the well-being of the elephants."
+      "note": "Times with ≈ are approximate. The programme can change with the weather and the well-being of the elephants."
     }
   ],
   "included": [
@@ -300,7 +311,7 @@
   "faq": [
     {
       "q": "Can we ride the elephants?",
-      "a": "No. There is no riding and no show."
+      "a": "No. It is an ethical sanctuary: no riding and no show. You spend time with the elephants and can feed them."
     },
     {
       "q": "How long does it take?",
@@ -404,6 +415,14 @@
     {
       "field": "beforeYouBook.cancellation",
       "from": "Base de gestion (export du 12.11.2026) : prévenir au moins 2 heures avant l'heure de ramassage. Ajout demandé le 12.11.2026 (ligne Cancellation sur chaque fiche) : le reste de la fiche ne change pas."
+    },
+    {
+      "field": "day[programme-d].steps[].time",
+      "from": "heures approximatives (≈) calculées à partir des durées du programme D (éléphants 1 h 30 à 2 h, parc 1 h 30, Kantiang et Old Town environ une heure chacun) et de la prise en charge 08:00–08:50, demande de Jérémy du 12.11.2026"
+    },
+    {
+      "field": "faq[Can we ride the elephants?]",
+      "from": "demande de Jérémy du 12.11.2026 : préciser que c'est un centre éthique ; nourrissage d'après le programme A (« with the feeding if you want it »)"
     }
   ],
   "refPrefix": "ELE",

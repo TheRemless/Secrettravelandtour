@@ -14,7 +14,7 @@
     }
   },
   "h1": "Koh Phi Phi day trip from Koh Lanta",
-  "lead": "Maya Bay, Pileh Lagoon, Viking Cave, Monkey Beach, then lunch on Phi Phi Don and an afternoon on Bamboo Island. By join-in speedboat.",
+  "lead": "Maya Bay, Pileh Lagoon, Viking Cave and Monkey Beach in the morning, then lunch on Phi Phi Don, Bamboo Island and free time on Phi Phi Don. By join-in speedboat.",
   "promise": "Maya Bay, Pileh Lagoon and Bamboo Island by speedboat",
   "facts": [
     {
@@ -133,7 +133,7 @@
         },
         {
           "time": "12:00",
-          "text": "Lunch buffet on Phi Phi Don and time on the beach, then Bamboo Island: swimming and snorkelling from the beach."
+          "text": "Lunch buffet on Phi Phi Don and time on the beach, then Bamboo Island: swimming, snorkelling from the beach or time to relax."
         },
         {
           "time": "13:30",
@@ -141,14 +141,14 @@
         },
         {
           "time": "14:15",
-          "text": "Free time on Phi Phi Don until 16:00, then back to Koh Lanta and the transfer to your hotel by car or by boat."
+          "text": "Free time to explore Phi Phi Don until 16:00, then back to Koh Lanta and the transfer to your hotel by car or by boat."
         }
       ]
     }
   ],
   "included": [
     "Hotel transfer both ways",
-    "Thai buffet lunch, water and fruit",
+    "Buffet lunch, soft drinks and seasonal fruit",
     "Light breakfast at the pier on the join-in speedboat",
     "Masks, snorkels and life jackets",
     "Guide, English-speaking on the join-in speedboat",
@@ -321,6 +321,10 @@
     {
       "field": "beforeYouBook.cancellation",
       "from": "Base de gestion (export du 12.11.2026) : au moins 12 h avant, sinon 100 % (page 1 du contrat : un jour avant, à clarifier)."
+    },
+    {
+      "field": "lead, included[lunch], day[12:00, 14:15]",
+      "from": "brochure speedboat Phi Phi + Bamboo : déjeuner et Bamboo dans le même créneau 12.00-13.30, Loh Mudee 13.30-14.15, « free time to explore island and relaxing » 14.15-16.00 (l'après-midi n'est pas sur Bamboo), « Enjoy buffet lunch at Phi Phi Don » sans « Thai », « Soft drinks / Seasonal fruit » (audit des brochures du 12.11.2026, demande de Jérémy)"
     }
   ],
   "refPrefix": "PP",
