@@ -235,9 +235,8 @@
   "gestion": "One Day Trip Koh Phi Phi + Bamboo Island, child (4-11)"
  },
  "koh-phi-phi|Private longtail|1 to 5 people": {
-  "prestation": null,
-  "gestion": null,
-  "note": "Prestation privée Koh Phi Phi (9 400 THB le bateau, 1 à 5 personnes) à créer en base par la session E : renseigner ici son identifiant dès qu'elle existe"
+  "prestation": "0711f191-fe3b-587f-a28a-db415fd235e7",
+  "gestion": "Private Koh Phi Phi by longtail (Phi Phi Leh, Bamboo Island, Phi Phi Don)"
  },
  "koh-rok-koh-haa|Join-in speedboat|Adult": {
   "prestation": "e54ec997-a2bf-5bb1-ac02-9531e46d1e25",
