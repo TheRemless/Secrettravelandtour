@@ -25,13 +25,17 @@ test("rien d'inventé : aucun horaire, aucune durée, aucun prix par stop, aucun
   assert.doesNotMatch(text, /rattana|lacha|satun|bundhaya|noom|sukho|blue planet/i);
 });
 
-test("la demande WhatsApp demande les stops voulus, sans passer par la feuille de trajet", () => {
+// Jérémy, 12.11.2026 : la feuille comme sur les trajets, avec le nombre de stops et leur nom, pour donner le prix dès le premier message.
+// Sans JavaScript, le bouton garde le lien WhatsApp avec le message à compléter.
+test("réservation par la feuille (stops), repli WhatsApp qui demande les stops", () => {
   const h = html("taxi/koh-lanta-krabi-day-trip");
   const m = h.match(/href="(https:\/\/wa\.me\/66958683846\?text=[^"]+)"/);
   assert.ok(m);
   const txt = decodeURIComponent(m[1].split("text=")[1].replace(/&amp;/g, "&"));
   assert.match(txt, /^Private day trip from Koh Lanta to Krabi\nStops I would like \(Emerald Pool, Tiger Cave Temple, hot springs\): \n/);
-  assert.doesNotMatch(h, /data-book|booking\.js/);
+  assert.match(h, /data-book=""/);
+  assert.match(h, /\/js\/booking\.js/);
+  assert.match(h, /data-stop-list/);
 });
 
 test("JSON-LD : TaxiService avec le prix « from », FAQPage, fil d'Ariane, aucune note", () => {

@@ -4,8 +4,10 @@ eleventyExcludeFromCollections: true
 ---
 {#- Excursion privée d'une journée de Koh Lanta vers Krabi (12.11.2026). Données : krabiDayTrip.json, construites dans taxiPages.js.
     Une seule fiche à la place de visa run, Emerald Pool + sources chaudes et tour de Koh Lanta. Aucun horaire, aucune durée, aucun prix par stop.
-    Le bouton ouvre WhatsApp avec un message qui demande les stops voulus (pas la feuille de trajet de booking.js). -#}
+    Réservation par la feuille de booking.js (variante taxi, dayTrip) : nombre de stops et nom de chaque stop (12.11.2026).
+    Sans JavaScript, le bouton ouvre WhatsApp avec le message à compléter. -#}
 {% import "components/taxi.njk" as tx %}
+{% from "components/booking.njk" import bookingSheet %}
 {%- set T = taxiPages -%}
 {%- set D = T.dayTrip -%}
 {%- set fallback = tx.waHref(T.contact.number, D.message) -%}
@@ -52,7 +54,7 @@ eleventyExcludeFromCollections: true
     <div class="route-lead">
       <p class="lead">{{ D.lead }}</p>
       <div class="hero-act">
-        <a class="btn btn--gold" href="{{ fallback }}">Ask on WhatsApp</a>
+        <a class="btn btn--gold" href="{{ fallback }}" data-book="">Check availability</a>
         <p class="hero-note"><span class="hero-price">{{ D.price.label }}</span> per vehicle, depending on stops and hours.</p>
         {{ tx.googleLine(T.rating) }}
       </div>
@@ -84,6 +86,9 @@ eleventyExcludeFromCollections: true
 </section>
 </main>
 {{ tx.footer(site, T.contact) }}
+{{ tx.vbar("Check availability", fallback, D.price) }}
+{{ bookingSheet(D.booking, T.contact) }}
+<script src="/js/booking.js?v={{ build.v }}" defer></script>
 <script src="/js/vip-taxi.js?v={{ build.v }}" defer></script>
 </body>
 </html>

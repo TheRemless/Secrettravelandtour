@@ -601,6 +601,11 @@
   "prestation": "27eff8cc-79d2-59e1-ad77-d3d316d80b13",
   "gestion": "Phuket Airport to Ao Nang"
  },
+ "taxi|krabi-khao-sok|from": {
+  "prestation": null,
+  "gestion": null,
+  "note": "Pas encore de prestation dans Gestion. Prix donné par Jérémy le 12.11.2026 : Krabi → Khao Sok 2 800 THB par véhicule. À créer dans Gestion puis à relier ici."
+ },
  "taxi|phuket-airport-khao-lak|from": {
   "prestation": "ed90dacf-cf27-58e1-ab10-1f681c3682b3",
   "gestion": "Phuket Airport to Khao Lak"
