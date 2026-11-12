@@ -119,7 +119,7 @@ Format attendu pour chaque prise de vue :
 | hero | à remplacer | `secret/lanta-old-town.webp` | Scooters or cars of the rental fleet (current file is the Lanta Old Town photo, to be kept for the island tour only). |
 | gallery | manquante |  | The scooter line-up, one car, keys handover (no faces needed). |
 
-## Minivan transfers, private or shared (/transfers/)
+## Transfers: private, shared or songthaew (/transfers/)
 
 | Emplacement | Statut | Fichier actuel | Ce qui doit être visible |
 |---|---|---|---|

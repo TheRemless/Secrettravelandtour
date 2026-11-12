@@ -47,11 +47,7 @@
         {%- if cfg.options and cfg.options.length > 1 %}
         <fieldset class="f">
           <legend>Option</legend>
-          {#- Ouverte depuis une option de la page : l'option en une ligne, « Change » rouvre la liste (booking.js). -#}
-          <div class="opt-sum" data-opt-sum hidden>
-            <p><b data-opt-sum-t></b><span data-opt-sum-p></span></p>
-            <button type="button" class="opt-sum__change" data-opt-change>Change<span class="sr-only"> the option</span></button>
-          </div>
+          {#- La liste reste ouverte, l'option choisie sur la page déjà cochée (Jérémy, 12.11.2026 : pas de « Change »). -#}
           <div class="choice choice--list" data-opt-list>
             {%- for o in cfg.options %}
             <label><input type="radio" name="option" value="{{ o.id }}" aria-describedby="book-e-option"><span><b>{{ o.title }}</b>{% if o.from %}<span class="opt-price"><span class="num">{{ o.from }}</span>{% if o.unit %} <small>{{ o.unit }}</small>{% endif %}</span>{% else %}<span class="opt-price">Ask on WhatsApp</span>{% endif %}</span></label>
@@ -124,11 +120,7 @@
         {%- endif %}{% endfor %}
 
         {%- if speedboat %}
-        {#- Ouverte depuis un bateau de la grille : trajet et départ en une ligne, « Change » rouvre les deux champs. -#}
-        <div class="opt-sum" data-sb-sum hidden>
-          <p><b data-sb-sum-t></b><span data-sb-sum-p></span></p>
-          <button type="button" class="opt-sum__change" data-sb-change>Change<span class="sr-only"> the boat</span></button>
-        </div>
+        {#- Ouverte depuis un bateau de la grille : trajet et départ déjà choisis dans les deux champs, visibles. -#}
         <div class="sb-pick" data-sb-pick>
         <div class="f">
           <label for="book-route">Trip</label>

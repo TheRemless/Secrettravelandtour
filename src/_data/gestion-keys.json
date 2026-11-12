@@ -509,15 +509,15 @@
   "prestation": "e44f254f-730a-5954-acd2-0e1b7e113cf0",
   "gestion": "Southern trip, 3 dives (back at 5 pm)"
  },
- "snorkelling|Snorkelling on the dive boat|Adult, from age 12": {
+ "scuba-diving|Snorkelling on the dive boat|Adult, from age 12": {
   "prestation": "795909b5-cb85-50f7-a688-a0b199caef73",
   "gestion": "Snorkelling on the dive boat"
  },
- "snorkelling|Snorkelling on the dive boat|Child, 5 to 11": {
+ "scuba-diving|Snorkelling on the dive boat|Child, 5 to 11": {
   "prestation": "a154c221-4abb-5c39-a97e-540a827a70be",
   "gestion": "Snorkelling on the dive boat, child (5-11)"
  },
- "snorkelling|Snorkelling on the dive boat|Nanny on board for your children": {
+ "scuba-diving|Snorkelling on the dive boat|Nanny on board for your children": {
   "prestation": "6e11b321-8c84-5371-ad33-9b7f72b86b3a",
   "gestion": "Nanny on board for your children"
  },

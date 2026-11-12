@@ -751,39 +751,11 @@
       }
     }
 
-    // L'option choisie sur la page : résumée en une ligne avec « Change » ; la liste revient sur demande.
+    // L'option choisie sur la page : déjà cochée dans la liste, toujours visible (Jérémy, 12.11.2026).
     // Ses compteurs (pilotes, karts) remplacent « Guests » ; un départ d'Ao Nang demande l'hôtel à Ao Nang ;
     // le conseil d'âge de l'option (catamaran) s'affiche dès qu'un enfant est trop jeune ; le total estimé suit.
-    var sumMode = false, sbSum = false;
-    // Speedboat ouvert depuis un bateau de la grille : trajet et départ résumés en une ligne, « Change » les rouvre.
-    function sbUI() {
-      var sum = form.querySelector("[data-sb-sum]"), pick = form.querySelector("[data-sb-pick]");
-      if (!sum || !pick) return;
-      var route = findRoute(config, state.route), dep = findDeparture(route, state.departure);
-      var on = sbSum && Boolean(dep);
-      sum.hidden = !on;
-      pick.hidden = on;
-      if (dep) {
-        sum.querySelector("[data-sb-sum-t]").textContent = route.label;
-        sum.querySelector("[data-sb-sum-p]").textContent = dep.time + (dep.arrives ? ", arrives " + dep.arrives : "") + (dep.detail ? ". " + dep.detail : "");
-      }
-    }
     function optionUI() {
-      sbUI();
       var opt = findOption(config, state.option);
-      var sum = form.querySelector("[data-opt-sum]"), list = form.querySelector("[data-opt-list]");
-      if (sum && list) {
-        var on = sumMode && Boolean(opt);
-        sum.hidden = !on;
-        list.hidden = on;
-        if (opt) {
-          sum.querySelector("[data-opt-sum-t]").textContent = opt.title;
-          var v = config.variant === "rental" ? clean(state.vehicle).toLowerCase() : "";
-          var row = v ? (opt.rows || []).filter(function (r) { return r.label.toLowerCase() === v; })[0] : null;
-          sum.querySelector("[data-opt-sum-p]").textContent = row ? row.price + (row.unit ? " " + row.unit : "")
-            : opt.from ? opt.from + (opt.unit ? " " + opt.unit : "") : "Price on WhatsApp";
-        }
-      }
       var guests = form.querySelector("[data-guests]");
       if (guests) guests.hidden = Boolean(opt && opt.counts);
       var pl = form.querySelector('label[for="book-pickup"]'), ph = form.querySelector("#book-h-pickup");
@@ -1157,20 +1129,6 @@
     }
 
     dialog.querySelector("[data-edit]").addEventListener("click", function () { show("form"); });
-    var sbChange = dialog.querySelector("[data-sb-change]");
-    if (sbChange) sbChange.addEventListener("click", function () {
-      sbSum = false;
-      sbUI();
-      if (field("route")) field("route").focus();
-    });
-    var change = dialog.querySelector("[data-opt-change]");
-    if (change) change.addEventListener("click", function () {
-      sumMode = false;
-      optionUI();
-      var r = form.querySelector('input[name="option"]:checked') || form.querySelector('input[name="option"]');
-      if (r) r.focus();
-    });
-
     // « Add to my trip list » : option, date et voyageurs suffisent ; l'hôtel et le prénom se donnent dans la liste.
     var tripBtn = dialog.querySelector("[data-trip]");
     if (tripBtn) tripBtn.addEventListener("click", function () {
@@ -1257,9 +1215,7 @@
       var attr = function (n) { return trigger && trigger.getAttribute ? trigger.getAttribute(n) || "" : ""; };
       if (attr("data-vehicle")) state.vehicle = attr("data-vehicle");
       if (attr("data-sb-route")) { state.route = attr("data-sb-route"); state.departure = attr("data-sb-dep"); }
-      sbSum = Boolean(attr("data-sb-route"));
       if (!state.option && (config.options || []).length === 1) state.option = config.options[0].id;
-      sumMode = Boolean(optionId) && Boolean(findOption(config, state.option));
       carryOver(fresh);
       presetEnds();
       fillForm();

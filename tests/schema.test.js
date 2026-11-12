@@ -130,7 +130,7 @@ test("prix « from » des fiches Secret (12.11.2026) : le montant de la page, un
       assert.match(spec.description, /^From price, \S/, p.url);
     } else assert.equal(spec, undefined, `${p.url} : page sans prix, pas de priceSpecification`);
   }
-  assert.equal(n, 17, "17 fiches Secret avec un prix de départ");
+  assert.equal(n, 16, "16 fiches Secret avec un prix de départ (snorkeling remis dans la plongée le 12.11.2026)");
   // Une fiche passée sur demande perd son prix.
   const onRequest = clone(secret.find((p) => p.price && p.price.from));
   onRequest.priceOnRequest = true;

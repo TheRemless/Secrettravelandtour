@@ -19,14 +19,14 @@ const PHOTOS = JSON.parse(fs.readFileSync(path.join(DATA, "photos-v3.json"), "ut
 
 // Dossier de chaque fiche : tours/ (bateaux) ou activities/.
 const BOATS = ["4-islands", "koh-rok-koh-haa", "koh-phi-phi", "sunset-dinner-raft", "sunrise-raft", "fishing-trip", "mangroves"];
-const ACTIVITIES = ["scuba-diving", "snorkelling", "kayak", "mangrove-kayaking", "elephant-sanctuary", "atv", "cooking-class", "batik", "go-kart"];
+const ACTIVITIES = ["scuba-diving", "kayak", "mangrove-kayaking", "elephant-sanctuary", "atv", "cooking-class", "batik", "go-kart"];
 const { GROUPS, groupOf: groupFor } = require("../_includes/components/groups.js");
 const groupOf = (slug) => (groupFor(slug) || {}).id || "";
 const CARD_PHOTO = {
   "4-islands": "card-4-islands", "koh-rok-koh-haa": "card-koh-rok", "koh-phi-phi": "card-koh-phi-phi",
   mangroves: "card-mangroves", "fishing-trip": "card-fishing",
   "scuba-diving": "card-scuba", atv: "card-atv", kayak: "card-kayak", "elephant-sanctuary": "card-elephant",
-  "sunset-dinner-raft": "card-sunset-raft", "sunrise-raft": "card-sunrise-raft", "mangrove-kayaking": "card-mangrove-kayak", snorkelling: "card-snorkelling",
+  "sunset-dinner-raft": "card-sunset-raft", "sunrise-raft": "card-sunrise-raft", "mangrove-kayaking": "card-mangrove-kayak",
   "cooking-class": "card-cooking", batik: "card-batik", "go-kart": "card-go-kart"
 };
 const WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen"];

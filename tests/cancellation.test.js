@@ -13,7 +13,7 @@ const PARTENAIRES = /rattana|lacha ?ru|sukho|lanta ?atv|atv adventure|lanta elep
 
 test("la page donne la règle de chaque fiche Secret, la même que la ligne Cancellation de la fiche, avec le lien vers la page", () => {
   const items = C.groups.flatMap((g) => g.items).filter((i) => i.slug !== "taxi");
-  assert.ok(items.length >= 19, String(items.length));
+  assert.ok(items.length >= 18, String(items.length)); // snorkeling remis dans la plongée le 12.11.2026
   const page = html("cancellation");
   for (const i of items) {
     const rule = i.rule.replace(/&/g, "&amp;");

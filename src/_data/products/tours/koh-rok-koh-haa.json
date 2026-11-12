@@ -303,7 +303,7 @@
     "National park fee, paid in cash on the island"
   ],
   "beforeYouBook": {
-    "pickup": "Pickup at your hotel around 08:00, light breakfast at Lanta Old Town pier.",
+    "pickup": "Join-in speedboat: pickup at your hotel around 08:00, then a light breakfast at Lanta Old Town pier. Later sunset trip: pickup at 10:00 by private car, snacks on the boat, no breakfast. Private longtail: no breakfast, we set the pickup time with you.",
     "bring": [
       "Cash for the national park fee"
     ],
@@ -498,6 +498,10 @@
     {
       "field": "beforeYouBook.cancellation",
       "from": "Base de gestion (export du 12.11.2026) : speedboat en groupe et sortie du soir, au moins 12 h avant, sinon 100 % (page 1 du contrat : un jour avant, à clarifier) ; longtail privé, rien de précisé."
+    },
+    {
+      "field": "beforeYouBook.pickup",
+      "from": "petit-déjeuner seulement sur le speedboat join-in (brochure du speedboat join-in, programme Rok + Ha « enjoy soft breakfast » au ponton) ; affiche Rok Haa + Sunset : 10:00 voiture privée, snacks, pas de petit-déjeuner ; brochure du longtail privé « All trips included » sans petit-déjeuner (question de Jérémy du 12.11.2026)"
     }
   ],
   "refPrefix": "ROK"

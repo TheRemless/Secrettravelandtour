@@ -377,6 +377,74 @@
       ]
     },
     {
+      "id": "snorkelling-on-dive-boat",
+      "label": "Snorkelling on the dive boat",
+      "kind": "join-in",
+      "note": "Local sites only. The boat is shared with the divers.",
+      "prices": [
+        {
+          "label": "Adult, from age 12",
+          "amount": 1800,
+          "ages": {
+            "min": 12
+          },
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 5 to 11",
+          "amount": 1300,
+          "ages": {
+            "min": 5,
+            "max": 11
+          },
+          "unit": "per person"
+        },
+        {
+          "label": "Child under 5",
+          "amount": 0,
+          "ages": {
+            "max": 4
+          }
+        },
+        {
+          "label": "Nanny on board for your children",
+          "amount": 800
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "National park fee, diver adult",
+          "amount": 600,
+          "unit": "per diving day",
+          "note": "When you dive at Koh Haa, Hin Daeng or Phi Phi"
+        },
+        {
+          "label": "National park fee, diver child",
+          "amount": 400,
+          "unit": "per diving day",
+          "note": "When you dive at Koh Haa, Hin Daeng or Phi Phi"
+        },
+        {
+          "label": "National park fee, snorkeller or passenger adult",
+          "amount": 400,
+          "unit": "per day"
+        },
+        {
+          "label": "National park fee, snorkeller or passenger child",
+          "amount": 200,
+          "unit": "per day"
+        },
+        {
+          "label": "Diving insurance, optional",
+          "amount": 150,
+          "unit": "per day"
+        }
+      ],
+      "extras": [
+        "Nanny on board for your children"
+      ]
+    },
+    {
       "id": "rentals-and-discounts",
       "label": "Rentals and discounts",
       "kind": "extra",
@@ -525,6 +593,18 @@
           "text": "Special trips by catamaran. Three dives for divers certified to Adventure Diver or Advanced, 30 metres at least, with a last dive within the past six months. The northern trip goes to the Kled Kaeo wreck, Koh Bida and Hin Klai and is back at 4.30 pm. The southern trip goes to Hin Daeng, Hin Muang and Koh Haa and is back at 5 pm."
         }
       ]
+    },
+    {
+      "options": [
+        "snorkelling-on-dive-boat"
+      ],
+      "title": "The dive programmes",
+      "steps": [
+        {
+          "label": "1 day",
+          "text": "Snorkelling on the dive boat. Local sites only, for people who would rather stay at the surface while a family member dives. Children under 5 come free, and a nanny stays on board with younger children."
+        }
+      ]
     }
   ],
   "included": [
@@ -543,7 +623,7 @@
       "Sunglasses",
       "A change of clothes"
     ],
-    "children": "8 for the Scuba Explorer, 10 for the Discover Basic Diver, 12 for Open Water and 15 for the advanced courses and specialties.",
+    "children": "8 for the Scuba Explorer, 10 for the Discover Basic Diver, 12 for Open Water and 15 for the advanced courses and specialties. On the dive boat, snorkelling children under 5 come free and a nanny can stay on board.",
     "weather": "Every day depends on the weather and the sea, and you follow your instructor's safety instructions from start to finish."
   },
   "faq": [
@@ -579,7 +659,6 @@
     }
   ],
   "related": [
-    "/tours/snorkelling/",
     "/tours/koh-rok-koh-haa/",
     "/tours/4-islands/"
   ],
@@ -671,8 +750,8 @@
       "from": "brochure Scuba Diving.pdf p. 1 et 2 : « Scuba Explorer » (dès 8 ans, 2 élèves par moniteur au plus) et « Discover Basic Diver » (dès 10 ans, 2 à 3 élèves), SSI, sites locaux Koh Haa ou Phi Phi & Koh Bida, Deep Adventure Dive 1 000 THB en plus d'un special trip (décision client du 08.11.2026 ; note interne « legacy meta description only » retirée)"
     },
     {
-      "field": "options, day",
-      "from": "snorkeling sur sa propre fiche /tours/snorkelling/ (découpage des fiches, décision de Jérémy du 11.11.2026)"
+      "field": "options[snorkelling-on-dive-boat], day, beforeYouBook.children",
+      "from": "snorkeling remis dans la fiche plongée, plus de vignette à part (décision de Jérémy du 12.11.2026)"
     }
   ],
   "refPrefix": "DIVE"

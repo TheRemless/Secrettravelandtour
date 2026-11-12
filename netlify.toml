@@ -75,3 +75,10 @@
   to = "/tours/kayak/"
   status = 301
   force = true
+
+# Snorkeling remis dans la fiche plongée le 12.11.2026 (la page à part était en ligne depuis le 11.11.2026).
+[[redirects]]
+  from = "/tours/snorkelling/*"
+  to = "/tours/scuba-diving/"
+  status = 301
+  force = true

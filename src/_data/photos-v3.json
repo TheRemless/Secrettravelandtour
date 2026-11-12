@@ -163,12 +163,12 @@
       "usage": "Scuba diving card",
       "file": "secret/v3/card-scuba.jpg",
       "ratio": "4:3",
-      "position": "50% 50%",
-      "alt": "Hard corals on a reef in the Andaman Sea",
+      "position": "50% 45%",
+      "alt": "A diver swimming through a school of fish above the coral reef",
       "placeholder": false,
-      "source": "Photo d'un partenaire, accord donné à Jérémy (10.11.2026)",
-      "author": "Photo d'un partenaire, accord donné à Jérémy (10.11.2026)",
-      "licence": "Propriété du client ou du partenaire, usage autorisé",
+      "source": "Photo fournie par Jérémy (ancienne page /secret/, 30.10.2026)",
+      "author": "Secret Travel & Tour",
+      "licence": "Propriété du client",
       "url": "",
       "shot": "Diver above a reef, blue water."
     },
@@ -359,20 +359,6 @@
       "licence": "Propriété du client ou du partenaire, usage autorisé",
       "url": "",
       "shot": "Kayaks among the mangrove roots."
-    },
-    {
-      "id": "card-snorkelling",
-      "usage": "Snorkelling card",
-      "file": "secret/v3/card-snorkelling.jpg",
-      "ratio": "4:3",
-      "position": "50% 50%",
-      "alt": "A group snorkelling in clear turquoise water",
-      "placeholder": false,
-      "source": "Photo d'un partenaire, accord donné à Jérémy (10.11.2026)",
-      "author": "Photo d'un partenaire, accord donné à Jérémy (10.11.2026)",
-      "licence": "Propriété du client ou du partenaire, usage autorisé",
-      "url": "",
-      "shot": "Snorkellers at the surface over the reef."
     }
   ]
 }

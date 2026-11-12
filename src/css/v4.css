@@ -1048,10 +1048,6 @@ h1, h2, h3, h4, .brand b, .drawer nav a, .card__title, .hrow__t b, .tl b, .byb d
 /* Téléphone, pendant la saisie : le total s'efface pour laisser voir le champ et son libellé (il revient en sortant du champ). */
 @media (max-width: 63.99rem) { .sheet:has(.sheet-body :is(input[type="text"], input[type="date"], input[type="time"]):focus) .sheet-total { display: none; } }
 .sheet-link--trip { display: flex; margin: 4px auto 0; align-items: center; color: var(--sea); }
-.opt-sum { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; padding: 10px 14px; border: 2px solid var(--deep); border-radius: var(--r); }
-.opt-sum p { display: grid; gap: 2px; min-width: 0; font-size: 14px; color: var(--ink-mute); line-height: 1.4; }
-.opt-sum b { font-size: 16px; color: var(--ink); }
-.opt-sum__change { flex: none; min-height: 44px; padding: 0 4px; border: 0; background: none; font: 600 15px/1 var(--sans); color: var(--sea); text-decoration: underline; text-underline-offset: 4px; }
 .f-note { margin: 4px 0 8px; padding: 10px 12px; border-radius: var(--r); background: var(--shell); font-size: 15px; line-height: 1.45; }
 .sheet .choice--3 input + span { padding-inline: 6px; }
 .po .opts__amt small, .pfees .opts__amt small { display: inline; margin-left: 4px; font-size: 13px; }
@@ -1062,7 +1058,6 @@ h1, h2, h3, h4, .brand b, .drawer nav a, .card__title, .hrow__t b, .tl b, .byb d
 /* Feuille du speedboat : aller simple ou retour sur une ligne ; trajet et départ regroupés sous leur résumé. */
 .sheet .choice--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .sheet .sb-back-h { margin-top: 24px; }
-.sheet-body > .opt-sum { margin-bottom: 24px; }
 
 /* Pied de page : « Cookie settings » rouvre le choix de mesure d'audience (consent.js), au style des liens voisins. */
 .ft__cookie { font: inherit; color: var(--on-dark); background: none; border: 0; padding: 0; min-height: 44px; display: inline-flex; align-items: center; text-decoration: underline; text-underline-offset: .2em; cursor: pointer; }
