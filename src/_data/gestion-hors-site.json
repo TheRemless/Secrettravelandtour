@@ -1,0 +1,12 @@
+{
+  "_doc": "Prestations actives de Gestion qui n'ont volontairement pas de page sur le site (décisions de Jérémy). Lues par scripts/prix-gestion.mjs : une prestation dont le partenaire et le groupe correspondent n'est pas signalée « sans page ». Aucun prix ici.",
+  "regles": [
+    { "partenaire": "Satun Pakbara Speed Boat Club", "raison": "Minivans et berlines privés du partenaire : jamais publiés, le site vend les taxis de VIP Taxi Lanta (décision du 02.11.2026)" },
+    { "partenaire": "Rattana Island Tour", "groupe": "Grille tarifaire des charters privés en speedboat (1 à 75 pax)", "raison": "Charters privés en speedboat : pas de page (décision du 11.11.2026)" },
+    { "partenaire": "Rattana Island Tour", "groupe": "Koh Maa, pêche et snorkeling (privé)", "raison": "Pêche privée à Koh Maa : pas de page (décision du 11.11.2026)" },
+    { "partenaire": "Mr. Nan Taxi (Association des taxis de Saladan)", "raison": "Grille de 2022, non publiée (décision du 11.11.2026)" },
+    { "partenaire": "Lanta Elephant Sanctuary", "raison": "Partenaire inactif" },
+    { "partenaire": "Blue Planet Divers", "groupe": "Locations", "raison": "Matériel loué sur place, listé dans « Rentals and discounts » sans prix propre" },
+    { "famille": "frais", "raison": "Frais de parc : payés en espèces sur place, affichés à part, un seul tarif adulte en base" }
+  ]
+}

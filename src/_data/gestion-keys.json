@@ -1,0 +1,628 @@
+{
+ "4-islands|Join-in longtail|Adult": {
+  "prestation": "f7a3e657-dcc7-567c-a79d-fb8ea9a1f15c",
+  "gestion": "4 Islands (Koh Chuek, Koh Mook Emerald Cave, Koh Ngai, Koh Maa)"
+ },
+ "4-islands|Join-in longtail|Child, 4 to 11": {
+  "prestation": "437c5bb2-dbb0-5beb-ab43-6fdfaf363dad",
+  "gestion": "4 Islands (Koh Chuek, Koh Mook Emerald Cave, Koh Ngai, Koh Maa), child (4-11)"
+ },
+ "4-islands|Join-in speedboat|Adult": {
+  "prestation": "a3e3ba75-0b57-5acb-ae24-f37507f277ea",
+  "gestion": "One Day Trip 4 Islands (Koh Chueak, Mook Emerald Cave, Kradan, Ngai)"
+ },
+ "4-islands|Join-in speedboat|Child, 4 to 11": {
+  "prestation": "d0e6ae78-4dc6-5119-acaf-9cafe2504d7b",
+  "gestion": "One Day Trip 4 Islands (Koh Chueak, Mook Emerald Cave, Kradan, Ngai), child (4-11)"
+ },
+ "4-islands|Private longtail|1 to 2 people": {
+  "prestation": "86089978-5c93-5713-aae4-5231d9be8f3c",
+  "gestion": "Private 4 Islands (Koh Mook, Koh Ngai, Koh Chuek, Koh Maa)"
+ },
+ "4-islands|Private longtail|3 to 4 people": {
+  "prestation": "71b95917-0c36-58fe-a833-0cc27c17c101",
+  "gestion": "Private 4 Islands (Koh Mook, Koh Ngai, Koh Chuek, Koh Maa)"
+ },
+ "4-islands|Private longtail|5 to 6 people": {
+  "prestation": "1e3a5589-f9ee-56f7-acb4-387caf77167d",
+  "gestion": "Private 4 Islands (Koh Mook, Koh Ngai, Koh Chuek, Koh Maa)"
+ },
+ "4-islands|Private longtail|Add Koh Kradan, per boat": {
+  "prestation": "a766a679-79ad-5c5c-ab72-794e4537d220",
+  "gestion": "Koh Kradan extension on the private 4 Islands tour"
+ },
+ "atv|1 hour of ATV and 1 hour of kayak|Adult passenger": {
+  "prestation": "5e2f4296-a012-562c-a9ce-6fa0ca877fd7",
+  "gestion": "P3: ATV 1h + Kayak 1h Thung Yee Peng, passenger"
+ },
+ "atv|1 hour of ATV and 1 hour of kayak|Adult rider": {
+  "prestation": "2d5e7b44-47b2-5482-a65c-ac4f3479deb2",
+  "gestion": "P3: ATV 1h + Kayak 1h Thung Yee Peng, driver"
+ },
+ "atv|1 hour of ATV and 1 hour of kayak|Child passenger, 4 to 12": {
+  "prestation": "edd0bb41-48ee-57ca-a006-a782114e96b2",
+  "gestion": "P3: ATV 1h + Kayak 1h Thung Yee Peng, passenger child (4-12)"
+ },
+ "atv|1 hour of ATV and 1 hour of kayak|Child rider, 6 to 12": {
+  "prestation": "7941f991-12fd-5d02-a376-32b9db20cb3d",
+  "gestion": "P3: ATV 1h + Kayak 1h Thung Yee Peng, driver child (6-12)"
+ },
+ "atv|1 hour, forest and viewpoint|Adult passenger": {
+  "prestation": "6efaea15-a891-573d-a59a-da5935dc8718",
+  "gestion": "P2: ATV 1 hour (forest & viewpoint), passenger"
+ },
+ "atv|1 hour, forest and viewpoint|Adult rider": {
+  "prestation": "bc64fa51-b6af-528f-a026-102e22e80823",
+  "gestion": "P2: ATV 1 hour (forest & viewpoint), driver"
+ },
+ "atv|1 hour, forest and viewpoint|Child passenger, 4 to 12": {
+  "prestation": "e3de51b5-f16c-5d2e-ace8-9aaa6b4974b5",
+  "gestion": "P2: ATV 1 hour (forest & viewpoint), passenger child (4-12)"
+ },
+ "atv|1 hour, forest and viewpoint|Child rider, 6 to 12": {
+  "prestation": "7addd7fd-d610-53fb-aaf4-a1098a004433",
+  "gestion": "P2: ATV 1 hour (forest & viewpoint), driver child (6-12)"
+ },
+ "atv|30 minutes on a closed track|Adult passenger": {
+  "prestation": "e7e25a51-8601-50ad-a71d-e516cafd35a9",
+  "gestion": "P1: ATV 30 mins (safe track), passenger"
+ },
+ "atv|30 minutes on a closed track|Adult rider": {
+  "prestation": "fee7ddc1-7d15-5a89-a328-b5d5f4f8ab7f",
+  "gestion": "P1: ATV 30 mins (safe track), driver"
+ },
+ "atv|30 minutes on a closed track|Child passenger, 4 to 12": {
+  "prestation": "4db8b9d3-52f7-5a95-a4f9-a466db97e485",
+  "gestion": "P1: ATV 30 mins (safe track), passenger child (4-12)"
+ },
+ "atv|30 minutes on a closed track|Child rider, 6 to 12": {
+  "prestation": "e80a578e-04dd-58ba-a15b-fecd3fd37af0",
+  "gestion": "P1: ATV 30 mins (safe track), driver child (6-12)"
+ },
+ "batik|Kayaking and painting|Adult": {
+  "prestation": "f7eef8a4-f3ac-53ae-a335-b8f48559ff45",
+  "gestion": "Kayaking & painting"
+ },
+ "batik|Kayaking and painting|Child, 3 to 10": {
+  "prestation": "1bc3dd06-98bd-5445-ae6d-3a4d09c8e571",
+  "gestion": "Kayaking & painting, child (3-10)"
+ },
+ "batik|Morning or afternoon course|Adult": {
+  "prestation": "e37bef36-05c3-533f-a3dc-66d582c210fd",
+  "gestion": "Morning course",
+  "aussi": [
+   "1b8b02fd-8889-53f9-ab78-61aa199d6752"
+  ]
+ },
+ "batik|Morning or afternoon course|Child, 3 to 10": {
+  "prestation": "18f859f2-a0e6-53c9-a022-717e3fef4e65",
+  "gestion": "Morning course, child (3-10)",
+  "aussi": [
+   "1daa7b89-2da5-5e6e-acd5-d64136dd0051"
+  ]
+ },
+ "cooking-class|Fruit and vegetable carving|Per person": {
+  "prestation": "5a1dac4e-b12a-52bc-a224-af3ee21ea080",
+  "gestion": "Fruit and vegetable carving"
+ },
+ "cooking-class|Partner chef|For 2 people": {
+  "prestation": "e5d29cd1-81a5-5ab7-a780-4e88cb1a1824",
+  "gestion": "Market visit and lunch class, Partner Chef",
+  "aussi": [
+   "278fcd8b-87f8-551b-a1d1-eef6df67d69c"
+  ]
+ },
+ "cooking-class|Partner chef|Per person": {
+  "prestation": "e5d29cd1-81a5-5ab7-a780-4e88cb1a1824",
+  "gestion": "Market visit and lunch class, Partner Chef",
+  "aussi": [
+   "278fcd8b-87f8-551b-a1d1-eef6df67d69c"
+  ]
+ },
+ "cooking-class|Single chef|Per person": {
+  "prestation": "c5ea1f1e-e0a2-5ee9-a0ab-c2621229e49f",
+  "gestion": "Market visit and lunch class, Single Chef",
+  "aussi": [
+   "9bfe94d7-86f5-5601-a900-f7ad3ea2393a"
+  ]
+ },
+ "elephant-sanctuary|Programme A, 1 hr 30 min to 2 hours with the elephants|Adult": {
+  "prestation": "9580f97f-3e61-5821-a420-2a12ce2936b0",
+  "gestion": "Program A"
+ },
+ "elephant-sanctuary|Programme A, 1 hr 30 min to 2 hours with the elephants|Child, 4 to 10": {
+  "prestation": "9679b5c3-a1ce-5781-a1ef-9906bc3052d3",
+  "gestion": "Program A, child (4-10)"
+ },
+ "elephant-sanctuary|Programme B, the elephants and Klong Jark beach|Adult": {
+  "prestation": "fd313767-1967-5322-acdb-6f552f0d82b0",
+  "gestion": "Program B"
+ },
+ "elephant-sanctuary|Programme B, the elephants and Klong Jark beach|Child, 4 to 10": {
+  "prestation": "4241fb37-7518-5f33-a232-e3264de7bc40",
+  "gestion": "Program B, child (4-10)"
+ },
+ "elephant-sanctuary|Programme C, the elephants, a waterfall and a hidden cave|Adult": {
+  "prestation": "b17b79bd-5712-5e07-af0c-04187f23f9b4",
+  "gestion": "Program C"
+ },
+ "elephant-sanctuary|Programme C, the elephants, a waterfall and a hidden cave|Child, 4 to 10": {
+  "prestation": "05efe596-6e4c-5753-aa3a-9ca55e18fbba",
+  "gestion": "Program C, child (4-10)"
+ },
+ "elephant-sanctuary|Programme D, a day on Koh Lanta with the elephants|Adult": {
+  "prestation": "c333d922-ca6c-598f-aa3b-d1090a931a23",
+  "gestion": "Program D"
+ },
+ "elephant-sanctuary|Programme D, a day on Koh Lanta with the elephants|Child, 4 to 10": {
+  "prestation": "cd19d60c-4c3a-5a27-a5a7-c56221169a1d",
+  "gestion": "Program D, child (4-10)"
+ },
+ "fishing-trip|Private raft, fishing and seafood lunch|1 or 2 people, the raft": {
+  "prestation": "2f0d23fb-d650-5670-a0d4-5053f0615e20",
+  "gestion": "Program B: Private Fishing & Fresh Seafood Lunch, for 1 to 2 people"
+ },
+ "fishing-trip|Private raft, fishing and seafood lunch|Child 3 to 9, per person": {
+  "prestation": "6c3a97f6-ef15-5281-a2ab-c1996896a2a0",
+  "gestion": "Program B: Private Fishing & Fresh Seafood Lunch, child (3-9)"
+ },
+ "fishing-trip|Private raft, fishing and seafood lunch|Each extra person": {
+  "prestation": "dbaa7bdf-b073-5e6c-aff1-445057b5220b",
+  "gestion": "Program B: Private Fishing & Fresh Seafood Lunch, extra person, on top of the first 2 people"
+ },
+ "go-kart|10 minutes|Large double seat": {
+  "prestation": "92cbf486-61c0-58a8-ac91-077c936d5b6e",
+  "gestion": "10 min · Large double seat"
+ },
+ "go-kart|10 minutes|Large single seat": {
+  "prestation": "ba927b9a-576d-5b02-ace6-0ea41a4aea58",
+  "gestion": "10 min · Large single seat"
+ },
+ "go-kart|10 minutes|Small double seat": {
+  "prestation": "f6cd6aae-0f9e-5a7a-a005-488d7e68b4b2",
+  "gestion": "10 min · Small double seat"
+ },
+ "go-kart|10 minutes|Small single seat": {
+  "prestation": "c5ec3b1b-914d-5fc6-adb9-0449835284ac",
+  "gestion": "10 min · Small single seat"
+ },
+ "go-kart|15 minutes|Large double seat": {
+  "prestation": "b54ccc84-99c3-58c1-a1fa-64321705e9fb",
+  "gestion": "15 min · Large double seat"
+ },
+ "go-kart|15 minutes|Large single seat": {
+  "prestation": "65a7e434-fe13-5f92-a982-d7eddad78109",
+  "gestion": "15 min · Large single seat"
+ },
+ "go-kart|15 minutes|Small double seat": {
+  "prestation": "0235c011-57cb-5903-a857-c9f214f45104",
+  "gestion": "15 min · Small double seat"
+ },
+ "go-kart|15 minutes|Small single seat": {
+  "prestation": "8518f7b6-00d1-5dc6-aa9f-b893831e72a7",
+  "gestion": "15 min · Small single seat"
+ },
+ "kayak|Love kayak, two places, 1 day|Adult": {
+  "prestation": "05422c26-6d60-5868-a76b-5a8162e82aa3",
+  "gestion": "Programme 2: Love kayak (2-seater)"
+ },
+ "kayak|Love kayak, two places, 1 day|Child, 4 to 11": {
+  "prestation": "900fbc80-7c19-582d-a1f1-69ac9a0fce3b",
+  "gestion": "Programme 2: Love kayak (2-seater), child (4-11)"
+ },
+ "kayak|Sea cave kayaking and island hopping, 1 day|Adult": {
+  "prestation": "eb1dedd3-c731-5c06-abcc-06a5c991f1a0",
+  "gestion": "Programme 1: Sea cave kayaking & island hopping"
+ },
+ "kayak|Sea cave kayaking and island hopping, 1 day|Child, 4 to 11": {
+  "prestation": "b5626027-3a7a-5588-af39-dd104c9d7701",
+  "gestion": "Programme 1: Sea cave kayaking & island hopping, child (4-11)"
+ },
+ "kayak|Sea cave kayaking and mangrove, half day|Adult": {
+  "prestation": "c31fd7a4-ebf2-5c04-ab00-976fbdddb83a",
+  "gestion": "Programme 3: Sea cave kayaking + mangrove"
+ },
+ "kayak|Sea cave kayaking and mangrove, half day|Child, 4 to 11": {
+  "prestation": "e749327d-5f4f-5621-a893-3adf20160c3a",
+  "gestion": "Programme 3: Sea cave kayaking + mangrove, child (4-11)"
+ },
+ "koh-phi-phi|Join-in speedboat|Adult": {
+  "prestation": "971339f0-28fc-5ce8-a9a8-4483b4c38b49",
+  "gestion": "One Day Trip Koh Phi Phi + Bamboo Island"
+ },
+ "koh-phi-phi|Join-in speedboat|Child, 4 to 11": {
+  "prestation": "264bc47b-67a7-5261-ad0f-275187939068",
+  "gestion": "One Day Trip Koh Phi Phi + Bamboo Island, child (4-11)"
+ },
+ "koh-rok-koh-haa|Join-in speedboat|Adult": {
+  "prestation": "e54ec997-a2bf-5bb1-ac02-9531e46d1e25",
+  "gestion": "One Day Trip Koh Rok + Koh Ha"
+ },
+ "koh-rok-koh-haa|Join-in speedboat|Child, 4 to 11": {
+  "prestation": "a3f959f0-e598-5c91-a841-9136130fc652",
+  "gestion": "One Day Trip Koh Rok + Koh Ha, child (4-11)"
+ },
+ "koh-rok-koh-haa|Later trip, back at sunset|Adult": {
+  "prestation": "2cad3d50-b06d-5859-acb6-c532055059f4",
+  "gestion": "One Day Trip Koh Rok + Koh Ha Sunset"
+ },
+ "koh-rok-koh-haa|Later trip, back at sunset|Child, 4 to 11": {
+  "prestation": "75b3030a-afa1-530b-a670-75adfe1d149f",
+  "gestion": "One Day Trip Koh Rok + Koh Ha Sunset, child (4-11)"
+ },
+ "koh-rok-koh-haa|Private longtail to Koh Rok|1 to 3 people": {
+  "prestation": "0e1f1b13-07a1-5496-ab02-02068d7f428b",
+  "gestion": "Private Koh Rok (Koh Rok Nok & Koh Rok Nai)"
+ },
+ "koh-rok-koh-haa|Private longtail to Koh Rok|4 to 6 people": {
+  "prestation": "1961d3a3-783e-5c91-af21-2b93561cbc59",
+  "gestion": "Private Koh Rok (Koh Rok Nok & Koh Rok Nai)"
+ },
+ "mangrove-kayaking|Mangrove kayaking with lunch, half day|Adult": {
+  "prestation": "ce8219f2-a2d6-5ccd-a3b8-017f5202c345",
+  "gestion": "Programme 5: Mangrove kayaking trip with lunch"
+ },
+ "mangrove-kayaking|Mangrove kayaking with lunch, half day|Child, 4 to 11": {
+  "prestation": "9a5fb736-58fa-586e-a4eb-c32fa3c09993",
+  "gestion": "Programme 5: Mangrove kayaking trip with lunch, child (4-11)"
+ },
+ "mangroves|Half day by longtail, with lunch|Adult": {
+  "prestation": "86d5ed6c-4939-50a8-a52e-1ff9f4b21218",
+  "gestion": "Programme 4: Mangrove boat trip with lunch"
+ },
+ "mangroves|Half day by longtail, with lunch|Child, 4 to 11": {
+  "prestation": "6d52c104-e022-5ea8-ab9a-920bc8837da5",
+  "gestion": "Programme 4: Mangrove boat trip with lunch, child (4-11)"
+ },
+ "mangroves|Longtail through the mangrove, then Old Town and a viewpoint|Adult": {
+  "prestation": "34cdcbc5-dc5a-5e34-af84-1439d8a16ad2",
+  "gestion": "Programme 6: Mangrove boat trip + Old Town + viewpoint"
+ },
+ "mangroves|Longtail through the mangrove, then Old Town and a viewpoint|Child, 4 to 11": {
+  "prestation": "470fd427-99da-54ef-a452-02672bb28e0e",
+  "gestion": "Programme 6: Mangrove boat trip + Old Town + viewpoint, child (4-11)"
+ },
+ "mangroves|Mangrove by kayak or longtail, then a fishing park|Adult": {
+  "prestation": "89756dda-6910-56c4-a290-71788ee9b990",
+  "gestion": "Programme 7: Mangrove tour (kayak or longtail) + fishing park"
+ },
+ "mangroves|Mangrove by kayak or longtail, then a fishing park|Child, 4 to 11": {
+  "prestation": "e2cf8b3f-536c-5d16-acbf-8d8610cd91a2",
+  "gestion": "Programme 7: Mangrove tour (kayak or longtail) + fishing park, child (4-11)"
+ },
+ "rental|Big bikes|GPX Mad 300": {
+  "prestation": "3c852d49-b0b7-5e2d-a9d1-6d5a1f29e610",
+  "gestion": "GPX Mad 300"
+ },
+ "rental|Big bikes|Honda CB 500 F": {
+  "prestation": "b695f143-6b74-5f51-a30a-0caad1cd9949",
+  "gestion": "Honda CB 500 F"
+ },
+ "rental|Big bikes|Honda CBR 300R Repsol": {
+  "prestation": "a8887874-b182-5a56-a4e8-04450c94f180",
+  "gestion": "Honda CBR 300R Repsol"
+ },
+ "rental|Big bikes|Honda CRF 250": {
+  "prestation": "fc2d9ba8-f981-52ae-a776-bd26c8fc315e",
+  "gestion": "Honda CRF 250"
+ },
+ "rental|Big bikes|Honda Rebel 300": {
+  "prestation": "dd60c7ad-3b4d-524b-a236-e7cc7947f944",
+  "gestion": "Honda Rebel 300"
+ },
+ "rental|Big bikes|Kawasaki KLX 150": {
+  "prestation": "baae1758-a912-52dd-a177-89053dcc4d27",
+  "gestion": "Kawasaki KLX 150"
+ },
+ "rental|Big bikes|Kawasaki Ninja 650": {
+  "prestation": "26429feb-5290-5032-aae8-107c77f49137",
+  "gestion": "Kawasaki Ninja 650"
+ },
+ "rental|Big bikes|Kawasaki W175": {
+  "prestation": "b0f21597-b9dc-5c1b-aa44-3d2399f5adc1",
+  "gestion": "Kawasaki W175"
+ },
+ "rental|Big bikes|Yamaha MT-155": {
+  "prestation": "0a1ddfc8-6206-5a15-accd-180901575376",
+  "gestion": "Yamaha MT-155"
+ },
+ "rental|Big bikes|Yamaha XSR 155": {
+  "prestation": "f4a2c29a-c4ca-5b8a-a98c-fc97dc68300c",
+  "gestion": "Yamaha XSR 155"
+ },
+ "rental|Cars and pick-ups|Chevrolet Captiva, diesel, 7 seats": {
+  "prestation": "d85c5c27-fc72-5fe9-aac3-8cd4d3274db8",
+  "gestion": "Chevrolet Captiva"
+ },
+ "rental|Cars and pick-ups|Chevrolet Colorado pick-up": {
+  "prestation": "6465384e-3709-584b-ac05-901a3d74d703",
+  "gestion": "Chevrolet Colorado"
+ },
+ "rental|Cars and pick-ups|Mitsubishi Triton double cab pick-up": {
+  "prestation": "ce5cd3b0-1805-5d8e-ae96-a95e6a53fd82",
+  "gestion": "Mitsubishi Triton Double Cab"
+ },
+ "rental|Cars and pick-ups|Mitsubishi Xpander": {
+  "prestation": "15af440d-25ee-515c-aaf0-4dd66b5ce145",
+  "gestion": "Mitsubishi Xpander"
+ },
+ "rental|Cars and pick-ups|Suzuki Swift": {
+  "prestation": "f306bce8-f87a-5e3a-ab4d-923abb0861ec",
+  "gestion": "Suzuki Swift"
+ },
+ "rental|Cars and pick-ups|Toyota Fortuner, 7 seats": {
+  "prestation": "87819757-945f-5061-a3e0-da5cda326b9a",
+  "gestion": "Toyota Fortuner"
+ },
+ "rental|Cars and pick-ups|Toyota Yaris": {
+  "prestation": "7489a04d-bc68-54e6-ab9e-fa13c458c373",
+  "gestion": "Toyota Yaris"
+ },
+ "rental|Cars and pick-ups|Toyota Yaris Ativ": {
+  "prestation": "4d574b84-559c-5ecb-ab7f-96255e3a7d26",
+  "gestion": "Toyota Yaris Ativ"
+ },
+ "rental|Scooters and small bikes|Honda ADV 350": {
+  "prestation": "a63d7c38-fa11-5ed6-ae9b-dcb3ba164937",
+  "gestion": "Honda ADV 350"
+ },
+ "rental|Scooters and small bikes|Honda Click 125": {
+  "prestation": "a64e2400-a168-567e-a514-9af05aa87d0f",
+  "gestion": "Honda Click 125"
+ },
+ "rental|Scooters and small bikes|Honda Click 160": {
+  "prestation": "f4331c2f-edde-573e-a8bd-c78a5b1489a9",
+  "gestion": "Honda Click 160"
+ },
+ "rental|Scooters and small bikes|Honda Forza 350": {
+  "prestation": "9087bd2c-40ab-53ea-a393-93df1ad1ee73",
+  "gestion": "Honda Forza 350"
+ },
+ "rental|Scooters and small bikes|Honda MSX 125": {
+  "prestation": "0483bab2-ff24-5e1b-a05b-ef53e0ee29e5",
+  "gestion": "Honda MSX 125"
+ },
+ "rental|Scooters and small bikes|Honda PCX 150": {
+  "prestation": "23ba14c5-126f-5652-a7f4-9b82ed707992",
+  "gestion": "Honda PCX 150"
+ },
+ "rental|Scooters and small bikes|Honda PCX 160": {
+  "prestation": "bb013c90-eb8f-5bf4-a392-a95253be9bfc",
+  "gestion": "Honda PCX 160"
+ },
+ "rental|Scooters and small bikes|Honda Scoopy": {
+  "prestation": "5a86b51b-c878-547a-ac7b-5dfe6720bcd8",
+  "gestion": "Honda Scoopy 110"
+ },
+ "rental|Scooters and small bikes|Honda Wave 110": {
+  "prestation": "14523fda-9848-5243-a6f9-49e78a426b9e",
+  "gestion": "Honda Wave 110"
+ },
+ "rental|Scooters and small bikes|Yamaha Aerox 155": {
+  "prestation": "b51ea004-b5c9-5afc-a7ec-b9c3a11446bf",
+  "gestion": "Yamaha Aerox 155"
+ },
+ "rental|Scooters and small bikes|Yamaha Fazzio": {
+  "prestation": "83b63ee1-3ec4-58a1-af9c-1a92415e7585",
+  "gestion": "Yamaha Fazzio 125"
+ },
+ "rental|Scooters and small bikes|Yamaha Fino 125": {
+  "prestation": "0f82f3ab-b489-58d3-a610-5eefa274bb47",
+  "gestion": "Yamaha Fino 125"
+ },
+ "rental|Scooters and small bikes|Yamaha Grand Filano Hybrid": {
+  "prestation": "62cadde5-52a2-54f2-a63b-90a23a70f63e",
+  "gestion": "Yamaha Grand Filano Hybrid"
+ },
+ "rental|Scooters and small bikes|Yamaha N-MAX": {
+  "prestation": "7e52dac4-06ce-54de-a822-54c49512f37d",
+  "gestion": "Yamaha N-MAX"
+ },
+ "rental|Scooters and small bikes|Yamaha Tricity 125, three wheels": {
+  "prestation": "c24588c9-617f-5c4b-a319-19dc9421dbee",
+  "gestion": "Yamaha Tricity 125"
+ },
+ "rental|Scooters and small bikes|Yamaha X-MAX 300": {
+  "prestation": "ba18df70-b6b1-5e07-af87-69eb8c36288c",
+  "gestion": "Yamaha X-MAX 300"
+ },
+ "rental|Scooters and small bikes|Zoomer X 110": {
+  "prestation": "8fc7d9ec-8131-5788-ae85-4b767093a142",
+  "gestion": "Zoomer X 110"
+ },
+ "scuba-diving|Courses|Advanced Open Water Diver, 2 days, 5 dives": {
+  "prestation": "74a7cce0-a9f7-5c64-ad7b-5ea1b7d66daa",
+  "gestion": "Advanced Open Water (2 days, 5 dives)"
+ },
+ "scuba-diving|Courses|Deep Diver specialty, 2 days, 5 dives": {
+  "prestation": "5816cec2-9bf7-5283-aac3-da915cf5c03b",
+  "gestion": "Deep specialty (2 days, 5 dives)"
+ },
+ "scuba-diving|Courses|Nitrox specialty, theory only": {
+  "prestation": "c28d0776-3038-5516-aa44-b9c146351b3f",
+  "gestion": "Nitrox specialty (theory only)"
+ },
+ "scuba-diving|Courses|Open Water Diver, 3 days, 4 dives": {
+  "prestation": "c17460d1-4bba-5b10-aa37-a7d9865b535e",
+  "gestion": "Open Water Diver (18 m, 3 days, 4 dives)"
+ },
+ "scuba-diving|Courses|React Right and Stress and Rescue Diver, 3 days, 4 dives": {
+  "prestation": "5b9dbcfa-4640-5949-aa1b-1657e57b5855",
+  "gestion": "React Right + Stress & Rescue (3 days, 4 dives)"
+ },
+ "scuba-diving|Fun dives for certified divers|2 dives, Koh Haa": {
+  "prestation": "cf7ed517-1fb7-5489-aefb-e1e394a4681b",
+  "gestion": "Koh Haa, 2 dives (big boat)"
+ },
+ "scuba-diving|Fun dives for certified divers|2 dives, Phi Phi and Koh Bida": {
+  "prestation": "9854ddaf-1e9e-597c-a969-340f25f9dce8",
+  "gestion": "Phi Phi and Koh Bida, 2 dives (big boat)"
+ },
+ "scuba-diving|Fun dives for certified divers|Extra dive, decided on the day": {
+  "prestation": "c8bfabc9-780f-5124-ab89-d14b646a5da6",
+  "gestion": "Extra dive"
+ },
+ "scuba-diving|Fun dives for certified divers|Refresher, added to a local trip, compulsory after a year without diving": {
+  "prestation": "c626c2c3-7b79-5e2b-a241-c125371522b7",
+  "gestion": "Refresher, added to a local trip"
+ },
+ "scuba-diving|One-day experience, 2 dives|Discover Basic Diver, from age 10": {
+  "prestation": "a07ef785-d3fb-59d1-ab8a-59219e24625b",
+  "gestion": "Discover Basic Diver (from age 10, 2 dives)"
+ },
+ "scuba-diving|One-day experience, 2 dives|Scuba Explorer, from age 8": {
+  "prestation": "ccdfd52f-c834-5f97-a72d-5862e7152068",
+  "gestion": "Scuba Explorer (from age 8, 2 dives)"
+ },
+ "scuba-diving|Rentals and discounts|Dive computer": {
+  "prestation": "8f168f53-c60d-5e81-a1a6-28f191187120",
+  "gestion": "Dive computer rental"
+ },
+ "scuba-diving|Rentals and discounts|GoPro Hero and accessories": {
+  "prestation": "8e01d0c8-356d-55d5-a9d7-ae57b29a8b27",
+  "gestion": "GoPro Hero and accessories rental"
+ },
+ "scuba-diving|Rentals and discounts|Your own BCD, daily discount": {
+  "prestation": null,
+  "gestion": null,
+  "note": "Remise du prestataire sur le matériel personnel, notée dans la fiche partenaire, pas une prestation de Gestion"
+ },
+ "scuba-diving|Rentals and discounts|Your own mask, fins and snorkel, daily discount": {
+  "prestation": null,
+  "gestion": null,
+  "note": "idem"
+ },
+ "scuba-diving|Rentals and discounts|Your own regulator, daily discount": {
+  "prestation": null,
+  "gestion": null,
+  "note": "idem"
+ },
+ "scuba-diving|Special trips by catamaran, 3 dives|Deep adventure dive, on top of a special trip": {
+  "prestation": "9bb538f7-62ed-514a-a9fb-3259885f43c6",
+  "gestion": "Deep Adventure Dive, on top of a special trip"
+ },
+ "scuba-diving|Special trips by catamaran, 3 dives|Northern trip, back at 4.30 pm": {
+  "prestation": "549e2aae-2dd0-5dde-a4f9-bdf545234036",
+  "gestion": "Northern trip, 3 dives (back at 4.30 pm)"
+ },
+ "scuba-diving|Special trips by catamaran, 3 dives|Southern trip, back at 5 pm": {
+  "prestation": "e44f254f-730a-5954-acd2-0e1b7e113cf0",
+  "gestion": "Southern trip, 3 dives (back at 5 pm)"
+ },
+ "snorkelling|Snorkelling on the dive boat|Adult, from age 12": {
+  "prestation": "795909b5-cb85-50f7-a688-a0b199caef73",
+  "gestion": "Snorkelling on the dive boat"
+ },
+ "snorkelling|Snorkelling on the dive boat|Child, 5 to 11": {
+  "prestation": "a154c221-4abb-5c39-a97e-540a827a70be",
+  "gestion": "Snorkelling on the dive boat, child (5-11)"
+ },
+ "snorkelling|Snorkelling on the dive boat|Nanny on board for your children": {
+  "prestation": "6e11b321-8c84-5371-ad33-9b7f72b86b3a",
+  "gestion": "Nanny on board for your children"
+ },
+ "sunrise-raft|Private raft at sunrise|1 or 2 people, the raft": {
+  "prestation": "bcdf0c72-7a4a-5485-a4b0-2c98e1892f83",
+  "gestion": "Program A: Sunrise View, for 1 to 2 people"
+ },
+ "sunrise-raft|Private raft at sunrise|Child 3 to 9, per person": {
+  "prestation": "b0e9a373-a51c-56aa-ad31-a4612e277a8b",
+  "gestion": "Program A: Sunrise View, child (3-9)"
+ },
+ "sunrise-raft|Private raft at sunrise|Each extra person": {
+  "prestation": "cda7b31d-d912-5245-a1e7-9ce821b35e03",
+  "gestion": "Program A: Sunrise View, extra person, on top of the first 2 people"
+ },
+ "sunset-dinner-raft|Private raft, sunset dinner|1 or 2 people, the raft": {
+  "prestation": "8dd08629-e895-5f93-a3b0-2bceb8608aaa",
+  "gestion": "Program C: Luxury Sunset Dinner & Plankton Bioluminescent, for 1 to 2 people"
+ },
+ "sunset-dinner-raft|Private raft, sunset dinner|Child 3 to 9, per person": {
+  "prestation": "608e200b-bfdd-5120-a118-d64d46ee0c3a",
+  "gestion": "Program C: Luxury Sunset Dinner & Plankton Bioluminescent, child (3-9)"
+ },
+ "sunset-dinner-raft|Private raft, sunset dinner|Each extra person": {
+  "prestation": "b459be5f-29d0-5ab6-a2c7-ff2b2db93908",
+  "gestion": "Program C: Luxury Sunset Dinner & Plankton Bioluminescent, extra person, on top of the first 2 people"
+ },
+ "taxi|hat-yai-koh-lanta|from": {
+  "prestation": "f5917520-6927-5cb0-a1c1-399cce1c301e",
+  "gestion": "Hatyai (town and airport)"
+ },
+ "taxi|koh-lanta-ao-nang|from": {
+  "prestation": "e55d4dbf-c69d-5e2d-aeb9-2eaf07e15dbd",
+  "gestion": "Ao Nang"
+ },
+ "taxi|koh-lanta-donsak-pier|from": {
+  "prestation": "f81dbd59-8777-56f6-a22f-bd3fdcb7bbbd",
+  "gestion": "Donsak Pier"
+ },
+ "taxi|koh-lanta-khao-lak|from": {
+  "prestation": "1fd677dc-1985-50bc-a6b3-8caccdd4da37",
+  "gestion": "Koh Lanta to Khao Lak"
+ },
+ "taxi|koh-lanta-khao-sok|from": {
+  "prestation": "01704696-843c-5792-a245-aaae1ee0a9f5",
+  "gestion": "Koh Lanta to Khao Sok"
+ },
+ "taxi|koh-lanta-krabi-day-trip|from": {
+  "prestation": "b8418ad0-0eec-5345-ab63-73a0a1ddd5d6",
+  "gestion": "Full-day trip, Emerald Pool and Krabi Hot Springs"
+ },
+ "taxi|koh-lanta-krabi-town|from": {
+  "prestation": "4eb24d5d-8261-5e1f-a4bf-ca215987d2ce",
+  "gestion": "Krabi Town"
+ },
+ "taxi|koh-lanta-pak-bara-pier|from": {
+  "prestation": "9b98dad8-e05a-5cf6-af11-c215c6d1cb9b",
+  "gestion": "Pakbara Pier"
+ },
+ "taxi|koh-lanta-phuket|Patong, Kata and Karon": {
+  "prestation": "067f78bb-df8b-5151-a6d1-3cad04ccd1ed",
+  "gestion": "Patong, Kata and Karon"
+ },
+ "taxi|koh-lanta-phuket|Phuket Town": {
+  "prestation": "f54dc944-fea2-5ee3-a382-8674cd705c2a",
+  "gestion": "Phuket Airport and town"
+ },
+ "taxi|koh-lanta-trang|from": {
+  "prestation": "fe0698ce-d2f9-5b55-afc4-7f7541562d10",
+  "gestion": "Trang (town, airport, station)"
+ },
+ "taxi|krabi-airport-ao-nang|from": {
+  "prestation": "762abdf2-2c38-5689-a838-ad8fa1b49fba",
+  "gestion": "Krabi Airport to Ao Nang"
+ },
+ "taxi|krabi-airport-koh-lanta|from": {
+  "prestation": "58252c98-7e6c-57b5-ae50-bb8c566a06e5",
+  "gestion": "Krabi Airport"
+ },
+ "taxi|phuket-airport-ao-nang|from": {
+  "prestation": "27eff8cc-79d2-59e1-ad77-d3d316d80b13",
+  "gestion": "Phuket Airport to Ao Nang"
+ },
+ "taxi|phuket-airport-khao-lak|from": {
+  "prestation": "ed90dacf-cf27-58e1-ab10-1f681c3682b3",
+  "gestion": "Phuket Airport to Khao Lak"
+ },
+ "taxi|phuket-airport-koh-lanta|from": {
+  "prestation": "f54dc944-fea2-5ee3-a382-8674cd705c2a",
+  "gestion": "Phuket Airport and town"
+ },
+ "taxi|phuket-khao-sok|from": {
+  "prestation": "47d59d72-1777-51f0-a19b-14c2e39f51a5",
+  "gestion": "Phuket to Khao Sok"
+ },
+ "taxi|surat-thani-khao-sok|from": {
+  "prestation": "94fef2b8-5389-57e0-a07a-38a52b84fcaf",
+  "gestion": "Surat Thani to Khao Sok"
+ },
+ "taxi|surat-thani-koh-lanta|Donsak Pier": {
+  "prestation": "f81dbd59-8777-56f6-a22f-bd3fdcb7bbbd",
+  "gestion": "Donsak Pier"
+ },
+ "taxi|surat-thani-koh-lanta|Surat Thani Airport and bus terminal": {
+  "prestation": "0af08f17-b1fd-512e-a414-d914e0cc7abf",
+  "gestion": "Surat Thani (town, airport, station)"
+ }
+}
