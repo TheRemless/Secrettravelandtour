@@ -6,6 +6,7 @@ permalink: /tours/speedboat/
 {% import "components/v4.njk" as v4 %}
 {% import "components/v4-product.njk" as vp %}
 {% from "components/booking.njk" import bookingSheet %}
+{% from "components/icons.njk" import icon %}
 {%- set d = v4data -%}
 {%- set t = d.speedboatPage -%}
 {%- set c = d.contact -%}
@@ -72,6 +73,23 @@ permalink: /tours/speedboat/
       </div>
       {%- endfor %}
       {%- if t.checkIn %}<p class="sb__check">{{ t.checkIn }}</p>{% endif %}
+    </div>
+  </section>
+
+  {#- Autre trajet : la grille ne montre que les bateaux réguliers, le reste s'organise sur WhatsApp
+      (demande de Jérémy du 12.11.2026). Même bloc que « un message WhatsApp » de l'accueil ; message d'exemple. -#}
+  {%- set otherMsg = "Speedboat request, another route\nFrom: \nTo: \nDate: \nPeople: " %}
+  <section class="sec sec--tight" id="other-route" aria-labelledby="other-h">
+    <div class="wrap how">
+      <div class="how__text">
+        <h2 id="other-h">Another island, another route?</h2>
+        <p>The timetable shows the regular boats. If your trip is not on it, send us where you are going and when, and we sort it out with you on WhatsApp.</p>
+        <a class="btn btn--lg press how__cta" href="{{ v4.waHref(c.number, otherMsg) }}">{{ icon("whatsapp") }}Ask about your route</a>
+      </div>
+      <figure class="chat" aria-label="Example of a request for a route that is not in the timetable">
+        <p class="chat__to">{{ icon("whatsapp") }}Secret Travel &amp; Tour</p>
+        <p class="chat__out">Hi! We need to get from Koh Lanta to Koh Tao on 14 January, 2 adults. Can you help?<span class="chat__t">09:12 {{ v4.glyph("check") }}</span></p>
+      </figure>
     </div>
   </section>
 
