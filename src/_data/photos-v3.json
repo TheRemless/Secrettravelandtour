@@ -149,14 +149,14 @@
       "usage": "Thai cooking class card",
       "file": "secret/v3/card-cooking.jpg",
       "ratio": "4:3",
-      "position": "50% 50%",
-      "alt": "Herbs, chillies and spices laid out for a Thai cooking class",
+      "position": "50% 40%",
+      "alt": "A Thai chef in a white toque showing two students how to prepare their dishes at the cooking school",
       "placeholder": false,
-      "source": "Photo d'un partenaire, accord donné à Jérémy (10.11.2026)",
-      "author": "Photo d'un partenaire, accord donné à Jérémy (10.11.2026)",
-      "licence": "Propriété du client ou du partenaire, usage autorisé",
+      "source": "Photo de l'ancienne page /secret/ de Zwald (src/images/secret/cooking-class.webp, 27.10.2026), choisie par Jérémy le 12.11.2026 (photo 2), recadrée en 4:3",
+      "author": "Photo du partenaire, fournie par Jérémy",
+      "licence": "Propriété du partenaire, usage autorisé",
       "url": "",
-      "shot": "Mortar and pestle, curry paste, hands."
+      "shot": "Chef and students at their cooking stations."
     },
     {
       "id": "card-scuba",
