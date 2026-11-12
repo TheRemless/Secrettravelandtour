@@ -359,20 +359,6 @@
       "licence": "Propriété du client ou du partenaire, usage autorisé",
       "url": "",
       "shot": "Kayaks among the mangrove roots."
-    },
-    {
-      "id": "card-snorkelling",
-      "usage": "Snorkelling card",
-      "file": "secret/v3/card-snorkelling.jpg",
-      "ratio": "4:3",
-      "position": "50% 50%",
-      "alt": "A group snorkelling in clear turquoise water",
-      "placeholder": false,
-      "source": "Photo d'un partenaire, accord donné à Jérémy (10.11.2026)",
-      "author": "Photo d'un partenaire, accord donné à Jérémy (10.11.2026)",
-      "licence": "Propriété du client ou du partenaire, usage autorisé",
-      "url": "",
-      "shot": "Snorkellers at the surface over the reef."
     }
   ]
 }

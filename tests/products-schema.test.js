@@ -40,10 +40,10 @@ function walk(value, where, visit) {
   else if (value && typeof value === "object") for (const [k, v] of Object.entries(value)) walk(v, `${where}.${k}`, visit);
 }
 
-test("produits : 32 fichiers dans les bons dossiers (découpage des fiches du 11.11.2026, taxi 13)", () => {
+test("produits : 31 fichiers dans les bons dossiers (découpage du 11.11.2026, snorkeling dans la plongée le 12.11, taxi 13)", () => {
   const count = (f) => files.filter((x) => x.folder === f).length;
   assert.equal(count("tours"), 7);
-  assert.equal(count("activities"), 9);
+  assert.equal(count("activities"), 8);
   assert.equal(count(""), 1);
   assert.equal(count("secret-transfers"), 2);
   assert.equal(count("taxi"), 13); // + Koh Lanta ↔ Phuket et Pak Bara Pier (10.11.2026)
@@ -245,7 +245,7 @@ const DECOUPEES = {
   mangroves: ["/tours/mangroves/", "/tours/sunrise-raft/", "/tours/sunset-dinner-raft/", "/tours/fishing-trip/", "/tours/mangrove-kayaking/"],
   kayak: ["/tours/kayak/", "/tours/mangrove-kayaking/", "/tours/mangroves/"],
   "koh-talabeng-koh-bubu": ["/tours/kayak/"],
-  "scuba-diving": ["/tours/scuba-diving/", "/tours/snorkelling/"]
+  "scuba-diving": ["/tours/scuba-diving/"]
 };
 const REMPLACES = ["elephant-sanctuary"];
 

@@ -15,7 +15,7 @@ const thb = (n) => Number(n).toLocaleString("en-GB") + " THB";
 const cfgOf = (doc) => JSON.parse(doc.match(/<script type="application\/json" id="book-data">([\s\S]*?)<\/script>/)[1]);
 const outsideSheet = (doc) => doc.replace(/<dialog class="sheet" id="book"[\s\S]*?<\/dialog>/, "");
 
-const TOURS = ["tours/koh-rok-koh-haa", "tours/koh-phi-phi", "tours/mangroves", "tours/fishing-trip", "tours/sunset-dinner-raft", "tours/sunrise-raft", "activities/mangrove-kayaking", "activities/snorkelling", 
+const TOURS = ["tours/koh-rok-koh-haa", "tours/koh-phi-phi", "tours/mangroves", "tours/fishing-trip", "tours/sunset-dinner-raft", "tours/sunrise-raft", "activities/mangrove-kayaking", 
   "activities/elephant-sanctuary", "activities/kayak", "activities/cooking-class", "activities/scuba-diving", "activities/atv", "activities/batik", "activities/go-kart"].map(P);
 const RENTAL = P("rental");
 const SPEED = P("secret-transfers/speedboat-ferry");
