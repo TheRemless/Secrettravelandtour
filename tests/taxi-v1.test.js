@@ -69,14 +69,15 @@ test("aucun téléphone, aucun prix inventé, plus de « Minivan Taxi » sur le 
   assert.equal(T.byId["krabi-khao-sok"].price, null);
 });
 
-test("hub : les 17 trajets en liens, une feuille libre From et To, la liste des lieux", () => {
+test("hub : les 17 trajets en liens, une feuille libre Pickup et Drop-off, la liste des lieux", () => {
   const doc = page("/taxi/");
   for (const r of T.routes) assert.match(doc, new RegExp(`<a class="rr" href="${r.url}"`), r.id);
   const cfg = config(doc);
   assert.equal(cfg.variant, "taxi");
   assert.ok(!cfg.from && !cfg.to);
-  assert.match(doc, /<input id="book-from"/);
-  assert.match(doc, /<input id="book-to"/);
+  assert.match(doc, /<input id="book-pickupAt"/);
+  assert.match(doc, /<input id="book-dropoffAt"/);
+  assert.doesNotMatch(doc, /<input id="book-from"|<input id="book-to"/);
   assert.match(doc, /id="taxi-places"/);
   assert.match(doc, /<aside class="stt"/);
 });

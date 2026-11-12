@@ -108,15 +108,15 @@ test("/taxi/ : « Private only » n'est plus dit comme une règle de tout le sit
 test("feuille : la demande de minivan partagé est au nom de Secret Travel & Tour, sans prix, sans mot VIP", () => {
   const cfg = { variant: "taxi", shared: true, brand: "Secret Travel & Tour", product: "Shared minivan", productId: "transfers-shared", page: "secrettravelandtour.com/transfers/", from: "", to: "" };
   const st = Object.assign(B.emptyState(cfg), {
-    today: "2026-11-03", from: "Krabi Airport", to: "Koh Lanta", dateChoice: "other", dateOther: "2026-11-10", time: "14:30",
+    today: "2026-11-03", dateChoice: "other", dateOther: "2026-11-10", time: "14:30", flight: "FD3xxx",
     adults: 2, childAges: [], bags: 2, pickupAt: "Krabi Airport arrivals", dropoffAt: "Hotel on Klong Dao", name: "Anna"
   });
   const msg = B.buildMessage(cfg, st);
-  assert.equal(msg.split("\n")[0], "Shared minivan request (Secret Travel & Tour): Krabi Airport to Koh Lanta");
-  assert.match(msg, /Preferred pickup time: 14:30/);
+  assert.equal(msg.split("\n")[0], "Shared minivan request (Secret Travel & Tour): Krabi Airport arrivals to Hotel on Klong Dao");
+  assert.match(msg, /Preferred pickup time: 14:30 \(landing\)/);
   assert.doesNotMatch(msg, /VIP|THB|Price on the site|Transfer request/);
   assert.deepEqual(B.validate(cfg, st), {});
   // La demande VIP de /taxi/ ne change pas.
   const vip = Object.assign({}, cfg, { shared: false, brand: "VIP Taxi Lanta", product: "Private transfer" });
-  assert.match(B.buildMessage(vip, st).split("\n")[0], /^Transfer request: Krabi Airport to Koh Lanta/);
+  assert.match(B.buildMessage(vip, st).split("\n")[0], /^Transfer request: Krabi Airport arrivals to Hotel on Klong Dao/);
 });

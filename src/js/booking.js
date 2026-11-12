@@ -69,6 +69,23 @@
     return DAYS[d.getUTCDay()] + " " + d.getUTCDate() + " " + MONTHS[d.getUTCMonth()];
   }
 
+  // Ce qu'est un bout de trajet : avion (numéro de vol et heure d'atterrissage), ferry ou bus (heure d'arrivée), sinon un hôtel.
+  // Lu dans le texte du champ, donc aussi pour les lieux saisis librement sur le hub et le minivan partagé.
+  var AIR_RE = /airport|aeroport|a[eé]roport|\b(?:KBV|HKT|USM|HDY|TST|BKK|DMK|NST)\b|suvarnabhumi|don ?mueang/i;
+  var SEA_RE = /\b(?:pier|ferry|port|terminal|station|bus)\b/i;
+  function endKind(text) {
+    var t = typeof text === "string" ? text : "";
+    return AIR_RE.test(t) ? "air" : SEA_RE.test(t) ? "sea" : "";
+  }
+  function timeLabel(kind, shared) {
+    return kind === "air" ? "Landing time" : kind === "sea" ? "Arrival time" : shared ? "Preferred pickup time" : "Pickup time";
+  }
+
+  // Sortie du jour : plus proposée une fois le ramassage commencé (heure du premier ramassage tirée des données, config.pickupFrom).
+  function todayClosed(config, nowTime) {
+    return Boolean(config && config.variant === "tour" && config.pickupFrom && nowTime && nowTime >= config.pickupFrom);
+  }
+
   function clean(value) {
     return typeof value === "string" ? value.replace(/\s+/g, " ").trim() : "";
   }
@@ -249,6 +266,11 @@
     for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i];
     return null;
   }
+  function findSlot(config, id) {
+    var list = config.departures || [];
+    for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i];
+    return null;
+  }
   function findDeparture(route, id) {
     var list = (route && route.deps) || [];
     for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i];
@@ -259,7 +281,7 @@
     if (config.from && config.to) {
       return state.direction === "back" ? config.to + " to " + config.from : config.from + " to " + config.to;
     }
-    return clean(state.from) + " to " + clean(state.to);
+    return clean(state.pickupAt) + " to " + clean(state.dropoffAt);
   }
 
   // La première ligne dit tout de suite ce qui est demandé : l'agence trie ses messages sur elle.
@@ -273,8 +295,12 @@
       if (config.shared) lines.push("Shared minivan request (" + config.brand + "): " + routeLabel(config, state));
       else lines.push("Transfer request: " + routeLabel(config, state) + (vehicle ? " – " + vehicle.title : config.vehicle ? " (" + config.vehicle + ")" : ""));
       if (date) lines.push("Date: " + formatDate(date));
-      if (clean(state.time)) lines.push((config.shared ? "Preferred pickup time: " : "Pickup time: ") + clean(state.time));
-      if (clean(state.flight)) lines.push("Flight or ferry: " + clean(state.flight));
+      // Gestion lit « Pickup time » : l'heure d'atterrissage ou d'arrivée y reste, dite entre parenthèses.
+      var kind = endKind(state.pickupAt);
+      var slot = (config.departures || []).filter(function (d) { return d.id === state.slot; })[0];
+      if (slot) lines.push("Departure: " + slot.label);
+      else if (clean(state.time)) lines.push((config.shared ? "Preferred pickup time: " : "Pickup time: ") + clean(state.time) + (kind === "air" ? " (landing)" : kind === "sea" ? " (arrival)" : ""));
+      if (kind && clean(state.flight)) lines.push("Flight or ferry: " + clean(state.flight));
       lines.push("Guests: " + guestsLine(state.adults, state.childAges));
       if (state.childSeats > 0 && (state.childAges || []).length) lines.push("Child seats: " + state.childSeats);
       if (state.bags > 0) lines.push("Bags: " + state.bags);
@@ -411,7 +437,7 @@
       if (a === "" || a === null || a === undefined) { out.ages[i] = "Choose the age of child " + (i + 1) + "."; n++; }
     });
     if (!clean(list.pickup)) { out.pickup = "Add your hotel so we know where to pick you up."; n++; }
-    if (!clean(list.name)) { out.name = "Add your first name."; n++; }
+    if (!clean(list.name)) { out.name = "Add your name."; n++; }
     out.count = n;
     return out;
   }
@@ -473,7 +499,7 @@
       else if (!clean(state.timeFrom) || !clean(state.timeTo)) errors.dates = "Add the time you take the vehicle and the time you bring it back.";
       else if (state.dateTo === state.dateFrom && clean(state.timeTo) <= clean(state.timeFrom)) errors.dates = "The return time is before the start time.";
       if (!(state.vehicles > 0)) errors.vehicles = "Add at least one vehicle.";
-      if (!clean(state.name)) errors.name = "Add your first name.";
+      if (!clean(state.name)) errors.name = "Add your name.";
       return errors;
     }
 
@@ -495,6 +521,11 @@
     var date = resolveDate(state.dateChoice, state.dateOther, state.today);
     if (!date) errors.date = "Pick a date.";
     else if (date < state.today) errors.date = "That date has passed.";
+    else if (date === state.today && todayClosed(config, state.nowTime)) errors.date = "Pickups for today have started. Choose tomorrow or another day.";
+    else if (config.variant === "speedboat" && date === state.today && state.nowTime) {
+      var gone = findDeparture(findRoute(config, state.route), state.departure);
+      if (gone && /^\d{2}:\d{2}$/.test(gone.time) && gone.time <= state.nowTime) errors.date = "That boat has left for today. Choose another departure or another day.";
+    }
 
     if (config.variant === "tour") validateChoices(findOption(config, state.option), state, date, errors);
 
@@ -507,22 +538,23 @@
     }
 
     if (config.variant === "taxi") {
-      if (!(config.from && config.to)) {
-        if (!clean(state.from)) errors.from = "Tell us where we pick you up.";
-        if (!clean(state.to)) errors.to = "Tell us where you're going.";
-      }
-      if (!clean(state.time)) errors.time = "Choose a pickup time.";
+      var pk = endKind(state.pickupAt);
+      var slots = config.shared && (config.departures || []).length;
+      if (slots) { if (!findSlot(config, state.slot)) errors.slot = "Choose a departure time."; }
+      else if (!clean(state.time)) { if (!config.shared) errors.time = pk === "air" ? "Add your landing time." : pk === "sea" ? "Add the time you arrive." : "Choose a pickup time."; }
       else if (state.nowTime && date === state.today && clean(state.time) <= state.nowTime) errors.time = "That time has passed. Choose a later time.";
       // Les deux adresses font le prix : sans elles, la demande repart en question.
       if (!clean(state.pickupAt)) errors.pickupAt = "Add the pickup address.";
       if (!clean(state.dropoffAt)) errors.dropoffAt = "Add the drop-off address.";
+      // Pris à l'aéroport : sans numéro de vol, on ne peut pas suivre l'atterrissage.
+      if (pk === "air" && !clean(state.flight)) errors.flight = "Add your flight number.";
     } else if (config.variant === "speedboat") {
       if (!clean(state.pickup)) errors.pickup = "Add your hotel on Koh Lanta.";
     } else if (config.pickupRequired !== false && !clean(state.pickup)) {
       errors.pickup = "Add your hotel so we know where to pick you up.";
     }
 
-    if (!clean(state.name)) errors.name = "Add your first name.";
+    if (!clean(state.name)) errors.name = "Add your name.";
     return errors;
   }
 
@@ -552,7 +584,7 @@
     return {
       option: "", dateChoice: "", dateOther: "", adults: 2, childAges: [], pickup: "", name: "",
       vehicle: "", dateFrom: "", dateTo: "",
-      direction: "out", from: "", to: "", time: "", flight: "", bags: 0, childSeats: 0, address: "", pickupAt: "", dropoffAt: "", addons: [],
+      direction: "out", time: "", slot: "", flight: "", bags: 0, childSeats: 0, pickupAt: "", dropoffAt: "", addons: [],
       route: "", departure: "", tripType: "", returnDate: "", returnDeparture: "", returnTime: "",
       choices: {}, counts: {}, timeFrom: "", timeTo: "", vehicles: 1
     };
@@ -588,7 +620,29 @@
     function field(name) { return form.elements.namedItem(name); }
     function today() { return bangkokToday(new Date()); }
 
+    // Ce qu'on retient d'une feuille à l'autre pendant la visite (sessionStorage, effacé à la fermeture de l'onglet) :
+    // le nom, l'hôtel à Koh Lanta et le groupe. Le brouillon de chaque fiche, lui, reste 7 jours.
+    function who() {
+      try { return JSON.parse(sessionStorage.getItem("stt-who")) || {}; } catch (e) { return {}; }
+    }
+    function remember() {
+      var w = who(), opt = findOption(config, state.option), hotel = "";
+      if (clean(state.name)) w.name = clean(state.name);
+      if (config.variant === "taxi") {
+        if (config.from && config.to) {
+          var back = state.direction === "back";
+          if (/^Koh Lanta$/i.test(back ? config.to : config.from)) hotel = clean(state.pickupAt);
+          else if (/^Koh Lanta$/i.test(back ? config.from : config.to)) hotel = clean(state.dropoffAt);
+          if (endKind(hotel)) hotel = "";
+        }
+      } else if (!(opt && opt.departure)) hotel = clean(state.pickup);
+      if (hotel) w.hotel = hotel;
+      if (config.variant !== "rental" && state.adults > 0) { w.adults = state.adults; w.childAges = state.childAges.slice(); }
+      try { sessionStorage.setItem("stt-who", JSON.stringify(w)); } catch (e) { /* stockage indisponible */ }
+    }
+
     function save() {
+      remember();
       try { localStorage.setItem(storageKey, makeDraft(state, new Date())); } catch (e) { /* stockage indisponible */ }
       // La page (calculateur, bande du bas) suit la feuille : même état, des deux côtés.
       emit("stt-book-change", { productId: config.productId, state: state });
@@ -602,6 +656,18 @@
       var saved = null;
       try { saved = restoreDraft(localStorage.getItem(storageKey), new Date()); } catch (e) { saved = null; }
       if (saved) Object.keys(saved).forEach(function (k) { if (k in state) state[k] = saved[k]; });
+      return Boolean(saved);
+    }
+
+    // Première ouverture de cette fiche : le nom, l'hôtel et le groupe déjà donnés ailleurs dans la visite ne se retapent pas.
+    function carryOver(fresh) {
+      var w = who(), opt = findOption(config, state.option);
+      if (!clean(state.name) && w.name) state.name = w.name;
+      if (config.variant !== "taxi" && config.variant !== "rental" && !clean(state.pickup) && w.hotel && !(opt && opt.departure)) state.pickup = w.hotel;
+      if (fresh && config.variant !== "rental" && w.adults > 0) {
+        state.adults = w.adults;
+        if (Array.isArray(w.childAges)) state.childAges = w.childAges.slice();
+      }
     }
 
     // Les champs d'âge suivent le nombre d'enfants.
@@ -634,7 +700,7 @@
     }
 
     function fillForm() {
-      ["dateOther", "pickup", "name", "time", "flight", "address", "pickupAt", "dropoffAt", "from", "to", "vehicle", "dateFrom", "dateTo", "timeFrom", "timeTo", "returnDate", "returnTime"].forEach(function (k) {
+      ["dateOther", "pickup", "name", "time", "flight", "pickupAt", "dropoffAt", "vehicle", "dateFrom", "dateTo", "timeFrom", "timeTo", "returnDate", "returnTime"].forEach(function (k) {
         var el = field(k);
         if (el && typeof el.value === "string") el.value = state[k] || "";
       });
@@ -653,6 +719,7 @@
       fillChoices();
       setRadio("dateChoice", state.dateChoice);
       setRadio("direction", state.direction);
+      setRadio("slot", state.slot);
       var other = form.querySelector("[data-date-other]");
       if (other) other.hidden = state.dateChoice !== "other";
       var min = today();
@@ -663,9 +730,25 @@
       if (field("dateOther")) field("dateOther").min = min;
       if (field("dateFrom")) field("dateFrom").min = min;
       if (field("dateTo")) field("dateTo").min = state.dateFrom || min;
-      updateAddressLabel();
+      dateUI();
+      updateRouteTitle();
+      endsUI();
       renderChildAges();
       optionUI();
+    }
+
+    // Aujourd'hui n'est proposé que si on peut encore l'être : une sortie dont le ramassage a commencé passe à demain.
+    function dateUI() {
+      var closed = todayClosed(config, bangkokTime(new Date()));
+      Array.prototype.forEach.call(form.querySelectorAll('input[name="dateChoice"][value="today"]'), function (r) {
+        r.closest("label").hidden = closed;
+        var box = r.closest(".choice");
+        if (box) box.classList.toggle("is-two", closed);
+      });
+      if (closed && state.dateChoice === "today") {
+        state.dateChoice = "";
+        setRadio("dateChoice", "");
+      }
     }
 
     // L'option choisie sur la page : résumée en une ligne avec « Change » ; la liste revient sur demande.
@@ -800,12 +883,19 @@
     }
 
     // Taxi sur une page trajet : le bout qui est un lieu précis (aéroport, jetée) est déjà rempli, dans le bon sens.
+    // L'autre bout, quand c'est Koh Lanta, reprend l'hôtel déjà donné dans une autre feuille de la visite.
     function presetEnds() {
       var ends = config.ends;
       if (config.variant !== "taxi" || !ends) return;
       var back = state.direction === "back";
       if (!clean(state.pickupAt)) state.pickupAt = (back ? ends.to : ends.from) || "";
       if (!clean(state.dropoffAt)) state.dropoffAt = (back ? ends.from : ends.to) || "";
+      var hotel = who().hotel;
+      if (hotel && config.from && config.to) {
+        var pickPlace = back ? config.to : config.from, dropPlace = back ? config.from : config.to;
+        if (!clean(state.pickupAt) && /^Koh Lanta$/i.test(pickPlace)) state.pickupAt = hotel;
+        if (!clean(state.dropoffAt) && /^Koh Lanta$/i.test(dropPlace)) state.dropoffAt = hotel;
+      }
       lastDirection = state.direction || "out";
     }
 
@@ -815,25 +905,29 @@
       Array.prototype.forEach.call(dialog.querySelectorAll("[data-route-title]"), function (el) { el.textContent = routeLabel(config, state); });
     }
 
-    // Hub : From et To remplissent Pickup et Drop-off tant que le client ne les a pas changés.
-    var autoEnds = { pickupAt: "", dropoffAt: "" };
-    function syncHubEnds() {
-      if (config.variant !== "taxi" || (config.from && config.to)) return;
-      [["from", "pickupAt"], ["to", "dropoffAt"]].forEach(function (p) {
-        var src = clean(state[p[0]]), cur = clean(state[p[1]]);
-        if (!src || (cur && cur !== autoEnds[p[1]])) return;
-        state[p[1]] = src;
-        autoEnds[p[1]] = src;
-        if (field(p[1])) field(p[1]).value = src;
-        clearError(p[1]);
-      });
-    }
-
-    function updateAddressLabel() {
-      updateRouteTitle();
-      var label = form.querySelector("[data-address-label]");
-      if (!label || !(config.from && config.to)) return;
-      label.textContent = state.direction === "back" ? label.getAttribute("data-back") : label.getAttribute("data-out");
+    // Taxi : un bout déjà connu (aéroport, jetée d'une page trajet) n'est pas redemandé, il s'écrit en une ligne.
+    // Le vol, l'heure d'atterrissage ou d'arrivée ne se demandent que si le client est pris à un aéroport, un ferry ou un bus.
+    function endsUI() {
+      if (config.variant !== "taxi") return;
+      var ends = config.ends, back = state.direction === "back";
+      var fixedPick = ends ? ((back ? ends.to : ends.from) || "") : "";
+      var fixedDrop = ends ? ((back ? ends.from : ends.to) || "") : "";
+      var pk = form.querySelector('[data-end="pickup"]'), dp = form.querySelector('[data-end="dropoff"]'), line = form.querySelector("[data-fixed]");
+      var parts = [];
+      if (pk) { pk.hidden = Boolean(fixedPick) && clean(state.pickupAt) === fixedPick; if (pk.hidden) parts.push("Pickup: " + fixedPick); }
+      if (dp) { dp.hidden = Boolean(fixedDrop) && clean(state.dropoffAt) === fixedDrop; if (dp.hidden) parts.push("Drop-off: " + fixedDrop); }
+      if (line) { line.hidden = !parts.length; line.textContent = parts.join(". ") + (parts.length ? "." : ""); }
+      var kind = endKind(state.pickupAt);
+      var fl = form.querySelector("[data-flight]");
+      if (fl) {
+        fl.hidden = !kind;
+        var fLabel = fl.querySelector("label"), fInput = fl.querySelector("input");
+        fLabel.textContent = kind === "sea" ? "Ferry or bus details (optional)" : "Flight number";
+        if (kind === "air") { fInput.setAttribute("required", ""); fInput.setAttribute("aria-required", "true"); }
+        else { fInput.removeAttribute("required"); fInput.removeAttribute("aria-required"); }
+      }
+      var tl = form.querySelector("[data-time-label]");
+      if (tl) tl.textContent = timeLabel(kind, config.shared);
     }
 
     function readNumber(el, min, max) {
@@ -871,7 +965,6 @@
 
     function onChange(el) {
       readField(el);
-      if (el.name === "from" || el.name === "to") syncHubEnds();
       if (el.name === "dateChoice") {
         var other = form.querySelector("[data-date-other]");
         if (other) other.hidden = state.dateChoice !== "other";
@@ -886,9 +979,14 @@
         });
       }
       if (el.name === "direction") {
-        updateAddressLabel();
+        updateRouteTitle();
         // Taxi : l'aéroport de l'aller devient l'arrivée du retour, les deux adresses s'échangent.
         if (config.variant === "taxi" && el.checked) swapEnds();
+      }
+      if (config.variant === "taxi" && (el.name === "direction" || el.name === "pickupAt" || el.name === "dropoffAt")) {
+        endsUI();
+        clearError("flight");
+        clearError("time");
       }
       if (el.name === "route") { showDepartures(); setRadio("departure", state.departure); clearError("departure"); showReturn(); }
       if (el.name === "tripType") { showReturn(); clearError("returnTrip"); }
@@ -1077,6 +1175,7 @@
     var tripBtn = dialog.querySelector("[data-trip]");
     if (tripBtn) tripBtn.addEventListener("click", function () {
       state.today = today();
+      state.nowTime = bangkokTime(new Date());
       var errors = validate(config, state);
       ["pickup", "name"].forEach(function (k) { delete errors[k]; });
       if (Object.keys(errors).length) { showErrors(errors); return; }
@@ -1152,7 +1251,7 @@
     function open(optionId, trigger) {
       lastTrigger = trigger || null;
       state = emptyState(config);
-      load();
+      var fresh = !load();
       if (optionId) state.option = optionId;
       // Une ligne de la page précise davantage : le véhicule de la location, le trajet et le départ du speedboat.
       var attr = function (n) { return trigger && trigger.getAttribute ? trigger.getAttribute(n) || "" : ""; };
@@ -1161,11 +1260,9 @@
       sbSum = Boolean(attr("data-sb-route"));
       if (!state.option && (config.options || []).length === 1) state.option = config.options[0].id;
       sumMode = Boolean(optionId) && Boolean(findOption(config, state.option));
+      carryOver(fresh);
       presetEnds();
-      autoEnds = { pickupAt: "", dropoffAt: "" };
-      syncHubEnds();
       fillForm();
-      updateRouteTitle();
       showErrors({});
       show("form");
       markOptions();
@@ -1207,6 +1304,10 @@
     makeDraft: makeDraft,
     restoreDraft: restoreDraft,
     emptyState: emptyState,
+    endKind: endKind,
+    timeLabel: timeLabel,
+    todayClosed: todayClosed,
+    bangkokTime: bangkokTime,
     mount: mount
   };
 });

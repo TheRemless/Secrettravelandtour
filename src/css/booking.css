@@ -202,3 +202,8 @@ html.sheet-open { overflow: hidden; }
 .tick-row input { width: 20px; height: 20px; margin: 0; flex: none; accent-color: var(--sheet-accent); }
 .tick-row small { color: var(--sheet-mute); }
 .dates--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+/* Feuille v2 (11.11.2026) : « Today » retiré quand le ramassage a commencé, bout de trajet déjà connu, vol à l'aéroport. */
+.choice--3.is-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.f-fixed { margin: 0 0 var(--s3); padding: var(--s1) var(--s2); border-left: 4px solid var(--sheet-rule); font-size: var(--t2); line-height: var(--l2); color: var(--sheet-mute); }
+.f-fixed[hidden], .f[hidden] { display: none; }

@@ -69,7 +69,7 @@
 })();
 
 /* Anciens liens du hub (QR codes, pages Secret) : /taxi/?from=…&to=… et /taxi/#request ouvraient le formulaire.
-   Ils ouvrent maintenant la feuille, avec From et To remplis quand ils sont donnés. booking.js est chargé avant. */
+   Ils ouvrent maintenant la feuille, avec Pickup et Drop-off remplis par from et to quand ils sont donnés. booking.js est chargé avant. */
 (function () {
   var q = new URLSearchParams(location.search), from = q.get("from"), to = q.get("to");
   if (!from && !to && location.hash !== "#request") return;
@@ -77,7 +77,7 @@
     var btn = document.querySelector(".hero-act [data-book]");
     if (!btn) return;
     btn.click();
-    [["book-from", from], ["book-to", to]].forEach(function (p) {
+    [["book-pickupAt", from], ["book-dropoffAt", to]].forEach(function (p) {
       var el = document.getElementById(p[0]);
       if (el && p[1]) { el.value = p[1]; el.dispatchEvent(new Event("input", { bubbles: true })); }
     });
@@ -85,7 +85,7 @@
   if (document.readyState === "complete") go(); else window.addEventListener("load", go);
 })();
 
-/* Feuille du hub : From et To ouvrent la liste des lieux populaires (décision du 28.10.2026), qui se réduit pendant
+/* Feuille du hub : Pickup et Drop-off ouvrent la liste des lieux populaires (décision du 28.10.2026), qui se réduit pendant
    la saisie et laisse écrire n'importe quel lieu. Pattern ARIA « combobox avec listbox ». Lieux : #taxi-places. */
 (function () {
   var data = document.getElementById("taxi-places");
@@ -178,6 +178,6 @@
       if (li) choose(li);
     });
   }
-  setup(document.getElementById("book-from"), "book-to");
-  setup(document.getElementById("book-to"), "book-from");
+  setup(document.getElementById("book-pickupAt"), "book-dropoffAt");
+  setup(document.getElementById("book-dropoffAt"), "book-pickupAt");
 })();
