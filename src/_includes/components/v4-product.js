@@ -415,7 +415,7 @@ function includedGroups(p, optLabels) {
   if (!own) return null;
   const rest = Object.keys(optLabels).filter((id) => !own[id]);
   return [
-    { label: rest.map((id) => optLabels[id]).join(", "), items: p.included || [] },
+    ...(rest.length ? [{ label: rest.map((id) => optLabels[id]).join(", "), items: p.included || [] }] : []),
     ...Object.keys(own).map((id) => ({ label: optLabels[id], items: own[id] }))
   ];
 }
