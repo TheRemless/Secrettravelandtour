@@ -117,7 +117,7 @@ eleventyExcludeFromCollections: true
 <section class="van" aria-labelledby="h-van">
   {%- set g = taxi.gallery.photos -%}
   <div class="wrap van-in">
-    <figure class="van-wide"><img eleventy:ignore src="{{ g[0].src }}" width="{{ g[0].width }}" height="{{ g[0].height }}" loading="lazy" decoding="async" alt="{{ g[0].alt }}"></figure>
+    <figure class="van-wide"><img eleventy:ignore src="{{ g[2].src }}" width="{{ g[2].width }}" height="{{ g[2].height }}" loading="lazy" decoding="async" alt="{{ g[2].alt }}"></figure>
     <div class="van-text">
       <h2 id="h-van">{{ taxi.gallery.title }}</h2>
       <dl class="why">
@@ -126,7 +126,7 @@ eleventyExcludeFromCollections: true
         {%- endfor %}
       </dl>
     </div>
-    <figure class="van-in-photo"><img eleventy:ignore src="{{ g[2].src }}" width="{{ g[2].width }}" height="{{ g[2].height }}" loading="lazy" decoding="async" alt="{{ g[2].alt }}"></figure>
+    <figure class="van-in-photo"><img eleventy:ignore src="{{ g[0].src }}" width="{{ g[0].width }}" height="{{ g[0].height }}" loading="lazy" decoding="async" alt="{{ g[0].alt }}"></figure>
   </div>
 </section>
 
