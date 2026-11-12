@@ -122,6 +122,13 @@ test("prix « from » des fiches Secret (12.11.2026) : le montant de la page, un
   let n = 0;
   for (const p of secret) {
     const main = mainOf(BUILDER[p.template](p, site));
+    // Fiche à plusieurs formules (schema.offersByOption, Koh Phi Phi) : une offre par option, la plus basse est le prix de la page.
+    if (Array.isArray(main.offers)) {
+      assert.ok(p.schema.offersByOption && main.offers.length > 1, p.url);
+      n++;
+      assert.equal(Math.min(...main.offers.map((o) => o.priceSpecification.minPrice)), p.price.from, p.url);
+      continue;
+    }
     const spec = main.offers.priceSpecification;
     if (p.price && typeof p.price.from === "number" && !p.priceOnRequest) {
       n++;

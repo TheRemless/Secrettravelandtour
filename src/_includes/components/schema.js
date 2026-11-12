@@ -102,6 +102,16 @@ function mainId(product, site) {
 const place = (name) => ({ "@type": "Place", name });
 
 function offer(site, product) {
+  // Fiche à plusieurs formules de prix (schema.offersByOption, Koh Phi Phi 12.11.2026) : une offre par option, avec son propre prix « à partir de ».
+  if (product.schema && product.schema.offersByOption && !product.priceOnRequest) {
+    const list = (product.options || []).filter((o) => o.kind !== "extra").map((o) => ({ o, f: optionFrom(o) })).filter((x) => x.f);
+    if (list.length > 1) {
+      return list.map(({ o, f }) => ({
+        "@type": "Offer", name: o.label, url: abs(site, product.url), availability: IN_STOCK,
+        priceSpecification: clean({ "@type": "PriceSpecification", minPrice: f.thb, priceCurrency: "THB", description: `From price, ${f.unit}` })
+      }));
+    }
+  }
   // L'offre dit où demander et que c'est disponible ; le prix est celui « à partir de » de la page, quand il existe.
   const o = { "@type": "Offer", url: abs(site, product.url), availability: IN_STOCK };
   const f = fromPrice(product);
@@ -118,6 +128,15 @@ function fromPrice(product) {
   const p = product.price;
   if (!product.priceOnRequest && product.brand === "secret" && p && typeof p.from === "number" && p.from > 0 && (!p.currency || p.currency === "THB")) return { thb: p.from, unit: p.unit };
   return null;
+}
+
+// Prix « à partir de » d'une option : la ligne adulte (par adulte), sinon la plus petite tranche de groupe (par bateau).
+function optionFrom(o) {
+  const rows = (o.prices || []).filter((r) => typeof r.amount === "number" && r.amount > 0 && !r.supplement);
+  const adult = rows.find((r) => /^adult\b/i.test(r.label));
+  if (adult) return { thb: adult.amount, unit: "per adult" };
+  const tiers = rows.filter((r) => r.group).sort((a, b) => a.group.min - b.group.min);
+  return tiers.length ? { thb: tiers[0].amount, unit: tiers[0].unit || "per boat" } : null;
 }
 
 function itinerary(places) {

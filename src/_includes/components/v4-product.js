@@ -408,6 +408,18 @@ function optionFallback(p, site, o) {
   return `Booking request: ${p.name}${o ? " – " + o.label : ""}`;
 }
 
+// Listes « Included » par option quand la fiche en donne (includedByOption) : une liste par option citée, puis la liste
+// commune pour les options restantes. Sans includedByOption, la fiche garde une seule liste.
+function includedGroups(p, optLabels) {
+  const own = p.includedByOption;
+  if (!own) return null;
+  const rest = Object.keys(optLabels).filter((id) => !own[id]);
+  return [
+    { label: rest.map((id) => optLabels[id]).join(", "), items: p.included || [] },
+    ...Object.keys(own).map((id) => ({ label: optLabels[id], items: own[id] }))
+  ];
+}
+
 // ---------- Fiche bateau ou activité ----------
 function productPage(p, ctx) {
   const { site, schema } = ctx;
@@ -438,6 +450,8 @@ function productPage(p, ctx) {
     programme: prog,
     sideFacts: facts.side,
     included: p.included || [],
+    // Liste « Included » propre à une option (Koh Phi Phi, longtail privé) : la liste de la fiche vaut pour les autres options.
+    includedGroups: includedGroups(p, optLabels),
     notIncluded,
     beforeBook: byb,
     faq: (p.faq || []).filter((f) => !help || f.q !== help.q).map((f) => ({ ...f, q: nb(f.q) })),
