@@ -148,9 +148,25 @@ module.exports = function () {
     page: site.url.replace(/^https?:\/\//, "") + "/taxi/songthaew/"
   };
 
+  // Excursion privée d'une journée vers Krabi (12.11.2026) : une page propre, pas un trajet de A à B ; sa demande WhatsApp
+  // demande les stops voulus. Données : krabiDayTrip.json. JSON-LD : TaxiService avec le prix « from ».
+  const dt = require("./krabiDayTrip.json");
+  const dayTrip = {
+    ...dt,
+    price: { thb: dt.priceFrom.thb, label: `From ${dt.priceFrom.thb.toLocaleString("en-US")}\u00a0THB` },
+    jsonLd: schema.route({
+      slug: dt.slug, url: dt.url, brand: "vip", template: "route", name: dt.name, h1: dt.h1, lead: dt.lead,
+      route: { from: "Koh Lanta", to: "Krabi" },
+      faq: dt.faq,
+      priceFrom: dt.priceFrom,
+      schema: { type: "TaxiService", serviceType: "Private day trip with a driver", areaServed: ["Koh Lanta", "Krabi"] }
+    }, site)
+  };
+
   return {
     routes,
     byId,
+    dayTrip,
     songthaewBooking,
     regions,
     further: legacy.further,

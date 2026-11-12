@@ -527,3 +527,8 @@ details[open] .faq-mark::after { transform: rotate(0deg); }
 
 /* Pied de page : « Cookie settings » rouvre le choix de mesure d'audience (consent.js). */
 .foot-cookie { font: inherit; color: inherit; background: none; border: 0; padding-block: 11px; margin-block: -11px; text-decoration: underline; text-underline-offset: .2em; cursor: pointer; }
+
+/* Excursion d'une journée vers Krabi (12.11.2026) : les stops au choix, trois lignes sobres. */
+.stops { margin-top: 12px; display: grid; gap: 0; max-width: 28em; }
+.stops li { padding: 12px 0; border-top: 1px solid var(--rule); font-weight: 600; }
+.stops li:last-child { border-bottom: 1px solid var(--rule); }

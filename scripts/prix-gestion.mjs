@@ -47,6 +47,9 @@ export function siteRows() {
       else if (t.priceFrom && t.priceFrom.thb) rows.push({ key: `taxi|${t.slug}|from`, page: t.url, label: "from", amount: t.priceFrom.thb, approx: Boolean(t.priceFrom.approx) });
     }
   }
+  // Excursion privée d'une journée vers Krabi (krabiDayTrip.json) : son prix « from ».
+  const day = readJson(path.join(ROOT, "src", "_data", "krabiDayTrip.json"));
+  rows.push({ key: `taxi|${day.slug}|from`, page: day.url, label: "from", amount: day.priceFrom.thb, approx: false });
   return rows;
 }
 

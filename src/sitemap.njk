@@ -26,6 +26,9 @@ eleventyExcludeFromCollections: true
   <url>
     <loc>https://secrettravelandtour.com/taxi/songthaew/</loc>
   </url>
+  <url>
+    <loc>https://secrettravelandtour.com{{ taxiPages.dayTrip.url }}</loc>
+  </url>
 {%- for r in taxiPages.routes %}
   <url>
     <loc>https://secrettravelandtour.com{{ r.url }}</loc>

@@ -1,0 +1,89 @@
+---
+permalink: "{{ taxiPages.dayTrip.url }}"
+eleventyExcludeFromCollections: true
+---
+{#- Excursion privée d'une journée de Koh Lanta vers Krabi (12.11.2026). Données : krabiDayTrip.json, construites dans taxiPages.js.
+    Une seule fiche à la place de visa run, Emerald Pool + sources chaudes et tour de Koh Lanta. Aucun horaire, aucune durée, aucun prix par stop.
+    Le bouton ouvre WhatsApp avec un message qui demande les stops voulus (pas la feuille de trajet de booking.js). -#}
+{% import "components/taxi.njk" as tx %}
+{%- set T = taxiPages -%}
+{%- set D = T.dayTrip -%}
+{%- set fallback = tx.waHref(T.contact.number, D.message) -%}
+<!DOCTYPE html>
+<html lang="en-GB" data-refonte data-brand="vip">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{ D.title }}</title>
+<meta name="description" content="{{ D.metaDescription }}">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="{{ site.url }}{{ D.url }}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="VIP Taxi Lanta">
+<meta property="og:title" content="{{ D.title }}">
+<meta property="og:description" content="{{ D.metaDescription }}">
+<meta property="og:url" content="{{ site.url }}{{ D.url }}">
+<meta property="og:image" content="{{ site.url }}/images/taxi/og-taxi.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="VIP Taxi Lanta, Mr. Brown, private taxis and minivans">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/taxi/icon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/taxi/apple-touch-icon.png">
+<meta name="theme-color" content="#1B130D">
+<link rel="preload" as="font" type="font/woff2" href="/css/fonts/chonburi-400-normal-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/css/fonts/bai-jamjuree-400-normal-latin.woff2" crossorigin>
+<link rel="stylesheet" href="/css/booking.css?v={{ build.v }}">
+<link rel="stylesheet" href="/css/vip-taxi.css?v={{ build.v }}">
+<script>document.documentElement.classList.add("js");</script>
+{% include "consent-head.njk" %}
+{%- for j in D.jsonLd %}
+<script type="application/ld+json">{{ j | jsonld | safe }}</script>
+{%- endfor %}
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+{{ tx.top(T.contact) }}
+<main id="main" class="is-route">
+<section class="hero hero--route hero--sg" aria-labelledby="h1">
+  <div class="wrap hero-in">
+    <nav class="crumb" aria-label="Breadcrumb"><a href="/taxi/"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M15 5l-7 7 7 7"/></svg><span>All routes</span></a></nav>
+    <h1 id="h1">{{ D.h1 }}</h1>
+    <div class="route-lead">
+      <p class="lead">{{ D.lead }}</p>
+      <div class="hero-act">
+        <a class="btn btn--gold" href="{{ fallback }}">Ask on WhatsApp</a>
+        <p class="hero-note"><span class="hero-price">{{ D.price.label }}</span> per vehicle, depending on stops and hours.</p>
+        {{ tx.googleLine(T.rating) }}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="detail sg" aria-labelledby="h-stops">
+  <div class="wrap sg-in">
+    <div class="sg-text">
+      <h2 id="h-stops">{{ D.stopsIntro }}</h2>
+      <ul class="stops">{% for s in D.stops %}<li>{{ s }}</li>{% endfor %}</ul>
+    </div>
+    {%- for sec in D.sections %}
+    <div class="sg-text">
+      <h2 id="h-sg-{{ loop.index }}">{{ sec.h }}</h2>
+      <div class="prose">{% for para in sec.p %}<p>{{ para }}</p>{% endfor %}</div>
+    </div>
+    {%- endfor %}
+  </div>
+</section>
+
+<section class="qa" aria-labelledby="h-faq">
+  <div class="wrap qa-in">
+    <h2 id="h-faq">Questions</h2>
+    {{ tx.faq(D.faq) }}
+    <p class="all-routes"><a class="link-ink" href="/taxi/#routes">See all routes</a></p>
+  </div>
+</section>
+</main>
+{{ tx.footer(site, T.contact) }}
+<script src="/js/vip-taxi.js?v={{ build.v }}" defer></script>
+</body>
+</html>

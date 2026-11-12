@@ -15,7 +15,7 @@ test("chaque ligne de prix du site (hors frais de parc) porte une clé vers Gest
   const rows = siteRows();
   assert.ok(rows.length > 150, String(rows.length));
   const missing = rows.filter((r) => !KEYS[r.key]).map((r) => r.key);
-  // La fiche de l'excursion privée vers Krabi a sa clé avant sa page : elle n'est pas dans les lignes tant que la page n'existe pas.
+  assert.ok(rows.some((r) => r.key === "taxi|koh-lanta-krabi-day-trip|from" && r.amount === 3500), "l'excursion vers Krabi est contrôlée");
   assert.deepEqual(missing, []);
   for (const [k, v] of Object.entries(KEYS)) {
     assert.ok(v.prestation === null ? Boolean(v.note) : /^[0-9a-f-]{36}$/.test(v.prestation), k);
