@@ -21,8 +21,8 @@
       "value": "16:30"
     },
     {
-      "label": "Back at your hotel",
-      "value": "Around 20:00"
+      "label": "Transfer back",
+      "value": "20:00, from Thung Yee Peng pier"
     },
     {
       "label": "Dinner",
@@ -82,30 +82,39 @@
         },
         {
           "time": "16:50",
-          "text": "Check-in at Thung Yee Peng pier, then a slow cruise through the mangrove to see the wildlife and feed the monkeys."
+          "text": "Check-in at Thung Yee Peng pier."
+        },
+        {
+          "time": "17:00",
+          "text": "The raft cruises through the mangrove forest. Watch the wildlife and the monkeys."
         },
         {
           "time": "17:30",
-          "text": "Sunset over the river."
+          "text": "Sunset over the mangrove."
         },
         {
           "time": "18:15",
           "text": "Seafood dinner by candlelight on the raft."
         },
         {
-          "time": "19:00",
-          "text": "Once it is dark, the plankton lights up when the water moves."
+          "time": "19:15",
+          "text": "A short cruise in the dark to see the plankton glow when you touch the water."
         },
         {
           "time": "19:30",
-          "text": "Back at the pier, and at your hotel around 20:00."
+          "text": "Back at the pier."
+        },
+        {
+          "time": "20:00",
+          "text": "Transfer back to your hotel."
         }
       ]
     }
   ],
   "included": [
     "Hotel transfer both ways, within the Koh Lanta area",
-    "Seafood dinner, drinks and fruit",
+    "Seafood dinner, drinking water and seasonal fruit",
+    "Fishing gear on board",
     "Local guide and life jackets",
     "The raft for your group only"
   ],
@@ -119,7 +128,15 @@
   "faq": [
     {
       "q": "Can we see the plankton?",
-      "a": "Yes, once it is dark the plankton lights up when the water moves."
+      "a": "Yes. After dinner the raft goes out in the dark, and the plankton glows blue when you touch the water."
+    },
+    {
+      "q": "Can we fish from the raft?",
+      "a": "Yes. Fishing gear is on board."
+    },
+    {
+      "q": "Who is it for?",
+      "a": "Couples, families and friends. The raft is for your group only."
     }
   ],
   "photos": [
@@ -151,6 +168,10 @@
     {
       "field": "beforeYouBook.cancellation",
       "from": "Base de gestion (export du 12.11.2026) : « préavis de 24 h recommandé »."
+    },
+    {
+      "field": "facts[Transfer back], day, included, faq",
+      "from": "affiche Sunset Diner Mangrove.jpeg : 17:00 « Cruise through the mangrove forest and see wildlife », 19:15 « Cruise to see the magical bioluminescent plankton » (et non 19:00 déduit), 19:30 « Return to the pier », 20:00 « Transfer back to your hotel », « Touch the water… and it lights up! », Price includes « Drinking water & seasonal fruits », « Fishing equipment », Highlights « Perfect for couples, families, and friends » ; « feed the monkeys » non repris (audit des affiches du 12.11.2026, demande de Jérémy de reprendre tout ce que disent les affiches)"
     }
   ]
 }

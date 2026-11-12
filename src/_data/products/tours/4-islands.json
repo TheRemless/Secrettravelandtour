@@ -55,7 +55,7 @@
     },
     {
       "label": "Lunch",
-      "value": "Thai buffet on the beach: Koh Ngai by longtail, Koh Kradan by speedboat"
+      "value": "Buffet on the beach: Thai buffet on Koh Ngai by longtail, buffet on Koh Kradan by speedboat"
     },
     {
       "label": "National park fee",
@@ -205,7 +205,7 @@
       "label": "Private longtail",
       "kind": "private",
       "boat": "longtail",
-      "note": "The whole boat for your group. The schedule is flexible and you choose the order of the islands. Children from 4 count in the group size, under 4 do not. For 7 people or more, ask us for the price on WhatsApp.",
+      "note": "The whole boat for your group. The day usually runs from 08:00 to 15:00 or 16:00, and you choose the order of the islands. Children from 4 count in the group size, under 4 do not. For 7 people or more, ask us for the price on WhatsApp.",
       "prices": [
         {
           "label": "1 to 2 people",
@@ -288,7 +288,7 @@
       "steps": [
         {
           "time": "07:45",
-          "text": "Pickup at your hotel until 08:30, then Lanta Old Town pier.",
+          "text": "Pickup at your hotel until 08:30, then Lanta Old Town pier, where the guide briefs you before the trip.",
           "fixed": true,
           "place": "Your hotel",
           "detail": "Pickup until 08:30",
@@ -403,7 +403,7 @@
   ],
   "included": [
     "Hotel transfer both ways",
-    "Thai buffet lunch on the beach, water and fruit",
+    "Buffet lunch on the beach, drinks and seasonal fruit",
     "Light breakfast at the pier on the join-in speedboat",
     "Masks, snorkels and life jackets",
     "Local guide, English-speaking on the join-in speedboat",
@@ -641,6 +641,10 @@
     {
       "field": "beforeYouBook.cancellation",
       "from": "Base de gestion (partenaires.regles.annulation, export du 12.11.2026) : speedboat en groupe, report ou annulation au moins 12 h avant, sinon 100 % (le contrat parle aussi d'un jour avant à la page 1, à clarifier) ; longtail, rien de précisé donc renvoi à la confirmation."
+    },
+    {
+      "field": "included[lunch], facts[Lunch], day[0].steps[0], options[private-longtail].note",
+      "from": "brochure longtail join-in p. 2 « Arrive at the pier to get information from our tour guide », « enjoy Thai buffet lunch on the beach » (Koh Ngai) ; brochure speedboat « enjoy buffet lunch » (Kradan, sans « Thai »), « Soft drinks / Seasonal fruit » ; brochure longtail p. 3 « Drinks and Seasonal Fruits » ; catalogue de l'agence, longtail privé « Typical Schedule: 08:00 AM – 03:00 / 04:00 PM » (audit des brochures du 12.11.2026, demande de Jérémy)"
     }
   ],
   "notes": [

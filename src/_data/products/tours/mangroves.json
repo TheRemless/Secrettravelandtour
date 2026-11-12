@@ -9,7 +9,7 @@
     "metaDescription": "Half a day by longtail in the Thung Yee Peng mangrove on Koh Lanta, with lunch, monkeys and birds, plus Old Town or a fishing park. From 1,000 THB."
   },
   "h1": "The Thung Yee Peng mangrove by longtail",
-  "lead": "Half a day in the mangrove on the east side of Koh Lanta, by longtail through the narrow canals, with lunch. Add Lanta Old Town and a viewpoint, or a fishing park.",
+  "lead": "Half a day in the mangrove on the east side of Koh Lanta, by longtail through the narrow canals where monkeys and birds live, with lunch. Add Lanta Old Town and a viewpoint, or a fishing park.",
   "facts": [
     {
       "label": "Where",
@@ -22,6 +22,10 @@
     {
       "label": "Times",
       "value": "09:30–12:30 or 14:00–17:00"
+    },
+    {
+      "label": "Season",
+      "value": "All year"
     },
     {
       "label": "Village entrance fee",
@@ -205,11 +209,25 @@
       "options": [
         "longtail-half-day"
       ],
-      "title": "The three trips",
+      "title": "Half day by longtail, with lunch",
+      "note": "Times with ≈ are approximate and move with the tide and the weather. The afternoon trip follows the same programme from 14:00 to 17:00.",
       "steps": [
         {
-          "label": "Half day",
-          "text": "Mangrove boat trip with lunch. A longtail around the mangrove forest, then lunch, fruit and a soft drink at the mangrove restaurant. 09:30 to 12:30 or 14:00 to 17:00."
+          "time": "09:30",
+          "text": "Pickup at your hotel, then the drive to Thung Yee Peng pier on the east coast of Koh Lanta.",
+          "fixed": true
+        },
+        {
+          "text": "With the local guide, a longtail around the mangrove forest.",
+          "time": "10:00"
+        },
+        {
+          "text": "Lunch, seasonal fruit and a soft drink at the mangrove restaurant.",
+          "time": "11:30"
+        },
+        {
+          "time": "12:30",
+          "text": "End of the trip and transfer back to your hotel."
         }
       ]
     },
@@ -217,11 +235,29 @@
       "options": [
         "longtail-old-town-viewpoint"
       ],
-      "title": "The three trips",
+      "title": "Mangrove, Old Town and viewpoint",
+      "note": "Times with ≈ are approximate and move with the tide and the weather. The afternoon trip follows the same programme from 14:00 to 17:00.",
       "steps": [
         {
-          "label": "Half day",
-          "text": "Mangrove, Old Town and viewpoint. A longtail through the narrow canals, with monkeys and birds, then lunch and a visit of Lanta Old Town. 09:30 to 12:30 or 14:00 to 17:00."
+          "time": "09:30",
+          "text": "Pickup at your hotel, then the drive to Thung Yee Peng pier on the east coast of Koh Lanta.",
+          "fixed": true
+        },
+        {
+          "text": "A longtail through the narrow canals of the mangrove. Watch for the monkeys and the birds.",
+          "time": "10:00"
+        },
+        {
+          "text": "Back at the pier, then the drive to Lanta Old Town.",
+          "time": "11:00"
+        },
+        {
+          "text": "Time to walk around Old Town, then lunch and a soft drink at a restaurant there.",
+          "time": "11:30"
+        },
+        {
+          "time": "12:30",
+          "text": "End of the trip and transfer back to your hotel."
         }
       ]
     },
@@ -229,11 +265,29 @@
       "options": [
         "fishing-park"
       ],
-      "title": "The three trips",
+      "title": "Mangrove and fishing park",
+      "note": "Times with ≈ are approximate and move with the tide and the weather. The afternoon trip follows the same programme from 14:00 to 17:00.",
       "steps": [
         {
-          "label": "Half day",
-          "text": "Mangrove and fishing park. The mangrove by kayak or longtail, lunch at the mangrove restaurant, then the fishing park. 09:30 to 12:30 or 14:00 to 17:00."
+          "time": "09:30",
+          "text": "Pickup at your hotel, then the drive to Thung Yee Peng pier on the east coast of Koh Lanta.",
+          "fixed": true
+        },
+        {
+          "text": "The mangrove by kayak or by longtail, as you chose when booking.",
+          "time": "10:00"
+        },
+        {
+          "text": "Lunch, seasonal fruit and a soft drink at the mangrove restaurant.",
+          "time": "11:00"
+        },
+        {
+          "text": "Then the fishing park.",
+          "time": "11:45"
+        },
+        {
+          "time": "12:30",
+          "text": "End of the trip and transfer back to your hotel."
         }
       ]
     }
@@ -241,7 +295,7 @@
   "included": [
     "Hotel transfer both ways",
     "Lunch, drinks and seasonal fruit",
-    "Local guide",
+    "Experienced local guide",
     "Insurance"
   ],
   "beforeYouBook": {
@@ -254,6 +308,22 @@
     {
       "q": "Which trip should I pick?",
       "a": "The half day with lunch is the simplest. Pick Old Town and the viewpoint to see more of the island, or the fishing park if you are travelling with children."
+    },
+    {
+      "q": "Will we see monkeys?",
+      "a": "Monkeys and birds live in the mangrove and the guide looks out for them along the canals. They are wild animals, so we cannot promise them."
+    },
+    {
+      "q": "Morning or afternoon?",
+      "a": "The morning trip runs from 09:30 to 12:30 and the afternoon trip from 14:00 to 17:00, hotel transfer included. The programme is the same."
+    },
+    {
+      "q": "Can we go in the rainy season?",
+      "a": "Yes. The mangrove trips run all year, while the national park islands such as Koh Rok close from mid-May."
+    },
+    {
+      "q": "Is the village entrance fee included?",
+      "a": "No. Thung Yee Peng village charges 40 THB per adult and 20 THB per child from 4 to 11, paid on the spot."
     }
   ],
   "photos": [
@@ -380,6 +450,14 @@
     {
       "field": "options, day, facts, included, faq, lead",
       "from": "fiche réduite au longtail, déroulés de la brochure kayak (mêmes sorties) ; radeau et kayak sur leurs propres fiches (découpage des fiches, décision de Jérémy du 11.11.2026)"
+    },
+    {
+      "field": "day, facts[Season], lead, included, faq[1-4]",
+      "from": "brochure kayak (audit B § 1.1) programmes 4, 6 et 7 : prise en charge vers le ponton de Thung Yee Peng, longtail autour de la mangrove, « narrow canals », « watch for the monkeys and birds », déjeuner, fruits et boisson au restaurant de la mangrove, Old Town puis déjeuner au restaurant (programme 6), parc de pêche après le déjeuner (programme 7), « Experienced Local Guide », « available all year » ; fermeture des îles du parc dès le 16 mai (fiche Koh Rok) ; demande de Jérémy du 12.11.2026 de développer la fiche"
+    },
+    {
+      "field": "day[].steps[].time",
+      "from": "heures intermédiaires approximatives (≈), estimées entre l'heure de prise en charge et l'heure de fin de la brochure, à la demande de Jérémy du 12.11.2026 (« mets quand même des heures approximatives »)"
     }
   ],
   "refPrefix": "MANG",

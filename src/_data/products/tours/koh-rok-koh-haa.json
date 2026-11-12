@@ -163,7 +163,7 @@
       "label": "Private longtail to Koh Rok",
       "kind": "private",
       "boat": "longtail",
-      "note": "The whole boat for your group. Koh Rok only, 08:00 to 16:00, about 1 hr 30 min each way, your group only. Children from 4 count in the group size, under 4 do not. For 7 people or more, ask us for the price on WhatsApp.",
+      "note": "The whole boat for your group, from Lanta Old Town pier. Koh Rok by longtail only runs as a private trip. Koh Rok only, 08:00 to 16:00, about 1 hr 30 min each way, your group only. Children from 4 count in the group size, under 4 do not. For 7 people or more, ask us for the price on WhatsApp.",
       "prices": [
         {
           "label": "1 to 3 people",
@@ -292,7 +292,7 @@
   ],
   "included": [
     "Hotel transfer both ways",
-    "Thai buffet lunch on the beach, water and fruit",
+    "Thai buffet lunch on the beach, drinks and seasonal fruit",
     "Light breakfast at the pier on the join-in speedboat",
     "Masks, snorkels and life jackets",
     "Guide, English-speaking on the join-in speedboat",
@@ -314,6 +314,14 @@
     {
       "q": "When can you go to Koh Rok?",
       "a": "From mid-October to mid-May. The national park closes Koh Rok and Koh Haa from 16 May for the monsoon."
+    },
+    {
+      "q": "What is there to see on Koh Rok?",
+      "a": "Clear turquoise water over coral reefs with anemone fish, and a white sand beach where you may see monitor lizards and hermit crabs."
+    },
+    {
+      "q": "What does Koh Haa mean?",
+      "a": "Haa means five in Thai. Koh Haa is a group of five small islands around a turquoise lagoon."
     },
     {
       "q": "How long is the boat ride to Koh Rok?",
@@ -502,6 +510,10 @@
     {
       "field": "beforeYouBook.pickup",
       "from": "petit-déjeuner seulement sur le speedboat join-in (brochure du speedboat join-in, programme Rok + Ha « enjoy soft breakfast » au ponton) ; affiche Rok Haa + Sunset : 10:00 voiture privée, snacks, pas de petit-déjeuner ; brochure du longtail privé « All trips included » sans petit-déjeuner (question de Jérémy du 12.11.2026)"
+    },
+    {
+      "field": "included[lunch], options[private-longtail].note, faq[1-2]",
+      "from": "brochure speedboat Rok + Ha « Enjoy buffet lunch Thai style », « Ha Island literally means in Thai \"The Five Islands\" », « the blue turquoise lagoon » ; « Soft drinks / Seasonal fruit » ; brochure longtail p. 3 Ko Rok « clear turquoise waters, varieties of underwater coral reef lines, colorful anemone fishes and powdery white sand beach », « Giant monitor lizards and hermit crabs », « THIS SPECIAL FEATURE ONLY AVAILABLE FOR PRIVATE CHARTER », carte depuis « Lanta Old Town Pier » (audit des brochures du 12.11.2026, demande de Jérémy)"
     }
   ],
   "refPrefix": "ROK"

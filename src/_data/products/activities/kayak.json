@@ -160,11 +160,33 @@
       "options": [
         "sea-cave-island-hopping-1-day"
       ],
-      "title": "The three trips",
+      "title": "Sea cave kayaking and island hopping",
+      "note": "Times with ≈ are approximate and move with the tide and the weather.",
       "steps": [
         {
-          "label": "1 day",
-          "text": "Sea cave kayaking and island hopping. Mangrove and monkeys, Koh Ung, then Koh Talabeng by longtail with kayaking and the sea cave. Lunch and a swim on Koh Bubu. 09:00 to 15:00."
+          "time": "09:00",
+          "text": "Pickup at your hotel, then the drive to Thung Yee Peng pier on the east coast of Koh Lanta.",
+          "fixed": true
+        },
+        {
+          "text": "A first look at the Thung Yee Peng mangrove and its monkeys.",
+          "time": "09:30"
+        },
+        {
+          "text": "Koh Ung and a look around the island.",
+          "time": "10:30"
+        },
+        {
+          "text": "By longtail to Koh Talabeng, then into the sea cave by kayak.",
+          "time": "11:15"
+        },
+        {
+          "text": "Lunch on Koh Bubu, with time to swim and rest on the beach.",
+          "time": "12:30"
+        },
+        {
+          "time": "15:00",
+          "text": "Back to Koh Lanta and transfer to your hotel."
         }
       ]
     },
@@ -172,11 +194,33 @@
       "options": [
         "love-kayak-1-day"
       ],
-      "title": "The three trips",
+      "title": "Love kayak, two places",
+      "note": "Times with ≈ are approximate and move with the tide and the weather.",
       "steps": [
         {
-          "label": "1 day",
-          "text": "Love kayak, two places. Paddling in the mangrove, then Koh Talabeng by longtail, the sea cave by kayak, a look at Skull Island, lunch on the beach and Koh Phee by longtail. 09:00 to 15:30."
+          "time": "09:00",
+          "text": "Pickup at your hotel, then the drive to Thung Yee Peng pier on the east coast of Koh Lanta.",
+          "fixed": true
+        },
+        {
+          "text": "Kayaking around the mangrove forest, with a stop to see the monkeys.",
+          "time": "09:30"
+        },
+        {
+          "text": "By longtail to Koh Talabeng, then the sea cave by kayak.",
+          "time": "11:00"
+        },
+        {
+          "text": "Lunch on the beach.",
+          "time": "12:30"
+        },
+        {
+          "text": "Skull Island and Koh Phee, seen from the longtail.",
+          "time": "14:00"
+        },
+        {
+          "time": "15:30",
+          "text": "Back to Koh Lanta and transfer to your hotel."
         }
       ]
     },
@@ -184,11 +228,33 @@
       "options": [
         "sea-cave-mangrove-half-day"
       ],
-      "title": "The three trips",
+      "title": "Sea cave kayaking and mangrove",
+      "note": "Times with ≈ are approximate and move with the tide and the weather. The afternoon trip follows the same programme from 14:00 to 17:00.",
       "steps": [
         {
-          "label": "Half day",
-          "text": "Sea cave kayaking and mangrove. Mangrove forest, longtail to Koh Talabeng and Koh Ung, the sea cave by kayak and the monkey point. 09:30 to 12:30 or 14:00 to 17:00."
+          "time": "09:30",
+          "text": "Pickup at your hotel, then the drive to Thung Yee Peng pier on the east coast of Koh Lanta.",
+          "fixed": true
+        },
+        {
+          "text": "The Thung Yee Peng mangrove forest.",
+          "time": "10:00"
+        },
+        {
+          "text": "By longtail to Koh Talabeng, then on to Koh Ung for a look around.",
+          "time": "10:30"
+        },
+        {
+          "text": "The Talabeng sea cave by kayak.",
+          "time": "11:15"
+        },
+        {
+          "text": "The monkey point in the mangrove.",
+          "time": "12:00"
+        },
+        {
+          "time": "12:30",
+          "text": "Back to Koh Lanta and transfer to your hotel."
         }
       ]
     }
@@ -197,12 +263,21 @@
     "Hotel transfer both ways",
     "Experienced local guide",
     "Lunch, drinks and seasonal fruit",
+    "Sit-on-top kayaks, paddles and life jackets",
     "Insurance"
   ],
   "faq": [
     {
       "q": "Which trip should I choose?",
-      "a": "The full day goes furthest, with island hopping and lunch on Koh Bubu. The Love kayak puts two people in one kayak. The half day adds the mangrove and is easier with children."
+      "a": "The full day goes furthest, with Koh Ung, the sea cave and lunch on Koh Bubu. The Love kayak paddles in two places, the mangrove and the Talabeng sea cave, then passes Skull Island and Koh Phee by longtail. The half day keeps the sea cave and the mangrove in three hours."
+    },
+    {
+      "q": "What is the Talabeng sea cave like?",
+      "a": "Koh Talabeng is a limestone island off the east coast of Koh Lanta Noi. You paddle into its sea caves, with stalactites and stalagmites above the water."
+    },
+    {
+      "q": "Will we see monkeys?",
+      "a": "Monkeys live in the mangrove and every trip stops where they usually come down to the water. They are wild animals, so we cannot promise them."
     },
     {
       "q": "Is lunch included?",
@@ -211,6 +286,10 @@
     {
       "q": "Can children come?",
       "a": "Yes. Children from 4 to 11 have their own rate."
+    },
+    {
+      "q": "Can we go in the rainy season?",
+      "a": "Yes. The kayak trips run all year."
     }
   ],
   "photos": [
@@ -351,6 +430,14 @@
     {
       "field": "options, day, lead, h1, seo",
       "from": "fiche réduite aux trois sorties de la grotte ; kayak et longtail en mangrove sur leurs propres fiches (découpage des fiches, décision de Jérémy du 11.11.2026)"
+    },
+    {
+      "field": "day, included, faq",
+      "from": "brochure kayak (audit B § 1.1) programmes 1 à 3 : étapes dans l'ordre de la brochure ; « Love kayak (2 places kayaking) » = kayak à deux endroits, mangrove et Talabeng (l'ancienne FAQ « two people in one kayak » était une mauvaise lecture) ; « Skull Island sightseeing », « Koh Phee, sightseeing around by longtail boat » ; « Visit Monkey point at Mangrove Forest » ; « available all year » ; site du partenaire kayak, pages Full day, Half day et Mangrove kayaking (consultées le 12.11.2026) : « sit-on-top kayak », « Kayak equipment », « Life jacket », crabes violonistes, « Cranes, sea eagles », Koh Talabeng « off the east coast of Koh Lanta Noi », grottes avec « stalagmites and stalactites » ; horaires et prix du site partenaire non repris (plus anciens que la brochure) (demande de Jérémy du 12.11.2026)"
+    },
+    {
+      "field": "day[].steps[].time",
+      "from": "heures intermédiaires approximatives (≈), estimées entre l'heure de prise en charge et l'heure de fin de la brochure, à la demande de Jérémy du 12.11.2026 (« mets quand même des heures approximatives »)"
     }
   ],
   "refPrefix": "KAYAK"

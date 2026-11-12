@@ -270,11 +270,11 @@
   ],
   "beforeYouBook": {
     "pickup": "Tell us the vehicle and your dates, we confirm it's available.",
-    "deposit": "Your passport, or a deposit set by the category of the vehicle.",
+    "deposit": "Your passport.",
     "licence": "Your driving licence is your responsibility, not ours. We strongly advise a licence for the type of vehicle you rent. If the police stop you, the rental company is not responsible.",
     "insurance": "There is no accident insurance.",
     "helmets": "A helmet is required by law in Thailand. Helmets are provided.",
-    "delivery": "Possible depending on where you stay and how long you rent. We arrange it on WhatsApp.",
+    "delivery": "Free within 5 km of Long Beach. Further away, a delivery fee may apply: we tell you the amount on WhatsApp before you book.",
     "cancellation": "Free to cancel if you tell us before the vehicle is made available."
   },
   "faq": [
@@ -285,6 +285,14 @@
     {
       "q": "What is the cheapest vehicle?",
       "a": "Several small scooters, such as the Honda Click 125 or the Honda Scoopy, are 250 THB per 24 hours."
+    },
+    {
+      "q": "Do you deliver the vehicle?",
+      "a": "Yes. Delivery is free within 5 km of Long Beach. Further away, a delivery fee may apply, and we tell you the amount before you book."
+    },
+    {
+      "q": "What is the deposit?",
+      "a": "Your passport."
     }
   ],
   "photos": [
@@ -415,6 +423,10 @@
     {
       "field": "beforeYouBook.cancellation",
       "from": "Base de gestion (export du 12.11.2026) : annulation sans frais si prévenu avant la mise à disposition."
+    },
+    {
+      "field": "beforeYouBook.deposit, beforeYouBook.delivery, faq[livraison, caution]",
+      "from": "message de Jérémy du 12.11.2026 : « Les véhicules sont livrés gratuitement à 5km autour de long beach. A partir de 5km, des frais peuvent s'appliquer. La caution est un passeport. »"
     }
   ],
   "refPrefix": "RENT"

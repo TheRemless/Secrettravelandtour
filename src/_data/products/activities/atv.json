@@ -203,7 +203,7 @@
       "steps": [
         {
           "label": "30 min",
-          "text": "On a closed, secured track. The ride for a first try."
+          "text": "On a closed ATV track, where the staff first show you how to drive the vehicle. The ride for a first try."
         }
       ]
     },
@@ -215,7 +215,7 @@
       "steps": [
         {
           "label": "1 h",
-          "text": "On the forest trails, with the climb to a viewpoint over the sea."
+          "text": "First through the forest trails, then the climb to finish at a viewpoint over the sea at the top of the hill."
         }
       ]
     },
@@ -227,7 +227,7 @@
       "steps": [
         {
           "label": "2 h",
-          "text": "One hour of ATV in the forest, then one hour of kayak in the protected mangrove of Thung Yee Peng, with its monkeys and fiddler crabs."
+          "text": "One hour of ATV in the forest, then one hour of kayak in the mangrove of Thung Yee Peng. Watch for fiddler crabs, mudskippers, birds and monkeys."
         }
       ]
     }
@@ -366,6 +366,10 @@
     {
       "field": "facts[Cancellation], beforeYouBook.cancellation",
       "from": "décision client du 08.11.2026 : annulation au moins 24 heures avant, sinon 50 % (contrat du prestataire, audit D § 4) ; TODO levé"
+    },
+    {
+      "field": "day[].steps[].text",
+      "from": "brochure du quad p. 2 « IN ATV RACING AREA », « learn from our expert staffs how to operate the vehicle in an enclosed area », « We will lead you first through the forest… finish with stunning viewpoint at the top of mountain » ; p. 3 « See fiddler crabs, mudskippers, birds and monkeys » (audit du 12.11.2026, demande de Jérémy)"
     }
   ],
   "refPrefix": "ATV"

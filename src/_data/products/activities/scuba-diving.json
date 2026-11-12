@@ -36,7 +36,7 @@
     },
     {
       "label": "Not included",
-      "value": "National park fee and optional diving insurance, 150 THB per day"
+      "value": "National park fee and diving insurance, 150 THB per day"
     }
   ],
   "price": {
@@ -92,7 +92,7 @@
           "unit": "per day"
         },
         {
-          "label": "Diving insurance, optional",
+          "label": "Diving insurance",
           "amount": 150,
           "unit": "per day"
         }
@@ -167,7 +167,7 @@
           "unit": "per day"
         },
         {
-          "label": "Diving insurance, optional",
+          "label": "Diving insurance",
           "amount": 150,
           "unit": "per day"
         }
@@ -248,7 +248,7 @@
           "unit": "per day"
         },
         {
-          "label": "Diving insurance, optional",
+          "label": "Diving insurance",
           "amount": 150,
           "unit": "per day"
         }
@@ -337,7 +337,7 @@
           "unit": "per day"
         },
         {
-          "label": "Diving insurance, optional",
+          "label": "Diving insurance",
           "amount": 150,
           "unit": "per day"
         }
@@ -435,7 +435,7 @@
           "unit": "per day"
         },
         {
-          "label": "Diving insurance, optional",
+          "label": "Diving insurance",
           "amount": 150,
           "unit": "per day"
         }
@@ -448,7 +448,7 @@
       "id": "rentals-and-discounts",
       "label": "Rentals and discounts",
       "kind": "extra",
-      "note": "Nitrox tanks need a dive computer.",
+      "note": "Nitrox tanks need a dive computer. The package discounts apply to the day trips above, combined as you like.",
       "prices": [
         {
           "label": "Dive computer",
@@ -457,6 +457,10 @@
         {
           "label": "Nitrox, per tank, 12 L or 15 L",
           "text": "200 or 300 THB"
+        },
+        {
+          "label": "15 L tank, subject to stock",
+          "text": "Free"
         },
         {
           "label": "GoPro Hero and accessories",
@@ -514,7 +518,7 @@
           "unit": "per day"
         },
         {
-          "label": "Diving insurance, optional",
+          "label": "Diving insurance",
           "amount": 150,
           "unit": "per day"
         }
@@ -546,19 +550,15 @@
       "steps": [
         {
           "label": "3 days",
-          "text": "Open Water Diver. The first full certification: digital learning, confined-water training and four open water dives, down to 18 metres with a certified buddy. From age 12. Divers from 10 take the Junior version, to 12 metres."
+          "text": "Open Water Diver. The first full certification: digital learning, then theory and pool on day 1 and four open water dives on days 2 and 3, down to 18 metres with a certified buddy. From age 12. Divers from 10 take the Junior version, to 12 metres."
         },
         {
           "label": "2 days",
           "text": "Advanced Open Water Diver. Five adventure dives to work on buoyancy, navigation and deep diving, down to 30 metres. From age 15, for certified divers. A Junior version, to 21 metres, starts at 12."
         },
         {
-          "label": "Half day",
-          "text": "React Right. First aid, CPR, oxygen and emergency response, from age 15. It is sold together with the Stress and Rescue Diver course."
-        },
-        {
           "label": "3 days",
-          "text": "Stress and Rescue Diver. Recognising stress, preventing accidents and managing a rescue, with four training dives and four rescue scenarios. From age 15, and the step before Divemaster."
+          "text": "React Right and Stress and Rescue Diver, together in 3 days with 4 dives. React Right covers first aid, CPR, oxygen and emergency response. Stress and Rescue teaches you to recognise stress, prevent accidents and manage a rescue, with four rescue scenarios. From age 15, and the step before Divemaster."
         },
         {
           "label": "2 days",
@@ -578,7 +578,7 @@
       "steps": [
         {
           "label": "1 day",
-          "text": "Fun dives for certified divers. Two dives at Koh Haa, or at Phi Phi and Koh Bida, with a maximum of four divers per group. Divers with no dive in the last year take a refresher first."
+          "text": "Fun dives for certified divers. Two dives at Koh Haa, which has 6 dive sites to choose from, or at Phi Phi and Koh Bida, which have more than 6. A maximum of four divers per group. Divers with no dive in the last year take a refresher first."
         }
       ]
     },
@@ -752,6 +752,10 @@
     {
       "field": "options[snorkelling-on-dive-boat], day, beforeYouBook.children",
       "from": "snorkeling remis dans la fiche plongée, plus de vignette à part (décision de Jérémy du 12.11.2026)"
+    },
+    {
+      "field": "options[].prices/notIncludedFees[Diving insurance], facts, options[rentals-and-discounts], day[courses], day[fun-dives]",
+      "from": "brochure plongée p. 1 et 2 : « Diving insurance: 150 THB / day » parmi les frais non inclus, jamais « optional » ; Open Water « Day 1: theory & pool », « Days 2–3: open-water dives » ; React Right et Stress and Rescue « 3 days • 4 dives » pour l'ensemble ; Koh Haa « 6 different dive sites », Phi Phi et Koh Bida « More than 6 » ; « 15 L tank (subject to stock) FREE » ; forfaits « Choose and combine the trips above » (audit du 12.11.2026, demande de Jérémy)"
     }
   ],
   "refPrefix": "DIVE"
