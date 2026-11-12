@@ -1175,6 +1175,7 @@
     var tripBtn = dialog.querySelector("[data-trip]");
     if (tripBtn) tripBtn.addEventListener("click", function () {
       state.today = today();
+      state.nowTime = bangkokTime(new Date());
       var errors = validate(config, state);
       ["pickup", "name"].forEach(function (k) { delete errors[k]; });
       if (Object.keys(errors).length) { showErrors(errors); return; }
