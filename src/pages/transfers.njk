@@ -73,7 +73,12 @@ permalink: /transfers/
         <div class="tline__text">
           <h2 id="tl-h">{{ ch.local.title }}</h2>
           <p>{{ ch.local.text }}</p>
+          {%- for para in ch.local.more %}
+          <p>{{ para }}</p>
+          {%- endfor %}
+          {%- if ch.local.by %}
           <p class="tline__by">{{ ch.local.by }}</p>
+          {%- endif %}
         </div>
         <a class="btn btn--ghost press tline__cta" href="{{ ch.local.href }}">{{ ch.local.cta }}</a>
       </section>
