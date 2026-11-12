@@ -66,7 +66,7 @@ test("aucun téléphone, aucun prix inventé, plus de « Minivan Taxi » sur le 
   // Prix de Mr. Brown (11.11.2026) ; Krabi → Khao Sok reste sans prix (seul Ao Nang est connu).
   assert.equal(T.byId["phuket-khao-sok"].price.thb, 3000);
   assert.equal(T.byId["phuket-airport-khao-lak"].price.thb, 1800);
-  assert.equal(T.byId["krabi-khao-sok"].price, null);
+  assert.equal(T.byId["krabi-khao-sok"].price.thb, 2800); // Jérémy, 12.11.2026
 });
 
 test("hub : les 17 trajets en liens, une feuille libre Pickup et Drop-off, la liste des lieux", () => {
@@ -199,4 +199,21 @@ test("encart Secret des pages taxi (12.11.2026) : photo en largeurs 480, 800 et 
   const img = h.match(/<img[^>]*alt="Snorkellers in turquoise water[^>]*>/)[0];
   assert.match(img, /srcset="[^"]*-480\.webp 480w, [^"]*-800\.webp 800w, [^"]*-1100\.webp 1100w"/);
   assert.doesNotMatch(img, /-1421\.webp/);
+});
+
+test("day trip vers Krabi : feuille avec le nombre de stops et leur nom (Jérémy, 12.11.2026)", () => {
+  const D = T.dayTrip;
+  assert.equal(D.booking.dayTrip, true);
+  assert.equal(D.booking.productId, "taxi-koh-lanta-krabi-day-trip");
+  assert.deepEqual(D.booking.stops, D.stops);
+  const doc = page(D.url);
+  assert.match(doc, /id="book-data"/);
+  assert.match(doc, /data-stop-list/);
+  assert.match(doc, /name="stopCount"/);
+  for (const st of D.stops) assert.match(doc, new RegExp(`data-stop-add="${st}"`));
+  // Pas de sens aller-retour, pas de bagages, pas de drop-off : l'hôtel du départ est aussi le retour.
+  assert.doesNotMatch(doc, /name="direction"/);
+  assert.doesNotMatch(doc, /name="bags"/);
+  assert.doesNotMatch(doc, /name="dropoffAt"/);
+  assert.match(doc, /data-book="">Check availability/);
 });

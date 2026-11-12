@@ -293,6 +293,13 @@
       var vehicle = findOption(config, state.option);
       // Minivan partagé (page /transfers/) : la demande est au nom de Secret Travel & Tour, sur le même WhatsApp que VIP Taxi Lanta.
       if (config.shared) lines.push("Shared minivan request (" + config.brand + "): " + routeLabel(config, state));
+      // Excursion à la journée : le nombre de stops et leur nom juste sous la demande, ce qui fait le prix (12.11.2026).
+      // Première ligne et « Pickup: » au format que lit la demande collée de Gestion (demande-calc.mjs).
+      else if (config.dayTrip) {
+        var stops = (state.stops || []).map(clean).filter(Boolean);
+        lines.push("Transfer request: " + routeLabel(config, state) + " – Day trip");
+        lines.push("Stops (" + stops.length + "): " + stops.join(", "));
+      }
       else lines.push("Transfer request: " + routeLabel(config, state) + (vehicle ? " – " + vehicle.title : config.vehicle ? " (" + config.vehicle + ")" : ""));
       if (date) lines.push("Date: " + formatDate(date));
       // Gestion lit « Pickup time » : l'heure d'atterrissage ou d'arrivée y reste, dite entre parenthèses.
@@ -305,8 +312,8 @@
       if (state.childSeats > 0 && (state.childAges || []).length) lines.push("Child seats: " + state.childSeats);
       if (state.bags > 0) lines.push("Bags: " + state.bags);
       // Les deux bouts du trajet : où le chauffeur prend le client, où il le dépose (taxi v1, 10.11.2026).
-      if (clean(state.pickupAt)) lines.push("Pickup: " + clean(state.pickupAt));
-      if (clean(state.dropoffAt)) lines.push("Drop-off: " + clean(state.dropoffAt));
+      if (clean(state.pickupAt)) lines.push("Pickup: " + clean(state.pickupAt) + (config.dayTrip ? " (and back at the end of the day)" : ""));
+      if (!config.dayTrip && clean(state.dropoffAt)) lines.push("Drop-off: " + clean(state.dropoffAt));
       // Prix d'appel affiché sur la page du trajet (grille VIP Taxi Lanta), rappelé à la fin.
       // Prix par véhicule : la ligne n'est juste que pour un seul véhicule (8 places au plus, Jérémy 10.11.2026).
       if (config.priceNote && state.adults + (state.childAges || []).length <= 8) lines.push("Price on the site: " + config.priceNote);
@@ -544,8 +551,10 @@
       else if (!clean(state.time)) { if (!config.shared) errors.time = pk === "air" ? "Add your landing time." : pk === "sea" ? "Add the time you arrive." : "Choose a pickup time."; }
       else if (state.nowTime && date === state.today && clean(state.time) <= state.nowTime) errors.time = "That time has passed. Choose a later time.";
       // Les deux adresses font le prix : sans elles, la demande repart en question.
-      if (!clean(state.pickupAt)) errors.pickupAt = "Add the pickup address.";
-      if (!clean(state.dropoffAt)) errors.dropoffAt = "Add the drop-off address.";
+      if (!clean(state.pickupAt)) errors.pickupAt = config.dayTrip ? "Add your hotel on Koh Lanta." : "Add the pickup address.";
+      if (config.dayTrip) {
+        (state.stops || []).forEach(function (st, i) { if (!clean(st)) errors["stop-" + i] = "Name stop " + (i + 1) + "."; });
+      } else if (!clean(state.dropoffAt)) errors.dropoffAt = "Add the drop-off address.";
       // Pris à l'aéroport : sans numéro de vol, on ne peut pas suivre l'atterrissage.
       if (pk === "air" && !clean(state.flight)) errors.flight = "Add your flight number.";
     } else if (config.variant === "speedboat") {
@@ -584,7 +593,7 @@
     return {
       option: "", dateChoice: "", dateOther: "", adults: 2, childAges: [], pickup: "", name: "",
       vehicle: "", dateFrom: "", dateTo: "",
-      direction: "out", time: "", slot: "", flight: "", bags: 0, childSeats: 0, pickupAt: "", dropoffAt: "", addons: [],
+      direction: "out", time: "", slot: "", flight: "", bags: 0, childSeats: 0, pickupAt: "", dropoffAt: "", addons: [], stops: [""],
       route: "", departure: "", tripType: "", returnDate: "", returnDeparture: "", returnTime: "",
       choices: {}, counts: {}, timeFrom: "", timeTo: "", vehicles: 1
     };
@@ -671,6 +680,58 @@
     }
 
     // Les champs d'âge suivent le nombre d'enfants.
+    // Excursion à la journée : un champ par stop, autant que le compteur « Number of stops ».
+    function renderStops() {
+      var box = form.querySelector("[data-stop-list]");
+      var tpl = doc.getElementById("book-stop-tpl");
+      if (!box || !tpl) return;
+      if (!Array.isArray(state.stops) || !state.stops.length) state.stops = [""];
+      var count = state.stops.length;
+      while (box.children.length > count) box.removeChild(box.lastElementChild);
+      while (box.children.length < count) {
+        var i = box.children.length;
+        var node = tpl.content.firstElementChild.cloneNode(true);
+        var input = node.querySelector("input"), label = node.querySelector("label"), err = node.querySelector(".err");
+        input.id = "book-stop-" + i;
+        input.name = "stop-" + i;
+        input.setAttribute("aria-describedby", "book-e-stop-" + i);
+        label.htmlFor = input.id;
+        label.textContent = "Stop " + (i + 1);
+        err.id = "book-e-stop-" + i;
+        box.appendChild(node);
+      }
+      state.stops.forEach(function (st, i) {
+        var el = box.querySelector('[name="stop-' + i + '"]');
+        if (el && el.value !== (st || "")) el.value = st || "";
+      });
+      var n = field("stopCount");
+      if (n) n.value = count;
+      // Une suggestion déjà prise ne se repropose pas.
+      Array.prototype.forEach.call(form.querySelectorAll("[data-stop-add]"), function (b) {
+        var taken = state.stops.some(function (st) { return clean(st).toLowerCase() === b.getAttribute("data-stop-add").toLowerCase(); });
+        b.setAttribute("aria-pressed", taken ? "true" : "false");
+      });
+    }
+
+    // Une suggestion remplit le premier stop vide, ou ajoute un stop (8 au plus). Touchée une seconde fois, elle se retire.
+    function addStop(name) {
+      if (!Array.isArray(state.stops)) state.stops = [""];
+      var low = name.toLowerCase();
+      var at = -1;
+      state.stops.forEach(function (st, i) { if (at < 0 && clean(st).toLowerCase() === low) at = i; });
+      if (at >= 0) {
+        if (state.stops.length > 1) state.stops.splice(at, 1); else state.stops[0] = "";
+      } else {
+        var empty = state.stops.findIndex ? state.stops.findIndex(function (st) { return !clean(st); }) : -1;
+        if (empty >= 0) { state.stops[empty] = name; clearError("stop-" + empty); }
+        else if (state.stops.length < 8) state.stops.push(name);
+      }
+      // Les erreurs des stops se recalculent à l'envoi : on efface celles des champs qui ont bougé.
+      for (var k = 0; k < 8; k++) if (clean(state.stops[k])) clearError("stop-" + k);
+      renderStops();
+      save();
+    }
+
     function renderChildAges() {
       var box = form.querySelector("[data-child-ages]");
       var tpl = doc.getElementById("book-age-tpl");
@@ -734,6 +795,7 @@
       updateRouteTitle();
       endsUI();
       renderChildAges();
+      renderStops();
       optionUI();
     }
 
@@ -873,7 +935,7 @@
 
     // Taxi : le titre de la feuille et l'en-tête de l'aperçu suivent le sens choisi.
     function updateRouteTitle() {
-      if (config.variant !== "taxi" || !(config.from && config.to)) return;
+      if (config.variant !== "taxi" || config.dayTrip || !(config.from && config.to)) return;
       Array.prototype.forEach.call(dialog.querySelectorAll("[data-route-title]"), function (el) { el.textContent = routeLabel(config, state); });
     }
 
@@ -927,6 +989,18 @@
         if (state.childSeats > n) state.childSeats = n;
       } else if (name === "adults") state.adults = readNumber(el, 0, 60);
       else if (name === "bags") state.bags = readNumber(el, 0, 30);
+      else if (name === "stopCount") {
+        var ns = readNumber(el, 1, 8);
+        if (!Array.isArray(state.stops)) state.stops = [];
+        while (state.stops.length < ns) state.stops.push("");
+        // En baissant le compteur, un stop vide part avant un stop déjà nommé.
+        while (state.stops.length > ns) {
+          var gap = -1;
+          for (var g = state.stops.length - 1; g >= 0; g--) if (!clean(state.stops[g])) { gap = g; break; }
+          state.stops.splice(gap >= 0 ? gap : state.stops.length - 1, 1);
+        }
+      }
+      else if (/^stop-\d+$/.test(name)) { if (!Array.isArray(state.stops)) state.stops = [""]; state.stops[Number(name.slice(5))] = el.value; }
       else if (name === "childSeats") state.childSeats = readNumber(el, 0, state.childAges.length);
       else if (/^child-\d+$/.test(name)) state.childAges[Number(name.slice(6))] = el.value === "" ? "" : Number(el.value);
       else if (name in state) state[name] = el.value;
@@ -943,6 +1017,7 @@
         if (state.dateChoice === "other" && el.checked && field("dateOther")) field("dateOther").focus();
       }
       if (el.name === "children") renderChildAges();
+      if (el.name === "stopCount") renderStops();
       if (el.name === "dateFrom" && field("dateTo")) field("dateTo").min = state.dateFrom;
       // Location : un modèle de la liste fixe sa catégorie.
       if (el.name === "vehicle") {
@@ -980,6 +1055,12 @@
       if (/^n-/.test(name)) return name.replace(/-\d+$/, "");
       return name;
     }
+
+    // Stops suggérés de l'excursion à la journée.
+    form.addEventListener("click", function (e) {
+      var idea = e.target.closest && e.target.closest("[data-stop-add]");
+      if (idea) addStop(idea.getAttribute("data-stop-add"));
+    });
 
     // Boutons − et + des compteurs.
     form.addEventListener("click", function (e) {

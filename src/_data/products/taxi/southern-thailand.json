@@ -114,7 +114,11 @@
           "q": "Do you drive to Cheow Lan Pier?",
           "a": "Yes. Write Cheow Lan Pier as the drop-off, with the time of your boat."
         }
-      ]
+      ],
+      "priceFrom": {
+        "thb": 2800,
+        "approx": false
+      }
     },
     {
       "id": "phuket-khao-sok",
@@ -303,7 +307,7 @@
     },
     {
       "field": "routes[krabi-khao-sok].priceFrom",
-      "from": "Prix donnés par Mr. Brown via Jérémy le 11.11.2026 (prix de vente, par véhicule). Ao Nang → Khao Sok 2 800 : non affiché, la page part aussi de Krabi Town et Krabi Airport (prix inconnus)."
+      "from": "Jérémy, 12.11.2026 : « Krabi Khao Sok c’est 2800, tu peux mettre le prix sur le site ». Avant : 2 800 donné par Mr. Brown pour Ao Nang → Khao Sok le 11.11.2026, non affiché faute de prix pour Krabi Town et l’aéroport."
     },
     {
       "field": "routes[phuket-airport-khao-lak].faq",

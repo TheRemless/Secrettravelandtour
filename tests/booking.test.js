@@ -281,3 +281,20 @@ test("taxi : la ligne de prix (par véhicule) n'est envoyée que pour 8 personne
   assert.match(B.buildMessage(cfg, taxiState({ adults: 6, childAges: [5, 7] })), /Price on the site: From 2,300 THB per vehicle/);
   assert.doesNotMatch(B.buildMessage(cfg, taxiState({ adults: 9, childAges: [5] })), /Price on the site/);
 });
+
+test("day trip : stops dans le message, chaque stop nommé, pas de drop-off demandé", () => {
+  const DT = { variant: "taxi", dayTrip: true, brand: "VIP Taxi Lanta", product: "Day trip to Krabi", productId: "taxi-koh-lanta-krabi-day-trip",
+    from: "Koh Lanta", to: "Krabi", stops: ["Emerald Pool", "Tiger Cave Temple", "The hot springs"],
+    priceNote: "From 3,500 THB per vehicle, depending on stops and hours", page: "secrettravelandtour.com/taxi/koh-lanta-krabi-day-trip/" };
+  const st = Object.assign(B.emptyState(DT), { today: TODAY, dateChoice: "other", dateOther: "2026-11-20", time: "08:30",
+    adults: 2, childAges: [], pickupAt: "Lanta Sand Resort", name: "Anna", stops: ["Emerald Pool", "Krabi Town night market"] });
+  assert.deepEqual(B.validate(DT, st), {});
+  const msg = B.buildMessage(DT, st);
+  // Format lu par la demande collée de Gestion : « Transfer request: » et « Pickup: ».
+  assert.match(msg, /^Transfer request: Koh Lanta to Krabi – Day trip\nStops \(2\): Emerald Pool, Krabi Town night market\n/);
+  assert.match(msg, /\nPickup: Lanta Sand Resort \(and back at the end of the day\)\n/);
+  assert.match(msg, /Price on the site: From 3,500 THB per vehicle, depending on stops and hours/);
+  assert.doesNotMatch(msg, /Drop-off|Bags/);
+  // Un stop sans nom est refusé.
+  assert.equal(B.validate(DT, Object.assign({}, st, { stops: ["Emerald Pool", " "] }))["stop-1"], "Name stop 2.");
+});

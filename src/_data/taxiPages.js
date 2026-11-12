@@ -151,9 +151,26 @@ module.exports = function () {
   // Excursion privée d'une journée vers Krabi (12.11.2026) : une page propre, pas un trajet de A à B ; sa demande WhatsApp
   // demande les stops voulus. Données : krabiDayTrip.json. JSON-LD : TaxiService avec le prix « from ».
   const dt = require("./krabiDayTrip.json");
+  const dtPrice = `From ${dt.priceFrom.thb.toLocaleString("en-US")}\u00a0THB`;
   const dayTrip = {
     ...dt,
-    price: { thb: dt.priceFrom.thb, label: `From ${dt.priceFrom.thb.toLocaleString("en-US")}\u00a0THB` },
+    price: { thb: dt.priceFrom.thb, label: dtPrice },
+    // Feuille de réservation comme les trajets, avec le nombre de stops et leur nom (Jérémy, 12.11.2026) :
+    // le premier message suffit pour calculer le prix. Retour à l'hôtel du départ, pas de bagages.
+    booking: {
+      variant: "taxi",
+      dayTrip: true,
+      brand: site.brands.vip.name,
+      product: "Day trip to Krabi",
+      kicker: "Request a day trip",
+      productId: `taxi-${dt.slug}`,
+      from: "Koh Lanta",
+      to: "Krabi",
+      stops: dt.stops,
+      priceNote: `${dtPrice.replace(/\u00a0/g, " ")} per vehicle, depending on stops and hours`,
+      page: site.url.replace(/^https?:\/\//, "") + dt.url,
+      whatsapp: site.whatsapp.number
+    },
     jsonLd: schema.route({
       slug: dt.slug, url: dt.url, brand: "vip", template: "route", name: dt.name, h1: dt.h1, lead: dt.lead,
       route: { from: "Koh Lanta", to: "Krabi" },

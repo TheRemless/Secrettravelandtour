@@ -57,7 +57,7 @@
         </fieldset>
         {%- endif %}
 
-        {%- if taxi and cfg.from and cfg.to %}
+        {%- if taxi and cfg.from and cfg.to and not cfg.dayTrip %}
         <fieldset class="f">
           <legend>Direction</legend>
           <div class="choice choice--2">
@@ -228,12 +228,32 @@
           {%- if not taxi %}<p class="f-note" data-advice hidden></p>{% endif %}
           {%- if taxi %}
           <div data-child-seats hidden>{{ stepper("childSeats", "Child or baby seats", 0, 0, 12) }}</div>
-          {{ stepper("bags", "Bags", 0, 0, 30) }}
+          {%- if not cfg.dayTrip %}{{ stepper("bags", "Bags", 0, 0, 30) }}{% endif %}
           {%- endif %}
         </fieldset>
         {%- endif %}
 
-        {%- if taxi %}
+        {%- if taxi and cfg.dayTrip %}
+        {#- Excursion à la journée (12.11.2026) : le nombre de stops et le nom de chacun, pour donner le prix dès le premier message.
+            Les stops proposés remplissent le premier champ vide ; on peut aussi écrire n'importe quel lieu. booking.js : renderStops. -#}
+        <fieldset class="f" data-stops>
+          <legend>Stops</legend>
+          <p class="f-hint" id="book-h-stops">Choose how many stops you want, then name each one. Tap a suggestion or write any place in Krabi.</p>
+          {{ stepper("stopCount", "Number of stops", 1, 1, 8) }}
+          {%- if cfg.stops and cfg.stops.length %}
+          <div class="stop-ideas" role="group" aria-label="Suggested stops">
+            {%- for s in cfg.stops %}<button type="button" class="stop-idea" data-stop-add="{{ s }}">{{ s }}</button>{% endfor %}
+          </div>
+          {%- endif %}
+          <div class="stop-list" data-stop-list></div>
+        </fieldset>
+        {{ text("pickupAt", "Your hotel on Koh Lanta", "The driver picks you up here and brings you back at the end of the day.", true, "off", 'autocapitalize="words" enterkeyhint="next"', "data-end=pickup") }}
+        <div class="f">
+          <label for="book-time" data-time-label>Pickup time</label>
+          <input id="book-time" name="time" type="time" required aria-required="true" aria-describedby="book-e-time">
+          <p class="err" id="book-e-time" hidden></p>
+        </div>
+        {%- elif taxi %}
         {#- Deux lieux, pas quatre : où le chauffeur prend le client, où il le dépose. Le bout déjà connu d'une page trajet
             (aéroport, jetée) n'est pas redemandé : booking.js le range dans la ligne « data-fixed ». -#}
         <p class="f-fixed" data-fixed hidden></p>
@@ -291,7 +311,7 @@
       </div>
       <button class="sheet-close" type="button" data-close>{{ icon("close") }}<span class="sr-only">Close</span></button>
     </div>
-    <div class="sheet-body">
+    <div class="sheet-body" tabindex="0" role="region" aria-label="Your message">
       <p class="f-hint">WhatsApp opens with this text. You can still change it there before sending.</p>
       {#- Fiche de comptoir : chaque ligne du message, libellé à gauche ; le total en tête. -#}
       <div class="slip">
@@ -333,6 +353,13 @@
     </div>
   </div>
 </dialog>
+<template id="book-stop-tpl">
+  <div class="f">
+    <label></label>
+    <input type="text" autocomplete="off" autocapitalize="words" enterkeyhint="next">
+    <p class="err" hidden></p>
+  </div>
+</template>
 <template id="book-age-tpl">
   <div class="f">
     <label></label>
