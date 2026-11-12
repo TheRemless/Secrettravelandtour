@@ -351,14 +351,14 @@
       "usage": "Mangrove kayaking card",
       "file": "secret/v3/card-mangrove-kayak.jpg",
       "ratio": "4:3",
-      "position": "50% 55%",
-      "alt": "Two guests paddling a kayak among the mangrove roots at Thung Yee Peng",
+      "position": "50% 50%",
+      "alt": "Kayaks paddling along the mangrove roots at Thung Yee Peng",
       "placeholder": false,
-      "source": "Photo d'un partenaire, accord donné à Jérémy (10.11.2026)",
-      "author": "Photo d'un partenaire, accord donné à Jérémy (10.11.2026)",
-      "licence": "Propriété du client ou du partenaire, usage autorisé",
-      "url": "",
-      "shot": "Kayaks among the mangrove roots."
+      "source": "Site du partenaire kayak, page Mangrove kayaking, photo 5 (accord des partenaires donné à Jérémy, 10.11.2026). Remplace une photo du dossier quad qui montrait les kayaks d'une autre société, non partenaire (signalé par Jérémy le 12.11.2026)",
+      "author": "Partenaire kayak",
+      "licence": "Propriété du partenaire, usage autorisé",
+      "url": "https://www.lantakayaking.com/Mangrove-kayaking.html",
+      "shot": "Kayaks along the mangrove roots."
     }
   ]
 }
