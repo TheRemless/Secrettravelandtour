@@ -70,5 +70,5 @@ test("JSON-LD : une offre par option, avec son prix « from » (adulte 2 000, ba
 test("la clé Gestion de la prestation privée existe pour le contrôle mensuel", () => {
   const k = KEYS["koh-phi-phi|Private longtail|1 to 5 people"];
   assert.ok(k, "clé absente");
-  assert.ok(k.note);
+  assert.equal(k.prestation, "0711f191-fe3b-587f-a28a-db415fd235e7");
 });
