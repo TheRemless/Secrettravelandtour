@@ -1063,3 +1063,6 @@ h1, h2, h3, h4, .brand b, .drawer nav a, .card__title, .hrow__t b, .tl b, .byb d
 .sheet .choice--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .sheet .sb-back-h { margin-top: 24px; }
 .sheet-body > .opt-sum { margin-bottom: 24px; }
+
+/* Pied de page : « Cookie settings » rouvre le choix de mesure d'audience (consent.js), au style des liens voisins. */
+.ft__cookie { font: inherit; color: var(--on-dark); background: none; border: 0; padding: 0; min-height: 44px; display: inline-flex; align-items: center; text-decoration: underline; text-underline-offset: .2em; cursor: pointer; }

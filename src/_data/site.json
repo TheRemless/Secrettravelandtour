@@ -22,6 +22,9 @@
     "French"
   ],
   "openingHours": "none",
+  "analytics": {
+    "ga4": "G-TH3QSF8359"
+  },
   "booking": {
     "channel": "WhatsApp",
     "onlinePayment": false,

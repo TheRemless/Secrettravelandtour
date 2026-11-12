@@ -14,6 +14,7 @@ eleventyExcludeFromCollections: true
 <link rel="canonical" href="https://secrettravelandtour.com/legal/">
 <link rel="preload" as="font" type="font/woff2" href="/css/fonts/open-sans-variable-normal-latin.woff2" crossorigin>
 <link rel="stylesheet" href="/css/terms.css?v={{ build.v }}">
+{% include "consent-head.njk" %}
 </head>
 <body>
 <main class="terms">
@@ -50,6 +51,7 @@ eleventyExcludeFromCollections: true
 
   <h2>Contact</h2>
   <p>For any question about this notice, write to us on WhatsApp at +66 95 868 38 46. See also our <a href="/terms/">booking terms</a> and our <a href="/privacy/">privacy policy</a>.</p>
+  <p class="cookie-link"><button type="button" data-consent-open>Cookie settings</button></p>
 </main>
 </body>
 </html>

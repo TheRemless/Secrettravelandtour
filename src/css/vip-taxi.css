@@ -524,3 +524,6 @@ details[open] .faq-mark::after { transform: rotate(0deg); }
 .grate b { font-weight: 600; color: var(--ivory); }
 .grate-t { text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: .25em; }
 .grate:hover { color: var(--ivory); }
+
+/* Pied de page : « Cookie settings » rouvre le choix de mesure d'audience (consent.js). */
+.foot-cookie { font: inherit; color: inherit; background: none; border: 0; padding-block: 11px; margin-block: -11px; text-decoration: underline; text-underline-offset: .2em; cursor: pointer; }

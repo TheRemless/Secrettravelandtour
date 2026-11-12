@@ -16,6 +16,7 @@ eleventyExcludeFromCollections: true
 <link rel="canonical" href="https://secrettravelandtour.com/terms/">
 <link rel="preload" as="font" type="font/woff2" href="/css/fonts/open-sans-variable-normal-latin.woff2" crossorigin>
 <link rel="stylesheet" href="/css/terms.css?v={{ build.v }}">
+{% include "consent-head.njk" %}
 </head>
 <body>
 <main class="terms">
@@ -114,6 +115,7 @@ eleventyExcludeFromCollections: true
 
   <h2>19. Acceptance</h2>
   <p>By confirming your booking, you accept these terms.</p>
+  <p class="cookie-link"><button type="button" data-consent-open>Cookie settings</button></p>
 </main>
 </body>
 </html>

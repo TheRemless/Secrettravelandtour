@@ -38,6 +38,7 @@ eleventyExcludeFromCollections: true
 <link rel="stylesheet" href="/css/booking.css?v={{ build.v }}">
 <link rel="stylesheet" href="/css/vip-taxi.css?v={{ build.v }}">
 <script>document.documentElement.classList.add("js");</script>
+{% include "consent-head.njk" %}
 <script type="application/ld+json">{{ taxiView.jsonLd | dump | safe }}</script>
 </head>
 <body>

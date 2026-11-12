@@ -41,6 +41,7 @@ eleventyExcludeFromCollections: true
 <link rel="stylesheet" href="/css/booking.css?v={{ build.v }}">
 <link rel="stylesheet" href="/css/vip-taxi.css?v={{ build.v }}">
 <script>document.documentElement.classList.add("js");</script>
+{% include "consent-head.njk" %}
 {%- for j in r.jsonLd %}
 <script type="application/ld+json">{{ j | jsonld | safe }}</script>
 {%- endfor %}
