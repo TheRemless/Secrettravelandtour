@@ -424,7 +424,8 @@
       "A camera",
       "Cash for the national park fee"
     ],
-    "weather": "The national park can close an island at short notice, for example for jellyfish. We then change the route or move the date."
+    "weather": "The national park can close an island at short notice, for example for jellyfish. We then change the route or move the date.",
+    "cancellation": "Join-in speedboat: tell us at least 12 hours before departure, or the full price is charged. Join-in longtail and private longtail: we confirm the conditions with you when you book."
   },
   "faq": [
     {
@@ -636,6 +637,10 @@
     {
       "field": "options[private-longtail].prices",
       "from": "Décision de Jérémy du 11.11.2026 : prix jusqu'à 6 personnes (5 900, 6 400, 7 400), ensuite sur demande. Le +400 par personne et les tranches de 7 personnes et plus sont retirés."
+    },
+    {
+      "field": "beforeYouBook.cancellation",
+      "from": "Base de gestion (partenaires.regles.annulation, export du 12.11.2026) : speedboat en groupe, report ou annulation au moins 12 h avant, sinon 100 % (le contrat parle aussi d'un jour avant à la page 1, à clarifier) ; longtail, rien de précisé donc renvoi à la confirmation."
     }
   ],
   "notes": [

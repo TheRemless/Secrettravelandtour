@@ -119,7 +119,8 @@
     "On the raft: seafood lunch, drinking water, soft drinks and seasonal fruit"
   ],
   "beforeYouBook": {
-    "pickup": "Raft: pickup at your hotel around 09:30, check-in at Thung Yee Peng pier at 10:00."
+    "pickup": "Raft: pickup at your hotel around 09:30, check-in at Thung Yee Peng pier at 10:00.",
+    "cancellation": "Please tell us at least 24 hours before."
   },
   "faq": [
     {
@@ -251,6 +252,10 @@
     {
       "field": "price.unit, options[private-raft].prices[].label",
       "from": "« 1 to 2 people » retiré de l'affichage : le radeau accueille bien plus de monde (décision de Jérémy du 11.11.2026). Calcul inchangé : 3 900 THB le radeau jusqu'à 2 personnes, 1 800 THB par personne dès 3"
+    },
+    {
+      "field": "beforeYouBook.cancellation",
+      "from": "Base de gestion (export du 12.11.2026) : « préavis de 24 h recommandé »."
     }
   ],
   "refPrefix": "FISH"

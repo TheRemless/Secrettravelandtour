@@ -1066,3 +1066,14 @@ h1, h2, h3, h4, .brand b, .drawer nav a, .card__title, .hrow__t b, .tl b, .byb d
 
 /* Pied de page : « Cookie settings » rouvre le choix de mesure d'audience (consent.js), au style des liens voisins. */
 .ft__cookie { font: inherit; color: var(--on-dark); background: none; border: 0; padding: 0; min-height: 44px; display: inline-flex; align-items: center; text-decoration: underline; text-underline-offset: .2em; cursor: pointer; }
+
+/* /cancellation/ (12.11.2026) : une règle par sortie, même rythme que les crédits. */
+.cancel h1 { margin-bottom: 16px; }
+.cancel .lead { max-width: 62ch; }
+.cancel h2 { margin: 48px 0 8px; }
+.cancel dl { margin: 8px 0 0; max-width: 760px; }
+.cancel dl > div { padding: 14px 0; border-top: 1px solid var(--line); }
+.cancel dt { font: 600 20px/1.2 var(--serif); font-variant-numeric: lining-nums; }
+.cancel dt a { text-decoration: none; }
+.cancel dd { margin: 4px 0 0; color: var(--ink-soft); }
+.cancel p { max-width: 62ch; margin-top: 12px; }

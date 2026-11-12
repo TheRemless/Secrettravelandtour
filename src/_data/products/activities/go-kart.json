@@ -122,7 +122,8 @@
     "The kart for the length of the session"
   ],
   "beforeYouBook": {
-    "pickup": "Need a ride to the track? Ask us for a transfer."
+    "pickup": "Need a ride to the track? Ask us for a transfer.",
+    "cancellation": "Free to cancel before your ticket is used."
   },
   "faq": [
     {
@@ -256,6 +257,10 @@
     {
       "field": "facts[Age]",
       "from": "4 ans minimum (décision de Jérémy du 10.11.2026, l'Excel de départ disait « dès 4 ans accompagné »)"
+    },
+    {
+      "field": "beforeYouBook.cancellation",
+      "from": "Base de gestion (export du 12.11.2026) : annulation sans frais avant utilisation du ticket."
     }
   ],
   "refPrefix": "KART"

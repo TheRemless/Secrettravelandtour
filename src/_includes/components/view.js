@@ -182,6 +182,7 @@ const BEFORE = [
   ["delivery", "Delivery"],
   ["bring", "Bring"],
   ["luggage", "Luggage"],
+  ["passport", "Passport"],
   ["children", "Children"],
   ["health", "Health"],
   ["weather", "Weather"],
@@ -195,7 +196,9 @@ function beforeBook(product, site, { skipParkFee = false } = {}) {
   const own = { ...(product.beforeYouBook || {}) };
   if (skipParkFee && Array.isArray(own.bring)) own.bring = own.bring.filter((b) => !/park fee/i.test(b));
   const common = (site && site.booking) || {};
+  const policy = common.cancellationPolicy || {};
   const fallback = {
+    cancellation: policy.default || "",
     payment: Array.isArray(common.payment) && common.payment.length
       ? common.payment.join(" or ").replace(/^./, (c) => c.toUpperCase()) + "."
       : ""
@@ -208,6 +211,8 @@ function beforeBook(product, site, { skipParkFee = false } = {}) {
     if (key === "weather" && product.template === "rental") return null;
     if (key === "weather" && common.weather) v = v ? `${v} ${common.weather}` : common.weather;
     const shown = key === "pickup" && product.template === "rental" ? "How to book" : label;
+    // « Cancellation » renvoie à la page des conditions d'annulation de toutes les sorties (12.11.2026).
+    if (key === "cancellation" && v && policy.url) return { label: shown, text: v, href: policy.url, hrefLabel: "All cancellation rules" };
     return v ? { label: shown, text: v } : null;
   }).filter(Boolean);
 }

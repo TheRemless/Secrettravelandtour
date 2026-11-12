@@ -221,7 +221,8 @@
   ],
   "beforeYouBook": {
     "children": "Suitable for children. Partner chef is recommended for children from 5 to 12 cooking with a parent. Tell us their ages.",
-    "pickup": "Hotel transfer both ways. Back at your hotel around 14:00 after the lunch class. The dinner class ends at 21:00."
+    "pickup": "Hotel transfer both ways. Back at your hotel around 14:00 after the lunch class. The dinner class ends at 21:00.",
+    "cancellation": "Please tell us at least 24 hours before."
   },
   "faq": [
     {
@@ -343,6 +344,10 @@
     {
       "field": "options[single-chef, partner-chef, carving].choices ; day[1] ; included ; beforeYouBook ; faq[2] ; options[partner-chef].ages retiré",
       "from": "brochure du cours de cuisine (audit B § 1.3) p. 2 et 3 : Market Tour Lunch lundi, mercredi, samedi ; Dinner Program 16:00 à 21:00 mardi, jeudi, vendredi (histoire des aliments, herbes et épices, sans marché) ; « Class include » ; partner chef « particularly suitable for children 5-12 », une recommandation et non une borne (décision client du 08.11.2026). Fin du cours du midi à 14:00 et sculpture lundi, mercredi, samedi 15:00 à 18:00, mardi, jeudi, vendredi 09:00 à 12:00 : page 2 de la brochure, tranché par le client le 08.11.2026 (la page 3 disait 14:30 et « Monday-Saturday 3-6 pm »)"
+    },
+    {
+      "field": "beforeYouBook.cancellation",
+      "from": "Base de gestion (export du 12.11.2026) : préavis de 24 h."
     }
   ],
   "refPrefix": "COOK"

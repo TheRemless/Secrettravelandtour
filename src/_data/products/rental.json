@@ -274,7 +274,8 @@
     "licence": "Your driving licence is your responsibility, not ours. We strongly advise a licence for the type of vehicle you rent. If the police stop you, the rental company is not responsible.",
     "insurance": "There is no accident insurance.",
     "helmets": "A helmet is required by law in Thailand. Helmets are provided.",
-    "delivery": "Possible depending on where you stay and how long you rent. We arrange it on WhatsApp."
+    "delivery": "Possible depending on where you stay and how long you rent. We arrange it on WhatsApp.",
+    "cancellation": "Free to cancel if you tell us before the vehicle is made available."
   },
   "faq": [
     {
@@ -410,6 +411,10 @@
     {
       "field": "beforeYouBook.deposit, licence, insurance, helmets",
       "from": "réponse du client du 08.11.2026 (second message) : permis à la charge du loueur et fortement conseillé, aucune assurance accident, société non responsable en cas de contrôle de police, casque obligatoire, caution passeport ou montant selon la catégorie"
+    },
+    {
+      "field": "beforeYouBook.cancellation",
+      "from": "Base de gestion (export du 12.11.2026) : annulation sans frais si prévenu avant la mise à disposition."
     }
   ],
   "refPrefix": "RENT"
