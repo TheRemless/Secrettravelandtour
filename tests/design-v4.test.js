@@ -233,7 +233,7 @@ test("capacité des bateaux des tours partagés (11.11.2026) : speedboat 25 à 4
   assert.match(block(four, "join-in-longtail"), /<dt>Guests<\/dt><dd>25 to 35 guests<\/dd>/);
   assert.doesNotMatch(block(four, "private-longtail"), /<dt>Guests<\/dt>|25 to (35|45)/);
   assert.match(site("tours/koh-rok-koh-haa/index.html"), /<dt>Guests per boat<\/dt><dd>Join-in speedboat and the later sunset trip: 25 to 45 guests<\/dd>/);
-  assert.match(site("tours/koh-phi-phi/index.html"), /<dt>Guests per boat<\/dt><dd>25 to 45 guests<\/dd>/);
+  assert.match(site("tours/koh-phi-phi/index.html"), /<dt>Guests per boat<\/dt><dd>Join-in speedboat: 25 to 45 guests<\/dd>/);
   // Aucune capacité sur les tours privés, les radeaux ni les sorties en mangrove.
   for (const s of ["fishing-trip", "sunrise-raft", "sunset-dinner-raft", "mangroves"]) assert.doesNotMatch(site(`tours/${s}/index.html`), /25 to (35|45) guests/, s);
 });

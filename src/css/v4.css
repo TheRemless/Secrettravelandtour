@@ -533,6 +533,8 @@ html.has-trips.hd-off:has(.dock.is-on) .toast { bottom: calc(138px + env(safe-ar
 .inc > h2, .inc__cols { max-width: 760px; }
 .inc__cols { display: grid; gap: 36px; margin-top: 24px; }
 .inc h3 { font-size: 24px; }
+.inc__for { margin-top: 18px; font-size: 17px; font-weight: 600; color: var(--ink); }
+.inc__for + .rules { margin-top: 8px; }
 .rules { list-style: none; margin-top: 18px; }
 .rules li { padding: 14px 0; border-top: 1px solid var(--line); transition: background-color 600ms var(--out), box-shadow 600ms var(--out), color 600ms var(--out); }
 .rules li:last-child { border-bottom: 1px solid var(--line); }

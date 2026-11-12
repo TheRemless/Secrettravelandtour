@@ -6,7 +6,7 @@
   "name": "Koh Phi Phi",
   "seo": {
     "title": "Koh Phi Phi Day Trip from Koh Lanta | Secret Travel",
-    "metaDescription": "Koh Phi Phi from Koh Lanta by speedboat: Maya Bay, Pileh Lagoon, Monkey Beach, Bamboo Island, snorkeling and lunch. Join-in from 2,000 THB.",
+    "metaDescription": "Koh Phi Phi from Koh Lanta by speedboat or private longtail: Maya Bay, Pileh Lagoon, Bamboo Island, snorkeling and lunch. Join-in from 2,000 THB.",
     "draft": {
       "title": "Koh Phi Phi Day Trip from Koh Lanta by Speedboat",
       "metaDescription": "Maya Bay, Pileh Lagoon, Monkey Beach and Bamboo Island in one day from Koh Lanta. Lunch and snorkeling included. From 2,000 THB.",
@@ -14,7 +14,7 @@
     }
   },
   "h1": "Koh Phi Phi day trip from Koh Lanta",
-  "lead": "Maya Bay, Pileh Lagoon, Viking Cave and Monkey Beach in the morning, then lunch on Phi Phi Don, Bamboo Island and free time on Phi Phi Don. By join-in speedboat.",
+  "lead": "Maya Bay, Pileh Lagoon, Viking Cave and Monkey Beach in the morning, then lunch on Phi Phi Don, Bamboo Island and free time on Phi Phi Don. By join-in speedboat, or by private longtail for your group only.",
   "promise": "Maya Bay, Pileh Lagoon and Bamboo Island by speedboat",
   "facts": [
     {
@@ -27,11 +27,15 @@
     },
     {
       "label": "Boat",
-      "value": "Join-in speedboat"
+      "value": "Join-in speedboat or private longtail"
+    },
+    {
+      "label": "Format",
+      "value": "Join-in or private"
     },
     {
       "label": "Guests per boat",
-      "value": "25 to 45 guests"
+      "value": "Join-in speedboat: 25 to 45 guests"
     },
     {
       "label": "Speedboat pier",
@@ -110,6 +114,54 @@
           "note": "Cash"
         }
       ]
+    },
+    {
+      "id": "private-longtail",
+      "label": "Private longtail",
+      "kind": "private",
+      "boat": "longtail",
+      "note": "The whole boat for your group only. Children from 4 count in the group size, under 4 do not. For 6 people or more, ask us for the price on WhatsApp. Available when the national park is open.",
+      "prices": [
+        {
+          "label": "1 to 5 people",
+          "amount": 9400,
+          "group": {
+            "min": 1,
+            "max": 5
+          },
+          "unit": "per boat"
+        },
+        {
+          "label": "6 people or more",
+          "text": "On request"
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "National park fee, adult",
+          "amount": 400,
+          "unit": "per person",
+          "note": "Cash"
+        },
+        {
+          "label": "National park fee, child",
+          "amount": 200,
+          "unit": "per person",
+          "note": "Cash"
+        },
+        {
+          "label": "National park fee, Thai national adult",
+          "amount": 40,
+          "unit": "per person",
+          "note": "Cash"
+        },
+        {
+          "label": "National park fee, Thai national child",
+          "amount": 20,
+          "unit": "per person",
+          "note": "Cash"
+        }
+      ]
     }
   ],
   "day": [
@@ -144,6 +196,39 @@
           "text": "Free time on Phi Phi Don until 16:00, then back to Koh Lanta and the transfer to your hotel by car or by boat."
         }
       ]
+    },
+    {
+      "options": [
+        "private-longtail"
+      ],
+      "title": "How the day goes (private longtail)",
+      "note": "Times are approximate. The programme can change with the tide and the weather.",
+      "steps": [
+        {
+          "time": "08:00",
+          "text": "Pickup at your hotel between 08:00 and 09:00, by car or by boat."
+        },
+        {
+          "time": "09:00",
+          "text": "The longtail leaves Koh Lanta for Phi Phi Leh."
+        },
+        {
+          "time": "10:00",
+          "text": "Around Phi Phi Leh: Maya Bay, Viking Cave, Pileh Lagoon, Monkey Beach and a snorkelling stop."
+        },
+        {
+          "time": "12:00",
+          "text": "Bamboo Island: Thai buffet lunch, swimming, time on the beach and snorkelling from the beach."
+        },
+        {
+          "time": "13:30",
+          "text": "The boat leaves Bamboo Island for a snorkelling stop at Loh Mudee."
+        },
+        {
+          "time": "14:15",
+          "text": "Free time on Phi Phi Don until 16:00, then back to Koh Lanta and the transfer to your hotel by car or by boat."
+        }
+      ]
     }
   ],
   "included": [
@@ -158,12 +243,12 @@
     "National park fee, paid in cash"
   ],
   "beforeYouBook": {
-    "pickup": "Pickup at your hotel between 08:00 and 09:00, light breakfast at Lanta Old Town pier.",
+    "pickup": "Pickup at your hotel between 08:00 and 09:00, by car or by boat. On the join-in speedboat, a light breakfast at Lanta Old Town pier.",
     "bring": [
       "Cash for the national park fee"
     ],
-    "weather": "Maya Bay has its own rules set by the national park. The stop depends on the day and the season.",
-    "cancellation": "Tell us at least 12 hours before departure, or the full price is charged."
+    "weather": "Maya Bay has its own rules set by the national park. The stop depends on the day and the season. The private longtail runs when the national park is open, and its programme can change with the tide and the weather.",
+    "cancellation": "Join-in speedboat and private longtail: tell us at least 12 hours before departure, or the full price is charged."
   },
   "faq": [
     {
@@ -177,6 +262,10 @@
     {
       "q": "Is the national park fee included?",
       "a": "No. You pay 400 THB per adult and 200 THB per child in cash."
+    },
+    {
+      "q": "Can we go on a private boat?",
+      "a": "Yes, on a private longtail for your group only: 9,400 THB per boat for 1 to 5 people. Children from 4 count in the group size. For 6 people or more, ask us on WhatsApp."
     }
   ],
   "photos": [
@@ -216,7 +305,8 @@
       "Monkey Beach",
       "Phi Phi Don",
       "Bamboo Island"
-    ]
+    ],
+    "offersByOption": true
   },
   "legacyText": {
     "title": "Koh Phi Phi Day Trip from Koh Lanta | Secret Travel",
@@ -325,10 +415,21 @@
     {
       "field": "lead, included[lunch], day[12:00, 14:15]",
       "from": "brochure speedboat Phi Phi + Bamboo : déjeuner et Bamboo dans le même créneau 12.00-13.30, Loh Mudee 13.30-14.15, « free time to explore island and relaxing » 14.15-16.00 (l'après-midi n'est pas sur Bamboo), « Enjoy buffet lunch at Phi Phi Don » sans « Thai », « Soft drinks / Seasonal fruit » (audit des brochures du 12.11.2026, demande de Jérémy)"
+    },
+    {
+      "field": "options[private-longtail], day[1], includedByOption, faq[private], beforeYouBook, schema.offersByOption",
+      "from": "Flyer du partenaire et décisions de Jérémy du 12.11.2026 : 9 400 THB le bateau pour 1 à 5 personnes (dès 4 ans), sur demande au-delà, programme du flyer avec horaires approximatifs, compris limité à ce que dit le flyer, parc national ouvert, annulation 12 h avant. Aucun nom de prestataire sur le site."
     }
   ],
   "refPrefix": "PP",
   "notes": [
     "Saison : toute l'année sauf fermeture du parc national (réponse de Jérémy du 03.11.2026) ; pas de saison affichée tant que les mois de fermeture ne sont pas donnés."
-  ]
+  ],
+  "includedByOption": {
+    "private-longtail": [
+      "Hotel pickup and return, by car or by boat",
+      "Thai buffet lunch on Bamboo Island",
+      "Snorkelling at the stops in the programme"
+    ]
+  }
 }

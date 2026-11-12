@@ -220,7 +220,8 @@
   <div class="wrap inc">
     <h2 id="inc-h">What the price covers</h2>
     <div class="inc__cols">
-    {%- if t.included.length %}<div><h3>Included</h3><ul class="rules">{% for x in t.included %}<li{% if x.indexOf("On a private boat") == 0 %} data-private{% endif %}>{{ x }}</li>{% endfor %}</ul></div>{% endif %}
+    {%- if t.includedGroups %}<div><h3>Included</h3>{% for g in t.includedGroups %}<h4 class="inc__for">{{ g.label }}</h4><ul class="rules">{% for x in g.items %}<li>{{ x }}</li>{% endfor %}</ul>{% endfor %}</div>
+    {%- elif t.included.length %}<div><h3>Included</h3><ul class="rules">{% for x in t.included %}<li{% if x.indexOf("On a private boat") == 0 %} data-private{% endif %}>{{ x }}</li>{% endfor %}</ul></div>{% endif %}
     {%- if t.notIncluded.length %}<div><h3>Not included</h3><ul class="rules">{% for x in t.notIncluded %}<li>{{ x }}</li>{% endfor %}</ul></div>{% endif %}
     </div>
   </div>
