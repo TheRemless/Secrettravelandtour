@@ -3,12 +3,15 @@
 // d'objets prêts pour <script type="application/ld+json"> (un objet par balise, chacun avec @context).
 //
 // Décisions déjà prises, vérifiées par tests/schema.test.js :
-// - aucun prix (ni price, ni priceCurrency, ni priceRange) : l'Offer ne porte que url et availability ;
-// - aucune note, aucun avis (AggregateRating déclaré par l'entreprise proscrit, 02-audit-seo §6.3) ;
+// - prix : seulement le prix « à partir de » de la page, en Offer.priceSpecification.minPrice (THB), celui que la page
+//   affiche (fiches Secret : price.from ; trajets taxi : priceFrom, jamais un prix « environ ») ; jamais price, lowPrice,
+//   highPrice ni priceRange, jamais le prix de chaque ligne ni un net ; une offre sans prix (page sur demande) n'en porte pas ;
+// - aucune note, aucun avis (AggregateRating déclaré par l'entreprise proscrit, 02-audit-seo §6.3) : la note Google
+//   de VIP Taxi Lanta reste du texte visible, avec le lien vers la fiche ;
 // - jamais TouristAttraction ; pas de nom de prestataire, d'e-mail, de réseau social, d'horaires ;
-// - licence absente tant que site.brands.secret.licence vaut null ;
-// - VIP Taxi Lanta : pas de téléphone (le formulaire est le canal unique, comme l'ancien /taxi/) et
-//   une adresse réduite à la localité, la région et le pays ;
+// - licence TAT (hasCredential) seulement quand site.brands.secret.licence existe (34/04000 depuis le 06.11.2026) ;
+// - VIP Taxi Lanta : pas de téléphone (le formulaire est le canal unique, comme l'ancien /taxi/) ; adresse et
+//   coordonnées de sa fiche Google (10.11.2026), dans le JSON-LD seulement, jamais affichées ;
 // - un fait absent des données = propriété absente ; image seulement pour une photo « keep » ;
 // - description = product.lead (la meta description cite des prix « from … THB », hors JSON-LD).
 
@@ -99,12 +102,22 @@ function mainId(product, site) {
 const place = (name) => ({ "@type": "Place", name });
 
 function offer(site, product) {
-  // Pas de prix sur les fiches (décision de Jérémy) : l'offre dit où demander et que c'est disponible.
+  // L'offre dit où demander et que c'est disponible ; le prix est celui « à partir de » de la page, quand il existe.
   const o = { "@type": "Offer", url: abs(site, product.url), availability: IN_STOCK };
-  // Taxi (10.11.2026) : prix d'appel de la grille VIP Taxi Lanta, seulement s'il n'est pas « environ ».
-  const f = product.priceFrom;
-  if (f && f.thb && !f.approx) o.priceSpecification = { "@type": "PriceSpecification", minPrice: f.thb, priceCurrency: "THB" };
+  const f = fromPrice(product);
+  if (f) o.priceSpecification = clean({ "@type": "PriceSpecification", minPrice: f.thb, priceCurrency: "THB", description: f.unit ? `From price, ${f.unit}` : undefined });
   return o;
+}
+
+// Prix « à partir de » de la page : trajets taxi (10.11.2026, grille VIP Taxi Lanta, seulement s'il n'est pas « environ »)
+// et fiches Secret (12.11.2026, product.price.from, le même montant que celui affiché sous le titre de la page).
+// Une fiche « sur demande » (priceOnRequest) n'a pas de prix.
+function fromPrice(product) {
+  const f = product.priceFrom;
+  if (f && f.thb && !f.approx) return { thb: f.thb };
+  const p = product.price;
+  if (!product.priceOnRequest && product.brand === "secret" && p && typeof p.from === "number" && p.from > 0 && (!p.currency || p.currency === "THB")) return { thb: p.from, unit: p.unit };
+  return null;
 }
 
 function itinerary(places) {

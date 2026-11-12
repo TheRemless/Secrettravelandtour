@@ -9,6 +9,7 @@ permalink: /transfers/
     3. Taxi local sur Koh Lanta (songthaew) : /taxi/songthaew/.
     Textes et faits : products/secret-transfers/shared-minivan.json. Rien sur /taxi/ ne parle du minivan partagé. -#}
 {% import "components/v4.njk" as v4 %}
+{% import "components/taxi.njk" as tx %}
 {% import "components/v4-product.njk" as vp %}
 {% from "components/booking.njk" import bookingSheet %}
 {%- set d = v4data -%}
@@ -45,6 +46,7 @@ permalink: /transfers/
         <h2 id="tp-h">{{ ch.private.title }}</h2>
         <p>{{ ch.private.text }}</p>
         <p class="tpriv__by">{{ ch.private.by }}</p>
+        {{ tx.googleLine(taxiPages.rating) }}
         {%- if ch.private.routes.length %}
         <h3 class="tpriv__ex" id="tp-ex">{{ ch.private.examples }}</h3>
         <ul class="trow" aria-labelledby="tp-ex">

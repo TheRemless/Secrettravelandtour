@@ -66,6 +66,7 @@ eleventyExcludeFromCollections: true
       <div class="hero-act">
         <a class="btn btn--gold" href="{{ fallback }}" data-book="">Check availability</a>
         <p class="hero-note">{% if r.price %}<span class="hero-price">{{ r.price.label }}</span> per vehicle, cash to the driver.{% else %}Price on WhatsApp.{% endif %}</p>
+        {{ tx.googleLine(T.rating) }}
       </div>
     </div>
   </div>
@@ -82,7 +83,7 @@ eleventyExcludeFromCollections: true
       <h3 class="pp-h" id="h-points">Price by place</h3>
       <dl class="pp" aria-labelledby="h-points">
         {%- for x in r.pricePoints %}
-        <div><dt>{{ x.label }}</dt><dd><b>{{ x.text }}</b> per vehicle</dd></div>
+        <div><dt>{% if x.url %}<a href="{{ x.url }}">{{ x.label }}</a>{% else %}{{ x.label }}{% endif %}</dt><dd><b>{{ x.text }}</b> per vehicle</dd></div>
         {%- endfor %}
       </dl>
       {%- endif %}

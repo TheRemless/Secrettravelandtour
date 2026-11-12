@@ -43,10 +43,17 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 {% endmacro %}
 
 {#- Encart Secret Travel & Tour dans l'identité v4 de Secret (vert profond, sable, Cormorant et Manrope, emblème d'origine). -#}
+{#- Note Google de VIP Taxi Lanta en une ligne, avec le lien vers la fiche (12.11.2026). Texte seulement : aucun balisage de note dans le JSON-LD (schema.js). -#}
+{% macro googleLine(r) %}
+{%- if r and r.url %}
+<a class="grate" href="{{ r.url }}" rel="noopener"><span class="grate-s" aria-hidden="true">{% for i in range(0, 5) %}<svg viewBox="0 0 24 24" focusable="false"><path fill="currentColor" d="M12 2.6l2.8 6 6.5.7-4.9 4.4 1.4 6.4L12 16.8l-5.8 3.3 1.4-6.4-4.9-4.4 6.5-.7z"/></svg>{% endfor %}</span><span class="grate-t">Rated <b>{{ r.value }}</b> on Google, {{ r.count }} reviews</span></a>
+{%- endif %}
+{% endmacro %}
+
 {% macro secretAside(t, compact=false) %}
 <aside class="stt{% if compact %} stt--compact{% endif %}" aria-labelledby="stt-h">
   <div class="wrap stt-in">
-    <figure class="stt-photo"><img src="/images/secret/v3/card-4-islands.jpg" sizes="(min-width: 768px) 40vw, 100vw" width="1421" height="1066" loading="lazy" decoding="async" alt="Snorkellers in turquoise water at the foot of a limestone cliff"></figure>
+    <figure class="stt-photo"><img src="/images/secret/v3/card-4-islands.jpg" eleventy:widths="480,800,1100" sizes="(min-width: 768px) 40vw, 100vw" width="1421" height="1066" loading="lazy" decoding="async" alt="Snorkellers in turquoise water at the foot of a limestone cliff"></figure>
     <div class="stt-text">
       <img eleventy:ignore class="stt-emblem" src="/images/secret/emblem.webp" width="240" height="198" alt="Secret Travel &amp; Tour" loading="lazy" decoding="async">
       <h2 id="stt-h">{{ t.kicker }} on Koh Lanta</h2>

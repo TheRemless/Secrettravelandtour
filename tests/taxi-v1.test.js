@@ -168,8 +168,35 @@ test("lot du 11.11.2026 : feuille songthaew, préremplissage, prix de la ligne, 
 
 test("prix par lieu (11.11.2026) : Donsak Pier à 5 000 sur la page Surat Thani, Patong, Kata et Karon à 5 000 sur la page Phuket", () => {
   const doc = (u) => fs.readFileSync(path.join(__dirname, "..", "_site", u, "index.html"), "utf8").replace(/ /g, " ");
-  const rows = (u) => [...doc(u).matchAll(/<div><dt>([^<]+)<\/dt><dd><b>From ([\d,]+) THB<\/b> per vehicle<\/dd><\/div>/g)].map((m) => [m[1], m[2]]);
+  const rows = (u) => [...doc(u).matchAll(/<div><dt>(?:<a href="[^"]+">)?([^<]+)(?:<\/a>)?<\/dt><dd><b>From ([\d,]+) THB<\/b> per vehicle<\/dd><\/div>/g)].map((m) => [m[1], m[2]]);
   assert.deepEqual(rows("taxi/surat-thani-koh-lanta"), [["Surat Thani Airport and bus terminal", "4,500"], ["Donsak Pier", "5,000"]]);
   assert.deepEqual(rows("taxi/koh-lanta-phuket"), [["Phuket Town", "4,500"], ["Patong, Kata and Karon", "5,000"]]);
   assert.deepEqual(rows("taxi/koh-lanta-donsak-pier"), [], "une page à un seul prix n'a pas de liste par lieu");
+  // Donsak Pier (12.11.2026) : une seule page le vise ; la page Surat Thani vise l'aéroport et la gare routière, titre et h1 alignés.
+  const st = doc("taxi/surat-thani-koh-lanta");
+  assert.match(st, /<title>Surat Thani Airport to Koh Lanta Minivan \| VIP Taxi Lanta<\/title>/);
+  assert.match(st, /Surat Thani Airport<\/span> <span class="c-word">to<\/span> <span class="c-to">Koh Lanta/);
+  assert.doesNotMatch(st.match(/<meta name="description" content="([^"]*)"/)[1] + st.match(/<p class="lead">([^<]*)/)[1], /Donsak/);
+  assert.match(st, /<dt><a href="\/taxi\/koh-lanta-donsak-pier\/">Donsak Pier<\/a><\/dt>/, "la ligne Donsak renvoie à sa page");
+  assert.match(doc("taxi/koh-lanta-donsak-pier"), /<span class="c-from">Koh Lanta<\/span> <span class="c-word">to<\/span> <span class="c-to">Donsak Pier<\/span>/);
+});
+
+test("note Google de VIP Taxi Lanta (12.11.2026) : une ligne sur les 19 pages trajet et sur /transfers/, lien vers la fiche, jamais dans le JSON-LD", () => {
+  const r = require("../src/_data/site.json").brands.vip.rating;
+  const line = new RegExp(`<a class="grate" href="${r.url.replace(/[.*+?^${}()|[\]\\\/]/g, "\\$&")}" rel="noopener">[\\s\\S]*?Rated <b>${r.value.toFixed(1)}</b> on Google, ${r.count} reviews</span></a>`);
+  const html = (u) => fs.readFileSync(path.join(__dirname, "..", "_site", u, "index.html"), "utf8");
+  let n = 0;
+  for (const x of T.routes) { n++; assert.match(html(x.url), line, x.url); }
+  assert.equal(n, 18);
+  assert.match(html("taxi/songthaew"), line, "la page songthaew est la 19e page trajet");
+  assert.match(html("transfers"), line);
+  for (const u of ["", "tours/4-islands", "taxi"]) assert.doesNotMatch(html(u), /class="grate"/, `${u || "accueil"} : pas de note de VIP hors des pages privées`);
+  for (const x of T.routes.concat([{ url: "/transfers/" }, { url: "/taxi/songthaew/" }])) for (const m of html(x.url).matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) assert.doesNotMatch(m[1], /aggregateRating|ratingValue|reviewCount/, x.url);
+});
+
+test("encart Secret des pages taxi (12.11.2026) : photo en largeurs 480, 800 et 1100, plus le fichier de 1 421 px", () => {
+  const h = fs.readFileSync(path.join(__dirname, "..", "_site", "taxi", "krabi-airport-koh-lanta", "index.html"), "utf8");
+  const img = h.match(/<img[^>]*alt="Snorkellers in turquoise water[^>]*>/)[0];
+  assert.match(img, /srcset="[^"]*-480\.webp 480w, [^"]*-800\.webp 800w, [^"]*-1100\.webp 1100w"/);
+  assert.doesNotMatch(img, /-1421\.webp/);
 });
