@@ -294,9 +294,10 @@
       // Minivan partagé (page /transfers/) : la demande est au nom de Secret Travel & Tour, sur le même WhatsApp que VIP Taxi Lanta.
       if (config.shared) lines.push("Shared minivan request (" + config.brand + "): " + routeLabel(config, state));
       // Excursion à la journée : le nombre de stops et leur nom juste sous la demande, ce qui fait le prix (12.11.2026).
+      // Première ligne et « Pickup: » au format que lit la demande collée de Gestion (demande-calc.mjs).
       else if (config.dayTrip) {
         var stops = (state.stops || []).map(clean).filter(Boolean);
-        lines.push("Day trip request: " + routeLabel(config, state));
+        lines.push("Transfer request: " + routeLabel(config, state) + " – Day trip");
         lines.push("Stops (" + stops.length + "): " + stops.join(", "));
       }
       else lines.push("Transfer request: " + routeLabel(config, state) + (vehicle ? " – " + vehicle.title : config.vehicle ? " (" + config.vehicle + ")" : ""));
@@ -311,7 +312,7 @@
       if (state.childSeats > 0 && (state.childAges || []).length) lines.push("Child seats: " + state.childSeats);
       if (state.bags > 0) lines.push("Bags: " + state.bags);
       // Les deux bouts du trajet : où le chauffeur prend le client, où il le dépose (taxi v1, 10.11.2026).
-      if (clean(state.pickupAt)) lines.push((config.dayTrip ? "Hotel on Koh Lanta (pickup and return): " : "Pickup: ") + clean(state.pickupAt));
+      if (clean(state.pickupAt)) lines.push("Pickup: " + clean(state.pickupAt) + (config.dayTrip ? " (and back at the end of the day)" : ""));
       if (!config.dayTrip && clean(state.dropoffAt)) lines.push("Drop-off: " + clean(state.dropoffAt));
       // Prix d'appel affiché sur la page du trajet (grille VIP Taxi Lanta), rappelé à la fin.
       // Prix par véhicule : la ligne n'est juste que pour un seul véhicule (8 places au plus, Jérémy 10.11.2026).
@@ -553,7 +554,6 @@
       if (!clean(state.pickupAt)) errors.pickupAt = config.dayTrip ? "Add your hotel on Koh Lanta." : "Add the pickup address.";
       if (config.dayTrip) {
         (state.stops || []).forEach(function (st, i) { if (!clean(st)) errors["stop-" + i] = "Name stop " + (i + 1) + "."; });
-        if (!(state.stops || []).length) errors["stop-0"] = "Name stop 1.";
       } else if (!clean(state.dropoffAt)) errors.dropoffAt = "Add the drop-off address.";
       // Pris à l'aéroport : sans numéro de vol, on ne peut pas suivre l'atterrissage.
       if (pk === "air" && !clean(state.flight)) errors.flight = "Add your flight number.";
@@ -993,7 +993,12 @@
         var ns = readNumber(el, 1, 8);
         if (!Array.isArray(state.stops)) state.stops = [];
         while (state.stops.length < ns) state.stops.push("");
-        state.stops.length = ns;
+        // En baissant le compteur, un stop vide part avant un stop déjà nommé.
+        while (state.stops.length > ns) {
+          var gap = -1;
+          for (var g = state.stops.length - 1; g >= 0; g--) if (!clean(state.stops[g])) { gap = g; break; }
+          state.stops.splice(gap >= 0 ? gap : state.stops.length - 1, 1);
+        }
       }
       else if (/^stop-\d+$/.test(name)) { if (!Array.isArray(state.stops)) state.stops = [""]; state.stops[Number(name.slice(5))] = el.value; }
       else if (name === "childSeats") state.childSeats = readNumber(el, 0, state.childAges.length);

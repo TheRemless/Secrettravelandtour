@@ -290,8 +290,9 @@ test("day trip : stops dans le message, chaque stop nommé, pas de drop-off dema
     adults: 2, childAges: [], pickupAt: "Lanta Sand Resort", name: "Anna", stops: ["Emerald Pool", "Krabi Town night market"] });
   assert.deepEqual(B.validate(DT, st), {});
   const msg = B.buildMessage(DT, st);
-  assert.match(msg, /^Day trip request: Koh Lanta to Krabi\nStops \(2\): Emerald Pool, Krabi Town night market\n/);
-  assert.match(msg, /Hotel on Koh Lanta \(pickup and return\): Lanta Sand Resort/);
+  // Format lu par la demande collée de Gestion : « Transfer request: » et « Pickup: ».
+  assert.match(msg, /^Transfer request: Koh Lanta to Krabi – Day trip\nStops \(2\): Emerald Pool, Krabi Town night market\n/);
+  assert.match(msg, /\nPickup: Lanta Sand Resort \(and back at the end of the day\)\n/);
   assert.match(msg, /Price on the site: From 3,500 THB per vehicle, depending on stops and hours/);
   assert.doesNotMatch(msg, /Drop-off|Bags/);
   // Un stop sans nom est refusé.
