@@ -155,7 +155,7 @@
     },
     {
       "q": "Which one is the taxi on Koh Lanta?",
-      "a": "On Koh Lanta the taxis are songthaews: pickup trucks with a roof and two benches in the back. You can book one for your group only."
+      "a": "On Koh Lanta the taxis are songthaews: pickup trucks with a roof and two benches in the back. You can book one for your group only, for a hotel transfer on the island or for a tour, by the hour, for a half day or for a full day."
     },
     {
       "q": "Can I get a child seat?",
@@ -186,10 +186,13 @@
     },
     "local": {
       "title": "Local taxi (songthaew) on Koh Lanta",
-      "text": "On the island the taxis are songthaews, pickup trucks with a roof and two benches in the back. You can book one for your group only.",
-      "by": "Run by VIP Taxi Lanta.",
+      "text": "On the island the taxis are songthaews, pickup trucks with a roof and two benches in the back. You book one for your group only.",
       "cta": "See songthaew taxis",
-      "href": "/taxi/songthaew/"
+      "href": "/taxi/songthaew/",
+      "more": [
+        "Use it for a hotel transfer on Koh Lanta, to a beach, a restaurant or the pier. Or use it to see the island: a half day tour, a full day tour, or by the hour with the stops you choose.",
+        "Ideas for a tour: Lanta Old Town, the viewpoints and beaches along the coast, the national park at the southern tip, or a stop at a cooking class, a quad bike ride or the elephant sanctuary."
+      ]
     },
     "unsure": {
       "title": "Not sure which one fits?",
