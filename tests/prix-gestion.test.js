@@ -47,6 +47,8 @@ test("le contrôle sort les écarts, les prestations inactives ou disparues et l
   assert.deepEqual(motifs.sort(), ["b:site", "c:prestation", "d:prix", "e:prestation"].sort());
   assert.deepEqual(rep.sansCle, []);
   assert.deepEqual(rep.sansPage.map((p) => p.id), ["p5"], "p1b est couverte par « aussi », p6 vaut 0, p7 est masquée");
+  assert.deepEqual(rep.orphelines, [], "toutes les clés du jeu ont une ligne");
+  assert.deepEqual(controle({ site: site.slice(0, 1), keys, prestations, horsSite: { regles: [] } }).orphelines, ["b", "c", "d", "e", "f"]);
   assert.equal(controle({ site: [{ key: "zz", page: "/z/", label: "Z", amount: 1, approx: false }], keys, prestations, horsSite: { regles: [] } }).sansCle.length, 1);
 });
 

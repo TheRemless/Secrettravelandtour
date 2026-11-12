@@ -1,7 +1,7 @@
 // Page /cancellation/ (12.11.2026) : la règle d'annulation de chaque sortie, transfert et location, lue dans les fiches
 // (beforeYouBook.cancellation, même texte que la ligne « Cancellation » de la fiche) ; à défaut, la phrase commune de
 // site.json (booking.cancellationPolicy.default). Aucun nom de prestataire. Les règles internes à l'agence (paiement du
-// prestataire, retenue) n'y sont pas. La fiche éléphant n'est pas modifiée (décision du 11.11.2026) : sa règle vient d'ici.
+// prestataire, retenue) n'y sont pas.
 const fs = require("node:fs");
 const path = require("node:path");
 const site = require("./site.json");
@@ -17,8 +17,6 @@ const GROUPS = [
   { id: "transfers", title: "Speedboat, ferry and minivan", items: () => list("secret-transfers") },
   { id: "rental", title: "Car and scooter rental", items: () => [read("rental.json")] }
 ];
-// Fiches qui ne portent pas leur règle (la fiche éléphant ne change pas) : base de gestion, export du 12.11.2026.
-const OWN = { "elephant-sanctuary": "Please tell us at least 2 hours before your pickup time." };
 const NAME = { rental: "Car and scooter rental", "speedboat-ferry": "Speedboat and ferry", "shared-minivan": "Shared minivan" };
 
 module.exports = () => ({
@@ -30,7 +28,7 @@ module.exports = () => ({
     title: g.title,
     items: g.items()
       .filter((p) => p.brand === "secret")
-      .map((p) => ({ slug: p.slug, name: NAME[p.slug] || p.name, url: p.url, rule: OWN[p.slug] || (p.beforeYouBook && p.beforeYouBook.cancellation) || policy.default, own: Boolean(OWN[p.slug] || (p.beforeYouBook && p.beforeYouBook.cancellation)) }))
+      .map((p) => ({ slug: p.slug, name: NAME[p.slug] || p.name, url: p.url, rule: (p.beforeYouBook && p.beforeYouBook.cancellation) || policy.default, own: Boolean(p.beforeYouBook && p.beforeYouBook.cancellation) }))
   })).concat([{
     id: "taxi",
     title: "Private taxis and minivans",

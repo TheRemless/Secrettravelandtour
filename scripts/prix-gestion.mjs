@@ -14,7 +14,8 @@
 //   1. les écarts : prix du site différent du prix de vente de Gestion, prestation inactive, clé vers une prestation disparue,
 //      prix « About » (approximatif) du site face à un prix absent de la base ;
 //   2. les lignes de prix du site sans clé (frais de parc exclus : payés sur place, un seul tarif adulte en base) ;
-//   3. les prestations actives de Gestion sans page sur le site (hors décisions de src/_data/gestion-hors-site.json).
+//   3. les prestations actives de Gestion sans page sur le site (hors décisions de src/_data/gestion-hors-site.json) ;
+//   4. les clés qui ne correspondent plus à aucune ligne de prix du site.
 // Code de sortie 1 s'il y a un écart ou une ligne sans clé, 0 sinon (prestations sans page : information, pas un échec).
 import fs from "node:fs";
 import path from "node:path";
@@ -75,8 +76,10 @@ export function controle({ site, keys, prestations, horsSite }) {
   }
   const masque = (p) => horsSite.regles.some((x) => (!x.partenaire || x.partenaire === p.partenaire) && (!x.groupe || x.groupe === p.groupe) && (!x.famille || x.famille === p.famille));
   // Une prestation à 0 (enfant gratuit) n'a pas de page : elle est dite « Free » sur la ligne enfant voisine.
+  const siteKeys = new Set(site.map((r) => r.key));
+  const orphelines = Object.keys(keys).filter((k) => !siteKeys.has(k));
   const sansPage = prestations.filter((p) => p.actif && !used.has(p.id) && !masque(p) && Number(p.prix_vente) !== 0);
-  return { ecarts, sansCle, sansPage };
+  return { ecarts, sansCle, sansPage, orphelines };
 }
 
 const fmt = (rep) => {
@@ -93,6 +96,9 @@ const fmt = (rep) => {
   for (const p of rep.sansPage) { const k = `${p.partenaire || "Sans partenaire"} | ${p.groupe || ""}`; g.set(k, [...(g.get(k) || []), p]); }
   for (const [k, v] of g) out.push(`- ${k} : ${v.length} ligne${v.length > 1 ? "s" : ""}, par exemple « ${v[0].libelle_en} » ${v[0].prix_vente || "sans prix"}`);
   if (!rep.sansPage.length) out.push("Aucune.");
+  out.push("", `## 4. Clés sans ligne de prix sur le site (${rep.orphelines.length})`);
+  for (const k of rep.orphelines) out.push(`- ${k} → retirer de src/_data/gestion-keys.json si la ligne n'existe plus`);
+  if (!rep.orphelines.length) out.push("Aucune.");
   return out.join("\n");
 };
 
