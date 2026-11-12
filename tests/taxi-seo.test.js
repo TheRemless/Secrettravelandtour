@@ -118,17 +118,18 @@ test("pas de variante d'orthographe « Ko Lanta » dans les données taxi", () =
   assert.doesNotMatch(JSON.stringify(taxi), /\bKo Lanta/);
 });
 
-test("From et To sont des listes déroulantes de lieux populaires où l'on peut aussi écrire librement", () => {
-  // Refonte taxi v1 (10.11.2026) : les champs From et To de la feuille du hub, liste ajoutée par vip-taxi.js.
+test("Pickup et Drop-off du hub sont des listes déroulantes de lieux populaires où l'on peut aussi écrire librement", () => {
+  // Refonte taxi v1 (10.11.2026), formulaires du 12.11.2026 : les deux lieux de la feuille du hub, liste ajoutée par vip-taxi.js.
   assert.doesNotMatch(njk, /class="chips"|<datalist|list="places"|Popular private transfers/);
   assert.match(njk, /<script type="application\/json" id="taxi-places">\{\{ taxi\.places \| dump \| safe \}\}<\/script>/);
   const js = read("src/js/vip-taxi.js");
-  for (const part of ['"combobox"', '"aria-autocomplete", "list"', '"aria-expanded"', 'role="listbox"', 'role="option"', '"book-from"', '"book-to"']) {
+  for (const part of ['"combobox"', '"aria-autocomplete", "list"', '"aria-expanded"', 'role="listbox"', 'role="option"', '"book-pickupAt"', '"book-dropoffAt"']) {
     assert.ok(js.includes(part), part);
   }
   const built = read("_site/taxi/index.html");
-  assert.match(built, /<input id="book-from"[^>]*type="text"/);
-  assert.match(built, /<input id="book-to"[^>]*type="text"/);
+  assert.match(built, /<input id="book-pickupAt"[^>]*type="text"/);
+  assert.match(built, /<input id="book-dropoffAt"[^>]*type="text"/);
+  assert.doesNotMatch(built, /id="book-from"|id="book-to"/);
 });
 
 test("données structurées : catalogue des services sans prix", () => {

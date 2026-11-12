@@ -246,6 +246,8 @@ function bookingTour(product, site) {
     page: site.url.replace(/^https?:\/\//, "") + product.url,
     whatsapp: site.whatsapp.number,
     pickupRequired: product.template !== "rental",
+    // Heure du premier ramassage (« 07:45–08:30 », « Around 04:40 ») : passée, « Today » n'est plus proposé (booking.js, todayClosed).
+    ...(firstPickup(product) ? { pickupFrom: firstPickup(product) } : {}),
     refPrefix: product.refPrefix || "",
     parkFee: parkFee(product),
     // Location : le « from » d'une catégorie est son tarif le plus bas (les véhicules sont listés du plus cher au moins cher).
@@ -257,6 +259,12 @@ function bookingTour(product, site) {
       return { id: o.id, title: o.title, rows: o.rows, from, unit: product.template === "rental" ? ((src.prices || [])[0] || {}).unit || "" : o.unit, ...(src.from ? { departure: src.from } : {}), ...(src.feesToConfirm ? { feesToConfirm: true } : {}) };
     })
   };
+}
+
+function firstPickup(product) {
+  const fact = (product.facts || []).find((f) => /^hotel pickup$/i.test(f.label));
+  const m = fact && /(\d{1,2}):(\d{2})/.exec(fact.value || "");
+  return m ? `${m[1].padStart(2, "0")}:${m[2]}` : "";
 }
 
 // Frais de parc par adulte et par enfant (visiteurs étrangers), lus dans les frais de la première option.
@@ -288,8 +296,6 @@ function bookingRoute(product, site, extra = {}) {
   return {
     ...extra,
     ends: several ? { from: "", to: "" } : { from: exact(r.from), to: exact(r.to) },
-    // Champ « vol ou ferry » seulement si un bout est un aéroport, une jetée, une gare ou un terminal.
-    transit: /airport|pier|station|terminal/i.test([r.from, r.to].concat(r.points || []).join(" ")),
     variant: "taxi",
     brand: site.brands[product.brand].name,
     product: product.name,

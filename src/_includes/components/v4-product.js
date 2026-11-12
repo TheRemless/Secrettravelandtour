@@ -704,13 +704,13 @@ function transfersPage(p, ctx) {
     related: { title: "Also from Koh Lanta", cards: [], links, all: null, transfer: null },
     ask: "Transfer question: ",
     unsureText: "Transfer question: \nFrom: \nTo: \nDate: ",
-    fallback: "Shared minivan request (Secret Travel & Tour): \nFrom: \nTo: \nDate: ",
-    // Même feuille que /taxi/ (variante taxi, From et To libres), au nom de Secret Travel & Tour : le message dit
+    fallback: "Shared minivan request (Secret Travel & Tour): \nPickup: \nDrop-off: \nDate: ",
+    // Même feuille que /taxi/ (variante taxi, Pickup et Drop-off libres), au nom de Secret Travel & Tour : le message dit
     // « Shared minivan request (Secret Travel & Tour) » pour qu'on ne le prenne pas pour une demande VIP Taxi Lanta.
     booking: {
       variant: "taxi", shared: true, brand: site.brands[p.brand].name, product: ch.shared.title,
       kicker: ch.shared.cta, productId: "transfers-shared",
-      page: host + p.url, whatsapp: site.whatsapp.number, from: "", to: ""
+      page: host + p.url, whatsapp: site.whatsapp.number
     },
     jsonLd: schema.transferHub(p, site, { privateUrl: ch.private.href, localUrl: ch.local.href })
   };

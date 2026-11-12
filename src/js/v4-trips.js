@@ -80,8 +80,8 @@
               (season ? '<p class="trips__warn">' + ICON.alert + "<span>" + V.esc(p.name) + " runs " + V.esc(p.season.text) + ". Pick a date in that season.</span></p>" : "") + "</div>";
           }).join("") + "</section>";
       }).join("") +
-      '<div class="trips__who"><div class="f"><label for="tl-pickup">Hotel or address on Koh Lanta</label><input id="tl-pickup" type="text" autocomplete="street-address" value="' + V.esc(l.pickup || "") + '" data-ttext="pickup" aria-describedby="tl-e-pickup"><p class="err" id="tl-e-pickup" hidden></p></div>' +
-      '<div class="f"><label for="tl-name">First name</label><input id="tl-name" type="text" autocomplete="given-name" value="' + V.esc(l.name || "") + '" data-ttext="name" aria-describedby="tl-e-name"><p class="err" id="tl-e-name" hidden></p></div></div>' +
+      '<div class="trips__who"><div class="f"><label for="tl-name">Your name</label><input id="tl-name" type="text" autocomplete="name" autocapitalize="words" enterkeyhint="next" spellcheck="false" value="' + V.esc(l.name || "") + '" data-ttext="name" aria-describedby="tl-e-name"><p class="err" id="tl-e-name" hidden></p></div>' +
+      '<div class="f"><label for="tl-pickup">Hotel or address on Koh Lanta</label><input id="tl-pickup" type="text" autocomplete="off" autocapitalize="words" enterkeyhint="done" value="' + V.esc(l.pickup || "") + '" data-ttext="pickup" aria-describedby="tl-e-pickup"><p class="err" id="tl-e-pickup" hidden></p></div></div>' +
       '<details><summary>Read the message before you send it</summary><pre class="trips__msg" data-tmsg></pre></details>';
     foot.innerHTML = '<p class="err trips__miss" role="alert" data-tmiss hidden></p><a class="sheet-btn" href="#" target="_blank" rel="noopener" data-tsend>' + ICON.wa + "<span>" + (l.items.length === 1 ? "Send this trip on WhatsApp" : "Send the " + l.items.length + " trips in one message") + "</span></a>" +
       '<p class="sheet-note">Nothing is booked until we confirm.</p>';
@@ -262,8 +262,8 @@
       });
     });
     Object.keys(v.ages).forEach(function (i) { fail($("#tl-age-" + i), "tl-e-age-" + i, v.ages[i]); });
-    if (v.pickup) fail($("#tl-pickup"), "tl-e-pickup", v.pickup);
     if (v.name) fail($("#tl-name"), "tl-e-name", v.name);
+    if (v.pickup) fail($("#tl-pickup"), "tl-e-pickup", v.pickup);
     var miss = $("[data-tmiss]", foot);
     if (miss) { miss.hidden = !missing.length; miss.textContent = missing.length === 1 ? "One thing is missing, see above." : missing.length + " things are missing, see above."; }
     if (first || v.count) {

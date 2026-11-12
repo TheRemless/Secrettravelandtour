@@ -15,11 +15,12 @@
 </div>
 {% endmacro %}
 
-{% macro text(name, label, hint, required=false, autocomplete="off") %}
-<div class="f">
-  <label for="book-{{ name }}"{% if name == "address" %} data-address-label{% endif %}>{{ label }}</label>
+{#- Champ texte. extra : attributs pour le clavier du téléphone (autocapitalize, enterkeyhint, spellcheck). -#}
+{% macro text(name, label, hint, required=false, autocomplete="off", extra="", group="") %}
+<div class="f"{% if group %} {{ group | safe }}{% endif %}>
+  <label for="book-{{ name }}">{{ label }}</label>
   {% if hint %}<p class="f-hint" id="book-h-{{ name }}">{{ hint }}</p>{% endif %}
-  <input id="book-{{ name }}" name="{{ name }}" type="text" autocomplete="{{ autocomplete }}"{% if required %} required aria-required="true"{% endif %} aria-describedby="{% if hint %}book-h-{{ name }} {% endif %}book-e-{{ name }}">
+  <input id="book-{{ name }}" name="{{ name }}" type="text" autocomplete="{{ autocomplete }}" {{ extra | safe }}{% if required %} required aria-required="true"{% endif %} aria-describedby="{% if hint %}book-h-{{ name }} {% endif %}book-e-{{ name }}">
   <p class="err" id="book-e-{{ name }}" hidden></p>
 </div>
 {% endmacro %}
@@ -40,6 +41,9 @@
         <button class="sheet-close" type="button" data-close>{{ icon("close") }}<span class="sr-only">Close</span></button>
       </div>
       <div class="sheet-body">
+        {#- Le nom d'abord, dans toutes les feuilles : c'est ce que le téléphone remplit seul. -#}
+        {{ text("name", "Your name", "", true, "name", 'autocapitalize="words" enterkeyhint="next" spellcheck="false"') }}
+
         {%- if cfg.options and cfg.options.length > 1 %}
         <fieldset class="f">
           <legend>Option</legend>
@@ -57,19 +61,14 @@
         </fieldset>
         {%- endif %}
 
-        {%- if taxi %}
-          {%- if cfg.from and cfg.to %}
+        {%- if taxi and cfg.from and cfg.to %}
         <fieldset class="f">
           <legend>Direction</legend>
-          <div class="choice">
+          <div class="choice choice--2">
             <label><input type="radio" name="direction" value="out"><span>{{ cfg.from }} to {{ cfg.to }}</span></label>
             <label><input type="radio" name="direction" value="back"><span>{{ cfg.to }} to {{ cfg.from }}</span></label>
           </div>
         </fieldset>
-          {%- else %}
-        {{ text("from", "From", "", true) }}
-        {{ text("to", "To", "", true) }}
-          {%- endif %}
         {%- endif %}
 
         {#- Sous-variantes de chaque option (créneau, cours, nombre de karts…) : visibles quand l'option est choisie. -#}
@@ -227,17 +226,6 @@
         </fieldset>
         {%- endif %}
 
-        {%- if taxi %}
-        <div class="f">
-          <label for="book-time">{{ "Preferred pickup time" if cfg.shared else "Pickup time" }}</label>
-          <input id="book-time" name="time" type="time" required aria-required="true" aria-describedby="book-e-time">
-          <p class="err" id="book-e-time" hidden></p>
-        </div>
-        {%- if not (cfg.from and cfg.to) or cfg.transit %}
-        {{ text("flight", "Flight number or ferry time", "If we pick you up at an airport or a pier.") }}
-        {%- endif %}
-        {%- endif %}
-
         {%- if not rental %}
         <fieldset class="f" data-guests>
           <legend>Guests</legend>
@@ -254,23 +242,44 @@
         {%- endif %}
 
         {%- if taxi %}
-        {#- Taxi v1 (10.11.2026) : les deux bouts du trajet, chacun avec son adresse. -#}
-        {{ text("pickupAt", "Pickup", "Hotel, address, airport or pier.", true, "street-address") }}
-        {{ text("dropoffAt", "Drop-off", "Hotel, address, airport or pier.", true, "street-address") }}
+        {#- Deux lieux, pas quatre : où le chauffeur prend le client, où il le dépose. Le bout déjà connu d'une page trajet
+            (aéroport, jetée) n'est pas redemandé : booking.js le range dans la ligne « data-fixed ». -#}
+        <p class="f-fixed" data-fixed hidden></p>
+        {%- set hubHint = "Hotel, address, airport or pier." if (cfg.from and cfg.to) else "Hotel, address, airport or pier. If you pick a town from the list, add your hotel after it." -%}
+        {{ text("pickupAt", "Pickup", ("Your hotel, address or the airport." if cfg.shared else hubHint), true, "off", 'autocapitalize="words" enterkeyhint="next"', "data-end=pickup") }}
+        {{ text("dropoffAt", "Drop-off", ("Where you are going." if cfg.shared else hubHint), true, "off", 'autocapitalize="words" enterkeyhint="next"', "data-end=dropoff") }}
+        {#- Passage en avion, en ferry ou en bus : le numéro de vol et l'heure d'arrivée se demandent seulement alors (booking.js, data-transit). -#}
+        {{ text("flight", "Flight number", "", false, "off", 'autocapitalize="characters" enterkeyhint="next" spellcheck="false"', "data-flight hidden") }}
+        {%- if cfg.shared and cfg.departures and cfg.departures.length %}
+        <fieldset class="f">
+          <legend>Departure time</legend>
+          <div class="choice choice--list">
+            {%- for d in cfg.departures %}
+            <label><input type="radio" name="slot" value="{{ d.id }}" aria-describedby="book-e-slot"><span><b>{{ d.label }}</b></span></label>
+            {%- endfor %}
+          </div>
+          <p class="err" id="book-e-slot" hidden></p>
+        </fieldset>
+        {%- else %}
+        <div class="f">
+          <label for="book-time" data-time-label>{{ "Preferred pickup time" if cfg.shared else "Pickup time" }}</label>
+          {%- if cfg.shared %}<p class="f-hint" id="book-h-time">Optional. We confirm the time on WhatsApp.</p>{% endif %}
+          <input id="book-time" name="time" type="time"{% if not cfg.shared %} required aria-required="true"{% endif %} aria-describedby="{% if cfg.shared %}book-h-time {% endif %}book-e-time">
+          <p class="err" id="book-e-time" hidden></p>
+        </div>
+        {%- endif %}
         {%- elif speedboat %}
-        {{ text("pickup", "Hotel on Koh Lanta", "Where you stay on the island.", true, "street-address") }}
+        {{ text("pickup", "Hotel on Koh Lanta", "Where you stay on the island.", true, "off", 'autocapitalize="words" enterkeyhint="done"') }}
         {%- elif not rental %}
         {%- set pLabel = cfg.pickupLabel or "Hotel or address" -%}
         {%- set pHint = cfg.pickupHint or "We pick you up here." -%}
         <div class="f">
           <label for="book-pickup" data-label="{{ pLabel }}">{{ pLabel }}</label>
           <p class="f-hint" id="book-h-pickup" data-hint="{{ pHint }}">{{ pHint }}</p>
-          <input id="book-pickup" name="pickup" type="text" autocomplete="street-address"{% if cfg.pickupRequired != false %} required aria-required="true"{% endif %} aria-describedby="book-h-pickup book-e-pickup">
+          <input id="book-pickup" name="pickup" type="text" autocomplete="off" autocapitalize="words" enterkeyhint="done"{% if cfg.pickupRequired != false %} required aria-required="true"{% endif %} aria-describedby="book-h-pickup book-e-pickup">
           <p class="err" id="book-e-pickup" hidden></p>
         </div>
         {%- endif %}
-
-        {{ text("name", "First name", "", true, "given-name") }}
       </div>
       <div class="sheet-foot{% if cfg.tripList %} sheet-foot--pair{% endif %}">
         {%- if cfg.variant == "tour" %}<p class="sheet-total" data-total aria-live="polite" hidden></p>{% endif %}

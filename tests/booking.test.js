@@ -86,7 +86,8 @@ test("buildMessage trajet : aller, vol, sièges, bagages, prise en charge et dé
     [
       "Transfer request: Krabi Airport to Koh Lanta",
       "Date: Tue 10 Nov 2026",
-      "Pickup time: 14:30",
+      // Pris à l'aéroport : l'heure est celle de l'atterrissage, Gestion lit toujours « Pickup time ».
+      "Pickup time: 14:30 (landing)",
       "Flight or ferry: FD3xxx",
       "Guests: 2 adults, 1 child (age 5)",
       "Child seats: 1",
@@ -124,7 +125,7 @@ test("validate excursion : date, adultes, âge d'enfant, hôtel, prénom, option
     adults: "Add at least one adult.",
     "child-0": "Choose the age of child 1.",
     pickup: "Add your hotel so we know where to pick you up.",
-    name: "Add your first name."
+    name: "Add your name."
   });
 });
 
@@ -137,11 +138,92 @@ test("validate trajet : heure et hôtel obligatoires, lieux libres sans trajet f
   assert.equal(B.validate(TAXI, taxiState({ pickupAt: "" })).pickupAt, "Add the pickup address.");
   assert.equal(B.validate(TAXI, taxiState({ dropoffAt: " " })).dropoffAt, "Add the drop-off address.");
   assert.deepEqual(B.validate(TAXI, taxiState({ dropoffAt: "Lanta Garden Hill" })), {});
-  assert.equal(B.validate(TAXI, taxiState({ time: "" })).time, "Choose a pickup time.");
+  // À l'aéroport l'heure est celle de l'atterrissage ; à l'hôtel, celle de la prise en charge.
+  assert.equal(B.validate(TAXI, taxiState({ time: "" })).time, "Add your landing time.");
+  assert.equal(B.validate(TAXI, taxiState({ time: "", pickupAt: "Lanta Sand Resort", dropoffAt: "Krabi Airport (KBV)" })).time, "Choose a pickup time.");
+  // Hub : deux lieux libres, plus de From ni de To.
   const free = Object.assign({}, TAXI, { from: "", to: "" });
-  const errors = B.validate(free, taxiState({ from: "", to: "Ao Nang", dropoffAt: "Lanta Garden Hill" }));
-  assert.equal(errors.from, "Tell us where we pick you up.");
+  const errors = B.validate(free, taxiState({ pickupAt: "", dropoffAt: "Lanta Garden Hill" }));
+  assert.equal(errors.pickupAt, "Add the pickup address.");
+  assert.equal(errors.from, undefined);
   assert.equal(errors.to, undefined);
+});
+
+test("type de lieu : avion, ferry ou bus, sinon hôtel", () => {
+  assert.equal(B.endKind("Krabi Airport (KBV)"), "air");
+  assert.equal(B.endKind("Phuket airport"), "air");
+  assert.equal(B.endKind("HKT"), "air");
+  assert.equal(B.endKind("Donsak Pier"), "sea");
+  assert.equal(B.endKind("Surat Thani bus terminal"), "sea");
+  assert.equal(B.endKind("Lanta Sand Resort"), "");
+  assert.equal(B.endKind("Portofino Hotel"), "");
+  assert.equal(B.endKind(""), "");
+});
+
+test("taxi : à l'aéroport le numéro de vol est obligatoire et l'heure devient celle de l'atterrissage", () => {
+  assert.equal(B.validate(TAXI, taxiState({ flight: " " })).flight, "Add your flight number.");
+  assert.equal(B.validate(TAXI, taxiState()).flight, undefined);
+  assert.equal(B.timeLabel("air"), "Landing time");
+  assert.equal(B.timeLabel("sea"), "Arrival time");
+  assert.equal(B.timeLabel(""), "Pickup time");
+  // Pris à l'hôtel : pas de vol demandé, et un vol resté dans le brouillon ne part pas dans le message.
+  const hotel = taxiState({ pickupAt: "Lanta Sand Resort", dropoffAt: "Krabi Airport (KBV)", flight: "FD3xxx" });
+  assert.equal(B.validate(TAXI, hotel).flight, undefined);
+  assert.doesNotMatch(B.buildMessage(TAXI, hotel), /Flight/);
+  // Ferry : l'heure d'arrivée, le détail du ferry reste facultatif.
+  const pier = taxiState({ pickupAt: "Donsak Pier", dropoffAt: "Lanta Sand Resort", flight: "" });
+  assert.equal(B.validate(TAXI, pier).flight, undefined);
+  assert.match(B.buildMessage(TAXI, pier), /Pickup time: 14:30 \(arrival\)/);
+});
+
+test("hub : la première ligne vient de Pickup et de Drop-off, Gestion lit toujours les deux lignes", () => {
+  const hub = { variant: "taxi", brand: "VIP Taxi Lanta", product: "Private transfer", from: "", to: "" };
+  const msg = B.buildMessage(hub, taxiState({ pickupAt: "Ao Nang Beach Resort", dropoffAt: "Lanta Sand Resort", flight: "" }));
+  assert.equal(msg.split("\n")[0], "Transfer request: Ao Nang Beach Resort to Lanta Sand Resort");
+  assert.match(msg, /\nPickup: Ao Nang Beach Resort\nDrop-off: Lanta Sand Resort\n/);
+});
+
+test("minivan partagé : l'heure est facultative, la demande est au nom de Secret", () => {
+  const shared = { variant: "taxi", shared: true, brand: "Secret Travel & Tour", product: "Shared minivan", from: "", to: "" };
+  const s = taxiState({ pickupAt: "Lanta Sand Resort", dropoffAt: "Krabi Town", time: "", flight: "" });
+  assert.deepEqual(B.validate(shared, s), {});
+  const msg = B.buildMessage(shared, s);
+  assert.equal(msg.split("\n")[0], "Shared minivan request (Secret Travel & Tour): Lanta Sand Resort to Krabi Town");
+  assert.doesNotMatch(msg, /time|VIP|THB|Price/i);
+  assert.match(B.buildMessage(shared, Object.assign({}, s, { time: "09:00" })), /\nPreferred pickup time: 09:00\n/);
+});
+
+test("minivan partagé : avec des départs fixes dans les données, l'un d'eux est exigé et part dans le message", () => {
+  const shared = { variant: "taxi", shared: true, brand: "Secret Travel & Tour", product: "Shared minivan", from: "", to: "", departures: [{ id: "d1", label: "09:00" }, { id: "d2", label: "13:30" }] };
+  const base = taxiState({ pickupAt: "Lanta Sand Resort", dropoffAt: "Krabi Town", time: "", flight: "" });
+  assert.equal(B.validate(shared, base).slot, "Choose a departure time.");
+  const ok = Object.assign({}, base, { slot: "d2" });
+  assert.deepEqual(B.validate(shared, ok), {});
+  assert.match(B.buildMessage(shared, ok), /\nDeparture: 13:30\n/);
+});
+
+test("« Today » : refusé une fois le premier ramassage commencé, jamais avant", () => {
+  const cfg = Object.assign({}, TOUR, { pickupFrom: "07:45" });
+  const base = tourState({ dateChoice: "today", nowTime: "07:41" });
+  assert.equal(B.validate(cfg, base).date, undefined);
+  assert.equal(B.validate(cfg, Object.assign({}, base, { nowTime: "07:45" })).date, "Pickups for today have started. Choose tomorrow or another day.");
+  assert.equal(B.validate(cfg, Object.assign({}, base, { dateChoice: "tomorrow", nowTime: "09:00" })).date, undefined);
+  assert.equal(B.todayClosed(cfg, "08:00"), true);
+  assert.equal(B.todayClosed(cfg, "06:00"), false);
+  // Sans heure dans les données, rien n'est fermé.
+  assert.equal(B.todayClosed(TOUR, "23:00"), false);
+  assert.equal(B.todayClosed(Object.assign({}, TAXI, { pickupFrom: "07:00" }), "23:00"), false);
+});
+
+test("speedboat : un bateau déjà parti aujourd'hui est refusé", () => {
+  const boat = {
+    variant: "speedboat", product: "Speedboat",
+    routes: [{ id: "a", label: "Koh Lanta to Koh Phi Phi", deps: [{ id: "d1", time: "08:30" }, { id: "d2", time: "13:00" }] }]
+  };
+  const s = Object.assign(B.emptyState(boat), { today: TODAY, nowTime: "10:00", dateChoice: "today", route: "a", departure: "d1", tripType: "one-way", adults: 2, pickup: "Hotel", name: "Anna" });
+  assert.equal(B.validate(boat, s).date, "That boat has left for today. Choose another departure or another day.");
+  assert.equal(B.validate(boat, Object.assign({}, s, { departure: "d2" })).date, undefined);
+  assert.equal(B.validate(boat, Object.assign({}, s, { dateChoice: "tomorrow" })).date, undefined);
 });
 
 test("waUrl : numéro de l'agence et texte encodé", () => {
@@ -182,7 +264,7 @@ test("cash du parc : adultes et enfants au tarif des données, rien sans frais d
 
 test("transfert : l'option choisie suit le trajet sur la première ligne", () => {
   const cfg = { variant: "taxi", product: "Minivan transfers", options: [{ id: "shared", title: "Shared minivan" }] };
-  const msg = B.buildMessage(cfg, { option: "shared", from: "Koh Lanta", to: "Krabi Airport", dateChoice: "today", today: "2026-11-03", adults: 2, childAges: [], time: "09:00", name: "Anna" });
+  const msg = B.buildMessage(cfg, { option: "shared", pickupAt: "Koh Lanta", dropoffAt: "Krabi Airport", dateChoice: "today", today: "2026-11-03", adults: 2, childAges: [], time: "09:00", name: "Anna" });
   assert.equal(msg.split("\n")[0], "Transfer request: Koh Lanta to Krabi Airport – Shared minivan");
 });
 
