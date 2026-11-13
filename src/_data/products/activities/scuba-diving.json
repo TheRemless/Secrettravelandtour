@@ -6,7 +6,7 @@
   "name": "Scuba diving",
   "seo": {
     "title": "Scuba Diving Koh Lanta, Courses and Dives | Secret Travel",
-    "metaDescription": "Scuba diving on Koh Lanta: first dive from 4,500 THB, fun dives at Koh Haa and Phi Phi, catamaran trips and SSI courses to Rescue. Small groups, hotel transfer.",
+    "metaDescription": "Scuba diving on Koh Lanta: dives from 3,500 THB, a first dive with no experience, fun dives at Koh Haa and Phi Phi, SSI courses. Small groups, hotel transfer.",
     "draft": {
       "h1": "Scuba diving on Koh Lanta"
     }
@@ -36,7 +36,7 @@
     },
     {
       "label": "Languages",
-      "value": "Instructors speak several languages. Ask us on WhatsApp if yours is spoken."
+      "value": "They depend on the instructors working that day. Ask us on WhatsApp if yours is spoken."
     },
     {
       "label": "Not included",
@@ -44,9 +44,9 @@
     }
   ],
   "price": {
-    "from": 4500,
+    "from": 3500,
     "currency": "THB",
-    "unit": "per person, one-day experience"
+    "unit": "per person"
   },
   "options": [
     {
@@ -637,7 +637,7 @@
     },
     {
       "q": "Does the instructor speak my language?",
-      "a": "The instructors speak several languages. Tell us on WhatsApp which language you need and we check before you book."
+      "a": "The instructors speak several languages, and which ones depends on who is working that day. Tell us on WhatsApp which language you need and we check for your date."
     },
     {
       "q": "How deep do we go?",
@@ -688,7 +688,7 @@
     ],
     "cardDescription": "Try diving for a day, or train from Open Water up to advanced and rescue. Small groups.",
     "cardInfo": [
-      "From 4,500 THB",
+      "From 3,500 THB",
       "From one day"
     ],
     "dayTitle": "The dive programmes",
@@ -768,6 +768,10 @@
     {
       "field": "facts[Languages], faq[Does the instructor speak my language?]",
       "from": "Message de Jérémy du 13.11.2026 : les instructeurs parlent plusieurs langues, les clients demandent sur WhatsApp si la leur est parlée."
+    },
+    {
+      "field": "price, seo.metaDescription, legacyText.cardInfo, facts[Languages], faq[Does the instructor speak my language?]",
+      "from": "Message de Jérémy du 13.11.2026 : « à partir de 3500 thb, pas 4500 » (plus bas prix, 2 plongées fun dive) ; les langues changent selon les instructeurs présents."
     }
   ],
   "refPrefix": "DIVE"
