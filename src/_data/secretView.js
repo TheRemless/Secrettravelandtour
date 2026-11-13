@@ -20,7 +20,7 @@ function jsonLd() {
     "@type": "TravelAgency",
     name: b.name,
     url: "https://secrettravelandtour.com/",
-    image: "https://secrettravelandtour.com/images/secret/og-secret.jpg",
+    image: "https://secrettravelandtour.com/images/secret/og-secret-v4.jpg",
     logo: "https://secrettravelandtour.com/images/secret/apple-touch-icon.png",
     telephone: b.phone,
     address: {
