@@ -35,6 +35,10 @@
       "value": "SSI"
     },
     {
+      "label": "Languages",
+      "value": "Instructors speak several languages. Ask us on WhatsApp if yours is spoken."
+    },
+    {
       "label": "Not included",
       "value": "National park fee and diving insurance, 150 THB per day"
     }
@@ -632,6 +636,10 @@
       "a": "No. The Scuba Explorer and the one-day Discover Basic Diver are made for people who have never dived."
     },
     {
+      "q": "Does the instructor speak my language?",
+      "a": "The instructors speak several languages. Tell us on WhatsApp which language you need and we check before you book."
+    },
+    {
       "q": "How deep do we go?",
       "a": "5 metres for the kids, 12 metres on the one-day dive. Once you are Open Water certified it is 18 metres, and 30 metres after Advanced Open Water. The Deep Diver specialty goes to 40 metres."
     },
@@ -756,6 +764,10 @@
     {
       "field": "options[].prices/notIncludedFees[Diving insurance], facts, options[rentals-and-discounts], day[courses], day[fun-dives]",
       "from": "brochure plongée p. 1 et 2 : « Diving insurance: 150 THB / day » parmi les frais non inclus, jamais « optional » ; Open Water « Day 1: theory & pool », « Days 2–3: open-water dives » ; React Right et Stress and Rescue « 3 days • 4 dives » pour l'ensemble ; Koh Haa « 6 different dive sites », Phi Phi et Koh Bida « More than 6 » ; « 15 L tank (subject to stock) FREE » ; forfaits « Choose and combine the trips above » (audit du 12.11.2026, demande de Jérémy)"
+    },
+    {
+      "field": "facts[Languages], faq[Does the instructor speak my language?]",
+      "from": "Message de Jérémy du 13.11.2026 : les instructeurs parlent plusieurs langues, les clients demandent sur WhatsApp si la leur est parlée."
     }
   ],
   "refPrefix": "DIVE"
