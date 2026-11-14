@@ -33,7 +33,7 @@ const CARD_PHOTO = {
 // Une fiche absente de cette liste n'a pas de galerie et reste telle quelle. Trois photos et plus : bande sous les
 // options ; une ou deux sur une fiche qui a un déroulé : dans sa colonne de gauche, sous les faits.
 const GALLERY = {
-  atv: ["gal-atv-viewpoint-line", "gal-atv-riders", "gal-atv-kayak-mangrove", "gal-atv-kayak-monkey", "gal-atv-kayak-group"],
+  atv: ["gal-atv-viewpoint-line", "gal-atv-riders", "gal-atv-group-viewpoint"],
   "go-kart": ["gal-kart-driver", "gal-kart-double-red", "gal-kart-double-teal", "gal-kart-corner", "gal-kart-koi"],
   "cooking-class": ["gal-cooking-market", "gal-cooking-mortar", "gal-cooking-class-room", "gal-cooking-spring-rolls", "gal-cooking-carving"],
   batik: ["gal-batik-large-canvas", "gal-batik-fish", "gal-batik-sun-canvas", "gal-batik-whale-shark", "gal-batik-mandala"],

@@ -281,23 +281,9 @@
     {
       "slot": "gallery",
       "status": "keep",
-      "file": "secret/v3/atv-kayak-mangrove.jpg",
-      "alt": "Two women paddling an orange kayak among the mangrove roots, on the ATV and kayak combo",
-      "shot": "Kayak in the mangrove (ATV and kayak combo only)."
-    },
-    {
-      "slot": "gallery",
-      "status": "keep",
-      "file": "secret/v3/atv-kayak-monkey.jpg",
-      "alt": "A monkey sitting on the bow of an orange kayak while a family paddles on the mangrove river",
-      "shot": "Monkey on a kayak (ATV and kayak combo only)."
-    },
-    {
-      "slot": "gallery",
-      "status": "keep",
-      "file": "secret/v3/atv-kayak-group.jpg",
-      "alt": "A group in orange kayaks on a wide mangrove river, hills in the distance",
-      "shot": "Group of kayaks on the river (ATV and kayak combo only)."
+      "file": "secret/v3/atv-group-viewpoint.jpg",
+      "alt": "A group of riders stopped with their quad bikes on a dirt clearing at the top of the forest trail",
+      "shot": "Group stop at the viewpoint."
     }
   ],
   "related": [
@@ -398,6 +384,10 @@
     {
       "field": "day[].steps[].text",
       "from": "brochure du quad p. 2 « IN ATV RACING AREA », « learn from our expert staffs how to operate the vehicle in an enclosed area », « We will lead you first through the forest… finish with stunning viewpoint at the top of mountain » ; p. 3 « See fiddler crabs, mudskippers, birds and monkeys » (audit du 12.11.2026, demande de Jérémy)"
+    },
+    {
+      "field": "photos[gallery]",
+      "from": "Photos kayak du dossier quad retirées le 14.11.2026 : d'après la note du 12.11.2026 (signalement de Jérémy), ces kayaks appartiennent à une autre société, non partenaire. Panneau du partenaire flouté sur la photo du groupe."
     }
   ],
   "refPrefix": "ATV"
