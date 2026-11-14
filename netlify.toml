@@ -6,11 +6,6 @@
 [build.environment]
   NODE_VERSION = "22"
 
-# Exception de production : les anciennes maquettes publiées sous /_v4/propositions/ contiennent encore des TODO(client)
-# que check-dist refuse en production. Plus aucune photo temporaire depuis le 14.11.2026. À retirer avec ces maquettes.
-[context.production.environment]
-  STT_ALLOW_PLACEHOLDERS = "1"
-
 # Cache navigateur. Les images générées dans /img/ portent un hash dans leur nom : cache d'un an.
 # Les sources (/images/) gardent un nom stable : une semaine, revalidation en arrière-plan.
 [[headers]]
