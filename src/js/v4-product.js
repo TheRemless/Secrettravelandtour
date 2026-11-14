@@ -296,3 +296,21 @@
   }
   render("init");
 })();
+
+/* 3. Galerie des fiches ([data-gal-lb], macro gallery de v4-product.njk) : la visionneuse arrive au premier geste.
+   La 4 Islands garde la sienne (v4-four.js), sans cet attribut. */
+(function () {
+  "use strict";
+  var V = window.V4;
+  var gal = V && V.$("[data-gal-lb]");
+  if (!gal) return;
+  var warm = function () { V.load("/js/v4-lightbox.js"); };
+  gal.addEventListener("pointerenter", warm, { once: true });
+  gal.addEventListener("touchstart", warm, { once: true, passive: true });
+  gal.addEventListener("click", function (e) {
+    var a = e.target.closest("[data-gal-i]");
+    if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    e.preventDefault();
+    V.load("/js/v4-lightbox.js").then(function () { window.V4_LIGHTBOX(gal).open(Number(a.getAttribute("data-gal-i"))); });
+  });
+})();

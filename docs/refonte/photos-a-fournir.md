@@ -10,7 +10,7 @@ Format attendu pour chaque prise de vue :
 - pas de photo de l'équipe (décision du client), autorisation écrite de toute personne reconnaissable ;
 - une photo ne sert qu'à un seul produit ; l'image de partage 1200×630 de chaque page est tirée de ces photos.
 
-43 prises de vue sur 20 pages. Faute de vraie photo, la page en affiche moins (00-BRIEF §7).
+32 prises de vue sur 17 pages. Faute de vraie photo, la page en affiche moins (00-BRIEF §7).
 
 ## Commun aux deux marques
 
@@ -59,18 +59,10 @@ Format attendu pour chaque prise de vue :
 | gallery | à remplacer | `secret/gallery/mangrove-longtail.webp` | Longtail in a narrow mangrove channel (current file is a brochure scan). |
 | gallery | à remplacer | `secret/gallery/mangrove-guide.webp` | Guide in the mangrove with visitors (current file is a brochure scan). |
 
-## ATV (quad bike) (/tours/atv/)
-
-| Emplacement | Statut | Fichier actuel | Ce qui doit être visible |
-|---|---|---|---|
-| gallery | à remplacer | `secret/gallery/atv-riders.webp` | Riders on the track (current file is a brochure scan). |
-
 ## Batik painting (/tours/batik/)
 
 | Emplacement | Statut | Fichier actuel | Ce qui doit être visible |
 |---|---|---|---|
-| gallery | à remplacer | `secret/gallery/batik-morning.webp` | People painting at the long table (current file is a brochure scan). |
-| gallery | à remplacer | `secret/gallery/batik-afternoon.webp` | Finished canvases hanging (current file is a brochure scan). |
 | gallery | à remplacer | `secret/gallery/batik-kayak.webp` | Kayaks below the cliffs, kayak and painting day (current file is a brochure scan). |
 
 ## Thai cooking class (/tours/cooking-class/)
@@ -78,23 +70,6 @@ Format attendu pour chaque prise de vue :
 | Emplacement | Statut | Fichier actuel | Ce qui doit être visible |
 |---|---|---|---|
 | hero | à remplacer | `secret/cooking-class.webp` | Hands at the mortar, curry paste (current file is a video still with blurred apron logos, likely a third-party image). |
-| gallery | manquante |  | The local market visit, choosing ingredients. |
-| gallery | manquante |  | The four finished dishes on the table. |
-
-## Elephant sanctuary (/tours/elephant-sanctuary/)
-
-| Emplacement | Statut | Fichier actuel | Ce qui doit être visible |
-|---|---|---|---|
-| gallery | à remplacer | `secret/gallery/elephant-hug.webp` | Visitors walking with the elephants (current file is a brochure scan). |
-| gallery | à remplacer | `secret/gallery/elephant-herbal.webp` | Preparing herbal remedies, programme B (current file is a brochure scan). |
-| gallery | à remplacer | `secret/gallery/elephant-bath.webp` | Bathing with the elephants in the pool (current file is a 710×264 brochure scan). |
-
-## Electric go-kart (/tours/go-kart/)
-
-| Emplacement | Statut | Fichier actuel | Ce qui doit être visible |
-|---|---|---|---|
-| hero | à remplacer | `secret/go-kart.webp` | Karts on the track, framed on the karts and drivers (current file is real but badly framed). |
-| gallery | à remplacer | `secret/gallery/kart-kid.webp` | A child driving a kart (current file is a brochure scan with print screen). |
 
 ## Sea cave kayaking (/tours/kayak/)
 
@@ -117,7 +92,6 @@ Format attendu pour chaque prise de vue :
 | Emplacement | Statut | Fichier actuel | Ce qui doit être visible |
 |---|---|---|---|
 | hero | à remplacer | `secret/lanta-old-town.webp` | Scooters or cars of the rental fleet (current file is the Lanta Old Town photo, to be kept for the island tour only). |
-| gallery | manquante |  | The scooter line-up, one car, keys handover (no faces needed). |
 
 ## Transfers: private, shared or songthaew (/transfers/)
 

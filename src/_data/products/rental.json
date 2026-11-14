@@ -305,8 +305,38 @@
     },
     {
       "slot": "gallery",
-      "status": "missing",
-      "shot": "The scooter line-up, one car, keys handover (no faces needed)."
+      "status": "keep",
+      "file": "secret/v3/rental-shed.jpg",
+      "alt": "Rental motorbikes and scooters lined up under a covered shed",
+      "shot": "The scooter line-up."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/rental-scooter.jpg",
+      "alt": "A red maxi-scooter parked on its stand",
+      "shot": "A scooter of the fleet."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/rental-motorbike.jpg",
+      "alt": "A white and red Yamaha retro-style motorbike on its stand",
+      "shot": "A big bike of the fleet."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/rental-car-white.jpg",
+      "alt": "A white Toyota hatchback parked by a hedge",
+      "shot": "A car of the fleet."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/rental-car-black.jpg",
+      "alt": "A black SUV parked under the rental shed",
+      "shot": "A car of the fleet."
     }
   ],
   "related": [

@@ -47,3 +47,12 @@ Obligatoires : `slug` (= nom du fichier), `url`, `brand`, `template`, `name`, `s
 - Jamais de nom de prestataire ni de tarif interne (net, commission) : `tests/products-schema.test.js` le vérifie.
 - Une contradiction ne se tranche pas ici : les deux valeurs vont dans un `TODO(client)`.
 - `npm run build` régénère `docs/refonte/manques.md` et `docs/refonte/photos-a-fournir.md`.
+
+## Ajouter une galerie à une fiche
+
+1. Convertir chaque photo dans `src/images/secret/v3/` (JPEG, 2000 px au plus, sans métadonnées, nom sans prestataire).
+2. Déclarer chaque photo dans `src/_data/photos-v3.json` : un `id` (préfixe `gal-`), `file`, `alt` en anglais, `position` (cadrage de la vignette), `source`. Un fichier ne sert qu'une fois.
+3. Ajouter la liste des `id` à `GALLERY` dans `src/_data/v4data.js`, sous le slug de la fiche ; la première photo est la grande vignette. Cinq photos remplissent la grille ; une à quatre ont leur variante, au-delà de cinq les suivantes ne s'ouvrent que dans la visionneuse.
+4. Passer les emplacements `gallery` de `photos[]` de la fiche en `keep` avec leur `file`.
+
+Une fiche absente de `GALLERY` n'a pas de galerie et reste telle quelle.
