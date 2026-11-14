@@ -488,7 +488,7 @@ html.has-trips.hd-off:has(.dock.is-on) .toast { bottom: calc(138px + env(safe-ar
    cinquième et les suivantes dans la visionneuse seulement. */
 .gal-sec--p { padding-bottom: 96px; }
 @media (max-width: 760px) { .gal-sec--p { padding-bottom: 56px; } }
-.gal__item { position: relative; }
+.gal-sec--p .gal__item { position: relative; }
 .gal__more { position: absolute; inset: 0; display: grid; place-items: center; background: rgb(0 0 0 / .45); color: #fff; font-size: 28px; font-weight: 600; pointer-events: none; }
 @media (min-width: 700px) {
   .gal--n1 { grid-template: 1fr / 1fr; }

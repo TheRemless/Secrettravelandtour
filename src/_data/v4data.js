@@ -380,6 +380,7 @@ module.exports = async function () {
   await view.responsive([homeData.heroTrips], { widths: [480, 640, 768, 960, 1280, 1600], avif: 45, webp: 68 });
   await view.responsive([homeData.final, hubData.final, fourData.hero, fourData.gallery], { widths: [480, 640, 768, 960, 1280, 1600, 2000], avif: 45, webp: 68 });
   await view.responsive(productPages.map((x) => x.hero), { widths: [480, 640, 768, 960, 1280, 1600], avif: 45, webp: 68 });
-  await view.responsive(productPages.map((x) => x.gallery).concat([rentalPage.gallery]), { widths: [480, 640, 960, 1280, 1600, 2000], avif: 45, webp: 68 });
+  // Galeries : vignettes de 300 à 600 px ; la visionneuse prend la largeur native, toujours ajoutée par responsive().
+  await view.responsive(productPages.map((x) => x.gallery).concat([rentalPage.gallery]), { widths: [480, 640, 960], avif: 45, webp: 68 });
   return data;
 };
