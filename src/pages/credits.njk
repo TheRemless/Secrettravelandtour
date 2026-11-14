@@ -17,12 +17,17 @@ permalink: /credits/
 <main id="main" class="sec">
   <div class="wrap credits">
     <h1>Photo credits</h1>
+    {#- Plus aucune photo sous licence libre depuis le 14.11.2026 : la page le dit au lieu d'afficher une liste vide. -#}
+    {%- if d.credits.length %}
     <p class="lead">Some photos on this site are temporary and come from other photographers, under the licences below.</p>
     <dl>
       {%- for p in d.credits %}
       <div><dt>{{ p.usage }}</dt><dd>{{ p.author }}, {{ p.source }}, {{ p.licence }}. <a class="link" href="{{ p.url }}">Source</a></dd></div>
       {%- endfor %}
     </dl>
+    {%- else %}
+    <p class="lead">Every photo on this site is our own or comes from the partners we work with, with their permission.</p>
+    {%- endif %}
   </div>
 </main>
 {{ v4.footer(site, d.contact, d.emblem, d.boats, d.activities) }}

@@ -185,16 +185,41 @@
 <script type="application/json" id="pick-data">{{ pk.json | dump | safe }}</script>
 {% endmacro %}
 
+{#- Galerie : photos de la fiche (GALLERY de v4data.js), même composant que la 4 Islands. Bureau : une grande vignette
+    et quatre petites ; au-delà de cinq, les suivantes ne s'ouvrent que dans la visionneuse. Téléphone : bande à faire
+    glisser. Chaque vignette est un lien vers la photo entière (sans JavaScript) ou ouvre la visionneuse. -#}
+{#- sand=false (location) : fond blanc, dans la continuité du haut de page, avant la bande sable « Before you book ». -#}
+{% macro gallery(items, name, sand=true) %}
+{%- set n = items.length -%}
+<section class="sec{% if sand %} sec--sand{% endif %} gal-sec gal-sec--p" aria-label="Photos of {{ name }}"><div class="wrap">
+  <div class="gal gal--n{{ n if n < 5 else 5 }}" data-gal data-gal-lb>
+    {%- for p in items %}
+    <a class="gal__item press" href="{{ p.fallback or p.src }}" data-gal-i="{{ loop.index0 }}" data-full="{{ p.fallback or p.src }}" data-w="{{ p.width }}" data-h="{{ p.height }}" aria-label="Open photo {{ loop.index }} of {{ n }}: {{ p.alt }}">{{ v4.photo(p, "(min-width: 900px) 600px, 78vw" if loop.first else "(min-width: 900px) 300px, 78vw") }}{% if loop.index == 5 and n > 5 %}<span class="gal__more" aria-hidden="true">+{{ n - 5 }}</span>{% endif %}</a>
+    {%- endfor %}
+  </div>
+</div></section>
+{% endmacro %}
+
 {#- Déroulé : les journées minutées. Plusieurs journées : celle de l'option choisie (v4-product.js), les autres
     restent dans la page sans JavaScript. -#}
+{#- Une ou deux photos de la fiche (t.gallery) : sous les faits, dans la colonne de gauche, plutôt qu'une bande à
+    moitié vide. Mêmes vignettes et même visionneuse que la galerie. -#}
 {% macro programme(t) %}
 {%- set pg = t.programme -%}
+{%- set side = t.gallery if t.galleryInDay else [] -%}
 <section class="sec" id="day" aria-labelledby="day-h">
   <div class="wrap day day--p">
     <div class="day__side">
       <h2 id="day-h">{{ pg.title }}</h2>
       {%- if t.sideFacts.length %}
       <dl class="sidef">{% for f in t.sideFacts %}<div><dt>{{ f.label }}</dt><dd>{{ f.value }}</dd></div>{% endfor %}</dl>
+      {%- endif %}
+      {%- if side.length %}
+      <div class="dayph dayph--n{{ side.length }}" data-gal data-gal-lb role="group" aria-label="Photos of {{ t.name }}">
+        {%- for p in side %}
+        <a class="gal__item press" href="{{ p.fallback or p.src }}" data-gal-i="{{ loop.index0 }}" data-full="{{ p.fallback or p.src }}" data-w="{{ p.width }}" data-h="{{ p.height }}" aria-label="Open photo {{ loop.index }} of {{ side.length }}: {{ p.alt }}">{{ v4.photo(p, "(min-width: 900px) 440px, 100vw" if side.length == 1 else "(min-width: 900px) 220px, 50vw") }}</a>
+        {%- endfor %}
+      </div>
       {%- endif %}
     </div>
     <div class="day__main">

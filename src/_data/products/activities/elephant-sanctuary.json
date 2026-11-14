@@ -326,30 +326,44 @@
     {
       "slot": "hero",
       "status": "keep",
-      "file": "secret/elephant-sanctuary.webp",
-      "alt": "An elephant at the sanctuary",
-      "shot": "Elephants in the mud bath or the pool, no riding (current file is real but only 635 px: replace later)."
+      "file": "secret/v3/card-elephant.jpg",
+      "alt": "Two elephants walking through the jungle at the sanctuary",
+      "shot": "Elephants in the forest, no riding."
     },
     {
       "slot": "gallery",
-      "status": "replace",
-      "file": "secret/gallery/elephant-hug.webp",
-      "alt": "A visitor hugging an elephant at the sanctuary",
-      "shot": "Visitors walking with the elephants (current file is a brochure scan)."
+      "status": "keep",
+      "file": "secret/v3/elephant-feeding.jpg",
+      "alt": "Two visitors feeding an elephant beside a thatched shelter",
+      "shot": "Visitors feeding the elephants."
     },
     {
       "slot": "gallery",
-      "status": "replace",
-      "file": "secret/gallery/elephant-herbal.webp",
-      "alt": "Visitors preparing herbal food for the elephants",
-      "shot": "Preparing herbal remedies, programme B (current file is a brochure scan)."
+      "status": "keep",
+      "file": "secret/v3/elephant-close.jpg",
+      "alt": "Two elephants standing close together among the trees",
+      "shot": "Elephants in the forest."
     },
     {
       "slot": "gallery",
-      "status": "replace",
-      "file": "secret/gallery/elephant-bath.webp",
-      "alt": "Visitors bathing with elephants in the pool",
-      "shot": "Bathing with the elephants in the pool (current file is a 710×264 brochure scan)."
+      "status": "keep",
+      "file": "secret/v3/elephant-forest.jpg",
+      "alt": "Two elephants grazing among tall trees in the forest",
+      "shot": "Elephants in the forest."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/elephant-pair.jpg",
+      "alt": "A visitor standing beside two elephants on a forest path",
+      "shot": "Visitors walking with the elephants."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/elephant-visitor.jpg",
+      "alt": "A smiling visitor with a hand on an elephant's trunk under a thatched shelter",
+      "shot": "Visitors with the elephants."
     }
   ],
   "related": [

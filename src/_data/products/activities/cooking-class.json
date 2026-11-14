@@ -296,13 +296,38 @@
     },
     {
       "slot": "gallery",
-      "status": "missing",
-      "shot": "The local market visit, choosing ingredients."
+      "status": "keep",
+      "file": "secret/v3/cooking-market.jpg",
+      "alt": "A chef in whites showing students a stall at the local market",
+      "shot": "The local market visit."
     },
     {
       "slot": "gallery",
-      "status": "missing",
-      "shot": "The four finished dishes on the table."
+      "status": "keep",
+      "file": "secret/v3/cooking-mortar.jpg",
+      "alt": "Two students in chef hats pounding a paste together in a stone mortar",
+      "shot": "Hands at the mortar."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/cooking-class-room.jpg",
+      "alt": "Students in aprons and chef hats along a long table, each with a stone mortar",
+      "shot": "Students at their stations."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/cooking-spring-rolls.jpg",
+      "alt": "Two plates of crispy prawn rolls with chilli sauce and carved vegetables",
+      "shot": "Finished dishes."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/cooking-carving.jpg",
+      "alt": "Cucumber, carrot and tomato carved into flowers around a blue and white bowl",
+      "shot": "Carving."
     }
   ],
   "related": [

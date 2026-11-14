@@ -29,6 +29,23 @@ const CARD_PHOTO = {
   "sunset-dinner-raft": "card-sunset-raft", "sunrise-raft": "card-sunrise-raft", "mangrove-kayaking": "card-mangrove-kayak",
   "cooking-class": "card-cooking", batik: "card-batik", "go-kart": "card-go-kart"
 };
+// Galerie de chaque fiche : ids de photos-v3.json, dans l'ordre d'affichage (la première est la grande vignette).
+// Une fiche absente de cette liste n'a pas de galerie et reste telle quelle. Trois photos et plus : bande sous les
+// options ; une ou deux sur une fiche qui a un déroulé : dans sa colonne de gauche, sous les faits.
+const GALLERY = {
+  atv: ["gal-atv-viewpoint-line", "gal-atv-riders", "gal-atv-kayak-mangrove", "gal-atv-kayak-monkey", "gal-atv-kayak-group"],
+  "go-kart": ["gal-kart-driver", "gal-kart-double-red", "gal-kart-double-teal", "gal-kart-corner", "gal-kart-koi"],
+  "cooking-class": ["gal-cooking-market", "gal-cooking-mortar", "gal-cooking-class-room", "gal-cooking-spring-rolls", "gal-cooking-carving"],
+  batik: ["gal-batik-large-canvas", "gal-batik-fish", "gal-batik-sun-canvas", "gal-batik-whale-shark", "gal-batik-mandala"],
+  "elephant-sanctuary": ["gal-elephant-feeding", "gal-elephant-close", "gal-elephant-forest", "gal-elephant-pair", "gal-elephant-visitor"],
+  "koh-rok-koh-haa": ["gal-rok-beach-island", "gal-rok-reef", "gal-rok-turquoise-water", "gal-rok-beach-lunch", "gal-rok-driftwood", "gal-rok-fallen-tree", "gal-rok-palm-beach"],
+  // Une ou deux photos : posées dans la colonne du déroulé (macro programme), pas en bande.
+  "sunrise-raft": ["gal-raft-river-low-sun"],
+  "sunset-dinner-raft": ["gal-raft-river-evening", "gal-raft-deck-lantern"],
+  "fishing-trip": ["gal-raft-fishing-deck"],
+  rental: ["gal-rental-shed", "gal-rental-scooter", "gal-rental-motorbike", "gal-rental-car-white", "gal-rental-car-black"]
+};
+const galleryOf = (slug) => Promise.all((GALLERY[slug] || []).map(photo));
 const WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen"];
 
 const fact = (p, label) => ((p.facts || []).find((f) => f.label === label) || {}).value || "";
@@ -285,7 +302,8 @@ module.exports = async function () {
       metaDescription: `Emerald Cave, Koh Ngai and two snorkelling stops, by longtail or speedboat. Join-in from ${view.thb(four.price.from)}, private longtail from ${view.thb(four.options.find((o) => o.kind === "private").prices[0].amount)}, hotel pickup included.`
     },
     hero: await photo("four-hero"),
-    gallery: await Promise.all(["four-gallery-reef", "four-gallery-ngai", "four-longtail", "four-gallery-kradan", "four-gallery-pier"].map(photo)),
+    // Galerie : la grande à gauche, quatre petites, la grotte en hauteur à droite (photo verticale, voir .gal--four).
+    gallery: await Promise.all(["four-gallery-islets", "four-gallery-reef", "four-gallery-ngai", "four-longtail", "four-gallery-kradan", "four-gallery-cave"].map(photo)),
     day: {
       title: "How the day goes",
       note: day.note,
@@ -316,7 +334,10 @@ module.exports = async function () {
   const ctx = { site, schema, cardsByUrl, taxi, live: new Set([...LIVE, ...boats.concat(activities).map((c) => c.href)]) };
   const productPages = [];
   for (const slug of BOATS.concat(ACTIVITIES).filter((x) => x !== "4-islands")) {
-    productPages.push(vp.productPage(product(slug), { ...ctx, hero: await photo(CARD_PHOTO[slug]), group: GROUPS.find((g) => g.slugs.includes(slug)) }));
+    const page = vp.productPage(product(slug), { ...ctx, hero: await photo(CARD_PHOTO[slug]), group: GROUPS.find((g) => g.slugs.includes(slug)) });
+    const gallery = await galleryOf(slug);
+    // Une ou deux photos sur une fiche avec déroulé : dans sa colonne (macro programme) ; sinon en bande (macro gallery).
+    productPages.push({ ...page, gallery, galleryInDay: Boolean(page.programme) && gallery.length > 0 && gallery.length < 3 });
   }
   // 4 Islands : même gabarit de fiche, bloc « Choose your boat » ; la ligne de chaque bateau dit l'île qui change et
   // l'île du déjeuner, son détail le ponton (et ce que la brochure du catamaran dit du bord et du déjeuner).
@@ -343,7 +364,7 @@ module.exports = async function () {
     while (new Date(sat + "T12:00:00Z").getUTCDay() !== 6) sat = booking.addDays(sat, 1);
     homeData.howSample = booking.buildMessage(page.booking, { ...booking.emptyState(), option: view.price(four).option, dateChoice: "other", dateOther: sat, today, adults: 2, childAges: [7], pickup: "Pimalai Resort", name: "Anna" });
   }
-  const rentalPage = vp.rentalPage(rentalP, ctx);
+  const rentalPage = { ...vp.rentalPage(rentalP, ctx), gallery: await galleryOf("rental") };
   const speedboatPage = vp.speedboatPage(P("secret-transfers/speedboat-ferry"), ctx);
   // /transfers/ : les prix d'appel des trajets privés cités en exemple viennent de la grille VIP Taxi Lanta (taxiPages.js),
   // donc suivent toute correction de prix sans retoucher la page.
@@ -369,5 +390,7 @@ module.exports = async function () {
   await view.responsive([homeData.heroTrips], { widths: [480, 640, 768, 960, 1280, 1600], avif: 45, webp: 68 });
   await view.responsive([homeData.final, hubData.final, fourData.hero, fourData.gallery], { widths: [480, 640, 768, 960, 1280, 1600, 2000], avif: 45, webp: 68 });
   await view.responsive(productPages.map((x) => x.hero), { widths: [480, 640, 768, 960, 1280, 1600], avif: 45, webp: 68 });
+  // Galeries : vignettes de 300 à 600 px ; la visionneuse prend la largeur native, toujours ajoutée par responsive().
+  await view.responsive(productPages.map((x) => x.gallery).concat([rentalPage.gallery]), { widths: [480, 640, 960], avif: 45, webp: 68 });
   return data;
 };

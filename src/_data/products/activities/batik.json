@@ -179,17 +179,38 @@
     },
     {
       "slot": "gallery",
-      "status": "replace",
-      "file": "secret/gallery/batik-morning.webp",
-      "alt": "People painting batik at a long table in an open-air room",
-      "shot": "People painting at the long table (current file is a brochure scan)."
+      "status": "keep",
+      "file": "secret/v3/batik-large-canvas.jpg",
+      "alt": "A woman painting a large batik of green leaves and yellow flowers on a blue ground",
+      "shot": "People painting."
     },
     {
       "slot": "gallery",
-      "status": "replace",
-      "file": "secret/gallery/batik-afternoon.webp",
-      "alt": "Colourful batik canvases hanging side by side",
-      "shot": "Finished canvases hanging (current file is a brochure scan)."
+      "status": "keep",
+      "file": "secret/v3/batik-sun-canvas.jpg",
+      "alt": "A large orange and pink batik sun on its frame, painters at work behind it",
+      "shot": "Canvases in progress."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/batik-fish.jpg",
+      "alt": "A woman leaning over a blue batik canvas to paint a fish in the waves",
+      "shot": "Painting the colours."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/batik-whale-shark.jpg",
+      "alt": "A woman painting a blue whale shark on a white batik canvas",
+      "shot": "Painting the colours."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/batik-mandala.jpg",
+      "alt": "A woman at work on an orange and pink mandala batik",
+      "shot": "Painting the colours."
     },
     {
       "slot": "gallery",

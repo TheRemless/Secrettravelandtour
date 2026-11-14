@@ -260,16 +260,44 @@
     {
       "slot": "hero",
       "status": "keep",
-      "file": "secret/atv.webp",
-      "alt": "ATVs parked on a hilltop track with a view over Koh Lanta",
-      "shot": "ATVs on the forest track or at the sea viewpoint."
+      "file": "secret/v3/card-atv.jpg",
+      "alt": "Riders on quad bikes lined up on a dirt track, forested hills behind",
+      "shot": "ATVs on the forest track or at the viewpoint."
     },
     {
       "slot": "gallery",
-      "status": "replace",
-      "file": "secret/gallery/atv-riders.webp",
-      "alt": "Three riders on ATVs with their arms raised on a mountain track",
-      "shot": "Riders on the track (current file is a brochure scan)."
+      "status": "keep",
+      "file": "secret/v3/atv-viewpoint-line.jpg",
+      "alt": "A long line of quad bikes parked in an arc on a hilltop clearing above the forest",
+      "shot": "Quads at the viewpoint."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/atv-riders.jpg",
+      "alt": "Three riders on red quad bikes with their arms raised on a dirt track",
+      "shot": "Riders on the track."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/atv-kayak-mangrove.jpg",
+      "alt": "Two women paddling an orange kayak among the mangrove roots, on the ATV and kayak combo",
+      "shot": "Kayak in the mangrove (ATV and kayak combo only)."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/atv-kayak-monkey.jpg",
+      "alt": "A monkey sitting on the bow of an orange kayak while a family paddles on the mangrove river",
+      "shot": "Monkey on a kayak (ATV and kayak combo only)."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/atv-kayak-group.jpg",
+      "alt": "A group in orange kayaks on a wide mangrove river, hills in the distance",
+      "shot": "Group of kayaks on the river (ATV and kayak combo only)."
     }
   ],
   "related": [

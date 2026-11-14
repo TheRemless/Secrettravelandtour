@@ -138,17 +138,45 @@
   "photos": [
     {
       "slot": "hero",
-      "status": "replace",
-      "file": "secret/go-kart.webp",
-      "legacyAlt": "Two men racing electric go-karts on a track lined with tyres",
-      "shot": "Karts on the track, framed on the karts and drivers (current file is real but badly framed)."
+      "status": "keep",
+      "file": "secret/v3/card-go-kart.jpg",
+      "shot": "Kart on an outdoor track, helmet.",
+      "alt": "A child in a helmet driving an electric go-kart on the track"
     },
     {
       "slot": "gallery",
-      "status": "replace",
-      "file": "secret/gallery/kart-kid.webp",
-      "alt": "A child in a yellow helmet driving a red electric go-kart",
-      "shot": "A child driving a kart (current file is a brochure scan with print screen)."
+      "status": "keep",
+      "file": "secret/v3/kart-driver.jpg",
+      "alt": "A driver in a yellow helmet steering a red electric go-kart on the blue track",
+      "shot": "Kart on the track."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/kart-double-red.jpg",
+      "alt": "An adult and a child side by side in a red double-seat go-kart",
+      "shot": "Double-seat kart."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/kart-double-teal.jpg",
+      "alt": "An adult and a small child in a turquoise double-seat go-kart on the track",
+      "shot": "Double-seat kart with a child."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/kart-corner.jpg",
+      "alt": "A driver taking a corner in a black electric go-kart, tyres lining the track",
+      "shot": "Kart in a corner."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/kart-koi.jpg",
+      "alt": "A family crouching at the edge of the pond to feed the koi fish",
+      "shot": "Koi fish feeding."
     }
   ],
   "related": [

@@ -32,9 +32,12 @@ permalink: /tours/4-islands/
 
   {#- Sur le sable, entre les options et la journée : une seule bande de fond. -#}
   <section class="sec sec--sand gal-sec" aria-label="Photos"><div class="wrap">
-    <div class="gal" data-gal>
+    {#- La dernière photo, verticale (la grotte), prend toute la hauteur à droite sur bureau et reste verticale dans le
+        défilé du téléphone. -#}
+    <div class="gal gal--four" data-gal>
       {%- for p in f4.gallery %}
-      <a class="gal__item press" href="{{ p.fallback or p.src }}" data-gal-i="{{ loop.index0 }}" data-full="{{ p.fallback or p.src }}" data-w="{{ p.width }}" data-h="{{ p.height }}" aria-label="Open photo {{ loop.index }} of {{ f4.gallery.length }}: {{ p.alt }}">{{ v4.photo(p, "(min-width: 900px) 600px, 78vw" if loop.first else "(min-width: 900px) 300px, 78vw") }}</a>
+      {%- set tall = loop.last and p.height > p.width %}
+      <a class="gal__item{% if tall %} gal__item--tall{% endif %} press" href="{{ p.fallback or p.src }}" data-gal-i="{{ loop.index0 }}" data-full="{{ p.fallback or p.src }}" data-w="{{ p.width }}" data-h="{{ p.height }}" aria-label="Open photo {{ loop.index }} of {{ f4.gallery.length }}: {{ p.alt }}">{{ v4.photo(p, "(min-width: 700px) 440px, 78vw" if loop.first else ("(min-width: 700px) 270px, 44vw" if tall else "(min-width: 700px) 220px, 78vw")) }}</a>
       {%- endfor %}
     </div>
   </div></section>

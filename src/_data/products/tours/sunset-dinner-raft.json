@@ -146,6 +146,20 @@
       "file": "secret/v3/card-sunset-raft.jpg",
       "alt": "A table set for dinner on the wooden raft at sunset",
       "shot": "The dinner table on the raft at sunset."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/raft-river-evening.jpg",
+      "alt": "Guests on the wooden raft on the mangrove river in the evening light",
+      "shot": "The raft on the river."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/raft-deck-lantern.jpg",
+      "alt": "A lit lantern on the deck of the raft at dusk, calm water and hills behind",
+      "shot": "The raft at dusk."
     }
   ],
   "related": [

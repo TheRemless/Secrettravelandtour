@@ -52,6 +52,7 @@ permalink: /tours/rental/
     </section>
   </div>
 
+  {%- if t.gallery and t.gallery.length %}{{ vp.gallery(t.gallery, "the rental vehicles", false) }}{% endif %}
   {%- if t.beforeBook.length or t.faq.length %}{{ vp.bybFaq(t.beforeBook, t.faq, "compact") }}{% endif %}
   {{ vp.related(t.related) }}
 </main>
