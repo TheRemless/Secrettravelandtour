@@ -10,7 +10,7 @@ Format attendu pour chaque prise de vue :
 - pas de photo de l'équipe (décision du client), autorisation écrite de toute personne reconnaissable ;
 - une photo ne sert qu'à un seul produit ; l'image de partage 1200×630 de chaque page est tirée de ces photos.
 
-32 prises de vue sur 17 pages. Faute de vraie photo, la page en affiche moins (00-BRIEF §7).
+31 prises de vue sur 17 pages. Faute de vraie photo, la page en affiche moins (00-BRIEF §7).
 
 ## Commun aux deux marques
 
@@ -50,7 +50,6 @@ Format attendu pour chaque prise de vue :
 | hero | à remplacer | `secret/koh-rok.webp` | Koh Rok: the beach or the lagoon between Koh Rok Nok and Koh Rok Nai (current file shows a karst landscape that does not look like Koh Rok, saturated like a stock photo). |
 | gallery | à remplacer | `secret/gallery/rok-lagoon.webp` | Snorkellers in the Koh Rok lagoon (current file is a 575 px brochure scan with leftover text). |
 | gallery | manquante |  | Koh Haa lagoon, last snorkelling stop. |
-| gallery | manquante |  | Monitor lizard or the beach lunch on Koh Rok. |
 
 ## Mangroves by longtail (/tours/mangroves/)
 

@@ -144,6 +144,13 @@
       "slot": "gallery",
       "status": "missing",
       "shot": "The wooden raft in Ao Lanta, seafood lunch on board."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/raft-fishing-deck.jpg",
+      "alt": "A man casting a fishing rod from the deck of the wooden raft, mangrove forest behind",
+      "shot": "Fishing from the raft."
     }
   ],
   "related": [

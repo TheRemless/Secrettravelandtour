@@ -286,7 +286,7 @@
       var none = days.every(function (d) { return d.hidden; });
       var main = $(".day__main", daySec);
       if (main) main.hidden = none;
-      daySec.hidden = none && !$(".sidef", daySec);
+      daySec.hidden = none && !$(".sidef, .dayph", daySec);
     }
     if (dockP) {
       // Le groupe seulement : le nom de l'option est déjà coché plus haut et coupait la ligne (« Private longtail to Koh Rok, 2 … »).

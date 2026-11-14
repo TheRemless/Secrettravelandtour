@@ -30,13 +30,19 @@ const CARD_PHOTO = {
   "cooking-class": "card-cooking", batik: "card-batik", "go-kart": "card-go-kart"
 };
 // Galerie de chaque fiche : ids de photos-v3.json, dans l'ordre d'affichage (la première est la grande vignette).
-// Une fiche absente de cette liste n'a pas de galerie et reste telle quelle.
+// Une fiche absente de cette liste n'a pas de galerie et reste telle quelle. Trois photos et plus : bande sous les
+// options ; une ou deux sur une fiche qui a un déroulé : dans sa colonne de gauche, sous les faits.
 const GALLERY = {
   atv: ["gal-atv-viewpoint-line", "gal-atv-riders", "gal-atv-kayak-mangrove", "gal-atv-kayak-monkey", "gal-atv-kayak-group"],
   "go-kart": ["gal-kart-driver", "gal-kart-double-red", "gal-kart-double-teal", "gal-kart-corner", "gal-kart-koi"],
   "cooking-class": ["gal-cooking-market", "gal-cooking-mortar", "gal-cooking-class-room", "gal-cooking-spring-rolls", "gal-cooking-carving"],
   batik: ["gal-batik-large-canvas", "gal-batik-fish", "gal-batik-sun-canvas", "gal-batik-whale-shark", "gal-batik-mandala"],
   "elephant-sanctuary": ["gal-elephant-feeding", "gal-elephant-close", "gal-elephant-forest", "gal-elephant-pair", "gal-elephant-visitor"],
+  "koh-rok-koh-haa": ["gal-rok-beach-island", "gal-rok-reef", "gal-rok-turquoise-water", "gal-rok-beach-lunch", "gal-rok-driftwood", "gal-rok-fallen-tree", "gal-rok-palm-beach"],
+  // Une ou deux photos : posées dans la colonne du déroulé (macro programme), pas en bande.
+  "sunrise-raft": ["gal-raft-river-low-sun"],
+  "sunset-dinner-raft": ["gal-raft-river-evening", "gal-raft-deck-lantern"],
+  "fishing-trip": ["gal-raft-fishing-deck"],
   rental: ["gal-rental-shed", "gal-rental-scooter", "gal-rental-motorbike", "gal-rental-car-white", "gal-rental-car-black"]
 };
 const galleryOf = (slug) => Promise.all((GALLERY[slug] || []).map(photo));
@@ -327,7 +333,10 @@ module.exports = async function () {
   const ctx = { site, schema, cardsByUrl, taxi, live: new Set([...LIVE, ...boats.concat(activities).map((c) => c.href)]) };
   const productPages = [];
   for (const slug of BOATS.concat(ACTIVITIES).filter((x) => x !== "4-islands")) {
-    productPages.push({ ...vp.productPage(product(slug), { ...ctx, hero: await photo(CARD_PHOTO[slug]), group: GROUPS.find((g) => g.slugs.includes(slug)) }), gallery: await galleryOf(slug) });
+    const page = vp.productPage(product(slug), { ...ctx, hero: await photo(CARD_PHOTO[slug]), group: GROUPS.find((g) => g.slugs.includes(slug)) });
+    const gallery = await galleryOf(slug);
+    // Une ou deux photos sur une fiche avec déroulé : dans sa colonne (macro programme) ; sinon en bande (macro gallery).
+    productPages.push({ ...page, gallery, galleryInDay: Boolean(page.programme) && gallery.length > 0 && gallery.length < 3 });
   }
   // 4 Islands : même gabarit de fiche, bloc « Choose your boat » ; la ligne de chaque bateau dit l'île qui change et
   // l'île du déjeuner, son détail le ponton (et ce que la brochure du catamaran dit du bord et du déjeuner).

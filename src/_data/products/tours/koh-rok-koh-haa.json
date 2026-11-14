@@ -358,8 +358,52 @@
     },
     {
       "slot": "gallery",
-      "status": "missing",
-      "shot": "Monitor lizard or the beach lunch on Koh Rok."
+      "status": "keep",
+      "file": "secret/v3/rok-beach-island.jpg",
+      "alt": "Clear turquoise water on a white-sand beach under the trees, a wooded island across the channel",
+      "shot": "The beach."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/rok-reef.jpg",
+      "alt": "Small orange fish over a coral reef in clear blue water",
+      "shot": "Snorkelling over the reef."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/rok-turquoise-water.jpg",
+      "alt": "Turquoise water over a shallow reef in front of a forested island, seen from the boat",
+      "shot": "The water from the boat."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/rok-beach-lunch.jpg",
+      "alt": "A buffet of fruit, curries and rice laid out on a table by the beach",
+      "shot": "The beach lunch."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/rok-driftwood.jpg",
+      "alt": "Driftwood and shady trees on a white-sand beach, a woman in a red dress by the water",
+      "shot": "The beach."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/rok-fallen-tree.jpg",
+      "alt": "A fallen tree on a quiet sandy beach, calm sea and islands on the horizon",
+      "shot": "The beach."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/rok-palm-beach.jpg",
+      "alt": "A palm trunk on a white-sand beach, turquoise water and a green island behind",
+      "shot": "The beach."
     }
   ],
   "related": [

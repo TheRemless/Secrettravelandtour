@@ -499,6 +499,12 @@ html.has-trips.hd-off:has(.dock.is-on) .toast { bottom: calc(138px + env(safe-ar
   .gal--n5 .gal__item:nth-child(n+6) { display: none; }
 }
 @media (max-width: 699px) { .gal__more { display: none; } }
+/* Une ou deux photos dans la colonne du déroulé (macro programme) : portrait, côte à côte quand elles sont deux. */
+.dayph { display: grid; gap: 12px; margin-top: 28px; }
+.dayph--n2 { grid-template-columns: 1fr 1fr; }
+.dayph .gal__item { position: relative; aspect-ratio: 4 / 5; }
+.dayph--n1 .gal__item { aspect-ratio: 1; }
+@media (max-width: 899px) { .dayph--n1 .gal__item { aspect-ratio: 4 / 3; } }
 
 /* ---------- 4 Islands : la journée et la carte qui suit la lecture ---------- */
 .day { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 56px; align-items: start; }

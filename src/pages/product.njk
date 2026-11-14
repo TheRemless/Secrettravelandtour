@@ -32,7 +32,7 @@ eleventyComputed:
   {{ vp.crumbs([{ label: "Home", href: "/" }, t.crumb, { label: t.name }]) }}
   {{ vp.hero(t, c, fallback, t.single) }}
   {{ vp.pick(t, c) }}
-  {%- if t.gallery and t.gallery.length %}{{ vp.gallery(t.gallery, t.name) }}{% endif %}
+  {%- if t.gallery and t.gallery.length and not t.galleryInDay %}{{ vp.gallery(t.gallery, t.name) }}{% endif %}
   {%- if t.programme %}{{ vp.programme(t) }}{% endif %}
   {%- if t.included.length or t.notIncluded.length %}{{ vp.included(t) }}{% endif %}
   {%- if t.beforeBook.length or t.faq.length %}{{ vp.bybFaq(t.beforeBook, t.faq) }}{% endif %}

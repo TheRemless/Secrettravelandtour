@@ -55,4 +55,4 @@ Obligatoires : `slug` (= nom du fichier), `url`, `brand`, `template`, `name`, `s
 3. Ajouter la liste des `id` à `GALLERY` dans `src/_data/v4data.js`, sous le slug de la fiche ; la première photo est la grande vignette. Cinq photos remplissent la grille ; une à quatre ont leur variante, au-delà de cinq les suivantes ne s'ouvrent que dans la visionneuse.
 4. Passer les emplacements `gallery` de `photos[]` de la fiche en `keep` avec leur `file`.
 
-Une fiche absente de `GALLERY` n'a pas de galerie et reste telle quelle.
+Une ou deux photos sur une fiche qui a un déroulé se posent dans la colonne de gauche de « How the day goes », sous les faits (`galleryInDay`), plutôt qu'en bande. Une fiche absente de `GALLERY` n'a pas de galerie et reste telle quelle.

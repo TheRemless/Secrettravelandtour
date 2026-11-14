@@ -129,6 +129,13 @@
       "file": "secret/v3/card-sunrise-raft.jpg",
       "alt": "Calm water and the mangrove at Thung Yee Peng at dawn",
       "shot": "The mangrove at dawn from the raft."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/raft-river-low-sun.jpg",
+      "alt": "The wooden raft with its guests on the calm mangrove river, the sun low behind the clouds",
+      "shot": "The raft on the river."
     }
   ],
   "related": [
