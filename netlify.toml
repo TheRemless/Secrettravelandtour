@@ -6,11 +6,6 @@
 [build.environment]
   NODE_VERSION = "22"
 
-# Mise en ligne avec 2 photos temporaires (haut de la 4 Islands, ponton de Lanta Old Town), créditées sur /credits/.
-# Accord de Jérémy du 11.11.2026. À retirer quand les vraies photos sont là.
-[context.production.environment]
-  STT_ALLOW_PLACEHOLDERS = "1"
-
 # Cache navigateur. Les images générées dans /img/ portent un hash dans leur nom : cache d'un an.
 # Les sources (/images/) gardent un nom stable : une semaine, revalidation en arrière-plan.
 [[headers]]

@@ -302,7 +302,8 @@ module.exports = async function () {
       metaDescription: `Emerald Cave, Koh Ngai and two snorkelling stops, by longtail or speedboat. Join-in from ${view.thb(four.price.from)}, private longtail from ${view.thb(four.options.find((o) => o.kind === "private").prices[0].amount)}, hotel pickup included.`
     },
     hero: await photo("four-hero"),
-    gallery: await Promise.all(["four-gallery-reef", "four-gallery-ngai", "four-longtail", "four-gallery-kradan", "four-gallery-pier"].map(photo)),
+    // Galerie : la grande à gauche, quatre petites, la grotte en hauteur à droite (photo verticale, voir .gal--four).
+    gallery: await Promise.all(["four-gallery-islets", "four-gallery-reef", "four-gallery-ngai", "four-longtail", "four-gallery-kradan", "four-gallery-cave"].map(photo)),
     day: {
       title: "How the day goes",
       note: day.note,

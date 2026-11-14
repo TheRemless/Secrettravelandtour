@@ -505,6 +505,17 @@ html.has-trips.hd-off:has(.dock.is-on) .toast { bottom: calc(138px + env(safe-ar
 .dayph .gal__item { position: relative; aspect-ratio: 4 / 5; }
 .dayph--n1 .gal__item { aspect-ratio: 1; }
 @media (max-width: 899px) { .dayph--n1 .gal__item { aspect-ratio: 4 / 3; } }
+/* 4 Islands (14.11.2026) : six photos, une colonne de plus à droite pour la grotte, verticale sur toute la hauteur.
+   Téléphone : même défilé, la grotte reste verticale à la même hauteur que les autres (78 % × 3/4 × 3/4 de large). */
+@media (min-width: 700px) {
+  .gal--four { grid-template-columns: 2fr 1fr 1fr 1.25fr; aspect-ratio: 2.5 / 1; }
+  .gal--four .gal__item--tall { grid-column: 4; grid-row: 1 / span 2; }
+}
+@media (max-width: 699px) {
+  .gal--four { display: flex; align-items: flex-start; }
+  .gal--four .gal__item { flex: 0 0 78%; }
+  .gal--four .gal__item--tall { flex-basis: calc(78% * 9 / 16); aspect-ratio: 3 / 4; }
+}
 
 /* ---------- 4 Islands : la journée et la carte qui suit la lecture ---------- */
 .day { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 56px; align-items: start; }
