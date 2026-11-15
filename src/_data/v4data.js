@@ -345,19 +345,23 @@ module.exports = async function () {
     const gallery = await galleryOf(slug);
     productPages.push({ ...page, gallery, photos: splitPhotos(gallery) });
   }
-  // 4 Islands : même gabarit de fiche, bloc « Choose your boat » ; la ligne de chaque bateau dit l'île qui change et
-  // l'île du déjeuner, son détail le ponton (et ce que la brochure du catamaran dit du bord et du déjeuner).
+  // 4 Islands : même gabarit de fiche, bloc « Choose your boat » ; la ligne de chaque bateau dit toutes les îles du tour,
+  // dans l'ordre de sa journée, puis l'île du déjeuner (Jérémy, 15.11.2026 : « Koh Ma » seule ne dit rien au client) ;
+  // son détail le ponton (et ce que la brochure du catamaran dit du bord et du déjeuner).
   {
-    const sets = boatsOf(four).map((b) => islandsOf(four, b).map((i) => i.name));
-    const shared = sets[0].filter((n) => sets.every((l) => l.includes(n)));
+    const tourIslands = (boat) => {
+      const d = fourData.day.boats.find((b) => b.boat === boat);
+      const fromDay = d ? [...new Set(d.steps.map((s) => s.place).filter((pl) => /^Koh /.test(pl) && pl !== "Koh Lanta"))] : [];
+      return fromDay.length ? fromDay : islandsOf(four, boat).map((i) => i.name);
+    };
     const help = vp.helpOf(four);
     const page = vp.productPage(four, { ...ctx, hero: fourData.hero });
     page.pick = vp.pickOf(four, site, {
       title: "Choose your boat", help: help ? help.a : "",
       sub: (o) => {
-        const own = islandsOf(four, o.boat).map((i) => i.name).filter((n) => !shared.includes(n));
         const lunch = lunchOf(four, o.boat);
-        return cap([own.length ? "with " + own.join(" and ") : "", lunch ? "lunch on " + lunch : ""].filter(Boolean).join(", "));
+        // Espace insécable dans chaque nom d'île : « Koh Ngai » ne se coupe pas en fin de ligne.
+        return [vp.listJoin(tourIslands(o.boat)), lunch ? "lunch on " + lunch : ""].filter(Boolean).join(", ").replace(/\bKoh (\S+)/g, "Koh\u00a0$1");
       },
       facts: (o) => [["Pier", o.pier || ""], ["Guests", o.guests || ""], ["On board", o.onBoard || ""], ["Lunch", o.lunch || ""]].filter((r) => r[1])
     });

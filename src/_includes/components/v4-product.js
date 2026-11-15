@@ -761,4 +761,4 @@ function transfersPage(p, ctx) {
   };
 }
 
-module.exports = { pickOf, helpOf, bookingOf, cashOf, heroFacts, formOf, withForms, productPage, rentalPage, speedboatPage, transfersPage, speedboatRoutes, publicText, askText, sortFacts, optionsOf, programme };
+module.exports = { listJoin, pickOf, helpOf, bookingOf, cashOf, heroFacts, formOf, withForms, productPage, rentalPage, speedboatPage, transfersPage, speedboatRoutes, publicText, askText, sortFacts, optionsOf, programme };
