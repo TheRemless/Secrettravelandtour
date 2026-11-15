@@ -1,7 +1,7 @@
 ---
 permalink: /tours/4-islands/
 ---
-{#- Page 4 Islands : gabarit commun des fiches (components/v4-product.njk), avec sa galerie, sa journée par bateau et
+{#- Page 4 Islands : gabarit commun des fiches (components/v4-product.njk), avec sa journée par bateau, ses photos et
     la carte du trajet sur bureau. Tout est rendu au build. -#}
 {% import "components/v4.njk" as v4 %}
 {% import "components/v4-product.njk" as vp %}
@@ -30,63 +30,57 @@ permalink: /tours/4-islands/
   {{ vp.hero(t, c, fallback, t.single) }}
   {{ vp.pick(t, c) }}
 
-  {#- Sur le sable, entre les options et la journée : une seule bande de fond. -#}
-  <section class="sec sec--sand gal-sec" aria-label="Photos"><div class="wrap">
-    {#- La dernière photo, verticale (la grotte), prend toute la hauteur à droite sur bureau et reste verticale dans le
-        défilé du téléphone. -#}
-    <div class="gal gal--four" data-gal>
-      {%- for p in f4.gallery %}
-      {%- set tall = loop.last and p.height > p.width %}
-      <a class="gal__item{% if tall %} gal__item--tall{% endif %} press" href="{{ p.fallback or p.src }}" data-gal-i="{{ loop.index0 }}" data-full="{{ p.fallback or p.src }}" data-w="{{ p.width }}" data-h="{{ p.height }}" aria-label="Open photo {{ loop.index }} of {{ f4.gallery.length }}: {{ p.alt }}">{{ v4.photo(p, "(min-width: 700px) 440px, 78vw" if loop.first else ("(min-width: 700px) 270px, 44vw" if tall else "(min-width: 700px) 220px, 78vw")) }}</a>
-      {%- endfor %}
-    </div>
-  </div></section>
-
-  {#- La journée du bateau choisi ; sur bureau, la carte du trajet reste à l'écran à côté. Sur téléphone, la journée
-      suffit (ses étapes sont la liste des arrêts) : la carte n'y est pas montrée, ses noms seraient illisibles. -#}
-  <section class="sec sec--sand" id="day" aria-labelledby="day-h">
-    <div class="wrap day">
-      <div class="day__side">
+  {#- Après les options : la journée du bateau choisi, ses photos et la carte du trajet (bureau ; sur téléphone la
+      journée suffit, les noms de la carte seraient illisibles), puis les infos pratiques en onglets. Une seule
+      visionneuse pour toutes les photos. Sur bureau, l'étape pointée allume l'île sur la carte (v4-four.js). -#}
+  <div class="pc" data-gal data-gal-lb>
+  <section class="sec sec--sand trip" id="day" aria-labelledby="day-h"><div class="wrap">
+    <div class="trip__head">
+      <div class="trip__t">
         <h2 id="day-h">{{ f4.day.title }}</h2>
         {%- for b in f4.day.boats %}
-        <p class="day__for" data-day-for="{{ b.boat }}"{% if not loop.first %} hidden{% endif %}>{{ b.title }}. {{ b.note }}</p>
+        <p class="trip__note" data-day-for="{{ b.boat }}"{% if not loop.first %} hidden{% endif %}>{{ b.title }}. {{ b.note }}</p>
         {%- endfor %}
-        <figure class="map" id="route-map" data-map>
-          {%- set m = f4.map -%}
-          <svg viewBox="0 0 {{ m.W }} {{ m.H }}" role="img" aria-labelledby="map-t">
-            <title id="map-t">Sketch map of the 4 Islands route</title>
-            <rect class="map__sea" width="{{ m.W }}" height="{{ m.H }}"/>
-            {%- for l in m.land %}<path class="map__land{% if l.main %} map__land--main{% endif %}" d="{{ l.d }}"/>{% endfor %}
-            {%- for boat, r in m.routes %}
-            <g class="map__route" data-map-route="{{ boat }}" data-start-x="{{ r.start.x }}" data-start-y="{{ r.start.y }}"{% if boat != "longtail" %} hidden{% endif %}>
-              {%- for s in r.segs %}<path class="map__ghost" d="{{ s }}"/>{% endfor %}
-              {%- for s in r.segs %}<path class="map__lit" data-seg="{{ loop.index0 }}" d="{{ s }}" pathLength="1"/>{% endfor %}
-              {%- for s in r.stops %}<circle class="map__stop" data-stop="{{ s.name }}" cx="{{ s.x }}" cy="{{ s.y }}" r="7"/>{% endfor %}
-            </g>
-            {%- endfor %}
-            <circle class="map__stop map__stop--pier" data-pier cx="{{ m.pier.x }}" cy="{{ m.pier.y }}" r="6"/>
-            {%- for l in m.labels %}<text class="map__lbl{% if l.big %} map__lbl--big{% endif %}{% if l.gone %} is-gone{% endif %}" data-lbl="{{ l.text }}" x="{{ l.x }}" y="{{ l.y }}" text-anchor="{{ l.anchor }}">{{ l.text }}</text>{% endfor %}
-            <line class="map__scale" x1="{{ m.scale.x1 }}" y1="{{ m.scale.y }}" x2="{{ m.scale.x2 }}" y2="{{ m.scale.y }}"/>
-            <text class="map__scale-t" x="{{ m.scale.x2 }}" y="{{ m.scale.y - 8 }}" text-anchor="end">{{ m.scale.km }} km</text>
-            <g class="map__boat" data-map-boat transform="translate({{ m.pier.x }} {{ m.pier.y }})"><path d="M-12 -1 L12 -1 L8 6 L-8 6 Z"/><path d="M0 -1 V-12 L7 -4 Z"/></g>
-          </svg>
-          <figcaption>Sketch map, not for navigation. Positions are approximate. Island outlines © OpenStreetMap contributors.</figcaption>
-        </figure>
       </div>
-      <div class="day__main">
-        {%- for b in f4.day.boats %}
-        <ol class="tl" data-tl="{{ b.boat }}"{% if not loop.first %} hidden{% endif %}>
-          {%- for s in b.steps %}
-          <li class="tl__step" data-place="{{ s.place }}"><time class="{{ 'fixed' if s.fixed }}">{% if not s.fixed %}≈ {% endif %}{{ s.t }}</time><b>{{ s.place }}</b><p>{{ s.text }}</p></li>
-          {%- endfor %}
-        </ol>
-        {%- endfor %}
+      <div class="seg trip__seg" role="group" aria-label="Choose the boat" data-boat-seg hidden>
+        {%- for b in f4.day.boats %}<button type="button" data-day-btn="{{ b.boat }}" aria-pressed="{{ 'true' if loop.first else 'false' }}">{{ b.boat | capitalize }}</button>{% endfor %}
       </div>
     </div>
-  </section>
-
-  {%- if t.included.length or t.notIncluded.length %}{{ vp.included(t) }}{% endif %}
-  {%- if t.beforeBook.length or t.faq.length %}{{ vp.bybFaq(t.beforeBook, t.faq) }}{% endif %}
+    <div class="trip__media trip__media--map">
+      {{ vp.mosaic(f4.photos.mos, 0, f4.photos.all.length, "(min-width: 900px) 400px, 72vw", "(min-width: 900px) 200px, 72vw") }}
+      <figure class="map" id="route-map" data-map>
+        {%- set m = f4.map -%}
+        <svg viewBox="0 0 {{ m.W }} {{ m.H }}" role="img" aria-labelledby="map-t">
+          <title id="map-t">Sketch map of the 4 Islands route</title>
+          <rect class="map__sea" width="{{ m.W }}" height="{{ m.H }}"/>
+          {%- for l in m.land %}<path class="map__land{% if l.main %} map__land--main{% endif %}" d="{{ l.d }}"/>{% endfor %}
+          {%- for boat, r in m.routes %}
+          <g class="map__route" data-map-route="{{ boat }}" data-start-x="{{ r.start.x }}" data-start-y="{{ r.start.y }}"{% if boat != "longtail" %} hidden{% endif %}>
+            {%- for s in r.segs %}<path class="map__ghost" d="{{ s }}"/>{% endfor %}
+            {%- for s in r.segs %}<path class="map__lit" data-seg="{{ loop.index0 }}" d="{{ s }}" pathLength="1"/>{% endfor %}
+            {%- for s in r.stops %}<circle class="map__stop" data-stop="{{ s.name }}" cx="{{ s.x }}" cy="{{ s.y }}" r="7"/>{% endfor %}
+          </g>
+          {%- endfor %}
+          <circle class="map__stop map__stop--pier" data-pier cx="{{ m.pier.x }}" cy="{{ m.pier.y }}" r="6"/>
+          {%- for l in m.labels %}<text class="map__lbl{% if l.big %} map__lbl--big{% endif %}{% if l.gone %} is-gone{% endif %}" data-lbl="{{ l.text }}" x="{{ l.x }}" y="{{ l.y }}" text-anchor="{{ l.anchor }}">{{ l.text }}</text>{% endfor %}
+          <line class="map__scale" x1="{{ m.scale.x1 }}" y1="{{ m.scale.y }}" x2="{{ m.scale.x2 }}" y2="{{ m.scale.y }}"/>
+          <text class="map__scale-t" x="{{ m.scale.x2 }}" y="{{ m.scale.y - 8 }}" text-anchor="end">{{ m.scale.km }} km</text>
+          <g class="map__boat" data-map-boat transform="translate({{ m.pier.x }} {{ m.pier.y }})"><path d="M-12 -1 L12 -1 L8 6 L-8 6 Z"/><path d="M0 -1 V-12 L7 -4 Z"/></g>
+        </svg>
+        <figcaption>Sketch map, not for navigation. Positions are approximate. Island outlines © OpenStreetMap contributors.</figcaption>
+      </figure>
+    </div>
+    {%- for b in f4.day.boats %}
+    <ol class="route route--{{ b.steps.length }}" data-tl="{{ b.boat }}"{% if not loop.first %} hidden{% endif %}>
+      {%- for s in b.steps %}
+      <li class="route__step" data-place="{{ s.place }}"><time class="{{ 'fixed' if s.fixed }}">{% if not s.fixed %}≈ {% endif %}{{ s.t }}</time><b>{{ s.place }}</b><p>{{ s.text }}</p></li>
+      {%- endfor %}
+    </ol>
+    <button type="button" class="route__more" data-more hidden>Show the whole day</button>
+    {%- endfor %}
+  </div></section>
+  {{ vp.know(t, f4.photos) }}
+  </div>
   {{ vp.related(t.related) }}
 </main>
 {{ v4.footer(site, c, d.emblem, d.boats, d.activities, waText) }}

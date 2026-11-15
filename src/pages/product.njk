@@ -32,10 +32,12 @@ eleventyComputed:
   {{ vp.crumbs([{ label: "Home", href: "/" }, t.crumb, { label: t.name }]) }}
   {{ vp.hero(t, c, fallback, t.single) }}
   {{ vp.pick(t, c) }}
-  {%- if t.gallery and t.gallery.length and not t.galleryInDay %}{{ vp.gallery(t.gallery, t.name) }}{% endif %}
-  {%- if t.programme %}{{ vp.programme(t) }}{% endif %}
-  {%- if t.included.length or t.notIncluded.length %}{{ vp.included(t) }}{% endif %}
-  {%- if t.beforeBook.length or t.faq.length %}{{ vp.bybFaq(t.beforeBook, t.faq) }}{% endif %}
+  {#- Après les options : la journée et ses photos (ou les photos seules), puis les infos pratiques en onglets. Une seule
+      visionneuse pour toutes les photos de la fiche. -#}
+  <div class="pc"{% if t.gallery.length %} data-gal data-gal-lb{% endif %}>
+  {%- if t.programme %}{{ vp.day(t, t.photos) }}{% elif t.photos.mos.length %}{{ vp.photoBand(t.photos, t.name) }}{% endif %}
+  {{ vp.know(t, t.photos) }}
+  </div>
   {{ vp.related(t.related) }}
 </main>
 {{ v4.footer(site, c, d.emblem, d.boats, d.activities, waText) }}

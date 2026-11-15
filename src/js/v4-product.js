@@ -277,17 +277,19 @@
     ce.textContent = cash ? "Plus the " + o.cash.label.toLowerCase() + ", in cash on the day: " + cash.text + "." : "";
 
     $$("[data-book-sel]").forEach(function (b) { b.setAttribute("data-book", o.id); });
-    // Journées : celle de l'option choisie et les blocs communs ; une option sans journée n'en montre aucune autre.
-    // Les faits de la sortie (îles, traversée, ponton) restent ; la section disparaît seulement s'il ne reste rien.
+    // Journées : celle de l'option choisie et les blocs communs ; une option sans journée n'en montre aucune autre
+    // (data-off, lu par la partie 4, qui choisit aussi entre deux journées des mêmes options).
+    // Les faits et les photos de la sortie restent ; la section disparaît seulement s'il ne reste rien.
     var days = $$(".dayb[data-day-ids]");
-    days.forEach(function (d) { var ids = d.getAttribute("data-day-ids"); d.hidden = Boolean(ids) && ids.split(" ").indexOf(o.id) < 0; });
+    days.forEach(function (d) { var ids = d.getAttribute("data-day-ids"); d.toggleAttribute("data-off", Boolean(ids) && ids.split(" ").indexOf(o.id) < 0); });
     var daySec = days.length ? days[0].closest("section") : null;
     if (daySec) {
-      var none = days.every(function (d) { return d.hidden; });
-      var main = $(".day__main", daySec);
-      if (main) main.hidden = none;
-      daySec.hidden = none && !$(".sidef, .dayph", daySec);
+      var allOff = days.every(function (d) { return d.hasAttribute("data-off"); });
+      daySec.hidden = allOff && !$(".facts, .mos", daySec);
+      // Sans journée pour cette option et sans faits, les photos restent sans le titre « How the day goes ».
+      daySec.classList.toggle("is-nodays", allOff);
     }
+    if (V.dayShow) V.dayShow();
     if (dockP) {
       // Le groupe seulement : le nom de l'option est déjà coché plus haut et coupait la ligne (« Private longtail to Koh Rok, 2 … »).
       dockP.innerHTML = touched && est && !est.unpriced.length ? "<small>" + V.esc(who() || o.label) + "</small><b>" + V.thb(est.total) + "</b>" : dockFrom;
@@ -297,8 +299,8 @@
   render("init");
 })();
 
-/* 3. Galerie des fiches ([data-gal-lb], macro gallery de v4-product.njk) : la visionneuse arrive au premier geste.
-   La 4 Islands garde la sienne (v4-four.js), sans cet attribut. */
+/* 3. Photos des fiches, 4 Islands comprise ([data-gal-lb] autour de la journée et des infos pratiques) : la
+   visionneuse arrive au premier geste. */
 (function () {
   "use strict";
   var V = window.V4;
@@ -312,5 +314,100 @@
     if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
     e.preventDefault();
     V.load("/js/v4-lightbox.js").then(function () { window.V4_LIGHTBOX(gal).open(Number(a.getAttribute("data-gal-i"))); });
+  });
+})();
+
+/* 4. Journée et infos pratiques (macros day et know de v4-product.njk).
+   Journée : deux journées pour les mêmes options (cours du midi et du soir) se choisissent au bouton ; sur téléphone,
+   une journée de plus de quatre étapes montre les trois premières et « Show the whole day ».
+   Infos pratiques : onglets sur bureau, volets sur téléphone (le premier ouvert) ; sans JavaScript, tout est ouvert. */
+(function () {
+  "use strict";
+  var V = window.V4;
+  if (!V) return;
+  var $ = V.$, $$ = V.$$;
+  var phone = matchMedia("(max-width: 899px)");
+
+  function shorten() {
+    $$(".route").forEach(function (r) {
+      var more = r.nextElementSibling && r.nextElementSibling.matches("[data-more]") ? r.nextElementSibling : null;
+      var fold = phone.matches && !r.closest("[hidden]") && !r.hasAttribute("data-open") && $$(".route__step", r).length > 4;
+      r.classList.toggle("is-short", fold);
+      if (more) more.hidden = !fold;
+    });
+  }
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest && e.target.closest("[data-more]");
+    if (!b) return;
+    var r = b.previousElementSibling;
+    r.setAttribute("data-open", "");
+    shorten();
+    var s = $$(".route__step", r)[3];
+    if (s) { s.tabIndex = -1; s.focus({ preventScroll: true }); }
+  });
+
+  var seg = $("[data-day-seg]"), sel = 0;
+  function dayShow() {
+    var days = $$(".dayb[data-day-i]");
+    var on = days.filter(function (d) { return !d.hasAttribute("data-off"); });
+    var pick = Boolean(seg) && on.length > 1;
+    if (pick && !on.some(function (d) { return Number(d.getAttribute("data-day-i")) === sel; })) sel = Number(on[0].getAttribute("data-day-i"));
+    if (seg) {
+      seg.hidden = !pick;
+      $$("button", seg).forEach(function (b) { b.setAttribute("aria-pressed", String(Number(b.getAttribute("data-day-btn")) === sel)); });
+    }
+    days.forEach(function (d) { d.hidden = d.hasAttribute("data-off") || (pick && Number(d.getAttribute("data-day-i")) !== sel); });
+    shorten();
+  }
+  V.dayShow = dayShow;
+  V.dayShort = shorten;
+  if (seg) seg.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-day-btn]");
+    if (!b) return;
+    sel = Number(b.getAttribute("data-day-btn"));
+    dayShow();
+  });
+  dayShow();
+  if (phone.addEventListener) phone.addEventListener("change", shorten);
+
+  $$("[data-tabs]").forEach(function (box) {
+    var list = $('[role="tablist"]', box), tabs = $$('[role="tab"]', box);
+    var panels = tabs.map(function (t) { return document.getElementById(t.getAttribute("aria-controls")); });
+    var heads = panels.map(function (p) { return $(".panel__t", p); });
+    var cur = 0, open = panels.map(function (p, k) { return k === 0; });
+    function layout() {
+      var acc = phone.matches;
+      list.hidden = acc;
+      box.classList.toggle("is-tabs", !acc);
+      box.classList.toggle("is-acc", acc);
+      tabs.forEach(function (t, k) { t.setAttribute("aria-selected", String(k === cur)); t.tabIndex = k === cur ? 0 : -1; });
+      panels.forEach(function (p, k) {
+        if (acc) { p.removeAttribute("role"); p.removeAttribute("aria-labelledby"); p.hidden = false; }
+        else { p.setAttribute("role", "tabpanel"); p.setAttribute("aria-labelledby", tabs[k].id); p.hidden = k !== cur; }
+        $(".panel__b", p).hidden = acc && !open[k];
+        // Bureau : l'onglet ouvre le bloc ; le bouton du titre (caché) ne s'annonce pas comme une commande.
+        if (acc) { heads[k].setAttribute("aria-expanded", String(open[k])); heads[k].removeAttribute("aria-hidden"); }
+        else { heads[k].removeAttribute("aria-expanded"); heads[k].setAttribute("aria-hidden", "true"); }
+        heads[k].tabIndex = acc ? 0 : -1;
+      });
+    }
+    heads.forEach(function (h, k) {
+      h.addEventListener("click", function () { if (!phone.matches) return; open[k] = !open[k]; layout(); });
+    });
+    list.addEventListener("click", function (e) {
+      var t = e.target.closest('[role="tab"]');
+      if (t) { cur = tabs.indexOf(t); layout(); }
+    });
+    list.addEventListener("keydown", function (e) {
+      var i = tabs.indexOf(document.activeElement);
+      var to = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+      if (i < 0 || to === undefined) return;
+      e.preventDefault();
+      cur = (to + tabs.length) % tabs.length;
+      layout();
+      tabs[cur].focus();
+    });
+    if (phone.addEventListener) phone.addEventListener("change", layout);
+    layout();
   });
 })();

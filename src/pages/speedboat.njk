@@ -93,7 +93,7 @@ permalink: /tours/speedboat/
     </div>
   </section>
 
-  {%- if t.beforeBook.length or t.faq.length %}{{ vp.bybFaq(t.beforeBook, t.faq, "compact") }}{% endif %}
+  {{ vp.know(t, null) }}
   {{ vp.related(t.related, "list") }}
 </main>
 {{ v4.footer(site, c, d.emblem, d.boats, d.activities, waText) }}
