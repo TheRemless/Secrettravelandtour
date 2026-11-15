@@ -1021,13 +1021,15 @@ h1, h2, h3, h4, .brand b, .drawer nav a, .card__title, .hrow__t b, .route__step 
 .pick-sec + .pc > .trip:first-child { padding-top: 8px; }
 .trip--ph { padding-block: 0 64px; }
 .trip__head { display: flex; align-items: end; justify-content: space-between; gap: 20px 40px; flex-wrap: wrap; }
-.trip__t { min-width: 0; max-width: 720px; }
+.trip__t { flex: 1 1 auto; min-width: 0; max-width: 720px; }
 .trip__note { margin-top: 10px; color: var(--ink-mute); font-size: 16px; max-width: 56ch; }
 .trip__seg { flex: none; }
 .trip.is-nodays:not(:has(.facts)) .trip__head { display: none; }
 .trip.is-nodays:not(:has(.facts)) .trip__media { margin-top: 0; }
-.facts { display: flex; flex-wrap: wrap; gap: 10px 40px; margin: 18px 0 0; }
-.facts div { min-width: 0; max-width: 34ch; }
+/* Grille à colonnes fixes : les repères de chaque ligne tombent sous ceux de la ligne du dessus (en flex-wrap, chaque
+   ligne prenait la largeur de ses propres textes et la deuxième colonne changeait de place). */
+.facts { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 14px 40px; margin: 18px 0 0; }
+.facts div { min-width: 0; }
 .facts dt { font-size: 14px; color: var(--ink-mute); }
 .facts dd { margin: 2px 0 0; font-size: 16px; line-height: 1.5; max-width: 34ch; }
 
