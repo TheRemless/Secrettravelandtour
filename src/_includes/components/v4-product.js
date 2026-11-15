@@ -361,6 +361,8 @@ function programme(p, optLabels) {
   return {
     mode: "day",
     title: "How the day goes",
+    // Deux journées pour les mêmes options (cours du midi et du soir) : un bouton choisit laquelle montrer.
+    seg: sameOpts,
     blocks: blocks.map((b) => ({
       ids: b.options.length && b.options.length < all ? b.options : [],
       // Deux blocs pour les mêmes options (cours du midi et du soir) : chacun garde son titre. Sinon le nom de l'option.
@@ -420,6 +422,33 @@ function includedGroups(p, optLabels) {
   ];
 }
 
+// ---------- Menus jour par jour (cours de cuisine) ----------
+// Une question « What is on the menu at the lunch class? » dont la réponse donne les plats jour par jour
+// (« Monday: …, …. Wednesday: … ») passe sous la journée de ce cours (« … lunch class: … ») ; elle sort de la liste des
+// questions de la page mais reste dans le FAQPage (schema.js lit p.faq). Une réponse qui ne se découpe pas à
+// l'identique reste une question.
+const DAY_RE = "Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday";
+function menuOf(f) {
+  const m = /^What is on the menu at the (\w+) class\?$/.exec(f.q);
+  if (!m) return null;
+  const a = f.a.trim();
+  const days = [...a.matchAll(new RegExp(`(${DAY_RE}): (.*?)(?=\\s(?:${DAY_RE}):|$)`, "g"))].map((x) => ({ day: x[1], text: x[2] }));
+  if (!days.length || days.map((d) => `${d.day}: ${d.text}`).join(" ") !== a) return null;
+  const out = days.map((d) => ({ day: d.day, items: d.text.replace(/\.$/, "").split(", ") }));
+  if (out.some((d, i) => d.items.join(", ") + "." !== days[i].text)) return null;
+  return { cls: m[1].toLowerCase(), q: f.q, days: out };
+}
+function attachMenus(prog, faq) {
+  if (!prog) return faq;
+  return faq.filter((f) => {
+    const menu = menuOf(f);
+    const b = menu && prog.blocks.find((x) => new RegExp(`\\b${menu.cls} class\\b`, "i").test(x.title));
+    if (!b) return true;
+    b.menu = { q: menu.q, days: menu.days };
+    return false;
+  });
+}
+
 // ---------- Fiche bateau ou activité ----------
 function productPage(p, ctx) {
   const { site, schema } = ctx;
@@ -454,7 +483,7 @@ function productPage(p, ctx) {
     includedGroups: includedGroups(p, optLabels),
     notIncluded,
     beforeBook: byb,
-    faq: (p.faq || []).filter((f) => !help || f.q !== help.q).map((f) => ({ ...f, q: nb(f.q) })),
+    faq: attachMenus(prog, (p.faq || []).filter((f) => !help || f.q !== help.q).map((f) => ({ ...f, q: nb(f.q) }))),
     related: related(p, ctx),
     single: single || pick.sel,
     ask: askText(p.name),

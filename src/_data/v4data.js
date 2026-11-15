@@ -30,8 +30,8 @@ const CARD_PHOTO = {
   "cooking-class": "card-cooking", batik: "card-batik", "go-kart": "card-go-kart"
 };
 // Galerie de chaque fiche : ids de photos-v3.json, dans l'ordre d'affichage (la première est la grande vignette).
-// Une fiche absente de cette liste n'a pas de galerie et reste telle quelle. Trois photos et plus : bande sous les
-// options ; une ou deux sur une fiche qui a un déroulé : dans sa colonne de gauche, sous les faits.
+// Une fiche absente de cette liste n'a pas de galerie. Les photos sont réparties par splitPhotos : la mosaïque du
+// bloc « How the day goes » (ou de la bande de photos sans journée), puis une ou deux à côté des infos pratiques.
 const GALLERY = {
   atv: ["gal-atv-viewpoint-line", "gal-atv-riders", "gal-atv-group-viewpoint"],
   "go-kart": ["gal-kart-driver", "gal-kart-double-red", "gal-kart-double-teal", "gal-kart-corner", "gal-kart-koi"],
@@ -39,13 +39,18 @@ const GALLERY = {
   batik: ["gal-batik-large-canvas", "gal-batik-fish", "gal-batik-sun-canvas", "gal-batik-whale-shark", "gal-batik-mandala"],
   "elephant-sanctuary": ["gal-elephant-feeding", "gal-elephant-close", "gal-elephant-forest", "gal-elephant-pair", "gal-elephant-visitor"],
   "koh-rok-koh-haa": ["gal-rok-beach-island", "gal-rok-reef", "gal-rok-turquoise-water", "gal-rok-beach-lunch", "gal-rok-driftwood", "gal-rok-fallen-tree", "gal-rok-palm-beach"],
-  // Une ou deux photos : posées dans la colonne du déroulé (macro programme), pas en bande.
   "sunrise-raft": ["gal-raft-river-low-sun"],
   "sunset-dinner-raft": ["gal-raft-river-evening", "gal-raft-deck-lantern"],
   "fishing-trip": ["gal-raft-fishing-deck"],
   rental: ["gal-rental-shed", "gal-rental-scooter", "gal-rental-motorbike", "gal-rental-car-white", "gal-rental-car-black"]
 };
 const galleryOf = (slug) => Promise.all((GALLERY[slug] || []).map(photo));
+// Mosaïque : cinq photos dès six (la grande et quatre petites), trois dès trois, sinon toutes ; le reste (une ou deux)
+// accompagne les infos pratiques. Chaque photo garde son numéro dans la visionneuse (start).
+function splitPhotos(g) {
+  const k = g.length >= 6 ? 5 : g.length >= 3 ? 3 : g.length;
+  return { all: g, mos: g.slice(0, k), side: g.slice(k), start: k };
+}
 const WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen"];
 
 const fact = (p, label) => ((p.facts || []).find((f) => f.label === label) || {}).value || "";
@@ -319,6 +324,8 @@ module.exports = async function () {
     }
   };
 
+  fourData.photos = splitPhotos(fourData.gallery);
+
   // ----- Hub -----
   const nBoats = boats.length, nActs = activities.length;
   const hubData = {
@@ -336,8 +343,7 @@ module.exports = async function () {
   for (const slug of BOATS.concat(ACTIVITIES).filter((x) => x !== "4-islands")) {
     const page = vp.productPage(product(slug), { ...ctx, hero: await photo(CARD_PHOTO[slug]), group: GROUPS.find((g) => g.slugs.includes(slug)) });
     const gallery = await galleryOf(slug);
-    // Une ou deux photos sur une fiche avec déroulé : dans sa colonne (macro programme) ; sinon en bande (macro gallery).
-    productPages.push({ ...page, gallery, galleryInDay: Boolean(page.programme) && gallery.length > 0 && gallery.length < 3 });
+    productPages.push({ ...page, gallery, photos: splitPhotos(gallery) });
   }
   // 4 Islands : même gabarit de fiche, bloc « Choose your boat » ; la ligne de chaque bateau dit l'île qui change et
   // l'île du déjeuner, son détail le ponton (et ce que la brochure du catamaran dit du bord et du déjeuner).
@@ -364,7 +370,8 @@ module.exports = async function () {
     while (new Date(sat + "T12:00:00Z").getUTCDay() !== 6) sat = booking.addDays(sat, 1);
     homeData.howSample = booking.buildMessage(page.booking, { ...booking.emptyState(), option: view.price(four).option, dateChoice: "other", dateOther: sat, today, adults: 2, childAges: [7], pickup: "Pimalai Resort", name: "Anna" });
   }
-  const rentalPage = { ...vp.rentalPage(rentalP, ctx), gallery: await galleryOf("rental") };
+  const rentalGallery = await galleryOf("rental");
+  const rentalPage = { ...vp.rentalPage(rentalP, ctx), gallery: rentalGallery, photos: splitPhotos(rentalGallery) };
   const speedboatPage = vp.speedboatPage(P("secret-transfers/speedboat-ferry"), ctx);
   // /transfers/ : les prix d'appel des trajets privés cités en exemple viennent de la grille VIP Taxi Lanta (taxiPages.js),
   // donc suivent toute correction de prix sans retoucher la page.
