@@ -64,16 +64,12 @@
     if (V.dayShort) V.dayShort();
   }
 
-  // Étapes : sur bureau, chacune se pointe ou se rejoint au clavier pour allumer son île (la carte n'existe pas sur
-  // téléphone : rien ne s'y allume).
-  function steps() { $$(".route__step", $("#day")).forEach(function (s) { if (desk.matches) s.tabIndex = 0; else s.removeAttribute("tabindex"); }); }
+  // Étapes : sur bureau, l'étape pointée ou touchée allume son île. La carte, simple croquis, double le texte des
+  // étapes : pas d'arrêt clavier en plus ; elle n'existe pas sur téléphone.
   $$(".route__step", $("#day")).forEach(function (s) {
     s.addEventListener("pointerenter", function () { if (desk.matches) activate(s); });
-    s.addEventListener("focus", function () { if (desk.matches) activate(s); });
     s.addEventListener("click", function () { if (desk.matches) activate(s); });
   });
-  steps();
-  if (desk.addEventListener) desk.addEventListener("change", steps);
 
   if (seg) {
     seg.hidden = false;

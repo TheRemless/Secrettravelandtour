@@ -1092,7 +1092,7 @@ h1, h2, h3, h4, .brand b, .drawer nav a, .card__title, .hrow__t b, .route__step 
 .know__ph--n1 .gal__item { aspect-ratio: 1; }
 .know__ph--n2 { grid-template-columns: 1fr 1fr; }
 .know__ph--n2 .gal__item { aspect-ratio: 3 / 4; }
-.pc + .sec:not(.sec--sand) { padding-top: 8px; }
+.pc + .sec:not(.sec--sand), .trip--ph:not(.sec--sand) + .know { padding-top: 8px; }
 
 .tabs { display: flex; flex-wrap: wrap; gap: 4px 28px; border-bottom: 1px solid var(--line); }
 .tabs button { position: relative; min-height: 52px; padding: 6px 0 10px; border: 0; background: none; font: 600 26px/1.1 var(--serif); color: var(--ink-mute); transition: color var(--t2) var(--out); }

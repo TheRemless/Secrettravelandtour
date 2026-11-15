@@ -331,7 +331,7 @@
   function shorten() {
     $$(".route").forEach(function (r) {
       var more = r.nextElementSibling && r.nextElementSibling.matches("[data-more]") ? r.nextElementSibling : null;
-      var fold = phone.matches && !r.hidden && !r.hasAttribute("data-open") && $$(".route__step", r).length > 4;
+      var fold = phone.matches && !r.closest("[hidden]") && !r.hasAttribute("data-open") && $$(".route__step", r).length > 4;
       r.classList.toggle("is-short", fold);
       if (more) more.hidden = !fold;
     });
@@ -385,7 +385,9 @@
         if (acc) { p.removeAttribute("role"); p.removeAttribute("aria-labelledby"); p.hidden = false; }
         else { p.setAttribute("role", "tabpanel"); p.setAttribute("aria-labelledby", tabs[k].id); p.hidden = k !== cur; }
         $(".panel__b", p).hidden = acc && !open[k];
-        heads[k].setAttribute("aria-expanded", String(!acc || open[k]));
+        // Bureau : l'onglet ouvre le bloc ; le bouton du titre (caché) ne s'annonce pas comme une commande.
+        if (acc) { heads[k].setAttribute("aria-expanded", String(open[k])); heads[k].removeAttribute("aria-hidden"); }
+        else { heads[k].removeAttribute("aria-expanded"); heads[k].setAttribute("aria-hidden", "true"); }
         heads[k].tabIndex = acc ? 0 : -1;
       });
     }

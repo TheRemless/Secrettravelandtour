@@ -192,7 +192,7 @@
 {% macro mosaic(items, start, total, big="(min-width: 900px) 600px, 72vw", small="(min-width: 900px) 300px, 72vw") %}
 <div class="mos mos--{{ 5 if items.length >= 5 else items.length }}">
   {%- for p in items %}
-  {%- set ar = p.width / p.height %}{% if ar > 2.2 %}{% set ar = 2.2 %}{% elif ar < 0.6 %}{% set ar = 0.6 %}{% endif %}
+  {%- set ar = (p.width / p.height) if (p.width and p.height) else 1.33 %}{% if ar > 2.2 %}{% set ar = 2.2 %}{% elif ar < 0.6 %}{% set ar = 0.6 %}{% endif %}
   <a class="gal__item press" href="{{ p.fallback or p.src }}" data-gal-i="{{ start + loop.index0 }}" data-full="{{ p.fallback or p.src }}" data-w="{{ p.width }}" data-h="{{ p.height }}" style="--ar: {{ ar | round(2) }}" aria-label="Open photo {{ start + loop.index }} of {{ total }}: {{ p.alt }}">{{ v4.photo(p, big if loop.first else small) }}</a>
   {%- endfor %}
 </div>
@@ -221,7 +221,7 @@
   </div>
   {%- if ph and ph.mos.length %}<div class="trip__media">{{ mosaic(ph.mos, 0, ph.all.length) }}</div>{% endif %}
   {%- for b in pg.blocks %}
-  <div class="dayb" data-day-ids="{{ b.ids | join(' ') }}" data-day-i="{{ loop.index0 }}"{% if seg and not loop.first %} hidden{% endif %}>
+  <div class="dayb" data-day-ids="{{ b.ids | join(' ') }}" data-day-i="{{ loop.index0 }}">
     {%- if b.title or b.note %}
     <div class="dayb__h">{% if b.title %}<h3 class="day__for">{{ b.title }}</h3>{% endif %}{% if b.note %}<p class="day__note">{{ b.note }}</p>{% endif %}</div>
     {%- endif %}

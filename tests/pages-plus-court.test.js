@@ -12,7 +12,8 @@ const P = (rel) => JSON.parse(fs.readFileSync(path.join(root, "src/_data/product
 const html = (url) => fs.readFileSync(path.join(root, "_site", url, "index.html"), "utf8");
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 const nb = (s) => String(s).replace(/\b(Koh|Ko|Ao) (\S+)/g, "$1 $2");
-const HELP = /^(which (\w+ )?(trip|ride|programme|course) should i (pick|choose)\?|longtail or speedboat\b.*|speedboat or longtail\?|speedboat, longtail or catamaran\?)$/i;
+// La question d'aide au choix va sous les options (helpOf) : même règle que la page.
+const { helpOf } = require("../src/_includes/components/v4-product.js");
 
 const FICHES = ["tours/4-islands", "tours/koh-rok-koh-haa", "tours/koh-phi-phi", "tours/mangroves", "tours/fishing-trip", "tours/sunset-dinner-raft",
   "tours/sunrise-raft", "activities/mangrove-kayaking", "activities/elephant-sanctuary", "activities/kayak", "activities/cooking-class",
@@ -24,7 +25,7 @@ test("chaque question de la fiche est sur la page, dans les questions ou sous la
     const doc = html(p.url);
     const shown = (doc.split('id="faq-h"')[1] || "").split("</section>")[0];
     for (const f of p.faq || []) {
-      if (HELP.test(f.q) || /hotel pickup included|how do i book/i.test(f.q)) continue;
+      if ((helpOf(p) || {}).q === f.q || /hotel pickup included|how do i book/i.test(f.q)) continue;
       const q = esc(nb(f.q));
       if (/^What is on the menu at the \w+ class\?$/.test(f.q)) {
         const menu = doc.split(`<h3 class="menu__q">${q}</h3>`)[1];
