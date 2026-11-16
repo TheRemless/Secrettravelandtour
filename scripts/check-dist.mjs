@@ -200,10 +200,20 @@ for (const rel of assetFiles) {
   for (const [rule, detail] of found) (strictAssets.has(rel) ? errors : warnings).push({ file: rel, rule, detail });
 }
 
+// /llms.txt et /llms-full.txt (assistants IA, 16.11.2026) : présents, mêmes mots bannis que les pages, contrôle strict.
+for (const rel of ["llms.txt", "llms-full.txt"]) {
+  const file = path.join(SITE, rel);
+  if (!fs.existsSync(file)) { errors.push({ file: rel, rule: "fichier absent", detail: "" }); continue; }
+  const text = fs.readFileSync(file, "utf8");
+  for (const [name, re] of BANNED_TEXT) if (re.test(text)) errors.push({ file: rel, rule: name, detail: excerpt(text, re) });
+  const fees = text.match(HIDDEN_FEES) || [];
+  if (fees.length > 1) errors.push({ file: rel, rule: "« no hidden fees » plus d'une fois", detail: `${fees.length} fois` });
+}
+
 // TODO(client) et [À CONFIRMER] : partout dans _site.
 let placeholderCount = 0;
 const placeholderFiles = [];
-for (const rel of htmlFiles.concat(assetFiles)) {
+for (const rel of htmlFiles.concat(assetFiles, ["llms.txt", "llms-full.txt"].filter((f) => fs.existsSync(path.join(SITE, f))))) {
   const n = (fs.readFileSync(path.join(SITE, rel), "utf8").match(PLACEHOLDERS) || []).length;
   if (n) {
     placeholderCount += n;

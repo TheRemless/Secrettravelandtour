@@ -33,6 +33,19 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Fichiers pour les assistants IA (llmstxt.org) : texte UTF-8 (tirets des horaires, « & »), relus au plus après une heure.
+[[headers]]
+  for = "/llms.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/llms-full.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
+    Cache-Control = "public, max-age=3600"
+
 # Trajet Krabi Airport → Khao Lak retiré le 10.11.2026 (Jérémy) : l'ancienne adresse mène au hub taxi.
 [[redirects]]
   from = "/taxi/krabi-airport-khao-lak/"
