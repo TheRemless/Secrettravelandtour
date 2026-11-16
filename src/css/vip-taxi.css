@@ -438,7 +438,7 @@ details[open] .faq-mark::after { transform: rotate(0deg); }
 [data-brand="vip"] .sheet-title { font-size: 23px; line-height: 1.2; }
 [data-brand="vip"] .sheet-close { color: var(--ivory); border-radius: 4px; }
 [data-brand="vip"] .sheet-close:hover { background: var(--lac-2); }
-[data-brand="vip"] .sheet :is(input[type="text"], input[type="date"], input[type="time"], select),
+[data-brand="vip"] .sheet :is(input[type="text"], input[type="date"], input[type="time"], select, textarea),
 [data-brand="vip"] .choice input + span,
 [data-brand="vip"] .stepper button { border-radius: 4px; border-width: 1px; }
 [data-brand="vip"] .choice input + span { transition: background-color .14s var(--ease), color .14s var(--ease), border-color .14s var(--ease); }

@@ -201,3 +201,16 @@ html.sheet-open { overflow: hidden; }
 .choice--3.is-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .f-fixed { margin: 0 0 var(--s3); padding: var(--s1) var(--s2); border-left: 4px solid var(--sheet-rule); font-size: var(--t2); line-height: var(--l2); color: var(--sheet-mute); }
 .f-fixed[hidden], .f[hidden] { display: none; }
+
+/* Aller-retour depuis le point de prise en charge (16.11.2026) : programme en texte libre, durée facultative, note sans prix.
+   Mêmes champs que le reste de la feuille ; la zone de texte prend le style des champs d'une ligne. */
+.sheet textarea {
+  display: block; width: 100%; min-height: 96px; padding: var(--s1) var(--s2); resize: vertical;
+  border: 1.5px solid var(--sheet-field); border-radius: 12px;
+  background: var(--sheet-field-bg, var(--sheet-bg)); color: var(--sheet-ink);
+  font: 400 var(--t3)/var(--l3) var(--sheet-text);
+}
+.sheet textarea:hover { border-color: var(--sheet-accent); }
+.sheet textarea[aria-invalid="true"] { border-color: var(--sheet-err); border-width: 2px; }
+.round[hidden], .count[hidden] { display: none; }
+.round-note a { color: inherit; font-weight: 700; text-decoration: underline; text-underline-offset: .18em; }

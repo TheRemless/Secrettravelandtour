@@ -261,8 +261,45 @@
             (aéroport, jetée) n'est pas redemandé : booking.js le range dans la ligne « data-fixed ». -#}
         <p class="f-fixed" data-fixed hidden></p>
         {%- set hubHint = "Hotel, address, airport or pier." if (cfg.from and cfg.to) else "Hotel, address, airport or pier. If you pick a town from the list, add your hotel after it." -%}
+        {%- if cfg.roundTrip %}
+        {#- Aller-retour depuis le point de prise en charge (16.11.2026), seulement là où Pickup et Drop-off sont libres (hub, songthaew).
+            booking.js (endsUI) cache Drop-off et montre data-round ; le message suit le format commun avec Gestion. -#}
+        <fieldset class="f">
+          <legend>Trip</legend>
+          <div class="choice choice--list">
+            <label><input type="radio" name="ride" value="oneway"><span><b>One way</b></span></label>
+            <label><input type="radio" name="ride" value="round"><span><b>Round trip from my place</b></span></label>
+          </div>
+        </fieldset>
+        <div class="f" data-end="pickup">
+          <label for="book-pickupAt">Pickup</label>
+          <p class="f-hint" id="book-h-pickupAt" data-hint="{{ hubHint }}" data-round-hint="{{ cfg.roundHint }}">{{ hubHint }}</p>
+          <input id="book-pickupAt" name="pickupAt" type="text" autocomplete="off" autocapitalize="words" enterkeyhint="next" required aria-required="true" aria-describedby="book-h-pickupAt book-e-pickupAt">
+          <p class="err" id="book-e-pickupAt" hidden></p>
+        </div>
+        {%- else %}
         {{ text("pickupAt", "Pickup", ("Your hotel, address or the airport." if cfg.shared else hubHint), true, "off", 'autocapitalize="words" enterkeyhint="next"', "data-end=pickup") }}
+        {%- endif %}
         {{ text("dropoffAt", "Drop-off", ("Where you are going." if cfg.shared else hubHint), true, "off", 'autocapitalize="words" enterkeyhint="next"', "data-end=dropoff") }}
+        {%- if cfg.roundTrip %}
+        <div class="round" data-round hidden>
+          <div class="f">
+            <label for="book-plan">What would you like to do?</label>
+            <p class="f-hint" id="book-h-plan">{{ cfg.planHint }}</p>
+            <textarea id="book-plan" name="plan" rows="3" autocapitalize="sentences" enterkeyhint="next" aria-describedby="book-h-plan book-e-plan"></textarea>
+            <p class="err" id="book-e-plan" hidden></p>
+          </div>
+          <div class="f">
+            <label for="book-hours">How many hours?</label>
+            <p class="f-hint" id="book-h-hours">Optional. A rough idea is enough.</p>
+            <span class="select"><select id="book-hours" name="hours" aria-describedby="book-h-hours">
+              <option value="">Not sure</option>
+              {%- for h in range(1, 13) %}<option value="{{ h }}">About {{ h }} {{ "hour" if h == 1 else "hours" }}</option>{% endfor %}
+            </select></span>
+          </div>
+          <p class="f-fixed round-note">{{ cfg.roundNote }}{% if cfg.dayTripUrl %} For a day in Krabi with the stops you choose, see the <a href="{{ cfg.dayTripUrl }}">Krabi day trip</a>.{% endif %}</p>
+        </div>
+        {%- endif %}
         {#- Passage en avion, en ferry ou en bus : le numéro de vol et l'heure d'arrivée se demandent seulement alors (booking.js, data-transit). -#}
         {{ text("flight", "Flight number", "", false, "off", 'autocapitalize="characters" enterkeyhint="next" spellcheck="false"', "data-flight hidden") }}
         {%- if cfg.shared and cfg.departures and cfg.departures.length %}
