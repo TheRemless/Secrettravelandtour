@@ -119,7 +119,7 @@ test("feuilles construites : le choix et les champs de l'aller-retour sur le hub
     assert.match(doc, /name="ride" value="oneway"><span><b>One way<\/b>/);
     assert.match(doc, /name="ride" value="round"><span><b>Round trip from my place<\/b>/);
     assert.match(doc, /<label for="book-plan">What would you like to do\?<\/label>/);
-    assert.match(doc, /<textarea id="book-plan" name="plan"[^>]*aria-describedby="book-h-plan book-e-plan"/);
+    assert.match(doc, /<textarea data-clarity-mask="True" id="book-plan" name="plan"[^>]*aria-describedby="book-h-plan book-e-plan"/);
     assert.match(doc, /<label for="book-hours">How many hours\?<\/label>/);
     assert.match(doc, /<option value="">Not sure<\/option><option value="1">About 1 hour<\/option>/);
     assert.match(doc, /<option value="12">About 12 hours<\/option>/);
@@ -167,4 +167,13 @@ test("JSON-LD : aucun prix pour l'aller-retour", () => {
       if (/round trip/i.test(ld)) assert.doesNotMatch(ld, /"price"|"priceSpecification"|"lowPrice"/, u);
     }
   }
+});
+
+test("mesure GA4 : l'aller-retour est marqué round_trip, sans valeur en THB (prix au cas par cas)", () => {
+  const st = Object.assign(B.emptyState(HUB), { ride: "round", adults: 2, pickupAt: "Lanta Sand Resort", plan: "Old Town" });
+  const t = B.trackInfo(HUB, st);
+  assert.equal(t.trip, "round_trip");
+  assert.equal(t.value, undefined);
+  assert.equal(t.currency, undefined);
+  assert.doesNotMatch(JSON.stringify(t), /Lanta Sand|Old Town/);
 });
