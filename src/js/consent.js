@@ -15,7 +15,10 @@
      feuille (booking.js, stt-book-send) ou de la liste de sorties (v4-trips.js, stt-trips-send) ; l'événement à suivre ;
    - send_on_whatsapp {product_type} : ancien nom du même envoi de la feuille, gardé pour l'historique depuis le 12.11.2026 ;
    - cta_click {cta, placement, link_url} : bouton ou lien marqué data-track-cta (cartes, « See all routes », liste de sorties) ;
-   - contact_click {placement, method} : lien tel: ou mailto:.
+   - contact_click {placement, method} : lien tel: ou mailto: ;
+   - whatsapp_qr_shown {placement} : sur un ordinateur, le panneau QR code d'un lien WhatsApp ou le QR code de l'écran final
+     de la feuille (placement sheet_done) s'affiche (wa-qr.js, stt-wa-qr-shown) ;
+   - whatsapp_desktop_open {placement} : « Open WhatsApp on this computer » dans ce panneau (wa-qr.js, stt-wa-desktop-open).
    L'emplacement vient de l'attribut data-track des gabarits (sur l'élément ou un parent), jamais d'une lecture de la page.
    Les identifiants viennent de site.json (data-ga-id, data-clarity-id). Aucune dépendance, aucun autre script de suivi. */
 (function () {
@@ -105,7 +108,7 @@
   }
 
   // ---------- Mesure des clics et de la réservation (rien avant « Accept ») ----------
-  var CLARITY_EVENTS = { booking_open: 1, booking_send: 1, whatsapp_click: 1 };
+  var CLARITY_EVENTS = { booking_open: 1, booking_send: 1, whatsapp_click: 1, whatsapp_qr_shown: 1, whatsapp_desktop_open: 1 };
   function track(name, params) {
     if (!on) return;
     if (loaded) gtag("event", name, params);
@@ -129,6 +132,8 @@
     // Bouton qui ouvre la feuille (booking_open) ; envois de la feuille et de la liste de sorties (booking_send).
     if (el.hasAttribute("data-book") && document.getElementById("book")) return;
     if (el.hasAttribute("data-tsend") || (el.type === "submit" && el.closest("#book"))) return;
+    // Bouton « Open WhatsApp on this computer » du panneau QR : whatsapp_desktop_open (wa-qr.js), pas un second whatsapp_click.
+    if (el.hasAttribute("data-wa-desktop")) return;
     if (WA.test(href)) return track("whatsapp_click", { placement: placement(el) });
     if (/^(?:tel|mailto):/i.test(href)) return track("contact_click", { placement: placement(el), method: /^tel:/i.test(href) ? "phone" : "email" });
     var cta = el.getAttribute("data-track-cta");
@@ -147,6 +152,8 @@
     track("send_on_whatsapp", { product_type: src.variant || "unknown" });
   });
   document.addEventListener("stt-trips-send", function (e) { track("booking_send", e.detail || {}); });
+  document.addEventListener("stt-wa-qr-shown", function (e) { track("whatsapp_qr_shown", { placement: (e.detail && e.detail.placement) || "untagged" }); });
+  document.addEventListener("stt-wa-desktop-open", function (e) { track("whatsapp_desktop_open", { placement: (e.detail && e.detail.placement) || "untagged" }); });
 
   // ---------- Bandeau ----------
   var VIP = document.documentElement.getAttribute("data-brand") === "vip";

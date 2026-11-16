@@ -1,3 +1,5 @@
 {#- Consentement, Google Analytics 4 (12.11.2026) et Microsoft Clarity (16.11.2026) : un seul fichier, différé.
     Rien ne part vers Google ni Microsoft avant « Accept » (src/js/consent.js). -#}
 <script defer src="/js/consent.js?v={{ build.v }}" data-ga-id="{{ site.analytics.ga4 }}" data-clarity-id="{{ site.analytics.clarity }}"></script>
+{#- WhatsApp sur un ordinateur : panneau « scanner ou ouvrir » et QR code de l'écran final de la feuille (16.11.2026). -#}
+<script defer src="/js/wa-qr.js?v={{ build.v }}" data-wa-reply="{{ site.replyTime.usual }}"></script>
