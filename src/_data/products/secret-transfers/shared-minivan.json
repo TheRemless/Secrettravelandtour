@@ -137,6 +137,10 @@
     {
       "field": "beforeYouBook.cancellation",
       "from": "Base de gestion (export du 12.11.2026) : au moins 1 jour avant le départ ; le jour du départ ou no show : aucun remboursement, facturation totale."
+    },
+    {
+      "field": "faq (Can a driver take us somewhere and bring us back?)",
+      "from": "Demande de Jérémy du 16.11.2026 : aller-retour depuis le point de prise en charge, prix au cas par cas selon le programme et la durée. Option « Round trip from my place » des feuilles /taxi/ et /taxi/songthaew/, pas du minivan partagé."
     }
   ],
   "notes": [
@@ -156,6 +160,10 @@
     {
       "q": "Which one is the taxi on Koh Lanta?",
       "a": "On Koh Lanta the taxis are songthaews: pickup trucks with a roof and two benches in the back. You can book one for your group only, for a hotel transfer on the island or for a tour, by the hour, for a half day or for a full day."
+    },
+    {
+      "q": "Can a driver take us somewhere and bring us back?",
+      "a": "Yes, with VIP Taxi Lanta. In the request form on the taxi pages, choose Round trip from my place and tell us your plan. The price depends on the plan and how long it takes, and we reply with it on WhatsApp."
     },
     {
       "q": "Can I get a child seat?",

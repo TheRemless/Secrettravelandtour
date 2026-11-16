@@ -78,12 +78,19 @@ eleventyExcludeFromCollections: true
         <p class="region-intro">A day in Krabi with your own driver, with the stops you choose.</p>
         <ul class="rr-list" data-track="routes"><li><a class="rr" href="{{ T.dayTrip.url }}" data-track-cta="route_row"><span class="rr-pair"><span class="rr-place">Koh Lanta</span> <span class="rr-word">to</span> <span class="rr-place">Krabi</span></span><span class="rr-time"><span class="rr-drive">Day trip</span><span class="rr-price">{{ T.dayTrip.price.label }}</span></span>{{ tx.chev() }}</a></li></ul>
       </section>
+      {#- Aller-retour depuis le point de prise en charge (16.11.2026) : la ligne ouvre la feuille déjà sur « Round trip from my place ».
+          Sans JavaScript, WhatsApp s'ouvre avec le message de l'aller-retour à compléter. Aucun prix : il dépend du programme et de la durée. -#}
+      <section class="region" aria-labelledby="rg-round">
+        <h3 id="rg-round">Round trip</h3>
+        <p class="region-intro">Your driver takes you somewhere, or around the island, then brings you back to where you were picked up.</p>
+        <ul class="rr-list"><li><a class="rr" href="{{ tx.waHref(T.contact.number, T.roundFallback.hub) }}" data-track="round_trip" data-book="" data-ride="round"><span class="rr-pair"><span class="rr-place">Your place</span> <span class="rr-word">and</span> <span class="rr-place">back</span></span><span class="rr-time"><span class="rr-drive">Round trip</span><span class="rr-price">Price on WhatsApp</span></span>{{ tx.chev() }}</a></li></ul>
+      </section>
       <div class="elsewhere">
         <div>
           <h3>Not on the list?</h3>
           <p>{{ T.further }}</p>
         </div>
-        <a class="btn btn--lac" href="{{ fallback }}" data-book="" data-track="other_route">Ask for another route</a>
+        <a class="btn btn--lac" href="{{ fallback }}" data-track="other_route" data-book="" data-ride="oneway">Ask for another route</a>
       </div>
     </div>
   </div>

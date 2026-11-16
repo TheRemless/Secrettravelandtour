@@ -61,7 +61,10 @@ eleventyExcludeFromCollections: true
     {%- for sec in S.sections %}
     <div class="sg-text">
       <h2 id="h-sg-{{ loop.index }}">{{ sec.h }}</h2>
-      <div class="prose">{% for para in sec.p %}<p>{{ para | taxiLinks(false) | safe }}</p>{% endfor %}</div>
+      <div class="prose">{% for para in sec.p %}<p>{{ para | taxiLinks(false) | safe }}</p>{% endfor %}
+        {#- Aller-retour (16.11.2026), juste sous le paragraphe qui l'explique : la feuille s'ouvre sur « Round trip from my place » ;
+            sans JavaScript, WhatsApp avec le message de l'aller-retour à compléter. -#}
+        {%- if loop.last %}<p><a class="link-ink" href="{{ tx.waHref(T.contact.number, T.roundFallback.songthaew) }}" data-track="round_trip" data-book="" data-ride="round">Ask for a round trip</a></p>{% endif %}</div>
     </div>
     {%- set ph = S.photos[loop.index0] -%}
     {%- if ph %}

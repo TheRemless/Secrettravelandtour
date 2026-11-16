@@ -77,6 +77,9 @@
     var btn = document.querySelector(".hero-act [data-book]");
     if (!btn) return;
     btn.click();
+    // Un lien from/to décrit un trajet de A à B : la feuille repasse en aller simple si le brouillon était un aller-retour.
+    var one = document.querySelector('input[name="ride"][value="oneway"]');
+    if (one && to && !one.checked) { one.checked = true; one.dispatchEvent(new Event("change", { bubbles: true })); }
     [["book-pickupAt", from], ["book-dropoffAt", to]].forEach(function (p) {
       var el = document.getElementById(p[0]);
       if (el && p[1]) { el.value = p[1]; el.dispatchEvent(new Event("input", { bubbles: true })); }
@@ -126,7 +129,9 @@
     // Un lieu déjà choisi remontre toute la liste ; un lieu libre sans correspondance la ferme.
     // Le lieu déjà choisi dans l'autre champ n'est pas reproposé.
     function open(exact) {
-      var q = norm(input.value), other = norm((document.getElementById(otherId) || {}).value);
+      // Aller-retour : la dépose cachée (gardée en mémoire) ne retire pas son lieu de la liste du Pickup.
+      var otherEl = document.getElementById(otherId);
+      var q = norm(input.value), other = otherEl && !otherEl.closest("[hidden]") ? norm(otherEl.value) : "";
       var all = !q || (exact && places.some(function (p) { return norm(p) === q; }));
       var n = 0;
       items.forEach(function (li) {

@@ -125,8 +125,25 @@ module.exports = function () {
   });
   const regions = (legacy.regions || []).map((g) => ({ name: g.name, intro: g.intro, routes: g.routes.map((id) => byId[id]).filter(Boolean) }));
 
+  // Aller-retour depuis le point de prise en charge (Jérémy, 16.11.2026) : le chauffeur emmène le groupe où il veut, ou fait le tour,
+  // puis le ramène au même endroit. Prix au cas par cas selon le programme et la durée, jamais affiché ni mis dans le JSON-LD.
+  // Seulement sur les feuilles à Pickup et Drop-off libres (hub et songthaew) ; pas sur les pages trajet (elles vendent un A vers B),
+  // ni sur le minivan partagé (autres passagers, le chauffeur ne peut pas attendre), ni sur l'excursion à Krabi (ses propres stops).
+  // Message WhatsApp : format commun avec Gestion, écrit par booking.js (buildMessage, isRound).
+  const ROUND = {
+    roundTrip: true,
+    roundHint: "Your hotel or address. The driver brings you back here at the end.",
+    planHint: "Somewhere to go, or a drive around the island with a few stops. Write it in your own words.",
+    roundNote: "There is no set price for a round trip. It depends on your plan and how long it takes. The team replies on WhatsApp with the price."
+  };
+  // Repli sans JavaScript des liens « round trip » : le message WhatsApp a déjà la forme de l'aller-retour, à compléter.
+  const roundFallback = (vehicle) => ["Round trip, back to the pickup place", "Pickup: ", "Plan: ", "Time needed: "]
+    .concat(vehicle ? [`Vehicle: ${vehicle}`] : [], ["Date: ", "Pickup time: ", "Guests: ", "Name: "]).join("\n");
+
   // Feuille du hub : From et To libres (aucun trajet imposé).
   const hubBooking = {
+    ...ROUND,
+    dayTripUrl: require("./krabiDayTrip.json").url,
     variant: "taxi",
     brand: site.brands.vip.name,
     product: "Private transfer",
@@ -141,6 +158,8 @@ module.exports = function () {
   // Feuille de la page songthaew : sa propre demande et son propre brouillon, le véhicule écrit dans le message.
   const songthaewBooking = {
     ...hubBooking,
+    // Le songthaew roule sur Koh Lanta : pas de renvoi vers l'excursion en minivan à Krabi.
+    dayTripUrl: "",
     product: "Songthaew",
     kicker: "Request a songthaew",
     productId: "taxi-songthaew",
@@ -185,6 +204,7 @@ module.exports = function () {
     byId,
     dayTrip,
     songthaewBooking,
+    roundFallback: { hub: roundFallback(""), songthaew: roundFallback("songthaew") },
     regions,
     further: legacy.further,
     commonFaq: (legacy.common || {}).faq || [],

@@ -198,6 +198,11 @@
       "confirmed": true
     },
     {
+      "q": "Can the driver take us somewhere and bring us back?",
+      "a": "Yes. In the request form, choose Round trip from my place, then tell us what you would like to do and roughly how many hours it takes. The driver brings you back to where you were picked up. The price depends on your plan and the time it takes, so the team gives it to you on WhatsApp.",
+      "confirmed": true
+    },
+    {
       "q": "Where do you drive in Southern Thailand?",
       "a": "Across Southern Thailand: Krabi Town and Krabi airport, Ao Nang, Phuket town and Phuket airport, Surat Thani airport and bus terminal, Trang, Pak Bara Pier, Khao Lak, Khao Sok, Donsak Pier and Cheow Lan Pier, and more.",
       "confirmed": true

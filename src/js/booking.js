@@ -279,6 +279,17 @@
     return null;
   }
 
+  // Aller-retour depuis le point de prise en charge (Jérémy, 16.11.2026) : le chauffeur emmène le groupe où il veut, ou fait le tour,
+  // puis le ramène au même endroit. Offert seulement sur les feuilles à Pickup et Drop-off libres (config.roundTrip : hub /taxi/ et songthaew).
+  function isRound(config, state) {
+    return Boolean(config && config.roundTrip && state && state.ride === "round");
+  }
+  // « about 4 hours », « about 1 hour », « not sure » : format lu tel quel par Gestion (demande collée).
+  function hoursText(value) {
+    var n = parseInt(value, 10);
+    return n > 0 ? "about " + n + (n === 1 ? " hour" : " hours") : "not sure";
+  }
+
   function routeLabel(config, state) {
     if (config.from && config.to) {
       return state.direction === "back" ? config.to + " to " + config.from : config.from + " to " + config.to;
@@ -291,7 +302,21 @@
     var lines = [];
     var date = resolveDate(state.dateChoice, state.dateOther, state.today);
 
-    if (config.variant === "taxi") {
+    if (isRound(config, state)) {
+      // Format commun avec Gestion (16.11.2026), à garder mot pour mot : les quatre premières lignes, puis le véhicule de la page.
+      // Ni Drop-off, ni bagages, ni prix : le prix dépend du programme et de la durée, l'équipe le donne sur WhatsApp.
+      lines.push("Round trip, back to the pickup place");
+      lines.push("Pickup: " + clean(state.pickupAt));
+      lines.push("Plan: " + clean(state.plan));
+      lines.push("Time needed: " + hoursText(state.hours));
+      if (config.vehicle) lines.push("Vehicle: " + config.vehicle);
+      if (date) lines.push("Date: " + formatDate(date));
+      var rk = endKind(state.pickupAt);
+      if (clean(state.time)) lines.push("Pickup time: " + clean(state.time) + (rk === "air" ? " (landing)" : rk === "sea" ? " (arrival)" : ""));
+      if (rk && clean(state.flight)) lines.push("Flight or ferry: " + clean(state.flight));
+      lines.push("Guests: " + guestsLine(state.adults, state.childAges));
+      if (state.childSeats > 0 && (state.childAges || []).length) lines.push("Child seats: " + state.childSeats);
+    } else if (config.variant === "taxi") {
       var vehicle = findOption(config, state.option);
       // Minivan partagé (page /transfers/) : la demande est au nom de Secret Travel & Tour, sur le même WhatsApp que VIP Taxi Lanta.
       if (config.shared) lines.push("Shared minivan request (" + config.brand + "): " + routeLabel(config, state));
@@ -509,6 +534,8 @@
     if (config.variant === "tour") { var q = quoteOf(opt, state); if (q) value = q.total; }
     else if (config.variant === "rental") { var rt = rentalTotal(opt, state); if (rt) value = rt.total; }
     // Taxi : le prix d'appel par véhicule de la page (« From 2,300 THB per vehicle »), pour un seul véhicule (8 personnes au plus).
+    // Aller-retour depuis le point de prise en charge : prix au cas par cas, aucune valeur envoyée.
+    else if (config.variant === "taxi" && isRound(config, state)) out.trip = "round_trip";
     else if (config.variant === "taxi" && config.priceNote && out.people <= 8) {
       var m = /([\d,]+)\s*THB/.exec(config.priceNote);
       if (m) value = Number(m[1].replace(/,/g, ""));
@@ -579,7 +606,10 @@
       else if (state.nowTime && date === state.today && clean(state.time) <= state.nowTime) errors.time = "That time has passed. Choose a later time.";
       // Les deux adresses font le prix : sans elles, la demande repart en question.
       if (!clean(state.pickupAt)) errors.pickupAt = config.dayTrip ? "Add your hotel on Koh Lanta." : "Add the pickup address.";
-      if (config.dayTrip) {
+      // Aller-retour : pas de dépose, c'est le programme qui fait le prix. La durée reste facultative.
+      if (isRound(config, state)) {
+        if (!clean(state.plan)) errors.plan = "Tell us what you would like to do. The price depends on it.";
+      } else if (config.dayTrip) {
         (state.stops || []).forEach(function (st, i) { if (!clean(st)) errors["stop-" + i] = "Name stop " + (i + 1) + "."; });
       } else if (!clean(state.dropoffAt)) errors.dropoffAt = "Add the drop-off address.";
       // Pris à l'aéroport : sans numéro de vol, on ne peut pas suivre l'atterrissage.
@@ -621,6 +651,7 @@
       option: "", dateChoice: "", dateOther: "", adults: 2, childAges: [], pickup: "", name: "",
       vehicle: "", dateFrom: "", dateTo: "",
       direction: "out", time: "", slot: "", flight: "", bags: 0, childSeats: 0, pickupAt: "", dropoffAt: "", addons: [], stops: [""],
+      ride: "oneway", plan: "", hours: "",
       route: "", departure: "", tripType: "", returnDate: "", returnDeparture: "", returnTime: "",
       choices: {}, counts: {}, timeFrom: "", timeTo: "", vehicles: 1
     };
@@ -787,7 +818,7 @@
     }
 
     function fillForm() {
-      ["dateOther", "pickup", "name", "time", "flight", "pickupAt", "dropoffAt", "vehicle", "dateFrom", "dateTo", "timeFrom", "timeTo", "returnDate", "returnTime"].forEach(function (k) {
+      ["dateOther", "pickup", "name", "time", "flight", "pickupAt", "dropoffAt", "plan", "hours", "vehicle", "dateFrom", "dateTo", "timeFrom", "timeTo", "returnDate", "returnTime"].forEach(function (k) {
         var el = field(k);
         if (el && typeof el.value === "string") el.value = state[k] || "";
       });
@@ -806,6 +837,7 @@
       fillChoices();
       setRadio("dateChoice", state.dateChoice);
       setRadio("direction", state.direction);
+      setRadio("ride", state.ride === "round" ? "round" : "oneway");
       setRadio("slot", state.slot);
       var other = form.querySelector("[data-date-other]");
       if (other) other.hidden = state.dateChoice !== "other";
@@ -981,6 +1013,18 @@
       if (pk) { pk.hidden = Boolean(fixedPick) && clean(state.pickupAt) === fixedPick; if (pk.hidden) parts.push("Pickup: " + fixedPick); }
       if (dp) { dp.hidden = Boolean(fixedDrop) && clean(state.dropoffAt) === fixedDrop; if (dp.hidden) parts.push("Drop-off: " + fixedDrop); }
       if (line) { line.hidden = !parts.length; line.textContent = parts.join(". ") + (parts.length ? "." : ""); }
+      // Aller-retour : « Drop-off » laisse la place au programme et à la durée ; la dépose déjà tapée reste en mémoire
+      // (cachée, hors du message) et revient si le client repasse en aller simple. Pas de bagages pour un aller-retour.
+      var round = isRound(config, state);
+      var rb = form.querySelector("[data-round]");
+      if (rb) {
+        rb.hidden = !round;
+        if (dp && round) dp.hidden = true;
+        var bags = field("bags") && field("bags").closest(".count");
+        if (bags) bags.hidden = round;
+        var ph = form.querySelector("#book-h-pickupAt");
+        if (ph && ph.hasAttribute("data-hint")) ph.textContent = round ? ph.getAttribute("data-round-hint") : ph.getAttribute("data-hint");
+      }
       var kind = endKind(state.pickupAt);
       var fl = form.querySelector("[data-flight]");
       if (fl) {
@@ -1060,11 +1104,13 @@
         // Taxi : l'aéroport de l'aller devient l'arrivée du retour, les deux adresses s'échangent.
         if (config.variant === "taxi" && el.checked) swapEnds();
       }
-      if (config.variant === "taxi" && (el.name === "direction" || el.name === "pickupAt" || el.name === "dropoffAt")) {
+      if (config.variant === "taxi" && (el.name === "direction" || el.name === "pickupAt" || el.name === "dropoffAt" || el.name === "ride")) {
         endsUI();
         clearError("flight");
         clearError("time");
       }
+      // Changement aller simple / aller-retour : l'erreur du champ qui disparaît part avec lui.
+      if (el.name === "ride") { clearError("dropoffAt"); clearError("plan"); }
       if (el.name === "route") { showDepartures(); setRadio("departure", state.departure); clearError("departure"); showReturn(); }
       if (el.name === "tripType") { showReturn(); clearError("returnTrip"); }
       if (el.name === "returnDate" || el.name === "returnDeparture" || el.name === "returnTime") clearError("returnTrip");
@@ -1292,6 +1338,8 @@
       var attr = function (n) { return trigger && trigger.getAttribute ? trigger.getAttribute(n) || "" : ""; };
       if (attr("data-vehicle")) state.vehicle = attr("data-vehicle");
       if (attr("data-sb-route")) { state.route = attr("data-sb-route"); state.departure = attr("data-sb-dep"); }
+      // « Ask for a round trip » ouvre la feuille en aller-retour ; « Ask for another route », en aller simple.
+      if (config.roundTrip && /^(?:round|oneway)$/.test(attr("data-ride"))) state.ride = attr("data-ride");
       if (!state.option && (config.options || []).length === 1) state.option = config.options[0].id;
       carryOver(fresh);
       presetEnds();
@@ -1342,6 +1390,8 @@
     restoreDraft: restoreDraft,
     emptyState: emptyState,
     endKind: endKind,
+    isRound: isRound,
+    hoursText: hoursText,
     timeLabel: timeLabel,
     todayClosed: todayClosed,
     bangkokTime: bangkokTime,
