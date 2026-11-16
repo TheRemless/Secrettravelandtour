@@ -2,3 +2,6 @@ User-agent: *
 Allow: /
 
 Sitemap: https://secrettravelandtour.com/sitemap.xml
+
+# Summary for AI assistants (llmstxt.org): https://secrettravelandtour.com/llms.txt
+# Full details for AI assistants: https://secrettravelandtour.com/llms-full.txt
