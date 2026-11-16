@@ -1,19 +1,34 @@
-/* Secret Travel & Tour et VIP Taxi Lanta : consentement et Google Analytics 4 (12.11.2026).
-   Consent Mode v2, mode de base : « consent default » refuse tout dès le départ, gtag.js n'est chargé qu'après « Accept »,
-   avant le choix ou après « Decline » aucun cookie n'est posé et rien ne part vers Google. La publicité reste toujours refusée.
-   Le choix est gardé dans localStorage (« stt-consent », 6 mois), jamais dans un cookie. Le lien « Cookie settings » du pied
-   de page (data-consent-open) rouvre le choix. Un seul événement : « send_on_whatsapp », avec le type de produit
-   (variante de la fiche : tour, taxi, rental, speedboat), sans nom, hôtel, téléphone ni date.
-   L'identifiant de mesure vient de site.json (data-ga-id). Aucune dépendance, aucun autre script de suivi. */
+/* Secret Travel & Tour et VIP Taxi Lanta : consentement, Google Analytics 4 (12.11.2026, mesure des clics 16.11.2026)
+   et Microsoft Clarity (enregistrements de visite et cartes de chaleur, accord de Jérémy du 16.11.2026).
+   Consent Mode v2, mode de base : « consent default » refuse tout dès le départ, gtag.js et le script Clarity ne sont chargés
+   qu'après « Accept » ; avant le choix ou après « Decline » aucun cookie n'est posé et rien ne part vers Google ni Microsoft,
+   pas même un événement. La publicité reste toujours refusée (Clarity : consentv2, ad_Storage « denied »).
+   Retrait par « Cookie settings » : consentement refusé aux deux, Clarity arrêté, cookies _ga*, _clck et _clsk effacés.
+   Clarity : les champs où l'on écrit portent data-clarity-mask="True" dans les gabarits (jamais dans un enregistrement) ;
+   booking_open, booking_send et whatsapp_click y arrivent aussi comme événements Clarity, avec product_id et product_type
+   en étiquettes, pour filtrer les enregistrements. Le choix est gardé dans localStorage (« stt-consent », 6 mois), jamais dans un cookie.
+   Le lien « Cookie settings » du pied de page (data-consent-open) rouvre le choix.
+   Événements, sans nom, hôtel, téléphone, date ni texte du message (les pages vues restent automatiques) :
+   - whatsapp_click {placement} : lien direct vers WhatsApp (wa.me, api.whatsapp.com) hors de la feuille ;
+   - booking_open {product_id, product_type, cta} : la feuille de réservation s'ouvre (booking.js, stt-book-open) ;
+   - booking_send {product_id, product_type, option_id, people ou vehicles, value, currency} : « Send on WhatsApp » de la
+     feuille (booking.js, stt-book-send) ou de la liste de sorties (v4-trips.js, stt-trips-send) ; l'événement à suivre ;
+   - send_on_whatsapp {product_type} : ancien nom du même envoi de la feuille, gardé pour l'historique depuis le 12.11.2026 ;
+   - cta_click {cta, placement, link_url} : bouton ou lien marqué data-track-cta (cartes, « See all routes », liste de sorties) ;
+   - contact_click {placement, method} : lien tel: ou mailto:.
+   L'emplacement vient de l'attribut data-track des gabarits (sur l'élément ou un parent), jamais d'une lecture de la page.
+   Les identifiants viennent de site.json (data-ga-id, data-clarity-id). Aucune dépendance, aucun autre script de suivi. */
 (function () {
   "use strict";
   var KEY = "stt-consent";
   var MAX_AGE = 1000 * 60 * 60 * 24 * 180;
   var script = document.currentScript;
   var GA_ID = (script && script.getAttribute("data-ga-id")) || "";
+  var CLARITY_ID = (script && script.getAttribute("data-clarity-id")) || "";
   var DENIED = { analytics_storage: "denied", ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" };
   var GRANTED = { analytics_storage: "granted", ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" };
   var loaded = false;
+  var clarityOn = false;
   var on = false;
 
   window.dataLayer = window.dataLayer || [];
@@ -31,20 +46,43 @@
     try { localStorage.setItem(KEY, JSON.stringify({ s: s, t: Date.now() })); } catch (e) { /* idem */ }
   }
 
+  // Seul endroit qui ajoute un script à la page : gtag.js et le script Clarity, jamais avant « Accept ».
+  function inject(src) {
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = src;
+    document.head.appendChild(s);
+  }
   function load() {
     if (loaded || !GA_ID) return;
     loaded = true;
     gtag("consent", "update", GRANTED);
     gtag("js", new Date());
     gtag("config", GA_ID);
-    var s = document.createElement("script");
-    s.async = true;
-    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(GA_ID);
-    document.head.appendChild(s);
+    inject("https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(GA_ID));
   }
-  // Retrait du consentement : _ga et _ga_<id> effacés sur le domaine et ses parents.
+  // Clarity : file d'attente « clarity(...) » comme dans l'extrait de Microsoft, script chargé une seule fois.
+  function clarity() {
+    if (!window.clarity) window.clarity = function () { (window.clarity.q = window.clarity.q || []).push(arguments); };
+    window.clarity.apply(null, arguments);
+  }
+  function loadClarity() {
+    if (clarityOn || !CLARITY_ID) return;
+    if (!window.clarity) inject("https://www.clarity.ms/tag/" + encodeURIComponent(CLARITY_ID));
+    else clarity("start");
+    clarityOn = true;
+    clarity("consentv2", { ad_Storage: "denied", analytics_Storage: "granted" });
+  }
+  function stopClarity() {
+    if (!clarityOn) return;
+    clarityOn = false;
+    clarity("consentv2", { ad_Storage: "denied", analytics_Storage: "denied" });
+    clarity("stop");
+  }
+  // Retrait du consentement : _ga, _ga_<id>, _clck et _clsk effacés sur le domaine et ses parents
+  // (les cookies que Clarity pose sur clarity.ms sont hors de portée de ce domaine).
   function clearCookies() {
-    var names = document.cookie.split(";").map(function (c) { return c.split("=")[0].trim(); }).filter(function (n) { return /^_ga(_|$)/.test(n); });
+    var names = document.cookie.split(";").map(function (c) { return c.split("=")[0].trim(); }).filter(function (n) { return /^(?:_ga(?:_|$)|_clck$|_clsk$)/.test(n); });
     if (!names.length) return;
     var parts = location.hostname.split("."), domains = [""];
     for (var i = 0; i < parts.length - 1; i++) domains.push("; domain=." + parts.slice(i).join("."));
@@ -55,21 +93,60 @@
   function apply(state) {
     on = state === "granted";
     if (GA_ID) window["ga-disable-" + GA_ID] = !on;
-    if (on) load();
-    else {
+    if (on) {
+      if (loaded) gtag("consent", "update", GRANTED);
+      load();
+      loadClarity();
+    } else {
       if (loaded) gtag("consent", "update", DENIED);
+      stopClarity();
       clearCookies();
     }
   }
 
-  // Envoi vers WhatsApp : le bouton « Send on WhatsApp » de la feuille de réservation (booking.js, [data-send]).
+  // ---------- Mesure des clics et de la réservation (rien avant « Accept ») ----------
+  var CLARITY_EVENTS = { booking_open: 1, booking_send: 1, whatsapp_click: 1 };
+  function track(name, params) {
+    if (!on) return;
+    if (loaded) gtag("event", name, params);
+    if (clarityOn && CLARITY_EVENTS[name]) {
+      if (params.product_id) clarity("set", "product_id", String(params.product_id));
+      if (params.product_type) clarity("set", "product_type", String(params.product_type));
+      clarity("event", name);
+    }
+  }
+  var WA = /^https:\/\/(?:wa\.me|api\.whatsapp\.com)\//i;
+  function placement(el) {
+    var p = el.closest("[data-track]");
+    return (p && p.getAttribute("data-track")) || "untagged";
+  }
+  // Un seul écouteur, délégué, en phase de capture : il voit le clic avant que la page ne l'arrête.
   document.addEventListener("click", function (e) {
-    var a = e.target && e.target.closest ? e.target.closest("a[data-send]") : null;
-    if (!a || !on || !loaded) return;
-    var type = "unknown";
-    try { type = JSON.parse(document.getElementById("book-data").textContent).variant || type; } catch (x) { /* page sans feuille */ }
-    gtag("event", "send_on_whatsapp", { product_type: type });
+    if (!on) return;
+    var el = e.target && e.target.closest ? e.target.closest("a[href], button") : null;
+    if (!el) return;
+    var href = el.getAttribute("href") || "";
+    // Bouton qui ouvre la feuille (booking_open) ; envois de la feuille et de la liste de sorties (booking_send).
+    if (el.hasAttribute("data-book") && document.getElementById("book")) return;
+    if (el.hasAttribute("data-tsend") || (el.type === "submit" && el.closest("#book"))) return;
+    if (WA.test(href)) return track("whatsapp_click", { placement: placement(el) });
+    if (/^(?:tel|mailto):/i.test(href)) return track("contact_click", { placement: placement(el), method: /^tel:/i.test(href) ? "phone" : "email" });
+    var cta = el.getAttribute("data-track-cta");
+    if (cta) {
+      var p = { cta: cta, placement: placement(el) };
+      if (el.tagName === "A") p.link_url = el.href;
+      track("cta_click", p);
+    }
   }, true);
+
+  document.addEventListener("stt-book-open", function (e) { track("booking_open", e.detail || {}); });
+  document.addEventListener("stt-book-send", function (e) {
+    var d = {}, src = e.detail || {};
+    Object.keys(src).forEach(function (k) { if (k !== "variant") d[k] = src[k]; });
+    track("booking_send", d);
+    track("send_on_whatsapp", { product_type: src.variant || "unknown" });
+  });
+  document.addEventListener("stt-trips-send", function (e) { track("booking_send", e.detail || {}); });
 
   // ---------- Bandeau ----------
   var VIP = document.documentElement.getAttribute("data-brand") === "vip";
@@ -101,7 +178,7 @@
     box.setAttribute("aria-labelledby", "cb-t");
     box.setAttribute("aria-describedby", "cb-p");
     box.innerHTML = '<h2 class="cb-t" id="cb-t">Can we count your visit?</h2>'
-      + '<p class="cb-p" id="cb-p">Google Analytics shows us which pages help travellers and which do not. It sets a cookie and never receives your name, hotel or phone number. If you decline, nothing is sent. <a href="/privacy/#cookies">Privacy</a></p>'
+      + '<p class="cb-p" id="cb-p">Google Analytics shows us which pages help travellers. Microsoft Clarity shows how the pages are used: clicks, scrolling and mouse movement. Both set cookies and never receive what you type, such as your name, hotel or phone number. If you decline, nothing is sent. <a href="/privacy/#cookies">Privacy</a></p>'
       + '<div class="cb-r"><button class="cb-b" type="button" data-choice="granted">Accept</button><button class="cb-b" type="button" data-choice="denied">Decline</button></div>';
     box.addEventListener("click", function (e) {
       var b = e.target.closest("[data-choice]");

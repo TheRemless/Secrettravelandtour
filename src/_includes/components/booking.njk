@@ -1,4 +1,6 @@
 {#- Feuille de réservation (src/js/booking.js) : un seul <dialog id="book"> par page.
+    Champs où l'on écrit (texte, date, heure) et âges des enfants : data-clarity-mask="True", jamais visibles dans un
+    enregistrement Microsoft Clarity ; les boutons, options et nombres restent lisibles (16.11.2026).
     cfg : variant "tour" ou "taxi", brand, product, productId, page, whatsapp, options [{id, title, rows}],
           pickupRequired (excursions), from et to (trajet fixé ; sans eux, deux champs libres).
     facts : view.contact(site) (number, e164, phoneDisplay, replyTime, languages ; langues confirmées le 10.11.2026). -#}
@@ -20,7 +22,7 @@
 <div class="f"{% if group %} {{ group | safe }}{% endif %}>
   <label for="book-{{ name }}">{{ label }}</label>
   {% if hint %}<p class="f-hint" id="book-h-{{ name }}">{{ hint }}</p>{% endif %}
-  <input id="book-{{ name }}" name="{{ name }}" type="text" autocomplete="{{ autocomplete }}" {{ extra | safe }}{% if required %} required aria-required="true"{% endif %} aria-describedby="{% if hint %}book-h-{{ name }} {% endif %}book-e-{{ name }}">
+  <input data-clarity-mask="True" id="book-{{ name }}" name="{{ name }}" type="text" autocomplete="{{ autocomplete }}" {{ extra | safe }}{% if required %} required aria-required="true"{% endif %} aria-describedby="{% if hint %}book-h-{{ name }} {% endif %}book-e-{{ name }}">
   <p class="err" id="book-e-{{ name }}" hidden></p>
 </div>
 {% endmacro %}
@@ -36,7 +38,8 @@
       <div class="sheet-head">
         <div>
           <p class="sheet-kicker">{% if cfg.kicker %}{{ cfg.kicker }}{% elif cfg.variant == "tour" %}Choose a date{% else %}Check availability{% endif %}</p>
-          <h2 class="sheet-title" id="book-title" tabindex="-1" data-focus data-route-title>{{ cfg.product }}</h2>
+          {#- Hub taxi (trajet libre) : le titre reprend les lieux écrits par le visiteur, masqué pour Clarity. -#}
+          <h2 class="sheet-title" id="book-title" tabindex="-1" data-focus data-route-title{% if not (cfg.from and cfg.to) %} data-clarity-mask="True"{% endif %}>{{ cfg.product }}</h2>
         </div>
         <button class="sheet-close" type="button" data-close>{{ icon("close") }}<span class="sr-only">Close</span></button>
       </div>
@@ -76,7 +79,7 @@
           <div class="f">
             <label for="book-{{ key }}">{{ ch.label }}</label>
             {% if ch.hint %}<p class="f-hint" id="book-h-{{ key }}">{{ ch.hint }}</p>{% endif %}
-            <input id="book-{{ key }}" name="{{ key }}" type="text" data-opt="{{ o.id }}" data-choice="{{ ch.id }}" autocomplete="off" aria-describedby="{% if ch.hint %}book-h-{{ key }} {% endif %}book-e-{{ key }}">
+            <input data-clarity-mask="True" id="book-{{ key }}" name="{{ key }}" type="text" data-opt="{{ o.id }}" data-choice="{{ ch.id }}" autocomplete="off" aria-describedby="{% if ch.hint %}book-h-{{ key }} {% endif %}book-e-{{ key }}">
             <p class="err" id="book-e-{{ key }}" hidden></p>
           </div>
           {%- else %}
@@ -151,7 +154,7 @@
           </div>
           <div class="date-other" data-date-other hidden>
             <label class="f-label" for="book-dateOther">Date</label>
-            <input id="book-dateOther" name="dateOther" type="date" aria-describedby="book-e-date">
+            <input data-clarity-mask="True" id="book-dateOther" name="dateOther" type="date" aria-describedby="book-e-date">
           </div>
           <p class="err" id="book-e-date" hidden></p>
         </fieldset>
@@ -166,7 +169,7 @@
         <fieldset class="f" data-return hidden>
           <legend>Return: <span data-ret-label>The way back</span></legend>
           <label class="f-label" for="book-returnDate">Date of the return</label>
-          <input id="book-returnDate" name="returnDate" type="date" aria-describedby="book-e-returnTrip">
+          <input data-clarity-mask="True" id="book-returnDate" name="returnDate" type="date" aria-describedby="book-e-returnTrip">
           <p class="f-label sb-back-h" data-ret-deps-h hidden>Boat back</p>
           <div class="choice choice--list" data-ret-deps hidden>
             {%- for r in cfg.routes %}{% for dep in r.deps %}
@@ -175,7 +178,7 @@
           </div>
           <div data-ret-free hidden>
             <label class="f-label" for="book-returnTime">When you want to come back</label>
-            <input id="book-returnTime" name="returnTime" type="text" autocomplete="off" aria-describedby="book-e-returnTrip">
+            <input data-clarity-mask="True" id="book-returnTime" name="returnTime" type="text" autocomplete="off" aria-describedby="book-e-returnTrip">
           </div>
           <p class="err" id="book-e-returnTrip" hidden></p>
         </fieldset>
@@ -185,7 +188,7 @@
         <div class="f">
           <label for="book-vehicle">Model</label>
           <p class="f-hint" id="book-h-vehicle">Optional: the model you saw in the list.</p>
-          <input id="book-vehicle" name="vehicle" type="text" list="book-vehicle-list" autocomplete="off" aria-describedby="book-h-vehicle">
+          <input data-clarity-mask="True" id="book-vehicle" name="vehicle" type="text" list="book-vehicle-list" autocomplete="off" aria-describedby="book-h-vehicle">
           <datalist id="book-vehicle-list">{% for o in cfg.options %}{% for r in o.rows %}<option value="{{ r.label }}"></option>{% endfor %}{% endfor %}</datalist>
         </div>
         <div class="f">
@@ -195,10 +198,10 @@
         <fieldset class="f">
           <legend>Dates and times</legend>
           <div class="dates">
-            <div><label class="f-label" for="book-dateFrom">Start date</label><input id="book-dateFrom" name="dateFrom" type="date" aria-describedby="book-e-dates"></div>
-            <div><label class="f-label" for="book-timeFrom">Start time</label><input id="book-timeFrom" name="timeFrom" type="time" aria-describedby="book-e-dates"></div>
-            <div><label class="f-label" for="book-dateTo">Return date</label><input id="book-dateTo" name="dateTo" type="date" aria-describedby="book-e-dates"></div>
-            <div><label class="f-label" for="book-timeTo">Return time</label><input id="book-timeTo" name="timeTo" type="time" aria-describedby="book-e-dates"></div>
+            <div><label class="f-label" for="book-dateFrom">Start date</label><input data-clarity-mask="True" id="book-dateFrom" name="dateFrom" type="date" aria-describedby="book-e-dates"></div>
+            <div><label class="f-label" for="book-timeFrom">Start time</label><input data-clarity-mask="True" id="book-timeFrom" name="timeFrom" type="time" aria-describedby="book-e-dates"></div>
+            <div><label class="f-label" for="book-dateTo">Return date</label><input data-clarity-mask="True" id="book-dateTo" name="dateTo" type="date" aria-describedby="book-e-dates"></div>
+            <div><label class="f-label" for="book-timeTo">Return time</label><input data-clarity-mask="True" id="book-timeTo" name="timeTo" type="time" aria-describedby="book-e-dates"></div>
           </div>
           <p class="err" id="book-e-dates" hidden></p>
         </fieldset>
@@ -212,7 +215,7 @@
           </div>
           <div class="date-other" data-date-other hidden>
             <label class="f-label" for="book-dateOther">Date</label>
-            <input id="book-dateOther" name="dateOther" type="date" aria-describedby="book-e-date">
+            <input data-clarity-mask="True" id="book-dateOther" name="dateOther" type="date" aria-describedby="book-e-date">
           </div>
           <p class="err" id="book-e-date" hidden></p>
         </fieldset>
@@ -250,7 +253,7 @@
         {{ text("pickupAt", "Your hotel on Koh Lanta", "The driver picks you up here and brings you back at the end of the day.", true, "off", 'autocapitalize="words" enterkeyhint="next"', "data-end=pickup") }}
         <div class="f">
           <label for="book-time" data-time-label>Pickup time</label>
-          <input id="book-time" name="time" type="time" required aria-required="true" aria-describedby="book-e-time">
+          <input data-clarity-mask="True" id="book-time" name="time" type="time" required aria-required="true" aria-describedby="book-e-time">
           <p class="err" id="book-e-time" hidden></p>
         </div>
         {%- elif taxi %}
@@ -276,7 +279,7 @@
         <div class="f">
           <label for="book-time" data-time-label>{{ "Preferred pickup time" if cfg.shared else "Pickup time" }}</label>
           {%- if cfg.shared %}<p class="f-hint" id="book-h-time">Optional. We confirm the time on WhatsApp.</p>{% endif %}
-          <input id="book-time" name="time" type="time"{% if not cfg.shared %} required aria-required="true"{% endif %} aria-describedby="{% if cfg.shared %}book-h-time {% endif %}book-e-time">
+          <input data-clarity-mask="True" id="book-time" name="time" type="time"{% if not cfg.shared %} required aria-required="true"{% endif %} aria-describedby="{% if cfg.shared %}book-h-time {% endif %}book-e-time">
           <p class="err" id="book-e-time" hidden></p>
         </div>
         {%- endif %}
@@ -288,50 +291,21 @@
         <div class="f">
           <label for="book-pickup" data-label="{{ pLabel }}">{{ pLabel }}</label>
           <p class="f-hint" id="book-h-pickup" data-hint="{{ pHint }}">{{ pHint }}</p>
-          <input id="book-pickup" name="pickup" type="text" autocomplete="off" autocapitalize="words" enterkeyhint="done"{% if cfg.pickupRequired != false %} required aria-required="true"{% endif %} aria-describedby="book-h-pickup book-e-pickup">
+          <input data-clarity-mask="True" id="book-pickup" name="pickup" type="text" autocomplete="off" autocapitalize="words" enterkeyhint="done"{% if cfg.pickupRequired != false %} required aria-required="true"{% endif %} aria-describedby="book-h-pickup book-e-pickup">
           <p class="err" id="book-e-pickup" hidden></p>
         </div>
         {%- endif %}
       </div>
       <div class="sheet-foot{% if cfg.tripList %} sheet-foot--pair{% endif %}">
         {%- if cfg.variant == "tour" %}<p class="sheet-total" data-total aria-live="polite" hidden></p>{% endif %}
-        <button class="sheet-btn" type="submit">Preview message</button>
+        {#- Envoi direct (Jérémy, 16.11.2026 : plus d'aperçu) : booking.js ouvre WhatsApp depuis l'envoi du formulaire. -#}
+        <button class="sheet-btn" type="submit" aria-describedby="book-send-note">{{ icon("whatsapp") }}<span>Send on WhatsApp</span></button>
+        <p class="sheet-note sheet-note--send" id="book-send-note">WhatsApp opens with your message. You can change it there before you send.</p>
         {%- if cfg.tripList %}
-        <button class="sheet-link sheet-link--trip" type="button" data-trip>Add to my trip list</button>
+        <button class="sheet-link sheet-link--trip" type="button" data-trip data-track="sheet" data-track-cta="add_to_trip_list">Add to my trip list</button>
         {%- endif %}
       </div>
     </form>
-  </div>
-
-  <div class="sheet-screen" data-screen="preview" hidden>
-    <div class="sheet-head">
-      <div>
-        <p class="sheet-kicker" data-route-title>{{ cfg.product }}</p>
-        <h2 class="sheet-title" tabindex="-1" data-focus>Your message</h2>
-      </div>
-      <button class="sheet-close" type="button" data-close>{{ icon("close") }}<span class="sr-only">Close</span></button>
-    </div>
-    <div class="sheet-body" tabindex="0" role="region" aria-label="Your message">
-      <p class="f-hint">WhatsApp opens with this text. You can still change it there before sending.</p>
-      {#- Fiche de comptoir : chaque ligne du message, libellé à gauche ; le total en tête. -#}
-      <div class="slip">
-        <p class="slip-total" data-slip-total hidden></p>
-        <dl class="slip-lines" data-slip></dl>
-        <pre class="sr-only" data-message></pre>
-        {%- if cfg.variant == "tour" %}
-        <div class="slip-cash" data-cash hidden>
-          <p class="slip-cash-label" data-cash-label>{% if cfg.parkFee %}{{ cfg.parkFee.label }}, in cash on the day{% endif %}</p>
-          <p class="slip-cash-sum" data-cash-sum></p>
-          <p class="slip-cash-note">Not in the price and not in the message.{% if cfg.parkFee and cfg.parkFee.note %} <span data-cash-note>{{ cfg.parkFee.note }}.</span>{% endif %}</p>
-        </div>
-        {%- endif %}
-      </div>
-    </div>
-    <div class="sheet-foot">
-      <a class="sheet-btn" href="https://wa.me/{{ cfg.whatsapp }}" target="_blank" rel="noopener" data-send>{{ icon("whatsapp") }}<span>Send on WhatsApp</span></a>
-      <p class="sheet-note">Nothing is booked until we confirm.</p>
-      <button class="sheet-btn sheet-btn--quiet" type="button" data-edit>Edit details</button>
-    </div>
   </div>
 
   <div class="sheet-screen" data-screen="done" hidden>
@@ -340,15 +314,16 @@
       <button class="sheet-close" type="button" data-close>{{ icon("close") }}<span class="sr-only">Close</span></button>
     </div>
     <div class="sheet-body done-text">
+      <p>Nothing is booked until we confirm.</p>
       {% if facts.replyTime %}<p>{{ facts.replyTime }}</p>{% endif %}
       {%- set langs = facts.languages or [] %}
       {%- if langs.length %}<p>We speak {{ langs.slice(0, -1).join(", ") ~ " and " ~ langs | last if langs.length > 1 else langs[0] }}.</p>{% endif %}
-      <p>Nothing opened? Use the button below{% if not taxi or cfg.shared %}{# VIP Taxi Lanta : aucun téléphone affiché, WhatsApp seulement (le minivan partagé est une demande Secret : numéro affiché). #}, or call <a class="done-num" href="tel:{{ facts.e164 }}">{{ facts.phoneDisplay }}</a>{% endif %}.</p>
+      <p>Nothing opened? Use the button below{% if not taxi or cfg.shared %}{# VIP Taxi Lanta : aucun téléphone affiché, WhatsApp seulement (le minivan partagé est une demande Secret : numéro affiché). #}, or call <a class="done-num" href="tel:{{ facts.e164 }}" data-track="sheet_done">{{ facts.phoneDisplay }}</a>{% endif %}.</p>
       <p class="copy-status" data-copy-status role="status"></p>
     </div>
     <div class="sheet-foot sheet-foot--stack">
-      <a class="sheet-btn" href="https://wa.me/{{ cfg.whatsapp }}" target="_blank" rel="noopener" data-again>{{ icon("whatsapp") }}<span>Open WhatsApp again</span></a>
-      <button class="sheet-btn sheet-btn--quiet" type="button" data-copy>Copy message</button>
+      <a class="sheet-btn" href="https://wa.me/{{ cfg.whatsapp }}" target="_blank" rel="noopener" data-again data-track="sheet_retry">{{ icon("whatsapp") }}<span>Open WhatsApp again</span></a>
+      <button class="sheet-btn sheet-btn--quiet" type="button" data-copy data-track="sheet_done" data-track-cta="copy_message">Copy message</button>
       <button class="sheet-link" type="button" data-close>Close</button>
     </div>
   </div>
@@ -356,14 +331,14 @@
 <template id="book-stop-tpl">
   <div class="f">
     <label></label>
-    <input type="text" autocomplete="off" autocapitalize="words" enterkeyhint="next">
+    <input data-clarity-mask="True" type="text" autocomplete="off" autocapitalize="words" enterkeyhint="next">
     <p class="err" hidden></p>
   </div>
 </template>
 <template id="book-age-tpl">
   <div class="f">
     <label></label>
-    <span class="select"><select><option value="">Age</option><option value="0">Under 1</option>{% for a in range(1, 18) %}<option value="{{ a }}">{{ a }}</option>{% endfor %}</select></span>
+    <span class="select"><select data-clarity-mask="True"><option value="">Age</option><option value="0">Under 1</option>{% for a in range(1, 18) %}<option value="{{ a }}">{{ a }}</option>{% endfor %}</select></span>
     <p class="err" hidden></p>
   </div>
 </template>

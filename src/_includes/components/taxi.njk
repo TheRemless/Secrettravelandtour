@@ -16,7 +16,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 <header class="top">
   <div class="wrap top-in">
     <a class="brand" href="/taxi/"><span class="disc disc--crop"><img eleventy:ignore src="/images/taxi/logo.webp" width="640" height="640" alt="" decoding="async"></span><span class="brand-name">VIP Taxi Lanta<small>Mr. Brown</small></span></a>
-    <a class="top-wa" href="{{ waHref(contact.number) }}">{{ icon("whatsapp") }}<span>WhatsApp</span></a>
+    <a class="top-wa" href="{{ waHref(contact.number) }}" data-track="header">{{ icon("whatsapp") }}<span>WhatsApp</span></a>
   </div>
 </header>
 {% endmacro %}
@@ -31,7 +31,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 
 {#- Une ligne par trajet : départ, arrivée, durée si elle est dans les données. Toute la ligne est le lien. -#}
 {% macro routeRow(r) %}
-<li><a class="rr" href="{{ r.url }}"><span class="rr-pair"><span class="rr-place">{{ r.from }}</span> <span class="rr-word">to</span> <span class="rr-place">{{ r.to }}</span></span>{% if r.drive or r.price %}<span class="rr-time">{% if r.drive %}<span class="rr-drive">{{ r.drive | capitalize }}</span>{% endif %}{% if r.price %}<span class="rr-price">{{ r.price.label }}</span>{% endif %}</span>{% endif %}{{ chev() }}</a></li>
+<li><a class="rr" href="{{ r.url }}" data-track-cta="route_row"><span class="rr-pair"><span class="rr-place">{{ r.from }}</span> <span class="rr-word">to</span> <span class="rr-place">{{ r.to }}</span></span>{% if r.drive or r.price %}<span class="rr-time">{% if r.drive %}<span class="rr-drive">{{ r.drive | capitalize }}</span>{% endif %}{% if r.price %}<span class="rr-price">{{ r.price.label }}</span>{% endif %}</span>{% endif %}{{ chev() }}</a></li>
 {% endmacro %}
 
 {% macro faq(items) %}
@@ -46,12 +46,12 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 {#- Note Google de VIP Taxi Lanta en une ligne, avec le lien vers la fiche (12.11.2026). Texte seulement : aucun balisage de note dans le JSON-LD (schema.js). -#}
 {% macro googleLine(r) %}
 {%- if r and r.url %}
-<a class="grate" href="{{ r.url }}" rel="noopener"><span class="grate-s" aria-hidden="true">{% for i in range(0, 5) %}<svg viewBox="0 0 24 24" focusable="false"><path fill="currentColor" d="M12 2.6l2.8 6 6.5.7-4.9 4.4 1.4 6.4L12 16.8l-5.8 3.3 1.4-6.4-4.9-4.4 6.5-.7z"/></svg>{% endfor %}</span><span class="grate-t">Rated <b>{{ r.value }}</b> on Google, {{ r.count }} reviews</span></a>
+<a class="grate" href="{{ r.url }}" rel="noopener" data-track="google_line" data-track-cta="google_reviews"><span class="grate-s" aria-hidden="true">{% for i in range(0, 5) %}<svg viewBox="0 0 24 24" focusable="false"><path fill="currentColor" d="M12 2.6l2.8 6 6.5.7-4.9 4.4 1.4 6.4L12 16.8l-5.8 3.3 1.4-6.4-4.9-4.4 6.5-.7z"/></svg>{% endfor %}</span><span class="grate-t">Rated <b>{{ r.value }}</b> on Google, {{ r.count }} reviews</span></a>
 {%- endif %}
 {% endmacro %}
 
 {% macro secretAside(t, compact=false) %}
-<aside class="stt{% if compact %} stt--compact{% endif %}" aria-labelledby="stt-h">
+<aside class="stt{% if compact %} stt--compact{% endif %}" aria-labelledby="stt-h" data-track="cross_brand">
   <div class="wrap stt-in">
     <figure class="stt-photo"><img src="/images/secret/v3/card-4-islands.jpg" eleventy:widths="480,800,1100" sizes="(min-width: 768px) 40vw, 100vw" width="1421" height="1066" loading="lazy" decoding="async" alt="Snorkellers in turquoise water at the foot of a limestone cliff"></figure>
     <div class="stt-text">
@@ -59,11 +59,11 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
       <h2 id="stt-h">{{ t.kicker }} on Koh Lanta</h2>
       <p>{{ t.text | taxiLinks | safe }}</p>
       <ul class="stt-links">
-        <li><a href="/tours/4-islands/">4 Islands{{ chev() }}</a></li>
-        <li><a href="/tours/koh-rok-koh-haa/">Koh Rok &amp; Koh Haa{{ chev() }}</a></li>
-        <li><a href="/tours/elephant-sanctuary/">Elephant sanctuary{{ chev() }}</a></li>
+        <li><a href="/tours/4-islands/" data-track-cta="secret_trip">4 Islands{{ chev() }}</a></li>
+        <li><a href="/tours/koh-rok-koh-haa/" data-track-cta="secret_trip">Koh Rok &amp; Koh Haa{{ chev() }}</a></li>
+        <li><a href="/tours/elephant-sanctuary/" data-track-cta="secret_trip">Elephant sanctuary{{ chev() }}</a></li>
       </ul>
-      <a class="stt-btn" href="{{ t.link.href }}">{{ t.link.label }}</a>
+      <a class="stt-btn" href="{{ t.link.href }}" data-track-cta="visit_secret">{{ t.link.label }}</a>
     </div>
   </div>
 </aside>
@@ -82,7 +82,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
     </div>
     <div class="foot-col">
       <p class="foot-name">WhatsApp</p>
-      <p><a href="{{ waHref(contact.number) }}">{{ contact.phoneDisplay }}</a></p>
+      <p><a href="{{ waHref(contact.number) }}" data-track="footer">{{ contact.phoneDisplay }}</a></p>
       {% if contact.replyTime %}<p>{{ contact.replyTime }}</p>{% endif %}
     </div>
     <div class="foot-legal">
@@ -95,5 +95,5 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 
 {#- Barre du bas au téléphone : prix d'appel du trajet s'il existe, sinon prix sur WhatsApp ; paiement au chauffeur. Ouvre la feuille. -#}
 {% macro vbar(label, href, price=null) %}
-<aside class="vbar" aria-label="{{ label }}"><p>{% if price %}{{ price.label }}<small>Per vehicle, cash to the driver</small>{% else %}Price on WhatsApp<small>Cash to the driver</small>{% endif %}</p><a class="btn btn--gold" href="{{ href }}" data-book="">{{ label }}</a></aside>
+<aside class="vbar" aria-label="{{ label }}"><p>{% if price %}{{ price.label }}<small>Per vehicle, cash to the driver</small>{% else %}Price on WhatsApp<small>Cash to the driver</small>{% endif %}</p><a class="btn btn--gold" href="{{ href }}" data-book="" data-track="sticky_bar">{{ label }}</a></aside>
 {% endmacro %}

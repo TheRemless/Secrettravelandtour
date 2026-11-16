@@ -52,8 +52,8 @@ eleventyExcludeFromCollections: true
     <div class="hero-text">
       <p class="lead">{{ h.lead | taxiLinks | safe }}</p>
       <div class="hero-act">
-        <a class="btn btn--gold" href="{{ fallback }}" data-book="">Request a transfer</a>
-        <a class="link-lac" href="#routes">See all routes</a>
+        <a class="btn btn--gold" href="{{ fallback }}" data-book="" data-track="hero">Request a transfer</a>
+        <a class="link-lac" href="#routes" data-track="hero" data-track-cta="see_all_routes">See all routes</a>
       </div>
     </div>
   </div>
@@ -70,20 +70,20 @@ eleventyExcludeFromCollections: true
       <section class="region" aria-labelledby="rg-{{ loop.index }}">
         <h3 id="rg-{{ loop.index }}">{{ g.name }}</h3>
         <p class="region-intro">{{ g.intro }}</p>
-        <ul class="rr-list">{% for r in g.routes %}{{ tx.routeRow(r) }}{% endfor %}</ul>
+        <ul class="rr-list" data-track="routes">{% for r in g.routes %}{{ tx.routeRow(r) }}{% endfor %}</ul>
       </section>
       {%- endfor %}
       <section class="region" aria-labelledby="rg-day">
         <h3 id="rg-day">Day trip</h3>
         <p class="region-intro">A day in Krabi with your own driver, with the stops you choose.</p>
-        <ul class="rr-list"><li><a class="rr" href="{{ T.dayTrip.url }}"><span class="rr-pair"><span class="rr-place">Koh Lanta</span> <span class="rr-word">to</span> <span class="rr-place">Krabi</span></span><span class="rr-time"><span class="rr-drive">Day trip</span><span class="rr-price">{{ T.dayTrip.price.label }}</span></span>{{ tx.chev() }}</a></li></ul>
+        <ul class="rr-list" data-track="routes"><li><a class="rr" href="{{ T.dayTrip.url }}" data-track-cta="route_row"><span class="rr-pair"><span class="rr-place">Koh Lanta</span> <span class="rr-word">to</span> <span class="rr-place">Krabi</span></span><span class="rr-time"><span class="rr-drive">Day trip</span><span class="rr-price">{{ T.dayTrip.price.label }}</span></span>{{ tx.chev() }}</a></li></ul>
       </section>
       <div class="elsewhere">
         <div>
           <h3>Not on the list?</h3>
           <p>{{ T.further }}</p>
         </div>
-        <a class="btn btn--lac" href="{{ fallback }}" data-book="">Ask for another route</a>
+        <a class="btn btn--lac" href="{{ fallback }}" data-book="" data-track="other_route">Ask for another route</a>
       </div>
     </div>
   </div>
@@ -105,7 +105,7 @@ eleventyExcludeFromCollections: true
         <p>{{ taxi.payment.text }}</p>
       </div>
       {%- if T.rating %}
-      <a class="rating" href="{{ T.rating.url }}">
+      <a class="rating" href="{{ T.rating.url }}" data-track="hub_rating" data-track-cta="google_reviews">
         <span class="stars" aria-hidden="true">{% for i in range(0, 5) %}<svg viewBox="0 0 24 24" focusable="false"><path fill="currentColor" d="M12 2.6l2.8 6 6.5.7-4.9 4.4 1.4 6.4L12 16.8l-5.8 3.3 1.4-6.4-4.9-4.4 6.5-.7z"/></svg>{% endfor %}</span>
         <span class="rating-t">Rated {{ T.rating.value }} on Google<small>{{ T.rating.count }} reviews on Google Maps</small></span>
       </a>

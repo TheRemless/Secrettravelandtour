@@ -104,8 +104,8 @@ test("nouvelles pages : batik, karting, kayak, location et speedboat existent et
 test("formulaires : l'heure de prise en charge est marquée obligatoire", () => {
   const route = fs.readFileSync(path.join(site, "taxi", "krabi-airport-koh-lanta", "index.html"), "utf8");
   const taxi = fs.readFileSync(path.join(site, "taxi", "index.html"), "utf8");
-  assert.match(route, /<input id="book-time"[^>]*aria-required="true"/);
-  assert.match(taxi, /<input id="book-time"[^>]*aria-required="true"/);
+  assert.match(route, /<input (?:data-clarity-mask="True" )?id="book-time"[^>]*aria-required="true"/);
+  assert.match(taxi, /<input (?:data-clarity-mask="True" )?id="book-time"[^>]*aria-required="true"/);
 });
 
 test("photos : chaque excursion, activité et transfert a une photo qui existe, avec un texte alternatif", () => {

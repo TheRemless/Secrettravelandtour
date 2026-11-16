@@ -180,7 +180,7 @@
     for (var i = agesBox.children.length; i < st.childAges.length; i++) {
       var l = document.createElement("label");
       l.className = "agesel";
-      l.innerHTML = "Age of child " + (i + 1) + '<select data-age="' + i + '"><option value="">Choose</option>' +
+      l.innerHTML = "Age of child " + (i + 1) + '<select data-clarity-mask="True" data-age="' + i + '"><option value="">Choose</option>' +
         Array.from({ length: D.adultFrom }, function (_, n) { return '<option value="' + n + '">' + (n === 0 ? "Under 1" : n) + "</option>"; }).join("") + "</select>";
       agesBox.appendChild(l);
     }

@@ -450,8 +450,6 @@ details[open] .faq-mark::after { transform: rotate(0deg); }
 [data-brand="vip"] .sheet-btn:active { transform: scale(.98); }
 [data-brand="vip"] .sheet-btn--quiet { color: var(--ink); }
 [data-brand="vip"] .sheet-foot { border-top-color: var(--rule); }
-[data-brand="vip"] .slip { border-radius: 4px; background: var(--white); border-color: var(--rule); }
-[data-brand="vip"] .slip-lines .slip-first { font: 400 19px/1.3 var(--display); padding-top: 14px; }
 @media (prefers-reduced-motion: reduce) {
   [data-brand="vip"] .sheet[open] .sheet-head::after { animation: none; }
 }

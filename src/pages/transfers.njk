@@ -51,11 +51,11 @@ permalink: /transfers/
         <h3 class="tpriv__ex" id="tp-ex">{{ ch.private.examples }}</h3>
         <ul class="trow" aria-labelledby="tp-ex">
           {%- for r in ch.private.routes %}
-          <li><a class="trow__a press" href="{{ r.href }}"><span>{{ r.name }}</span>{% if r.price %}<b>{{ r.price }}</b>{% endif %}</a></li>
+          <li><a class="trow__a press" href="{{ r.href }}" data-track="transfers_private" data-track-cta="route_row"><span>{{ r.name }}</span>{% if r.price %}<b>{{ r.price }}</b>{% endif %}</a></li>
           {%- endfor %}
         </ul>
         {%- endif %}
-        <a class="btn btn--light btn--lg press tpriv__cta" href="{{ ch.private.href }}">{{ ch.private.cta }}</a>
+        <a class="btn btn--light btn--lg press tpriv__cta" href="{{ ch.private.href }}" data-track="transfers_private" data-track-cta="see_all_private_routes">{{ ch.private.cta }}</a>
       </div>
     </section>
 
@@ -67,7 +67,7 @@ permalink: /transfers/
           <p>{{ ch.shared.text }}</p>
           <p class="tline__price"><b>{{ ch.shared.price }}.</b> <span>{{ ch.shared.ask }}</span></p>
         </div>
-        <a class="btn btn--ghost press tline__cta" href="{{ fallback }}" data-book="">{{ ch.shared.cta }}</a>
+        <a class="btn btn--ghost press tline__cta" href="{{ fallback }}" data-book="" data-track="shared_minivan">{{ ch.shared.cta }}</a>
       </section>
       <section class="tline" id="local" aria-labelledby="tl-h">
         <div class="tline__text">
@@ -80,11 +80,11 @@ permalink: /transfers/
           <p class="tline__by">{{ ch.local.by }}</p>
           {%- endif %}
         </div>
-        <a class="btn btn--ghost press tline__cta" href="{{ ch.local.href }}">{{ ch.local.cta }}</a>
+        <a class="btn btn--ghost press tline__cta" href="{{ ch.local.href }}" data-track="transfers_local" data-track-cta="see_songthaew">{{ ch.local.cta }}</a>
       </section>
     </div>
 
-    <p class="tunsure"><b>{{ ch.unsure.title }}</b> {{ ch.unsure.text }} <a class="link" href="{{ v4.waHref(c.number, t.unsureText) }}">{{ ch.unsure.cta }}</a></p>
+    <p class="tunsure"><b>{{ ch.unsure.title }}</b> {{ ch.unsure.text }} <a class="link" href="{{ v4.waHref(c.number, t.unsureText) }}" data-track="transfers_unsure">{{ ch.unsure.cta }}</a></p>
   </div>
 
   {{ vp.bybFaq(t.beforeBook, t.faq, "compact") }}

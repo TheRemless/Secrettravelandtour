@@ -1,6 +1,8 @@
 /* Feuille de réservation (refonte) : excursions de Secret Travel & Tour et trajets de VIP Taxi Lanta.
    Le visiteur choisit une option, une date, les passagers avec l'âge de chaque enfant, le lieu de prise en charge
-   et son prénom ; il relit le message puis l'envoie lui-même sur WhatsApp. Rien ne part vers un serveur.
+   et son prénom ; le bouton « Send on WhatsApp » ouvre WhatsApp avec le message, que le visiteur peut encore changer
+   avant de l'envoyer lui-même (plus d'écran d'aperçu, Jérémy 16.11.2026). Rien ne part vers un serveur ; la feuille
+   annonce seulement l'ouverture et l'envoi à consent.js (stt-book-open, stt-book-send), sans rien de ce que le visiteur a écrit.
    Logique pure exportée en CommonJS pour les tests (node --test), interface branchée sur le <dialog> dans le navigateur.
    Repris de secret-form.js : dates à l'heure de Bangkok, brouillon gardé 7 jours, erreurs par champ. */
 (function (root, factory) {
@@ -490,6 +492,31 @@
     return out;
   }
 
+  // Mesure d'audience (consent.js) : quel produit, quelle variante, quelle option, combien de personnes, total estimé.
+  // Jamais le nom, l'hôtel, le téléphone, les dates ni le texte du message.
+  function productType(config) {
+    if (config.variant !== "taxi") return config.variant || "unknown";
+    return config.shared ? "shared_minivan" : config.dayTrip ? "day_trip" : config.vehicle === "songthaew" ? "songthaew" : "taxi";
+  }
+  function trackInfo(config, state) {
+    var out = { product_id: config.productId || "", product_type: productType(config) };
+    out.option_id = state.option || state.route || "";
+    var opt = findOption(config, state.option), value = null;
+    // Location : le nombre de véhicules. Karts, quad : les compteurs de l'option disent qui vient, pas le groupe
+    // (laissé à sa valeur par défaut) ; aucun nombre de personnes plutôt qu'un faux.
+    if (config.variant === "rental") out.vehicles = state.vehicles > 0 ? state.vehicles : 1;
+    else if (!(opt && opt.counts)) out.people = (state.adults || 0) + (state.childAges || []).length;
+    if (config.variant === "tour") { var q = quoteOf(opt, state); if (q) value = q.total; }
+    else if (config.variant === "rental") { var rt = rentalTotal(opt, state); if (rt) value = rt.total; }
+    // Taxi : le prix d'appel par véhicule de la page (« From 2,300 THB per vehicle »), pour un seul véhicule (8 personnes au plus).
+    else if (config.variant === "taxi" && config.priceNote && out.people <= 8) {
+      var m = /([\d,]+)\s*THB/.exec(config.priceNote);
+      if (m) value = Number(m[1].replace(/,/g, ""));
+    }
+    if (typeof value === "number" && value > 0) { out.value = value; out.currency = "THB"; }
+    return out;
+  }
+
   function waUrl(message, number) {
     return "https://wa.me/" + (number || DEFAULT_NUMBER) + "?text=" + encodeURIComponent(message);
   }
@@ -618,7 +645,6 @@
     var form = dialog.querySelector("form");
     var screens = {
       form: dialog.querySelector('[data-screen="form"]'),
-      preview: dialog.querySelector('[data-screen="preview"]'),
       done: dialog.querySelector('[data-screen="done"]')
     };
     var storageKey = "stt-book:" + (config.productId || config.product);
@@ -841,7 +867,11 @@
           var b = doc.createElement("b"), sm = doc.createElement("span");
           b.textContent = q ? "Estimated total " + thb(q.total) : "Total confirmed on WhatsApp";
           tot.appendChild(b);
-          if (cash) { sm.textContent = "Plus " + thb(cash.total) + " " + (cash.label || "fees").toLowerCase() + ", in cash on the day"; tot.appendChild(sm); }
+          // À qui se paie ce cash quand les données le disent (« Cash, paid to the ranger on the island ») : l'aperçu qui
+          // l'affichait n'existe plus (16.11.2026).
+          // Même règle que l'ancien aperçu : la note de la fiche vaut pour ses propres frais (même libellé), pas pour ceux d'une option.
+          var note = cash && config.parkFee && cash.label === config.parkFee.label ? config.parkFee.note : "", to = /^Cash, (.+)$/.exec(note || "");
+          if (cash) { sm.textContent = "Plus " + thb(cash.total) + " " + (cash.label || "fees").toLowerCase() + ", in cash on the day" + (to ? ", " + to[1] : ""); tot.appendChild(sm); }
         }
       }
     }
@@ -1154,6 +1184,17 @@
       if (body) body.scrollTop = 0;
     }
 
+    // Touche Entrée dans un champ (« Done » ou « Next » du clavier du téléphone) : elle ferme le clavier ou passe au champ
+    // suivant, elle n'envoie pas. Sinon WhatsApp s'ouvrirait au milieu de la saisie ; seul le bouton envoie.
+    form.addEventListener("keydown", function (e) {
+      var t = e.target;
+      if (e.key !== "Enter" || !t || t.tagName !== "INPUT" || /^(submit|button)$/.test(t.type)) return;
+      e.preventDefault();
+      if (t.blur) t.blur();
+    });
+
+    // Envoi direct : WhatsApp s'ouvre depuis le geste du visiteur (l'envoi du formulaire suit son appui sur le bouton),
+    // sans quoi Safari sur iPhone et Chrome bloquent la fenêtre. Fenêtre refusée quand même : WhatsApp dans cet onglet.
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       state.today = today();
@@ -1162,54 +1203,16 @@
       if (Object.keys(errors).length) { showErrors(errors); markDayClash(errors); return; }
       message = buildMessage(config, state);
       var url = waUrl(message, config.whatsapp);
-      renderSlip(message);
-      dialog.querySelector("[data-send]").href = url;
       Array.prototype.forEach.call(dialog.querySelectorAll("[data-again]"), function (a) { a.href = url; });
-      show("preview");
+      // variant : pour l'ancien événement send_on_whatsapp (consent.js le retire de booking_send).
+      emit("stt-book-send", Object.assign(trackInfo(config, state), { variant: config.variant || "unknown" }));
+      var win = null;
+      try { win = window.open(url, "_blank"); } catch (x) { win = null; }
+      if (!win) { window.location.href = url; return; }
+      try { win.opener = null; } catch (x) { /* fenêtre d'une autre origine */ }
+      show("done");
     });
 
-    // Fiche de comptoir : une ligne par ligne du message (libellé, valeur), la référence en tête,
-    // puis le cash à prévoir pour le parc, hors message.
-    function renderSlip(text) {
-      var pre = dialog.querySelector("[data-message]");
-      if (pre) pre.textContent = text;
-      var dl = dialog.querySelector("[data-slip]");
-      var totEl = dialog.querySelector("[data-slip-total]");
-      if (totEl) totEl.hidden = true;
-      if (dl) {
-        dl.textContent = "";
-        text.split("\n").forEach(function (line, i) {
-          var cut = line.indexOf(": ");
-          var label = cut > 0 ? line.slice(0, cut) : "";
-          var value = cut > 0 ? line.slice(cut + 2) : line;
-          // Le total se lit en premier (même texte que dans le message).
-          if (totEl && (label === "Estimated total" || label === "Total")) { totEl.textContent = label + " " + value; totEl.hidden = false; return; }
-          var row = doc.createElement("div");
-          if (i === 0) row.className = "slip-first";
-          var dt = doc.createElement("dt");
-          var dd = doc.createElement("dd");
-          dt.textContent = label;
-          dd.textContent = value;
-          row.appendChild(dt);
-          row.appendChild(dd);
-          dl.appendChild(row);
-        });
-      }
-      var cash = parkCash(config, state);
-      var box = dialog.querySelector("[data-cash]");
-      if (box) {
-        box.hidden = !cash;
-        if (cash) {
-          dialog.querySelector("[data-cash-sum]").textContent = cash.text;
-          var cl = dialog.querySelector("[data-cash-label]");
-          if (cl && cash.label) cl.textContent = cash.label + ", in cash on the day";
-          var cn = dialog.querySelector("[data-cash-note]");
-          if (cn) cn.hidden = Boolean(config.parkFee) && cash.label !== config.parkFee.label;
-        }
-      }
-    }
-
-    dialog.querySelector("[data-edit]").addEventListener("click", function () { show("form"); });
     // « Add to my trip list » : option, date et voyageurs suffisent ; l'hôtel et le prénom se donnent dans la liste.
     var tripBtn = dialog.querySelector("[data-trip]");
     if (tripBtn) tripBtn.addEventListener("click", function () {
@@ -1226,15 +1229,6 @@
         choices: state.choices || {}, counts: state.counts || {}
       });
       close();
-    });
-
-    dialog.querySelector("[data-send]").addEventListener("click", function () {
-      if (window.dataLayer && typeof window.dataLayer.push === "function") {
-        var option = findOption(config, state.option);
-        window.dataLayer.push({ event: "whatsapp_click", product: config.product, option: option ? option.title : (config.variant === "taxi" ? routeLabel(config, state) : "") });
-      }
-      // WhatsApp s'ouvre dans un nouvel onglet ou dans l'application ; la feuille montre la suite.
-      setTimeout(function () { show("done"); }, 0);
     });
 
     var copyBtn = dialog.querySelector("[data-copy]");
@@ -1286,9 +1280,11 @@
       });
     }
 
-    var lastTrigger = null;
-    function open(optionId, trigger) {
+    var lastTrigger = null, openedBy = "other";
+    function open(optionId, trigger, auto) {
       lastTrigger = trigger || null;
+      var spot = trigger && trigger.closest ? trigger.closest("[data-track]") : null;
+      openedBy = auto ? "auto" : (spot && spot.getAttribute("data-track")) || "other";
       state = emptyState(config);
       var fresh = !load();
       if (optionId) state.option = optionId;
@@ -1305,6 +1301,9 @@
       markOptions();
       doc.documentElement.classList.add("sheet-open");
       dialog.showModal();
+      // Quel bouton a ouvert la feuille : son emplacement (data-track) ; « auto » pour une ouverture par le code
+      // (anciens liens /taxi/?from=…, vip-taxi.js), sans clic du visiteur.
+      emit("stt-book-open", { product_id: config.productId || "", product_type: productType(config), cta: openedBy });
       var head = screens.form.querySelector("[data-focus]");
       if (head) head.focus();
     }
@@ -1314,7 +1313,7 @@
       var t = e.target.closest && e.target.closest("[data-book]");
       if (!t || dialog.contains(t)) return;
       e.preventDefault();
-      open(t.getAttribute("data-book") || "", t);
+      open(t.getAttribute("data-book") || "", t, e.isTrusted === false);
     });
   }
 
@@ -1338,6 +1337,7 @@
     pendingPrice: pendingPrice,
     tripState: tripState,
     waUrl: waUrl,
+    trackInfo: trackInfo,
     makeDraft: makeDraft,
     restoreDraft: restoreDraft,
     emptyState: emptyState,

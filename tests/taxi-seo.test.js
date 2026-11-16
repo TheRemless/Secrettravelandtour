@@ -127,8 +127,8 @@ test("Pickup et Drop-off du hub sont des listes déroulantes de lieux populaires
     assert.ok(js.includes(part), part);
   }
   const built = read("_site/taxi/index.html");
-  assert.match(built, /<input id="book-pickupAt"[^>]*type="text"/);
-  assert.match(built, /<input id="book-dropoffAt"[^>]*type="text"/);
+  assert.match(built, /<input (?:data-clarity-mask="True" )?id="book-pickupAt"[^>]*type="text"/);
+  assert.match(built, /<input (?:data-clarity-mask="True" )?id="book-dropoffAt"[^>]*type="text"/);
   assert.doesNotMatch(built, /id="book-from"|id="book-to"/);
 });
 

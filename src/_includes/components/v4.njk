@@ -46,7 +46,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
     À côté du lien : l'ajout à la liste de sorties (add=false sur l'accueil) et la case de comparaison du hub. -#}
 {% macro card(c, sizes="(min-width: 1024px) 380px, (min-width: 700px) calc(50vw - 46px), 112px", eager=false, compare=false, hx="h3", anchor="", add=true) %}
 <article class="card{% if add %} card--add{% endif %}"{% if anchor %} id="{{ anchor }}"{% endif %} data-slug="{{ c.slug }}" data-kind="{{ c.kind }}" data-group="{{ c.group }}"{% if c.price %} data-from="{{ c.price.from }}"{% endif %}>
-  <a class="card__link press" href="{{ c.href }}">
+  <a class="card__link press" href="{{ c.href }}" data-track-cta="product_card">
     {{ photo(c.photo, sizes, eager, "ph--43") }}
     <span class="card__body">
       <{{ hx }} class="card__title">{{ c.title }}</{{ hx }}>
@@ -58,7 +58,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
   {%- if add or compare %}
   <div class="card__acts">
     {%- if add %}
-    <button class="add" type="button" data-trip-add="{{ c.slug }}" aria-pressed="false" hidden><span class="add__on">{{ glyph("check") }}<span class="add__l">In your trip list</span></span><span class="add__off">{{ glyph("plus") }}<span class="add__l">Add to trip list</span></span><span class="sr"> : {{ c.title }}</span></button>
+    <button class="add" type="button" data-trip-add="{{ c.slug }}" data-track-cta="add_to_trip_list" aria-pressed="false" hidden><span class="add__on">{{ glyph("check") }}<span class="add__l">In your trip list</span></span><span class="add__off">{{ glyph("plus") }}<span class="add__l">Add to trip list</span></span><span class="sr"> : {{ c.title }}</span></button>
     {%- endif %}
     {%- if compare %}
     <label class="cmp"><input type="checkbox" value="{{ c.slug }}" data-compare><span>Compare<span class="sr"> {{ c.title }}</span></span></label>
@@ -79,35 +79,35 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
   { id: "rental", label: "Rental", href: "/tours/rental/" }
 ] -%}
 <a class="skip" href="#main">Skip to content</a>
-<header class="hd" id="hd">
+<header class="hd" id="hd" data-track="header">
   <div class="wrap hd__in">
     <a class="brand" href="/"><picture><source type="image/avif" srcset="{{ em.avif }}"><img eleventy:ignore src="{{ em.src }}" srcset="{{ em.webp }}" width="{{ em.width }}" height="{{ em.height }}" alt=""></picture><b>Secret Travel <span>&amp; Tour</span></b></a>
-    <nav class="nav" aria-label="Main"><ul>{% for i in items %}<li><a href="{{ i.href }}" data-nav="{{ i.id }}"{% if i.id == current %} aria-current="page"{% endif %}>{{ i.label }}</a></li>{% endfor %}</ul></nav>
+    <nav class="nav" aria-label="Main"><ul>{% for i in items %}<li><a href="{{ i.href }}" data-nav="{{ i.id }}" data-track-cta="nav_{{ i.id }}"{% if i.id == current %} aria-current="page"{% endif %}>{{ i.label }}</a></li>{% endfor %}</ul></nav>
     <div class="hd__tools">
-      <button class="tl-btn" type="button" data-trips-open aria-haspopup="dialog" hidden>{{ glyph("list") }}<span class="tl-btn__l">Trip list</span><span class="tl-btn__n" data-trips-count>0</span><span class="sr"> trips</span></button>
-      <a class="btn hd__wa" href="{{ waHref(contact.number, waText) }}">{{ icon("whatsapp") }}<span class="hd__wa-l">WhatsApp</span><span class="sr"> {{ contact.phoneDisplay }}</span></a>
+      <button class="tl-btn" type="button" data-trips-open data-track-cta="trip_list_open" aria-haspopup="dialog" hidden>{{ glyph("list") }}<span class="tl-btn__l">Trip list</span><span class="tl-btn__n" data-trips-count>0</span><span class="sr"> trips</span></button>
+      <a class="btn hd__wa" href="{{ waHref(contact.number, waText) }}" data-track="header">{{ icon("whatsapp") }}<span class="hd__wa-l">WhatsApp</span><span class="sr"> {{ contact.phoneDisplay }}</span></a>
       <button class="menu-btn" type="button" aria-haspopup="dialog" aria-controls="menu" data-menu-open>{{ icon("menu") }}<span class="sr">Menu</span></button>
     </div>
   </div>
 </header>
-<dialog class="drawer" id="menu" aria-label="Menu">
+<dialog class="drawer" id="menu" aria-label="Menu" data-track="menu">
   <div class="drawer__top wrap">
     <a class="brand" href="/"><picture><source type="image/avif" srcset="{{ em.avif }}"><img eleventy:ignore src="{{ em.src }}" srcset="{{ em.webp }}" width="{{ em.width }}" height="{{ em.height }}" alt=""></picture><b>Secret Travel <span>&amp; Tour</span></b></a>
     <button class="x" type="button" data-menu-close>{{ icon("close") }}<span class="sr">Close the menu</span></button>
   </div>
-  <nav class="wrap" aria-label="Menu"><ul>{% for i in items %}<li><a href="{{ i.href }}" data-nav="{{ i.id }}"{% if i.id == current %} aria-current="page"{% endif %}>{{ i.label }}</a></li>{% endfor %}</ul></nav>
-  <p class="wrap drawer__wa"><a class="link" href="{{ waHref(contact.number, waText) }}">WhatsApp {{ contact.phoneDisplay }}</a></p>
+  <nav class="wrap" aria-label="Menu"><ul>{% for i in items %}<li><a href="{{ i.href }}" data-nav="{{ i.id }}" data-track-cta="nav_{{ i.id }}"{% if i.id == current %} aria-current="page"{% endif %}>{{ i.label }}</a></li>{% endfor %}</ul></nav>
+  <p class="wrap drawer__wa"><a class="link" href="{{ waHref(contact.number, waText) }}" data-track="menu">WhatsApp {{ contact.phoneDisplay }}</a></p>
 </dialog>
 {% endmacro %}
 
 {% macro footer(site, contact, em, boats, activities, waText="") %}
 {%- set b = site.brands.secret -%}
-<footer class="ft on-dark" id="ft">
+<footer class="ft on-dark" id="ft" data-track="footer">
   <div class="wrap">
     <div class="ft__grid">
       <div>
         <p class="ft__brand"><picture><source type="image/avif" srcset="{{ em.avif }}"><img eleventy:ignore src="{{ em.src }}" srcset="{{ em.webp }}" width="{{ em.width }}" height="{{ em.height }}" alt="" loading="lazy"></picture>Secret Travel &amp; Tour</p>
-        <p class="ft__wa"><a class="link link--light" href="{{ waHref(contact.number, waText) }}">WhatsApp {{ contact.phoneDisplay }}</a></p>
+        <p class="ft__wa"><a class="link link--light" href="{{ waHref(contact.number, waText) }}" data-track="footer">WhatsApp {{ contact.phoneDisplay }}</a></p>
       </div>
       {#- Sur téléphone, les deux listes de sorties se replient (v4.js les ferme) ; « More » reste ouvert. -#}
       {%- set all = boats.concat(activities) %}
@@ -134,7 +134,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
     <div>
       <h2 id="{{ id }}">{{ f.title }}</h2>
       <p>{{ f.text }}</p>
-      <a class="btn btn--lg press" href="{{ waHref(contact.number, f.message) }}">{{ icon("whatsapp") }}Ask on WhatsApp</a>
+      <a class="btn btn--lg press" href="{{ waHref(contact.number, f.message) }}" data-track="end_band">{{ icon("whatsapp") }}Ask on WhatsApp</a>
     </div>
   </div>
 </section>
@@ -144,7 +144,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 {% macro tripsRoot() %}
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 {#- La liste reste à portée quand l'en-tête s'est caché en descendant : même compteur, ancré en bas d'écran. -#}
-<button class="tl-dock" type="button" data-trips-open aria-haspopup="dialog" hidden>{{ glyph("list") }}<span>Trip list</span><span class="tl-btn__n" data-trips-count>0</span><span class="sr"> trips</span></button>
+<button class="tl-dock" type="button" data-trips-open data-track="trip_dock" data-track-cta="trip_list_open" aria-haspopup="dialog" hidden>{{ glyph("list") }}<span>Trip list</span><span class="tl-btn__n" data-trips-count>0</span><span class="sr"> trips</span></button>
 {% endmacro %}
 
 {% macro scripts(build, page="") %}

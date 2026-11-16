@@ -45,9 +45,9 @@ permalink: /tours/
   <section class="wrap hub" aria-labelledby="hub-h">
     <div class="hub__head">
       <h2 class="hub__n" id="hub-h"><span data-hub-n aria-live="polite">All trips and activities</span></h2>
-      <button class="link hub__cmp" type="button" data-cmp-mode aria-pressed="false">Compare trips</button>
+      <button class="link hub__cmp" type="button" data-cmp-mode data-track="tours_hub" data-track-cta="compare_mode" aria-pressed="false">Compare trips</button>
     </div>
-    <div class="grid" data-grid>
+    <div class="grid" data-grid data-track="tours_hub">
       {%- for g in d.groups %}{% set first = loop.first %}{% for t in g.items %}{{ v4.card(t, eager=(first and loop.first), compare=true, anchor=g.hash if loop.first else "") }}{% endfor %}{% endfor %}
     </div>
   </section>
@@ -57,9 +57,9 @@ permalink: /tours/
   <section class="wrap hub-more" aria-labelledby="ga-h">
     <h2 id="ga-h">Getting around</h2>
     <ul class="lrows lrows--3">
-      {%- if ar.transfers.speedboat %}<li><a class="lrow press" href="{{ ar.transfers.speedboat.href }}"><span><b>Speedboat timetable</b><small>{{ ar.transfers.speedboat.text }}</small></span></a></li>{% endif %}
-      <li><a class="lrow press" href="/transfers/"><span><b>Transfers</b><small>Private minivan, shared minivan or a songthaew taxi on Koh Lanta</small></span></a></li>
-      <li><a class="lrow press" href="{{ ar.rental.href }}"><span><b>{{ ar.rental.title }}</b><small>{% for k in ar.rental.cats %}{{ k.label if loop.first else k.label | lower }}{% if loop.revindex == 2 %} and {% elif not loop.last %}, {% endif %}{% endfor %}, from {{ ar.rental.cats[0].lo }} THB {{ ar.rental.unit }}</small></span></a></li>
+      {%- if ar.transfers.speedboat %}<li><a class="lrow press" href="{{ ar.transfers.speedboat.href }}" data-track="tours_getting_around" data-track-cta="speedboat_timetable"><span><b>Speedboat timetable</b><small>{{ ar.transfers.speedboat.text }}</small></span></a></li>{% endif %}
+      <li><a class="lrow press" href="/transfers/" data-track="tours_getting_around" data-track-cta="transfers"><span><b>Transfers</b><small>Private minivan, shared minivan or a songthaew taxi on Koh Lanta</small></span></a></li>
+      <li><a class="lrow press" href="{{ ar.rental.href }}" data-track="tours_getting_around" data-track-cta="rental"><span><b>{{ ar.rental.title }}</b><small>{% for k in ar.rental.cats %}{{ k.label if loop.first else k.label | lower }}{% if loop.revindex == 2 %} and {% elif not loop.last %}, {% endif %}{% endfor %}, from {{ ar.rental.cats[0].lo }} THB {{ ar.rental.unit }}</small></span></a></li>
     </ul>
   </section>
   {{ v4.endBand(d.hub.final, c) }}

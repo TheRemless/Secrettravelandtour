@@ -63,7 +63,7 @@
     body.innerHTML =
       '<fieldset class="f trips__who"><legend>Who is coming</legend><p class="f-hint">The same group for every trip in the list.</p>' + stepper("adults", "Adults", l.adults, 1) + stepper("children", "Children", l.childAges.length, 0) +
       '<div class="ages">' + l.childAges.map(function (a, i) {
-        return '<div class="f"><label for="tl-age-' + i + '">Age of child ' + (i + 1) + '</label><span class="select"><select id="tl-age-' + i + '" data-tage="' + i + '" aria-describedby="tl-e-age-' + i + '">' + ageOptions(a === "" ? null : a) + '</select></span><p class="err" id="tl-e-age-' + i + '" hidden></p></div>';
+        return '<div class="f"><label for="tl-age-' + i + '">Age of child ' + (i + 1) + '</label><span class="select"><select data-clarity-mask="True" id="tl-age-' + i + '" data-tage="' + i + '" aria-describedby="tl-e-age-' + i + '">' + ageOptions(a === "" ? null : a) + '</select></span><p class="err" id="tl-e-age-' + i + '" hidden></p></div>';
       }).join("") + "</div></fieldset>" +
       groups.map(function (g) {
         var clash = clashes.filter(function (c) { return c.date === g.date; })[0];
@@ -80,10 +80,10 @@
               (season ? '<p class="trips__warn">' + ICON.alert + "<span>" + V.esc(p.name) + " runs " + V.esc(p.season.text) + ". Pick a date in that season.</span></p>" : "") + "</div>";
           }).join("") + "</section>";
       }).join("") +
-      '<div class="trips__who"><div class="f"><label for="tl-name">Your name</label><input id="tl-name" type="text" autocomplete="name" autocapitalize="words" enterkeyhint="next" spellcheck="false" value="' + V.esc(l.name || "") + '" data-ttext="name" aria-describedby="tl-e-name"><p class="err" id="tl-e-name" hidden></p></div>' +
-      '<div class="f"><label for="tl-pickup">Hotel or address on Koh Lanta</label><input id="tl-pickup" type="text" autocomplete="off" autocapitalize="words" enterkeyhint="done" value="' + V.esc(l.pickup || "") + '" data-ttext="pickup" aria-describedby="tl-e-pickup"><p class="err" id="tl-e-pickup" hidden></p></div></div>' +
-      '<details><summary>Read the message before you send it</summary><pre class="trips__msg" data-tmsg></pre></details>';
-    foot.innerHTML = '<p class="err trips__miss" role="alert" data-tmiss hidden></p><a class="sheet-btn" href="#" target="_blank" rel="noopener" data-tsend>' + ICON.wa + "<span>" + (l.items.length === 1 ? "Send this trip on WhatsApp" : "Send the " + l.items.length + " trips in one message") + "</span></a>" +
+      '<div class="trips__who"><div class="f"><label for="tl-name">Your name</label><input data-clarity-mask="True" id="tl-name" type="text" autocomplete="name" autocapitalize="words" enterkeyhint="next" spellcheck="false" value="' + V.esc(l.name || "") + '" data-ttext="name" aria-describedby="tl-e-name"><p class="err" id="tl-e-name" hidden></p></div>' +
+      '<div class="f"><label for="tl-pickup">Hotel or address on Koh Lanta</label><input data-clarity-mask="True" id="tl-pickup" type="text" autocomplete="off" autocapitalize="words" enterkeyhint="done" value="' + V.esc(l.pickup || "") + '" data-ttext="pickup" aria-describedby="tl-e-pickup"><p class="err" id="tl-e-pickup" hidden></p></div></div>' +
+      '<details><summary>Read the message before you send it</summary><pre class="trips__msg" data-tmsg data-clarity-mask="True"></pre></details>';
+    foot.innerHTML = '<p class="err trips__miss" role="alert" data-tmiss hidden></p><a class="sheet-btn" href="#" target="_blank" rel="noopener" data-tsend data-track="trip_list">' + ICON.wa + "<span>" + (l.items.length === 1 ? "Send this trip on WhatsApp" : "Send the " + l.items.length + " trips in one message") + "</span></a>" +
       '<p class="sheet-note">Nothing is booked until we confirm.</p>';
     message();
     if (focusId) { var f = document.getElementById(focusId); if (f) f.focus(); }
@@ -100,7 +100,7 @@
       return '<label><input type="radio" name="tl-dc-' + it.id + '" value="' + c[0] + '" data-tdc="' + it.id + '"' + (dc === c[0] ? " checked" : "") + ' aria-describedby="tl-e-' + it.id + '"><span>' + c[1] + (days[c[0]] ? "<small data-day>" + days[c[0]] + "</small>" : "") + "</span></label>";
     }).join("");
     return '<fieldset class="f trips__when"><legend class="f-label">Date</legend><div class="choice choice--3">' + chips + "</div>" +
-      '<div class="date-other"' + (dc === "other" ? "" : " hidden") + '><label class="f-label" for="tl-d-' + it.id + '">Other date</label><input type="date" id="tl-d-' + it.id + '" min="' + today + '" value="' + (dc === "other" ? it.date || "" : "") + '" data-tdate="' + it.id + '" aria-describedby="tl-e-' + it.id + '"></div>' +
+      '<div class="date-other"' + (dc === "other" ? "" : " hidden") + '><label class="f-label" for="tl-d-' + it.id + '">Other date</label><input data-clarity-mask="True" type="date" id="tl-d-' + it.id + '" min="' + today + '" value="' + (dc === "other" ? it.date || "" : "") + '" data-tdate="' + it.id + '" aria-describedby="tl-e-' + it.id + '"></div>' +
       '<p class="err" id="tl-e-' + it.id + '" hidden></p></fieldset>';
   }
   // Total estimé de chaque sortie : même calcul que la feuille (v4-price.js), frais du parc à part, en espèces.
@@ -128,7 +128,7 @@
       var val = (it.choices || {})[o.id + "/" + c.id] || "";
       var attrs = ' id="' + id + '" data-tch="' + it.id + '" data-opt="' + o.id + '" data-choice="' + c.id + '" aria-describedby="' + err + '"';
       var ctl = c.type === "text"
-        ? '<input type="text"' + attrs + ' value="' + V.esc(val) + '">'
+        ? '<input data-clarity-mask="True" type="text"' + attrs + ' value="' + V.esc(val) + '">'
         : '<span class="select"><select' + attrs + '><option value="">Choose</option>' + c.values.map(function (v) { return '<option value="' + V.esc(v.id) + '"' + (v.id === val ? " selected" : "") + ">" + V.esc(v.label + (v.price ? ", " + v.price : "")) + "</option>"; }).join("") + "</select></span>";
       return '<div class="f"><label class="f-label" for="' + id + '">' + V.esc(c.label) + "</label>" + ctl + '<p class="err" id="' + err + '" hidden></p></div>';
     }).join("");
@@ -273,6 +273,8 @@
       return;
     }
     send.href = B.waUrl(message());
+    // Mesure d'audience (consent.js, après « Accept » seulement) : combien de sorties et de personnes, rien d'autre.
+    document.dispatchEvent(new CustomEvent("stt-trips-send", { detail: { product_id: "trip_list", product_type: "trip_list", trips: l.items.length, people: (l.adults || 0) + (l.childAges || []).length } }));
   });
   document.addEventListener("trips-change", function () { if (dlg.open && !dlg.contains(document.activeElement)) render(); });
 
