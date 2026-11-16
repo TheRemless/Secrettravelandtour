@@ -45,7 +45,9 @@ module.exports = async function (eleventyConfig) {
     "src/js": "js",
     "src/images": "images",
     "src/favicon.ico": "favicon.ico",
-    "src/robots.txt": "robots.txt"
+    "src/robots.txt": "robots.txt",
+    // Vérification Bing Webmaster Tools (fichier fourni par Jérémy le 16.11.2026), à garder tant que le site est suivi dans Bing.
+    "src/BingSiteAuth.xml": "BingSiteAuth.xml"
   });
 
   // Captures avant/après de la planche /design/ : copiées seulement hors production, comme la planche.
