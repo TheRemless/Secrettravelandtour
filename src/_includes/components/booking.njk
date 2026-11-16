@@ -18,10 +18,11 @@
 {% endmacro %}
 
 {#- Champ texte. extra : attributs pour le clavier du téléphone (autocapitalize, enterkeyhint, spellcheck). -#}
-{% macro text(name, label, hint, required=false, autocomplete="off", extra="", group="") %}
+{#- hintAttrs : attributs de l'aide (data-hint et data-round-hint du Pickup, que booking.js échange en aller-retour). -#}
+{% macro text(name, label, hint, required=false, autocomplete="off", extra="", group="", hintAttrs="") %}
 <div class="f"{% if group %} {{ group | safe }}{% endif %}>
   <label for="book-{{ name }}">{{ label }}</label>
-  {% if hint %}<p class="f-hint" id="book-h-{{ name }}">{{ hint }}</p>{% endif %}
+  {% if hint %}<p class="f-hint" id="book-h-{{ name }}"{% if hintAttrs %} {{ hintAttrs | safe }}{% endif %}>{{ hint }}</p>{% endif %}
   <input data-clarity-mask="True" id="book-{{ name }}" name="{{ name }}" type="text" autocomplete="{{ autocomplete }}" {{ extra | safe }}{% if required %} required aria-required="true"{% endif %} aria-describedby="{% if hint %}book-h-{{ name }} {% endif %}book-e-{{ name }}">
   <p class="err" id="book-e-{{ name }}" hidden></p>
 </div>
@@ -271,22 +272,15 @@
             <label><input type="radio" name="ride" value="round"><span><b>Round trip from my place</b></span></label>
           </div>
         </fieldset>
-        <div class="f" data-end="pickup">
-          <label for="book-pickupAt">Pickup</label>
-          <p class="f-hint" id="book-h-pickupAt" data-hint="{{ hubHint }}" data-round-hint="{{ cfg.roundHint }}">{{ hubHint }}</p>
-          <input id="book-pickupAt" name="pickupAt" type="text" autocomplete="off" autocapitalize="words" enterkeyhint="next" required aria-required="true" aria-describedby="book-h-pickupAt book-e-pickupAt">
-          <p class="err" id="book-e-pickupAt" hidden></p>
-        </div>
-        {%- else %}
-        {{ text("pickupAt", "Pickup", ("Your hotel, address or the airport." if cfg.shared else hubHint), true, "off", 'autocapitalize="words" enterkeyhint="next"', "data-end=pickup") }}
         {%- endif %}
+        {{ text("pickupAt", "Pickup", ("Your hotel, address or the airport." if cfg.shared else hubHint), true, "off", 'autocapitalize="words" enterkeyhint="next"', "data-end=pickup", (('data-hint="' + hubHint + '" data-round-hint="' + cfg.roundHint + '"') if cfg.roundTrip else "")) }}
         {{ text("dropoffAt", "Drop-off", ("Where you are going." if cfg.shared else hubHint), true, "off", 'autocapitalize="words" enterkeyhint="next"', "data-end=dropoff") }}
         {%- if cfg.roundTrip %}
         <div class="round" data-round hidden>
           <div class="f">
             <label for="book-plan">What would you like to do?</label>
             <p class="f-hint" id="book-h-plan">{{ cfg.planHint }}</p>
-            <textarea id="book-plan" name="plan" rows="3" autocapitalize="sentences" enterkeyhint="next" aria-describedby="book-h-plan book-e-plan"></textarea>
+            <textarea data-clarity-mask="True" id="book-plan" name="plan" rows="3" autocapitalize="sentences" aria-describedby="book-h-plan book-e-plan"></textarea>
             <p class="err" id="book-e-plan" hidden></p>
           </div>
           <div class="f">

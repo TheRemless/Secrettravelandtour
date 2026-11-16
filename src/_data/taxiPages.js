@@ -143,7 +143,7 @@ module.exports = function () {
   // Feuille du hub : From et To libres (aucun trajet imposé).
   const hubBooking = {
     ...ROUND,
-    dayTripUrl: "/taxi/koh-lanta-krabi-day-trip/",
+    dayTripUrl: require("./krabiDayTrip.json").url,
     variant: "taxi",
     brand: site.brands.vip.name,
     product: "Private transfer",
