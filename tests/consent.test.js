@@ -74,7 +74,7 @@ test("événements (16.11.2026) : tous passent par track(), qui ne part qu'aprè
   // Un seul appel direct à gtag("event"), dans track(), gardé par le consentement.
   assert.equal((JS.match(/gtag\("event"/g) || []).length, 1);
   assert.match(JS, /function track\(name, params\) \{\s*if \(!on\) return;\s*if \(loaded\) gtag\("event", name, params\);\s*if \(clarityOn && CLARITY_EVENTS\[name\]\)/);
-  assert.match(JS, /var CLARITY_EVENTS = \{ booking_open: 1, booking_send: 1, whatsapp_click: 1 \}/);
+  assert.match(JS, /var CLARITY_EVENTS = \{ booking_open: 1, booking_send: 1, whatsapp_click: 1, whatsapp_qr_shown: 1, whatsapp_desktop_open: 1 \}/);
   for (const ev of ["whatsapp_click", "booking_open", "booking_send", "send_on_whatsapp", "cta_click", "contact_click"]) assert.match(JS, new RegExp(`track\\("${ev}"`), ev);
   // L'ancien événement garde sa forme : le seul type de produit.
   assert.match(JS, /track\("send_on_whatsapp", \{ product_type: src\.variant \|\| "unknown" \}\)/);

@@ -1257,6 +1257,8 @@
       if (!win) { window.location.href = url; return; }
       try { win.opener = null; } catch (x) { /* fenêtre d'une autre origine */ }
       show("done");
+      // Ordinateur : QR code du message sur l'écran final, pour qui n'avait pas WhatsApp (wa-qr.js, absent des tests).
+      if (window.STT_WAQR) window.STT_WAQR.doneScreen(dialog.querySelector("[data-waqr-done]"), url);
     });
 
     // « Add to my trip list » : option, date et voyageurs suffisent ; l'hôtel et le prénom se donnent dans la liste.

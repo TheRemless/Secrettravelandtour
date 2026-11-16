@@ -184,6 +184,12 @@ html.sheet-open { overflow: hidden; }
 .done-text p { margin: 0 0 var(--s2); }
 .sheet-link { justify-self: center; min-height: 44px; padding: 0 var(--s2); border: 0; background: transparent; color: var(--sheet-ink); font: 700 var(--t2)/1 var(--sheet-text); text-decoration: underline; text-underline-offset: .18em; cursor: pointer; }
 .done-num { display: inline; padding-block: 12px; font-weight: 700; white-space: nowrap; color: inherit; }
+/* QR code du message sur l'écran final, ordinateur seulement (wa-qr.js remplit l'emplacement et retire hidden). */
+.done-qr { display: flex; flex-direction: column; align-items: center; gap: var(--s2, 12px); margin: var(--s2, 12px) 0 var(--s3, 16px); padding: var(--s3, 16px); border: 1px solid var(--sheet-rule); border-radius: var(--r, 12px); background: var(--sheet-soft); text-align: center; }
+.done-qr[hidden] { display: none; }
+.done-qr__code { flex: none; max-width: 100%; padding: 8px; background: #fff; border-radius: 8px; box-sizing: border-box; }
+.done-qr__code svg { display: block; width: 100%; height: auto; }
+.done-text .done-qr__p { margin: 0; text-wrap: balance; }
 .copy-status { min-height: 1.5em; margin: var(--s1) 0 0; font-weight: 700; }
 
 /* Poignée de la feuille : affichée par les pages du design v4 (v4.css), qui ajoutent le geste de fermeture. */

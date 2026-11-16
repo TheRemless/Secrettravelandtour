@@ -349,6 +349,11 @@
       {% if facts.replyTime %}<p>{{ facts.replyTime }}</p>{% endif %}
       {%- set langs = facts.languages or [] %}
       {%- if langs.length %}<p>We speak {{ langs.slice(0, -1).join(", ") ~ " and " ~ langs | last if langs.length > 1 else langs[0] }}.</p>{% endif %}
+      {#- Ordinateur seulement (wa-qr.js, Jérémy 16.11.2026) : le QR code du même message, pour qui n'a pas WhatsApp ici. -#}
+      <div class="done-qr" data-waqr-done hidden>
+        <div class="done-qr__code" data-waqr-slot></div>
+        <p class="done-qr__p"><strong>No WhatsApp on this computer?</strong> Scan with your phone's camera to open WhatsApp with your message.</p>
+      </div>
       <p>Nothing opened? Use the button below{% if not taxi or cfg.shared %}{# VIP Taxi Lanta : aucun téléphone affiché, WhatsApp seulement (le minivan partagé est une demande Secret : numéro affiché). #}, or call <a class="done-num" href="tel:{{ facts.e164 }}" data-track="sheet_done">{{ facts.phoneDisplay }}</a>{% endif %}.</p>
       <p class="copy-status" data-copy-status role="status"></p>
     </div>
