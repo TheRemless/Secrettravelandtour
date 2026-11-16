@@ -4,6 +4,7 @@ permalink: /tours/4-islands/
 {#- Page 4 Islands : gabarit commun des fiches (components/v4-product.njk), avec sa journée par bateau, ses photos et
     la carte du trajet sur bureau. Tout est rendu au build. -#}
 {% import "components/v4.njk" as v4 %}
+{% import "components/guides.njk" as gd %}
 {% import "components/v4-product.njk" as vp %}
 {% from "components/booking.njk" import bookingSheet %}
 {%- set d = v4data -%}
@@ -81,6 +82,7 @@ permalink: /tours/4-islands/
   </div></section>
   {{ vp.know(t, f4.photos) }}
   </div>
+  {{ gd.goodToKnow(guides.byPage[t.url]) }}
   {{ vp.related(t.related) }}
 </main>
 {{ v4.footer(site, c, d.emblem, d.boats, d.activities, waText) }}

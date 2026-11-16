@@ -7,7 +7,7 @@
 //    JS que ces pages chargent.
 // 2. Anciennes pages : mêmes contrôles, en simple avertissement (le build reste vert jusqu'à
 //    leur remplacement).
-// 3. `TODO(client)` ou `[À CONFIRMER]` n'importe où dans _site : échec si CONTEXT=production
+// 3. `TODO(client)`, `[À CONFIRMER]`, `[À CONFIRMER: …]` ou `[À VÉRIFIER]` n'importe où dans _site : échec si CONTEXT=production
 //    (Netlify, site en ligne), sinon avertissement avec le nombre d'occurrences.
 // 4. Planches /design/ (balise <html data-board>, jamais en production) : contrôle strict, comme les pages
 //    de la refonte (retour du 03.11.2026, point 16).
@@ -89,7 +89,8 @@ const VIP_FONTS = /marcellus|figtree/i;
 const VIP_CSS = new Set(["css/vip.css", "css/v2-vip.css"]);
 const BANNED_JS = BANNED_TEXT.filter(([name]) => !["flèche décorative →", "1h30", "refonte (mot de chantier)"].includes(name)).concat([["« Hi …! » en tête de message", /["'`]Hi [^"'`\n]{0,40}!/]]);
 
-const PLACEHOLDERS = /TODO\(client\)|\[À CONFIRMER\]/g;
+// [À CONFIRMER: question] et [À VÉRIFIER] aussi (aperçus de la page About et des guides, 16.11.2026).
+const PLACEHOLDERS = /TODO\(client\)|\[À CONFIRMER[\]:]|\[À VÉRIFIER\]/g;
 
 // Images marquées « replace » dans les données : interdites sur les nouvelles pages (01-audit-design §4).
 // Limite : une image passée par eleventy-img prend un nom haché ; le contrôle voit les références

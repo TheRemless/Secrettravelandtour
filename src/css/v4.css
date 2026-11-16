@@ -196,6 +196,11 @@ html.has-trips.hd-off:has(.dock.is-on) .toast { bottom: calc(138px + env(safe-ar
 .drawer nav a { display: flex; align-items: center; min-height: 56px; font: 600 28px/1.1 var(--serif); text-decoration: none; padding: 8px 0; border-top: 1px solid var(--line); }
 .drawer nav a[aria-current="page"] { color: var(--sea); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; }
 .drawer__wa { margin-top: 12px; }
+.drawer__more { display: flex; flex-wrap: wrap; gap: 4px 28px; margin-top: 16px; }
+.drawer__more .link { display: inline-flex; align-items: center; min-height: 44px; }
+/* Bloc « Good to know » des fiches (components/guides.njk) : les lignes .lrows de l'accueil. */
+.gtk h2 { font-size: clamp(26px, 3vw, 34px); }
+.gtk .lrows { max-width: 760px; }
 @media (max-height: 500px) { .drawer nav a { min-height: 44px; font-size: 22px; padding-block: 4px; } }
 @keyframes drop { from { transform: translateY(-24px); opacity: 0; } }
 

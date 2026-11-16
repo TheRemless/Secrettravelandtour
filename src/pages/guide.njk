@@ -1,0 +1,79 @@
+---
+pagination:
+  data: guides.list
+  size: 1
+  alias: g
+permalink: "{{ g.url }}"
+eleventyComputed:
+  eleventyExcludeFromCollections: true
+---
+{#- Gabarit d'article des guides (aperçu du 16.11.2026) : fil d'Ariane, date de mise à jour, temps de lecture, la réponse
+    d'abord en deux ou trois phrases, sections (tableaux quand ils se lisent mieux), questions, bloc WhatsApp ou fiche liée.
+    Faits lus dans les données du site par src/_data/guides.js. -#}
+{% import "components/v4.njk" as v4 %}
+{% import "components/guides.njk" as gd %}
+{% from "components/icons.njk" import icon %}
+{%- set d = v4data -%}
+{%- set c = d.contact -%}
+{%- set seo = g.seo -%}
+{%- set pageUrl = g.url -%}
+{%- set jsonLd = guides.jsonLd.guides[g.slug] -%}
+{%- set waText = "Hello, I have a question: " -%}
+{%- set preloadImg = d.pics[g.photo] -%}
+{%- set preloadSizes = "(min-width: 820px) 760px, 100vw" -%}
+<!DOCTYPE html>
+<html lang="en-GB" data-refonte data-page="guide">
+<head>
+{% include "v4-head.njk" %}
+<link rel="stylesheet" href="/css/v4-guides.css?v={{ build.v }}">
+</head>
+<body>
+{{ v4.header(c, d.emblem, "", waText) }}
+<main id="main">
+  <nav class="wrap crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/guides/">Guides</a></li><li><span aria-current="page">{{ g.short }}</span></li></ol></nav>
+  <article class="wrap art" aria-labelledby="h1">
+    <header class="art__head">
+      <h1 id="h1">{{ g.title }}</h1>
+      <p class="art__meta">Updated <time datetime="{{ g.updated }}">{{ g.updatedLabel }}</time><span>{{ g.minutes }} min read</span></p>
+    </header>
+    <figure class="art__ph">{{ v4.photo(d.pics[g.photo], preloadSizes, true, "") }}</figure>
+    <div class="art__answer">
+      <h2 class="sr">The short answer</h2>
+      {%- for p in g.answer %}<p>{{ p | safe }}</p>{% endfor %}
+    </div>
+    {%- for s in g.sections %}
+    <section class="art__sec" id="{{ s.id }}" aria-labelledby="{{ s.id }}-h">
+      <h2 id="{{ s.id }}-h">{{ s.h }}</h2>
+      {%- for b in s.blocks %}{{ gd.block(b, d) }}{% endfor %}
+    </section>
+    {%- endfor %}
+    {%- if g.faq and g.faq.length %}
+    <section class="art__sec faq" aria-labelledby="faq-h">
+      <h2 id="faq-h">Questions</h2>
+      {%- for f in g.faq %}
+      <details><summary>{{ f.q }}</summary><p>{{ f.a }}</p></details>
+      {%- endfor %}
+    </section>
+    {%- endif %}
+    <aside class="art__book" aria-labelledby="book-h" data-track="guide_book">
+      <h2 id="book-h">{{ g.book.title }}</h2>
+      <p>{{ g.book.text }}</p>
+      {%- if g.book.href %}
+      <a class="btn btn--lg press" href="{{ g.book.href }}" data-track-cta="{{ g.book.cta }}">{{ g.book.label }}</a>
+      {%- else %}
+      <a class="btn btn--lg press" href="{{ v4.waHref(c.number, g.book.wa) }}" data-track="guide_book">{{ icon("whatsapp") }}{{ g.book.label }}</a>
+      {%- endif %}
+    </aside>
+    {%- if g.links.length %}
+    <nav class="art__more" aria-labelledby="more-h">
+      <h2 id="more-h">Related pages</h2>
+      <ul class="lrows">{% for l in g.links %}<li><a class="lrow press" href="{{ l.href }}" data-track="guide_links" data-track-cta="guide_link"><span><b>{{ l.label }}</b></span></a></li>{% endfor %}</ul>
+    </nav>
+    {%- endif %}
+  </article>
+</main>
+{{ v4.footer(site, c, d.emblem, d.boats, d.activities, waText) }}
+{{ v4.tripsRoot() }}
+{{ v4.scripts(build) }}
+</body>
+</html>

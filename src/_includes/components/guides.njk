@@ -1,0 +1,62 @@
+{#- Page About et guides (aperçu du 16.11.2026). Importer avec {% import "components/guides.njk" as gd %}.
+    Données : src/_data/guides.js (textes et faits), v4data.pics (photos). -#}
+{% import "components/v4.njk" as v4 %}
+
+{#- « Good to know » sur une fiche : un ou deux guides qui la citent (guides.byPage), en lignes de liens comme « Getting here
+    and around » de l'accueil. Rien quand aucun guide ne cite la page. -#}
+{% macro goodToKnow(list) %}
+{%- if list and list.length %}
+<section class="sec sec--tight gtk" aria-labelledby="gtk-h" data-track="good_to_know">
+  <div class="wrap">
+    <h2 id="gtk-h">Good to know</h2>
+    <ul class="lrows">
+      {%- for g in list %}
+      <li><a class="lrow press" href="{{ g.url }}" data-track-cta="guide"><span><b>{{ g.title }}</b><small>{{ g.card }} {{ g.minutes }} min read.</small></span></a></li>
+      {%- endfor %}
+    </ul>
+  </div>
+</section>
+{%- endif %}
+{% endmacro %}
+
+{#- Un bloc d'article : paragraphe, étapes (une vraie suite), liste, définitions, tableau, cartes de sorties. -#}
+{% macro block(b, d) %}
+{%- if b.p %}<p>{{ b.p | safe }}</p>
+{%- elif b.steps %}<ol class="art__steps">{% for x in b.steps %}<li>{{ x | safe }}</li>{% endfor %}</ol>
+{%- elif b.list %}<ul class="art__list">{% for x in b.list %}<li>{{ x | safe }}</li>{% endfor %}</ul>
+{%- elif b.dl %}<dl class="art__dl">{% for x in b.dl %}<div><dt>{{ x[0] }}</dt><dd>{{ x[1] | safe }}</dd></div>{% endfor %}</dl>
+{%- elif b.table %}
+{%- set wide = b.table.head.length > 3 %}
+{#- Plus de trois colonnes : sur téléphone, une carte par colonne (une sortie), le tableau sur les écrans plus larges. -#}
+{%- if wide and b.table.byRow %}
+<div class="tcards">
+  {%- for r in b.table.rows %}
+  <section class="tcard" aria-label="{{ r[0] | striptags }}">
+    <h3 class="tcard__h">{{ r[0] | safe }}</h3>
+    <dl>{% for c in r %}{% if not loop.first %}<div><dt>{{ b.table.head[loop.index0] }}</dt><dd>{{ c | safe }}</dd></div>{% endif %}{% endfor %}</dl>
+  </section>
+  {%- endfor %}
+</div>
+{%- elif wide %}
+<div class="tcards">
+  {%- for h in b.table.head %}{% if not loop.first %}{% set j = loop.index0 %}
+  <section class="tcard" aria-label="{{ h | striptags }}">
+    <h3 class="tcard__h">{{ h | safe }}</h3>
+    <dl>{% for r in b.table.rows %}<div><dt>{{ r[0] | safe }}</dt><dd>{{ r[j] | safe }}</dd></div>{% endfor %}</dl>
+  </section>
+  {%- endif %}{% endfor %}
+</div>
+{%- endif %}
+<div class="tbl{% if wide %} tbl--desk{% endif %}" role="region" tabindex="0" aria-label="{{ b.table.caption }}, scroll sideways if needed">
+  <table{% if b.table.head.length > 3 %} class="tbl--wide"{% endif %}>
+    <caption>{{ b.table.caption }}</caption>
+    <thead><tr>{% for h in b.table.head %}{% if loop.first %}<td></td>{% else %}<th scope="col">{{ h }}</th>{% endif %}{% endfor %}</tr></thead>
+    <tbody>{% for r in b.table.rows %}<tr>{% for c in r %}{% if loop.first %}<th scope="row">{{ c | safe }}</th>{% else %}<td>{{ c | safe }}</td>{% endif %}{% endfor %}</tr>{% endfor %}</tbody>
+  </table>
+</div>
+{%- elif b.cards %}
+<div class="grid grid--rel art__cards">
+  {%- for s in b.cards %}{% for x in d.boats.concat(d.activities) %}{% if x.slug == s %}{{ v4.card(x, "(min-width: 1024px) 360px, (min-width: 700px) 45vw, 112px", false, false, "h3", "", false) }}{% endif %}{% endfor %}{% endfor %}
+</div>
+{%- endif %}
+{% endmacro %}

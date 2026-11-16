@@ -1,0 +1,68 @@
+---
+permalink: /about/
+---
+{#- Page About (aperçu du 16.11.2026, PR en brouillon) : ce qui distingue Secret en une phrase, puis quatre engagements,
+    chacun avec sa preuve et la page qui le montre. Aucune photo d'équipe, aucune adresse, aucun nom de partenaire.
+    Textes et faits : src/_data/guides.js (about). -#}
+{% import "components/v4.njk" as v4 %}
+{% from "components/icons.njk" import icon %}
+{%- set d = v4data -%}
+{%- set c = d.contact -%}
+{%- set a = guides.about -%}
+{%- set seo = a.seo -%}
+{%- set pageUrl = a.url -%}
+{%- set waText = a.contact.message -%}
+{%- set jsonLd = guides.jsonLd.about -%}
+<!DOCTYPE html>
+<html lang="en-GB" data-refonte data-page="about">
+<head>
+{% include "v4-head.njk" %}
+<link rel="stylesheet" href="/css/v4-guides.css?v={{ build.v }}">
+</head>
+<body>
+{{ v4.header(c, d.emblem, "", waText) }}
+<main id="main">
+  <nav class="wrap crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><span aria-current="page">About</span></li></ol></nav>
+
+  <section class="wrap about-top" aria-labelledby="h1">
+    <h1 id="h1">{{ a.h1 }}</h1>
+    <p class="about-top__say">{{ a.statement }}</p>
+    <p class="lead">{{ a.lead }}</p>
+    <a class="btn btn--lg press" href="{{ v4.waHref(c.number, waText) }}" data-track="about_top">{{ icon("whatsapp") }}Message us on WhatsApp</a>
+  </section>
+
+  <section class="sec sec--tight" aria-label="What we stand by">
+    <div class="wrap pledges">
+      {%- for p in a.commitments %}
+      <article class="pledge" id="{{ p.id }}" aria-labelledby="{{ p.id }}-h">
+        {{ v4.photo(d.pics[p.photo], "(min-width: 900px) 46vw, 100vw", false, "ph--43") }}
+        <div class="pledge__text">
+          <h2 id="{{ p.id }}-h">{{ p.title }}</h2>
+          {%- for t in p.text %}<p>{{ t }}</p>{% endfor %}
+          {%- if p.link %}<a class="link" href="{{ p.link.href }}" data-track="about" data-track-cta="{{ p.link.cta }}">{{ p.link.label }}</a>{% endif %}
+          {%- if p.links %}<p class="pledge__links">{% for l in p.links %}<a class="link" href="{{ l.href }}">{{ l.label }}</a>{% endfor %}</p>{% endif %}
+        </div>
+      </article>
+      {%- endfor %}
+    </div>
+  </section>
+
+  <section class="sec sec--tight sec--sand" aria-labelledby="talk-h">
+    <div class="wrap talk">
+      <h2 id="talk-h">{{ a.contact.title }}</h2>
+      <dl class="talk__facts">
+        <div><dt>Reply</dt><dd>{{ a.contact.reply }}</dd></div>
+        <div><dt>Languages</dt><dd>{{ a.contact.langs }}</dd></div>
+        <div><dt>WhatsApp</dt><dd><a class="link" href="{{ v4.waHref(c.number, waText) }}" data-track="about_talk">{{ c.phoneDisplay }}</a></dd></div>
+      </dl>
+      <p class="talk__more">Questions travellers ask us often are in our <a class="link" href="/guides/">Koh Lanta guides</a>.</p>
+    </div>
+  </section>
+
+  {{ v4.endBand({ photo: d.pics[a.final.photo], title: a.final.title, text: a.final.text, message: a.final.message }, c) }}
+</main>
+{{ v4.footer(site, c, d.emblem, d.boats, d.activities, waText) }}
+{{ v4.tripsRoot() }}
+{{ v4.scripts(build) }}
+</body>
+</html>
