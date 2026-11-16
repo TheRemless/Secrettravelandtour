@@ -178,21 +178,8 @@ html.sheet-open { overflow: hidden; }
 .sheet-btn--quiet:hover { background: var(--sheet-soft); border-color: var(--sheet-accent); }
 .sheet-note { margin: var(--s1) 0; font-size: var(--t2); line-height: var(--l2); color: var(--sheet-mute); }
 
-/* Aperçu : fiche de comptoir. Chaque ligne du message, libellé à gauche ; référence en tête ;
-   cash à prévoir pour le parc sous une perforation. */
-.slip { border: 1px solid var(--sheet-rule); border-radius: 12px; background: var(--sheet-soft); }
-.slip-total { padding: var(--s1) var(--s2); border-bottom: 1px solid var(--sheet-rule); font-weight: 700; font-size: var(--t3); line-height: var(--l3); }
-.slip-lines { margin: 0; padding: var(--s1) var(--s2); }
-.slip-lines div { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: var(--s2); padding: var(--s1) 0; border-top: 1px solid var(--sheet-rule); }
-.slip-lines div:first-child { border-top: 0; }
-.slip-lines .slip-first { grid-template-columns: 1fr; font-weight: 700; }
-.slip-lines .slip-first dt { display: none; }
-.slip-lines dt { font-size: var(--t2); line-height: var(--l2); color: var(--sheet-mute); }
-.slip-lines dd { margin: 0; overflow-wrap: anywhere; font-size: var(--t2); line-height: var(--l2); }
-.slip-cash { padding: var(--s2); border-top: 2px dashed var(--sheet-rule); }
-.slip-cash-label { font-size: var(--t2); line-height: var(--l2); font-weight: 700; }
-.slip-cash-sum { font: 700 var(--t4)/var(--l4) var(--sheet-head); font-stretch: var(--sheet-head-stretch); }
-.slip-cash-note { font-size: var(--t1); line-height: var(--l1); color: var(--sheet-mute); }
+/* Ligne sous « Send on WhatsApp » : ce qui se passe à l'appui, en petit et centrée sous le bouton. */
+.sheet-note--send { margin: var(--s1) 0 0; text-align: center; text-wrap: balance; }
 
 .done-text p { margin: 0 0 var(--s2); }
 .sheet-link { justify-self: center; min-height: 44px; padding: 0 var(--s2); border: 0; background: transparent; color: var(--sheet-ink); font: 700 var(--t2)/1 var(--sheet-text); text-decoration: underline; text-underline-offset: .18em; cursor: pointer; }

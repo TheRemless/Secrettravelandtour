@@ -295,43 +295,14 @@
       </div>
       <div class="sheet-foot{% if cfg.tripList %} sheet-foot--pair{% endif %}">
         {%- if cfg.variant == "tour" %}<p class="sheet-total" data-total aria-live="polite" hidden></p>{% endif %}
-        <button class="sheet-btn" type="submit">Preview message</button>
+        {#- Envoi direct (Jérémy, 16.11.2026 : plus d'aperçu) : booking.js ouvre WhatsApp depuis l'envoi du formulaire. -#}
+        <button class="sheet-btn" type="submit" aria-describedby="book-send-note">{{ icon("whatsapp") }}<span>Send on WhatsApp</span></button>
+        <p class="sheet-note sheet-note--send" id="book-send-note">WhatsApp opens with your message. You can change it there before you send.</p>
         {%- if cfg.tripList %}
-        <button class="sheet-link sheet-link--trip" type="button" data-trip>Add to my trip list</button>
+        <button class="sheet-link sheet-link--trip" type="button" data-trip data-track="sheet" data-track-cta="add_to_trip_list">Add to my trip list</button>
         {%- endif %}
       </div>
     </form>
-  </div>
-
-  <div class="sheet-screen" data-screen="preview" hidden>
-    <div class="sheet-head">
-      <div>
-        <p class="sheet-kicker" data-route-title>{{ cfg.product }}</p>
-        <h2 class="sheet-title" tabindex="-1" data-focus>Your message</h2>
-      </div>
-      <button class="sheet-close" type="button" data-close>{{ icon("close") }}<span class="sr-only">Close</span></button>
-    </div>
-    <div class="sheet-body" tabindex="0" role="region" aria-label="Your message">
-      <p class="f-hint">WhatsApp opens with this text. You can still change it there before sending.</p>
-      {#- Fiche de comptoir : chaque ligne du message, libellé à gauche ; le total en tête. -#}
-      <div class="slip">
-        <p class="slip-total" data-slip-total hidden></p>
-        <dl class="slip-lines" data-slip></dl>
-        <pre class="sr-only" data-message></pre>
-        {%- if cfg.variant == "tour" %}
-        <div class="slip-cash" data-cash hidden>
-          <p class="slip-cash-label" data-cash-label>{% if cfg.parkFee %}{{ cfg.parkFee.label }}, in cash on the day{% endif %}</p>
-          <p class="slip-cash-sum" data-cash-sum></p>
-          <p class="slip-cash-note">Not in the price and not in the message.{% if cfg.parkFee and cfg.parkFee.note %} <span data-cash-note>{{ cfg.parkFee.note }}.</span>{% endif %}</p>
-        </div>
-        {%- endif %}
-      </div>
-    </div>
-    <div class="sheet-foot">
-      <a class="sheet-btn" href="https://wa.me/{{ cfg.whatsapp }}" target="_blank" rel="noopener" data-send>{{ icon("whatsapp") }}<span>Send on WhatsApp</span></a>
-      <p class="sheet-note">Nothing is booked until we confirm.</p>
-      <button class="sheet-btn sheet-btn--quiet" type="button" data-edit>Edit details</button>
-    </div>
   </div>
 
   <div class="sheet-screen" data-screen="done" hidden>
@@ -340,15 +311,16 @@
       <button class="sheet-close" type="button" data-close>{{ icon("close") }}<span class="sr-only">Close</span></button>
     </div>
     <div class="sheet-body done-text">
+      <p>Nothing is booked until we confirm.</p>
       {% if facts.replyTime %}<p>{{ facts.replyTime }}</p>{% endif %}
       {%- set langs = facts.languages or [] %}
       {%- if langs.length %}<p>We speak {{ langs.slice(0, -1).join(", ") ~ " and " ~ langs | last if langs.length > 1 else langs[0] }}.</p>{% endif %}
-      <p>Nothing opened? Use the button below{% if not taxi or cfg.shared %}{# VIP Taxi Lanta : aucun téléphone affiché, WhatsApp seulement (le minivan partagé est une demande Secret : numéro affiché). #}, or call <a class="done-num" href="tel:{{ facts.e164 }}">{{ facts.phoneDisplay }}</a>{% endif %}.</p>
+      <p>Nothing opened? Use the button below{% if not taxi or cfg.shared %}{# VIP Taxi Lanta : aucun téléphone affiché, WhatsApp seulement (le minivan partagé est une demande Secret : numéro affiché). #}, or call <a class="done-num" href="tel:{{ facts.e164 }}" data-track="sheet_done">{{ facts.phoneDisplay }}</a>{% endif %}.</p>
       <p class="copy-status" data-copy-status role="status"></p>
     </div>
     <div class="sheet-foot sheet-foot--stack">
-      <a class="sheet-btn" href="https://wa.me/{{ cfg.whatsapp }}" target="_blank" rel="noopener" data-again>{{ icon("whatsapp") }}<span>Open WhatsApp again</span></a>
-      <button class="sheet-btn sheet-btn--quiet" type="button" data-copy>Copy message</button>
+      <a class="sheet-btn" href="https://wa.me/{{ cfg.whatsapp }}" target="_blank" rel="noopener" data-again data-track="sheet_retry">{{ icon("whatsapp") }}<span>Open WhatsApp again</span></a>
+      <button class="sheet-btn sheet-btn--quiet" type="button" data-copy data-track="sheet_done" data-track-cta="copy_message">Copy message</button>
       <button class="sheet-link" type="button" data-close>Close</button>
     </div>
   </div>

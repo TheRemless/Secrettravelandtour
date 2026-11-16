@@ -28,7 +28,7 @@ permalink: /tours/speedboat/
     <h1 id="h1">{{ t.h1 }}</h1>
     <p class="lead">{{ t.lead }}</p>
     {%- if t.season %}<p class="shero__season">{{ t.season }}</p>{% endif %}
-    <a class="link" href="{{ v4.waHref(c.number, t.ask) }}">Ask a question on WhatsApp</a>
+    <a class="link" href="{{ v4.waHref(c.number, t.ask) }}" data-track="hero_ask">Ask a question on WhatsApp</a>
   </section>
 
   {#- La grille : un sens à la fois (sans JS, les deux se suivent). Une ligne repliée par destination donne ses heures ;
@@ -58,7 +58,7 @@ permalink: /tours/speedboat/
                     <td><b>{{ dp.time }}</b>{% if dp.season %}<small>{{ dp.season }}</small>{% endif %}</td>
                     <td>{{ dp.arrives or "—" }}</td>
                     <td>{{ dp.pier or "—" }}</td>
-                    <td><a class="sb__stop press" href="{{ v4.waHref(c.number, req + '\nDeparture: ' + dp.time + '\nDate: ') }}" data-book="" data-sb-route="{{ r.route }}" data-sb-dep="{{ dp.dep }}">Book<span class="sr"> the {{ dp.time }} boat{{ (" to " + r.place) if side.id == "out" else (" from " + r.place) }}</span></a></td>
+                    <td><a class="sb__stop press" data-track="timetable" href="{{ v4.waHref(c.number, req + '\nDeparture: ' + dp.time + '\nDate: ') }}" data-book="" data-sb-route="{{ r.route }}" data-sb-dep="{{ dp.dep }}">Book<span class="sr"> the {{ dp.time }} boat{{ (" to " + r.place) if side.id == "out" else (" from " + r.place) }}</span></a></td>
                   </tr>
                   {%- endfor %}
                 </tbody>
@@ -84,7 +84,7 @@ permalink: /tours/speedboat/
       <div class="how__text">
         <h2 id="other-h">Another island, another route?</h2>
         <p>The timetable shows the regular boats. If your trip is not on it, send us where you are going and when, and we sort it out with you on WhatsApp.</p>
-        <a class="btn btn--lg press how__cta" href="{{ v4.waHref(c.number, otherMsg) }}">{{ icon("whatsapp") }}Ask about your route</a>
+        <a class="btn btn--lg press how__cta" href="{{ v4.waHref(c.number, otherMsg) }}" data-track="other_route">{{ icon("whatsapp") }}Ask about your route</a>
       </div>
       <figure class="chat" aria-label="Example of a request for a route that is not in the timetable">
         <p class="chat__to">{{ icon("whatsapp") }}Secret Travel &amp; Tour</p>

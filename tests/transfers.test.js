@@ -44,7 +44,7 @@ test("transfers : dans le plan du site, une seule fois", () => {
 test("transfers : trois choix, le privé en premier et vers /taxi/, le songthaew vers /taxi/songthaew/", () => {
   const order = ["id=\"private\"", "id=\"shared\"", "id=\"local\""].map((s) => doc.indexOf(s));
   assert.ok(order.every((i) => i > 0) && order[0] < order[1] && order[1] < order[2], order.join(","));
-  assert.match(section("private"), /href="\/taxi\/">See all private routes/);
+  assert.match(section("private"), /href="\/taxi\/"[^>]*>See all private routes/);
   assert.match(section("local"), /href="\/taxi\/songthaew\/"/);
   assert.match(section("private"), /Our recommendation/);
   // Trois trajets privés en exemple, avec le prix d'appel de la grille VIP Taxi Lanta, par véhicule.
@@ -94,7 +94,7 @@ test("transfers : le menu et le pied de page mènent à /transfers/ sur toutes l
     assert.doesNotMatch(d, /<a href="\/taxi\/" data-nav="transfers"/, `${url || "accueil"} : menu vers /taxi/`);
     assert.match(d, /<li><a href="\/transfers\/">Transfers<\/a><\/li>/, `${url || "accueil"} : pied de page`);
   }
-  assert.match(doc, /<a href="\/transfers\/" data-nav="transfers" aria-current="page">/);
+  assert.match(doc, /<a href="\/transfers\/" data-nav="transfers"[^>]*aria-current="page">/);
 });
 
 test("/taxi/ : « Private only » n'est plus dit comme une règle de tout le site, et ne cite pas le minivan partagé", () => {

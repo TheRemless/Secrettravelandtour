@@ -63,12 +63,19 @@ test("bandeau : « Accept » et « Decline » de même taille et de même style,
   assert.match(JS, /Can we count your visit\?/);
 });
 
-test("un seul événement, « send_on_whatsapp », avec le seul type de produit", () => {
+test("événements (16.11.2026) : tous passent par track(), qui ne part qu'après « Accept », sans donnée personnelle", () => {
+  // Un seul appel direct à gtag("event"), dans track(), gardé par le consentement.
   assert.equal((JS.match(/gtag\("event"/g) || []).length, 1);
-  assert.match(JS, /gtag\("event", "send_on_whatsapp", \{ product_type: type \}\)/);
-  assert.deepEqual(Object.keys({ product_type: 1 }), ["product_type"]);
-  const call = JS.match(/gtag\("event"[^;]*;/)[0];
-  assert.doesNotMatch(call, /hotel|phone|pickup|date|name/i);
+  assert.match(JS, /function track\(name, params\) \{\s*if \(!on \|\| !loaded\) return;\s*gtag\("event", name, params\);/);
+  for (const ev of ["whatsapp_click", "booking_open", "booking_send", "send_on_whatsapp", "cta_click", "contact_click"]) assert.match(JS, new RegExp(`track\\("${ev}"`), ev);
+  // L'ancien événement garde sa forme : le seul type de produit.
+  assert.match(JS, /track\("send_on_whatsapp", \{ product_type: src\.variant \|\| "unknown" \}\)/);
+  // Un seul écouteur de clic pour la mesure (plus celui du bandeau), délégué sur document.
+  assert.equal((JS.match(/document\.addEventListener\("click"/g) || []).length, 2);
+  // Rien de ce que le visiteur écrit : aucun champ de formulaire lu.
+  assert.doesNotMatch(JS, /\.value\b|elements\.|FormData|hotel:|phone:|pickup|name:/);
+  // booking_send ne reçoit pas le champ technique « variant ».
+  assert.match(JS, /if \(k !== "variant"\) d\[k\] = src\[k\]/);
 });
 
 test("/privacy/ : ce qui est mesuré, durée, comment changer d'avis, Google Analytics parmi les services", () => {
@@ -76,12 +83,14 @@ test("/privacy/ : ce qui est mesuré, durée, comment changer d'avis, Google Ana
   assert.match(h, /<h2 id="cookies">3\. Cookies and statistics<\/h2>/);
   assert.match(h, /Google Analytics 4, but only if you accept/);
   assert.match(h, /Send on WhatsApp/);
+  assert.match(h, /the buttons and links you tap on our pages and where they sit on the page/);
+  assert.match(h, /the option you chose, the number of people and the estimated price/);
   assert.match(h, /We do not record your name, phone number, hotel, dates or the message itself/);
   assert.match(h, /up to 2 years/);
   assert.match(h, /for 6 months, then we ask again/);
   assert.match(h, /“Cookie settings” at the bottom of any page/);
   assert.match(h, /Google Analytics measures visits, only if you accept/);
-  assert.match(h, /Last updated: 12 November 2026/);
+  assert.match(h, /Last updated: 16 November 2026/);
   assert.doesNotMatch(h, /uses no cookies, no audience measurement/);
 });
 

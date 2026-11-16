@@ -1,9 +1,17 @@
-/* Secret Travel & Tour et VIP Taxi Lanta : consentement et Google Analytics 4 (12.11.2026).
+/* Secret Travel & Tour et VIP Taxi Lanta : consentement et Google Analytics 4 (12.11.2026, mesure des clics 16.11.2026).
    Consent Mode v2, mode de base : « consent default » refuse tout dès le départ, gtag.js n'est chargé qu'après « Accept »,
-   avant le choix ou après « Decline » aucun cookie n'est posé et rien ne part vers Google. La publicité reste toujours refusée.
-   Le choix est gardé dans localStorage (« stt-consent », 6 mois), jamais dans un cookie. Le lien « Cookie settings » du pied
-   de page (data-consent-open) rouvre le choix. Un seul événement : « send_on_whatsapp », avec le type de produit
-   (variante de la fiche : tour, taxi, rental, speedboat), sans nom, hôtel, téléphone ni date.
+   avant le choix ou après « Decline » aucun cookie n'est posé et rien ne part vers Google, pas même un événement.
+   La publicité reste toujours refusée. Le choix est gardé dans localStorage (« stt-consent », 6 mois), jamais dans un cookie.
+   Le lien « Cookie settings » du pied de page (data-consent-open) rouvre le choix.
+   Événements, sans nom, hôtel, téléphone, date ni texte du message (les pages vues restent automatiques) :
+   - whatsapp_click {placement} : lien direct vers WhatsApp (wa.me, api.whatsapp.com) hors de la feuille ;
+   - booking_open {product_id, product_type, cta} : la feuille de réservation s'ouvre (booking.js, stt-book-open) ;
+   - booking_send {product_id, product_type, option_id, people ou vehicles, value, currency} : « Send on WhatsApp » de la
+     feuille (booking.js, stt-book-send) ou de la liste de sorties (v4-trips.js, stt-trips-send) ; l'événement à suivre ;
+   - send_on_whatsapp {product_type} : ancien nom du même envoi de la feuille, gardé pour l'historique depuis le 12.11.2026 ;
+   - cta_click {cta, placement, link_url} : bouton ou lien marqué data-track-cta (cartes, « See all routes », liste de sorties) ;
+   - contact_click {placement, method} : lien tel: ou mailto:.
+   L'emplacement vient de l'attribut data-track des gabarits (sur l'élément ou un parent), jamais d'une lecture de la page.
    L'identifiant de mesure vient de site.json (data-ga-id). Aucune dépendance, aucun autre script de suivi. */
 (function () {
   "use strict";
@@ -62,14 +70,43 @@
     }
   }
 
-  // Envoi vers WhatsApp : le bouton « Send on WhatsApp » de la feuille de réservation (booking.js, [data-send]).
+  // ---------- Mesure des clics et de la réservation (rien avant « Accept ») ----------
+  function track(name, params) {
+    if (!on || !loaded) return;
+    gtag("event", name, params);
+  }
+  var WA = /^https:\/\/(?:wa\.me|api\.whatsapp\.com)\//i;
+  function placement(el) {
+    var p = el.closest("[data-track]");
+    return (p && p.getAttribute("data-track")) || "untagged";
+  }
+  // Un seul écouteur, délégué, en phase de capture : il voit le clic avant que la page ne l'arrête.
   document.addEventListener("click", function (e) {
-    var a = e.target && e.target.closest ? e.target.closest("a[data-send]") : null;
-    if (!a || !on || !loaded) return;
-    var type = "unknown";
-    try { type = JSON.parse(document.getElementById("book-data").textContent).variant || type; } catch (x) { /* page sans feuille */ }
-    gtag("event", "send_on_whatsapp", { product_type: type });
+    if (!on || !loaded) return;
+    var el = e.target && e.target.closest ? e.target.closest("a[href], button") : null;
+    if (!el) return;
+    var href = el.getAttribute("href") || "";
+    // Bouton qui ouvre la feuille (booking_open) ; envois de la feuille et de la liste de sorties (booking_send).
+    if (el.hasAttribute("data-book") && document.getElementById("book")) return;
+    if (el.hasAttribute("data-tsend") || (el.type === "submit" && el.closest("#book"))) return;
+    if (WA.test(href)) return track("whatsapp_click", { placement: placement(el) });
+    if (/^(?:tel|mailto):/i.test(href)) return track("contact_click", { placement: placement(el), method: /^tel:/i.test(href) ? "phone" : "email" });
+    var cta = el.getAttribute("data-track-cta");
+    if (cta) {
+      var p = { cta: cta, placement: placement(el) };
+      if (el.tagName === "A") p.link_url = el.href;
+      track("cta_click", p);
+    }
   }, true);
+
+  document.addEventListener("stt-book-open", function (e) { track("booking_open", e.detail || {}); });
+  document.addEventListener("stt-book-send", function (e) {
+    var d = {}, src = e.detail || {};
+    Object.keys(src).forEach(function (k) { if (k !== "variant") d[k] = src[k]; });
+    track("booking_send", d);
+    track("send_on_whatsapp", { product_type: src.variant || "unknown" });
+  });
+  document.addEventListener("stt-trips-send", function (e) { track("booking_send", e.detail || {}); });
 
   // ---------- Bandeau ----------
   var VIP = document.documentElement.getAttribute("data-brand") === "vip";

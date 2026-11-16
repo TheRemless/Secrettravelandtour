@@ -42,13 +42,13 @@ permalink: /
     <div class="hero__ctl">
       <ul class="hrows" data-hrows>
         {%- for t in h.heroTrips %}
-        <li><a class="hrow press" href="{{ t.href }}" data-hero-i="{{ loop.index0 }}"{% if loop.first %} aria-current="true"{% endif %}>
+        <li><a class="hrow press" href="{{ t.href }}" data-track="home_hero" data-track-cta="hero_trip" data-hero-i="{{ loop.index0 }}"{% if loop.first %} aria-current="true"{% endif %}>
           <span class="hrow__t"><b>{{ t.title }}</b><small>{{ t.promise | keephy | safe }}</small></span>
           <span class="hrow__p"><b>from {{ t.price.amount }}</b><small>{{ t.price.unit }}</small></span>
         </a></li>
         {%- endfor %}
       </ul>
-      <a class="link hero__all" href="/tours/">See all trips and activities</a>
+      <a class="link hero__all" href="/tours/" data-track="home_hero" data-track-cta="see_all_trips">See all trips and activities</a>
     </div>
   </section>
 
@@ -67,7 +67,7 @@ permalink: /
   </section>
 
   {%- macro rail(id, title, href, linkText, items, what) %}
-  <section class="sec sec--tight" id="{{ id }}" aria-labelledby="{{ id }}-h">
+  <section class="sec sec--tight" id="{{ id }}" aria-labelledby="{{ id }}-h" data-track="home_{{ id }}">
     <div class="wrap rail-wrap">
       <div class="sec__head"><h2 id="{{ id }}-h">{{ title }}</h2><a class="link" href="{{ href }}">{{ linkText }}</a></div>
       <div class="rail" data-rail tabindex="0" role="region" aria-label="{{ title }}, scroll sideways">
@@ -94,7 +94,7 @@ permalink: /
       <h2 id="around-h">Getting here and around</h2>
       {%- if ar.transfers.speedboat %}
       <ul class="lrows">
-        <li><a class="lrow press" href="{{ ar.transfers.speedboat.href }}"><span><b>{{ ar.transfers.speedboat.title }}</b><small>{{ ar.transfers.speedboat.text }}</small></span></a></li>
+        <li><a class="lrow press" href="{{ ar.transfers.speedboat.href }}" data-track="home_getting_around" data-track-cta="speedboat_timetable"><span><b>{{ ar.transfers.speedboat.title }}</b><small>{{ ar.transfers.speedboat.text }}</small></span></a></li>
       </ul>
       {%- endif %}
       <div class="around">
@@ -103,7 +103,7 @@ permalink: /
           <p class="around__lead">{{ ar.transfers.lead | replace(ar.transfers.vip, '<a class="link" href="/taxi/">' ~ ar.transfers.vip ~ '</a>') | safe }}</p>
           <ul class="lrows" aria-labelledby="tr-h">
             {%- for r in ar.transfers.routes %}
-            <li><a class="lrow press" href="{{ r.href }}"><span><b>{{ r.name }}</b><small>{{ r.drive }}, both directions</small></span></a></li>
+            <li><a class="lrow press" href="{{ r.href }}" data-track="home_getting_around" data-track-cta="transfer_route"><span><b>{{ r.name }}</b><small>{{ r.drive }}, both directions</small></span></a></li>
             {%- endfor %}
           </ul>
           <a class="link" href="/taxi/">All private transfers</a>
@@ -114,7 +114,7 @@ permalink: /
           <p class="around__lead">Prices {{ ar.rental.unit }}.</p>
           <ul class="lrows" aria-labelledby="rent-h">
             {%- for k in ar.rental.cats %}
-            <li><a class="lrow press" href="{{ ar.rental.href }}"><span><b>{{ k.label }}</b>{% if k.models %}<small>{{ k.models }}</small>{% endif %}</span><span class="lrow__p">{{ k.lo }} to {{ k.hi }} THB</span></a></li>
+            <li><a class="lrow press" href="{{ ar.rental.href }}" data-track="home_getting_around" data-track-cta="rental"><span><b>{{ k.label }}</b>{% if k.models %}<small>{{ k.models }}</small>{% endif %}</span><span class="lrow__p">{{ k.lo }} to {{ k.hi }} THB</span></a></li>
             {%- endfor %}
           </ul>
           <a class="link" href="{{ ar.rental.href }}">Every vehicle and its price</a>

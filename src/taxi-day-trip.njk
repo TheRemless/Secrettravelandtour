@@ -54,7 +54,7 @@ eleventyExcludeFromCollections: true
     <div class="route-lead">
       <p class="lead">{{ D.lead }}</p>
       <div class="hero-act">
-        <a class="btn btn--gold" href="{{ fallback }}" data-book="">Check availability</a>
+        <a class="btn btn--gold" href="{{ fallback }}" data-book="" data-track="hero">Check availability</a>
         <p class="hero-note"><span class="hero-price">{{ D.price.label }}</span> per vehicle, depending on stops and hours.</p>
         {{ tx.googleLine(T.rating) }}
       </div>
@@ -81,7 +81,7 @@ eleventyExcludeFromCollections: true
   <div class="wrap qa-in">
     <h2 id="h-faq">Questions</h2>
     {{ tx.faq(D.faq) }}
-    <p class="all-routes"><a class="link-ink" href="/taxi/#routes">See all routes</a></p>
+    <p class="all-routes"><a class="link-ink" href="/taxi/#routes" data-track="other_routes" data-track-cta="see_all_routes">See all routes</a></p>
   </div>
 </section>
 </main>

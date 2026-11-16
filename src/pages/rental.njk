@@ -29,7 +29,7 @@ permalink: /tours/rental/
     <div class="rhero__text">
       <h1 id="h1">{{ t.h1 }}</h1>
       <p class="lead">{{ t.lead }}</p>
-      <a class="link" href="{{ v4.waHref(c.number, t.ask) }}">Ask a question on WhatsApp</a>
+      <a class="link" href="{{ v4.waHref(c.number, t.ask) }}" data-track="hero_ask">Ask a question on WhatsApp</a>
     </div>
     <section class="rent" id="options" aria-labelledby="opt-h">
       <h2 id="opt-h" class="rent__h">Vehicles and prices</h2>
@@ -44,7 +44,7 @@ permalink: /tours/rental/
         <p class="rent__range"><b>{{ g.lo | replace(" THB", "") }} to {{ g.hi }}</b>{% if g.unit %} <small>{{ g.unit }}</small>{% endif %}<span class="rent__tap">Choose a model to ask for it.</span></p>
         <ul class="vrows">
           {%- for r in g.rows %}
-          <li><a class="vrow press" href="{{ v4.waHref(c.number, r.fallback) }}" data-book="{{ g.id }}" data-vehicle="{{ r.label }}"><span>{{ r.label }}{% if r.spec %}<small class="vrow__spec">{{ r.spec }}</small>{% endif %}</span><span class="opts__amt"><b>{{ r.amount }}</b>{% if r.unit %} <small>{{ r.unit }}</small>{% endif %}</span></a></li>
+          <li><a class="vrow press" href="{{ v4.waHref(c.number, r.fallback) }}" data-track="vehicle_list" data-book="{{ g.id }}" data-vehicle="{{ r.label }}"><span>{{ r.label }}{% if r.spec %}<small class="vrow__spec">{{ r.spec }}</small>{% endif %}</span><span class="opts__amt"><b>{{ r.amount }}</b>{% if r.unit %} <small>{{ r.unit }}</small>{% endif %}</span></a></li>
           {%- endfor %}
         </ul>
       </div>

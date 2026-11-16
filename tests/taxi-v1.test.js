@@ -158,8 +158,8 @@ test("lot du 11.11.2026 : feuille songthaew, préremplissage, prix de la ligne, 
   assert.deepEqual(T.byId["surat-thani-koh-lanta"].booking.ends, { from: "", to: "" });
   assert.equal(T.byId["krabi-airport-koh-lanta"].booking.ends.from, "Krabi Airport (KBV)");
   assert.match(T.byId["phuket-airport-khao-lak"].drive, /1\u00a0hr\u00a030\u00a0min/);
-  // Le titre de la feuille et l'en-tête de l'aperçu suivent le sens du trajet.
-  assert.equal((page("/taxi/krabi-airport-koh-lanta/").match(/data-route-title/g) || []).length, 2);
+  // Le titre de la feuille suit le sens du trajet (l'écran d'aperçu n'existe plus depuis le 16.11.2026).
+  assert.equal((page("/taxi/krabi-airport-koh-lanta/").match(/data-route-title/g) || []).length, 1);
   // Encart Secret : photo passée par l'optimiseur d'images, plus le JPEG brut de 411 Ko.
   assert.doesNotMatch(page("/taxi/"), /card-4-islands\.jpg/);
   // Toutes les pages trajet ont la question sur les zones.
@@ -183,7 +183,7 @@ test("prix par lieu (11.11.2026) : Donsak Pier à 5 000 sur la page Surat Thani,
 
 test("note Google de VIP Taxi Lanta (12.11.2026) : une ligne sur les 19 pages trajet et sur /transfers/, lien vers la fiche, jamais dans le JSON-LD", () => {
   const r = require("../src/_data/site.json").brands.vip.rating;
-  const line = new RegExp(`<a class="grate" href="${r.url.replace(/[.*+?^${}()|[\]\\\/]/g, "\\$&")}" rel="noopener">[\\s\\S]*?Rated <b>${r.value.toFixed(1)}</b> on Google, ${r.count} reviews</span></a>`);
+  const line = new RegExp(`<a class="grate" href="${r.url.replace(/[.*+?^${}()|[\]\\\/]/g, "\\$&")}" rel="noopener"[^>]*>[\\s\\S]*?Rated <b>${r.value.toFixed(1)}</b> on Google, ${r.count} reviews</span></a>`);
   const html = (u) => fs.readFileSync(path.join(__dirname, "..", "_site", u, "index.html"), "utf8");
   let n = 0;
   for (const x of T.routes) { n++; assert.match(html(x.url), line, x.url); }
@@ -215,5 +215,5 @@ test("day trip vers Krabi : feuille avec le nombre de stops et leur nom (Jérém
   assert.doesNotMatch(doc, /name="direction"/);
   assert.doesNotMatch(doc, /name="bags"/);
   assert.doesNotMatch(doc, /name="dropoffAt"/);
-  assert.match(doc, /data-book="">Check availability/);
+  assert.match(doc, /data-book=""[^>]*>Check availability/);
 });

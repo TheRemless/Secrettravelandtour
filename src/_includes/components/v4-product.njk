@@ -25,10 +25,10 @@
       {%- else %}
       <p class="price price--big price--req"><b>Price on WhatsApp</b></p>
       {%- endif %}
-      <a class="btn btn--lg press" href="{{ fallback }}" data-book="{{ book }}" data-cta{% if book %} data-book-sel{% endif %}>{{ cta }}</a>
+      <a class="btn btn--lg press" href="{{ fallback }}" data-book="{{ book }}" data-cta data-track="hero"{% if book %} data-book-sel{% endif %}>{{ cta }}</a>
     </div>
     <p class="lead">{{ t.lead }}</p>
-    <a class="link phero__ask" href="{{ v4.waHref(c.number, t.ask) }}">Ask a question on WhatsApp</a>
+    <a class="link phero__ask" href="{{ v4.waHref(c.number, t.ask) }}" data-track="hero_ask">Ask a question on WhatsApp</a>
   </div>
   {%- if t.hero %}
   <div class="phero__ph">{{ v4.photo(t.hero, "(min-width: 900px) 56vw, 100vw", true, "", "trip-photo") }}</div>
@@ -181,7 +181,7 @@
     <p class="calc__note" data-calc-unpriced hidden></p>
     <p class="calc__note calc__cash" data-calc-cash hidden></p>
   </div>
-  <a class="btn btn--lg press" href="{{ v4.waHref(k.number, cl.fallback) }}" data-book="{{ pk.sel }}" data-book-sel data-calc-book>Choose a date</a>
+  <a class="btn btn--lg press" href="{{ v4.waHref(k.number, cl.fallback) }}" data-book="{{ pk.sel }}" data-book-sel data-calc-book data-track="price_calculator">Choose a date</a>
 </div>
 <script type="application/json" id="pick-data">{{ pk.json | dump | safe }}</script>
 {% endmacro %}
@@ -308,7 +308,7 @@
 {#- variant « list » : cartes horizontales compactes (une seule carte sur le speedboat), pas de rail. -#}
 {% macro related(r, variant="") %}
 {%- if r %}
-<section class="sec" aria-labelledby="rel-h">
+<section class="sec" aria-labelledby="rel-h" data-track="related">
   <div class="wrap">
     <div class="sec__head"><h2 id="rel-h">{{ r.title }}</h2>{% if r.all %}<a class="link" href="{{ r.all.href }}">{{ r.all.label }}</a>{% endif %}</div>
     {%- if r.cards.length and variant == "list" %}<div class="grid grid--rel">{% for x in r.cards %}{{ v4.card(x, add=false) }}{% endfor %}</div>
@@ -323,9 +323,9 @@
 {#- Bande du bas (téléphone seulement) : prix d'appel et bouton dès l'arrivée ; une fois le groupe choisi, l'option et
     le total. Elle s'efface devant le bloc de réservation, le pied de page et la feuille (v4-product.js). -#}
 {% macro dock(price, fallback, book, label="Choose a date") %}
-<div class="dock" data-dock role="region" aria-label="Book">
+<div class="dock" data-dock role="region" aria-label="Book" data-track="dock">
   {%- if price %}<p class="dock__p" data-dock-p><span>from {{ price.amount }}</span><small>{{ price.unit }}</small></p>{% else %}<p class="dock__p" data-dock-p><span class="dock__req">Price on WhatsApp</span></p>{% endif %}
-  <button class="dock__trips" type="button" data-trips-open aria-haspopup="dialog" hidden>{{ v4.glyph("list") }}<span data-trips-count>0</span><span class="sr"> in your trip list</span></button>
-  <a class="btn press" href="{{ fallback }}" data-book="{{ book }}"{% if book %} data-book-sel{% endif %} data-dock-book>{{ label }}</a>
+  <button class="dock__trips" type="button" data-trips-open data-track-cta="trip_list_open" aria-haspopup="dialog" hidden>{{ v4.glyph("list") }}<span data-trips-count>0</span><span class="sr"> in your trip list</span></button>
+  <a class="btn press" href="{{ fallback }}" data-book="{{ book }}"{% if book %} data-book-sel{% endif %} data-dock-book data-track="dock">{{ label }}</a>
 </div>
 {% endmacro %}
