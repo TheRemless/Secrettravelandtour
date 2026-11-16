@@ -1,2 +1,3 @@
-{#- Consentement et Google Analytics 4 (12.11.2026) : un seul fichier, différé. Rien ne part vers Google avant « Accept » (src/js/consent.js). -#}
-<script defer src="/js/consent.js?v={{ build.v }}" data-ga-id="{{ site.analytics.ga4 }}"></script>
+{#- Consentement, Google Analytics 4 (12.11.2026) et Microsoft Clarity (16.11.2026) : un seul fichier, différé.
+    Rien ne part vers Google ni Microsoft avant « Accept » (src/js/consent.js). -#}
+<script defer src="/js/consent.js?v={{ build.v }}" data-ga-id="{{ site.analytics.ga4 }}" data-clarity-id="{{ site.analytics.clarity }}"></script>

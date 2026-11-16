@@ -109,3 +109,23 @@ test("liste de sorties : envoi mesuré après la validation, lien marqué", () =
   assert.ok(i > 0 && j > i);
   assert.doesNotMatch(js.slice(j, j + 300), /pickup|name|date/i);
 });
+
+test("Clarity : chaque champ où l'on écrit est masqué, les choix restent lisibles", () => {
+  for (const f of publicPages()) {
+    const h = fs.readFileSync(f, "utf8");
+    for (const m of h.matchAll(/<input\b[^>]*>/g)) {
+      const typed = /type="(?:text|date|time|email|tel|search)"/.test(m[0]);
+      if (typed) assert.match(m[0], /data-clarity-mask="True"/, `${f} : ${m[0].slice(0, 100)}`);
+      else assert.doesNotMatch(m[0], /data-clarity-mask/, `${f} : choix masqué ${m[0].slice(0, 100)}`);
+    }
+    assert.doesNotMatch(h, /<textarea\b(?![^>]*data-clarity-mask="True")/, f);
+    // Âges des enfants (modèle de la feuille).
+    if (/id="book-age-tpl"/.test(h)) assert.match(h, /<select data-clarity-mask="True"><option value="">Age<\/option>/, f);
+  }
+  const trips = fs.readFileSync(path.join(ROOT, "src", "js", "v4-trips.js"), "utf8");
+  for (const re of [/<input data-clarity-mask="True" id="tl-name"/, /<input data-clarity-mask="True" id="tl-pickup"/, /<input data-clarity-mask="True" type="date"/, /<select data-clarity-mask="True" id="tl-age-/, /data-tmsg data-clarity-mask="True"/]) assert.match(trips, re);
+  assert.match(fs.readFileSync(path.join(ROOT, "src", "js", "v4-product.js"), "utf8"), /<select data-clarity-mask="True" data-age=/);
+  // Hub taxi : le titre de la feuille reprend les lieux écrits.
+  assert.match(read("taxi"), /id="book-title"[^>]*data-clarity-mask="True"/);
+  assert.doesNotMatch(read("taxi/krabi-airport-koh-lanta"), /id="book-title"[^>]*data-clarity-mask/);
+});

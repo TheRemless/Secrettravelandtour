@@ -23,6 +23,7 @@ const pages = () => {
 
 test("identifiant de mesure : le flux de ce site, dans site.json", () => {
   assert.equal(site.analytics.ga4, "G-TH3QSF8359");
+  assert.equal(site.analytics.clarity, "zel11glw7x");
 });
 
 test("chaque page publique charge consent.js (différé, identifiant de site.json) et porte le lien « Cookie settings »", () => {
@@ -30,10 +31,10 @@ test("chaque page publique charge consent.js (différé, identifiant de site.jso
   assert.ok(all.length > 40, String(all.length));
   for (const f of all) {
     const h = fs.readFileSync(f, "utf8");
-    assert.match(h, /<script defer(?:="")? src="\/js\/consent\.js\?v=[^"]+" data-ga-id="G-TH3QSF8359"><\/script>/, f);
+    assert.match(h, /<script defer(?:="")? src="\/js\/consent\.js\?v=[^"]+" data-ga-id="G-TH3QSF8359" data-clarity-id="zel11glw7x"><\/script>/, f);
     assert.match(h, /data-consent-open/, `${f} : lien « Cookie settings »`);
     // Aucun autre script de suivi, aucun appel direct à Google dans le HTML.
-    assert.doesNotMatch(h, /googletagmanager|google-analytics|gtag\(/, f);
+    assert.doesNotMatch(h, /googletagmanager|google-analytics|gtag\(|clarity\.ms|clarity\(/, f);
   }
 });
 
@@ -41,13 +42,19 @@ test("consent.js : refus par défaut (Consent Mode v2), gtag.js chargé seulemen
   assert.match(JS, /gtag\("consent", "default", DENIED\)/);
   assert.match(JS, /var DENIED = \{ analytics_storage: "denied", ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" \}/);
   assert.match(JS, /var GRANTED = \{ analytics_storage: "granted", ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" \}/);
-  // Un seul endroit crée la balise gtag.js, et seulement depuis googletagmanager.com.
+  // Un seul endroit crée une balise script (inject), pour googletagmanager.com et clarity.ms seulement.
   assert.equal((JS.match(/createElement\("script"\)/g) || []).length, 1);
-  assert.equal((JS.match(/https:\/\/[a-z.]+/g) || []).filter((u) => !/googletagmanager\.com/.test(u)).length, 0);
-  assert.match(JS, /s\.src = "https:\/\/www\.googletagmanager\.com\/gtag\/js\?id="/);
-  // load() n'est appelée que depuis apply() quand le choix est « granted ».
+  assert.equal((JS.match(/https:\/\/[a-z.]+/g) || []).filter((u) => !/www\.googletagmanager\.com|www\.clarity\.ms|privacy\.microsoft/.test(u)).length, 0);
+  assert.match(JS, /inject\("https:\/\/www\.googletagmanager\.com\/gtag\/js\?id="/);
+  assert.match(JS, /inject\("https:\/\/www\.clarity\.ms\/tag\/" \+ encodeURIComponent\(CLARITY_ID\)\)/);
+  // load() et loadClarity() ne sont appelées que depuis apply() quand le choix est « granted ».
   assert.equal((JS.match(/\bload\(\);/g) || []).length, 1);
-  assert.match(JS, /if \(on\) load\(\);/);
+  assert.equal((JS.match(/\bloadClarity\(\);/g) || []).length, 1);
+  assert.match(JS, /if \(on\) \{\s*if \(loaded\) gtag\("consent", "update", GRANTED\);\s*load\(\);\s*loadClarity\(\);/);
+  // Clarity : publicité refusée, analytique accordée ; au retrait, tout refusé, arrêt, cookies effacés.
+  assert.match(JS, /clarity\("consentv2", \{ ad_Storage: "denied", analytics_Storage: "granted" \}\)/);
+  assert.match(JS, /clarity\("consentv2", \{ ad_Storage: "denied", analytics_Storage: "denied" \}\);\s*clarity\("stop"\)/);
+  assert.match(JS, /_clck\$\|_clsk\$/);
   // Choix gardé dans localStorage, pas dans un cookie.
   assert.doesNotMatch(JS, /document\.cookie\s*=\s*"?stt/);
 });
@@ -66,7 +73,8 @@ test("bandeau : « Accept » et « Decline » de même taille et de même style,
 test("événements (16.11.2026) : tous passent par track(), qui ne part qu'après « Accept », sans donnée personnelle", () => {
   // Un seul appel direct à gtag("event"), dans track(), gardé par le consentement.
   assert.equal((JS.match(/gtag\("event"/g) || []).length, 1);
-  assert.match(JS, /function track\(name, params\) \{\s*if \(!on \|\| !loaded\) return;\s*gtag\("event", name, params\);/);
+  assert.match(JS, /function track\(name, params\) \{\s*if \(!on\) return;\s*if \(loaded\) gtag\("event", name, params\);\s*if \(clarityOn && CLARITY_EVENTS\[name\]\)/);
+  assert.match(JS, /var CLARITY_EVENTS = \{ booking_open: 1, booking_send: 1, whatsapp_click: 1 \}/);
   for (const ev of ["whatsapp_click", "booking_open", "booking_send", "send_on_whatsapp", "cta_click", "contact_click"]) assert.match(JS, new RegExp(`track\\("${ev}"`), ev);
   // L'ancien événement garde sa forme : le seul type de produit.
   assert.match(JS, /track\("send_on_whatsapp", \{ product_type: src\.variant \|\| "unknown" \}\)/);
@@ -81,7 +89,11 @@ test("événements (16.11.2026) : tous passent par track(), qui ne part qu'aprè
 test("/privacy/ : ce qui est mesuré, durée, comment changer d'avis, Google Analytics parmi les services", () => {
   const h = fs.readFileSync(path.join(SITE, "privacy", "index.html"), "utf8");
   assert.match(h, /<h2 id="cookies">3\. Cookies and statistics<\/h2>/);
-  assert.match(h, /Google Analytics 4, but only if you accept/);
+  assert.match(h, /Google Analytics 4 and sees how its pages are used with Microsoft Clarity, but only if you accept/);
+  assert.match(h, /Everything you type in a form is masked before it leaves your device/);
+  assert.match(h, /<code>_clck<\/code> and <code>_clsk<\/code>/);
+  assert.match(h, /href="https:\/\/privacy\.microsoft\.com\/privacystatement"/);
+  assert.match(h, /Clarity stops recording and the Google Analytics and Clarity cookies are removed/);
   assert.match(h, /Send on WhatsApp/);
   assert.match(h, /the buttons and links you tap on our pages and where they sit on the page/);
   assert.match(h, /the option you chose, the number of people and the estimated price/);

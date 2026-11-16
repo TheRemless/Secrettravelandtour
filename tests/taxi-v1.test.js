@@ -75,9 +75,9 @@ test("hub : les 17 trajets en liens, une feuille libre Pickup et Drop-off, la li
   const cfg = config(doc);
   assert.equal(cfg.variant, "taxi");
   assert.ok(!cfg.from && !cfg.to);
-  assert.match(doc, /<input id="book-pickupAt"/);
-  assert.match(doc, /<input id="book-dropoffAt"/);
-  assert.doesNotMatch(doc, /<input id="book-from"|<input id="book-to"/);
+  assert.match(doc, /<input (?:data-clarity-mask="True" )?id="book-pickupAt"/);
+  assert.match(doc, /<input (?:data-clarity-mask="True" )?id="book-dropoffAt"/);
+  assert.doesNotMatch(doc, /<input (?:data-clarity-mask="True" )?id="book-from"|<input id="book-to"/);
   assert.match(doc, /id="taxi-places"/);
   assert.match(doc, /<aside class="stt"/);
 });
