@@ -6,6 +6,11 @@
 [build.environment]
   NODE_VERSION = "22"
 
+# IndexNow : après chaque déploi de production publié (onSuccess), envoie à Bing, Yandex, Seznam et Naver
+# les pages du sitemap nouvelles, modifiées ou supprimées. Jamais depuis un aperçu, une branche ou un build local.
+[[plugins]]
+  package = "./netlify/plugins/indexnow"
+
 # Cache navigateur. Les images générées dans /img/ portent un hash dans leur nom : cache d'un an.
 # Les sources (/images/) gardent un nom stable : une semaine, revalidation en arrière-plan.
 [[headers]]
@@ -45,6 +50,19 @@
   [headers.values]
     Content-Type = "text/plain; charset=utf-8"
     Cache-Control = "public, max-age=3600"
+
+# IndexNow (17.11.2026) : le manifeste sert au plugin (comparaison avec le déploi suivant), pas aux lecteurs.
+[[headers]]
+  for = "/indexnow-manifest.json"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/cc698212e79400cca1a404ad4bf10b5f.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
+    X-Robots-Tag = "noindex"
 
 # Trajet Krabi Airport → Khao Lak retiré le 10.11.2026 (Jérémy) : l'ancienne adresse mène au hub taxi.
 [[redirects]]

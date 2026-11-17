@@ -27,7 +27,8 @@ module.exports = async function (eleventyConfig) {
   eleventyConfig.addFilter("keephy", (s) => String(s || "").replace(/[&<>"]/g, (c) => ESC[c]).replace(/\b([A-Za-z]+-[A-Za-z]+)\b/g, '<span class="nw">$1</span>'));
 
   // Taxi : noms de lieux à plusieurs mots gardés sur une ligne (« Koh Lanta », « Krabi Airport »). Texte échappé ici.
-  const PLACES = require("./src/_data/site.json").brands.vip.places.concat(["Southern Thailand"]).filter((p) => p.includes(" ")).sort((a, b) => b.length - a.length);
+  const SITE = require("./src/_data/site.json");
+  const PLACES = SITE.brands.vip.places.concat(["Southern Thailand"]).filter((p) => p.includes(" ")).sort((a, b) => b.length - a.length);
   eleventyConfig.addFilter("nbspPlaces", (s) => PLACES.reduce((t, p) => t.split(p).join(p.replace(/ /g, "\u00a0")), String(s || "").replace(/[&<>"]/g, (c) => ESC[c])));
 
   // Taxi : chaque « Secret Travel & Tour » mène à leur site (demande de Jérémy, 10.11.2026) et le premier « songthaew »
@@ -47,7 +48,9 @@ module.exports = async function (eleventyConfig) {
     "src/favicon.ico": "favicon.ico",
     "src/robots.txt": "robots.txt",
     // Vérification Bing Webmaster Tools (fichier fourni par Jérémy le 16.11.2026), à garder tant que le site est suivi dans Bing.
-    "src/BingSiteAuth.xml": "BingSiteAuth.xml"
+    "src/BingSiteAuth.xml": "BingSiteAuth.xml",
+    // Clé IndexNow (17.11.2026), publique par conception : le fichier ne contient que la clé (site.json → indexnow.key).
+    ["src/" + SITE.indexnow.key + ".txt"]: SITE.indexnow.key + ".txt"
   });
 
   // Captures avant/après de la planche /design/ : copiées seulement hors production, comme la planche.
