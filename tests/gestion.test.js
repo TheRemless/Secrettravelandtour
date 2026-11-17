@@ -73,12 +73,14 @@ test("la copie part dans le submit, après buildMessage et avant window.open, sa
   assert.doesNotMatch(submit, /\basync\b/);
 });
 
-test("aucune requête hors de la feuille : l'adresse demande-site seulement dans booking.js, appelée une fois", () => {
+test("aucune requête hors d'un envoi : l'adresse seulement dans booking.js, appelée par la feuille et la liste de sorties", () => {
   for (const f of fs.readdirSync(path.join(ROOT, "src", "js"))) {
-    const n = (src("src/js/" + f).match(/demande-site/g) || []).length;
+    const n = (src("src/js/" + f).match(/functions\/v1\/demande-site/g) || []).length;
     assert.equal(n, f === "booking.js" ? 1 : 0, f);
+    if (!["booking.js", "v4-trips.js"].includes(f)) assert.doesNotMatch(src("src/js/" + f), /sendCopy/, f);
   }
-  assert.equal((src("src/js/booking.js").match(/sendCopy\(/g) || []).length, 2, "définition et un seul appel");
+  assert.equal((src("src/js/booking.js").match(/sendCopy\(/g) || []).length, 2, "définition et un seul appel, dans le submit");
+  assert.equal((src("src/js/v4-trips.js").match(/B\.sendCopy/g) || []).length, 2, "liste : test de présence et un seul envoi");
   // Champ piège : hors de l'écran, masqué pour Clarity, jamais dans le message (pas dans l'état de la feuille).
   const h = read("tours/4-islands");
   assert.match(h, /<div class="hp" aria-hidden="true"><label for="bk-website">Website<\/label><input data-clarity-mask="True" id="bk-website" name="website" type="text" tabindex="-1" autocomplete="off"><\/div>/);
@@ -169,4 +171,56 @@ test("confidentialité : la copie dans l'outil de réservation, ses champs, rien
   for (const f of ["the trip or route and the option you chose", "the date", "the pickup time of a transfer", "the number of adults and of children", "the pickup place or hotel", "the name you typed", "the estimated price shown in the form", "the address of the page", "the text of the WhatsApp message"]) assert.ok(h.includes(f), f);
   assert.match(h, /Nothing is sent to an advertiser\./);
   assert.match(h, /Supabase hosts our booking tool/);
+});
+
+// ---------- Liste de sorties : une copie par sortie (17.11.2026) ----------
+const catalog = () => JSON.parse(fs.readFileSync(path.join(SITE, "data", "catalog.json"), "utf8"));
+const tripList = (n, extra = {}) => {
+  const cat = catalog(), slugs = Object.keys(cat);
+  return { items: slugs.slice(0, n).map((s, i) => ({ id: "t" + i, slug: s, option: (cat[s].options[0] || {}).id, date: "2026-12-" + (20 - i), addons: [], choices: {}, counts: {} })), adults: 2, childAges: [7], pickup: "Pimalai Resort", name: "Anna", ...extra };
+};
+
+test("liste de sorties : N sorties donnent N copies (5 au plus, limite par appareil), champs du contrat, texte exact", () => {
+  const cat = catalog();
+  for (const n of [1, 3, 5, 8]) {
+    const l = tripList(n);
+    const msg = B.buildTripList(cat, l);
+    const bodies = B.tripListBodies(cat, l, msg, "", "https://secrettravelandtour.com/tours/#trips");
+    assert.equal(bodies.length, Math.min(n, 5), n + " sorties");
+    for (const b of bodies) {
+      assert.deepEqual(Object.keys(b), FIELDS);
+      assert.equal(b.brand, "secret");
+      assert.ok(cat[b.product_id], b.product_id);
+      assert.match(b.date, /^2026-12-\d{2}$/);
+      assert.equal(b.message, msg.slice(0, 2000));
+      assert.equal(b.ref, "");
+      assert.equal(b.page_url, "https://secrettravelandtour.com/tours/");
+      assert.equal(b.adults, 2);
+      assert.equal(b.children, 1);
+      assert.ok(Buffer.byteLength(JSON.stringify(b)) <= 4096);
+    }
+    // Ordre du message : par date.
+    assert.deepEqual(bodies.map((b) => b.date), bodies.map((b) => b.date).slice().sort());
+  }
+  assert.equal(B.TRIP_COPIES_MAX, 5);
+  // Rien d'inventé : une sortie sans date ni option choisie part avec ces champs vides.
+  const l = { items: [{ id: "x", slug: "koh-phi-phi", option: "", date: "" }], adults: 1, childAges: [] };
+  const [b] = B.tripListBodies(cat, l, "Trip list: 1 trip", "", "");
+  assert.equal(b.date, "");
+  assert.equal(b.option, "");
+  assert.equal(b.estimated_total, null);
+  // Message très long : raccourci à 2 000 caractères, corps sous 4 096 octets.
+  const [big] = B.tripListBodies(cat, tripList(1), "– ".repeat(3000), "", "");
+  assert.ok(big.message.length <= 2000 && Buffer.byteLength(JSON.stringify(big)) <= 4096);
+});
+
+test("liste de sorties : copies dans le clic d'envoi, après la validation, sans annuler le lien ni attendre", () => {
+  const js = src("src/js/v4-trips.js");
+  const handler = js.slice(js.indexOf('foot.addEventListener("click"'), js.indexOf('document.addEventListener("trips-change"'));
+  const iStop = handler.indexOf("if (first || v.count) {");
+  const iCopy = handler.indexOf("B.tripListBodies(cat, l, text,");
+  assert.ok(iStop > -1 && iCopy > iStop, "rien ne part si la validation arrête l'envoi");
+  assert.doesNotMatch(handler.slice(iCopy), /preventDefault|await|\.then\(/);
+  assert.match(handler, /copied\.indexOf\(text\) < 0/, "un même message copié une fois par page");
+  assert.match(js, /<input data-clarity-mask="True" id="tl-website" name="website" type="text" tabindex="-1" autocomplete="off">/);
 });
