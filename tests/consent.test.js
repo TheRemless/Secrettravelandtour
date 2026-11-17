@@ -59,15 +59,43 @@ test("consent.js : refus par défaut (Consent Mode v2), gtag.js chargé seulemen
   assert.doesNotMatch(JS, /document\.cookie\s*=\s*"?stt/);
 });
 
-test("bandeau : « Accept » et « Decline » de même taille et de même style, texte en anglais, lien vers la politique", () => {
-  assert.match(JS, /data-choice="granted">Accept<\/button><button class="cb-b" type="button" data-choice="denied">Decline<\/button>/);
-  // Une seule règle de bouton pour les deux : aucun style propre à l'un des deux choix.
-  assert.doesNotMatch(JS, /data-choice=\\?"?(granted|denied)\\?"?\]\s*\{/);
+test("bandeau (17.11.2026) : texte court, « Accept » principal, « No thanks » visible, lisible et à un appui (CNIL, EDPB)", () => {
+  // Ordre du DOM = ordre visuel (No thanks puis Accept) : la tabulation suit ce que l'on voit.
+  assert.match(JS, /<button class="cb-b cb-no" type="button" data-choice="denied">No thanks<\/button><button class="cb-b cb-yes" type="button" data-choice="granted">Accept<\/button>/);
+  // Même hauteur pour les deux (44 px au moins), même endroit, même étape : aucun refus caché ni plus difficile.
   assert.equal((JS.match(/\.cb-b\{/g) || []).length, 1);
-  assert.match(JS, /min-height:48px/);
-  assert.match(JS, /href="\/privacy\/#cookies"/);
-  assert.match(JS, /If you decline, nothing is sent/);
-  assert.match(JS, /Can we count your visit\?/);
+  assert.match(JS, /\.cb-b\{min-height:44px;/);
+  assert.doesNotMatch(JS, /\.cb-no\{[^}]*(?:display:none|visibility:hidden|opacity:0|font-size:1[0-2]px|min-height:[0-3]\d?px)/);
+  // Hiérarchie : Accept plein et plus large ; No thanks en contour, texte de la couleur du texte du bandeau.
+  assert.match(JS, /\.cb-r\{display:grid;grid-template-columns:auto 1fr;/);
+  assert.match(JS, /"\.cb-no\{background:transparent;color:" \+ P\.ink \+ ";border:1\.5px solid " \+ P\.no \+ "\}"/);
+  assert.match(JS, /"\.cb-yes\{background:" \+ P\.btn \+ ";color:" \+ P\.btnInk/);
+  // Accept reçoit le focus quand le visiteur rouvre le choix (Cookie settings).
+  assert.match(JS, /if \(focus\) b\.querySelector\('\[data-choice="granted"\]'\)\.focus\(\);/);
+  // Texte court et vrai ; le détail reste sur /privacy/.
+  assert.match(JS, /<strong class="cb-t" id="cb-t">Help us improve this site\?<\/strong> We use cookies to see which pages help travellers and how they are used\. <a href="\/privacy\/#cookies">Privacy<\/a>/);
+  const markup = JS.slice(JS.indexOf("box.innerHTML"), JS.indexOf("box.addEventListener"));
+  assert.doesNotMatch(markup, /mouse movement|never receive|Can we count|Decline|Google|Microsoft/);
+  // Jamais sur la barre de réservation ni sur le bandeau de Gestion ; un seul mouvement, coupé si l'on réduit les animations.
+  assert.match(JS, /querySelectorAll\("\.dock, \.vbar, \.site-notice--bottom, \.tl-dock"\)/);
+  assert.match(JS, /@media\(prefers-reduced-motion:reduce\)\{\.cb,\.cb\.is-on\{transition:none\}\}/);
+});
+
+// Contraste AA des deux boutons et du texte, dans les deux marques (WCAG : 4,5:1 texte, 3:1 contour).
+function lum(hex) {
+  const c = hex.replace("#", "").match(/../g).map((x) => parseInt(x, 16) / 255).map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+  return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+}
+const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m); return (x + 0.05) / (y + 0.05); };
+test("bandeau : contrastes AA dans les deux marques", () => {
+  const pal = [...JS.matchAll(/\{ bg: "(#[0-9A-F]{6})", ink: "(#[0-9A-F]{6})", mute: "(#[0-9A-F]{6})", line: "[^"]+", no: "(#[0-9A-F]{6})", noHover: "#[0-9A-F]{6}", btn: "(#[0-9A-F]{6})", btnInk: "(#[0-9A-F]{6})"/g)];
+  assert.equal(pal.length, 2, "Secret et VIP");
+  for (const [, bg, ink, mute, no, btn, btnInk] of pal) {
+    assert.ok(ratio(ink, bg) >= 4.5, "texte " + bg);
+    assert.ok(ratio(mute, bg) >= 4.5, "texte secondaire " + bg);
+    assert.ok(ratio(btnInk, btn) >= 4.5, "Accept " + btn);
+    assert.ok(ratio(no, bg) >= 3, "contour de No thanks " + bg);
+  }
 });
 
 test("événements (16.11.2026) : tous passent par track(), qui ne part qu'après « Accept », sans donnée personnelle", () => {

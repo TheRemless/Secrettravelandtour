@@ -1,7 +1,7 @@
 /* Secret Travel & Tour et VIP Taxi Lanta : consentement, Google Analytics 4 (12.11.2026, mesure des clics 16.11.2026)
    et Microsoft Clarity (enregistrements de visite et cartes de chaleur, accord de Jérémy du 16.11.2026).
    Consent Mode v2, mode de base : « consent default » refuse tout dès le départ, gtag.js et le script Clarity ne sont chargés
-   qu'après « Accept » ; avant le choix ou après « Decline » aucun cookie n'est posé et rien ne part vers Google ni Microsoft,
+   qu'après « Accept » ; avant le choix ou après « No thanks » aucun cookie n'est posé et rien ne part vers Google ni Microsoft,
    pas même un événement. La publicité reste toujours refusée (Clarity : consentv2, ad_Storage « denied »).
    Retrait par « Cookie settings » : consentement refusé aux deux, Clarity arrêté, cookies _ga*, _clck et _clsk effacés.
    Clarity : les champs où l'on écrit portent data-clarity-mask="True" dans les gabarits (jamais dans un enregistrement) ;
@@ -164,24 +164,53 @@
   document.addEventListener("stt-wa-desktop-open", function (e) { track("whatsapp_desktop_open", { placement: (e.detail && e.detail.placement) || "untagged" }); });
 
   // ---------- Bandeau ----------
+  // Refonte du 17.11.2026 (Jérémy : le bandeau faisait peur et ne donnait pas envie). Texte court et vrai, le détail reste
+  // sur /privacy/#cookies. Hiérarchie claire mais choix réel (CNIL, EDPB) : « Accept » plein, plus large, à droite et focalisé
+  // à la réouverture ; « No thanks » en contour, même hauteur (44 px au moins), lisible (AA), au même endroit, en un appui.
+  // Ordre de tabulation = ordre visuel (No thanks puis Accept). Bande fine en bas sur téléphone, carte dans le coin bas
+  // droit sur bureau ; jamais sur la barre de réservation (.dock, .vbar) ni sur le bandeau de Gestion : le bandeau se pose
+  // au-dessus d'eux quand ils sont à l'écran. Un seul mouvement à l'arrivée, coupé si prefers-reduced-motion.
   var VIP = document.documentElement.getAttribute("data-brand") === "vip";
   var P = VIP
-    ? { bg: "#1B130D", ink: "#F6EEDC", mute: "#CDBFA6", line: "rgba(217,170,78,.45)", btn: "#D9AA4E", btnInk: "#1B130D", btnHover: "#E9C172", ring: "#E9C172", title: "'Chonburi','Times New Roman',serif", body: "'Bai Jamjuree',system-ui,sans-serif", tw: 400, r: "10px" }
-    : { bg: "#0B3B3C", ink: "#EEF3F1", mute: "#B5CBC6", line: "rgba(238,243,241,.22)", btn: "#F6EFE4", btnInk: "#14262B", btnHover: "#FFFFFF", ring: "#F6EFE4", title: "'Cormorant Garamond','Times New Roman',serif", body: "'Manrope',system-ui,sans-serif", tw: 600, r: "12px" };
-  var css = ".cb{position:fixed;left:12px;right:12px;bottom:12px;z-index:200;max-width:560px;margin:0 auto;padding:20px 20px 18px;"
-    + "background:" + P.bg + ";color:" + P.ink + ";border:1px solid " + P.line + ";border-radius:" + P.r + ";font-family:" + P.body + ";"
-    + "transform:translateY(calc(100% + 24px));visibility:hidden;transition:transform .32s cubic-bezier(.22,1,.36,1),visibility 0s .32s}"
-    + ".cb.is-on{transform:none;visibility:visible;transition:transform .32s cubic-bezier(.22,1,.36,1)}"
-    + ".cb-t{margin:0 0 6px;font:" + P.tw + " 24px/1.1 " + P.title + ";color:" + P.ink + "}"
-    + ".cb-p{margin:0 0 16px;font-size:15px;line-height:1.5;color:" + P.mute + "}"
-    + ".cb-p a{color:" + P.ink + ";text-decoration:underline;text-underline-offset:.2em}"
-    + ".cb-r{display:grid;grid-template-columns:1fr 1fr;gap:10px}"
-    + ".cb-b{min-height:48px;padding:0 16px;border:0;border-radius:" + P.r + ";background:" + P.btn + ";color:" + P.btnInk + ";font:600 16px/1 " + P.body + ";cursor:pointer}"
-    + ".cb-b:hover{background:" + P.btnHover + "}"
-    + ".cb :focus-visible{outline:3px solid " + P.ring + ";outline-offset:3px}"
-    + "@media(min-width:760px){.cb{left:24px;right:auto;bottom:24px;margin:0}}"
+    ? { bg: "#1B130D", ink: "#F6EEDC", mute: "#CDBFA6", line: "rgba(217,170,78,.45)", no: "#B98B31", noHover: "#2B1F16", btn: "#D9AA4E", btnInk: "#1B130D", btnHover: "#E9C172", ring: "#E9C172", body: "'Bai Jamjuree',system-ui,sans-serif", r: "10px", shadow: "none" }
+    : { bg: "#FFFFFF", ink: "#14262B", mute: "#3B5551", line: "#E3DACB", no: "#7A8884", noHover: "#F6EFE4", btn: "#0B3B3C", btnInk: "#FFFFFF", btnHover: "#124B4C", ring: "#0F6B61", body: "'Manrope',system-ui,sans-serif", r: "12px", shadow: "0 10px 30px rgba(20,38,43,.14)" };
+  var css = ".cb{position:fixed;left:0;right:0;bottom:var(--cb-b,0px);z-index:200;box-sizing:border-box;"
+    + "padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:" + P.bg + ";color:" + P.ink + ";border-top:1px solid " + P.line + ";font-family:" + P.body + ";"
+    + "transform:translateY(calc(100% + 24px));visibility:hidden;transition:transform .28s cubic-bezier(.22,1,.36,1),visibility 0s .28s}"
+    + ".cb.is-on{transform:none;visibility:visible;transition:transform .28s cubic-bezier(.22,1,.36,1)}"
+    + ".cb-p{margin:0 0 10px;font-size:14px;line-height:1.45;color:" + P.mute + "}"
+    + ".cb-t{color:" + P.ink + ";font-weight:700}"
+    + ".cb-p a{color:" + P.ink + ";text-decoration:underline;text-underline-offset:.2em;white-space:nowrap}"
+    + ".cb-r{display:grid;grid-template-columns:auto 1fr;gap:8px}"
+    + ".cb-b{min-height:44px;margin:0;padding:0 18px;border-radius:" + P.r + ";font:600 15px/1 " + P.body + ";cursor:pointer}"
+    + ".cb-no{background:transparent;color:" + P.ink + ";border:1.5px solid " + P.no + "}"
+    + ".cb-no:hover{background:" + P.noHover + "}"
+    + ".cb-yes{background:" + P.btn + ";color:" + P.btnInk + ";border:1.5px solid " + P.btn + ";font-weight:700}"
+    + ".cb-yes:hover{background:" + P.btnHover + ";border-color:" + P.btnHover + "}"
+    + ".cb :focus-visible{outline:3px solid " + P.ring + ";outline-offset:2px}"
+    + "@media(min-width:760px){.cb{left:auto;right:24px;bottom:calc(24px + var(--cb-b,0px));width:380px;padding:16px 18px;border:1px solid " + P.line + ";border-radius:" + P.r + ";box-shadow:" + P.shadow + "}}"
     + "@media(prefers-reduced-motion:reduce){.cb,.cb.is-on{transition:none}}";
-  var box = null;
+  var box = null, raf = 0;
+  // Barre de réservation (.dock des fiches, .vbar VIP) ou bandeau de Gestion en bas d'écran, sous le bandeau : on se pose dessus.
+  function lift() {
+    raf = 0;
+    if (!box || !box.classList.contains("is-on")) return;
+    var r = box.getBoundingClientRect(), h = window.innerHeight, up = 0;
+    Array.prototype.forEach.call(document.querySelectorAll(".dock, .vbar, .site-notice--bottom, .tl-dock"), function (el) {
+      var q = el.getBoundingClientRect();
+      if (!q.height || q.top >= h || q.bottom < h - 2 || q.right <= r.left || q.left >= r.right) return;
+      up = Math.max(up, Math.ceil(h - q.top));
+    });
+    box.style.setProperty("--cb-b", up + "px");
+  }
+  function askLift() { if (!raf) raf = requestAnimationFrame(lift); }
+  // Suivi des barres du bas seulement tant que le bandeau est à l'écran.
+  function watch(on) {
+    var m = on ? "addEventListener" : "removeEventListener";
+    window[m]("scroll", askLift, { passive: true });
+    window[m]("resize", askLift);
+    document[m]("transitionend", askLift, true);
+  }
   function build() {
     if (box) return box;
     var st = document.createElement("style");
@@ -192,15 +221,15 @@
     box.setAttribute("role", "dialog");
     box.setAttribute("aria-labelledby", "cb-t");
     box.setAttribute("aria-describedby", "cb-p");
-    box.innerHTML = '<h2 class="cb-t" id="cb-t">Can we count your visit?</h2>'
-      + '<p class="cb-p" id="cb-p">Google Analytics shows us which pages help travellers. Microsoft Clarity shows how the pages are used: clicks, scrolling and mouse movement. Both set cookies and never receive what you type, such as your name, hotel or phone number. If you decline, nothing is sent. <a href="/privacy/#cookies">Privacy</a></p>'
-      + '<div class="cb-r"><button class="cb-b" type="button" data-choice="granted">Accept</button><button class="cb-b" type="button" data-choice="denied">Decline</button></div>';
+    box.innerHTML = '<p class="cb-p" id="cb-p"><strong class="cb-t" id="cb-t">Help us improve this site?</strong> We use cookies to see which pages help travellers and how they are used. <a href="/privacy/#cookies">Privacy</a></p>'
+      + '<div class="cb-r"><button class="cb-b cb-no" type="button" data-choice="denied">No thanks</button><button class="cb-b cb-yes" type="button" data-choice="granted">Accept</button></div>';
     box.addEventListener("click", function (e) {
       var b = e.target.closest("[data-choice]");
       if (!b) return;
       write(b.getAttribute("data-choice"));
       apply(b.getAttribute("data-choice"));
       box.classList.remove("is-on");
+      watch(false);
     });
     document.body.appendChild(box);
     return box;
@@ -209,7 +238,9 @@
     var b = build();
     requestAnimationFrame(function () {
       b.classList.add("is-on");
-      if (focus) b.querySelector("[data-choice]").focus();
+      watch(true);
+      lift();
+      if (focus) b.querySelector('[data-choice="granted"]').focus();
     });
   }
 
