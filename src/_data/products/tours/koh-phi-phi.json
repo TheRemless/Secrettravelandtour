@@ -120,7 +120,7 @@
       "label": "Small group, back at sunset",
       "kind": "join-in",
       "boat": "speedboat",
-      "note": "Hotel pickup at 08:30, back at your hotel between 18:30 and 20:00. Phi Phi and Bamboo Island, then the sunset on the way back. This programme does not stop at Maya Bay.",
+      "note": "Hotel pickup at 08:30, back at your hotel between 18:30 and 20:00. Phi Phi and Bamboo Island, then the sunset on the way back. Maya Bay is not on this programme.",
       "prices": [
         {
           "label": "Adult",
@@ -359,7 +359,7 @@
     },
     {
       "q": "Which trip should I pick?",
-      "a": "The join-in speedboat stops at Maya Bay and gives you free time on Phi Phi Don until 16:00. The small-group trip picks you up at 08:30, has lunch and the end of the afternoon on Bamboo Island and comes back at sunset, with wine included and a guide who speaks English or Chinese. It does not go to Maya Bay. The private longtail is the whole boat for your group."
+      "a": "The join-in speedboat stops at Maya Bay and gives you free time on Phi Phi Don until 16:00. The small-group trip picks you up at 08:30, has lunch and the end of the afternoon on Bamboo Island and comes back at sunset, with wine included and a guide who speaks English or Chinese. Maya Bay is not on this programme. The private longtail is the whole boat for your group."
     }
   ],
   "photos": [

@@ -108,6 +108,16 @@ for (const [slug, want] of Object.entries(PAGES)) {
   });
 }
 
+test("Koh Phi Phi : Maya Bay dite absente du programme, sans affirmer plus que la brochure", () => {
+  const p = P("koh-phi-phi");
+  const o = p.options.find((x) => x.id === ID);
+  const help = p.faq.find((f) => f.q === "Which trip should I pick?");
+  for (const t of [o.note, help.a]) {
+    assert.match(t, /Maya Bay is not on this programme\./);
+    assert.doesNotMatch(t, /does not (stop at|go to) Maya Bay/);
+  }
+});
+
 test("Koh Rok : la saison reste celle de la fiche (mi-octobre à mi-mai)", () => {
   const p = P("koh-rok-koh-haa");
   assert.equal(p.facts.find((f) => f.label === "Season").value, "Mid-October to mid-May");
