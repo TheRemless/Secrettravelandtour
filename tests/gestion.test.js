@@ -1,0 +1,172 @@
+// Gestion en ligne (17.11.2026) : copie des demandes de la feuille vers demande-site, bandeau d'information lu sur
+// bandeau-site, politique de confidentialité. Contrats : Site_Anais docs/gestion/demandes-site.md et bandeau-site.md.
+// Lancer le build avant (lecture de _site/).
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
+const B = require("../src/js/booking.js");
+const N = require("../src/js/notice.js");
+
+const ROOT = path.join(__dirname, "..");
+const SITE = path.join(ROOT, "_site");
+const src = (rel) => fs.readFileSync(path.join(ROOT, rel), "utf8");
+const read = (rel) => fs.readFileSync(path.join(SITE, rel, "index.html"), "utf8");
+const bookData = (rel) => JSON.parse(read(rel).match(/id="book-data">([\s\S]*?)<\/script>/)[1]);
+const FIELDS = ["brand", "product_id", "product", "option", "option_label", "date", "time", "adults", "children", "pickup", "name", "estimated_total", "currency", "ref", "page_url", "message", "website"];
+
+// ---------- Demandes ----------
+test("corps de la demande : exactement les champs du contrat, marque secret ou taxi, message WhatsApp inchangé", () => {
+  const today = "2026-11-17";
+  const cases = [
+    ["tours/4-islands", "secret", (c) => ({ option: c.options[0].id, dateChoice: "other", dateOther: "2026-11-20", adults: 2, childAges: [7], pickup: "Pimalai Resort", name: "Anna" })],
+    ["transfers", "secret", () => ({ dateChoice: "tomorrow", time: "09:30", adults: 3, pickupAt: "Krabi Airport", dropoffAt: "Lanta Sand Resort", name: "Ben" })],
+    ["taxi/krabi-airport-koh-lanta", "taxi", () => ({ dateChoice: "other", dateOther: "2026-12-01", time: "14:35", adults: 2, flight: "FD3129", pickupAt: "Krabi Airport", dropoffAt: "Pimalai Resort", name: "Chloé" })],
+    ["tours/rental", "secret", (c) => ({ option: c.options[0].id, dateFrom: "2026-11-20", dateTo: "2026-11-23", name: "Dan", pickup: "Long Beach" })]
+  ];
+  for (const [rel, brand, fill] of cases) {
+    const cfg = bookData(rel);
+    const state = Object.assign(B.emptyState(cfg), fill(cfg), { today });
+    const message = B.buildMessage(cfg, state);
+    const body = B.demandeBody(cfg, state, message, "", "https://secrettravelandtour.com/" + rel + "/#book");
+    assert.deepEqual(Object.keys(body), FIELDS, rel);
+    assert.equal(body.brand, brand, rel);
+    assert.equal(body.product_id, cfg.productId);
+    assert.match(body.product_id, /^[a-z0-9-]{1,60}$/);
+    assert.equal(body.message, message, "le texte exact envoyé à WhatsApp");
+    assert.doesNotMatch(body.message, /\nRef: /, "pas de ligne Ref tant que Jérémy n'a pas décidé");
+    assert.equal(body.ref, "");
+    assert.equal(body.website, "");
+    assert.equal(body.currency, "THB");
+    assert.equal(body.page_url, "https://secrettravelandtour.com/" + rel + "/", "sans le #");
+    assert.ok(body.date === "" || /^\d{4}-\d{2}-\d{2}$/.test(body.date), rel);
+    assert.ok(body.time === "" || /^\d{2}:\d{2}$/.test(body.time), rel);
+    assert.ok(JSON.stringify(body).length < 4096, rel);
+  }
+  // Champ piège rempli : transmis tel quel (Gestion n'écrit rien et répond 202).
+  const cfg = bookData("tours/4-islands");
+  assert.equal(B.demandeBody(cfg, B.emptyState(cfg), "x", "spam", "").website, "spam");
+});
+
+test("envoi : fetch keepalive en text/plain, sans cookie, jamais attendu, toute erreur avalée", () => {
+  const saved = global.fetch;
+  try {
+    const calls = [];
+    global.fetch = (url, init) => { calls.push([url, init]); return Promise.reject(new Error("offline")); };
+    assert.equal(B.sendCopy({ a: 1 }), undefined, "rien à attendre");
+    assert.equal(calls.length, 1);
+    assert.equal(calls[0][0], "https://lkxqcmzeidlyssoqmqkh.supabase.co/functions/v1/demande-site");
+    assert.deepEqual({ ...calls[0][1], body: JSON.parse(calls[0][1].body) }, { method: "POST", body: { a: 1 }, keepalive: true, mode: "cors", credentials: "omit", headers: { "Content-Type": "text/plain;charset=UTF-8" } });
+    global.fetch = () => { throw new Error("boom"); };
+    assert.doesNotThrow(() => B.sendCopy({ a: 1 }));
+  } finally { global.fetch = saved; }
+});
+
+test("la copie part dans le submit, après buildMessage et avant window.open, sans await ni then", () => {
+  const js = src("src/js/booking.js");
+  const submit = js.slice(js.indexOf('form.addEventListener("submit"'), js.indexOf('// « Add to my trip list »'));
+  const iMsg = submit.indexOf("message = buildMessage(config, state);");
+  const iSend = submit.indexOf("sendCopy(demandeBody(config, state, message,");
+  const iOpen = submit.indexOf('window.open(url, "_blank")');
+  assert.ok(iMsg > -1 && iSend > iMsg && iOpen > iSend, "ordre : message, copie, WhatsApp");
+  assert.doesNotMatch(submit.slice(iSend, iOpen), /await|\.then\(/);
+  assert.doesNotMatch(submit, /\basync\b/);
+});
+
+test("aucune requête hors de la feuille : l'adresse demande-site seulement dans booking.js, appelée une fois", () => {
+  for (const f of fs.readdirSync(path.join(ROOT, "src", "js"))) {
+    const n = (src("src/js/" + f).match(/demande-site/g) || []).length;
+    assert.equal(n, f === "booking.js" ? 1 : 0, f);
+  }
+  assert.equal((src("src/js/booking.js").match(/sendCopy\(/g) || []).length, 2, "définition et un seul appel");
+  // Champ piège : hors de l'écran, masqué pour Clarity, jamais dans le message (pas dans l'état de la feuille).
+  const h = read("tours/4-islands");
+  assert.match(h, /<div class="hp" aria-hidden="true"><label for="bk-website">Website<\/label><input data-clarity-mask="True" id="bk-website" name="website" type="text" tabindex="-1" autocomplete="off"><\/div>/);
+  assert.ok(!("website" in B.emptyState({})));
+  assert.match(src("src/css/booking.css"), /\.hp \{ position: absolute; left: -10000px;/);
+});
+
+// ---------- Bandeau ----------
+const NOW = Date.parse("2026-11-17T06:00:00Z");
+const banner = (o) => Object.assign({ id: "b1", brands: ["secret"], type: "info", text: "We answer on WhatsApp from 8:00 to 20:00.", link: null, target: { kind: "all" }, closable: true, priority: 2, starts_at: "2026-11-16T00:00:00Z", ends_at: null, card_label: null }, o);
+
+test("choix : marque, section, produit, dates, fermés, priorité puis type ; liste vide, erreur ou bandeau mal formé = rien", () => {
+  const page = { brand: "secret", section: "islands", product: "4-islands" };
+  assert.equal(N.choose(null, page, NOW, []), null);
+  assert.equal(N.choose({ banners: [] }, page, NOW, []), null);
+  assert.equal(N.choose({ version: 1 }, page, NOW, []), null);
+  assert.equal(N.choose({ banners: [{ id: "x" }, banner({ type: "bogus" }), banner({ type: "constructor" }), banner({ text: "" })] }, page, NOW, []), null);
+  assert.equal(N.choose({ banners: [banner({ brands: ["taxi"] })] }, page, NOW, []), null);
+  assert.equal(N.choose({ banners: [banner({ target: { kind: "sections", sections: ["taxi"] } })] }, page, NOW, []), null);
+  assert.equal(N.choose({ banners: [banner({ ends_at: "2026-11-17T00:00:00Z" })] }, page, NOW, []), null);
+  assert.equal(N.choose({ banners: [banner({ starts_at: "2026-11-18T00:00:00Z" })] }, page, NOW, []), null);
+  assert.equal(N.choose({ banners: [banner({})] }, page, NOW, ["b1"]), null);
+  assert.equal(N.choose({ banners: [banner({ closable: false })] }, page, NOW, ["b1"]).id, "b1", "non fermable : toujours là");
+  const pick = N.choose({ banners: [banner({ id: "i" }), banner({ id: "u", type: "urgent" }), banner({ id: "s", type: "sea", target: { kind: "products", products: ["4-islands"] } })] }, page, NOW, []);
+  assert.equal(pick.id, "u", "même priorité : urgent d'abord");
+  assert.equal(N.choose({ banners: [banner({ id: "u", type: "urgent", priority: 3 }), banner({ id: "i", priority: 1 })] }, page, NOW, []).id, "i", "priorité d'abord");
+});
+
+test("lien : un chemin du site ou WhatsApp avec le numéro du site, rien d'autre", () => {
+  assert.deepEqual(N.linkOf(banner({ link: { kind: "page", href: "/tours/4-islands/", label: "See 4 Islands" } }), "66958683846"), { href: "/tours/4-islands/", label: "See 4 Islands", blank: false });
+  assert.equal(N.linkOf(banner({ link: { kind: "page", href: "https://evil.example/", label: "x" } }), "1"), null);
+  assert.equal(N.linkOf(banner({ link: { kind: "page", href: "//evil.example/", label: "x" } }), "1"), null);
+  assert.equal(N.linkOf(banner({ link: { kind: "page", href: "javascript:alert(1)", label: "x" } }), "1"), null);
+  assert.equal(N.linkOf(banner({ link: { kind: "page", href: "/\\evil.example/", label: "x" } }), "1"), null, "antislash : un navigateur le lit comme //");
+  assert.deepEqual(N.linkOf(banner({ link: { kind: "whatsapp", label: "Ask on WhatsApp", text: "Hello & bye" } }), "66958683846"), { href: "https://wa.me/66958683846?text=Hello%20%26%20bye", label: "Ask on WhatsApp", blank: true });
+});
+
+// DOM minimal : assez pour build() (createElement, createElementNS, attributs, enfants, textContent).
+function fakeDoc() {
+  const el = (tag) => ({ tag, attrs: {}, children: [], className: "", _text: "", set textContent(v) { this._text = String(v); this.children = []; }, get textContent() { return this._text + this.children.map((c) => c.textContent).join(""); },
+    setAttribute(k, v) { this.attrs[k] = String(v); }, getAttribute(k) { return this.attrs[k]; }, appendChild(c) { this.children.push(c); return c; } });
+  return { createElement: el, createElementNS: (ns, tag) => el(tag), createTextNode: (t) => ({ textContent: t }) };
+}
+const all = (n, f, acc = []) => { if (f(n)) acc.push(n); (n.children || []).forEach((c) => all(c, f, acc)); return acc; };
+
+test("chaque type se rend : classe, rôle, icône, texte en textContent, lien, croix seulement si fermable", () => {
+  for (const type of ["info", "sea", "season", "new", "urgent"]) {
+    const box = N.build(fakeDoc(), banner({ id: "id-" + type, type, text: "<b>Rough sea</b> today", link: { kind: "page", href: "/tours/", label: "See trips" } }), "66958683846");
+    assert.equal(box.tag, "aside");
+    assert.equal(box.className, "site-notice site-notice--" + type);
+    assert.equal(box.attrs.role, type === "urgent" ? "alert" : "region");
+    assert.equal(box.attrs["data-notice-id"], "id-" + type);
+    assert.equal(all(box, (n) => n.tag === "svg").length, 2, "icône et croix");
+    const p = all(box, (n) => n.className === "site-notice__text")[0];
+    assert.equal(p._text, "<b>Rough sea</b> today", "texte brut, jamais interprété comme HTML");
+    const a = all(box, (n) => n.className === "site-notice__link")[0];
+    assert.equal(a.href, "/tours/");
+  }
+  const fixed = N.build(fakeDoc(), banner({ closable: false }), "1");
+  assert.equal(all(fixed, (n) => n.className === "site-notice__close").length, 0);
+});
+
+test("pages : contexte du bandeau sur chaque page, script différé, styles des deux marques, mesure après « Accept »", () => {
+  const ctx = (rel) => read(rel).match(/<script defer(?:="")? src="\/js\/notice\.js\?v=[^"]+" data-notice-brand="([^"]*)" data-notice-section="([^"]*)" data-notice-product="([^"]*)" data-notice-wa="(\d+)"><\/script>/).slice(1);
+  assert.deepEqual(ctx("tours/4-islands"), ["secret", "islands", "4-islands", "66958683846"]);
+  assert.deepEqual(ctx("tours/elephant-sanctuary"), ["secret", "activities", "elephant-sanctuary", "66958683846"]);
+  assert.deepEqual(ctx("tours/speedboat"), ["secret", "transfers", "speedboat-ferry", "66958683846"]);
+  assert.deepEqual(ctx("tours/rental"), ["secret", "rental", "rental", "66958683846"]);
+  assert.deepEqual(ctx("taxi/krabi-airport-koh-lanta"), ["taxi", "taxi", "krabi-airport-koh-lanta", "66958683846"]);
+  assert.deepEqual(ctx("taxi/songthaew"), ["taxi", "taxi", "", "66958683846"]);
+  assert.deepEqual(ctx("taxi"), ["taxi", "taxi", "", "66958683846"]);
+  assert.deepEqual(ctx(""), ["secret", "", "", "66958683846"]);
+  const js = src("src/js/notice.js");
+  for (const t of ["info", "sea", "season", "new", "urgent"]) {
+    assert.match(js, new RegExp(`\\.site-notice--${t}\\{`), "Secret " + t);
+    assert.match(js, new RegExp(`\\[data-brand=vip\\] \\.site-notice--${t}\\{`), "VIP " + t);
+  }
+  assert.doesNotMatch(js, /innerHTML/);
+  assert.match(js, /position:fixed/, "jamais dans le flux : aucun saut de mise en page");
+  const c = src("src/js/consent.js");
+  assert.match(c, /track\(k === "click" \? "banner_click" : "notice_" \+ k, \{ type: type \}\)/);
+});
+
+test("confidentialité : la copie dans l'outil de réservation, ses champs, rien pour un annonceur", () => {
+  const h = read("privacy");
+  assert.doesNotMatch(h, /send nothing to our servers|Nothing reaches us until/);
+  assert.match(h, /A copy of each request sent from a booking form is stored in our booking tool/);
+  for (const f of ["the trip or route and the option you chose", "the date", "the pickup time of a transfer", "the number of adults and of children", "the pickup place or hotel", "the name you typed", "the estimated price shown in the form", "the address of the page", "the text of the WhatsApp message"]) assert.ok(h.includes(f), f);
+  assert.match(h, /Nothing is sent to an advertiser\./);
+  assert.match(h, /Supabase hosts our booking tool/);
+});

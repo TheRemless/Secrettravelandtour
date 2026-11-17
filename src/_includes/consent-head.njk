@@ -3,3 +3,8 @@
 <script defer src="/js/consent.js?v={{ build.v }}" data-ga-id="{{ site.analytics.ga4 }}" data-clarity-id="{{ site.analytics.clarity }}"></script>
 {#- WhatsApp sur un ordinateur : panneau « scanner ou ouvrir » et QR code de l'écran final de la feuille (16.11.2026). -#}
 <script defer src="/js/wa-qr.js?v={{ build.v }}" data-wa-reply="{{ site.replyTime.usual }}"></script>
+{#- Bandeau d'information géré depuis Gestion (17.11.2026) : marque, section et produit de la page pour le choix du bandeau
+    (noticePages.js ; les pages /taxi/ sans fiche prennent la section taxi). -#}
+{%- set np = noticePages[page.url] -%}
+{%- if not np %}{% set np = { brand: "taxi", section: "taxi", product: "" } if (page.url and page.url.indexOf("/taxi/") == 0) else { brand: "secret", section: "", product: "" } %}{% endif %}
+<script defer src="/js/notice.js?v={{ build.v }}" data-notice-brand="{{ np.brand }}" data-notice-section="{{ np.section }}" data-notice-product="{{ np.product }}" data-notice-wa="{{ site.whatsapp.number }}"></script>

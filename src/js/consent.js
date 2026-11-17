@@ -18,7 +18,9 @@
    - contact_click {placement, method} : lien tel: ou mailto: ;
    - whatsapp_qr_shown {placement} : sur un ordinateur, le panneau QR code d'un lien WhatsApp ou le QR code de l'écran final
      de la feuille (placement sheet_done) s'affiche (wa-qr.js, stt-wa-qr-shown) ;
-   - whatsapp_desktop_open {placement} : « Open WhatsApp on this computer » dans ce panneau (wa-qr.js, stt-wa-desktop-open).
+   - whatsapp_desktop_open {placement} : « Open WhatsApp on this computer » dans ce panneau (wa-qr.js, stt-wa-desktop-open) ;
+   - notice_view, notice_close, banner_click {type} : bandeau d'information de Gestion affiché, fermé, lien suivi (notice.js),
+     jamais son texte.
    L'emplacement vient de l'attribut data-track des gabarits (sur l'élément ou un parent), jamais d'une lecture de la page.
    Les identifiants viennent de site.json (data-ga-id, data-clarity-id). Aucune dépendance, aucun autre script de suivi. */
 (function () {
@@ -152,6 +154,12 @@
     track("send_on_whatsapp", { product_type: src.variant || "unknown" });
   });
   document.addEventListener("stt-trips-send", function (e) { track("booking_send", e.detail || {}); });
+  ["view", "close", "click"].forEach(function (k) {
+    document.addEventListener("stt-notice-" + k, function (e) {
+      var type = e.detail && /^(info|sea|season|new|urgent)$/.test(e.detail.type) ? e.detail.type : "unknown";
+      track(k === "click" ? "banner_click" : "notice_" + k, { type: type });
+    });
+  });
   document.addEventListener("stt-wa-qr-shown", function (e) { track("whatsapp_qr_shown", { placement: (e.detail && e.detail.placement) || "untagged" }); });
   document.addEventListener("stt-wa-desktop-open", function (e) { track("whatsapp_desktop_open", { placement: (e.detail && e.detail.placement) || "untagged" }); });
 

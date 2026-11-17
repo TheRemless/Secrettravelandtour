@@ -327,6 +327,8 @@
         </div>
         {%- endif %}
       </div>
+      {#- Champ piège (contrat demandes-site) : invisible pour un humain, rempli par les robots ; jamais dans le message. -#}
+      <div class="hp" aria-hidden="true"><label for="bk-website">Website</label><input data-clarity-mask="True" id="bk-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
       <div class="sheet-foot{% if cfg.tripList %} sheet-foot--pair{% endif %}">
         {%- if cfg.variant == "tour" %}<p class="sheet-total" data-total aria-live="polite" hidden></p>{% endif %}
         {#- Envoi direct (Jérémy, 16.11.2026 : plus d'aperçu) : booking.js ouvre WhatsApp depuis l'envoi du formulaire. -#}

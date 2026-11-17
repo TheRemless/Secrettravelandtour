@@ -190,6 +190,8 @@ html.sheet-open { overflow: hidden; }
 .done-qr__code { flex: none; max-width: 100%; padding: 8px; background: #fff; border-radius: 8px; box-sizing: border-box; }
 .done-qr__code svg { display: block; width: 100%; height: auto; }
 .done-text .done-qr__p { margin: 0; text-wrap: balance; }
+/* Champ piège de la feuille (contrat demandes-site) : hors de l'écran, pas display:none (certains robots l'ignorent). */
+.hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
 .copy-status { min-height: 1.5em; margin: var(--s1) 0 0; font-weight: 700; }
 
 /* Poignée de la feuille : affichée par les pages du design v4 (v4.css), qui ajoutent le geste de fermeture. */

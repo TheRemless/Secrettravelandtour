@@ -544,6 +544,47 @@
     return out;
   }
 
+  // ---------- Copie de la demande pour Gestion (contrat Site_Anais docs/gestion/demandes-site.md, 17.11.2026) ----------
+  // Le corps exact du contrat, rien de plus : ce que la feuille sait déjà, et le texte WhatsApp tel qu'il part (sans ligne
+  // « Ref: », décision de Jérémy en attente : ref reste vide). Aucun téléphone, aucun e-mail : la feuille n'en demande pas.
+  var DEMANDE_URL = "https://lkxqcmzeidlyssoqmqkh.supabase.co/functions/v1/demande-site";
+  function demandeBody(config, state, message, honeypot, pageUrl) {
+    var option = findOption(config, state.option);
+    var info = trackInfo(config, state);
+    var time = clean(state.time);
+    return {
+      brand: /VIP Taxi/i.test(config.brand || "") ? "taxi" : "secret",
+      product_id: config.productId || "",
+      product: config.product || "",
+      option: state.option || state.route || "",
+      option_label: option ? option.title : "",
+      date: config.variant === "rental" ? state.dateFrom || "" : resolveDate(state.dateChoice, state.dateOther, state.today) || "",
+      time: /^\d{2}:\d{2}$/.test(time) ? time : "",
+      adults: state.adults || 0,
+      children: (state.childAges || []).length,
+      pickup: clean(state.pickup || state.pickupAt || ""),
+      name: clean(state.name),
+      estimated_total: typeof info.value === "number" ? info.value : null,
+      currency: "THB",
+      ref: "",
+      page_url: String(pageUrl || "").split("#")[0],
+      message: message,
+      website: honeypot || ""
+    };
+  }
+  // Envoi sans attendre de réponse, avant WhatsApp : ne bloque ni ne retarde jamais l'ouverture, toute erreur est avalée.
+  // Corps en text/plain (requête « simple », sans contrôle CORS préalable) et keepalive : il part même si la page change.
+  function sendCopy(body) {
+    try {
+      var data = JSON.stringify(body);
+      if (typeof fetch === "function") {
+        fetch(DEMANDE_URL, { method: "POST", body: data, keepalive: true, mode: "cors", credentials: "omit", headers: { "Content-Type": "text/plain;charset=UTF-8" } }).catch(function () {});
+      } else if (typeof navigator !== "undefined" && navigator.sendBeacon) {
+        navigator.sendBeacon(DEMANDE_URL, new Blob([data], { type: "text/plain;charset=UTF-8" }));
+      }
+    } catch (e) { /* jamais bloquant */ }
+  }
+
   function waUrl(message, number) {
     return "https://wa.me/" + (number || DEFAULT_NUMBER) + "?text=" + encodeURIComponent(message);
   }
@@ -1248,6 +1289,9 @@
       var errors = validate(config, state);
       if (Object.keys(errors).length) { showErrors(errors); markDayClash(errors); return; }
       message = buildMessage(config, state);
+      // Copie pour Gestion : avant window.open, sans attendre (le geste du visiteur reste disponible pour WhatsApp).
+      var trap = form.querySelector('[name="website"]');
+      sendCopy(demandeBody(config, state, message, trap ? trap.value : "", window.location.href));
       var url = waUrl(message, config.whatsapp);
       Array.prototype.forEach.call(dialog.querySelectorAll("[data-again]"), function (a) { a.href = url; });
       // variant : pour l'ancien événement send_on_whatsapp (consent.js le retire de booking_send).
@@ -1387,6 +1431,9 @@
     pendingPrice: pendingPrice,
     tripState: tripState,
     waUrl: waUrl,
+    demandeBody: demandeBody,
+    sendCopy: sendCopy,
+    DEMANDE_URL: DEMANDE_URL,
     trackInfo: trackInfo,
     makeDraft: makeDraft,
     restoreDraft: restoreDraft,
