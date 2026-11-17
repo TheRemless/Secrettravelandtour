@@ -333,7 +333,7 @@
     "National park fee, paid in cash"
   ],
   "beforeYouBook": {
-    "pickup": "Pickup at your hotel between 08:00 and 09:00, by car or by boat. On the join-in speedboat, a light breakfast at Lanta Old Town pier.",
+    "pickup": "Pickup at your hotel between 08:00 and 09:00, by car or by boat. On the join-in speedboat, a light breakfast at Lanta Old Town pier. Small group, back at sunset: pickup at 08:30, then by van to Hua Hin Pier.",
     "bring": [
       "Cash for the national park fee"
     ],
@@ -515,7 +515,7 @@
       "from": "Flyer du partenaire et décisions de Jérémy du 12.11.2026 : 9 400 THB le bateau pour 1 à 5 personnes (dès 4 ans), sur demande au-delà, programme du flyer avec horaires approximatifs, compris limité à ce que dit le flyer, parc national ouvert, annulation 12 h avant. Aucun nom de prestataire sur le site."
     },
     {
-      "field": "options[small-group-sunset], day[small-group-sunset], includedByOption[small-group-sunset], lead, faq[Which trip]",
+      "field": "options[small-group-sunset], day[small-group-sunset], includedByOption[small-group-sunset], lead, faq[Which trip], beforeYouBook.pickup",
       "from": "brochure du partenaire « Sunset Trip » transmise par Jérémy le 17.11.2026 (programmes.jpg et couverture.jpg) : prix adulte 3 900, enfant de 4 à 11 ans 2 900, programme minuté de 08:30 à 18:30-20:00, « Tour include », « Highlight : small group », « program and timing approximate […] tide and local weather conditions » ; bateau d'après la photo de couverture. Aucun prix sous 4 ans, aucune taille de groupe chiffrée, aucun jour de départ dans la brochure : rien d'écrit. Décisions de Jérémy du 17.11.2026 : sortie distincte des options existantes, frais de parc non inclus (montants déjà sur la fiche)"
     }
   ],

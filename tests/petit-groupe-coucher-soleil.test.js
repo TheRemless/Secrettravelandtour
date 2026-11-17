@@ -83,7 +83,7 @@ for (const [slug, want] of Object.entries(PAGES)) {
     const cfg = cfgOf(html(p.url));
     assert.ok(cfg.options.some((x) => x.id === ID && x.title === LABEL), "option absente de la feuille");
     const msg = B.buildMessage(cfg, state());
-    assert.match(msg, new RegExp(`^Booking request: ${p.name.replace("&", "&")} – ${LABEL}\\n`));
+    assert.match(msg, new RegExp(`^Booking request: ${p.name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")} – ${LABEL}\\n`));
     // 2 adultes à 3 900 et un enfant de 7 ans à 2 900.
     assert.match(msg, /\nEstimated total: 10,700 THB$/);
     const body = B.demandeBody(cfg, state(), msg, "", "https://secrettravelandtour.com" + p.url);
