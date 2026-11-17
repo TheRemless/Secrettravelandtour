@@ -2,7 +2,7 @@
 permalink: /privacy/
 eleventyExcludeFromCollections: true
 ---
-{#- Politique de confidentialité de secrettravelandtour.com (en anglais seulement : aucune version française sur ce site). Décrit le site tel qu'il est : mesure d'audience Google Analytics 4 seulement après « Accept » (consent.js, 12.11.2026 ; clics et envois de la feuille mesurés et Microsoft Clarity, champs saisis masqués, depuis le 16.11.2026), formulaires qui préparent un message WhatsApp, brouillon local 7 jours (secret-form.js). À revoir si on ajoute un outil de mesure ou un formulaire envoyé au serveur. -#}
+{#- Politique de confidentialité de secrettravelandtour.com (en anglais seulement : aucune version française sur ce site). Décrit le site tel qu'il est : mesure d'audience Google Analytics 4 seulement après « Accept » (consent.js, 12.11.2026 ; clics et envois de la feuille mesurés et Microsoft Clarity, champs saisis masqués, depuis le 16.11.2026), formulaires qui préparent un message WhatsApp et, depuis le 17.11.2026, copie de la demande envoyée à Gestion (contrat Site_Anais docs/gestion/demandes-site.md : champs listés en section 5), bandeau lu sur la même plateforme (Supabase), brouillon local 7 jours (secret-form.js). À revoir si on ajoute un outil de mesure ou un formulaire envoyé au serveur. -#}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,13 +21,13 @@ eleventyExcludeFromCollections: true
   <p class="lang"><a class="home" href="/">Secret Travel &amp; Tour</a><a class="home" href="/taxi/">VIP Taxi Lanta</a></p>
   <h1>Privacy policy</h1>
   <p class="sub">Secret Travel &amp; Tour and VIP Taxi Lanta</p>
-  <p class="updated">Last updated: 16 November 2026</p>
+  <p class="updated">Last updated: 17 November 2026</p>
 
   <h2>1. Who is responsible for your data</h2>
   <p>Zwald Travel Planner Co., Ltd., 292 Moo 2, Sala Dan, Koh Lanta Yai, Krabi 81150, Thailand, company registration no. 0815569000065. The company operates Secret Travel &amp; Tour and sells the VIP Taxi Lanta transfers. Contact: WhatsApp +66 95 868 38 46.</p>
 
   <h2>2. What this website collects</h2>
-  <p>This website does not ask you for personal details. It has no account and no newsletter, and its forms send nothing to our servers. The tour and transfer forms only prepare a WhatsApp message on your device and open WhatsApp with it. Nothing reaches us until you send that message yourself in WhatsApp. When you browse, the data handled is technical, such as your IP address in the host's logs (see section 6), plus the audience measurement described in section 3 if you accept it.</p>
+  <p>This website has no account and no newsletter. The tour and transfer forms prepare a WhatsApp message on your device and open WhatsApp with it. When you tap “Send on WhatsApp” in a booking form, the website also sends a copy of that request to our booking tool, described in section 5. When you browse, the data handled is technical, such as your IP address in the host's logs (see section 6), plus the audience measurement described in section 3 if you accept it.</p>
 
   <h2 id="cookies">3. Cookies and statistics</h2>
   <p>This website counts visits with Google Analytics 4 and sees how its pages are used with Microsoft Clarity, but only if you accept. A notice asks you when you first arrive. Until you choose, and if you decline, no cookie is set and nothing is sent to Google or Microsoft.</p>
@@ -51,12 +51,14 @@ eleventyExcludeFromCollections: true
 
   <h2>5. What we do with your booking details</h2>
   <p>When you write to us, we receive what you choose to send, such as your name, phone number, dates, pickup place, the number and age of travellers or a flight number. We use these details only to answer you and handle your booking. We share with the partner carrying out the service only the details it needs. We never sell your details or use them for advertising.</p>
+  <p id="booking-tool">A copy of each request sent from a booking form is stored in our booking tool, so that the team can handle it. The copy holds the brand (Secret Travel &amp; Tour or VIP Taxi Lanta), the trip or route and the option you chose, the date, the pickup time of a transfer, the number of adults and of children, the pickup place or hotel, the name you typed, the estimated price shown in the form, the address of the page, and the text of the WhatsApp message, which also gives the age of each child. It holds no phone number and no email address. Only the team members who handle bookings can read it. Your IP address is not stored: the tool keeps a scrambled fingerprint of it, only to limit repeated requests. Nothing is sent to an advertiser.</p>
 
   <h2>6. Services we rely on</h2>
   <ul>
     <li>WhatsApp (Meta) carries our messages, under its own privacy policy.</li>
     <li>Google Analytics measures visits, only if you accept (see section 3), under Google's own privacy policy.</li>
     <li>Microsoft Clarity records how pages are used, only if you accept (see section 3), under the Microsoft Privacy Statement.</li>
+    <li>Supabase hosts our booking tool. It stores the copy of your booking request (see section 5) and serves the short notices shown at the top or bottom of some pages.</li>
     <li>Netlify hosts this website and may keep technical logs, such as IP addresses, to deliver it securely.</li>
   </ul>
 

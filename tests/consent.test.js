@@ -102,7 +102,7 @@ test("/privacy/ : ce qui est mesuré, durée, comment changer d'avis, Google Ana
   assert.match(h, /for 6 months, then we ask again/);
   assert.match(h, /“Cookie settings” at the bottom of any page/);
   assert.match(h, /Google Analytics measures visits, only if you accept/);
-  assert.match(h, /Last updated: 16 November 2026/);
+  assert.match(h, /Last updated: 17 November 2026/);
   assert.doesNotMatch(h, /uses no cookies, no audience measurement/);
 });
 
