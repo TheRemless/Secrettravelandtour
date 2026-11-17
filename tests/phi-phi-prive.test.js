@@ -61,9 +61,10 @@ test("JSON-LD : une offre par option, avec son prix « from » (adulte 2 000, ba
   const ld = [...html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)].map((m) => JSON.parse(m[1]));
   const trip = ld.flatMap((b) => (b["@graph"] ? b["@graph"] : [b])).find((x) => x["@type"] === "TouristTrip");
   const offers = trip.offers;
-  assert.equal(offers.length, 2);
-  assert.deepEqual(offers.map((o) => [o.name, o.priceSpecification.minPrice]), [["Join-in speedboat", 2000], ["Private longtail", 9400]]);
-  assert.match(offers[1].priceSpecification.description, /per boat/);
+  // Petit groupe au coucher du soleil (brochure du 17.11.2026) : troisième offre, entre le join-in et le privé.
+  assert.equal(offers.length, 3);
+  assert.deepEqual(offers.map((o) => [o.name, o.priceSpecification.minPrice]), [["Join-in speedboat", 2000], ["Small group, back at sunset", 3900], ["Private longtail", 9400]]);
+  assert.match(offers[2].priceSpecification.description, /per boat/);
   assert.doesNotMatch(JSON.stringify(P) + html, /monkey lanta|monkey-lanta|\+66 ?95 ?540|3179|rattana/i);
 });
 

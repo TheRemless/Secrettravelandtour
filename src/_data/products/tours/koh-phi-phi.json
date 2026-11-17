@@ -14,7 +14,7 @@
     }
   },
   "h1": "Koh Phi Phi day trip from Koh Lanta",
-  "lead": "Maya Bay, Pileh Lagoon, Viking Cave and Monkey Beach in the morning, then lunch on Phi Phi Don, Bamboo Island and free time on Phi Phi Don. By join-in speedboat, or by private longtail for your group only.",
+  "lead": "Maya Bay, Pileh Lagoon, Viking Cave and Monkey Beach in the morning, then lunch on Phi Phi Don, Bamboo Island and free time on Phi Phi Don. By join-in speedboat, on a small-group trip back at sunset, or by private longtail for your group only.",
   "promise": "Maya Bay, Pileh Lagoon and Bamboo Island by speedboat",
   "facts": [
     {
@@ -86,6 +86,55 @@
           "ages": {
             "max": 3
           }
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "National park fee, adult",
+          "amount": 400,
+          "unit": "per person",
+          "note": "Cash"
+        },
+        {
+          "label": "National park fee, child",
+          "amount": 200,
+          "unit": "per person",
+          "note": "Cash"
+        },
+        {
+          "label": "National park fee, Thai national adult",
+          "amount": 40,
+          "unit": "per person",
+          "note": "Cash"
+        },
+        {
+          "label": "National park fee, Thai national child",
+          "amount": 20,
+          "unit": "per person",
+          "note": "Cash"
+        }
+      ]
+    },
+    {
+      "id": "small-group-sunset",
+      "label": "Small group, back at sunset",
+      "kind": "join-in",
+      "boat": "speedboat",
+      "note": "Hotel pickup at 08:30, back at your hotel between 18:30 and 20:00. Phi Phi and Bamboo Island, then the sunset on the way back. This programme does not stop at Maya Bay.",
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 3900,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 11",
+          "amount": 2900,
+          "ages": {
+            "min": 4,
+            "max": 11
+          },
+          "unit": "per person"
         }
       ],
       "notIncludedFees": [
@@ -199,6 +248,47 @@
     },
     {
       "options": [
+        "small-group-sunset"
+      ],
+      "title": "How the day goes (small group, back at sunset)",
+      "steps": [
+        {
+          "time": "08:30",
+          "text": "Pickup at your hotel, then by van to Hua Hin Pier."
+        },
+        {
+          "time": "10:00",
+          "text": "The boat leaves the pier."
+        },
+        {
+          "time": "11:00",
+          "text": "Around Phi Phi: snorkelling, snacks, and a tour of Monkey Bay, Viking Cave and Pileh Lagoon."
+        },
+        {
+          "time": "13:50",
+          "text": "Bamboo Island: Thai buffet lunch and time to relax."
+        },
+        {
+          "time": "15:00",
+          "text": "Back to Phi Phi Don for snorkelling."
+        },
+        {
+          "time": "17:00",
+          "text": "Bamboo Island again, with free time on the beach."
+        },
+        {
+          "time": "17:50",
+          "text": "The boat leaves Bamboo Island for Koh Lanta, with the sunset and soft drinks on board."
+        },
+        {
+          "time": "18:30",
+          "text": "The transfer back to your hotel, between 18:30 and 20:00."
+        }
+      ],
+      "note": "Times are approximate and change with the tide and the weather."
+    },
+    {
+      "options": [
         "private-longtail"
       ],
       "title": "How the day goes (private longtail)",
@@ -266,6 +356,10 @@
     {
       "q": "Can we go on a private boat?",
       "a": "Yes, on a private longtail for your group only: 9,400 THB per boat for 1 to 5 people. Children from 4 count in the group size. For 6 people or more, ask us on WhatsApp."
+    },
+    {
+      "q": "Which trip should I pick?",
+      "a": "The join-in speedboat stops at Maya Bay and gives you free time on Phi Phi Don until 16:00. The small-group trip picks you up at 08:30, has lunch and the end of the afternoon on Bamboo Island and comes back at sunset, with wine included and a guide who speaks English or Chinese. It does not go to Maya Bay. The private longtail is the whole boat for your group."
     }
   ],
   "photos": [
@@ -419,6 +513,10 @@
     {
       "field": "options[private-longtail], day[1], includedByOption, faq[private], beforeYouBook, schema.offersByOption",
       "from": "Flyer du partenaire et décisions de Jérémy du 12.11.2026 : 9 400 THB le bateau pour 1 à 5 personnes (dès 4 ans), sur demande au-delà, programme du flyer avec horaires approximatifs, compris limité à ce que dit le flyer, parc national ouvert, annulation 12 h avant. Aucun nom de prestataire sur le site."
+    },
+    {
+      "field": "options[small-group-sunset], day[small-group-sunset], includedByOption[small-group-sunset], lead, faq[Which trip]",
+      "from": "brochure du partenaire « Sunset Trip » transmise par Jérémy le 17.11.2026 (programmes.jpg et couverture.jpg) : prix adulte 3 900, enfant de 4 à 11 ans 2 900, programme minuté de 08:30 à 18:30-20:00, « Tour include », « Highlight : small group », « program and timing approximate […] tide and local weather conditions » ; bateau d'après la photo de couverture. Aucun prix sous 4 ans, aucune taille de groupe chiffrée, aucun jour de départ dans la brochure : rien d'écrit. Décisions de Jérémy du 17.11.2026 : sortie distincte des options existantes, frais de parc non inclus (montants déjà sur la fiche)"
     }
   ],
   "refPrefix": "PP",
@@ -426,6 +524,13 @@
     "Saison : toute l'année sauf fermeture du parc national (réponse de Jérémy du 03.11.2026) ; pas de saison affichée tant que les mois de fermeture ne sont pas donnés."
   ],
   "includedByOption": {
+    "small-group-sunset": [
+      "Hotel transfer both ways, by van",
+      "Lunch, soft drinks, wine and fruit",
+      "Snorkelling equipment",
+      "An experienced local guide who speaks English or Chinese",
+      "Insurance"
+    ],
     "private-longtail": [
       "Hotel pickup and return, by car or by boat",
       "Thai buffet lunch on Bamboo Island",

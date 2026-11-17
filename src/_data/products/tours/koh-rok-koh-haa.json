@@ -159,6 +159,50 @@
       ]
     },
     {
+      "id": "small-group-sunset",
+      "label": "Small group, back at sunset",
+      "kind": "join-in",
+      "boat": "speedboat",
+      "note": "Hotel pickup at 08:30, back at your hotel between 18:30 and 20:00. Koh Rok and the Koh Haa lagoon, then the sunset on the way back.",
+      "prices": [
+        {
+          "label": "Adult",
+          "amount": 3900,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 11",
+          "amount": 2900,
+          "ages": {
+            "min": 4,
+            "max": 11
+          },
+          "unit": "per person"
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "National park fee, adult",
+          "amount": 400,
+          "unit": "per person",
+          "note": "Cash, paid to the ranger on the island",
+          "ages": {
+            "min": 12
+          }
+        },
+        {
+          "label": "National park fee, child",
+          "amount": 200,
+          "unit": "per person",
+          "note": "Cash, paid to the ranger on the island",
+          "ages": {
+            "min": 4,
+            "max": 11
+          }
+        }
+      ]
+    },
+    {
       "id": "private-longtail",
       "label": "Private longtail to Koh Rok",
       "kind": "private",
@@ -288,6 +332,47 @@
         }
       ],
       "note": "Times are approximate and change with the tide and the weather."
+    },
+    {
+      "options": [
+        "small-group-sunset"
+      ],
+      "title": "How the day goes (small group, back at sunset)",
+      "steps": [
+        {
+          "time": "08:30",
+          "text": "Pickup at your hotel, then by van to Hua Hin Pier."
+        },
+        {
+          "time": "10:00",
+          "text": "The boat leaves the pier, with snacks on the way."
+        },
+        {
+          "time": "12:00",
+          "text": "Arrival at Koh Rok and time to relax on the island."
+        },
+        {
+          "time": "13:30",
+          "text": "Thai buffet lunch on the beach of Koh Rok, then time to swim on the white sand beach."
+        },
+        {
+          "time": "15:30",
+          "text": "A snorkelling stop."
+        },
+        {
+          "time": "16:30",
+          "text": "The boat leaves Koh Rok for the Koh Haa lagoon."
+        },
+        {
+          "time": "17:50",
+          "text": "Back to Koh Lanta, watching the sunset with soft drinks on board."
+        },
+        {
+          "time": "18:30",
+          "text": "The transfer back to your hotel, between 18:30 and 20:00."
+        }
+      ],
+      "note": "Times are approximate and change with the tide and the weather."
     }
   ],
   "included": [
@@ -332,8 +417,8 @@
       "a": "No. You pay 400 THB per adult and 200 THB per child from 4 to 11 in cash to the ranger on Koh Rok. Children under 4 do not pay."
     },
     {
-      "q": "Speedboat or longtail?",
-      "a": "The join-in trip is by speedboat and includes Koh Haa. The private longtail goes to Koh Rok only, at your own pace."
+      "q": "Which trip should I pick?",
+      "a": "The join-in speedboat leaves Koh Haa at 15:30. Two trips come back at sunset: the later trip picks you up at 10:00, with 25 to 45 guests on the boat; the small-group trip picks you up at 08:30, includes wine and has a guide who speaks English or Chinese. The private longtail goes to Koh Rok only, for your group."
     }
   ],
   "photos": [
@@ -558,7 +643,20 @@
     {
       "field": "included[lunch], options[private-longtail].note, faq[1-2]",
       "from": "brochure speedboat Rok + Ha « Enjoy buffet lunch Thai style », « Ha Island literally means in Thai \"The Five Islands\" », « the blue turquoise lagoon » ; « Soft drinks / Seasonal fruit » ; brochure longtail p. 3 Ko Rok « clear turquoise waters, varieties of underwater coral reef lines, colorful anemone fishes and powdery white sand beach », « Giant monitor lizards and hermit crabs », « THIS SPECIAL FEATURE ONLY AVAILABLE FOR PRIVATE CHARTER », carte depuis « Lanta Old Town Pier » (audit des brochures du 12.11.2026, demande de Jérémy)"
+    },
+    {
+      "field": "options[small-group-sunset], day[small-group-sunset], includedByOption[small-group-sunset], faq[Which trip] (remplace « Speedboat or longtail? »)",
+      "from": "brochure du partenaire « Sunset Trip » transmise par Jérémy le 17.11.2026 (programmes.jpg et couverture.jpg) : prix adulte 3 900, enfant de 4 à 11 ans 2 900, programme minuté de 08:30 à 18:30-20:00, « Tour include », « Highlight : small group », « program and timing approximate […] tide and local weather conditions » ; bateau d'après la photo de couverture. Aucun prix sous 4 ans, aucune taille de groupe chiffrée, aucun jour de départ dans la brochure : rien d'écrit. Décisions de Jérémy du 17.11.2026 : sortie distincte des options existantes, frais de parc non inclus (montants déjà sur la fiche). Saison : celle de la fiche (mi-octobre à mi-mai)"
     }
   ],
-  "refPrefix": "ROK"
+  "refPrefix": "ROK",
+  "includedByOption": {
+    "small-group-sunset": [
+      "Hotel transfer both ways, by van",
+      "Lunch, soft drinks, wine and fruit",
+      "Snorkelling equipment",
+      "An experienced local guide who speaks English or Chinese",
+      "Insurance"
+    ]
+  }
 }

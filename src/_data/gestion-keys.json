@@ -238,6 +238,14 @@
   "prestation": "0711f191-fe3b-587f-a28a-db415fd235e7",
   "gestion": "Private Koh Phi Phi by longtail (Phi Phi Leh, Bamboo Island, Phi Phi Don)"
  },
+ "koh-phi-phi|Small group, back at sunset|Adult": {
+  "prestation": "c0a0922b-e30c-44bc-b029-a131f65e36ba",
+  "gestion": "Lazy Day Sunset Trip Koh Phi Phi + Bamboo Island"
+ },
+ "koh-phi-phi|Small group, back at sunset|Child, 4 to 11": {
+  "prestation": "5f4e4bfa-7bd3-4fef-9b82-c76d419ec1d6",
+  "gestion": "Lazy Day Sunset Trip Koh Phi Phi + Bamboo Island, child (4-11)"
+ },
  "koh-rok-koh-haa|Join-in speedboat|Adult": {
   "prestation": "e54ec997-a2bf-5bb1-ac02-9531e46d1e25",
   "gestion": "One Day Trip Koh Rok + Koh Ha"
@@ -261,6 +269,14 @@
  "koh-rok-koh-haa|Private longtail to Koh Rok|4 to 6 people": {
   "prestation": "1961d3a3-783e-5c91-af21-2b93561cbc59",
   "gestion": "Private Koh Rok (Koh Rok Nok & Koh Rok Nai)"
+ },
+ "koh-rok-koh-haa|Small group, back at sunset|Adult": {
+  "prestation": "2558da12-6885-45f5-8d1a-3737389b1183",
+  "gestion": "Lazy Day Sunset Trip Koh Rok + Koh Haa"
+ },
+ "koh-rok-koh-haa|Small group, back at sunset|Child, 4 to 11": {
+  "prestation": "44294cf2-7e04-4b1b-8c3c-273c9f917187",
+  "gestion": "Lazy Day Sunset Trip Koh Rok + Koh Haa, child (4-11)"
  },
  "mangrove-kayaking|Mangrove kayaking with lunch, half day|Adult": {
   "prestation": "ce8219f2-a2d6-5ccd-a3b8-017f5202c345",
