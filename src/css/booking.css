@@ -79,7 +79,7 @@ html.sheet-open { overflow: hidden; }
 .f { margin: 0 0 var(--s3); padding: 0; border: 0; min-width: 0; }
 .f > label, .f > legend, .f-label { display: block; margin: 0 0 var(--s1); padding: 0; font-weight: 700; font-size: var(--t2); line-height: var(--l2); }
 .f-hint { margin: 0 0 var(--s1); font-size: var(--t2); line-height: var(--l2); color: var(--sheet-mute); }
-.sheet input[type="text"], .sheet input[type="date"], .sheet input[type="time"], .sheet select {
+.sheet input[type="text"], .sheet input[type="tel"], .sheet input[type="date"], .sheet input[type="time"], .sheet select {
   width: 100%; min-height: 48px; padding: var(--s1) var(--s2);
   border: 1.5px solid var(--sheet-field); border-radius: 12px;
   background: var(--sheet-field-bg, var(--sheet-bg)); color: var(--sheet-ink);
@@ -137,6 +137,15 @@ html.sheet-open { overflow: hidden; }
 .choice [data-day]:empty { display: none; }
 .choice input:checked + span [data-day] { color: inherit; }
 .date-other { margin-top: var(--s1); }
+
+/* Qui écrit (17.11.2026) : prénom et nom côte à côte, puis l'indicatif et le numéro sur une ligne. À 375 px, chaque
+   moitié garde environ 160 px : assez pour un prénom, et l'indicatif reste lisible en tête de la liste. */
+.f-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s2); }
+.f-pair .f { margin-bottom: var(--s3); }
+.phone-row { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: var(--s1); }
+.phone-row select { text-overflow: ellipsis; }
+.phone-other { margin-top: var(--s1); max-width: 10rem; }
+.f-hint--under { margin: var(--s1) 0 0; }
 .dates { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s2); }
 
 /* Compteurs */

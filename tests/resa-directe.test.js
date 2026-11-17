@@ -33,7 +33,7 @@ test("feuille : plus d'écran d'aperçu, le bouton du formulaire envoie sur What
     assert.ok(btn, rel);
     assert.match(btn[0], /aria-describedby="book-send-note"/, rel);
     assert.match(btn[1], /<svg[\s\S]*<span>Send on WhatsApp<\/span>/, rel);
-    assert.match(h, /<p class="sheet-note sheet-note--send" id="book-send-note">WhatsApp opens with your message\. You can change it there before you send\.<\/p>/, rel);
+    assert.match(h, /<p class="sheet-note sheet-note--send" id="book-send-note">WhatsApp opens with your message\. Check it, then tap Send\.<\/p>/, rel);
     // L'écran « done » reste : WhatsApp à rouvrir, message à copier.
     assert.match(h, /data-screen="done"/, rel);
     assert.match(h, /data-again(?:="")? data-track="sheet_retry"/, rel);
@@ -54,7 +54,7 @@ test("booking.js : WhatsApp s'ouvre depuis l'envoi du formulaire, repli dans l'o
 test("trackInfo : produit, variante, option, personnes et total estimé, rien de ce que le visiteur écrit", () => {
   const today = "2026-11-03";
   const tour = bookData("tours/4-islands");
-  const st = Object.assign(B.emptyState(tour), { today, option: "join-in-longtail", dateChoice: "tomorrow", adults: 2, childAges: [], pickup: "Some Hotel", name: "Anna" });
+  const st = Object.assign(B.emptyState(tour), { today, option: "join-in-longtail", dateChoice: "tomorrow", adults: 2, childAges: [], pickup: "Some Hotel", firstName: "Anna", lastName: "Becker", phoneCode: "GB", phone: "07700 900123" });
   const t = B.trackInfo(tour, st);
   assert.deepEqual(Object.keys(t).sort(), ["currency", "option_id", "people", "product_id", "product_type", "value"]);
   assert.equal(t.product_id, "4-islands");
@@ -66,7 +66,7 @@ test("trackInfo : produit, variante, option, personnes et total estimé, rien de
   assert.doesNotMatch(JSON.stringify(t), /Anna|Some Hotel|2026/);
 
   const route = bookData("taxi/krabi-airport-koh-lanta");
-  const r = B.trackInfo(route, Object.assign(B.emptyState(route), { adults: 3, childAges: [5], pickupAt: "KBV", name: "Anna" }));
+  const r = B.trackInfo(route, Object.assign(B.emptyState(route), { adults: 3, childAges: [5], pickupAt: "KBV", firstName: "Anna", lastName: "Becker", phoneCode: "GB", phone: "07700 900123" }));
   assert.deepEqual(r, { product_id: "taxi-krabi-airport-koh-lanta", product_type: "taxi", option_id: "", people: 4, value: 2300, currency: "THB" });
   // Plus de 8 personnes : deux véhicules, le prix d'appel ne vaut plus, aucune valeur.
   assert.equal(B.trackInfo(route, Object.assign(B.emptyState(route), { adults: 9 })).value, undefined);
@@ -123,7 +123,7 @@ test("Clarity : chaque champ où l'on écrit est masqué, les choix restent lisi
     if (/id="book-age-tpl"/.test(h)) assert.match(h, /<select data-clarity-mask="True"><option value="">Age<\/option>/, f);
   }
   const trips = fs.readFileSync(path.join(ROOT, "src", "js", "v4-trips.js"), "utf8");
-  for (const re of [/<input data-clarity-mask="True" id="tl-name"/, /<input data-clarity-mask="True" id="tl-pickup"/, /<input data-clarity-mask="True" type="date"/, /<select data-clarity-mask="True" id="tl-age-/, /data-tmsg data-clarity-mask="True"/]) assert.match(trips, re);
+  for (const re of [/<input data-clarity-mask="True" id="tl-' \+ k \+ '" type="text"/, /<select data-clarity-mask="True" id="tl-phoneCode"/, /<input data-clarity-mask="True" id="tl-phone" type="tel"/, /<input data-clarity-mask="True" id="tl-phoneOther" type="tel"/, /<input data-clarity-mask="True" id="tl-pickup"/, /<input data-clarity-mask="True" type="date"/, /<select data-clarity-mask="True" id="tl-age-/, /data-tmsg data-clarity-mask="True"/]) assert.match(trips, re);
   assert.match(fs.readFileSync(path.join(ROOT, "src", "js", "v4-product.js"), "utf8"), /<select data-clarity-mask="True" data-age=/);
   // Hub taxi : le titre de la feuille reprend les lieux écrits.
   assert.match(read("taxi"), /id="book-title"[^>]*data-clarity-mask="True"/);

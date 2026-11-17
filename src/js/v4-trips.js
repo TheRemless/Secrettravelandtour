@@ -30,7 +30,29 @@
   });
   V.dragSheet(dlg, close);
 
-  function list() { return V.trips.get(); }
+  // Liste d'avant le 17.11.2026 : un seul champ « name », partagé en prénom et nom. Indicatif proposé d'après le navigateur.
+  var guessed = "";
+  function list() {
+    var l = V.trips.get();
+    if (l.name && !l.firstName && !l.lastName) Object.assign(l, B.splitName(l.name));
+    l.name = undefined;
+    if (!l.phoneCode && !/^(\+|00)/.test(String(l.phone || "").trim())) l.phoneCode = guessed || (guessed = B.browserDial());
+    return l;
+  }
+  // Prénom, nom et numéro WhatsApp, obligatoires comme dans la feuille (Jérémy, 17.11.2026) ; mêmes libellés et même aide.
+  function whoFields(l) {
+    var text = function (k, label, ac) {
+      return '<div class="f"><label for="tl-' + k + '">' + label + '</label><input data-clarity-mask="True" id="tl-' + k + '" type="text" autocomplete="' + ac + '" maxlength="60" autocapitalize="words" enterkeyhint="next" spellcheck="false" value="' + V.esc(l[k] || "") + '" data-ttext="' + k + '" aria-describedby="tl-e-' + k + '"><p class="err" id="tl-e-' + k + '" hidden></p></div>';
+    };
+    var codes = B.DIAL_CODES.map(function (c) { return '<option value="' + c.id + '"' + (l.phoneCode === c.id ? " selected" : "") + ">+" + c.dial + " " + V.esc(c.name) + "</option>"; }).join("") +
+      '<option value="other"' + (l.phoneCode === "other" ? " selected" : "") + ">Other</option>";
+    return '<div class="f-pair">' + text("firstName", "First name", "given-name") + text("lastName", "Last name", "family-name") + "</div>" +
+      '<div class="f f-phone"><label for="tl-phone">Your WhatsApp number</label><div class="phone-row">' +
+      '<span class="select"><select data-clarity-mask="True" id="tl-phoneCode" data-ttext="phoneCode" autocomplete="tel-country-code" aria-label="Country code" aria-describedby="tl-e-phone"><option value="">Code</option>' + codes + "</select></span>" +
+      '<input data-clarity-mask="True" id="tl-phone" type="tel" inputmode="tel" autocomplete="tel" enterkeyhint="next" value="' + V.esc(l.phone || "") + '" data-ttext="phone" aria-describedby="tl-h-phone tl-e-phone"></div>' +
+      '<div class="phone-other" data-phone-other' + (l.phoneCode === "other" ? "" : " hidden") + '><label class="f-label" for="tl-phoneOther">Country code</label><input data-clarity-mask="True" id="tl-phoneOther" type="tel" inputmode="tel" autocomplete="off" placeholder="+20" value="' + V.esc(l.phoneOther || "") + '" data-ttext="phoneOther" aria-describedby="tl-e-phone"></div>' +
+      '<p class="f-hint f-hint--under" id="tl-h-phone">So we can reach you if your message doesn\'t come through.</p><p class="err" id="tl-e-phone" hidden></p></div>';
+  }
   function save(l) { V.trips.set(l); }
   function dayLabel(iso) { return V.date(iso, { weekday: "long", day: "numeric", month: "long" }); }
   function ageOptions(v) {
@@ -80,7 +102,7 @@
               (season ? '<p class="trips__warn">' + ICON.alert + "<span>" + V.esc(p.name) + " runs " + V.esc(p.season.text) + ". Pick a date in that season.</span></p>" : "") + "</div>";
           }).join("") + "</section>";
       }).join("") +
-      '<div class="trips__who"><div class="f"><label for="tl-name">Your name</label><input data-clarity-mask="True" id="tl-name" type="text" autocomplete="name" autocapitalize="words" enterkeyhint="next" spellcheck="false" value="' + V.esc(l.name || "") + '" data-ttext="name" aria-describedby="tl-e-name"><p class="err" id="tl-e-name" hidden></p></div>' +
+      '<div class="trips__who">' + whoFields(l) +
       '<div class="f"><label for="tl-pickup">Hotel or address on Koh Lanta</label><input data-clarity-mask="True" id="tl-pickup" type="text" autocomplete="off" autocapitalize="words" enterkeyhint="done" value="' + V.esc(l.pickup || "") + '" data-ttext="pickup" aria-describedby="tl-e-pickup"><p class="err" id="tl-e-pickup" hidden></p></div></div>' +
       '<details><summary>Read the message before you send it</summary><pre class="trips__msg" data-tmsg data-clarity-mask="True"></pre></details>';
     // Champ piège (contrat demandes-site) : hors de l'écran, rempli par les robots, jamais dans le message.
@@ -237,9 +259,18 @@
     var t = e.target;
     if (!t.hasAttribute("data-ttext")) return;
     var l = list();
-    l[t.getAttribute("data-ttext")] = t.value;
+    var key = t.getAttribute("data-ttext");
+    l[key] = t.value;
+    // Numéro collé ou rempli avec son indicatif : la liste des indicatifs suit.
+    var hit = key === "phone" && B.dialFromNumber(t.value);
+    if (hit) { l.phoneCode = hit; var sel = $("#tl-phoneCode"); if (sel) sel.value = hit; }
+    if (key === "phoneCode" || hit) { var other = $("[data-phone-other]", body); if (other) other.hidden = l.phoneCode !== "other"; }
     save(l); message();
-    if (t.value.trim()) { var er = $("#tl-e-" + t.getAttribute("data-ttext")); if (er) { er.hidden = true; t.removeAttribute("aria-invalid"); } }
+    var errKey = /^phone/.test(key) ? "phone" : key;
+    if (t.value.trim()) {
+      var er = $("#tl-e-" + errKey);
+      if (er) { er.hidden = true; (errKey === "phone" ? $$("#tl-phoneCode, #tl-phone, #tl-phoneOther", body) : [t]).forEach(function (x) { x.removeAttribute("aria-invalid"); }); }
+    }
   });
   foot.addEventListener("click", function (e) {
     var send = e.target.closest("[data-tsend]");
@@ -249,7 +280,8 @@
     var fail = function (el, errId, text) { var er = $("#" + errId); if (er) { er.textContent = text; er.hidden = false; } if (el) { el.setAttribute("aria-invalid", "true"); if (!first) first = el; } missing.push(text); };
     $$(".err", body).forEach(function (er) { er.hidden = true; });
     $$("[aria-invalid]", body).forEach(function (x) { x.removeAttribute("aria-invalid"); });
-    // Mêmes règles que le test (booking.js validateTripList) : option quand la fiche en a plusieurs, date, âges, hôtel, prénom.
+    // Mêmes règles que le test (booking.js validateTripList) : option quand la fiche en a plusieurs, date, âges, hôtel,
+    // prénom, nom et numéro WhatsApp.
     var v = B.validateTripList(cat, l, today);
     l.items.forEach(function (it) {
       var e = v.items[it.id];
@@ -264,7 +296,9 @@
       });
     });
     Object.keys(v.ages).forEach(function (i) { fail($("#tl-age-" + i), "tl-e-age-" + i, v.ages[i]); });
-    if (v.name) fail($("#tl-name"), "tl-e-name", v.name);
+    if (v.firstName) fail($("#tl-firstName"), "tl-e-firstName", v.firstName);
+    if (v.lastName) fail($("#tl-lastName"), "tl-e-lastName", v.lastName);
+    if (v.phone) fail($("#tl-" + B.phoneFocus(l)), "tl-e-phone", v.phone);
     if (v.pickup) fail($("#tl-pickup"), "tl-e-pickup", v.pickup);
     var miss = $("[data-tmiss]", foot);
     if (miss) { miss.hidden = !missing.length; miss.textContent = missing.length === 1 ? "One thing is missing, see above." : missing.length + " things are missing, see above."; }

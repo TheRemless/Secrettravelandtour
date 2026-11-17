@@ -369,10 +369,11 @@ module.exports = async function () {
     Object.assign(fourData, { page, booking: page.booking });
     // Accueil : le message d'exemple est celui que la feuille de la 4 Islands écrit vraiment (Jérémy, 11.11.2026 :
     // une vraie demande venue du site, sans notre réponse). Date : le samedi qui suit d'au moins 5 jours le build.
+    // Nom et numéro d'exemple (17.11.2026, champs obligatoires) : numéro de la plage fictive britannique 07700 900xxx (Ofcom).
     const today = booking.bangkokToday(new Date());
     let sat = booking.addDays(today, 5);
     while (new Date(sat + "T12:00:00Z").getUTCDay() !== 6) sat = booking.addDays(sat, 1);
-    homeData.howSample = booking.buildMessage(page.booking, { ...booking.emptyState(), option: view.price(four).option, dateChoice: "other", dateOther: sat, today, adults: 2, childAges: [7], pickup: "Pimalai Resort", name: "Anna" });
+    homeData.howSample = booking.buildMessage(page.booking, { ...booking.emptyState(), option: view.price(four).option, dateChoice: "other", dateOther: sat, today, adults: 2, childAges: [7], pickup: "Pimalai Resort", firstName: "Anna", lastName: "Becker", phoneCode: "GB", phone: "07700 900123" });
   }
   const rentalGallery = await galleryOf("rental");
   const rentalPage = { ...vp.rentalPage(rentalP, ctx), gallery: rentalGallery, photos: splitPhotos(rentalGallery) };

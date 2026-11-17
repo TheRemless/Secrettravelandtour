@@ -12,7 +12,7 @@ const P = (rel) => JSON.parse(fs.readFileSync(path.join(root, "src/_data/product
 const html = (url) => fs.readFileSync(path.join(root, "_site", url, "index.html"), "utf8");
 const cfgOf = (doc) => JSON.parse(doc.match(/<script type="application\/json" id="book-data">([\s\S]*?)<\/script>/)[1]);
 const text = (doc) => doc.replace(/<script[\s\S]*?<\/script>/g, "").replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/&#39;/g, "'").replace(/\s+/g, " ");
-const state = (option, over = {}) => Object.assign(B.emptyState({}), { today: "2026-11-09", option, dateChoice: "other", dateOther: "2026-11-21", adults: 2, childAges: [7], pickup: "Ao Nang Cliff Resort", name: "Anna" }, over);
+const state = (option, over = {}) => Object.assign(B.emptyState({}), { today: "2026-11-09", option, dateChoice: "other", dateOther: "2026-11-21", adults: 2, childAges: [7], pickup: "Ao Nang Cliff Resort", firstName: "Anna", lastName: "Becker", phoneCode: "GB", phone: "07700 900123" }, over);
 
 // ---------- Catamaran au départ d'Ao Nang : retiré du site (décision de Jérémy du 11.11.2026) ----------
 for (const rel of ["tours/koh-rok-koh-haa", "tours/4-islands"]) {
@@ -71,7 +71,7 @@ test("speedboat : les départs de la seconde compagnie sont sur leur destination
   assert.equal(cfg.routes.find((r) => r.id === "to-koh-lipe").deps.find((d) => d.time === "10:30").arrives, "13:30");
   assert.doesNotMatch(board, /\d\s?THB/);
   assert.doesNotMatch(doc, /bundhaya/i);
-  const st = Object.assign(B.emptyState({}), { today: "2026-11-09", route: "to-ao-nang", departure: "to-ao-nang@0900", dateChoice: "other", dateOther: "2026-11-20", adults: 2, childAges: [], tripType: "one-way", pickup: "Lanta Sand Resort", name: "Anna" });
+  const st = Object.assign(B.emptyState({}), { today: "2026-11-09", route: "to-ao-nang", departure: "to-ao-nang@0900", dateChoice: "other", dateOther: "2026-11-20", adults: 2, childAges: [], tripType: "one-way", pickup: "Lanta Sand Resort", firstName: "Anna", lastName: "Becker", phoneCode: "GB", phone: "07700 900123" });
   assert.deepEqual(B.validate(cfg, st), {});
   const sbMsg = B.buildMessage(cfg, st);
   assert.match(sbMsg, /^Speedboat request: Koh Lanta to Ao Nang\nDeparture: 09:00, arrives 10:30\nDate: Fri 20 Nov 2026\nSeason: 1 Nov – 4 May\nTicket: one way\n/);

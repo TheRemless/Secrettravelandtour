@@ -25,7 +25,7 @@ const TODAY = "2026-11-08";
 // Un état complet pour une option : chaque sous-variante obligatoire reçoit sa première valeur (ou le premier jour
 // qui convient au cours choisi), chaque compteur un exemplaire de la première ligne.
 function fullState(option, over = {}) {
-  const st = Object.assign(B.emptyState({}), { today: TODAY, option: option.id, dateChoice: "other", dateOther: "2026-11-21", adults: 2, childAges: [7], pickup: "Lanta Sand Resort", name: "Anna" }, over);
+  const st = Object.assign(B.emptyState({}), { today: TODAY, option: option.id, dateChoice: "other", dateOther: "2026-11-21", adults: 2, childAges: [7], pickup: "Lanta Sand Resort", firstName: "Anna", lastName: "Becker", phoneCode: "GB", phone: "07700 900123" }, over);
   for (const c of option.choices || []) {
     const v = c.type === "text" ? "Advanced Open Water, March 2026" : c.values[0];
     st.choices[option.id + "/" + c.id] = c.type === "text" ? v : v.id;
@@ -115,7 +115,7 @@ test("message : chaque option donne le produit, l'option, ses sous-variantes et 
       if (o.counts) assert.doesNotMatch(msg, /\nGuests: /, `${p.slug} ${o.id} : pas de Guests à côté des compteurs`);
       else assert.match(msg, /\nGuests: 2 adults, 1 child \(age 7\)\n/);
       assert.match(msg, /\nPickup: Lanta Sand Resort\n/);
-      assert.match(msg, /\nName: Anna(\n|$)/);
+      assert.match(msg, /\nName: Anna Becker\nWhatsApp: \+447700900123(\n|$)/);
       const src = p.options.find((x) => x.id === o.id);
       // Une seule ligne de prix, la dernière : le total estimé (v4-price.js) ou, quand la règle n'est pas dans
       // les données, les prix de l'option. Prix sur demande : aucune ligne.
@@ -195,11 +195,11 @@ test("location : catégorie, véhicule, nombre de véhicules, dates et heures, p
   const doc = html(RENTAL.url);
   const cfg = cfgOf(doc);
   for (const o of RENTAL.options) for (const r of o.prices) assert.match(doc, new RegExp(`data-book="${o.id}" data-vehicle="${esc(r.label)}"`), r.label);
-  const st = Object.assign(B.emptyState({}), { today: TODAY, option: "big-bikes", vehicle: "Honda CRF 250", vehicles: 2, dateFrom: "2026-11-20", timeFrom: "09:00", dateTo: "2026-11-23", timeTo: "18:00", name: "Anna" });
+  const st = Object.assign(B.emptyState({}), { today: TODAY, option: "big-bikes", vehicle: "Honda CRF 250", vehicles: 2, dateFrom: "2026-11-20", timeFrom: "09:00", dateTo: "2026-11-23", timeTo: "18:00", firstName: "Anna", lastName: "Becker", phoneCode: "GB", phone: "07700 900123" });
   assert.deepEqual(B.validate(cfg, st), {});
   assert.equal(B.buildMessage(cfg, st), [
     "Rental request: Big bikes", "Vehicle: Honda CRF 250", "Vehicles: 2",
-    "From: Fri 20 Nov 2026, 09:00", "To: Mon 23 Nov 2026, 18:00", "Name: Anna",
+    "From: Fri 20 Nov 2026, 09:00", "To: Mon 23 Nov 2026, 18:00", "Name: Anna Becker", "WhatsApp: +447700900123",
     "Price: Honda CRF 250: 900 THB per 24 hours",
     // 81 heures : 4 périodes de 24 h × 2 motos × 900 THB (total ajouté le 11.11.2026, revue de code).
     "Estimated total: 7,200 THB (4 days, 2 vehicles)"
@@ -219,7 +219,7 @@ test("speedboat : chaque arrêt de la grille ouvre la feuille, trajet, horaire, 
     assert.ok(route && route.deps.some((d) => d.time === run.departs && d.arrives === s.time), `${run.departs} ${place}`);
     assert.match(doc, new RegExp(`data-sb-route="${route.id}" data-sb-dep="${route.id}@${run.departs.replace(":", "")}"`), `${run.departs} ${place} : bouton`);
   }
-  const st = Object.assign(B.emptyState({}), { today: TODAY, route: "to-koh-ngai", departure: "to-koh-ngai@1500", dateChoice: "other", dateOther: "2026-11-20", adults: 2, childAges: [], pickup: "Lanta Sand Resort", name: "Anna" });
+  const st = Object.assign(B.emptyState({}), { today: TODAY, route: "to-koh-ngai", departure: "to-koh-ngai@1500", dateChoice: "other", dateOther: "2026-11-20", adults: 2, childAges: [], pickup: "Lanta Sand Resort", firstName: "Anna", lastName: "Becker", phoneCode: "GB", phone: "07700 900123" });
   assert.equal(B.validate(cfg, st).tripType, "Choose one way or return.");
   st.tripType = "return";
   assert.equal(B.validate(cfg, st).returnTrip, "Pick the date of the return.");
@@ -236,7 +236,7 @@ test("speedboat : chaque arrêt de la grille ouvre la feuille, trajet, horaire, 
 
 test("liste de sorties : une sortie sans sa sous-variante obligatoire ne part pas", () => {
   const cat = JSON.parse(fs.readFileSync(path.join(root, "_site/data/catalog.json"), "utf8"));
-  const list = { adults: 2, childAges: [], pickup: "Lanta Sand Resort", name: "Anna", items: [{ id: "a", slug: "elephant-sanctuary", option: "programme-b", date: "2026-11-20" }] };
+  const list = { adults: 2, childAges: [], pickup: "Lanta Sand Resort", firstName: "Anna", lastName: "Becker", phoneCode: "GB", phone: "07700 900123", items: [{ id: "a", slug: "elephant-sanctuary", option: "programme-b", date: "2026-11-20" }] };
   assert.match(B.validateTripList(cat, list, TODAY).items.a["c-programme-b-session"], /Choose the session \(Elephant sanctuary\)/);
   list.items[0].choices = { "programme-b/session": "1200" };
   assert.equal(B.validateTripList(cat, list, TODAY).count, 0);
