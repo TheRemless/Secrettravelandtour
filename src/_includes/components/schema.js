@@ -450,4 +450,65 @@ function hub(site, products) {
   ];
 }
 
-module.exports = { home, tour, activity, rental, transfer, transferHub, route, hub, toScript, clean, mainId, ids, vipPlace };
+// ---------- Page About et guides (aperçu du 16.11.2026) ----------
+// About : AboutPage dont l'entité principale est l'agence (même @id que l'accueil), décrite sans adresse ni téléphone
+// en plus de ce que l'accueil publie déjà ; licence TAT, exploitant, langues.
+function about(site, page) {
+  const b = site.brands.secret;
+  const id = ids(site);
+  const url = abs(site, page.url);
+  const agency = block({
+    "@type": "TravelAgency",
+    "@id": id.agency,
+    name: b.name,
+    url: abs(site, b.url),
+    knowsLanguage: site.languages,
+    hasCredential: b.licence ? { "@type": "EducationalOccupationalCredential", credentialCategory: "licence", name: String(b.licence) } : undefined,
+    parentOrganization: site.operator && site.operator.name ? { "@type": "Organization", "@id": id.operator, name: site.operator.name } : undefined
+  });
+  const pageNode = block({
+    "@type": "AboutPage",
+    "@id": `${url}#page`,
+    url,
+    name: page.h1,
+    description: page.seo.metaDescription,
+    inLanguage: site.language,
+    isPartOf: { "@id": id.website },
+    mainEntity: { "@id": id.agency }
+  });
+  return pageBlocks(pageNode, agency, breadcrumb(site, { url: page.url, name: page.h1 }));
+}
+// Guide : Article (auteur et éditeur : l'agence), fil d'Ariane Home > Guides > article, FAQPage si le guide a ses questions.
+function guide(site, g, image) {
+  const url = abs(site, g.url);
+  const article = block({
+    "@type": "Article",
+    "@id": `${url}#article`,
+    headline: g.title,
+    description: g.seo.metaDescription,
+    url,
+    mainEntityOfPage: url,
+    image: image ? abs(site, image) : undefined,
+    dateModified: g.updated,
+    inLanguage: site.language,
+    author: agencyRef(site),
+    publisher: agencyRef(site),
+    isPartOf: { "@id": ids(site).website }
+  });
+  return pageBlocks(article, breadcrumb(site, { url: g.url, name: g.short }, { name: "Guides", path: "/guides/" }), faqPage(site, g));
+}
+// Hub des guides : CollectionPage et la liste des articles.
+function guidesHub(site, hub, list) {
+  const url = abs(site, hub.url);
+  return pageBlocks(block({
+    "@type": "CollectionPage",
+    "@id": `${url}#page`,
+    url,
+    name: hub.h1,
+    description: hub.seo.metaDescription,
+    isPartOf: { "@id": ids(site).website },
+    mainEntity: { "@type": "ItemList", itemListElement: list.map((g, i) => ({ "@type": "ListItem", position: i + 1, url: abs(site, g.url), name: g.title })) }
+  }), breadcrumb(site, { url: hub.url, name: "Guides" }));
+}
+
+module.exports = { about, guide, guidesHub, home, tour, activity, rental, transfer, transferHub, route, hub, toScript, clean, mainId, ids, vipPlace };

@@ -1,0 +1,47 @@
+---
+permalink: /guides/
+---
+{#- Hub des guides (aperçu du 16.11.2026) : les articles en cartes, dans l'ordre de la veille du 30.10.2026. -#}
+{% import "components/v4.njk" as v4 %}
+{%- set d = v4data -%}
+{%- set c = d.contact -%}
+{%- set h = guides.hub -%}
+{%- set seo = h.seo -%}
+{%- set pageUrl = h.url -%}
+{%- set jsonLd = guides.jsonLd.hub -%}
+{%- set waText = "Hello, I have a question: " -%}
+<!DOCTYPE html>
+<html lang="en-GB" data-refonte data-page="guides">
+<head>
+{% include "v4-head.njk" %}
+<link rel="stylesheet" href="/css/v4-guides.css?v={{ build.v }}">
+</head>
+<body>
+{{ v4.header(c, d.emblem, "", waText) }}
+<main id="main">
+  <nav class="wrap crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><span aria-current="page">Guides</span></li></ol></nav>
+  <section class="wrap ghub" aria-labelledby="h1">
+    <h1 id="h1">{{ h.h1 }}</h1>
+    <p class="lead">{{ h.lead }}</p>
+    <ul class="ghub__list">
+      {%- for g in guides.list %}
+      <li class="gcard">
+        <a class="gcard__a press" href="{{ g.url }}" data-track="guides_hub" data-track-cta="guide">
+          {{ v4.photo(d.pics[g.photo], "(min-width: 1024px) 560px, (min-width: 700px) 45vw, 100vw", loop.first, "ph--32") }}
+          <span class="gcard__body">
+            <h2 class="gcard__t">{{ g.title }}</h2>
+            <span class="gcard__line">{{ g.card }}</span>
+            <span class="gcard__meta">{{ g.minutes }} min read, updated {{ g.updatedLabel }}</span>
+          </span>
+        </a>
+      </li>
+      {%- endfor %}
+    </ul>
+    <p class="ghub__about">Written by the team at Secret Travel &amp; Tour on Koh Lanta. <a class="link" href="/about/">About us</a></p>
+  </section>
+</main>
+{{ v4.footer(site, c, d.emblem, d.boats, d.activities, waText) }}
+{{ v4.tripsRoot() }}
+{{ v4.scripts(build) }}
+</body>
+</html>

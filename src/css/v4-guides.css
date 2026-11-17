@@ -1,0 +1,108 @@
+/* Page About et guides (aperçu du 16.11.2026). Jetons et composants de v4.css (couleurs de tokens.css, rayon --r,
+   cartes, lignes .lrows, .faq) ; ce fichier n'ajoute que la mise en page propre à ces pages. Téléphone d'abord. */
+
+/* ---------- About ---------- */
+.about-top { padding-block: 12px 56px; }
+.about-top h1 { font-size: clamp(26px, 2.6vw, 34px); line-height: 1.1; }
+/* La phrase qui dit ce qui distingue Secret : le seul élément en grand de la page. */
+.about-top__say { max-width: 22ch; margin-top: 20px; font: 600 clamp(30px, 5.2vw, 58px)/1.08 var(--serif); letter-spacing: -.015em; color: var(--deep); text-wrap: balance; }
+.about-top .lead { margin-top: 20px; }
+.about-top .btn { margin-top: 28px; }
+
+.pledges { display: grid; gap: 56px; }
+.pledge { display: grid; gap: 20px; }
+.pledge h2 { font-size: clamp(28px, 3vw, 38px); }
+.pledge__text p { margin-top: 12px; max-width: 58ch; color: var(--ink-soft); }
+.pledge__text > .link, .pledge__links { display: inline-flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 18px; }
+@media (max-width: 699px) { .pledge .ph { margin-inline: calc(-1 * var(--gut)); border-radius: 0; } }
+@media (min-width: 900px) {
+  .pledges { gap: 88px; }
+  .pledge { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 56px; align-items: center; }
+  .pledge:nth-child(even) .ph { order: 2; }
+}
+
+.talk h2 { font-size: clamp(28px, 3vw, 38px); }
+.talk__facts { display: grid; gap: 0; margin: 20px 0 0; border-top: 1px solid var(--line); }
+.talk__facts div { display: grid; grid-template-columns: 7.5em minmax(0, 1fr); gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.talk__facts dt { font-weight: 600; }
+.talk__facts dd { margin: 0; }
+.talk__more { margin-top: 20px; color: var(--ink-soft); }
+@media (min-width: 900px) { .talk { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 0 56px; } .talk__facts { margin: 0; } .talk__more { grid-column: 2; } }
+
+/* ---------- Article ---------- */
+.art { max-width: calc(760px + 2 * var(--gut)); padding-bottom: 72px; }
+.art__head { padding-top: 8px; }
+.art__head h1 { font-size: clamp(34px, 4.4vw, 52px); line-height: 1.04; }
+.art__meta { display: flex; flex-wrap: wrap; gap: 4px 18px; margin-top: 14px; font-size: 15px; color: var(--ink-mute); }
+.art__ph { margin-top: 24px; }
+.art__ph .ph { aspect-ratio: 3 / 2; }
+@media (max-width: 699px) { .art__ph .ph { margin-inline: calc(-1 * var(--gut)); border-radius: 0; } }
+/* La réponse d'abord : sur le sable, comme la note d'un guide local en marge du trajet. */
+.art__answer { margin-top: 28px; padding: 20px 22px; border-radius: var(--r); background: var(--sand); font-size: 18px; line-height: 1.6; }
+.art__answer p + p { margin-top: 10px; }
+.art__sec { margin-top: 48px; }
+.art__sec h2 { font-size: clamp(28px, 3vw, 36px); }
+.art__sec > p, .art__sec > ol, .art__sec > ul, .art__sec > dl, .art__sec > .tbl { margin-top: 16px; }
+.art__sec > p { max-width: 64ch; }
+.art__steps { padding-left: 1.4em; display: grid; gap: 10px; }
+.art__steps li::marker { font: 600 18px var(--serif); color: var(--sea); }
+.art__list { padding-left: 1.2em; display: grid; gap: 8px; }
+.art__dl { margin: 0; border-top: 1px solid var(--line); }
+.art__dl div { padding: 14px 0; border-bottom: 1px solid var(--line); }
+.art__dl dt { font-weight: 600; }
+.art__dl dd { margin: 4px 0 0; color: var(--ink-soft); }
+@media (min-width: 700px) { .art__dl div { display: grid; grid-template-columns: 13em minmax(0, 1fr); gap: 20px; } .art__dl dd { margin: 0; } }
+.art__cards { margin-top: 20px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 699px) { .art__cards { grid-template-columns: minmax(0, 1fr); gap: 16px; } }
+.art__sec.faq { margin-top: 48px; }
+
+/* Tableaux : défilement horizontal sur téléphone quand ils ont plus de trois colonnes, première colonne fixe. */
+.tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); -webkit-overflow-scrolling: touch; }
+.tbl:focus-visible { outline-offset: 2px; }
+.tbl table { width: 100%; border-collapse: collapse; font-size: 15px; line-height: 1.45; font-variant-numeric: lining-nums tabular-nums; }
+.tbl--wide { min-width: 620px; }
+.tbl caption { padding: 12px 14px; text-align: left; font-size: 14px; color: var(--ink-mute); border-bottom: 1px solid var(--line); }
+.tbl th, .tbl td { padding: 12px 14px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+.tbl tbody tr:last-child th, .tbl tbody tr:last-child td { border-bottom: 0; }
+.tbl thead th { font: 600 17px/1.2 var(--serif); font-size: 19px; background: var(--white); }
+.tbl tbody th { font-weight: 600; background: var(--sand); }
+.tbl--wide tbody th { position: sticky; left: 0; min-width: 8.5em; }
+
+/* Cartes des tableaux larges (téléphone) */
+.tcards { display: grid; gap: 14px; margin-top: 16px; }
+.tcard { border: 1px solid var(--line); border-radius: var(--r); padding: 16px 18px 6px; }
+.tcard__h { font-size: 24px; }
+.tcard__h .link { font: inherit; text-decoration-thickness: 1px; }
+.tcard dl { margin: 10px 0 0; }
+.tcard dl div { display: grid; grid-template-columns: 8.2em minmax(0, 1fr); gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); font-size: 15px; line-height: 1.45; }
+.tcard dt { font-weight: 600; }
+.tcard dd { margin: 0; }
+@media (max-width: 699px) { .tbl--desk { display: none; } }
+@media (min-width: 700px) { .tcards { display: none; } }
+
+.art__book { margin-top: 56px; padding: 28px 24px; border-radius: var(--r); background: var(--deep); color: var(--on-dark); }
+.art__book h2 { font-size: clamp(26px, 3vw, 34px); color: var(--white); }
+.art__book p { margin-top: 8px; color: var(--on-dark-mute); }
+.art__book .btn { margin-top: 20px; background: var(--white); color: var(--deep); }
+.art__book .btn:hover { background: var(--sand); }
+.art__book :focus-visible { outline-color: var(--on-dark); }
+.art__more { margin-top: 48px; }
+.art__more h2 { font-size: 24px; }
+
+/* ---------- Hub ---------- */
+.ghub { padding-bottom: 88px; }
+.ghub h1 { font-size: clamp(36px, 4.4vw, 56px); }
+.ghub .lead { margin-top: 14px; }
+.ghub__list { list-style: none; display: grid; gap: 40px 28px; margin-top: 40px; }
+@media (min-width: 700px) { .ghub__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.gcard__a { display: flex; flex-direction: column; height: 100%; text-decoration: none; }
+.ph--32 { aspect-ratio: 3 / 2; }
+.gcard__body { display: grid; gap: 6px; padding-top: 16px; }
+.gcard__t { font: 600 clamp(24px, 2.4vw, 30px)/1.12 var(--serif); }
+.gcard__line { color: var(--ink-soft); }
+.gcard__meta { font-size: 14px; color: var(--ink-mute); }
+@media (hover: hover) { .gcard__a:hover .gcard__t { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 5px; } .gcard__a .ph img { transition: transform 600ms var(--out); } .gcard__a:hover .ph img { transform: scale(1.03); } }
+.ghub__about { margin-top: 48px; color: var(--ink-soft); }
+.ghub__about .link { margin-left: 6px; }
+
+@media (prefers-reduced-motion: reduce) { .gcard__a .ph img { transition: none; } }

@@ -396,10 +396,16 @@ module.exports = async function () {
     credits: PHOTOS.filter((p) => p.placeholder).map((p) => ({ usage: p.usage, author: p.author, licence: p.licence, url: p.url, source: p.source }))
   };
 
+  // Page About et guides (aperçu du 16.11.2026) : photos de photos-v3.json citées par guides.js, une fois chacune.
+  const G = require("./guides.js");
+  const pageIds = [...new Set([G.about.final.photo, ...G.about.commitments.map((c) => c.photo), ...G.list.map((g) => g.photo)])];
+  data.pics = Object.fromEntries(await Promise.all(pageIds.map(async (id) => [id, await photo(id)])));
+
   // AVIF et WebP, jamais au-delà de la largeur native. Cartes plus petites que les photos du haut.
   await view.responsive([data.boats, data.activities], { widths: [400, 560, 720, 960], avif: 40, webp: 68 });
   await view.responsive([homeData.heroTrips], { widths: [480, 640, 768, 960, 1280, 1600], avif: 45, webp: 68 });
   await view.responsive([homeData.final, hubData.final, fourData.hero, fourData.gallery], { widths: [480, 640, 768, 960, 1280, 1600, 2000], avif: 45, webp: 68 });
+  await view.responsive([Object.values(data.pics)], { widths: [480, 640, 960, 1280], avif: 45, webp: 68 });
   await view.responsive(productPages.map((x) => x.hero), { widths: [480, 640, 768, 960, 1280, 1600], avif: 45, webp: 68 });
   // Galeries : vignettes de 300 à 600 px ; la visionneuse prend la largeur native, toujours ajoutée par responsive().
   await view.responsive(productPages.map((x) => x.gallery).concat([rentalPage.gallery]), { widths: [480, 640, 960], avif: 45, webp: 68 });

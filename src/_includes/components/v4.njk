@@ -96,6 +96,8 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
     <button class="x" type="button" data-menu-close>{{ icon("close") }}<span class="sr">Close the menu</span></button>
   </div>
   <nav class="wrap" aria-label="Menu"><ul>{% for i in items %}<li><a href="{{ i.href }}" data-nav="{{ i.id }}" data-track-cta="nav_{{ i.id }}"{% if i.id == current %} aria-current="page"{% endif %}>{{ i.label }}</a></li>{% endfor %}</ul></nav>
+  {#- Guides et About (aperçu du 16.11.2026) : sous les rubriques, en petit ; le menu principal garde ses six rubriques. -#}
+  <p class="wrap drawer__more"><a class="link" href="/guides/" data-track-cta="nav_guides">Koh Lanta guides</a><a class="link" href="/about/" data-track-cta="nav_about">About us</a></p>
   <p class="wrap drawer__wa"><a class="link" href="{{ waHref(contact.number, waText) }}" data-track="menu">WhatsApp {{ contact.phoneDisplay }}</a></p>
 </dialog>
 {% endmacro %}
@@ -114,7 +116,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
       {%- for g in [["islands", "Island trips"], ["mangrove", "Mangrove trips"], ["land", "On land"]] %}
       <details class="ft__col" open data-ft-fold><summary><h2 class="ft__h">{{ g[1] }}</h2></summary><ul>{% for c in all %}{% if c.group == g[0] %}<li><a href="{{ c.href }}">{{ c.title }}</a></li>{% endif %}{% endfor %}</ul></details>
       {%- endfor %}
-      <details class="ft__col" open><summary><h2 class="ft__h">More</h2></summary><ul><li><a href="/tours/speedboat/">Speedboat timetable</a></li><li><a href="/transfers/">Transfers</a></li><li><a href="/taxi/">Private minivan transfers</a></li><li><a href="/tours/rental/">Scooter and car rental</a></li><li><a href="/credits/">Photo credits</a></li></ul></details>
+      <details class="ft__col" open><summary><h2 class="ft__h">More</h2></summary><ul><li><a href="/tours/speedboat/">Speedboat timetable</a></li><li><a href="/transfers/">Transfers</a></li><li><a href="/taxi/">Private minivan transfers</a></li><li><a href="/tours/rental/">Scooter and car rental</a></li><li><a href="/guides/">Koh Lanta guides</a></li><li><a href="/about/">About us</a></li><li><a href="/credits/">Photo credits</a></li></ul></details>
     </div>
     <div class="ft__meta">
       <span>{{ b.name }} is operated by {{ site.operator.name }}</span>

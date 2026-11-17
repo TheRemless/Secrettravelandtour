@@ -23,6 +23,17 @@ eleventyExcludeFromCollections: true
     <loc>https://secrettravelandtour.com{{ p.url }}</loc>
   </url>
 {%- endfor %}
+{%- for u in ["/about/", "/guides/"] %}
+  <url>
+    <loc>https://secrettravelandtour.com{{ u }}</loc>
+  </url>
+{%- endfor %}
+{%- for g in guides.list %}
+  <url>
+    <loc>https://secrettravelandtour.com{{ g.url }}</loc>
+    <lastmod>{{ g.updated }}</lastmod>
+  </url>
+{%- endfor %}
   <url>
     <loc>https://secrettravelandtour.com/taxi/songthaew/</loc>
   </url>

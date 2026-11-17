@@ -10,6 +10,7 @@ eleventyComputed:
 {#- Page produit v4 (bateaux et activités, sauf la 4 Islands qui a sa page) : données de components/v4-product.js.
     Même ordre que la 4 Islands ; une section sans donnée n'est pas rendue. -#}
 {% import "components/v4.njk" as v4 %}
+{% import "components/guides.njk" as gd %}
 {% import "components/v4-product.njk" as vp %}
 {% from "components/booking.njk" import bookingSheet %}
 {%- set d = v4data -%}
@@ -38,6 +39,7 @@ eleventyComputed:
   {%- if t.programme %}{{ vp.day(t, t.photos) }}{% elif t.photos.mos.length %}{{ vp.photoBand(t.photos, t.name) }}{% endif %}
   {{ vp.know(t, t.photos) }}
   </div>
+  {{ gd.goodToKnow(guides.byPage[t.url]) }}
   {{ vp.related(t.related) }}
 </main>
 {{ v4.footer(site, c, d.emblem, d.boats, d.activities, waText) }}

@@ -4,6 +4,7 @@ permalink: /tours/rental/
 {#- Location, design v4 : onglets par catégorie (scooters d'abord), chaque véhicule est une ligne qui ouvre la feuille
     avec ce modèle. Puis « Before you book » et les autres pages (pas de photo déclarée, pas de déroulé, pas d'inclus). -#}
 {% import "components/v4.njk" as v4 %}
+{% import "components/guides.njk" as gd %}
 {% import "components/v4-product.njk" as vp %}
 {% from "components/booking.njk" import bookingSheet %}
 {%- set d = v4data -%}
@@ -56,6 +57,7 @@ permalink: /tours/rental/
   {%- if t.photos.mos.length %}{{ vp.photoBand(t.photos, "the rental vehicles", false) }}{% endif %}
   {{ vp.know(t, t.photos) }}
   </div>
+  {{ gd.goodToKnow(guides.byPage[t.url]) }}
   {{ vp.related(t.related) }}
 </main>
 {{ v4.footer(site, c, d.emblem, d.boats, d.activities, waText) }}
