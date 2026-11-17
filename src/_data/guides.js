@@ -6,7 +6,8 @@
 //   songthaew.json, secretPagesContent.json (sanctuaire : ni monte ni spectacle).
 // Faits donnés par Jérémy le 16.11.2026 (demande de la page About) : partenaires de confiance vus tous les jours,
 // seulement des entreprises éthiques, équipe locale qui réserve sur WhatsApp.
-// Un fait manquant ou à vérifier reste visible dans l'aperçu : [À CONFIRMER: …] ou [À VÉRIFIER] (check-dist bloque la production).
+// Aucun fait non confirmé dans le texte : un marqueur [À CONFIRMER: …] ou [À VÉRIFIER] bloquerait la production (check-dist).
+// Version validée par Jérémy le 17.11.2026 (seule demande : retirer la phrase sur le paiement de la page About).
 // Ordre des guides : veille du 30.10.2026 (~/Desktop/Claude Plugins/veille/2026-10-30.md) ; les transferts depuis l'aéroport
 // de Krabi et les sorties en bateau (4 Islands, Koh Rok, Phi Phi) sont les requêtes les plus suivies, puis « koh lanta taxi ».
 const fs = require("node:fs");
@@ -93,7 +94,8 @@ const about = {
         "We book your place with them and reply on WhatsApp with your pickup time."
       ],
       link: { href: "/tours/", label: "See the boat trips and activities", cta: "about_partners" },
-      photo: "four-longtail"
+      // Proue d'un longtail, sans nom ni numéro lisibles (four-longtail montrait le nom peint sur la coque).
+      photo: "hub-final"
     },
     {
       id: "ethical",
@@ -118,18 +120,18 @@ const about = {
         { href: "/terms/", label: "Booking terms" },
         { href: "/cancellation/", label: "Cancellation rules" }
       ],
-      photo: "gal-raft-river-evening"
+      // Eau et récif à Koh Rok, sans bateau (le radeau portait un drapeau à logo et un panneau).
+      photo: "gal-rok-turquoise-water"
     },
     {
       id: "pay",
-      title: "Clear prices, no online payment",
+      // Jérémy, 17.11.2026 : « pas besoin de mettre la phrase pour le paiement ». Ni qui reçoit le paiement, ni comment :
+      // seulement la réservation sur WhatsApp, l'absence de paiement en ligne (site.json booking.onlinePayment false) et les
+      // frais de parc national, non inclus et donnés sur chaque fiche (secretPagesContent.json parkFeeNote).
+      title: "Clear prices",
       text: [
-        // home.json desk.text et site.json booking (payment, onlinePayment false).
-        `Every booking goes through ${site.booking.channel}. Boat trips and activities are paid in cash or by bank transfer. There is no online payment on this site.`,
-        "National park fees are never included by any boat operator on Koh Lanta. Each trip page tells you how much, so there is no surprise on the day.",
-        // Demande de Jérémy (16.11.2026) : « le client paie le partenaire directement, le jour même ou au quai ». Le site dit
-        // seulement « cash or bank transfer » (home.json) et « cash to the driver on the day » (VIP) : à trancher.
-        "[À CONFIRMER: le client paie-t-il le partenaire directement, le jour même ou au quai ? Le site dit aujourd'hui « paid in cash or by bank transfer », sans dire à qui]"
+        `Every booking goes through ${site.booking.channel}. There is no online payment on this site.`,
+        "National park fees are never included by any boat operator on Koh Lanta. Each trip page tells you how much, so there is no surprise on the day."
       ],
       link: { href: "/cancellation/", label: "How cancellation works", cta: "about_pay" },
       photo: "gal-rok-beach-lunch"

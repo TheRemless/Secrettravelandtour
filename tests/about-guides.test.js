@@ -36,8 +36,9 @@ test("About : licence TAT, délai de réponse et langues lus dans site.json ; ni
   const main = text(h.match(/<main[\s\S]*<\/main>/)[0]);
   assert.doesNotMatch(main, /292|Moo 2|Sala Dan/, "aucune adresse ni comptoir hors des pages légales");
   assert.doesNotMatch(h, /team-photo|data-slot="office"/);
-  // Faits à confirmer : visibles dans l'aperçu, bloquants en production (check-dist).
-  assert.match(t, /\[À CONFIRMER: /);
+  // Version de production (Jérémy, 17.11.2026) : aucune phrase sur qui reçoit le paiement ni comment.
+  assert.doesNotMatch(t, /cash or by bank transfer|pay the partner|paid to the partner/i);
+  assert.match(t, /There is no online payment on this site\./);
   // JSON-LD : AboutPage dont l'entité principale est l'agence de l'accueil.
   const ld = jsonLd(h);
   const page = ld.find((x) => x["@type"] === "AboutPage");
@@ -46,6 +47,10 @@ test("About : licence TAT, délai de réponse et langues lus dans site.json ; ni
   assert.equal(ag.hasCredential.name, site.brands.secret.licence);
   assert.equal(ag.address, undefined);
   assert.ok(ld.some((x) => x["@type"] === "BreadcrumbList"));
+});
+
+test("aucun fait en attente : ni [À CONFIRMER] ni [À VÉRIFIER] sur About, le hub et les guides", () => {
+  for (const u of URLS) assert.doesNotMatch(read(u), /\[À CONFIRMER|\[À VÉRIFIER/, u);
 });
 
 test("guides : réponse d'abord, date de mise à jour, temps de lecture, Article et BreadcrumbList, FAQPage seulement avec des questions", () => {
