@@ -50,8 +50,8 @@
             indicatifs viennent de booking.js (DIAL_CODES) ; « Other » ouvre un petit champ pour taper le sien. -#}
         <div class="f-who">
           <div class="f-pair">
-            {{ text("firstName", "First name", "", true, "given-name", 'autocapitalize="words" enterkeyhint="next" spellcheck="false"') }}
-            {{ text("lastName", "Last name", "", true, "family-name", 'autocapitalize="words" enterkeyhint="next" spellcheck="false"') }}
+            {{ text("firstName", "First name", "", true, "given-name", 'maxlength="60" autocapitalize="words" enterkeyhint="next" spellcheck="false"') }}
+            {{ text("lastName", "Last name", "", true, "family-name", 'maxlength="60" autocapitalize="words" enterkeyhint="next" spellcheck="false"') }}
           </div>
           <div class="f f-phone">
             <label for="book-phone">Your WhatsApp number</label>

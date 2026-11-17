@@ -42,7 +42,7 @@
   // Prénom, nom et numéro WhatsApp, obligatoires comme dans la feuille (Jérémy, 17.11.2026) ; mêmes libellés et même aide.
   function whoFields(l) {
     var text = function (k, label, ac) {
-      return '<div class="f"><label for="tl-' + k + '">' + label + '</label><input data-clarity-mask="True" id="tl-' + k + '" type="text" autocomplete="' + ac + '" autocapitalize="words" enterkeyhint="next" spellcheck="false" value="' + V.esc(l[k] || "") + '" data-ttext="' + k + '" aria-describedby="tl-e-' + k + '"><p class="err" id="tl-e-' + k + '" hidden></p></div>';
+      return '<div class="f"><label for="tl-' + k + '">' + label + '</label><input data-clarity-mask="True" id="tl-' + k + '" type="text" autocomplete="' + ac + '" maxlength="60" autocapitalize="words" enterkeyhint="next" spellcheck="false" value="' + V.esc(l[k] || "") + '" data-ttext="' + k + '" aria-describedby="tl-e-' + k + '"><p class="err" id="tl-e-' + k + '" hidden></p></div>';
     };
     var codes = B.DIAL_CODES.map(function (c) { return '<option value="' + c.id + '"' + (l.phoneCode === c.id ? " selected" : "") + ">+" + c.dial + " " + V.esc(c.name) + "</option>"; }).join("") +
       '<option value="other"' + (l.phoneCode === "other" ? " selected" : "") + ">Other</option>";

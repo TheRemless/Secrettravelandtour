@@ -159,9 +159,10 @@
   }
   function phoneE164(state) {
     var p = phoneParts(state);
-    if (p.intl) return p.full.length >= 7 && p.full.length <= 15 && p.full.charAt(0) !== "0" ? "+" + p.full : "";
+    // Gestion garde un numéro « + » suivi de 8 à 15 chiffres (contrat demandes-site, 17.11.2026) : même borne ici.
+    if (p.intl) return p.full.length >= 8 && p.full.length <= 15 && p.full.charAt(0) !== "0" ? "+" + p.full : "";
     if (!/^\d{1,3}$/.test(p.code) || p.code.charAt(0) === "0") return "";
-    return p.national.length >= 6 && p.national.length <= 15 && p.full.length <= 15 ? "+" + p.full : "";
+    return p.national.length >= 6 && p.national.length <= 15 && p.full.length >= 8 && p.full.length <= 15 ? "+" + p.full : "";
   }
   // Message d'erreur du numéro, ou chaîne vide. Mêmes mots dans la feuille et dans la liste de sorties.
   function phoneError(state) {
@@ -194,8 +195,11 @@
     var parts = clean(name).split(" ");
     return { firstName: parts[0] || "", lastName: parts.slice(1).join(" ") };
   }
+  // Nom complet « Prénom Nom », 120 caractères au plus : au-delà, Gestion refuse toute la demande (contrat demandes-site).
+  // Chaque champ en garde 60 (maxlength) ; la coupe ici couvre l'espace entre les deux et les anciens brouillons.
+  var NAME_MAX = 120;
   function fullName(state) {
-    return clean([state.firstName, state.lastName].join(" ")) || clean(state.name);
+    return (clean([state.firstName, state.lastName].join(" ")) || clean(state.name)).slice(0, NAME_MAX).trim();
   }
   // Prénom, nom et numéro : mêmes règles partout (feuille et liste). errors reçoit firstName, lastName, phone.
   function validateContact(state, errors) {
@@ -665,7 +669,8 @@
   // ---------- Copie de la demande pour Gestion (contrat Site_Anais docs/gestion/demandes-site.md, 17.11.2026) ----------
   // Le corps exact du contrat, rien de plus : ce que la feuille sait déjà, et le texte WhatsApp tel qu'il part (sans ligne
   // « Ref: », décision de Jérémy du 17.11.2026). Nom complet dans name ; numéro WhatsApp au format E.164 dans le champ
-  // PHONE_FIELD (nom provisoire, à confirmer par la session Gestion : seule cette constante change). Aucun e-mail.
+  // PHONE_FIELD (« whatsapp », confirmé par le contrat Gestion du 17.11.2026, PR 221 de Site_Anais). Le numéro part déjà en
+  // E.164 : whatsapp_country (facultatif) n'est pas envoyé. Aucun e-mail.
   var DEMANDE_URL = "https://lkxqcmzeidlyssoqmqkh.supabase.co/functions/v1/demande-site";
   var PHONE_FIELD = "whatsapp";
   function withPhone(body, who) { body[PHONE_FIELD] = phoneE164(who); return body; }
@@ -1628,6 +1633,7 @@
     demandeBody: demandeBody,
     tripListBodies: tripListBodies,
     PHONE_FIELD: PHONE_FIELD,
+    NAME_MAX: NAME_MAX,
     DIAL_CODES: DIAL_CODES,
     guessDial: guessDial,
     dialFromNumber: dialFromNumber,

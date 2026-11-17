@@ -90,6 +90,27 @@ test("copie pour Gestion : nom complet dans name, numéro E.164 dans une seule c
   assert.equal((src("src/js/booking.js").match(/\bwhatsapp:/g) || []).length, 0);
 });
 
+test("contrat Gestion (PR 221) : champ whatsapp en E.164 (+ et 8 à 15 chiffres), name « Prénom Nom » de 120 caractères au plus", () => {
+  assert.equal(B.PHONE_FIELD, "whatsapp");
+  assert.equal(B.NAME_MAX, 120);
+  assert.equal(B.phoneE164({ phone: "+44 12 345" }), "", "7 chiffres : refusé (Gestion garde 8 à 15)");
+  assert.equal(B.phoneE164({ phone: "+44 1234 5678" }), "+4412345678");
+  assert.equal(B.phoneE164({ phoneCode: "US", phone: "123456" }), "", "+1 et 6 chiffres = 7 : refusé");
+  assert.equal(B.phoneE164({ phoneCode: "US", phone: "1234567" }), "+11234567");
+  const long = { firstName: "A".repeat(60), lastName: "B".repeat(60), phoneCode: "TH", phone: "081 234 5678" };
+  assert.equal(B.fullName(long).length, 120);
+  assert.equal(B.fullName({ name: "x ".repeat(200) }).length <= 120, true, "ancien brouillon coupé aussi");
+  const cfg = { variant: "tour", brand: "Secret Travel & Tour", product: "Kayak", productId: "kayak", options: [] };
+  const body = B.demandeBody(cfg, Object.assign(B.emptyState(cfg), long), "m", "", "https://secrettravelandtour.com/");
+  assert.ok(body.name.length <= 120 && /^\+\d{8,15}$/.test(body.whatsapp));
+  assert.equal(body.whatsapp_country, undefined, "inutile : le numéro part en E.164");
+  const cat = { kayak: { name: "Kayak", options: [{ id: "half", title: "Half day", rows: [] }] } };
+  const list = Object.assign({ items: [{ id: "a", slug: "kayak", option: "half", date: "2026-11-20" }], adults: 2, childAges: [], pickup: "P" }, long);
+  const c = B.tripListBodies(cat, list, "m", "", "https://secrettravelandtour.com/tours/")[0];
+  assert.ok(c.name.length <= 120 && /^\+\d{8,15}$/.test(c.whatsapp));
+  assert.match(src("src/js/v4-trips.js"), /autocomplete="' \+ ac \+ '" maxlength="60"/);
+});
+
 test("liste de sorties : mêmes champs obligatoires avant l'envoi", () => {
   const cat = { kayak: { name: "Kayak", options: [{ id: "half", title: "Half day", rows: [] }] } };
   const base = { items: [{ id: "a", slug: "kayak", option: "half", date: "2026-11-20" }], adults: 2, childAges: [], pickup: "Pimalai Resort" };
@@ -105,8 +126,8 @@ test("liste de sorties : mêmes champs obligatoires avant l'envoi", () => {
 test("pages : champs du gabarit (clavier, remplissage auto, aide, Clarity) dans les deux marques", () => {
   for (const rel of ["tours/kayak", "tours/4-islands", "tours/rental", "tours/speedboat", "transfers", "taxi", "taxi/krabi-airport-koh-lanta", "taxi/songthaew", "taxi/koh-lanta-krabi-day-trip"]) {
     const h = read(rel).replace(/ required=""/g, " required");
-    assert.match(h, /<input data-clarity-mask="True" id="book-firstName" name="firstName" type="text" autocomplete="given-name"[^>]* required aria-required="true"/, rel);
-    assert.match(h, /<input data-clarity-mask="True" id="book-lastName" name="lastName" type="text" autocomplete="family-name"[^>]* required aria-required="true"/, rel);
+    assert.match(h, /<input data-clarity-mask="True" id="book-firstName" name="firstName" type="text" autocomplete="given-name" maxlength="60"[^>]* required aria-required="true"/, rel);
+    assert.match(h, /<input data-clarity-mask="True" id="book-lastName" name="lastName" type="text" autocomplete="family-name" maxlength="60"[^>]* required aria-required="true"/, rel);
     assert.match(h, /<select data-clarity-mask="True" id="book-phoneCode" name="phoneCode" autocomplete="tel-country-code"/, rel);
     assert.match(h, /<input data-clarity-mask="True" id="book-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel"[^>]* required/, rel);
     assert.match(h, /<input data-clarity-mask="True" id="book-phoneOther" name="phoneOther" type="tel" inputmode="tel"/, rel);
