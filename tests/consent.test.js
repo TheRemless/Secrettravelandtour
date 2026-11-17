@@ -78,7 +78,7 @@ test("bandeau (17.11.2026) : texte court, « Accept » principal, « No thanks �
   assert.doesNotMatch(markup, /mouse movement|never receive|Can we count|Decline|Google|Microsoft/);
   // Jamais sur la barre de réservation ni sur le bandeau de Gestion ; un seul mouvement, coupé si l'on réduit les animations.
   assert.match(JS, /querySelectorAll\("\.dock, \.vbar, \.site-notice--bottom, \.tl-dock"\)/);
-  assert.match(JS, /@media\(prefers-reduced-motion:reduce\)\{\.cb,\.cb\.is-on\{transition:none\}\}/);
+  assert.match(JS, /@media\(prefers-reduced-motion:reduce\)\{\.cb,\.cb\.is-on,\.cb\.cb--modal,\.cb\.cb--modal\.is-on\{transition:none\}\}/);
 });
 
 // Contraste AA des deux boutons et du texte, dans les deux marques (WCAG : 4,5:1 texte, 3:1 contour).

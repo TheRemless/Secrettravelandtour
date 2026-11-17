@@ -167,14 +167,21 @@
   // Refonte du 17.11.2026 (Jérémy : le bandeau faisait peur et ne donnait pas envie). Texte court et vrai, le détail reste
   // sur /privacy/#cookies. Hiérarchie claire mais choix réel (CNIL, EDPB) : « Accept » plein, plus large, à droite et focalisé
   // à la réouverture ; « No thanks » en contour, même hauteur (44 px au moins), lisible (AA), au même endroit, en un appui.
-  // Ordre de tabulation = ordre visuel (No thanks puis Accept). Bande fine en bas sur téléphone, carte dans le coin bas
-  // droit sur bureau ; jamais sur la barre de réservation (.dock, .vbar) ni sur le bandeau de Gestion : le bandeau se pose
+  // Ordre de tabulation = ordre visuel (No thanks puis Accept). Bande fine en bas sur téléphone, fenêtre centrée sur
+  // ordinateur (ci-dessous). La bande ne couvre jamais la barre de réservation (.dock, .vbar) ni le bandeau de Gestion : elle se pose
   // au-dessus d'eux quand ils sont à l'écran. Un seul mouvement à l'arrivée, coupé si prefers-reduced-motion.
+  // Ordinateur (17.11.2026, Jérémy : la carte du coin ne se voyait pas) : fenêtre centrée de 460 px, fond assombri à 35 %,
+  // page visible derrière et immobile. <dialog> ouvert avec showModal : le reste de la page est inerte, donc la fenêtre passe
+  // avant tout clic (WhatsApp, panneau QR, feuille), et elle se pose au-dessus de toute autre fenêtre déjà ouverte.
+  // Focus sur « Accept », tabulation gardée dans la fenêtre, Échap = « No thanks » (refus enregistré comme le bouton),
+  // clic sur le fond sans effet. Après le choix : page débloquée, focus rendu à l'élément d'avant. Téléphone : la bande
+  // du bas reste telle quelle (non modale).
   var VIP = document.documentElement.getAttribute("data-brand") === "vip";
   var P = VIP
     ? { bg: "#1B130D", ink: "#F6EEDC", mute: "#CDBFA6", line: "rgba(217,170,78,.45)", no: "#B98B31", noHover: "#2B1F16", btn: "#D9AA4E", btnInk: "#1B130D", btnHover: "#E9C172", ring: "#E9C172", body: "'Bai Jamjuree',system-ui,sans-serif", r: "10px", shadow: "none" }
     : { bg: "#FFFFFF", ink: "#14262B", mute: "#3B5551", line: "#E3DACB", no: "#7A8884", noHover: "#F6EFE4", btn: "#0B3B3C", btnInk: "#FFFFFF", btnHover: "#124B4C", ring: "#0F6B61", body: "'Manrope',system-ui,sans-serif", r: "12px", shadow: "0 10px 30px rgba(20,38,43,.14)" };
-  var css = ".cb{position:fixed;left:0;right:0;bottom:var(--cb-b,0px);z-index:200;box-sizing:border-box;"
+  var DESK = "(min-width:760px)";
+  var css = ".cb{position:fixed;inset:auto 0 var(--cb-b,0px) 0;margin:0;width:auto;max-width:none;max-height:none;z-index:200;box-sizing:border-box;border:0;"
     + "padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:" + P.bg + ";color:" + P.ink + ";border-top:1px solid " + P.line + ";font-family:" + P.body + ";"
     + "transform:translateY(calc(100% + 24px));visibility:hidden;transition:transform .28s cubic-bezier(.22,1,.36,1),visibility 0s .28s}"
     + ".cb.is-on{transform:none;visibility:visible;transition:transform .28s cubic-bezier(.22,1,.36,1)}"
@@ -188,13 +195,20 @@
     + ".cb-yes{background:" + P.btn + ";color:" + P.btnInk + ";border:1.5px solid " + P.btn + ";font-weight:700}"
     + ".cb-yes:hover{background:" + P.btnHover + ";border-color:" + P.btnHover + "}"
     + ".cb :focus-visible{outline:3px solid " + P.ring + ";outline-offset:2px}"
-    + "@media(min-width:760px){.cb{left:auto;right:24px;bottom:calc(24px + var(--cb-b,0px));width:380px;padding:16px 18px;border:1px solid " + P.line + ";border-radius:" + P.r + ";box-shadow:" + P.shadow + "}}"
-    + "@media(prefers-reduced-motion:reduce){.cb,.cb.is-on{transition:none}}";
-  var box = null, raf = 0;
+    // Fenêtre centrée (ordinateur) : fondu et léger agrandissement à l'ouverture, rien d'autre.
+    + ".cb.cb--modal{inset:0;margin:auto;width:min(460px,calc(100% - 48px));height:fit-content;padding:28px 28px 24px;border:1px solid " + P.line + ";border-radius:" + P.r + ";"
+    + "box-shadow:0 24px 64px rgba(0,0,0,.28);visibility:visible;opacity:0;transform:scale(.96);transition:opacity .22s ease-out,transform .22s cubic-bezier(.22,1,.36,1)}"
+    + ".cb.cb--modal.is-on{opacity:1;transform:none}"
+    + ".cb--modal::backdrop{background:rgba(0,0,0,.35)}"
+    + ".cb--modal .cb-t{display:block;margin:0 0 8px;font-size:20px;line-height:1.3}"
+    + ".cb--modal .cb-p{margin:0 0 20px;font-size:15px;line-height:1.5}"
+    + "html.cb-lock{overflow:hidden}"
+    + "@media(prefers-reduced-motion:reduce){.cb,.cb.is-on,.cb.cb--modal,.cb.cb--modal.is-on{transition:none}}";
+  var box = null, raf = 0, before = null;
   // Barre de réservation (.dock des fiches, .vbar VIP) ou bandeau de Gestion en bas d'écran, sous le bandeau : on se pose dessus.
   function lift() {
     raf = 0;
-    if (!box || !box.classList.contains("is-on")) return;
+    if (!box || !box.classList.contains("is-on") || box.classList.contains("cb--modal")) return;
     var r = box.getBoundingClientRect(), h = window.innerHeight, up = 0;
     Array.prototype.forEach.call(document.querySelectorAll(".dock, .vbar, .site-notice--bottom, .tl-dock"), function (el) {
       var q = el.getBoundingClientRect();
@@ -216,28 +230,68 @@
     var st = document.createElement("style");
     st.textContent = css;
     document.head.appendChild(st);
-    box = document.createElement("div");
+    box = document.createElement("dialog");
     box.className = "cb";
-    box.setAttribute("role", "dialog");
     box.setAttribute("aria-labelledby", "cb-t");
     box.setAttribute("aria-describedby", "cb-p");
     box.innerHTML = '<p class="cb-p" id="cb-p"><strong class="cb-t" id="cb-t">Help us improve this site?</strong> We use cookies to see which pages help travellers and how they are used. <a href="/privacy/#cookies">Privacy</a></p>'
       + '<div class="cb-r"><button class="cb-b cb-no" type="button" data-choice="denied">No thanks</button><button class="cb-b cb-yes" type="button" data-choice="granted">Accept</button></div>';
+    // Un clic sur le fond atteint le <dialog> lui-même : sans [data-choice], il ne fait rien (il faut choisir).
     box.addEventListener("click", function (e) {
       var b = e.target.closest("[data-choice]");
-      if (!b) return;
-      write(b.getAttribute("data-choice"));
-      apply(b.getAttribute("data-choice"));
-      box.classList.remove("is-on");
-      watch(false);
+      if (b) choose(b.getAttribute("data-choice"));
+    });
+    // Échap : refus explicite, enregistré comme « No thanks » (jamais une fermeture sans choix).
+    box.addEventListener("cancel", function (e) { e.preventDefault(); if (box.open) choose("denied"); });
+    box.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") { e.preventDefault(); if (box.open) choose("denied"); return; }
+      if (e.key !== "Tab" || !box.classList.contains("cb--modal")) return;
+      // Tabulation gardée dans la fenêtre : Privacy, No thanks, Accept, puis retour au début.
+      var f = box.querySelectorAll("a[href], button");
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     });
     document.body.appendChild(box);
     return box;
   }
+  function choose(s) {
+    write(s);
+    apply(s);
+    if (!box) return;
+    var modal = box.classList.contains("cb--modal");
+    box.classList.remove("is-on");
+    watch(false);
+    // Fenêtre : fermée tout de suite (la page est rendue). Bande du téléphone : elle descend d'abord, comme avant.
+    if (modal) box.close();
+    else setTimeout(function () { if (box.open && !box.classList.contains("is-on")) box.close(); }, 300);
+    box.classList.remove("cb--modal");
+    box.removeAttribute("aria-modal");
+    document.documentElement.classList.remove("cb-lock");
+    document.documentElement.style.scrollbarGutter = "";
+    // Focus rendu à la page : l'élément qui l'avait avant la fenêtre, s'il est encore là.
+    if (modal && before && before.focus && document.contains(before)) before.focus({ preventScroll: true });
+    before = null;
+  }
   function show(focus) {
     var b = build();
+    if (b.open && b.classList.contains("is-on")) return;
+    if (b.open) b.close(); // bande encore en train de descendre : on repart d une fenêtre fermée
+    var modal = Boolean(window.matchMedia && window.matchMedia(DESK).matches && typeof b.showModal === "function");
+    if (modal) {
+      before = document.activeElement;
+      b.classList.add("cb--modal");
+      b.setAttribute("aria-modal", "true");
+      var root = document.documentElement;
+      if (window.innerWidth - root.clientWidth > 0) root.style.scrollbarGutter = "stable";
+      root.classList.add("cb-lock");
+      b.showModal();
+      b.querySelector('[data-choice="granted"]').focus();
+    } else if (typeof b.show === "function") b.show();
+    else b.setAttribute("open", "");
     requestAnimationFrame(function () {
       b.classList.add("is-on");
+      if (modal) return;
       watch(true);
       lift();
       if (focus) b.querySelector('[data-choice="granted"]').focus();
