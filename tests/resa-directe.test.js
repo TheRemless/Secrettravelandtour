@@ -105,7 +105,7 @@ test("chaque lien WhatsApp public porte son emplacement (data-track), sur l'él�
 test("liste de sorties : envoi mesuré après la validation, lien marqué", () => {
   const js = fs.readFileSync(path.join(ROOT, "src", "js", "v4-trips.js"), "utf8");
   assert.match(js, /data-tsend data-track="trip_list"/);
-  const i = js.indexOf('send.href = B.waUrl(message());'), j = js.indexOf('"stt-trips-send"');
+  const i = js.indexOf('send.href = B.waUrl(text);'), j = js.indexOf('"stt-trips-send"');
   assert.ok(i > 0 && j > i);
   assert.doesNotMatch(js.slice(j, j + 300), /pickup|name|date/i);
 });

@@ -572,6 +572,49 @@
       website: honeypot || ""
     };
   }
+  // Liste de sorties (v4-trips.js) : une copie par sortie, mêmes champs et mêmes règles que la feuille, sans toucher au
+  // contrat ni à la fonction de Gestion (session parente, 17.11.2026). Chaque copie porte les champs de sa sortie (fiche,
+  // option, date, total estimé de la sortie) et le texte exact envoyé à WhatsApp, que Gestion sait lire (« Trip list: »).
+  // Au plus 5 copies par envoi : demande-site refuse au-delà de 5 demandes en 10 minutes par appareil (LIMITE_APPAREIL,
+  // supabase/functions/demande-site/calc.js) ; les sorties sont prises dans l'ordre du message (par date).
+  // Le message est raccourci si besoin : 2 000 caractères au plus, corps de 4 096 octets au plus (contrat).
+  var TRIP_COPIES_MAX = 5, MESSAGE_MAX = 2000, BODY_MAX = 4096;
+  function bytes(s) { return typeof TextEncoder === "function" ? new TextEncoder().encode(s).length : unescape(encodeURIComponent(s)).length; }
+  function fitBody(body) {
+    var msg = String(body.message || "").slice(0, MESSAGE_MAX);
+    body.message = msg;
+    while (bytes(JSON.stringify(body)) > BODY_MAX && msg.length) { msg = msg.slice(0, Math.max(0, msg.length - 100)); body.message = msg; }
+    return body;
+  }
+  function tripListBodies(catalog, list, message, honeypot, pageUrl) {
+    var items = (list.items || []).filter(function (it) { return catalog[it.slug]; }).slice();
+    items.sort(function (a, b) { return (a.date || "9999") < (b.date || "9999") ? -1 : (a.date || "9999") > (b.date || "9999") ? 1 : 0; });
+    return items.slice(0, TRIP_COPIES_MAX).map(function (it) {
+      var p = catalog[it.slug];
+      var option = findOption(p, it.option) || ((p.options || []).length === 1 ? p.options[0] : null);
+      var q = option && PRICE && Array.isArray(option.prices) ? quoteOf(option, tripState(list, it)) : null;
+      return fitBody({
+        brand: "secret",
+        product_id: String(it.slug || ""),
+        product: p.name || "",
+        option: option ? option.id : "",
+        option_label: option ? option.title : "",
+        date: /^\d{4}-\d{2}-\d{2}$/.test(it.date || "") ? it.date : "",
+        time: "",
+        adults: list.adults || 0,
+        children: (list.childAges || []).length,
+        pickup: clean(list.pickup || ""),
+        name: clean(list.name || ""),
+        estimated_total: q && typeof q.total === "number" ? q.total : null,
+        currency: "THB",
+        ref: "",
+        page_url: String(pageUrl || "").split("#")[0],
+        message: message,
+        website: honeypot || ""
+      });
+    });
+  }
+
   // Envoi sans attendre de réponse, avant WhatsApp : ne bloque ni ne retarde jamais l'ouverture, toute erreur est avalée.
   // Corps en text/plain (requête « simple », sans contrôle CORS préalable) et keepalive : il part même si la page change.
   function sendCopy(body) {
@@ -1432,6 +1475,8 @@
     tripState: tripState,
     waUrl: waUrl,
     demandeBody: demandeBody,
+    tripListBodies: tripListBodies,
+    TRIP_COPIES_MAX: TRIP_COPIES_MAX,
     sendCopy: sendCopy,
     DEMANDE_URL: DEMANDE_URL,
     trackInfo: trackInfo,

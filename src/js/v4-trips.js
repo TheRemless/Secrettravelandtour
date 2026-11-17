@@ -20,7 +20,7 @@
     '<div class="sheet-body" data-body></div><div class="sheet-foot" data-foot></div></div>';
   document.body.appendChild(dlg);
   var body = $("[data-body]", dlg), foot = $("[data-foot]", dlg);
-  var cat = null, last = null;
+  var cat = null, last = null, copied = [];
 
   function close() { if (dlg.open) dlg.close(); }
   dlg.addEventListener("close", function () { document.documentElement.classList.remove("sheet-open"); if (last && last.focus && document.contains(last)) last.focus(); });
@@ -83,7 +83,9 @@
       '<div class="trips__who"><div class="f"><label for="tl-name">Your name</label><input data-clarity-mask="True" id="tl-name" type="text" autocomplete="name" autocapitalize="words" enterkeyhint="next" spellcheck="false" value="' + V.esc(l.name || "") + '" data-ttext="name" aria-describedby="tl-e-name"><p class="err" id="tl-e-name" hidden></p></div>' +
       '<div class="f"><label for="tl-pickup">Hotel or address on Koh Lanta</label><input data-clarity-mask="True" id="tl-pickup" type="text" autocomplete="off" autocapitalize="words" enterkeyhint="done" value="' + V.esc(l.pickup || "") + '" data-ttext="pickup" aria-describedby="tl-e-pickup"><p class="err" id="tl-e-pickup" hidden></p></div></div>' +
       '<details><summary>Read the message before you send it</summary><pre class="trips__msg" data-tmsg data-clarity-mask="True"></pre></details>';
-    foot.innerHTML = '<p class="err trips__miss" role="alert" data-tmiss hidden></p><a class="sheet-btn" href="#" target="_blank" rel="noopener" data-tsend data-track="trip_list">' + ICON.wa + "<span>" + (l.items.length === 1 ? "Send this trip on WhatsApp" : "Send the " + l.items.length + " trips in one message") + "</span></a>" +
+    // Champ piège (contrat demandes-site) : hors de l'écran, rempli par les robots, jamais dans le message.
+    foot.innerHTML = '<div class="hp" aria-hidden="true"><label for="tl-website">Website</label><input data-clarity-mask="True" id="tl-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>' +
+      '<p class="err trips__miss" role="alert" data-tmiss hidden></p><a class="sheet-btn" href="#" target="_blank" rel="noopener" data-tsend data-track="trip_list">' + ICON.wa + "<span>" + (l.items.length === 1 ? "Send this trip on WhatsApp" : "Send the " + l.items.length + " trips in one message") + "</span></a>" +
       '<p class="sheet-note">Nothing is booked until we confirm.</p>';
     message();
     if (focusId) { var f = document.getElementById(focusId); if (f) f.focus(); }
@@ -272,7 +274,17 @@
       if (first) first.focus();
       return;
     }
-    send.href = B.waUrl(message());
+    var text = message();
+    send.href = B.waUrl(text);
+    // Copies pour Gestion (une par sortie, 5 au plus) : envoyées sans attendre, avant que le lien n'ouvre WhatsApp.
+    // Un même message n'est copié qu'une fois par page (double appui, panneau QR rouvert sur ordinateur).
+    try {
+      if (B.sendCopy && B.tripListBodies && copied.indexOf(text) < 0) {
+        copied.push(text);
+        var trap = $('[name="website"]', foot);
+        B.tripListBodies(cat, l, text, trap ? trap.value : "", location.href).forEach(B.sendCopy);
+      }
+    } catch (x) { /* jamais bloquant */ }
     // Mesure d'audience (consent.js, après « Accept » seulement) : combien de sorties et de personnes, rien d'autre.
     document.dispatchEvent(new CustomEvent("stt-trips-send", { detail: { product_id: "trip_list", product_type: "trip_list", trips: l.items.length, people: (l.adults || 0) + (l.childAges || []).length } }));
   });
