@@ -13,16 +13,16 @@ const SITE = path.join(ROOT, "_site");
 const src = (rel) => fs.readFileSync(path.join(ROOT, rel), "utf8");
 const read = (rel) => fs.readFileSync(path.join(SITE, rel, "index.html"), "utf8");
 const bookData = (rel) => JSON.parse(read(rel).match(/id="book-data">([\s\S]*?)<\/script>/)[1]);
-const FIELDS = ["brand", "product_id", "product", "option", "option_label", "date", "time", "adults", "children", "pickup", "name", "estimated_total", "currency", "ref", "page_url", "message", "website"];
+const FIELDS = ["brand", "product_id", "product", "option", "option_label", "date", "time", "adults", "children", "pickup", "name", "estimated_total", "currency", "ref", "page_url", "message", "website", B.PHONE_FIELD];
 
 // ---------- Demandes ----------
 test("corps de la demande : exactement les champs du contrat, marque secret ou taxi, message WhatsApp inchangé", () => {
   const today = "2026-11-17";
   const cases = [
-    ["tours/4-islands", "secret", (c) => ({ option: c.options[0].id, dateChoice: "other", dateOther: "2026-11-20", adults: 2, childAges: [7], pickup: "Pimalai Resort", name: "Anna" })],
-    ["transfers", "secret", () => ({ dateChoice: "tomorrow", time: "09:30", adults: 3, pickupAt: "Krabi Airport", dropoffAt: "Lanta Sand Resort", name: "Ben" })],
-    ["taxi/krabi-airport-koh-lanta", "taxi", () => ({ dateChoice: "other", dateOther: "2026-12-01", time: "14:35", adults: 2, flight: "FD3129", pickupAt: "Krabi Airport", dropoffAt: "Pimalai Resort", name: "Chloé" })],
-    ["tours/rental", "secret", (c) => ({ option: c.options[0].id, dateFrom: "2026-11-20", dateTo: "2026-11-23", name: "Dan", pickup: "Long Beach" })]
+    ["tours/4-islands", "secret", (c) => ({ option: c.options[0].id, dateChoice: "other", dateOther: "2026-11-20", adults: 2, childAges: [7], pickup: "Pimalai Resort", firstName: "Anna", lastName: "Becker", phoneCode: "GB", phone: "07700 900123" })],
+    ["transfers", "secret", () => ({ dateChoice: "tomorrow", time: "09:30", adults: 3, pickupAt: "Krabi Airport", dropoffAt: "Lanta Sand Resort", firstName: "Ben", lastName: "Okafor", phoneCode: "DE", phone: "0151 23456789" })],
+    ["taxi/krabi-airport-koh-lanta", "taxi", () => ({ dateChoice: "other", dateOther: "2026-12-01", time: "14:35", adults: 2, flight: "FD3129", pickupAt: "Krabi Airport", dropoffAt: "Pimalai Resort", firstName: "Chloé", lastName: "Martin", phoneCode: "FR", phone: "06 12 34 56 78" })],
+    ["tours/rental", "secret", (c) => ({ option: c.options[0].id, dateFrom: "2026-11-20", dateTo: "2026-11-23", firstName: "Dan", lastName: "Levi", phoneCode: "other", phoneOther: "+972", phone: "50 123 4567", pickup: "Long Beach" })]
   ];
   for (const [rel, brand, fill] of cases) {
     const cfg = bookData(rel);
@@ -168,7 +168,7 @@ test("confidentialité : la copie dans l'outil de réservation, ses champs, rien
   const h = read("privacy");
   assert.doesNotMatch(h, /send nothing to our servers|Nothing reaches us until/);
   assert.match(h, /A copy of each request sent from a booking form is stored in our booking tool/);
-  for (const f of ["the trip or route and the option you chose", "the date", "the pickup time of a transfer", "the number of adults and of children", "the pickup place or hotel", "the name you typed", "the estimated price shown in the form", "the address of the page", "the text of the WhatsApp message"]) assert.ok(h.includes(f), f);
+  for (const f of ["the trip or route and the option you chose", "the date", "the pickup time of a transfer", "the number of adults and of children", "the pickup place or hotel", "your first and last name", "your WhatsApp number", "the estimated price shown in the form", "the address of the page", "the text of the WhatsApp message"]) assert.ok(h.includes(f), f);
   assert.match(h, /Nothing is sent to an advertiser\./);
   assert.match(h, /Supabase hosts our booking tool/);
 });
@@ -177,7 +177,7 @@ test("confidentialité : la copie dans l'outil de réservation, ses champs, rien
 const catalog = () => JSON.parse(fs.readFileSync(path.join(SITE, "data", "catalog.json"), "utf8"));
 const tripList = (n, extra = {}) => {
   const cat = catalog(), slugs = Object.keys(cat);
-  return { items: slugs.slice(0, n).map((s, i) => ({ id: "t" + i, slug: s, option: (cat[s].options[0] || {}).id, date: "2026-12-" + (20 - i), addons: [], choices: {}, counts: {} })), adults: 2, childAges: [7], pickup: "Pimalai Resort", name: "Anna", ...extra };
+  return { items: slugs.slice(0, n).map((s, i) => ({ id: "t" + i, slug: s, option: (cat[s].options[0] || {}).id, date: "2026-12-" + (20 - i), addons: [], choices: {}, counts: {} })), adults: 2, childAges: [7], pickup: "Pimalai Resort", firstName: "Anna", lastName: "Becker", phoneCode: "GB", phone: "07700 900123", ...extra };
 };
 
 test("liste de sorties : N sorties donnent N copies (5 au plus, limite par appareil), champs du contrat, texte exact", () => {

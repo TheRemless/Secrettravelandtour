@@ -109,7 +109,7 @@ test("feuille : la demande de minivan partagé est au nom de Secret Travel & Tou
   const cfg = { variant: "taxi", shared: true, brand: "Secret Travel & Tour", product: "Shared minivan", productId: "transfers-shared", page: "secrettravelandtour.com/transfers/", from: "", to: "" };
   const st = Object.assign(B.emptyState(cfg), {
     today: "2026-11-03", dateChoice: "other", dateOther: "2026-11-10", time: "14:30", flight: "FD3xxx",
-    adults: 2, childAges: [], bags: 2, pickupAt: "Krabi Airport arrivals", dropoffAt: "Hotel on Klong Dao", name: "Anna"
+    adults: 2, childAges: [], bags: 2, pickupAt: "Krabi Airport arrivals", dropoffAt: "Hotel on Klong Dao", firstName: "Anna", lastName: "Becker", phoneCode: "GB", phone: "07700 900123"
   });
   const msg = B.buildMessage(cfg, st);
   assert.equal(msg.split("\n")[0], "Shared minivan request (Secret Travel & Tour): Krabi Airport arrivals to Hotel on Klong Dao");

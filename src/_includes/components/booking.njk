@@ -45,8 +45,28 @@
         <button class="sheet-close" type="button" data-close>{{ icon("close") }}<span class="sr-only">Close</span></button>
       </div>
       <div class="sheet-body">
-        {#- Le nom d'abord, dans toutes les feuilles : c'est ce que le téléphone remplit seul. -#}
-        {{ text("name", "Your name", "", true, "name", 'autocapitalize="words" enterkeyhint="next" spellcheck="false"') }}
+        {#- Qui écrit d'abord, dans toutes les feuilles : c'est ce que le téléphone remplit seul. Prénom, nom et numéro WhatsApp
+            obligatoires (Jérémy, 17.11.2026 : des messages préparés n'arrivent jamais, le numéro permet de rappeler). Les
+            indicatifs viennent de booking.js (DIAL_CODES) ; « Other » ouvre un petit champ pour taper le sien. -#}
+        <div class="f-who">
+          <div class="f-pair">
+            {{ text("firstName", "First name", "", true, "given-name", 'autocapitalize="words" enterkeyhint="next" spellcheck="false"') }}
+            {{ text("lastName", "Last name", "", true, "family-name", 'autocapitalize="words" enterkeyhint="next" spellcheck="false"') }}
+          </div>
+          <div class="f f-phone">
+            <label for="book-phone">Your WhatsApp number</label>
+            <div class="phone-row">
+              <span class="select"><select data-clarity-mask="True" id="book-phoneCode" name="phoneCode" autocomplete="tel-country-code" aria-label="Country code" aria-describedby="book-e-phone"><option value="">Code</option></select></span>
+              <input data-clarity-mask="True" id="book-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" enterkeyhint="next" required aria-required="true" aria-describedby="book-h-phone book-e-phone">
+            </div>
+            <div class="phone-other" data-phone-other hidden>
+              <label class="f-label" for="book-phoneOther">Country code</label>
+              <input data-clarity-mask="True" id="book-phoneOther" name="phoneOther" type="tel" inputmode="tel" autocomplete="off" placeholder="+20" aria-describedby="book-e-phone">
+            </div>
+            <p class="f-hint f-hint--under" id="book-h-phone">So we can reach you if your message doesn't come through.</p>
+            <p class="err" id="book-e-phone" hidden></p>
+          </div>
+        </div>
 
         {%- if cfg.options and cfg.options.length > 1 %}
         <fieldset class="f">
@@ -333,7 +353,7 @@
         {%- if cfg.variant == "tour" %}<p class="sheet-total" data-total aria-live="polite" hidden></p>{% endif %}
         {#- Envoi direct (Jérémy, 16.11.2026 : plus d'aperçu) : booking.js ouvre WhatsApp depuis l'envoi du formulaire. -#}
         <button class="sheet-btn" type="submit" aria-describedby="book-send-note">{{ icon("whatsapp") }}<span>Send on WhatsApp</span></button>
-        <p class="sheet-note sheet-note--send" id="book-send-note">WhatsApp opens with your message. You can change it there before you send.</p>
+        <p class="sheet-note sheet-note--send" id="book-send-note">WhatsApp opens with your message. Check it, then tap Send.</p>
         {%- if cfg.tripList %}
         <button class="sheet-link sheet-link--trip" type="button" data-trip data-track="sheet" data-track-cta="add_to_trip_list">Add to my trip list</button>
         {%- endif %}
@@ -343,10 +363,12 @@
 
   <div class="sheet-screen" data-screen="done" hidden>
     <div class="sheet-head">
-      <h2 class="sheet-title" tabindex="-1" data-focus>WhatsApp should be open</h2>
+      {#- Le message est prêt, pas encore parti : il reste à appuyer sur « Envoyer » dans WhatsApp (Jérémy, 17.11.2026). -#}
+      <h2 class="sheet-title" tabindex="-1" data-focus>Your message is ready in WhatsApp</h2>
       <button class="sheet-close" type="button" data-close>{{ icon("close") }}<span class="sr-only">Close</span></button>
     </div>
     <div class="sheet-body done-text">
+      <p class="done-lead"><strong>Tap Send to reach us.</strong></p>
       <p>Nothing is booked until we confirm.</p>
       {% if facts.replyTime %}<p>{{ facts.replyTime }}</p>{% endif %}
       {%- set langs = facts.languages or [] %}

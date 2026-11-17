@@ -30,14 +30,14 @@ const TAXI = {
 
 function tourState(over) {
   return Object.assign(B.emptyState(TOUR), {
-    today: TODAY, option: "join-in-longtail", dateChoice: "tomorrow", adults: 2, childAges: [7], pickup: "Lanta Sand Resort (Klong Dao)", name: "Anna"
+    today: TODAY, option: "join-in-longtail", dateChoice: "tomorrow", adults: 2, childAges: [7], pickup: "Lanta Sand Resort (Klong Dao)", firstName: "Anna", lastName: "Becker", phoneCode: "GB", phone: "07700 900123"
   }, over);
 }
 
 function taxiState(over) {
   return Object.assign(B.emptyState(TAXI), {
     today: TODAY, direction: "out", dateChoice: "other", dateOther: "2026-11-10", time: "14:30", flight: "FD3xxx",
-    adults: 2, childAges: [5], childSeats: 1, bags: 3, pickupAt: "Krabi Airport (KBV)", dropoffAt: "Lanta Sand Resort", name: "Anna"
+    adults: 2, childAges: [5], childSeats: 1, bags: 3, pickupAt: "Krabi Airport (KBV)", dropoffAt: "Lanta Sand Resort", firstName: "Anna", lastName: "Becker", phoneCode: "GB", phone: "07700 900123"
   }, over);
 }
 
@@ -65,7 +65,7 @@ test("buildMessage excursion : la demande en première ligne, sans formule d'app
       "Date: Wed 4 Nov 2026",
       "Guests: 2 adults, 1 child (age 7)",
       "Pickup: Lanta Sand Resort (Klong Dao)",
-      "Name: Anna",
+      "Name: Anna Becker", "WhatsApp: +447700900123",
       // Sans prix structurés, pas de total : le prix de l'option termine le message.
       "Price: Adult: 1,000 THB / Child, 4 to 11: 600 THB"
     ].join("\n")
@@ -94,7 +94,8 @@ test("buildMessage trajet : aller, vol, sièges, bagages, prise en charge et dé
       "Bags: 3",
       "Pickup: Krabi Airport (KBV)",
       "Drop-off: Lanta Sand Resort",
-      "Name: Anna"
+      "Name: Anna Becker",
+      "WhatsApp: +447700900123"
     ].join("\n")
   );
   // Ni référence ni page, même quand la config donne l'adresse.
@@ -118,14 +119,16 @@ test("validate excursion : tout est rempli", () => {
 });
 
 test("validate excursion : date, adultes, âge d'enfant, hôtel, prénom, option", () => {
-  const errors = B.validate(TOUR, tourState({ option: "", dateChoice: "", adults: 0, childAges: [""], pickup: " ", name: "" }));
+  const errors = B.validate(TOUR, tourState({ option: "", dateChoice: "", adults: 0, childAges: [""], pickup: " ", firstName: "", lastName: " ", phone: "" }));
   assert.deepEqual(errors, {
     option: "Choose an option.",
     date: "Pick a date.",
     adults: "Add at least one adult.",
     "child-0": "Choose the age of child 1.",
     pickup: "Add your hotel so we know where to pick you up.",
-    name: "Add your name."
+    firstName: "Add your first name.",
+    lastName: "Add your last name.",
+    phone: "Add your WhatsApp number."
   });
 });
 
@@ -220,7 +223,7 @@ test("speedboat : un bateau déjà parti aujourd'hui est refusé", () => {
     variant: "speedboat", product: "Speedboat",
     routes: [{ id: "a", label: "Koh Lanta to Koh Phi Phi", deps: [{ id: "d1", time: "08:30" }, { id: "d2", time: "13:00" }] }]
   };
-  const s = Object.assign(B.emptyState(boat), { today: TODAY, nowTime: "10:00", dateChoice: "today", route: "a", departure: "d1", tripType: "one-way", adults: 2, pickup: "Hotel", name: "Anna" });
+  const s = Object.assign(B.emptyState(boat), { today: TODAY, nowTime: "10:00", dateChoice: "today", route: "a", departure: "d1", tripType: "one-way", adults: 2, pickup: "Hotel", firstName: "Anna", lastName: "Becker", phoneCode: "GB", phone: "07700 900123" });
   assert.equal(B.validate(boat, s).date, "That boat has left for today. Choose another departure or another day.");
   assert.equal(B.validate(boat, Object.assign({}, s, { departure: "d2" })).date, undefined);
   assert.equal(B.validate(boat, Object.assign({}, s, { dateChoice: "tomorrow" })).date, undefined);
@@ -239,7 +242,8 @@ test("brouillon : gardé 7 jours, « Tomorrow » d'un autre jour effacé", () =>
   assert.equal(sameDay.pickup, "Lanta Sand Resort (Klong Dao)");
   const nextDay = B.restoreDraft(raw, new Date("2026-11-04T09:00:00Z"));
   assert.equal(nextDay.dateChoice, "");
-  assert.equal(nextDay.name, "Anna");
+  assert.equal(nextDay.firstName, "Anna");
+  assert.doesNotMatch(raw, /07700|"phoneCode"/, "le numéro ne reste pas 7 jours sur l'appareil");
   assert.equal(B.restoreDraft(raw, new Date("2026-11-11T06:00:00Z")), null);
   assert.equal(B.restoreDraft("{bad", saved), null);
 });
@@ -247,7 +251,7 @@ test("brouillon : gardé 7 jours, « Tomorrow » d'un autre jour effacé", () =>
 // Retour du 03.11.2026 : cash du parc, option du transfert. Référence et page retirées le 10.11.2026.
 test("message : ni référence ni page, même avec un code produit et une adresse dans la config", () => {
   const cfg = { variant: "tour", product: "4 Islands", page: "secrettravelandtour.com/tours/4-islands/", refPrefix: "FOUR", options: [] };
-  const base = { dateChoice: "tomorrow", today: "2026-11-03", adults: 2, childAges: [7], name: "Anna" };
+  const base = { dateChoice: "tomorrow", today: "2026-11-03", adults: 2, childAges: [7], firstName: "Anna", lastName: "Becker", phoneCode: "GB", phone: "07700 900123" };
   const msg = B.buildMessage(cfg, base);
   assert.match(msg, /^Booking request: 4 Islands\n/);
   assert.doesNotMatch(msg, /Ref:|Page:|FOUR-|secrettravelandtour\.com/);
@@ -264,7 +268,7 @@ test("cash du parc : adultes et enfants au tarif des données, rien sans frais d
 
 test("transfert : l'option choisie suit le trajet sur la première ligne", () => {
   const cfg = { variant: "taxi", product: "Minivan transfers", options: [{ id: "shared", title: "Shared minivan" }] };
-  const msg = B.buildMessage(cfg, { option: "shared", pickupAt: "Koh Lanta", dropoffAt: "Krabi Airport", dateChoice: "today", today: "2026-11-03", adults: 2, childAges: [], time: "09:00", name: "Anna" });
+  const msg = B.buildMessage(cfg, { option: "shared", pickupAt: "Koh Lanta", dropoffAt: "Krabi Airport", dateChoice: "today", today: "2026-11-03", adults: 2, childAges: [], time: "09:00", firstName: "Anna", lastName: "Becker", phoneCode: "GB", phone: "07700 900123" });
   assert.equal(msg.split("\n")[0], "Transfer request: Koh Lanta to Krabi Airport – Shared minivan");
 });
 
@@ -287,7 +291,7 @@ test("day trip : stops dans le message, chaque stop nommé, pas de drop-off dema
     from: "Koh Lanta", to: "Krabi", stops: ["Emerald Pool", "Tiger Cave Temple", "The hot springs"],
     priceNote: "From 3,500 THB per vehicle, depending on stops and hours", page: "secrettravelandtour.com/taxi/koh-lanta-krabi-day-trip/" };
   const st = Object.assign(B.emptyState(DT), { today: TODAY, dateChoice: "other", dateOther: "2026-11-20", time: "08:30",
-    adults: 2, childAges: [], pickupAt: "Lanta Sand Resort", name: "Anna", stops: ["Emerald Pool", "Krabi Town night market"] });
+    adults: 2, childAges: [], pickupAt: "Lanta Sand Resort", firstName: "Anna", lastName: "Becker", phoneCode: "GB", phone: "07700 900123", stops: ["Emerald Pool", "Krabi Town night market"] });
   assert.deepEqual(B.validate(DT, st), {});
   const msg = B.buildMessage(DT, st);
   // Format lu par la demande collée de Gestion : « Transfer request: » et « Pickup: ».

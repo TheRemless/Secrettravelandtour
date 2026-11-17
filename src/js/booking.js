@@ -96,6 +96,123 @@
     return n + " " + (n === 1 ? one : many);
   }
 
+  // ---------- Qui écrit : prénom, nom et numéro WhatsApp, obligatoires (Jérémy, 17.11.2026) ----------
+  // Certains visiteurs remplissent la feuille sans appuyer sur « Envoyer » dans WhatsApp : le numéro permet de les joindre.
+  // Indicatifs courants des visiteurs de Koh Lanta, dans le site (ni bibliothèque ni CDN) ; « Other » pour taper le sien.
+  var DIAL_CODES = [
+    ["TH", "Thailand", "66"], ["GB", "United Kingdom", "44"], ["DE", "Germany", "49"], ["FR", "France", "33"],
+    ["CH", "Switzerland", "41"], ["IT", "Italy", "39"], ["NL", "Netherlands", "31"], ["BE", "Belgium", "32"],
+    ["AT", "Austria", "43"], ["ES", "Spain", "34"], ["SE", "Sweden", "46"], ["NO", "Norway", "47"], ["DK", "Denmark", "45"],
+    ["FI", "Finland", "358"], ["IE", "Ireland", "353"], ["PL", "Poland", "48"], ["CZ", "Czechia", "420"], ["IL", "Israel", "972"],
+    ["US", "USA, Canada", "1"], ["AU", "Australia", "61"], ["NZ", "New Zealand", "64"], ["SG", "Singapore", "65"],
+    ["MY", "Malaysia", "60"], ["CN", "China", "86"], ["IN", "India", "91"], ["JP", "Japan", "81"], ["KR", "South Korea", "82"]
+  ].map(function (c) { return { id: c[0], name: c[1], dial: c[2] }; });
+  var DIAL_BY_REGION = { CA: "US" };
+  var DIAL_BY_LANG = { th: "TH", de: "DE", fr: "FR", it: "IT", nl: "NL", sv: "SE", nb: "NO", nn: "NO", no: "NO", da: "DK", fi: "FI", pl: "PL", cs: "CZ", he: "IL", es: "ES", zh: "CN", ja: "JP", ko: "KR" };
+  var DIAL_BY_ZONE = {
+    "Europe/London": "GB", "Europe/Berlin": "DE", "Europe/Paris": "FR", "Europe/Zurich": "CH", "Europe/Rome": "IT", "Europe/Amsterdam": "NL",
+    "Europe/Brussels": "BE", "Europe/Vienna": "AT", "Europe/Madrid": "ES", "Europe/Stockholm": "SE", "Europe/Oslo": "NO", "Europe/Copenhagen": "DK",
+    "Europe/Helsinki": "FI", "Europe/Dublin": "IE", "Europe/Warsaw": "PL", "Europe/Prague": "CZ", "Asia/Jerusalem": "IL", "Asia/Bangkok": "TH",
+    "Asia/Singapore": "SG", "Asia/Kuala_Lumpur": "MY", "Asia/Shanghai": "CN", "Asia/Kolkata": "IN", "Asia/Tokyo": "JP", "Asia/Seoul": "KR",
+    "Australia/Sydney": "AU", "Australia/Melbourne": "AU", "Australia/Brisbane": "AU", "Australia/Perth": "AU", "Pacific/Auckland": "NZ"
+  };
+  function dialOf(id) { return DIAL_CODES.filter(function (c) { return c.id === id; })[0] || null; }
+  // Indicatif proposé d'avance. Un téléphone déjà en Thaïlande passe au fuseau de Bangkok : ce fuseau ne dit rien du pays
+  // du numéro. Un autre fuseau (visite préparée depuis chez soi) passe donc en premier, puis la région de la langue du
+  // navigateur (« de-CH » → Suisse), puis la langue seule (« fr » → France). Rien de sûr : chaîne vide, le visiteur choisit.
+  // Toujours modifiable.
+  function guessDial(languages, timeZone) {
+    var langs = (languages || []).map(function (l) { return String(l || ""); });
+    if (timeZone && timeZone !== "Asia/Bangkok" && DIAL_BY_ZONE[timeZone]) return DIAL_BY_ZONE[timeZone];
+    for (var i = 0; i < langs.length; i++) {
+      var region = ((/^[a-z]{2,3}-([A-Za-z]{2})\b/i.exec(langs[i]) || [])[1] || "").toUpperCase();
+      if (region && (DIAL_BY_REGION[region] || dialOf(region))) return DIAL_BY_REGION[region] || region;
+    }
+    for (var j = 0; j < langs.length; j++) {
+      var base = langs[j].slice(0, 2).toLowerCase();
+      if (DIAL_BY_LANG[base]) return DIAL_BY_LANG[base];
+    }
+    return "";
+  }
+  function digits(s) { return String(s || "").replace(/\D/g, ""); }
+  // Numéro complet (« +44 7700… », souvent rempli par le téléphone) : le pays de la liste dont l'indicatif ouvre le numéro.
+  function dialFromNumber(phone) {
+    var raw = String(phone || "").trim();
+    if (!/^(\+|00)/.test(raw)) return "";
+    var all = digits(raw).replace(/^00/, "");
+    var hit = DIAL_CODES.filter(function (c) { return all.indexOf(c.dial) === 0; }).sort(function (a, b) { return b.dial.length - a.dial.length; })[0];
+    return hit ? hit.id : "";
+  }
+  // Numéro au format E.164 (« +66958683846 ») ; chaîne vide s'il n'est pas valable. Un numéro tapé ou rempli par le
+  // téléphone avec « + » ou « 00 » garde son propre indicatif ; sinon l'indicatif choisi, sans le 0 national de tête
+  // (07700… au Royaume-Uni → +447700…), sauf en Italie où le 0 fait partie du numéro.
+  function phoneParts(state) {
+    var raw = String(state.phone || "").trim();
+    if (/^(\+|00)/.test(raw)) {
+      var all = digits(raw).replace(/^00/, "");
+      return { code: "", national: all, full: all, intl: true };
+    }
+    var code = state.phoneCode === "other" ? digits(state.phoneOther) : (dialOf(state.phoneCode) || {}).dial || "";
+    var national = digits(raw);
+    if (code !== "39") national = national.replace(/^0/, "");
+    return { code: code, national: national, full: code + national, intl: false };
+  }
+  function phoneE164(state) {
+    var p = phoneParts(state);
+    if (p.intl) return p.full.length >= 7 && p.full.length <= 15 && p.full.charAt(0) !== "0" ? "+" + p.full : "";
+    if (!/^\d{1,3}$/.test(p.code) || p.code.charAt(0) === "0") return "";
+    return p.national.length >= 6 && p.national.length <= 15 && p.full.length <= 15 ? "+" + p.full : "";
+  }
+  // Message d'erreur du numéro, ou chaîne vide. Mêmes mots dans la feuille et dans la liste de sorties.
+  function phoneError(state) {
+    var raw = String(state.phone || "").trim();
+    if (!raw) return "Add your WhatsApp number.";
+    if (/[^\d\s()+.\-\/]/.test(raw)) return "Use only digits for the number.";
+    var p = phoneParts(state);
+    if (!p.intl) {
+      if (!state.phoneCode) return "Choose your country code.";
+      if (state.phoneCode === "other" && (!/^\d{1,3}$/.test(digits(state.phoneOther)) || digits(state.phoneOther).charAt(0) === "0")) return "Add your country code, for example +20.";
+    }
+    return phoneE164(state) ? "" : "Check the number: 6 to 15 digits after the country code.";
+  }
+  // Champ qui reçoit le focus quand le numéro est refusé : la liste des indicatifs, le petit champ « Other », ou le numéro.
+  function phoneFocus(state) {
+    if (/^(\+|00)/.test(String(state.phone || "").trim())) return "phone";
+    if (!state.phoneCode) return "phoneCode";
+    if (state.phoneCode === "other" && phoneError(state) === "Add your country code, for example +20.") return "phoneOther";
+    return "phone";
+  }
+  // Indicatif proposé par ce navigateur (langues et fuseau horaire) ; chaîne vide hors navigateur.
+  function browserDial() {
+    if (typeof navigator === "undefined") return "";
+    var tz = "";
+    try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) { tz = ""; }
+    return guessDial(navigator.languages || [navigator.language], tz);
+  }
+  // Ancien champ unique « name » (brouillons et listes d'avant le 17.11.2026) : premier mot en prénom, le reste en nom.
+  function splitName(name) {
+    var parts = clean(name).split(" ");
+    return { firstName: parts[0] || "", lastName: parts.slice(1).join(" ") };
+  }
+  function fullName(state) {
+    return clean([state.firstName, state.lastName].join(" ")) || clean(state.name);
+  }
+  // Prénom, nom et numéro : mêmes règles partout (feuille et liste). errors reçoit firstName, lastName, phone.
+  function validateContact(state, errors) {
+    if (!clean(state.firstName)) errors.firstName = "Add your first name.";
+    if (!clean(state.lastName)) errors.lastName = "Add your last name.";
+    var pe = phoneError(state);
+    if (pe) errors.phone = pe;
+    return errors;
+  }
+  // Lignes du message WhatsApp : « Name: Prénom Nom » puis « WhatsApp: +66… » (toujours sans « Ref: »).
+  function contactLines(state) {
+    var out = [], n = fullName(state), tel = phoneE164(state);
+    if (n) out.push("Name: " + n);
+    if (tel) out.push("WhatsApp: " + tel);
+    return out;
+  }
+
   function listJoin(items) {
     if (items.length < 2) return items.join("");
     return items.slice(0, -1).join(", ") + " and " + items[items.length - 1];
@@ -383,7 +500,7 @@
       if (clean(state.pickup)) lines.push("Pickup: " + clean(state.pickup));
     }
 
-    if (clean(state.name)) lines.push("Name: " + clean(state.name));
+    contactLines(state).forEach(function (l) { lines.push(l); });
     // Ni référence ni page (Jérémy, 10.11.2026) : qui demande, quoi, quand, et le prix.
     if (config.variant === "tour") {
       var sum = priceSummary(findOption(config, state.option), state);
@@ -409,7 +526,7 @@
 
   // Liste de sorties (design v4) : un seul message pour plusieurs sorties, classées par jour, le total de chaque sortie
   // et celui de la liste. catalog : { slug: { name, options: [{id, title, rows}] } } ;
-  // list : { items: [{slug, option, date, addons}], adults, childAges, pickup, name }.
+  // list : { items: [{slug, option, date, addons}], adults, childAges, pickup, firstName, lastName, phoneCode, phoneOther, phone }.
   function buildTripList(catalog, list) {
     var items = (list.items || []).filter(function (it) { return catalog[it.slug]; }).slice();
     items.sort(function (a, b) { return (a.date || "9999") < (b.date || "9999") ? -1 : (a.date || "9999") > (b.date || "9999") ? 1 : 0; });
@@ -417,7 +534,7 @@
     lines.push("Trip list: " + plural(items.length, "trip", "trips"));
     lines.push("Guests: " + guestsLine(list.adults, list.childAges));
     if (clean(list.pickup)) lines.push("Pickup: " + clean(list.pickup));
-    if (clean(list.name)) lines.push("Name: " + clean(list.name));
+    contactLines(list).forEach(function (l) { lines.push(l); });
     var day = null, grand = 0, priced = true;
     items.forEach(function (it) {
       var p = catalog[it.slug];
@@ -449,7 +566,7 @@
   }
 
   // Liste de sorties : rien ne part tant qu'une sortie n'a pas sa date, et son option quand la fiche en a
-  // plusieurs. Renvoie { items: { id: { option?, date? } }, ages: { i: texte }, pickup?, name? } ; vide si tout va.
+  // plusieurs. Renvoie { items: { id: { option?, date? } }, ages: { i: texte }, pickup?, firstName?, lastName?, phone? } ; vide si tout va.
   function validateTripList(catalog, list, today) {
     var out = { items: {}, ages: {} };
     var n = 0;
@@ -471,7 +588,8 @@
       if (a === "" || a === null || a === undefined) { out.ages[i] = "Choose the age of child " + (i + 1) + "."; n++; }
     });
     if (!clean(list.pickup)) { out.pickup = "Add your hotel so we know where to pick you up."; n++; }
-    if (!clean(list.name)) { out.name = "Add your name."; n++; }
+    var who = validateContact(list, {});
+    Object.keys(who).forEach(function (k) { out[k] = who[k]; n++; });
     out.count = n;
     return out;
   }
@@ -546,13 +664,16 @@
 
   // ---------- Copie de la demande pour Gestion (contrat Site_Anais docs/gestion/demandes-site.md, 17.11.2026) ----------
   // Le corps exact du contrat, rien de plus : ce que la feuille sait déjà, et le texte WhatsApp tel qu'il part (sans ligne
-  // « Ref: », décision de Jérémy en attente : ref reste vide). Aucun téléphone, aucun e-mail : la feuille n'en demande pas.
+  // « Ref: », décision de Jérémy du 17.11.2026). Nom complet dans name ; numéro WhatsApp au format E.164 dans le champ
+  // PHONE_FIELD (nom provisoire, à confirmer par la session Gestion : seule cette constante change). Aucun e-mail.
   var DEMANDE_URL = "https://lkxqcmzeidlyssoqmqkh.supabase.co/functions/v1/demande-site";
+  var PHONE_FIELD = "whatsapp";
+  function withPhone(body, who) { body[PHONE_FIELD] = phoneE164(who); return body; }
   function demandeBody(config, state, message, honeypot, pageUrl) {
     var option = findOption(config, state.option);
     var info = trackInfo(config, state);
     var time = clean(state.time);
-    return {
+    return withPhone({
       brand: /VIP Taxi/i.test(config.brand || "") ? "taxi" : "secret",
       product_id: config.productId || "",
       product: config.product || "",
@@ -563,14 +684,14 @@
       adults: state.adults || 0,
       children: (state.childAges || []).length,
       pickup: clean(state.pickup || state.pickupAt || ""),
-      name: clean(state.name),
+      name: fullName(state),
       estimated_total: typeof info.value === "number" ? info.value : null,
       currency: "THB",
       ref: "",
       page_url: String(pageUrl || "").split("#")[0],
       message: message,
       website: honeypot || ""
-    };
+    }, state);
   }
   // Liste de sorties (v4-trips.js) : une copie par sortie, mêmes champs et mêmes règles que la feuille, sans toucher au
   // contrat ni à la fonction de Gestion (session parente, 17.11.2026). Chaque copie porte les champs de sa sortie (fiche,
@@ -593,7 +714,7 @@
       var p = catalog[it.slug];
       var option = findOption(p, it.option) || ((p.options || []).length === 1 ? p.options[0] : null);
       var q = option && PRICE && Array.isArray(option.prices) ? quoteOf(option, tripState(list, it)) : null;
-      return fitBody({
+      return fitBody(withPhone({
         brand: "secret",
         product_id: String(it.slug || ""),
         product: p.name || "",
@@ -604,14 +725,14 @@
         adults: list.adults || 0,
         children: (list.childAges || []).length,
         pickup: clean(list.pickup || ""),
-        name: clean(list.name || ""),
+        name: fullName(list),
         estimated_total: q && typeof q.total === "number" ? q.total : null,
         currency: "THB",
         ref: "",
         page_url: String(pageUrl || "").split("#")[0],
         message: message,
         website: honeypot || ""
-      });
+      }, list));
     });
   }
 
@@ -644,7 +765,7 @@
       else if (!clean(state.timeFrom) || !clean(state.timeTo)) errors.dates = "Add the time you take the vehicle and the time you bring it back.";
       else if (state.dateTo === state.dateFrom && clean(state.timeTo) <= clean(state.timeFrom)) errors.dates = "The return time is before the start time.";
       if (!(state.vehicles > 0)) errors.vehicles = "Add at least one vehicle.";
-      if (!clean(state.name)) errors.name = "Add your name.";
+      validateContact(state, errors);
       return errors;
     }
 
@@ -704,13 +825,14 @@
       errors.pickup = "Add your hotel so we know where to pick you up.";
     }
 
-    if (!clean(state.name)) errors.name = "Add your name.";
+    validateContact(state, errors);
     return errors;
   }
 
   function makeDraft(state, now) {
     var copy = {};
-    Object.keys(state).forEach(function (k) { if (k !== "today" && k !== "nowTime") copy[k] = state[k]; });
+    // Le numéro WhatsApp ne reste pas 7 jours sur l'appareil : il vit le temps de la visite (stt-who, sessionStorage).
+    Object.keys(state).forEach(function (k) { if (!/^(today|nowTime|phone|phoneCode|phoneOther)$/.test(k)) copy[k] = state[k]; });
     return JSON.stringify({ v: DRAFT_VERSION, savedAt: now.getTime(), day: bangkokToday(now), state: copy });
   }
 
@@ -732,7 +854,7 @@
 
   function emptyState(config) {
     return {
-      option: "", dateChoice: "", dateOther: "", adults: 2, childAges: [], pickup: "", name: "",
+      option: "", dateChoice: "", dateOther: "", adults: 2, childAges: [], pickup: "", firstName: "", lastName: "", phoneCode: "", phoneOther: "", phone: "",
       vehicle: "", dateFrom: "", dateTo: "",
       direction: "out", time: "", slot: "", flight: "", bags: 0, childSeats: 0, pickupAt: "", dropoffAt: "", addons: [], stops: [""],
       ride: "oneway", plan: "", hours: "",
@@ -768,6 +890,18 @@
     var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     function field(name) { return form.elements.namedItem(name); }
+
+    // Indicatifs : la liste vient de DIAL_CODES (une seule source pour la feuille et la liste de sorties).
+    // Le texte commence par l'indicatif : sur un téléphone étroit, c'est lui qui reste lisible.
+    var codeSel = field("phoneCode");
+    if (codeSel && codeSel.options.length < 3) {
+      DIAL_CODES.forEach(function (c) { codeSel.add(new Option("+" + c.dial + " " + c.name, c.id)); });
+      codeSel.add(new Option("Other", "other"));
+    }
+    function showPhoneOther() {
+      var box = form.querySelector("[data-phone-other]");
+      if (box) box.hidden = state.phoneCode !== "other";
+    }
     function today() { return bangkokToday(new Date()); }
 
     // Ce qu'on retient d'une feuille à l'autre pendant la visite (sessionStorage, effacé à la fermeture de l'onglet) :
@@ -777,7 +911,8 @@
     }
     function remember() {
       var w = who(), opt = findOption(config, state.option), hotel = "";
-      if (clean(state.name)) w.name = clean(state.name);
+      // Valeur actuelle, même effacée : un numéro corrigé ou retiré ne revient pas dans la feuille suivante.
+      ["firstName", "lastName", "phone", "phoneOther", "phoneCode"].forEach(function (k) { w[k] = clean(state[k]); });
       if (config.variant === "taxi") {
         if (config.from && config.to) {
           var back = state.direction === "back";
@@ -806,13 +941,18 @@
       var saved = null;
       try { saved = restoreDraft(localStorage.getItem(storageKey), new Date()); } catch (e) { saved = null; }
       if (saved) Object.keys(saved).forEach(function (k) { if (k in state) state[k] = saved[k]; });
+      // Brouillon d'avant le 17.11.2026 : un seul champ « name », partagé en prénom et nom.
+      if (saved && saved.name && !saved.firstName && !saved.lastName) Object.assign(state, splitName(saved.name));
       return Boolean(saved);
     }
 
     // Première ouverture de cette fiche : le nom, l'hôtel et le groupe déjà donnés ailleurs dans la visite ne se retapent pas.
     function carryOver(fresh) {
       var w = who(), opt = findOption(config, state.option);
-      if (!clean(state.name) && w.name) state.name = w.name;
+      if (w.name && !w.firstName) Object.assign(w, splitName(w.name)); // visite commencée avant le 17.11.2026
+      ["firstName", "lastName", "phoneCode", "phoneOther", "phone"].forEach(function (k) { if (!state[k] && w[k]) state[k] = w[k]; });
+      // Indicatif proposé d'après la langue ou le fuseau du navigateur ; le visiteur le change s'il le faut.
+      if (!state.phoneCode && !/^(\+|00)/.test(clean(state.phone))) state.phoneCode = browserDial();
       if (config.variant !== "taxi" && config.variant !== "rental" && !clean(state.pickup) && w.hotel && !(opt && opt.departure)) state.pickup = w.hotel;
       if (fresh && config.variant !== "rental" && w.adults > 0) {
         state.adults = w.adults;
@@ -902,7 +1042,7 @@
     }
 
     function fillForm() {
-      ["dateOther", "pickup", "name", "time", "flight", "pickupAt", "dropoffAt", "plan", "hours", "vehicle", "dateFrom", "dateTo", "timeFrom", "timeTo", "returnDate", "returnTime"].forEach(function (k) {
+      ["dateOther", "pickup", "firstName", "lastName", "phoneOther", "phone", "time", "flight", "pickupAt", "dropoffAt", "plan", "hours", "vehicle", "dateFrom", "dateTo", "timeFrom", "timeTo", "returnDate", "returnTime"].forEach(function (k) {
         var el = field(k);
         if (el && typeof el.value === "string") el.value = state[k] || "";
       });
@@ -913,6 +1053,7 @@
       });
       setRadio("option", state.option);
       if (field("route")) field("route").value = state.route || "";
+      if (field("phoneCode")) { field("phoneCode").value = state.phoneCode || ""; showPhoneOther(); }
       showDepartures();
       setRadio("departure", state.departure);
       setRadio("tripType", state.tripType);
@@ -1199,6 +1340,13 @@
       if (el.name === "tripType") { showReturn(); clearError("returnTrip"); }
       if (el.name === "returnDate" || el.name === "returnDeparture" || el.name === "returnTime") clearError("returnTrip");
       if (el.name === "option") fillChoices();
+      if (el.name === "phoneCode") showPhoneOther();
+      // Numéro collé ou rempli avec son indicatif : la liste suit, pour que l'écran dise la même chose que le message.
+      if (el.name === "phone" && dialFromNumber(state.phone) && field("phoneCode")) {
+        state.phoneCode = dialFromNumber(state.phone);
+        field("phoneCode").value = state.phoneCode;
+        showPhoneOther();
+      }
       if (/^n-/.test(el.name)) clearError("n-" + el.getAttribute("data-opt"));
       if (el.name === "timeFrom" || el.name === "timeTo") clearError("dates");
       if (el.name === "option") markOptions();
@@ -1208,6 +1356,7 @@
     }
 
     function errorKey(name) {
+      if (name === "phoneCode" || name === "phoneOther") return "phone";
       if (name === "dateChoice" || name === "dateOther") return "date";
       if (name === "dateFrom" || name === "dateTo" || name === "timeFrom" || name === "timeTo") return "dates";
       if (name === "returnDate" || name === "returnDeparture" || name === "returnTime") return "returnTrip";
@@ -1244,6 +1393,7 @@
       if (key === "departure") return form.querySelectorAll('input[name="departure"]');
       if (key === "tripType") return form.querySelectorAll('input[name="tripType"]');
       if (key === "returnTrip") return form.querySelectorAll('input[name="returnDate"], input[name="returnDeparture"], input[name="returnTime"]');
+      if (key === "phone") return form.querySelectorAll('[name="phoneCode"], [name="phoneOther"], [name="phone"]');
       if (/^c-/.test(key)) return form.querySelectorAll('[name="' + key + '"]');
       if (/^n-/.test(key)) return form.querySelectorAll('[name^="' + key + '-"]');
       var f = field(key);
@@ -1251,6 +1401,7 @@
       return f ? [f] : [];
     }
     function controlFor(key) {
+      if (key === "phone") return field(phoneFocus(state));
       if (key === "date") return form.querySelector('input[name="dateChoice"]:checked') || form.querySelector('input[name="dateChoice"]');
       return controlsFor(key)[0] || null;
     }
@@ -1348,13 +1499,13 @@
       if (window.STT_WAQR) window.STT_WAQR.doneScreen(dialog.querySelector("[data-waqr-done]"), url);
     });
 
-    // « Add to my trip list » : option, date et voyageurs suffisent ; l'hôtel et le prénom se donnent dans la liste.
+    // « Add to my trip list » : option, date et voyageurs suffisent ; l'hôtel, le nom et le numéro se donnent dans la liste.
     var tripBtn = dialog.querySelector("[data-trip]");
     if (tripBtn) tripBtn.addEventListener("click", function () {
       state.today = today();
       state.nowTime = bangkokTime(new Date());
       var errors = validate(config, state);
-      ["pickup", "name"].forEach(function (k) { delete errors[k]; });
+      ["pickup", "firstName", "lastName", "phone"].forEach(function (k) { delete errors[k]; });
       if (Object.keys(errors).length) { showErrors(errors); return; }
       emit("stt-trip-add", {
         slug: config.productId, option: state.option, date: resolveDate(state.dateChoice, state.dateOther, state.today),
@@ -1476,6 +1627,17 @@
     waUrl: waUrl,
     demandeBody: demandeBody,
     tripListBodies: tripListBodies,
+    PHONE_FIELD: PHONE_FIELD,
+    DIAL_CODES: DIAL_CODES,
+    guessDial: guessDial,
+    dialFromNumber: dialFromNumber,
+    phoneFocus: phoneFocus,
+    browserDial: browserDial,
+    phoneE164: phoneE164,
+    phoneError: phoneError,
+    splitName: splitName,
+    fullName: fullName,
+    validateContact: validateContact,
     TRIP_COPIES_MAX: TRIP_COPIES_MAX,
     sendCopy: sendCopy,
     DEMANDE_URL: DEMANDE_URL,

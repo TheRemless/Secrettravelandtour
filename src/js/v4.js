@@ -254,7 +254,7 @@
     get: function () {
       var l = null;
       try { l = JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e) { l = null; }
-      if (!l || l.v !== 1 || !Array.isArray(l.items)) l = { v: 1, items: [], adults: 2, childAges: [], pickup: "", name: "" };
+      if (!l || l.v !== 1 || !Array.isArray(l.items)) l = { v: 1, items: [], adults: 2, childAges: [], pickup: "", firstName: "", lastName: "", phoneCode: "", phoneOther: "", phone: "" };
       return l;
     },
     set: function (l) {

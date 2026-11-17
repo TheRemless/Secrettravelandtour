@@ -178,7 +178,7 @@ test("liste de sorties : un message classé par jour, un prix par sortie, total 
   const cat = JSON.parse(site("data/catalog.json"));
   assert.equal(Object.keys(cat).length, 15);
   const list = {
-    adults: 2, childAges: [7], pickup: "Lanta Sand Resort", name: "Anna",
+    adults: 2, childAges: [7], pickup: "Lanta Sand Resort", firstName: "Anna", lastName: "Becker", phoneCode: "GB", phone: "07700 900123",
     items: [
       { slug: "koh-rok-koh-haa", option: "join-in-speedboat", date: "2026-11-21" },
       { slug: "4-islands", option: "", date: "2026-11-20" },

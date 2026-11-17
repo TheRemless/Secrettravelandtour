@@ -23,7 +23,7 @@ function roundState(over) {
   return Object.assign(B.emptyState(HUB), {
     today: TODAY, ride: "round", dateChoice: "other", dateOther: "2026-11-17", time: "17:00",
     adults: 2, childAges: [7], childSeats: 1, bags: 2, pickupAt: "Lanta Sand Resort", dropoffAt: "Krabi Town",
-    plan: "Old Town, then dinner at a restaurant in Saladan", hours: "4", name: "Anna"
+    plan: "Old Town, then dinner at a restaurant in Saladan", hours: "4", firstName: "Anna", lastName: "Becker", phoneCode: "GB", phone: "07700 900123"
   }, over);
 }
 
@@ -37,7 +37,8 @@ test("hub : message de l'aller-retour, format commun avec Gestion, ni Drop-off, 
     "Pickup time: 17:00",
     "Guests: 2 adults, 1 child (age 7)",
     "Child seats: 1",
-    "Name: Anna"
+    "Name: Anna Becker",
+      "WhatsApp: +447700900123"
   ].join("\n"));
 });
 
@@ -51,7 +52,8 @@ test("songthaew : même message, avec le véhicule de la page", () => {
     "Date: Tue 17 Nov 2026",
     "Pickup time: 17:00",
     "Guests: 2 adults",
-    "Name: Anna"
+    "Name: Anna Becker",
+      "WhatsApp: +447700900123"
   ].join("\n"));
 });
 
