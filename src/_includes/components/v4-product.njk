@@ -277,7 +277,7 @@
       <div class="panel__b" id="p-{{ p[0] }}-b">
       {%- if p[0] == "inc" %}
         <div class="inc2">
-        {%- if t.includedGroups %}<div class="inc2__col"><h3>Included</h3>{% for g in t.includedGroups %}<h4 class="inc__for">{{ g.label }}</h4><ul class="inc2__list">{% for x in g.items %}<li>{{ x }}</li>{% endfor %}</ul>{% endfor %}</div>
+        {%- if t.includedGroups %}<div class="inc2__col"><h3>Included</h3>{% for g in t.includedGroups %}<h4 class="inc__for">{{ g.label }}</h4><ul class="inc2__list">{% for x in g.items %}<li{% if x.indexOf("On a private boat") == 0 %} data-private{% endif %}>{{ x }}</li>{% endfor %}</ul>{% endfor %}</div>
         {%- elif t.included.length %}<div class="inc2__col"><h3>Included</h3><ul class="inc2__list">{% for x in t.included %}<li{% if x.indexOf("On a private boat") == 0 %} data-private{% endif %}>{{ x }}</li>{% endfor %}</ul></div>{% endif %}
         {%- if t.notIncluded.length %}<div class="inc2__col"><h3>Not included</h3><ul class="inc2__list">{% for x in t.notIncluded %}<li>{{ x }}</li>{% endfor %}</ul></div>{% endif %}
         </div>

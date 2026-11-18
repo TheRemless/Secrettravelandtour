@@ -74,3 +74,7 @@ test("4 Islands : journée libre, ni îles ni déjeuner du tour partagé sous le
   const four = JSON.parse(doc.match(/<script type="application\/json" id="four-data">([\s\S]*?)<\/script>/)[1]);
   assert.equal(four.options.find((o) => o.id === ID).boat, "");
 });
+
+test("4 Islands : la ligne « On a private boat » reste mise en avant quand un bateau privé est choisi", () => {
+  assert.match(html("4-islands"), /<li data-private(="")?>On a private boat: /);
+});
