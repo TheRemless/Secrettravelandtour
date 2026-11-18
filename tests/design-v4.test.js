@@ -61,7 +61,7 @@ test("bateaux privés sur demande en haute saison (18.11.2026) : aucun prix, auc
     assert.equal(o.priceOnRequest, true, rel);
     assert.equal(o.prices, undefined, rel);
     for (const n of [1, 2, 5, 7]) assert.equal(price.estimate(o, n, [], []), null, `${rel}, ${n} personnes`);
-    assert.match(o.note, /we send you the price on WhatsApp/, rel);
+    assert.match(o.note, /we reply with the price for your day/, rel);
     assert.match(o.note, /Children from 4 count in the group size, under 4 do not\./, rel);
   }
   assert.match(opt("private-longtail").note, /Koh Kradan can be added/);

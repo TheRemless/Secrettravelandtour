@@ -18,7 +18,7 @@ test("l'option privée : sur demande en haute saison (18.11.2026), frais de parc
   assert.deepEqual(priv.notIncludedFees.map((f) => f.amount), [400, 200, 40, 20]);
   assert.match(priv.note, /Children from 4 count/);
   assert.match(priv.note, /when the national park is open/i);
-  assert.match(priv.note, /we send you the price on WhatsApp/);
+  assert.match(priv.note, /we reply with the price for your day/);
 });
 
 test("le calculateur ne donne aucun total pour le privé, quelle que soit la taille du groupe", () => {
