@@ -22,9 +22,12 @@ function files(dir) {
   });
 }
 
+// Les pages et données qui montraient ces prix : les trois fiches, les listes de sorties, les guides, les données publiques et llms.
+const CIBLES = () => files(SITE).filter((f) => /\/(tours\/(4-islands|koh-phi-phi|koh-rok-koh-haa)\/index\.html|tours\/index\.html|index\.html|guides\/[^/]+\/index\.html|cancellation\/index\.html|data\/catalog\.json|llms(-full)?\.txt)$/.test(f.replace(SITE, "")));
+
 test("aucun ancien prix de longtail privé ni « +500 THB » dans les pages, les données publiques et llms.txt", () => {
-  const all = files(SITE);
-  assert.ok(all.length > 50);
+  const all = CIBLES();
+  assert.ok(all.length >= 8, String(all.length));
   for (const f of all) {
     const s = fs.readFileSync(f, "utf8").replace(/cc698212e79400cca1a404ad4bf10b5f/g, "");
     assert.doesNotMatch(s, ANCIENS, path.relative(SITE, f));
@@ -63,4 +66,19 @@ for (const [slug, rel] of Object.entries(PAGES)) {
 
 test("méta-description de la 4 Islands : longtail privé « on request »", () => {
   assert.match(read(PAGES["4-islands"]), /<meta name="description" content="[^"]*private longtail on request[^"]*"/);
+});
+
+test("4 Islands : Koh Kradan se demande dans la feuille, sans montant", () => {
+  const B = require("../src/js/booking.js");
+  const cfg = JSON.parse(read(PAGES["4-islands"]).match(/id="book-data">([\s\S]*?)<\/script>/)[1]);
+  const o = cfg.options.find((x) => x.id === "private-longtail");
+  const c = (o.choices || []).find((x) => x.id === "kradan");
+  assert.ok(c, "choix Koh Kradan absent");
+  assert.ok(!c.values.some((v) => /\d/.test(v.price || "")));
+  const st = Object.assign(B.emptyState(cfg), { dateChoice: "other", dateOther: "2026-11-28", today: "2026-11-18", adults: 2, option: "private-longtail", pickup: "Lanta Sand Resort", firstName: "Anna", lastName: "Becker", phoneCode: "GB", phone: "07700 900123" });
+  assert.deepEqual(B.validate(cfg, st), {}, "le choix reste facultatif");
+  st.choices = { "private-longtail/kradan": "add" };
+  const msg = B.buildMessage(cfg, st);
+  assert.match(msg, /\nKoh Kradan: Add Koh Kradan to the day\n/);
+  assert.doesNotMatch(msg, /THB/);
 });

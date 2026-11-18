@@ -241,7 +241,24 @@
         }
       ],
       "pier": "Lanta Old Town pier",
-      "stub": "Your order of islands"
+      "stub": "Your order of islands",
+      "choices": [
+        {
+          "id": "kradan",
+          "label": "Koh Kradan",
+          "required": false,
+          "values": [
+            {
+              "id": "no",
+              "label": "Not this time"
+            },
+            {
+              "id": "add",
+              "label": "Add Koh Kradan to the day"
+            }
+          ]
+        }
+      ]
     }
   ],
   "day": [
@@ -609,8 +626,8 @@
       "from": "brochure longtail join-in p. 2 « Arrive at the pier to get information from our tour guide », « enjoy Thai buffet lunch on the beach » (Koh Ngai) ; brochure speedboat « enjoy buffet lunch » (Kradan, sans « Thai »), « Soft drinks / Seasonal fruit » ; brochure longtail p. 3 « Drinks and Seasonal Fruits » ; catalogue de l'agence, longtail privé « Typical Schedule: 08:00 AM – 03:00 / 04:00 PM » (audit des brochures du 12.11.2026, demande de Jérémy)"
     },
     {
-      "field": "options[private-longtail]",
-      "from": "Décision de Jérémy du 18.11.2026 (haute saison, les bateaux privés augmentent leurs prix) : plus aucun prix pour les longtails et speedboats privés, option affichée « Price on WhatsApp » et toujours réservable. Les tarifs restent dans Gestion."
+      "field": "options[private-longtail], options[private-longtail].choices[kradan]",
+      "from": "Décision de Jérémy du 18.11.2026 (haute saison, les bateaux privés augmentent leurs prix) : plus aucun prix pour les longtails et speedboats privés, option affichée « Price on WhatsApp » et toujours réservable. Les tarifs restent dans Gestion. Koh Kradan reste demandable dans la feuille, sans montant (choix « Koh Kradan »)."
     }
   ],
   "notes": [
