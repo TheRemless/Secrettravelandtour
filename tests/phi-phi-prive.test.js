@@ -33,7 +33,8 @@ test("« Included » du privé : seulement ce que dit le flyer ; les éléments 
   assert.match(shared, /<h4 class="inc__for">Day trip<\/h4>/);
   assert.match(shared, /Masks, snorkels and life jackets/);
   assert.match(shared, /Light breakfast at the pier on the day trip/);
-  assert.doesNotMatch(own.split("Not included")[0], /Masks|breakfast|Guide|Insurance|life jackets/i);
+  // La liste du speedboat privé (18.11.2026) suit celle du longtail : le contrôle s'arrête à son titre.
+  assert.doesNotMatch(own.split("Not included")[0].split('<h4 class="inc__for">Private speedboat</h4>')[0], /Masks|breakfast|Guide|Insurance|life jackets/i);
   assert.match(own, /Thai buffet lunch on Bamboo Island/);
 });
 

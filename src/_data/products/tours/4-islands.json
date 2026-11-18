@@ -259,6 +259,48 @@
           ]
         }
       ]
+    },
+    {
+      "id": "private-speedboat",
+      "label": "Private speedboat",
+      "kind": "private",
+      "boat": "speedboat",
+      "priceOnRequest": true,
+      "note": "Your own day: you choose the departure time, back by 16:00 at the latest. The boat has two 200 hp Yamaha engines and takes up to 20 passengers plus the crew. Prices for private boats go up in the high season, so we send you the price on WhatsApp for your date and group.",
+      "notIncludedFees": [
+        {
+          "label": "National park fee, adult",
+          "amount": 200,
+          "unit": "per person",
+          "note": "Cash, paid to the ranger on the island",
+          "ages": {
+            "min": 12
+          }
+        },
+        {
+          "label": "National park fee, child",
+          "amount": 100,
+          "unit": "per person",
+          "note": "Cash, paid to the ranger on the island",
+          "ages": {
+            "min": 4,
+            "max": 11
+          }
+        },
+        {
+          "label": "National park fee, Thai national adult",
+          "amount": 40,
+          "unit": "per person",
+          "note": "Cash, paid to the ranger on the island"
+        },
+        {
+          "label": "National park fee, Thai national child",
+          "amount": 20,
+          "unit": "per person",
+          "note": "Cash, paid to the ranger on the island"
+        }
+      ],
+      "customDay": true
     }
   ],
   "day": [
@@ -393,7 +435,7 @@
     "National park fee, paid in cash on the island"
   ],
   "beforeYouBook": {
-    "pickup": "From your hotel. The longtails and the join-in speedboat leave from Lanta Old Town pier.",
+    "pickup": "From your hotel. The longtails and the join-in speedboat leave from Lanta Old Town pier. Private speedboat: pickup at your hotel at the time you choose.",
     "bring": [
       "Swimwear",
       "Sun cream",
@@ -404,7 +446,7 @@
       "Cash for the national park fee"
     ],
     "weather": "The national park can close an island at short notice, for example for jellyfish. We then change the route or move the date.",
-    "cancellation": "Join-in speedboat: tell us at least 12 hours before departure, or the full price is charged. Join-in longtail and private longtail: we confirm the conditions with you when you book."
+    "cancellation": "Join-in speedboat: tell us at least 12 hours before departure, or the full price is charged. Join-in longtail, private longtail and private speedboat: we confirm the conditions with you when you book."
   },
   "faq": [
     {
@@ -413,7 +455,7 @@
     },
     {
       "q": "Is the 4 Islands tour private?",
-      "a": "It can be. Join a shared boat, or take a private longtail for your group only, with its own captain."
+      "a": "It can be. Join a shared boat, or book a private longtail with its own captain or a private speedboat with its crew, for your group only."
     },
     {
       "q": "Is the national park fee included?",
@@ -628,6 +670,10 @@
     {
       "field": "options[private-longtail], options[private-longtail].choices[kradan]",
       "from": "Décision de Jérémy du 18.11.2026 (haute saison, les bateaux privés augmentent leurs prix) : plus aucun prix pour les longtails et speedboats privés, option affichée « Price on WhatsApp » et toujours réservable. Les tarifs restent dans Gestion. Koh Kradan reste demandable dans la feuille, sans montant (choix « Koh Kradan »)."
+    },
+    {
+      "field": "options[private-speedboat], includedByOption[private-speedboat], faq[Is the 4 Islands tour private?], beforeYouBook",
+      "from": "Message d'Anaïs du 18.11.2026 (nouvelle partenaire, sorties privées seulement) : bateau à deux moteurs Yamaha 200, 20 passagers plus l'équipage, départ à l'heure choisie par le client, retour au plus tard à 16:00, inclus (transferts hôtel-ponton, équipage, guide de snorkeling sur demande, masque tuba gilets, déjeuner sur menu, fruits, eau, électrolytes, boissons sans alcool, coupe de glace, kit oxygène, trousse de secours, briefing récif). Décisions de Jérémy du 18.11.2026 : programme libre, option sur chaque page de destination, prix sur WhatsApp. Frais de parc : ceux déjà affichés sur la page (la partenaire dit 200 THB par snorkeleur). Tarif Gestion « Private speedboat, custom day » (e1c1818e-ead0-4b8c-bc68-364fb9cf0007), sans prix."
     }
   ],
   "notes": [
@@ -636,5 +682,16 @@
     "Photo du longtail : le nom peint « HANTHALE PRIVATE TOURS » reste visible, accord de Jérémy du 03.11.2026.",
     "Saison : toute l'année (données du 08.11.2026), aucune fermeture annuelle du parc ; fermetures ponctuelles possibles (méduses), dites dans beforeYouBook.weather. Pas de fait « Season » affiché tant que le client ne le demande pas."
   ],
-  "refPrefix": "FOUR"
+  "refPrefix": "FOUR",
+  "includedByOption": {
+    "private-speedboat": [
+      "Hotel transfer to the pier and back",
+      "Professional crew, and a snorkelling guide if you want one",
+      "Masks, snorkels and life jackets",
+      "Lunch from a menu, fresh fruit, water, electrolyte drinks and soft drinks",
+      "A cup of ice cream",
+      "Oxygen kit and first-aid kit",
+      "A short briefing on reef care: no touching, no standing on the coral, careful finning"
+    ]
+  }
 }

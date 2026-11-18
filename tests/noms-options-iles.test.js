@@ -37,8 +37,10 @@ for (const [slug, noms] of Object.entries(NOMS)) {
   const p = P(slug);
 
   test(`${slug} : libellés et ligne courte validés, ids et prix inchangés`, () => {
-    assert.deepEqual(p.options.map((o) => o.id), Object.keys(noms));
-    for (const o of p.options) {
+    // « Private speedboat » (18.11.2026) vient après : nom à part, testé dans tests/speedboat-prive.test.js.
+    const own = p.options.filter((o) => o.id !== "private-speedboat");
+    assert.deepEqual(own.map((o) => o.id), Object.keys(noms));
+    for (const o of own) {
       const [label, sub] = noms[o.id];
       assert.equal(o.label, label, o.id);
       assert.equal(o.note.split(/(?<=\.)\s+/)[0], sub + ".", o.id);

@@ -14,7 +14,7 @@
     }
   },
   "h1": "Koh Phi Phi day trip from Koh Lanta",
-  "lead": "Maya Bay, Pileh Lagoon, Viking Cave and Monkey Beach in the morning, then lunch on Phi Phi Don, Bamboo Island and free time on Phi Phi Don. By shared speedboat on the day trip, on the full-day sunset trip, or by private longtail for your group only.",
+  "lead": "Maya Bay, Pileh Lagoon, Viking Cave and Monkey Beach in the morning, then lunch on Phi Phi Don, Bamboo Island and free time on Phi Phi Don. By shared speedboat on the day trip, on the full-day sunset trip, or by private longtail or private speedboat for your group only.",
   "promise": "Maya Bay, Pileh Lagoon and Bamboo Island by speedboat",
   "facts": [
     {
@@ -27,7 +27,7 @@
     },
     {
       "label": "Boat",
-      "value": "Shared speedboat or private longtail"
+      "value": "Shared speedboat, private speedboat or private longtail"
     },
     {
       "label": "Format",
@@ -198,6 +198,40 @@
           "note": "Cash"
         }
       ]
+    },
+    {
+      "id": "private-speedboat",
+      "label": "Private speedboat",
+      "kind": "private",
+      "boat": "speedboat",
+      "priceOnRequest": true,
+      "note": "Your own day: you choose the departure time, back by 16:00 at the latest. The boat has two 200 hp Yamaha engines and takes up to 20 passengers plus the crew. Prices for private boats go up in the high season, so we send you the price on WhatsApp for your date and group.",
+      "notIncludedFees": [
+        {
+          "label": "National park fee, adult",
+          "amount": 400,
+          "unit": "per person",
+          "note": "Cash"
+        },
+        {
+          "label": "National park fee, child",
+          "amount": 200,
+          "unit": "per person",
+          "note": "Cash"
+        },
+        {
+          "label": "National park fee, Thai national adult",
+          "amount": 40,
+          "unit": "per person",
+          "note": "Cash"
+        },
+        {
+          "label": "National park fee, Thai national child",
+          "amount": 20,
+          "unit": "per person",
+          "note": "Cash"
+        }
+      ]
     }
   ],
   "day": [
@@ -320,12 +354,12 @@
     "National park fee, paid in cash"
   ],
   "beforeYouBook": {
-    "pickup": "Pickup at your hotel between 08:00 and 09:00, by car or by boat. On the day trip, a light breakfast at Lanta Old Town pier. Full-day sunset trip: pickup at 08:30, then by van to Hua Hin Pier.",
+    "pickup": "Pickup at your hotel between 08:00 and 09:00, by car or by boat. On the day trip, a light breakfast at Lanta Old Town pier. Full-day sunset trip: pickup at 08:30, then by van to Hua Hin Pier. Private speedboat: pickup at your hotel at the time you choose.",
     "bring": [
       "Cash for the national park fee"
     ],
     "weather": "Maya Bay has its own rules set by the national park. The stop depends on the day and the season. The private longtail runs when the national park is open, and its programme can change with the tide and the weather.",
-    "cancellation": "Day trip and private longtail: tell us at least 12 hours before departure, or the full price is charged."
+    "cancellation": "Day trip and private longtail: tell us at least 12 hours before departure, or the full price is charged. Private speedboat: we confirm the conditions with you when you book."
   },
   "faq": [
     {
@@ -342,11 +376,11 @@
     },
     {
       "q": "Can we go on a private boat?",
-      "a": "Yes, on a private longtail for your group only. Children from 4 count in the group size. Prices for private boats go up in the high season, so we send you the price on WhatsApp."
+      "a": "Yes, a private longtail or a private speedboat, for your group only. On the longtail, children from 4 count in the group size. On the speedboat, you choose the departure time and you are back by 16:00 at the latest. Prices for private boats go up in the high season, so we send you the price on WhatsApp."
     },
     {
       "q": "Which trip should I pick?",
-      "a": "The day trip stops at Maya Bay and gives you free time on Phi Phi Don until 16:00. The full-day sunset trip picks you up at 08:30, has lunch and the end of the afternoon on Bamboo Island and comes back at sunset, with wine included and a guide who speaks English or Chinese. Maya Bay is not on this programme. The private longtail is the whole boat for your group."
+      "a": "The day trip stops at Maya Bay and gives you free time on Phi Phi Don until 16:00. The full-day sunset trip picks you up at 08:30, has lunch and the end of the afternoon on Bamboo Island and comes back at sunset, with wine included and a guide who speaks English or Chinese. Maya Bay is not on this programme. The private longtail and the private speedboat are the whole boat for your group, and on the speedboat you choose the times."
     }
   ],
   "photos": [
@@ -512,6 +546,10 @@
     {
       "field": "options[private-longtail], faq[Can we go on a private boat?]",
       "from": "Décision de Jérémy du 18.11.2026 (haute saison, les bateaux privés augmentent leurs prix) : plus aucun prix pour les longtails et speedboats privés, option affichée « Price on WhatsApp » et toujours réservable. Les tarifs restent dans Gestion."
+    },
+    {
+      "field": "options[private-speedboat], includedByOption[private-speedboat], facts[Boat], lead, faq, beforeYouBook",
+      "from": "Message d'Anaïs du 18.11.2026 (nouvelle partenaire, sorties privées seulement) : bateau à deux moteurs Yamaha 200, 20 passagers plus l'équipage, départ à l'heure choisie par le client, retour au plus tard à 16:00, inclus (transferts hôtel-ponton, équipage, guide de snorkeling sur demande, masque tuba gilets, déjeuner sur menu, fruits, eau, électrolytes, boissons sans alcool, coupe de glace, kit oxygène, trousse de secours, briefing récif). Décisions de Jérémy du 18.11.2026 : programme libre, option sur chaque page de destination, prix sur WhatsApp. Frais de parc : ceux déjà affichés sur la page (la partenaire dit 200 THB par snorkeleur). Tarif Gestion « Private speedboat, custom day » (e1c1818e-ead0-4b8c-bc68-364fb9cf0007), sans prix."
     }
   ],
   "refPrefix": "PP",
@@ -530,6 +568,15 @@
       "Hotel pickup and return, by car or by boat",
       "Thai buffet lunch on Bamboo Island",
       "Snorkelling at the stops in the programme"
+    ],
+    "private-speedboat": [
+      "Hotel transfer to the pier and back",
+      "Professional crew, and a snorkelling guide if you want one",
+      "Masks, snorkels and life jackets",
+      "Lunch from a menu, fresh fruit, water, electrolyte drinks and soft drinks",
+      "A cup of ice cream",
+      "Oxygen kit and first-aid kit",
+      "A short briefing on reef care: no touching, no standing on the coral, careful finning"
     ]
   }
 }

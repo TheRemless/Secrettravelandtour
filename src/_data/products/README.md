@@ -24,7 +24,7 @@ Obligatoires : `slug` (= nom du fichier), `url`, `brand`, `template`, `name`, `s
 | `facts[]` | `{label, value}` : bandeau de faits clés |
 | `price` | `{from, currency: "THB", unit}` : prix d'appel, présent dans une ligne d'option |
 | `priceOnRequest` | `true` : afficher « Price on WhatsApp », jamais un chiffre inventé |
-| `options[]` | `{id, label, kind, boat, ages, note, prices[], priceOnRequest, notIncludedFees[]}` |
+| `options[]` | `{id, label, kind, boat, ages, note, prices[], priceOnRequest, notIncludedFees[], customDay}` ; `customDay: true` (journée libre, speedboat privé) : 4 Islands, ni îles ni déjeuner du tour partagé sous le nom, la journée et la carte ne suivent pas l'option |
 | `options[].prices[]` | `{label, amount}` ou `{label, text}`, plus `unit`, `ages {min, max}`, `group {min, max}`, `supplement` |
 | `day[]` | `{options?, title, steps[{time?, label?, text}]}` : un bloc par option quand le déroulé diffère ; sans `options`, le bloc vaut pour toutes |
 | `included[]`, `notIncluded[]` | listes de chaînes |
