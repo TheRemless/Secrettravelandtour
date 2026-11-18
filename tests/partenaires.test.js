@@ -81,7 +81,7 @@ test("prix : affichés sur les pages qui en ont, dans les données structurées 
     }
     for (const m of doc.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) assert.doesNotMatch(m[1], /"price"|"lowPrice"|"highPrice"|"priceRange"/, p.slug);
   }
-  const all = JSON.stringify(require("../src/_data/secretPagesContent.json")) + JSON.stringify(require("../src/_data/secret.json"));
+  const all = JSON.stringify(require("../src/_data/secret.json"));
   assert.doesNotMatch(all, /commission|net price|agent price|selling price|contract rate/i);
 });
 
@@ -117,18 +117,9 @@ test("photos : chaque excursion, activité et transfert a une photo qui existe, 
   }
 });
 
-// Les anciennes galeries (secretPagesContent.json) restent des fichiers vérifiés ; depuis la v4, une fiche n'affiche
-// que les photos de photos-v3.json (règle du design) : la photo de sa carte en haut de page, avec son texte alternatif.
-test("galeries : chaque photo citée existe, avec un texte alternatif ; chaque fiche montre sa photo déclarée", () => {
-  const content = require("../src/_data/secretPagesContent.json").pages;
-  const withGallery = Object.entries(content).filter(([, p]) => p.gallery && p.gallery.length);
-  assert.ok(withGallery.length >= 8, String(withGallery.length));
-  for (const [id, p] of withGallery) {
-    for (const g of p.gallery) {
-      assert.ok(fs.existsSync(path.join(site, "images", "secret", "gallery", g.src)), `${id} : ${g.src}`);
-      assert.ok(g.alt.length > 15, `${id} : alt`);
-    }
-  }
+// Depuis la v4, une fiche n'affiche que les photos de photos-v3.json (règle du design) : la photo de sa carte en haut de
+// page, avec son texte alternatif. (Les anciennes galeries de secretPagesContent.json sont parties avec le fichier, 18.11.2026.)
+test("galeries : chaque fiche montre sa photo déclarée, avec un texte alternatif", () => {
   const photos = require("../src/_data/photos-v3.json").photos;
   const CARD = { "koh-rok-koh-haa": "card-koh-rok", "koh-phi-phi": "card-koh-phi-phi", mangroves: "card-mangroves",
     "fishing-trip": "card-fishing", "elephant-sanctuary": "card-elephant", kayak: "card-kayak", "cooking-class": "card-cooking", "scuba-diving": "card-scuba",

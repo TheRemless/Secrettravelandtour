@@ -2,7 +2,7 @@
 
 Un fichier JSON par page produit. Eleventy les expose en données globales : `products.tours["4-islands"]`, `products.activities.kayak`, `products.rental`, `products["secret-transfers"]["speedboat-ferry"]`, `products.taxi["krabi-airport-koh-lanta"]`. Les infos communes aux marques sont dans `src/_data/site.json`.
 
-Les anciens fichiers (`secret.json`, `secretPagesContent.json`, `taxi.json`, `taxiRoutes.json`) restent en place tant que les anciennes pages existent. Ces fichiers-ci sont la source des nouveaux gabarits.
+Les anciens fichiers (`secret.json`, `taxi.json`, `taxiRoutes.json`) restent en place tant que les anciennes pages existent. Ces fichiers-ci sont la source des nouveaux gabarits. `secretPagesContent.json` (ancien site jamais publié) a été retiré le 18.11.2026 ; les champs `sources` qui le citent gardent la mention comme historique.
 
 ## Dossiers
 

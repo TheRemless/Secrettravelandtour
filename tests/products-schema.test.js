@@ -171,11 +171,15 @@ test("produits : TODO(client) bien formés", () => {
   }
 });
 
-test("produits : toutes les pages /tours/ actuelles sont reprises", () => {
-  const content = require("../src/_data/secretPagesContent.json");
+// Les 15 pages /tours/ de l'ancien site (secretPagesContent.json, retiré du dépôt le 18.11.2026) : chacune garde une fiche.
+const ANCIENNES_PAGES = ["4-islands", "koh-rok-koh-haa", "koh-phi-phi", "koh-talabeng-koh-bubu", "mangroves", "fishing-trip", "elephant-sanctuary",
+  "cooking-class", "atv", "scuba-diving", "kayak", "batik", "go-kart", "rental", "speedboat"];
+// Pages fondues dans une autre (décision de Jérémy du 10.11.2026).
+const FUSIONNES = { "koh-talabeng-koh-bubu": "/tours/kayak/" };
+
+test("produits : toutes les pages /tours/ de l'ancien site sont reprises", () => {
   const urls = new Set(files.map((f) => f.data.url));
-  for (const id of Object.keys(content.pages)) assert.ok(urls.has(FUSIONNES[id] || `/tours/${id}/`), id);
-  assert.equal(Object.keys(content.pages).length, 15);
+  for (const id of ANCIENNES_PAGES) assert.ok(urls.has(FUSIONNES[id] || `/tours/${id}/`), id);
 });
 
 test("produits : les 18 trajets taxi sont repris (12 pages Koh Lanta + 6 regroupés)", () => {
@@ -198,76 +202,6 @@ test("produits : les 18 trajets taxi sont repris (12 pages Koh Lanta + 6 regroup
     assert.equal(/Koh Lanta/.test(`${r.from} ${r.to}`), Boolean(page), r.id);
   }
   for (const p of own) assert.ok(p.route && isStr(p.route.from) && isStr(p.route.to) && p.route.points.length, p.slug);
-});
-
-// Écarts voulus avec l'ancien site (mise à jour d'après les brochures, décisions du client du 08.11.2026,
-// docs/refonte/design-v4/build/NOTES.md) : la nouvelle valeur est exigée à la place de l'ancienne.
-const CORRIGES = {
-  // Batik, forfait journée complète (Kayaking and painting, 08:00 à 17:00) : 2 200 adulte et 1 600 enfant
-  // (décision de Jérémy du 11.11.2026, le flyer à 1 500 et 1 000 était faux ; les cours matin et après-midi restent à 1 500 et 1 000).
-  "batik|Kayaking and painting|Adult|1500": "Kayaking and painting|Adult|2200",
-  "batik|Kayaking and painting|Child, 3 to 10|1000": "Kayaking and painting|Child, 3 to 10|1600",
-  "4-islands|Join-in longtail|Child, 4 to 11|700": "Join-in longtail|Child, 4 to 11|600",
-  "mangroves|Private raft at sunrise|3 or more people, per person|1500": "Private raft at sunrise|Each extra person|1500",
-  // Kayak de la fiche Mangroves : même sortie que celle de la fiche Mangrove kayaking (découpage du 11.11.2026).
-  "mangroves|Half day by kayak, with lunch|Adult|1000": "Mangrove kayaking with lunch, half day|Adult|1000",
-  "mangroves|Half day by kayak, with lunch|Child, 4 to 11|700": "Mangrove kayaking with lunch, half day|Child, 4 to 11|700",
-  // Sorties longtail de la fiche Kayaking : sur la fiche Mangroves, sous son libellé (découpage du 11.11.2026).
-  "kayak|Mangrove boat trip with lunch, half day|Adult|1000": "Half day by longtail, with lunch|Adult|1000",
-  "kayak|Mangrove boat trip with lunch, half day|Child, 4 to 11|700": "Half day by longtail, with lunch|Child, 4 to 11|700",
-  "kayak|Mangrove, Old Town and viewpoint, half day|Adult|1300": "Longtail through the mangrove, then Old Town and a viewpoint|Adult|1300",
-  "kayak|Mangrove, Old Town and viewpoint, half day|Child, 4 to 11|900": "Longtail through the mangrove, then Old Town and a viewpoint|Child, 4 to 11|900",
-  "kayak|Mangrove and fishing park, half day|Adult|1800": "Mangrove by kayak or longtail, then a fishing park|Adult|1800",
-  "kayak|Mangrove and fishing park, half day|Child, 4 to 11|1200": "Mangrove by kayak or longtail, then a fishing park|Child, 4 to 11|1200",
-  // Radeaux : « 1 to 2 people » retiré de l'affichage (décision de Jérémy du 11.11.2026), mêmes montants.
-  "mangroves|Private raft at sunrise|1 to 2 people, the raft|3500": "Private raft at sunrise|1 or 2 people, the raft|3500",
-  "mangroves|Private raft, sunset dinner|1 to 2 people, the raft|3900": "Private raft, sunset dinner|1 or 2 people, the raft|3900",
-  "mangroves|Private raft, sunset dinner|3 or more people, per person|1800": "Private raft, sunset dinner|Each extra person|1800",
-  "mangroves|Private raft, fishing morning|1 to 2 people, the raft|3900": "Private raft, fishing and seafood lunch|1 or 2 people, the raft|3900",
-  "mangroves|Private raft, fishing morning|3 or more people, per person|1800": "Private raft, fishing and seafood lunch|Each extra person|1800",
-  "mangroves|Private raft, fishing morning|Child 3 to 9, per person|1500": "Private raft, fishing and seafood lunch|Child 3 to 9, per person|1500",
-  // Pêche : « 1 to 2 people » retiré de l'affichage (décision de Jérémy du 11.11.2026), mêmes montants.
-  "fishing-trip|Private raft, fishing and seafood lunch|1 to 2 people, the raft|3900": "Private raft, fishing and seafood lunch|1 or 2 people, the raft|3900",
-  "fishing-trip|Private raft, fishing and seafood lunch|3 or more people, per person|1800": "Private raft, fishing and seafood lunch|Each extra person|1800",
-  "scuba-diving|One-day experience, 2 dives|Kids Scuba Explorer, from age 8|4500": "One-day experience, 2 dives|Scuba Explorer, from age 8|4500",
-  "scuba-diving|One-day experience, 2 dives|Basic Diver, from age 10|4500": "One-day experience, 2 dives|Discover Basic Diver, from age 10|4500"
-};
-// Options renommées (libellés validés par Jérémy le 18.11.2026) : l'ancien titre de l'ancien site vaut le nouveau libellé.
-const RENOMMES = {
-  "koh-phi-phi": { "Join-in speedboat": "Day trip" },
-  "koh-rok-koh-haa": { "Join-in speedboat": "Day trip", "Private longtail to Koh Rok": "Private longtail" }
-};
-// Bateaux privés sur demande en haute saison (décision de Jérémy du 18.11.2026) : leurs anciens prix ne sont plus repris.
-const SUR_DEMANDE = { "4-islands": ["Private longtail"], "koh-phi-phi": ["Private longtail"], "koh-rok-koh-haa": ["Private longtail to Koh Rok"] };
-// Partenaire remplacé : les prix de l'ancien partenaire ne sont plus vendus.
-// Pages fondues dans une autre (décision de Jérémy du 10.11.2026) : leurs sorties et leurs prix y sont repris.
-const FUSIONNES = { "koh-talabeng-koh-bubu": "/tours/kayak/" };
-// Pages découpées le 11.11.2026 : leurs sorties sont réparties sur plusieurs fiches (prix cherchés dans toutes).
-const DECOUPEES = {
-  mangroves: ["/tours/mangroves/", "/tours/sunrise-raft/", "/tours/sunset-dinner-raft/", "/tours/fishing-trip/", "/tours/mangrove-kayaking/"],
-  kayak: ["/tours/kayak/", "/tours/mangrove-kayaking/", "/tours/mangroves/"],
-  "koh-talabeng-koh-bubu": ["/tours/kayak/"],
-  "scuba-diving": ["/tours/scuba-diving/"]
-};
-const REMPLACES = ["elephant-sanctuary"];
-
-test("produits : tous les prix de l'ancien site sont repris à l'identique", () => {
-  const content = require("../src/_data/secretPagesContent.json");
-  const byUrl = Object.fromEntries(files.map((f) => [f.data.url, f.data]));
-  for (const [id, page] of Object.entries(content.pages)) {
-    if (REMPLACES.includes(id)) continue;
-    const pages = (DECOUPEES[id] || [FUSIONNES[id] || `/tours/${id}/`]).map((u) => byUrl[u]);
-    const rows = pages.flatMap((p) => (p.options || []).flatMap((o) => (o.prices || []).map((r) => `${o.label}|${r.label}|${r.amount !== undefined ? r.amount : r.text}`)));
-    for (const g of page.prices || []) {
-      if ((SUR_DEMANDE[id] || []).includes(g.title)) continue;
-      for (const r of g.rows) {
-        const m = /^\+?([\d,]+) THB$/.exec(r.price);
-        const value = m ? Number(m[1].replace(/,/g, "")) : r.price === "Free" ? 0 : r.price;
-        const key = `${(RENOMMES[id] || {})[g.title] || g.title}|${r.label}|${value}`;
-        assert.ok(rows.includes(CORRIGES[`${id}|${g.title}|${r.label}|${value}`] || key), `${id} : ${g.title} / ${r.label}`);
-      }
-    }
-  }
 });
 
 test("produits et site.json : aucun nom de prestataire, aucun tarif interne, pas de fausse règle sur les frais de parc", () => {

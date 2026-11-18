@@ -3,7 +3,7 @@
 // ancien) ; les faits viennent donc des données du site, lues ici et jamais recopiées à la main :
 //   site.json (licence, exploitant, délai de réponse, langues, paiement, bateaux non possédés), taxi.json (FAQ de /taxi/),
 //   taxiPages.js (trajets, prix d'appel, durées), products/** (prix, âges, durées, saisons, frais de parc), rental.json,
-//   songthaew.json, secretPagesContent.json (sanctuaire : ni monte ni spectacle).
+//   songthaew.json, et l'ancien secretPagesContent.json, retiré le 18.11.2026 (sanctuaire : ni monte ni spectacle).
 // Faits donnés par Jérémy le 16.11.2026 (demande de la page About) : partenaires de confiance vus tous les jours,
 // seulement des entreprises éthiques, équipe locale qui réserve sur WhatsApp.
 // Aucun fait non confirmé dans le texte : un marqueur [À CONFIRMER: …] ou [À VÉRIFIER] bloquerait la production (check-dist).
@@ -19,7 +19,6 @@ const songthaew = require("./songthaew.json");
 
 const DATA = __dirname;
 const P = (rel) => JSON.parse(fs.readFileSync(path.join(DATA, "products", rel + ".json"), "utf8"));
-const pages = JSON.parse(fs.readFileSync(path.join(DATA, "secretPagesContent.json"), "utf8")).pages;
 const thb = view.thb;
 const fact = (p, label) => ((p.facts || []).find((f) => f.label === label) || {}).value || "";
 const opt = (p, id) => (p.options || []).find((o) => o.id === id) || {};
@@ -102,7 +101,7 @@ const about = {
       title: "Only ethical companies",
       text: [
         "We only work with ethical companies, for the elephants and for everything else we book.",
-        // secretPagesContent.json pages.elephant-sanctuary.intro (« There is no riding and no show… »).
+        // ancien secretPagesContent.json, pages.elephant-sanctuary.intro (« There is no riding and no show… »), retiré le 18.11.2026.
         "At the elephant sanctuary there is no riding and no show. You spend the time next to the animals: feeding them, walking with them and washing them."
       ],
       link: { href: "/tours/elephant-sanctuary/", label: "See the elephant sanctuary", cta: "about_ethical" },
@@ -127,7 +126,7 @@ const about = {
       id: "pay",
       // Jérémy, 17.11.2026 : « pas besoin de mettre la phrase pour le paiement ». Ni qui reçoit le paiement, ni comment :
       // seulement la réservation sur WhatsApp, l'absence de paiement en ligne (site.json booking.onlinePayment false) et les
-      // frais de parc national, non inclus et donnés sur chaque fiche (secretPagesContent.json parkFeeNote).
+      // frais de parc national, non inclus et donnés sur chaque fiche (ancien secretPagesContent.json, parkFeeNote).
       title: "Clear prices",
       text: [
         `Every booking goes through ${site.booking.channel}. There is no online payment on this site.`,
