@@ -304,7 +304,7 @@ module.exports = async function () {
     product: four,
     seo: {
       title: "4 Islands Tour from Koh Lanta | Secret Travel & Tour",
-      metaDescription: `Emerald Cave, Koh Ngai and two snorkelling stops, by longtail or speedboat. Join-in from ${view.thb(four.price.from)}, private longtail from ${view.thb(four.options.find((o) => o.kind === "private").prices[0].amount)}, hotel pickup included.`
+      metaDescription: `Emerald Cave, Koh Ngai and two snorkelling stops, by longtail or speedboat. Join-in from ${view.thb(four.price.from)}, private longtail on request, hotel pickup included.`
     },
     hero: await photo("four-hero"),
     // Galerie : la grande à gauche, quatre petites, la grotte en hauteur à droite (photo verticale, voir .gal--four).

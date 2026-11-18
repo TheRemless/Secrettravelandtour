@@ -205,46 +205,8 @@
       "label": "Private longtail",
       "kind": "private",
       "boat": "longtail",
-      "note": "The whole boat for your group. The day usually runs from 08:00 to 15:00 or 16:00, and you choose the order of the islands. Children from 4 count in the group size, under 4 do not. For 7 people or more, ask us for the price on WhatsApp.",
-      "prices": [
-        {
-          "label": "1 to 2 people",
-          "amount": 5900,
-          "group": {
-            "min": 1,
-            "max": 2
-          },
-          "unit": "per boat"
-        },
-        {
-          "label": "3 to 4 people",
-          "amount": 6400,
-          "group": {
-            "min": 3,
-            "max": 4
-          },
-          "unit": "per boat"
-        },
-        {
-          "label": "5 to 6 people",
-          "amount": 7400,
-          "group": {
-            "min": 5,
-            "max": 6
-          },
-          "unit": "per boat"
-        },
-        {
-          "label": "7 people or more",
-          "text": "On request"
-        },
-        {
-          "label": "Add Koh Kradan, per boat",
-          "amount": 500,
-          "supplement": true,
-          "unit": "per boat"
-        }
-      ],
+      "note": "The whole boat for your group. The day usually runs from 08:00 to 15:00 or 16:00, and you choose the order of the islands. Koh Kradan can be added to the day. Children from 4 count in the group size, under 4 do not. Prices for private boats go up in the high season, so we send you the price on WhatsApp for your date and group.",
+      "priceOnRequest": true,
       "notIncludedFees": [
         {
           "label": "National park fee, adult",
@@ -645,6 +607,10 @@
     {
       "field": "included[lunch], facts[Lunch], day[0].steps[0], options[private-longtail].note",
       "from": "brochure longtail join-in p. 2 « Arrive at the pier to get information from our tour guide », « enjoy Thai buffet lunch on the beach » (Koh Ngai) ; brochure speedboat « enjoy buffet lunch » (Kradan, sans « Thai »), « Soft drinks / Seasonal fruit » ; brochure longtail p. 3 « Drinks and Seasonal Fruits » ; catalogue de l'agence, longtail privé « Typical Schedule: 08:00 AM – 03:00 / 04:00 PM » (audit des brochures du 12.11.2026, demande de Jérémy)"
+    },
+    {
+      "field": "options[private-longtail]",
+      "from": "Décision de Jérémy du 18.11.2026 (haute saison, les bateaux privés augmentent leurs prix) : plus aucun prix pour les longtails et speedboats privés, option affichée « Price on WhatsApp » et toujours réservable. Les tarifs restent dans Gestion."
     }
   ],
   "notes": [

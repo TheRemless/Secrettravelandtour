@@ -1,4 +1,4 @@
-// Koh Phi Phi en longtail privé (12.11.2026) : 9 400 THB le bateau pour 1 à 5 personnes, sur demande au-delà, programme du flyer,
+// Koh Phi Phi en longtail privé (12.11.2026), sur demande depuis le 18.11.2026 (haute saison) : aucun prix, programme du flyer,
 // « Included » limité à ce que dit le flyer, une offre JSON-LD par option, clé Gestion. Lancer le build avant (lecture de _site/).
 const test = require("node:test");
 const assert = require("node:assert/strict");
@@ -11,25 +11,19 @@ const KEYS = require("../src/_data/gestion-keys.json");
 const html = fs.readFileSync(path.join(ROOT, "_site", "tours", "koh-phi-phi", "index.html"), "utf8");
 const priv = P.options.find((o) => o.id === "private-longtail");
 
-test("l'option privée : 9 400 THB par bateau pour 1 à 5 personnes, « On request » au-delà, frais de parc en plus", () => {
+test("l'option privée : sur demande en haute saison (18.11.2026), frais de parc en plus", () => {
   assert.equal(priv.kind, "private");
-  assert.deepEqual(priv.prices[0], { label: "1 to 5 people", amount: 9400, group: { min: 1, max: 5 }, unit: "per boat" });
-  assert.equal(priv.prices[1].text, "On request");
-  assert.equal(priv.prices.length, 2);
+  assert.equal(priv.priceOnRequest, true);
+  assert.equal(priv.prices, undefined);
   assert.deepEqual(priv.notIncludedFees.map((f) => f.amount), [400, 200, 40, 20]);
   assert.match(priv.note, /Children from 4 count/);
   assert.match(priv.note, /when the national park is open/i);
+  assert.match(priv.note, /we send you the price on WhatsApp/);
 });
 
-test("le calculateur suit la règle : 5 personnes = 9 400, 6 personnes = sur WhatsApp, un enfant de moins de 4 ans ne compte pas", () => {
+test("le calculateur ne donne aucun total pour le privé, quelle que soit la taille du groupe", () => {
   const price = require(path.join(ROOT, "src", "js", "v4-price.js"));
-  const est = (a, ages) => price.estimate(priv, a, ages, []);
-  assert.equal(est(1, []).total, 9400);
-  assert.equal(est(5, []).total, 9400);
-  assert.equal(est(4, [3]).total, 9400);
-  assert.equal(est(4, [4]).total, 9400);
-  assert.equal(est(5, [4]), null);
-  assert.equal(est(6, []), null);
+  for (const [a, ages] of [[1, []], [5, []], [4, [3]], [6, []]]) assert.equal(price.estimate(priv, a, ages, []), null);
 });
 
 test("« Included » du privé : seulement ce que dit le flyer ; les éléments du speedboat restent sous leur titre", () => {
@@ -57,19 +51,19 @@ test("annulation : 12 heures pour les deux formules, sur la fiche et sur /cancel
   assert.match(page, /Day trip and private longtail: tell us at least 12 hours before departure/);
 });
 
-test("JSON-LD : une offre par option, avec son prix « from » (adulte 2 000, bateau 9 400), aucun nom de prestataire", () => {
+test("JSON-LD : une offre par option à prix, aucune pour le privé sur demande, aucun nom de prestataire", () => {
   const ld = [...html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)].map((m) => JSON.parse(m[1]));
   const trip = ld.flatMap((b) => (b["@graph"] ? b["@graph"] : [b])).find((x) => x["@type"] === "TouristTrip");
   const offers = trip.offers;
   // Petit groupe au coucher du soleil (brochure du 17.11.2026) : troisième offre, entre le join-in et le privé.
-  assert.equal(offers.length, 3);
-  assert.deepEqual(offers.map((o) => [o.name, o.priceSpecification.minPrice]), [["Day trip", 2000], ["Full-day sunset trip", 3900], ["Private longtail", 9400]]);
-  assert.match(offers[2].priceSpecification.description, /per boat/);
+  assert.equal(offers.length, 2);
+  assert.deepEqual(offers.map((o) => [o.name, o.priceSpecification.minPrice]), [["Day trip", 2000], ["Full-day sunset trip", 3900]]);
+  assert.doesNotMatch(JSON.stringify(trip), /Private longtail|9,?400/);
   assert.doesNotMatch(JSON.stringify(P) + html, /monkey lanta|monkey-lanta|\+66 ?95 ?540|3179|rattana/i);
 });
 
-test("la clé Gestion de la prestation privée existe pour le contrôle mensuel", () => {
-  const k = KEYS["koh-phi-phi|Private longtail|1 to 5 people"];
-  assert.ok(k, "clé absente");
-  assert.equal(k.prestation, "0711f191-fe3b-587f-a28a-db415fd235e7");
+test("contrôle mensuel : plus de clé pour le privé, son groupe Gestion est déclaré hors site", () => {
+  assert.ok(!Object.keys(KEYS).some((k) => k.startsWith("koh-phi-phi|Private longtail|")));
+  const hors = require("../src/_data/gestion-hors-site.json");
+  assert.ok(hors.regles.some((r) => r.groupe === "Private Koh Phi Phi charter" && /18\.11\.2026/.test(r.raison)));
 });

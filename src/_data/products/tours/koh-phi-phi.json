@@ -170,22 +170,8 @@
       "label": "Private longtail",
       "kind": "private",
       "boat": "longtail",
-      "note": "The whole boat for your group. Children from 4 count in the group size, under 4 do not. For 6 people or more, ask us for the price on WhatsApp. Available when the national park is open.",
-      "prices": [
-        {
-          "label": "1 to 5 people",
-          "amount": 9400,
-          "group": {
-            "min": 1,
-            "max": 5
-          },
-          "unit": "per boat"
-        },
-        {
-          "label": "6 people or more",
-          "text": "On request"
-        }
-      ],
+      "note": "The whole boat for your group. Children from 4 count in the group size, under 4 do not. Available when the national park is open. Prices for private boats go up in the high season, so we send you the price on WhatsApp for your date and group.",
+      "priceOnRequest": true,
       "notIncludedFees": [
         {
           "label": "National park fee, adult",
@@ -356,7 +342,7 @@
     },
     {
       "q": "Can we go on a private boat?",
-      "a": "Yes, on a private longtail for your group only: 9,400 THB per boat for 1 to 5 people. Children from 4 count in the group size. For 6 people or more, ask us on WhatsApp."
+      "a": "Yes, on a private longtail for your group only. Children from 4 count in the group size. Prices for private boats go up in the high season, so we send you the price on WhatsApp."
     },
     {
       "q": "Which trip should I pick?",
@@ -522,6 +508,10 @@
     {
       "field": "options[].label, options[].note, lead, price.unit, facts[Boat, Guests per boat, Speedboat pier], day[].title, included, beforeYouBook.pickup, beforeYouBook.cancellation, faq[Which trip]",
       "from": "Libellés des options et ligne courte validés par Jérémy le 18.11.2026 (Day trip, Sunset trip, Full-day sunset trip, Private longtail) ; les détails des anciennes notes restent dans la note de l'option (détail du sélecteur), « Before you book » ou les faits. Ids et prix inchangés. Ligne du Day trip : « Shared speedboat, back in the afternoon », sans heure de retour (décision du 08.11.2026 maintenue, 18.11.2026)."
+    },
+    {
+      "field": "options[private-longtail], faq[Can we go on a private boat?]",
+      "from": "Décision de Jérémy du 18.11.2026 (haute saison, les bateaux privés augmentent leurs prix) : plus aucun prix pour les longtails et speedboats privés, option affichée « Price on WhatsApp » et toujours réservable. Les tarifs restent dans Gestion."
     }
   ],
   "refPrefix": "PP",

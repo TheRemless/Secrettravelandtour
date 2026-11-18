@@ -28,8 +28,8 @@ const NOMS = {
   }
 };
 const PRIX = {
-  "koh-phi-phi": { "join-in-speedboat": [2000, 1000, 0], "small-group-sunset": [3900, 2900], "private-longtail": [9400] },
-  "koh-rok-koh-haa": { "join-in-speedboat": [2000, 1000, 0], sunset: [2500, 1800], "small-group-sunset": [3900, 2900], "private-longtail": [7400, 7900] }
+  "koh-phi-phi": { "join-in-speedboat": [2000, 1000, 0], "small-group-sunset": [3900, 2900], "private-longtail": [] },
+  "koh-rok-koh-haa": { "join-in-speedboat": [2000, 1000, 0], sunset: [2500, 1800], "small-group-sunset": [3900, 2900], "private-longtail": [] }
 };
 const ANCIENS = /small[ -]group|join-in speedboat|later trip|later sunset|private longtail to koh rok/i;
 
@@ -42,7 +42,7 @@ for (const [slug, noms] of Object.entries(NOMS)) {
       const [label, sub] = noms[o.id];
       assert.equal(o.label, label, o.id);
       assert.equal(o.note.split(/(?<=\.)\s+/)[0], sub + ".", o.id);
-      assert.deepEqual(o.prices.filter((r) => "amount" in r).map((r) => r.amount), PRIX[slug][o.id], o.id);
+      assert.deepEqual((o.prices || []).filter((r) => "amount" in r).map((r) => r.amount), PRIX[slug][o.id], o.id);
     }
   });
 
@@ -70,7 +70,7 @@ for (const [slug, noms] of Object.entries(NOMS)) {
 
   test(`${slug} : chaque ligne de prix garde sa clé Gestion sous le nouveau nom`, () => {
     for (const o of p.options) {
-      for (const r of o.prices.filter((x) => x.amount > 0)) assert.ok(KEYS[`${slug}|${o.label}|${r.label}`], `${o.label} / ${r.label}`);
+      for (const r of (o.prices || []).filter((x) => x.amount > 0)) assert.ok(KEYS[`${slug}|${o.label}|${r.label}`], `${o.label} / ${r.label}`);
     }
     assert.ok(!Object.keys(KEYS).some((k) => k.startsWith(slug + "|") && ANCIENS.test(k)), "clé à l'ancien nom");
   });
@@ -79,9 +79,9 @@ for (const [slug, noms] of Object.entries(NOMS)) {
 test("rien n'est perdu des anciennes notes : groupe, enfants, ponton, Koh Rok seul, Maya Bay", () => {
   const phi = P("koh-phi-phi"), rok = P("koh-rok-koh-haa");
   const note = (p, id) => p.options.find((o) => o.id === id).note;
-  for (const s of ["Children from 4 count in the group size, under 4 do not.", "For 6 people or more, ask us for the price on WhatsApp.", "Available when the national park is open."]) assert.ok(note(phi, "private-longtail").includes(s), s);
+  for (const s of ["Children from 4 count in the group size, under 4 do not.", "we send you the price on WhatsApp", "Available when the national park is open."]) assert.ok(note(phi, "private-longtail").includes(s), s);
   assert.match(note(phi, "small-group-sunset"), /Maya Bay is not on this programme\./);
-  for (const s of ["From Lanta Old Town pier.", "Koh Rok by longtail only runs as a private trip.", "Koh Rok only, 08:00 to 16:00, about 1 hr 30 min each way.", "Children from 4 count in the group size, under 4 do not.", "For 7 people or more, ask us for the price on WhatsApp."]) assert.ok(note(rok, "private-longtail").includes(s), s);
+  for (const s of ["From Lanta Old Town pier.", "Koh Rok by longtail only runs as a private trip.", "Koh Rok only, 08:00 to 16:00, about 1 hr 30 min each way.", "Children from 4 count in the group size, under 4 do not.", "we send you the price on WhatsApp"]) assert.ok(note(rok, "private-longtail").includes(s), s);
   assert.match(note(rok, "sunset"), /private car.*Koh Haa lagoon.*17:50/);
   for (const p of [phi, rok]) assert.match(note(p, "small-group-sunset"), /between 18:30 and 20:00/);
   // Le détail de l'option choisie s'affiche dans le sélecteur.
