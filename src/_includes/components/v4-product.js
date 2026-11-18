@@ -417,7 +417,8 @@ function includedGroups(p, optLabels) {
   if (!own) return null;
   const rest = Object.keys(optLabels).filter((id) => !own[id]);
   return [
-    ...(rest.length ? [{ label: rest.map((id) => optLabels[id]).join(", "), items: p.included || [] }] : []),
+    // Plusieurs options partagent la liste commune (Koh Rok) : leurs noms ont déjà des virgules, le titre dit « Other trips ».
+    ...(rest.length ? [{ label: rest.length === 1 ? optLabels[rest[0]] : "Other trips", items: p.included || [] }] : []),
     ...Object.keys(own).map((id) => ({ label: optLabels[id], items: own[id] }))
   ];
 }
