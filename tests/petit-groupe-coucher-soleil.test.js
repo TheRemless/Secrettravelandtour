@@ -27,13 +27,13 @@ const PAGES = {
     keys: { Adult: "c0a0922b-e30c-44bc-b029-a131f65e36ba", "Child, 4 to 11": "5f4e4bfa-7bd3-4fef-9b82-c76d419ec1d6" },
     times: ["08:30", "10:00", "11:00", "13:50", "15:00", "17:00", "17:50", "18:30"],
     feesFrom: "join-in-speedboat",
-    untouched: { "join-in-speedboat": [2000, 1000, 0], "private-longtail": [9400] }
+    untouched: { "join-in-speedboat": [2000, 1000, 0], "private-longtail": [] }
   },
   "koh-rok-koh-haa": {
     keys: { Adult: "2558da12-6885-45f5-8d1a-3737389b1183", "Child, 4 to 11": "44294cf2-7e04-4b1b-8c3c-273c9f917187" },
     times: ["08:30", "10:00", "12:00", "13:30", "15:30", "16:30", "17:50", "18:30"],
     feesFrom: "sunset",
-    untouched: { "join-in-speedboat": [2000, 1000, 0], sunset: [2500, 1800], "private-longtail": [7400, 7900] }
+    untouched: { "join-in-speedboat": [2000, 1000, 0], sunset: [2500, 1800], "private-longtail": [] }
   }
 };
 
@@ -56,7 +56,7 @@ for (const [slug, want] of Object.entries(PAGES)) {
 
   test(`${slug} : les autres options ne bougent pas`, () => {
     for (const [id, amounts] of Object.entries(want.untouched)) {
-      assert.deepEqual(p.options.find((x) => x.id === id).prices.filter((r) => "amount" in r).map((r) => r.amount), amounts, id);
+      assert.deepEqual((p.options.find((x) => x.id === id).prices || []).filter((r) => "amount" in r).map((r) => r.amount), amounts, id);
     }
     assert.equal(p.price.from, 2000);
   });

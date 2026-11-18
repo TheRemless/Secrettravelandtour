@@ -15,22 +15,6 @@
   "prestation": "d0e6ae78-4dc6-5119-acaf-9cafe2504d7b",
   "gestion": "One Day Trip 4 Islands (Koh Chueak, Mook Emerald Cave, Kradan, Ngai), child (4-11)"
  },
- "4-islands|Private longtail|1 to 2 people": {
-  "prestation": "86089978-5c93-5713-aae4-5231d9be8f3c",
-  "gestion": "Private 4 Islands (Koh Mook, Koh Ngai, Koh Chuek, Koh Maa)"
- },
- "4-islands|Private longtail|3 to 4 people": {
-  "prestation": "71b95917-0c36-58fe-a833-0cc27c17c101",
-  "gestion": "Private 4 Islands (Koh Mook, Koh Ngai, Koh Chuek, Koh Maa)"
- },
- "4-islands|Private longtail|5 to 6 people": {
-  "prestation": "1e3a5589-f9ee-56f7-acb4-387caf77167d",
-  "gestion": "Private 4 Islands (Koh Mook, Koh Ngai, Koh Chuek, Koh Maa)"
- },
- "4-islands|Private longtail|Add Koh Kradan, per boat": {
-  "prestation": "a766a679-79ad-5c5c-ab72-794e4537d220",
-  "gestion": "Koh Kradan extension on the private 4 Islands tour"
- },
  "atv|1 hour of ATV and 1 hour of kayak|Adult passenger": {
   "prestation": "5e2f4296-a012-562c-a9ce-6fa0ca877fd7",
   "gestion": "P3: ATV 1h + Kayak 1h Thung Yee Peng, passenger"
@@ -234,10 +218,6 @@
   "prestation": "264bc47b-67a7-5261-ad0f-275187939068",
   "gestion": "One Day Trip Koh Phi Phi + Bamboo Island, child (4-11)"
  },
- "koh-phi-phi|Private longtail|1 to 5 people": {
-  "prestation": "0711f191-fe3b-587f-a28a-db415fd235e7",
-  "gestion": "Private Koh Phi Phi by longtail (Phi Phi Leh, Bamboo Island, Phi Phi Don)"
- },
  "koh-phi-phi|Full-day sunset trip|Adult": {
   "prestation": "c0a0922b-e30c-44bc-b029-a131f65e36ba",
   "gestion": "Lazy Day Sunset Trip Koh Phi Phi + Bamboo Island"
@@ -261,14 +241,6 @@
  "koh-rok-koh-haa|Sunset trip|Child, 4 to 11": {
   "prestation": "75b3030a-afa1-530b-a670-75adfe1d149f",
   "gestion": "One Day Trip Koh Rok + Koh Ha Sunset, child (4-11)"
- },
- "koh-rok-koh-haa|Private longtail|1 to 3 people": {
-  "prestation": "0e1f1b13-07a1-5496-ab02-02068d7f428b",
-  "gestion": "Private Koh Rok (Koh Rok Nok & Koh Rok Nai)"
- },
- "koh-rok-koh-haa|Private longtail|4 to 6 people": {
-  "prestation": "1961d3a3-783e-5c91-af21-2b93561cbc59",
-  "gestion": "Private Koh Rok (Koh Rok Nok & Koh Rok Nai)"
  },
  "koh-rok-koh-haa|Full-day sunset trip|Adult": {
   "prestation": "2558da12-6885-45f5-8d1a-3737389b1183",
