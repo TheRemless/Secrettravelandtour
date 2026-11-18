@@ -226,11 +226,11 @@
   "prestation": "e749327d-5f4f-5621-a893-3adf20160c3a",
   "gestion": "Programme 3: Sea cave kayaking + mangrove, child (4-11)"
  },
- "koh-phi-phi|Join-in speedboat|Adult": {
+ "koh-phi-phi|Day trip|Adult": {
   "prestation": "971339f0-28fc-5ce8-a9a8-4483b4c38b49",
   "gestion": "One Day Trip Koh Phi Phi + Bamboo Island"
  },
- "koh-phi-phi|Join-in speedboat|Child, 4 to 11": {
+ "koh-phi-phi|Day trip|Child, 4 to 11": {
   "prestation": "264bc47b-67a7-5261-ad0f-275187939068",
   "gestion": "One Day Trip Koh Phi Phi + Bamboo Island, child (4-11)"
  },
@@ -238,43 +238,43 @@
   "prestation": "0711f191-fe3b-587f-a28a-db415fd235e7",
   "gestion": "Private Koh Phi Phi by longtail (Phi Phi Leh, Bamboo Island, Phi Phi Don)"
  },
- "koh-phi-phi|Small group, back at sunset|Adult": {
+ "koh-phi-phi|Full-day sunset trip|Adult": {
   "prestation": "c0a0922b-e30c-44bc-b029-a131f65e36ba",
   "gestion": "Lazy Day Sunset Trip Koh Phi Phi + Bamboo Island"
  },
- "koh-phi-phi|Small group, back at sunset|Child, 4 to 11": {
+ "koh-phi-phi|Full-day sunset trip|Child, 4 to 11": {
   "prestation": "5f4e4bfa-7bd3-4fef-9b82-c76d419ec1d6",
   "gestion": "Lazy Day Sunset Trip Koh Phi Phi + Bamboo Island, child (4-11)"
  },
- "koh-rok-koh-haa|Join-in speedboat|Adult": {
+ "koh-rok-koh-haa|Day trip|Adult": {
   "prestation": "e54ec997-a2bf-5bb1-ac02-9531e46d1e25",
   "gestion": "One Day Trip Koh Rok + Koh Ha"
  },
- "koh-rok-koh-haa|Join-in speedboat|Child, 4 to 11": {
+ "koh-rok-koh-haa|Day trip|Child, 4 to 11": {
   "prestation": "a3f959f0-e598-5c91-a841-9136130fc652",
   "gestion": "One Day Trip Koh Rok + Koh Ha, child (4-11)"
  },
- "koh-rok-koh-haa|Later trip, back at sunset|Adult": {
+ "koh-rok-koh-haa|Sunset trip|Adult": {
   "prestation": "2cad3d50-b06d-5859-acb6-c532055059f4",
   "gestion": "One Day Trip Koh Rok + Koh Ha Sunset"
  },
- "koh-rok-koh-haa|Later trip, back at sunset|Child, 4 to 11": {
+ "koh-rok-koh-haa|Sunset trip|Child, 4 to 11": {
   "prestation": "75b3030a-afa1-530b-a670-75adfe1d149f",
   "gestion": "One Day Trip Koh Rok + Koh Ha Sunset, child (4-11)"
  },
- "koh-rok-koh-haa|Private longtail to Koh Rok|1 to 3 people": {
+ "koh-rok-koh-haa|Private longtail|1 to 3 people": {
   "prestation": "0e1f1b13-07a1-5496-ab02-02068d7f428b",
   "gestion": "Private Koh Rok (Koh Rok Nok & Koh Rok Nai)"
  },
- "koh-rok-koh-haa|Private longtail to Koh Rok|4 to 6 people": {
+ "koh-rok-koh-haa|Private longtail|4 to 6 people": {
   "prestation": "1961d3a3-783e-5c91-af21-2b93561cbc59",
   "gestion": "Private Koh Rok (Koh Rok Nok & Koh Rok Nai)"
  },
- "koh-rok-koh-haa|Small group, back at sunset|Adult": {
+ "koh-rok-koh-haa|Full-day sunset trip|Adult": {
   "prestation": "2558da12-6885-45f5-8d1a-3737389b1183",
   "gestion": "Lazy Day Sunset Trip Koh Rok + Koh Haa"
  },
- "koh-rok-koh-haa|Small group, back at sunset|Child, 4 to 11": {
+ "koh-rok-koh-haa|Full-day sunset trip|Child, 4 to 11": {
   "prestation": "44294cf2-7e04-4b1b-8c3c-273c9f917187",
   "gestion": "Lazy Day Sunset Trip Koh Rok + Koh Haa, child (4-11)"
  },

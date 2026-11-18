@@ -37,10 +37,10 @@ test("Koh Rok, coucher de soleil : 2 500 THB adulte, 1 800 THB enfant de 4 à 11
   assert.equal(day.steps[day.steps.length - 1].time, "17:50");
   const doc = html(p.url), t = text(doc);
   assert.doesNotMatch(t, /exists on some days|Ask us\./, "l'ancienne phrase est remplacée par l'option");
-  for (const s of ["Later trip, back at sunset", "2,500 THB", "1,800 THB", "17:50"]) assert.ok(t.includes(s), s);
+  for (const s of ["Sunset trip", "2,500 THB", "1,800 THB", "17:50"]) assert.ok(t.includes(s), s);
   assert.ok(!t.includes("No child price on the site"));
   const msg = B.buildMessage(cfgOf(doc), state("sunset", { pickup: "Lanta Sand Resort" }));
-  assert.match(msg, /^Booking request: Koh Rok & Koh Haa – Later trip, back at sunset\n/);
+  assert.match(msg, /^Booking request: Koh Rok & Koh Haa – Sunset trip\n/);
   // 2 adultes à 2 500 et un enfant de 7 ans à 1 800 : le total se calcule et termine le message.
   assert.match(msg, /\nEstimated total: 6,800 THB$/);
   assert.doesNotMatch(msg, /Ref:|Page:/);

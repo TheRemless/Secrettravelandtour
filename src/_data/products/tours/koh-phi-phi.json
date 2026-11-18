@@ -14,7 +14,7 @@
     }
   },
   "h1": "Koh Phi Phi day trip from Koh Lanta",
-  "lead": "Maya Bay, Pileh Lagoon, Viking Cave and Monkey Beach in the morning, then lunch on Phi Phi Don, Bamboo Island and free time on Phi Phi Don. By join-in speedboat, on a small-group trip back at sunset, or by private longtail for your group only.",
+  "lead": "Maya Bay, Pileh Lagoon, Viking Cave and Monkey Beach in the morning, then lunch on Phi Phi Don, Bamboo Island and free time on Phi Phi Don. By shared speedboat on the day trip, on the full-day sunset trip, or by private longtail for your group only.",
   "promise": "Maya Bay, Pileh Lagoon and Bamboo Island by speedboat",
   "facts": [
     {
@@ -27,7 +27,7 @@
     },
     {
       "label": "Boat",
-      "value": "Join-in speedboat or private longtail"
+      "value": "Shared speedboat or private longtail"
     },
     {
       "label": "Format",
@@ -35,11 +35,11 @@
     },
     {
       "label": "Guests per boat",
-      "value": "Join-in speedboat: 25 to 45 guests"
+      "value": "Day trip: 25 to 45 guests"
     },
     {
       "label": "Speedboat pier",
-      "value": "Lanta Old Town pier, join-in speedboat"
+      "value": "Lanta Old Town pier, day trip"
     },
     {
       "label": "Crossing",
@@ -57,14 +57,15 @@
   "price": {
     "from": 2000,
     "currency": "THB",
-    "unit": "per adult, join-in speedboat"
+    "unit": "per adult, day trip"
   },
   "options": [
     {
       "id": "join-in-speedboat",
-      "label": "Join-in speedboat",
+      "label": "Day trip",
       "kind": "join-in",
       "boat": "speedboat",
+      "note": "Shared speedboat, back in the afternoon.",
       "prices": [
         {
           "label": "Adult",
@@ -117,10 +118,10 @@
     },
     {
       "id": "small-group-sunset",
-      "label": "Small group, back at sunset",
+      "label": "Full-day sunset trip",
       "kind": "join-in",
       "boat": "speedboat",
-      "note": "Hotel pickup at 08:30, back at your hotel between 18:30 and 20:00. Phi Phi and Bamboo Island, then the sunset on the way back. Maya Bay is not on this programme.",
+      "note": "Pickup at 08:30, lunch with wine, home after sunset. Phi Phi and Bamboo Island, back at your hotel between 18:30 and 20:00. Maya Bay is not on this programme.",
       "prices": [
         {
           "label": "Adult",
@@ -169,7 +170,7 @@
       "label": "Private longtail",
       "kind": "private",
       "boat": "longtail",
-      "note": "The whole boat for your group only. Children from 4 count in the group size, under 4 do not. For 6 people or more, ask us for the price on WhatsApp. Available when the national park is open.",
+      "note": "The whole boat for your group. Children from 4 count in the group size, under 4 do not. For 6 people or more, ask us for the price on WhatsApp. Available when the national park is open.",
       "prices": [
         {
           "label": "1 to 5 people",
@@ -218,7 +219,7 @@
       "options": [
         "join-in-speedboat"
       ],
-      "title": "How the day goes (speedboat, join-in)",
+      "title": "How the day goes (day trip)",
       "steps": [
         {
           "time": "08:00",
@@ -250,7 +251,7 @@
       "options": [
         "small-group-sunset"
       ],
-      "title": "How the day goes (small group, back at sunset)",
+      "title": "How the day goes (full-day sunset trip)",
       "steps": [
         {
           "time": "08:30",
@@ -324,21 +325,21 @@
   "included": [
     "Hotel transfer both ways",
     "Buffet lunch, soft drinks and seasonal fruit",
-    "Light breakfast at the pier on the join-in speedboat",
+    "Light breakfast at the pier on the day trip",
     "Masks, snorkels and life jackets",
-    "Guide, English-speaking on the join-in speedboat",
+    "Guide, English-speaking on the day trip",
     "Insurance"
   ],
   "notIncluded": [
     "National park fee, paid in cash"
   ],
   "beforeYouBook": {
-    "pickup": "Pickup at your hotel between 08:00 and 09:00, by car or by boat. On the join-in speedboat, a light breakfast at Lanta Old Town pier. Small group, back at sunset: pickup at 08:30, then by van to Hua Hin Pier.",
+    "pickup": "Pickup at your hotel between 08:00 and 09:00, by car or by boat. On the day trip, a light breakfast at Lanta Old Town pier. Full-day sunset trip: pickup at 08:30, then by van to Hua Hin Pier.",
     "bring": [
       "Cash for the national park fee"
     ],
     "weather": "Maya Bay has its own rules set by the national park. The stop depends on the day and the season. The private longtail runs when the national park is open, and its programme can change with the tide and the weather.",
-    "cancellation": "Join-in speedboat and private longtail: tell us at least 12 hours before departure, or the full price is charged."
+    "cancellation": "Day trip and private longtail: tell us at least 12 hours before departure, or the full price is charged."
   },
   "faq": [
     {
@@ -359,7 +360,7 @@
     },
     {
       "q": "Which trip should I pick?",
-      "a": "The join-in speedboat stops at Maya Bay and gives you free time on Phi Phi Don until 16:00. The small-group trip picks you up at 08:30, has lunch and the end of the afternoon on Bamboo Island and comes back at sunset, with wine included and a guide who speaks English or Chinese. Maya Bay is not on this programme. The private longtail is the whole boat for your group."
+      "a": "The day trip stops at Maya Bay and gives you free time on Phi Phi Don until 16:00. The full-day sunset trip picks you up at 08:30, has lunch and the end of the afternoon on Bamboo Island and comes back at sunset, with wine included and a guide who speaks English or Chinese. Maya Bay is not on this programme. The private longtail is the whole boat for your group."
     }
   ],
   "photos": [
@@ -517,6 +518,10 @@
     {
       "field": "options[small-group-sunset], day[small-group-sunset], includedByOption[small-group-sunset], lead, faq[Which trip], beforeYouBook.pickup",
       "from": "brochure du partenaire « Sunset Trip » transmise par Jérémy le 17.11.2026 (programmes.jpg et couverture.jpg) : prix adulte 3 900, enfant de 4 à 11 ans 2 900, programme minuté de 08:30 à 18:30-20:00, « Tour include », « Highlight : small group », « program and timing approximate […] tide and local weather conditions » ; bateau d'après la photo de couverture. Aucun prix sous 4 ans, aucune taille de groupe chiffrée, aucun jour de départ dans la brochure : rien d'écrit. Décisions de Jérémy du 17.11.2026 : sortie distincte des options existantes, frais de parc non inclus (montants déjà sur la fiche)"
+    },
+    {
+      "field": "options[].label, options[].note, lead, price.unit, facts[Boat, Guests per boat, Speedboat pier], day[].title, included, beforeYouBook.pickup, beforeYouBook.cancellation, faq[Which trip]",
+      "from": "Libellés des options et ligne courte validés par Jérémy le 18.11.2026 (Day trip, Sunset trip, Full-day sunset trip, Private longtail) ; les détails des anciennes notes restent dans la note de l'option (détail du sélecteur), « Before you book » ou les faits. Ids et prix inchangés. Ligne du Day trip : « Shared speedboat, back in the afternoon », sans heure de retour (décision du 08.11.2026 maintenue, 18.11.2026)."
     }
   ],
   "refPrefix": "PP",

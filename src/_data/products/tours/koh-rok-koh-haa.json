@@ -35,11 +35,11 @@
     },
     {
       "label": "Guests per boat",
-      "value": "Join-in speedboat and the later sunset trip: 25 to 45 guests"
+      "value": "Day trip and sunset trip: 25 to 45 guests"
     },
     {
       "label": "Speedboat pier",
-      "value": "Lanta Old Town pier, join-in speedboat"
+      "value": "Lanta Old Town pier, day trip"
     },
     {
       "label": "Islands",
@@ -61,14 +61,15 @@
   "price": {
     "from": 2000,
     "currency": "THB",
-    "unit": "per adult, join-in speedboat"
+    "unit": "per adult, day trip"
   },
   "options": [
     {
       "id": "join-in-speedboat",
-      "label": "Join-in speedboat",
+      "label": "Day trip",
       "kind": "join-in",
       "boat": "speedboat",
+      "note": "Shared speedboat, back in the afternoon.",
       "prices": [
         {
           "label": "Adult",
@@ -116,10 +117,10 @@
     },
     {
       "id": "sunset",
-      "label": "Later trip, back at sunset",
+      "label": "Sunset trip",
       "kind": "join-in",
       "boat": "speedboat",
-      "note": "Pickup at your hotel at 10:00 by private car, Koh Rok and the Koh Haa lagoon, then a sunset cruise back to Koh Lanta at 17:50.",
+      "note": "Pickup at 10:00, sunset cruise home. By private car from your hotel, Koh Rok and the Koh Haa lagoon, then back to Koh Lanta at 17:50.",
       "prices": [
         {
           "label": "Adult",
@@ -160,10 +161,10 @@
     },
     {
       "id": "small-group-sunset",
-      "label": "Small group, back at sunset",
+      "label": "Full-day sunset trip",
       "kind": "join-in",
       "boat": "speedboat",
-      "note": "Hotel pickup at 08:30, back at your hotel between 18:30 and 20:00. Koh Rok and the Koh Haa lagoon, then the sunset on the way back.",
+      "note": "Pickup at 08:30, lunch with wine, home after sunset. Koh Rok and the Koh Haa lagoon, back at your hotel between 18:30 and 20:00.",
       "prices": [
         {
           "label": "Adult",
@@ -204,10 +205,10 @@
     },
     {
       "id": "private-longtail",
-      "label": "Private longtail to Koh Rok",
+      "label": "Private longtail",
       "kind": "private",
       "boat": "longtail",
-      "note": "The whole boat for your group, from Lanta Old Town pier. Koh Rok by longtail only runs as a private trip. Koh Rok only, 08:00 to 16:00, about 1 hr 30 min each way, your group only. Children from 4 count in the group size, under 4 do not. For 7 people or more, ask us for the price on WhatsApp.",
+      "note": "The whole boat for your group. From Lanta Old Town pier. Koh Rok by longtail only runs as a private trip. Koh Rok only, 08:00 to 16:00, about 1 hr 30 min each way. Children from 4 count in the group size, under 4 do not. For 7 people or more, ask us for the price on WhatsApp.",
       "prices": [
         {
           "label": "1 to 3 people",
@@ -260,7 +261,7 @@
       "options": [
         "join-in-speedboat"
       ],
-      "title": "How the day goes (speedboat, join-in)",
+      "title": "How the day goes (day trip)",
       "steps": [
         {
           "time": "08:00",
@@ -300,7 +301,7 @@
       "options": [
         "sunset"
       ],
-      "title": "How the day goes (later trip, back at sunset)",
+      "title": "How the day goes (sunset trip)",
       "steps": [
         {
           "time": "10:00",
@@ -337,7 +338,7 @@
       "options": [
         "small-group-sunset"
       ],
-      "title": "How the day goes (small group, back at sunset)",
+      "title": "How the day goes (full-day sunset trip)",
       "steps": [
         {
           "time": "08:30",
@@ -378,22 +379,22 @@
   "included": [
     "Hotel transfer both ways",
     "Thai buffet lunch on the beach, drinks and seasonal fruit",
-    "Light breakfast at the pier on the join-in speedboat",
+    "Light breakfast at the pier on the day trip",
     "Masks, snorkels and life jackets",
-    "Guide, English-speaking on the join-in speedboat",
+    "Guide, English-speaking on the day trip",
     "Insurance",
-    "On the later trip: snacks on the way out, soft drinks on the sunset cruise"
+    "On the sunset trip: snacks on the way out, soft drinks on the sunset cruise"
   ],
   "notIncluded": [
     "National park fee, paid in cash on the island"
   ],
   "beforeYouBook": {
-    "pickup": "Join-in speedboat: pickup at your hotel around 08:00, then a light breakfast at Lanta Old Town pier. Later sunset trip: pickup at 10:00 by private car, snacks on the boat, no breakfast. Private longtail: no breakfast, we set the pickup time with you. Small group, back at sunset: pickup at 08:30, then by van to Hua Hin Pier.",
+    "pickup": "Day trip: pickup at your hotel around 08:00, then a light breakfast at Lanta Old Town pier. Sunset trip: pickup at 10:00 by private car, snacks on the boat, no breakfast. Full-day sunset trip: pickup at 08:30, then by van to Hua Hin Pier. Private longtail: no breakfast, we set the pickup time with you.",
     "bring": [
       "Cash for the national park fee"
     ],
     "weather": "Mid-October to mid-May. The national park closes Koh Rok and Koh Haa from 16 May for the monsoon.",
-    "cancellation": "Join-in speedboat and the later sunset trip: tell us at least 12 hours before departure, or the full price is charged. Private longtail: we confirm the conditions with you when you book."
+    "cancellation": "Day trip and sunset trip: tell us at least 12 hours before departure, or the full price is charged. Private longtail: we confirm the conditions with you when you book."
   },
   "faq": [
     {
@@ -418,7 +419,7 @@
     },
     {
       "q": "Which trip should I pick?",
-      "a": "The join-in speedboat leaves Koh Haa at 15:30. Two trips come back at sunset: the later trip picks you up at 10:00, with 25 to 45 guests on the boat; the small-group trip picks you up at 08:30, includes wine and has a guide who speaks English or Chinese. The private longtail goes to Koh Rok only, for your group."
+      "a": "The day trip leaves Koh Haa at 15:30. Two trips come back at sunset: the sunset trip picks you up at 10:00, with 25 to 45 guests on the boat; the full-day sunset trip picks you up at 08:30, includes wine and has a guide who speaks English or Chinese. The private longtail goes to Koh Rok only, for your group."
     }
   ],
   "photos": [
@@ -647,6 +648,10 @@
     {
       "field": "options[small-group-sunset], day[small-group-sunset], includedByOption[small-group-sunset], faq[Which trip] (remplace « Speedboat or longtail? »), beforeYouBook.pickup",
       "from": "brochure du partenaire « Sunset Trip » transmise par Jérémy le 17.11.2026 (programmes.jpg et couverture.jpg) : prix adulte 3 900, enfant de 4 à 11 ans 2 900, programme minuté de 08:30 à 18:30-20:00, « Tour include », « Highlight : small group », « program and timing approximate […] tide and local weather conditions » ; bateau d'après la photo de couverture. Aucun prix sous 4 ans, aucune taille de groupe chiffrée, aucun jour de départ dans la brochure : rien d'écrit. Décisions de Jérémy du 17.11.2026 : sortie distincte des options existantes, frais de parc non inclus (montants déjà sur la fiche). Saison : celle de la fiche (mi-octobre à mi-mai)"
+    },
+    {
+      "field": "options[].label, options[].note, price.unit, facts[Guests per boat, Speedboat pier], day[].title, included, beforeYouBook.pickup, beforeYouBook.cancellation, faq[Which trip]",
+      "from": "Libellés des options et ligne courte validés par Jérémy le 18.11.2026 (Day trip, Sunset trip, Full-day sunset trip, Private longtail) ; les détails des anciennes notes restent dans la note de l'option (détail du sélecteur), « Before you book » ou les faits. Ids et prix inchangés. Ligne du Day trip : « Shared speedboat, back in the afternoon », sans heure de retour (décision du 08.11.2026 maintenue, 18.11.2026)."
     }
   ],
   "refPrefix": "ROK",

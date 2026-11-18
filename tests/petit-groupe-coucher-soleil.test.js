@@ -18,7 +18,7 @@ const text = (doc) => doc.replace(/<script[\s\S]*?<\/script>/g, "").replace(/<[^
 const state = (over = {}) => Object.assign(B.emptyState({}), { today: "2026-11-17", option: "small-group-sunset", dateChoice: "other", dateOther: "2026-11-28", adults: 2, childAges: [7], pickup: "Lanta Sand Resort", firstName: "Anna", lastName: "Becker", phoneCode: "GB", phone: "07700 900123" }, over);
 
 const ID = "small-group-sunset";
-const LABEL = "Small group, back at sunset";
+const LABEL = "Full-day sunset trip"; // « Small group, back at sunset » jusqu'au 18.11.2026 (libellés validés par Jérémy)
 // Nom du partenaire, nom commercial de la sortie, nom du bateau, téléphones et site de la brochure.
 const INTERDITS = /rattana|lazy ?day|aquaman|king of the ocean|063.?672.?4262|084.?129.?5333|065.?872.?6256|288\/8 Moo 1/i;
 
@@ -50,7 +50,7 @@ for (const [slug, want] of Object.entries(PAGES)) {
       { label: "Child, 4 to 11", amount: 2900, ages: { min: 4, max: 11 }, unit: "per person" }
     ]);
     assert.deepEqual(o.notIncludedFees, p.options.find((x) => x.id === want.feesFrom).notIncludedFees);
-    assert.match(o.note, /^Hotel pickup at 08:30, back at your hotel between 18:30 and 20:00\./);
+    assert.match(o.note, /^Pickup at 08:30, lunch with wine, home after sunset\. .*back at your hotel between 18:30 and 20:00\./);
     assert.doesNotMatch(JSON.stringify(o) + JSON.stringify(p.includedByOption[ID]), /\b\d+ (to \d+ )?(guests|people)\b|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|daily|every day/i);
   });
 

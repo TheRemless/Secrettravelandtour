@@ -206,8 +206,8 @@ const CORRIGES = {
   // Tours privés en longtail (décision de Jérémy du 11.11.2026) : prix jusqu'à 6 personnes, 7 personnes et plus sur demande.
   // Le « +400 par personne » de l'ancien site est remplacé par la tranche 5 à 6 personnes à 7 400.
   "4-islands|Private longtail|Each extra person|400": "Private longtail|5 to 6 people|7400",
-  "koh-rok-koh-haa|Private longtail to Koh Rok|7 to 8 people|8400": "Private longtail to Koh Rok|7 people or more|On request",
-  "koh-rok-koh-haa|Private longtail to Koh Rok|9 to 10 people|9400": "Private longtail to Koh Rok|7 people or more|On request",
+  "koh-rok-koh-haa|Private longtail to Koh Rok|7 to 8 people|8400": "Private longtail|7 people or more|On request",
+  "koh-rok-koh-haa|Private longtail to Koh Rok|9 to 10 people|9400": "Private longtail|7 people or more|On request",
   // Batik, forfait journée complète (Kayaking and painting, 08:00 à 17:00) : 2 200 adulte et 1 600 enfant
   // (décision de Jérémy du 11.11.2026, le flyer à 1 500 et 1 000 était faux ; les cours matin et après-midi restent à 1 500 et 1 000).
   "batik|Kayaking and painting|Adult|1500": "Kayaking and painting|Adult|2200",
@@ -237,6 +237,11 @@ const CORRIGES = {
   "scuba-diving|One-day experience, 2 dives|Kids Scuba Explorer, from age 8|4500": "One-day experience, 2 dives|Scuba Explorer, from age 8|4500",
   "scuba-diving|One-day experience, 2 dives|Basic Diver, from age 10|4500": "One-day experience, 2 dives|Discover Basic Diver, from age 10|4500"
 };
+// Options renommées (libellés validés par Jérémy le 18.11.2026) : l'ancien titre de l'ancien site vaut le nouveau libellé.
+const RENOMMES = {
+  "koh-phi-phi": { "Join-in speedboat": "Day trip" },
+  "koh-rok-koh-haa": { "Join-in speedboat": "Day trip", "Private longtail to Koh Rok": "Private longtail" }
+};
 // Partenaire remplacé : les prix de l'ancien partenaire ne sont plus vendus.
 // Pages fondues dans une autre (décision de Jérémy du 10.11.2026) : leurs sorties et leurs prix y sont repris.
 const FUSIONNES = { "koh-talabeng-koh-bubu": "/tours/kayak/" };
@@ -260,8 +265,8 @@ test("produits : tous les prix de l'ancien site sont repris à l'identique", () 
       for (const r of g.rows) {
         const m = /^\+?([\d,]+) THB$/.exec(r.price);
         const value = m ? Number(m[1].replace(/,/g, "")) : r.price === "Free" ? 0 : r.price;
-        const key = `${g.title}|${r.label}|${value}`;
-        assert.ok(rows.includes(CORRIGES[`${id}|${key}`] || key), `${id} : ${g.title} / ${r.label}`);
+        const key = `${(RENOMMES[id] || {})[g.title] || g.title}|${r.label}|${value}`;
+        assert.ok(rows.includes(CORRIGES[`${id}|${g.title}|${r.label}|${value}`] || key), `${id} : ${g.title} / ${r.label}`);
       }
     }
   }
