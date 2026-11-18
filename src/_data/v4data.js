@@ -291,7 +291,7 @@ module.exports = async function () {
   };
 
   // ----- 4 Islands -----
-  const opts = four.options.map((o) => ({ id: o.id, label: o.label, kind: o.kind, boat: o.boat, note: o.note || "", stub: o.stub || "", pier: o.pier || "", from: o.from || "", onBoard: o.onBoard || "", lunch: o.lunch || "", feesToConfirm: Boolean(o.feesToConfirm), prices: o.prices || [] }));
+  const opts = four.options.map((o) => ({ id: o.id, label: o.label, kind: o.kind, boat: o.boat, customDay: Boolean(o.customDay), note: o.note || "", stub: o.stub || "", pier: o.pier || "", from: o.from || "", onBoard: o.onBoard || "", lunch: o.lunch || "", feesToConfirm: Boolean(o.feesToConfirm), prices: o.prices || [] }));
   const day = four.day[0];
   // Journée de chaque autre bateau (speedboat join-in, catamaran d'Ao Nang) : son propre déroulé, heures approximatives.
   const stepsOf = (b) => b.steps.map((s) => ({ t: s.range || s.time, fixed: Boolean(s.fixed), place: s.place, text: dropPlace(s.text, s.place), kind: s.kind }));
@@ -304,7 +304,7 @@ module.exports = async function () {
     product: four,
     seo: {
       title: "4 Islands Tour from Koh Lanta | Secret Travel & Tour",
-      metaDescription: `Emerald Cave, Koh Ngai and two snorkelling stops, by longtail or speedboat. Join-in from ${view.thb(four.price.from)}, private longtail on request, hotel pickup included.`
+      metaDescription: `Emerald Cave, Koh Ngai and two snorkelling stops, by longtail or speedboat. Join-in from ${view.thb(four.price.from)}, private boats on request, hotel pickup included.`
     },
     hero: await photo("four-hero"),
     // Galerie : la grande à gauche, quatre petites, la grotte en hauteur à droite (photo verticale, voir .gal--four).
@@ -318,7 +318,8 @@ module.exports = async function () {
     // Données du script de la page (v4-four.js) : bateau de chaque option, îles et île du déjeuner, pour la journée et la carte.
     json: {
       slug: four.slug,
-      options: opts.map((o) => ({ id: o.id, boat: o.boat })),
+      // Journée libre (speedboat privé, 18.11.2026) : pas de bateau, la journée et la carte restent sur le bateau affiché.
+      options: opts.map((o) => ({ id: o.id, boat: o.customDay ? "" : o.boat })),
       islands: Object.fromEntries(boatsOf(four).map((b) => [b, islandsOf(four, b)])),
       lunch: Object.fromEntries(boatsOf(four).map((b) => [b, lunchOf(four, b)]))
     }
@@ -359,6 +360,8 @@ module.exports = async function () {
     page.pick = vp.pickOf(four, site, {
       title: "Choose your boat", help: help ? help.a : "",
       sub: (o) => {
+        // Journée libre : pas d'îles ni de déjeuner du tour partagé, la première phrase de la note.
+        if (o.customDay) return (o.note || "").split(/(?<=\.)\s/)[0].replace(/\.$/, "");
         const lunch = lunchOf(four, o.boat);
         // Espace insécable dans chaque nom d'île : « Koh Ngai » ne se coupe pas en fin de ligne.
         return [vp.listJoin(tourIslands(o.boat)), lunch ? "lunch on " + lunch : ""].filter(Boolean).join(", ").replace(/\bKoh (\S+)/g, "Koh\u00a0$1");

@@ -83,7 +83,10 @@
   function onPick(id) {
     var priv = /^private/.test(id);
     $$("[data-private]").forEach(function (li) { li.classList.toggle("is-lit", priv); });
-    drawDay(boatOf(id));
+    // Une option à journée libre n'a pas de bateau dans D.options : la journée affichée ne change pas.
+    var b = boatOf(id);
+    if (b) drawDay(b);
+    else if (!boatNow) drawDay(D.options[0].boat);
   }
   document.addEventListener("stt-pick", function (e) { if (e.detail) onPick(e.detail.option); });
   var cur = $('#options input[name="pick"]:checked');

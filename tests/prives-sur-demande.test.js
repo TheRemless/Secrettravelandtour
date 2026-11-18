@@ -64,8 +64,8 @@ for (const [slug, rel] of Object.entries(PAGES)) {
   });
 }
 
-test("méta-description de la 4 Islands : longtail privé « on request »", () => {
-  assert.match(read(PAGES["4-islands"]), /<meta name="description" content="[^"]*private longtail on request[^"]*"/);
+test("méta-description de la 4 Islands : bateaux privés « on request » (longtail et speedboat, 18.11.2026)", () => {
+  assert.match(read(PAGES["4-islands"]), /<meta name="description" content="[^"]*private boats on request[^"]*"/);
 });
 
 test("4 Islands : Koh Kradan se demande dans la feuille, sans montant", () => {
