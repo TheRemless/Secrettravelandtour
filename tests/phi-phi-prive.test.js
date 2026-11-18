@@ -36,9 +36,9 @@ test("« Included » du privé : seulement ce que dit le flyer ; les éléments 
   assert.deepEqual(P.includedByOption["private-longtail"], ["Hotel pickup and return, by car or by boat", "Thai buffet lunch on Bamboo Island", "Snorkelling at the stops in the programme"]);
   const block = html.split('id="inc-h"')[1].split("</section>")[0];
   const [shared, own] = block.split('<h4 class="inc__for">Private longtail</h4>');
-  assert.match(shared, /<h4 class="inc__for">Join-in speedboat<\/h4>/);
+  assert.match(shared, /<h4 class="inc__for">Day trip<\/h4>/);
   assert.match(shared, /Masks, snorkels and life jackets/);
-  assert.match(shared, /Light breakfast at the pier on the join-in speedboat/);
+  assert.match(shared, /Light breakfast at the pier on the day trip/);
   assert.doesNotMatch(own.split("Not included")[0], /Masks|breakfast|Guide|Insurance|life jackets/i);
   assert.match(own, /Thai buffet lunch on Bamboo Island/);
 });
@@ -52,9 +52,9 @@ test("le programme du privé a ses horaires approximatifs et la mention de la ma
 });
 
 test("annulation : 12 heures pour les deux formules, sur la fiche et sur /cancellation/", () => {
-  assert.match(P.beforeYouBook.cancellation, /^Join-in speedboat and private longtail: .*at least 12 hours/);
+  assert.match(P.beforeYouBook.cancellation, /^Day trip and private longtail: .*at least 12 hours/);
   const page = fs.readFileSync(path.join(ROOT, "_site", "cancellation", "index.html"), "utf8");
-  assert.match(page, /Join-in speedboat and private longtail: tell us at least 12 hours before departure/);
+  assert.match(page, /Day trip and private longtail: tell us at least 12 hours before departure/);
 });
 
 test("JSON-LD : une offre par option, avec son prix « from » (adulte 2 000, bateau 9 400), aucun nom de prestataire", () => {
@@ -63,7 +63,7 @@ test("JSON-LD : une offre par option, avec son prix « from » (adulte 2 000, ba
   const offers = trip.offers;
   // Petit groupe au coucher du soleil (brochure du 17.11.2026) : troisième offre, entre le join-in et le privé.
   assert.equal(offers.length, 3);
-  assert.deepEqual(offers.map((o) => [o.name, o.priceSpecification.minPrice]), [["Join-in speedboat", 2000], ["Small group, back at sunset", 3900], ["Private longtail", 9400]]);
+  assert.deepEqual(offers.map((o) => [o.name, o.priceSpecification.minPrice]), [["Day trip", 2000], ["Full-day sunset trip", 3900], ["Private longtail", 9400]]);
   assert.match(offers[2].priceSpecification.description, /per boat/);
   assert.doesNotMatch(JSON.stringify(P) + html, /monkey lanta|monkey-lanta|\+66 ?95 ?540|3179|rattana/i);
 });

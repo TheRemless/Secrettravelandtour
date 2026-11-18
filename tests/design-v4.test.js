@@ -198,8 +198,8 @@ test("liste de sorties : un message classé par jour, un prix par sortie, total 
   assert.doesNotMatch(text, /Ref:|Page:/);
   // Phase 2 : chaque sortie de la liste porte son total estimé, calculé comme dans la feuille (2 adultes à 2 000 THB
   // et un enfant de 7 ans à 1 000 THB) ; une sortie sans option choisie n'en a pas.
-  assert.match(text, /\nKoh Rok & Koh Haa – Join-in speedboat\nEstimated total: 5,000 THB$/);
-  assert.match(text, /\nKoh Phi Phi – Join-in speedboat\nEstimated total: 5,000 THB\n/);
+  assert.match(text, /\nKoh Rok & Koh Haa – Day trip\nEstimated total: 5,000 THB$/);
+  assert.match(text, /\nKoh Phi Phi – Day trip\nEstimated total: 5,000 THB\n/);
   assert.match(text, /\n4 Islands – option to choose\n\n/, "sans option, ni prix ni total");
   // Une sortie sans total : pas de total de la liste.
   assert.doesNotMatch(text, /all trips/);
@@ -213,7 +213,7 @@ test("liste de sorties : un message classé par jour, un prix par sortie, total 
   assert.doesNotMatch(B.buildTripList(cat, { ...list, items: [list.items[0]] }), /all trips/);
   const sunset = B.buildTripList(cat, { ...list, items: [list.items[0], { slug: "koh-rok-koh-haa", option: "sunset", date: "2026-11-22" }] });
   // Sortie au coucher de soleil : 2 adultes à 2 500 et un enfant à 1 800 (décision du 10.11.2026).
-  assert.ok(sunset.includes("\nKoh Rok & Koh Haa – Later trip, back at sunset\nEstimated total: 6,800 THB\n"));
+  assert.ok(sunset.includes("\nKoh Rok & Koh Haa – Sunset trip\nEstimated total: 6,800 THB\n"));
   assert.deepEqual(B.sameDayClashes(cat, list.items), [{ date: "2026-11-20", names: ["4 Islands", "Koh Phi Phi"] }]);
   // Les prix du catalogue sont ceux des fiches.
   for (const s of SLUGS) {
@@ -232,8 +232,8 @@ test("capacité des bateaux des tours partagés (11.11.2026) : speedboat 25 à 4
   assert.match(block(four, "join-in-speedboat"), /<dt>Guests<\/dt><dd>25 to 45 guests<\/dd>/);
   assert.match(block(four, "join-in-longtail"), /<dt>Guests<\/dt><dd>25 to 35 guests<\/dd>/);
   assert.doesNotMatch(block(four, "private-longtail"), /<dt>Guests<\/dt>|25 to (35|45)/);
-  assert.match(site("tours/koh-rok-koh-haa/index.html"), /<dt>Guests per boat<\/dt><dd>Join-in speedboat and the later sunset trip: 25 to 45 guests<\/dd>/);
-  assert.match(site("tours/koh-phi-phi/index.html"), /<dt>Guests per boat<\/dt><dd>Join-in speedboat: 25 to 45 guests<\/dd>/);
+  assert.match(site("tours/koh-rok-koh-haa/index.html"), /<dt>Guests per boat<\/dt><dd>Day trip and sunset trip: 25 to 45 guests<\/dd>/);
+  assert.match(site("tours/koh-phi-phi/index.html"), /<dt>Guests per boat<\/dt><dd>Day trip: 25 to 45 guests<\/dd>/);
   // Aucune capacité sur les tours privés, les radeaux ni les sorties en mangrove.
   for (const s of ["fishing-trip", "sunrise-raft", "sunset-dinner-raft", "mangroves"]) assert.doesNotMatch(site(`tours/${s}/index.html`), /25 to (35|45) guests/, s);
 });
