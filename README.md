@@ -10,7 +10,7 @@ Domaine : https://secrettravelandtour.com. Généré avec Eleventy 3, hébergé 
 | VIP Taxi Lanta, formulaire WhatsApp | `/taxi/` |
 | Une page par trajet | `/taxi/<trajet>/` |
 
-Les contenus vivent dans `src/_data` : `secret.json`, `secretPagesContent.json`, `taxi.json`, `taxiRoutes.json`.
+Les contenus vivent dans `src/_data` : une fiche par page dans `products/`, plus `secret.json`, `taxi.json` et `taxiRoutes.json`.
 Les formulaires rédigent un message WhatsApp, rien n'est envoyé à un serveur.
 
 ```bash
