@@ -81,9 +81,9 @@ for (const [slug, noms] of Object.entries(NOMS)) {
 test("rien n'est perdu des anciennes notes : groupe, enfants, ponton, Koh Rok seul, Maya Bay", () => {
   const phi = P("koh-phi-phi"), rok = P("koh-rok-koh-haa");
   const note = (p, id) => p.options.find((o) => o.id === id).note;
-  for (const s of ["Children from 4 count in the group size, under 4 do not.", "we send you the price on WhatsApp", "Available when the national park is open."]) assert.ok(note(phi, "private-longtail").includes(s), s);
+  for (const s of ["Children from 4 count in the group size, under 4 do not.", "we reply with the price for your day", "Available when the national park is open."]) assert.ok(note(phi, "private-longtail").includes(s), s);
   assert.match(note(phi, "small-group-sunset"), /Maya Bay is not on this programme\./);
-  for (const s of ["From Lanta Old Town pier.", "Koh Rok by longtail only runs as a private trip.", "Koh Rok only, 08:00 to 16:00, about 1 hr 30 min each way.", "Children from 4 count in the group size, under 4 do not.", "we send you the price on WhatsApp"]) assert.ok(note(rok, "private-longtail").includes(s), s);
+  for (const s of ["From Lanta Old Town pier.", "Koh Rok by longtail only runs as a private trip.", "Koh Rok only, 08:00 to 16:00, about 1 hr 30 min each way.", "Children from 4 count in the group size, under 4 do not.", "we reply with the price for your day"]) assert.ok(note(rok, "private-longtail").includes(s), s);
   assert.match(note(rok, "sunset"), /private car.*Koh Haa lagoon.*17:50/);
   for (const p of [phi, rok]) assert.match(note(p, "small-group-sunset"), /between 18:30 and 20:00/);
   // Le détail de l'option choisie s'affiche dans le sélecteur.

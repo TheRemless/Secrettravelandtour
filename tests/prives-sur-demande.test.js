@@ -82,3 +82,16 @@ test("4 Islands : Koh Kradan se demande dans la feuille, sans montant", () => {
   assert.match(msg, /\nKoh Kradan: Add Koh Kradan to the day\n/);
   assert.doesNotMatch(msg, /THB/);
 });
+
+// Jérémy, 18.11.2026 : la raison interne (hausse des prix en haute saison) ne s'affiche jamais au client.
+test("bateaux privés : aucune mention de hausse de prix ni de haute saison dans les notes des options privées", () => {
+  const fs = require("node:fs");
+  const path = require("node:path");
+  for (const slug of ["4-islands", "koh-phi-phi", "koh-rok-koh-haa"]) {
+    const p = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "src", "_data", "products", "tours", `${slug}.json`), "utf8"));
+    for (const o of p.options.filter((x) => x.kind === "private" || /private/i.test(x.id))) {
+      assert.doesNotMatch(o.note || "", /high season|go up/i, `${slug} ${o.id}`);
+    }
+    for (const f of p.faq || []) assert.doesNotMatch(f.a || "", /prices? for private boats go up/i, slug);
+  }
+});

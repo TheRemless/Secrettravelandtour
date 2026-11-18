@@ -32,7 +32,7 @@ for (const slug of ["4-islands", "koh-phi-phi", "koh-rok-koh-haa"]) {
     assert.deepEqual(o.notIncludedFees, p.options.find((x) => x.id === "private-longtail").notIncludedFees);
     assert.ok(o.note.startsWith(SUB + "."));
     assert.match(o.note, /two 200 hp Yamaha engines and takes up to 20 passengers plus the crew/);
-    assert.match(o.note, /we send you the price on WhatsApp/);
+    assert.match(o.note, /we reply with the price for your day/);
     // Rien d'inventé : ni groupe minimum, ni jours, ni saison propre.
     assert.doesNotMatch(o.note + p.includedByOption[ID].join(" "), /minimum|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|daily|October|May\b/i);
     assert.equal(price.estimate(o, 2, [], []), null);
