@@ -33,7 +33,7 @@ const CARD_PHOTO = {
 // Une fiche absente de cette liste n'a pas de galerie. Les photos sont réparties par splitPhotos : la mosaïque du
 // bloc « How the day goes » (ou de la bande de photos sans journée), puis une ou deux à côté des infos pratiques.
 const GALLERY = {
-  atv: ["gal-atv-viewpoint-line", "gal-atv-riders", "gal-atv-group-viewpoint"],
+  atv: ["gal-atv-water-splash", "gal-atv-forest-trail", "gal-atv-practice-track", "gal-atv-child-front", "gal-atv-sand-splash"],
   "go-kart": ["gal-kart-driver", "gal-kart-double-red", "gal-kart-double-teal", "gal-kart-corner", "gal-kart-koi"],
   "cooking-class": ["gal-cooking-market", "gal-cooking-mortar", "gal-cooking-class-room", "gal-cooking-spring-rolls", "gal-cooking-carving"],
   batik: ["gal-batik-large-canvas", "gal-batik-fish", "gal-batik-sun-canvas", "gal-batik-whale-shark", "gal-batik-mandala"],

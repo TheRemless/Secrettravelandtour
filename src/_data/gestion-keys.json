@@ -23,45 +23,61 @@
   "prestation": "2d5e7b44-47b2-5482-a65c-ac4f3479deb2",
   "gestion": "P3: ATV 1h + Kayak 1h Thung Yee Peng, driver"
  },
- "atv|1 hour of ATV and 1 hour of kayak|Child passenger, 4 to 12": {
+ "atv|1 hour of ATV and 1 hour of kayak|Child passenger": {
   "prestation": "edd0bb41-48ee-57ca-a006-a782114e96b2",
   "gestion": "P3: ATV 1h + Kayak 1h Thung Yee Peng, passenger child (4-12)"
  },
- "atv|1 hour of ATV and 1 hour of kayak|Child rider, 6 to 12": {
+ "atv|1 hour of ATV and 1 hour of kayak|Child rider": {
   "prestation": "7941f991-12fd-5d02-a376-32b9db20cb3d",
   "gestion": "P3: ATV 1h + Kayak 1h Thung Yee Peng, driver child (6-12)"
  },
- "atv|1 hour, forest and viewpoint|Adult passenger": {
-  "prestation": "6efaea15-a891-573d-a59a-da5935dc8718",
-  "gestion": "P2: ATV 1 hour (forest & viewpoint), passenger"
+ "atv|1 hour to Lung Sod Beach|Adult passenger": {
+  "prestation": "34e877a6-830b-4da5-add6-6f8528c4281b",
+  "gestion": "T2: ATV 1 hour (Koh Lanta Noi, Lung Sod Beach), passenger"
  },
- "atv|1 hour, forest and viewpoint|Adult rider": {
-  "prestation": "bc64fa51-b6af-528f-a026-102e22e80823",
-  "gestion": "P2: ATV 1 hour (forest & viewpoint), driver"
+ "atv|1 hour to Lung Sod Beach|Adult rider": {
+  "prestation": "656886ad-0402-40c0-9142-7a785165a99e",
+  "gestion": "T2: ATV 1 hour (Koh Lanta Noi, Lung Sod Beach), driver"
  },
- "atv|1 hour, forest and viewpoint|Child passenger, 4 to 12": {
-  "prestation": "e3de51b5-f16c-5d2e-ace8-9aaa6b4974b5",
-  "gestion": "P2: ATV 1 hour (forest & viewpoint), passenger child (4-12)"
+ "atv|1 hour to Lung Sod Beach|Child passenger": {
+  "prestation": "f6bb9c2f-86a0-4c48-8446-4004b9b50606",
+  "gestion": "T2: ATV 1 hour (Koh Lanta Noi, Lung Sod Beach), passenger child (3-12)"
  },
- "atv|1 hour, forest and viewpoint|Child rider, 6 to 12": {
-  "prestation": "7addd7fd-d610-53fb-aaf4-a1098a004433",
-  "gestion": "P2: ATV 1 hour (forest & viewpoint), driver child (6-12)"
+ "atv|1 hour to Lung Sod Beach|Child rider": {
+  "prestation": "696bcf75-5279-42bc-90ed-bdadcea573ac",
+  "gestion": "T2: ATV 1 hour (Koh Lanta Noi, Lung Sod Beach), driver child (5-12)"
+ },
+ "atv|2 hours, beach and bridge|Adult passenger": {
+  "prestation": "8283627d-c415-4629-a1f7-9c76f1285b94",
+  "gestion": "T3: ATV 2 hours (Lung Sod Beach & Siri Lanta Bridge), passenger"
+ },
+ "atv|2 hours, beach and bridge|Adult rider": {
+  "prestation": "5527eb20-1b91-477c-9812-31f41c1d8f16",
+  "gestion": "T3: ATV 2 hours (Lung Sod Beach & Siri Lanta Bridge), driver"
+ },
+ "atv|2 hours, beach and bridge|Child passenger": {
+  "prestation": "d8368cba-a583-453b-9b64-3853f23822ba",
+  "gestion": "T3: ATV 2 hours (Lung Sod Beach & Siri Lanta Bridge), passenger child (3-12)"
+ },
+ "atv|2 hours, beach and bridge|Child rider": {
+  "prestation": "dd321049-07d4-4016-bc6c-a571567dd860",
+  "gestion": "T3: ATV 2 hours (Lung Sod Beach & Siri Lanta Bridge), driver child (5-12)"
  },
  "atv|30 minutes on a closed track|Adult passenger": {
-  "prestation": "e7e25a51-8601-50ad-a71d-e516cafd35a9",
-  "gestion": "P1: ATV 30 mins (safe track), passenger"
+  "prestation": "5fb2332a-3778-49fb-8aef-af0f4657128e",
+  "gestion": "T1: ATV 30 mins (practice track), passenger"
  },
  "atv|30 minutes on a closed track|Adult rider": {
-  "prestation": "fee7ddc1-7d15-5a89-a328-b5d5f4f8ab7f",
-  "gestion": "P1: ATV 30 mins (safe track), driver"
+  "prestation": "423ac437-5ee2-46f5-878a-d04c49a8a76a",
+  "gestion": "T1: ATV 30 mins (practice track), driver"
  },
- "atv|30 minutes on a closed track|Child passenger, 4 to 12": {
-  "prestation": "4db8b9d3-52f7-5a95-a4f9-a466db97e485",
-  "gestion": "P1: ATV 30 mins (safe track), passenger child (4-12)"
+ "atv|30 minutes on a closed track|Child passenger": {
+  "prestation": "e5d47e79-6e3d-4034-a900-c3489cadc364",
+  "gestion": "T1: ATV 30 mins (practice track), passenger child (3-12)"
  },
- "atv|30 minutes on a closed track|Child rider, 6 to 12": {
-  "prestation": "e80a578e-04dd-58ba-a15b-fecd3fd37af0",
-  "gestion": "P1: ATV 30 mins (safe track), driver child (6-12)"
+ "atv|30 minutes on a closed track|Child rider": {
+  "prestation": "482235fd-65a7-4daa-b506-c7ff1f68a267",
+  "gestion": "T1: ATV 30 mins (practice track), driver child (5-12)"
  },
  "batik|Kayaking and painting|Adult": {
   "prestation": "f7eef8a4-f3ac-53ae-a335-b8f48559ff45",
@@ -481,18 +497,6 @@
   "gestion": null,
   "note": "idem"
  },
- "scuba-diving|Special trips by catamaran, 3 dives|Deep adventure dive, on top of a special trip": {
-  "prestation": "9bb538f7-62ed-514a-a9fb-3259885f43c6",
-  "gestion": "Deep Adventure Dive, on top of a special trip"
- },
- "scuba-diving|Special trips by catamaran, 3 dives|Northern trip, back at 4.30 pm": {
-  "prestation": "549e2aae-2dd0-5dde-a4f9-bdf545234036",
-  "gestion": "Northern trip, 3 dives (back at 4.30 pm)"
- },
- "scuba-diving|Special trips by catamaran, 3 dives|Southern trip, back at 5 pm": {
-  "prestation": "e44f254f-730a-5954-acd2-0e1b7e113cf0",
-  "gestion": "Southern trip, 3 dives (back at 5 pm)"
- },
  "scuba-diving|Snorkelling on the dive boat|Adult, from age 12": {
   "prestation": "795909b5-cb85-50f7-a688-a0b199caef73",
   "gestion": "Snorkelling on the dive boat"
@@ -504,6 +508,18 @@
  "scuba-diving|Snorkelling on the dive boat|Nanny on board for your children": {
   "prestation": "6e11b321-8c84-5371-ad33-9b7f72b86b3a",
   "gestion": "Nanny on board for your children"
+ },
+ "scuba-diving|Special trips by catamaran, 3 dives|Deep adventure dive, on top of a special trip": {
+  "prestation": "9bb538f7-62ed-514a-a9fb-3259885f43c6",
+  "gestion": "Deep Adventure Dive, on top of a special trip"
+ },
+ "scuba-diving|Special trips by catamaran, 3 dives|Northern trip, back at 4.30 pm": {
+  "prestation": "549e2aae-2dd0-5dde-a4f9-bdf545234036",
+  "gestion": "Northern trip, 3 dives (back at 4.30 pm)"
+ },
+ "scuba-diving|Special trips by catamaran, 3 dives|Southern trip, back at 5 pm": {
+  "prestation": "e44f254f-730a-5954-acd2-0e1b7e113cf0",
+  "gestion": "Southern trip, 3 dives (back at 5 pm)"
  },
  "sunrise-raft|Private raft at sunrise|1 or 2 people, the raft": {
   "prestation": "bcdf0c72-7a4a-5485-a4b0-2c98e1892f83",
@@ -581,14 +597,14 @@
   "prestation": "58252c98-7e6c-57b5-ae50-bb8c566a06e5",
   "gestion": "Krabi Airport"
  },
- "taxi|phuket-airport-ao-nang|from": {
-  "prestation": "27eff8cc-79d2-59e1-ad77-d3d316d80b13",
-  "gestion": "Phuket Airport to Ao Nang"
- },
  "taxi|krabi-khao-sok|from": {
   "prestation": null,
   "gestion": null,
   "note": "Pas encore de prestation dans Gestion. Prix donné par Jérémy le 12.11.2026 : Krabi → Khao Sok 2 800 THB par véhicule. À créer dans Gestion puis à relier ici."
+ },
+ "taxi|phuket-airport-ao-nang|from": {
+  "prestation": "27eff8cc-79d2-59e1-ad77-d3d316d80b13",
+  "gestion": "Phuket Airport to Ao Nang"
  },
  "taxi|phuket-airport-khao-lak|from": {
   "prestation": "ed90dacf-cf27-58e1-ab10-1f681c3682b3",
