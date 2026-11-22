@@ -47,18 +47,18 @@ test("le programme du privé a ses horaires approximatifs et la mention de la ma
 });
 
 test("annulation : 12 heures pour les deux formules, sur la fiche et sur /cancellation/", () => {
-  assert.match(P.beforeYouBook.cancellation, /^Day trip and private longtail: .*at least 12 hours/);
+  assert.match(P.beforeYouBook.cancellation, /^Day trip, sunset trip and private longtail: .*at least 12 hours/);
   const page = fs.readFileSync(path.join(ROOT, "_site", "cancellation", "index.html"), "utf8");
-  assert.match(page, /Day trip and private longtail: tell us at least 12 hours before departure/);
+  assert.match(page, /Day trip, sunset trip and private longtail: tell us at least 12 hours before departure/);
 });
 
 test("JSON-LD : une offre par option à prix, aucune pour le privé sur demande, aucun nom de prestataire", () => {
   const ld = [...html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)].map((m) => JSON.parse(m[1]));
   const trip = ld.flatMap((b) => (b["@graph"] ? b["@graph"] : [b])).find((x) => x["@type"] === "TouristTrip");
   const offers = trip.offers;
-  // Petit groupe au coucher du soleil (brochure du 17.11.2026) : troisième offre, entre le join-in et le privé.
+  // Sortie au coucher du soleil (flyer du 22.11.2026) : seconde offre, après le join-in.
   assert.equal(offers.length, 2);
-  assert.deepEqual(offers.map((o) => [o.name, o.priceSpecification.minPrice]), [["Day trip", 2000], ["Full-day sunset trip", 3900]]);
+  assert.deepEqual(offers.map((o) => [o.name, o.priceSpecification.minPrice]), [["Day trip", 2000], ["Sunset trip", 2900]]);
   assert.doesNotMatch(JSON.stringify(trip), /Private longtail|9,?400/);
   assert.doesNotMatch(JSON.stringify(P) + html, /monkey lanta|monkey-lanta|\+66 ?95 ?540|3179|rattana/i);
 });

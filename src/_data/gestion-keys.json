@@ -218,13 +218,13 @@
   "prestation": "264bc47b-67a7-5261-ad0f-275187939068",
   "gestion": "One Day Trip Koh Phi Phi + Bamboo Island, child (4-11)"
  },
- "koh-phi-phi|Full-day sunset trip|Adult": {
-  "prestation": "c0a0922b-e30c-44bc-b029-a131f65e36ba",
-  "gestion": "Lazy Day Sunset Trip Koh Phi Phi + Bamboo Island"
+ "koh-phi-phi|Sunset trip|Adult": {
+  "prestation": "133fe67c-74c4-4b4b-a8a9-a1e7aa927d1e",
+  "gestion": "Phi Phi Bamboo Island + Sunset"
  },
- "koh-phi-phi|Full-day sunset trip|Child, 4 to 11": {
-  "prestation": "5f4e4bfa-7bd3-4fef-9b82-c76d419ec1d6",
-  "gestion": "Lazy Day Sunset Trip Koh Phi Phi + Bamboo Island, child (4-11)"
+ "koh-phi-phi|Sunset trip|Child, 4 to 11": {
+  "prestation": "ef164c6d-7244-4f59-8c3e-59d8563e18d0",
+  "gestion": "Phi Phi Bamboo Island + Sunset, child (4-11)"
  },
  "koh-rok-koh-haa|Day trip|Adult": {
   "prestation": "e54ec997-a2bf-5bb1-ac02-9531e46d1e25",
@@ -235,20 +235,12 @@
   "gestion": "One Day Trip Koh Rok + Koh Ha, child (4-11)"
  },
  "koh-rok-koh-haa|Sunset trip|Adult": {
-  "prestation": "2cad3d50-b06d-5859-acb6-c532055059f4",
-  "gestion": "One Day Trip Koh Rok + Koh Ha Sunset"
+  "prestation": "494841cb-8693-46c4-8dcc-1a7ba51a4b1e",
+  "gestion": "Rok Haa Island + Sunset"
  },
  "koh-rok-koh-haa|Sunset trip|Child, 4 to 11": {
-  "prestation": "75b3030a-afa1-530b-a670-75adfe1d149f",
-  "gestion": "One Day Trip Koh Rok + Koh Ha Sunset, child (4-11)"
- },
- "koh-rok-koh-haa|Full-day sunset trip|Adult": {
-  "prestation": "2558da12-6885-45f5-8d1a-3737389b1183",
-  "gestion": "Lazy Day Sunset Trip Koh Rok + Koh Haa"
- },
- "koh-rok-koh-haa|Full-day sunset trip|Child, 4 to 11": {
-  "prestation": "44294cf2-7e04-4b1b-8c3c-273c9f917187",
-  "gestion": "Lazy Day Sunset Trip Koh Rok + Koh Haa, child (4-11)"
+  "prestation": "5a90e9ef-a6c4-4dd3-9ca4-59a68df5716a",
+  "gestion": "Rok Haa Island + Sunset, child (4-11)"
  },
  "mangrove-kayaking|Mangrove kayaking with lunch, half day|Adult": {
   "prestation": "ce8219f2-a2d6-5ccd-a3b8-017f5202c345",

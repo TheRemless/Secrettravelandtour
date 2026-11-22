@@ -120,60 +120,16 @@
       "label": "Sunset trip",
       "kind": "join-in",
       "boat": "speedboat",
-      "note": "Pickup at 10:00, sunset cruise home. By private car from your hotel, Koh Rok and the Koh Haa lagoon, then back to Koh Lanta at 17:50.",
+      "note": "Pickup at 10:00, sunset cruise home. By car from your hotel, Koh Rok and the Koh Haa lagoon, then back to Koh Lanta at 17:50.",
       "prices": [
         {
           "label": "Adult",
-          "amount": 2500,
-          "unit": "per person"
-        },
-        {
-          "label": "Child, 4 to 11",
-          "amount": 1800,
-          "ages": {
-            "min": 4,
-            "max": 11
-          },
-          "unit": "per person"
-        }
-      ],
-      "notIncludedFees": [
-        {
-          "label": "National park fee, adult",
-          "amount": 400,
-          "unit": "per person",
-          "note": "Cash, paid to the ranger on the island",
-          "ages": {
-            "min": 12
-          }
-        },
-        {
-          "label": "National park fee, child",
-          "amount": 200,
-          "unit": "per person",
-          "note": "Cash, paid to the ranger on the island",
-          "ages": {
-            "min": 4,
-            "max": 11
-          }
-        }
-      ]
-    },
-    {
-      "id": "small-group-sunset",
-      "label": "Full-day sunset trip",
-      "kind": "join-in",
-      "boat": "speedboat",
-      "note": "Pickup at 08:30, lunch with wine, home after sunset. Koh Rok and the Koh Haa lagoon, back at your hotel between 18:30 and 20:00.",
-      "prices": [
-        {
-          "label": "Adult",
-          "amount": 3900,
-          "unit": "per person"
-        },
-        {
-          "label": "Child, 4 to 11",
           "amount": 2900,
+          "unit": "per person"
+        },
+        {
+          "label": "Child, 4 to 11",
+          "amount": 1900,
           "ages": {
             "min": 4,
             "max": 11
@@ -311,48 +267,11 @@
       "steps": [
         {
           "time": "10:00",
-          "text": "Pickup at your hotel by private car."
+          "text": "Pickup at your hotel by car."
         },
         {
-          "time": "11:00",
-          "text": "The boat leaves Koh Lanta for Koh Rok, with snacks on the way."
-        },
-        {
-          "time": "12:00",
-          "text": "The first snorkelling stop at Koh Rok: coral reefs and tropical fish."
-        },
-        {
-          "time": "13:30",
-          "text": "Thai buffet lunch on the beach, then time to swim, sunbathe or snorkel from the shore."
-        },
-        {
-          "time": "15:30",
-          "text": "The second snorkelling stop."
-        },
-        {
-          "time": "16:30",
-          "text": "The Koh Haa lagoon."
-        },
-        {
-          "time": "17:50",
-          "text": "Sunset cruise back to Koh Lanta with soft drinks on board, then the transfer to your hotel."
-        }
-      ],
-      "note": "Times are approximate and change with the tide and the weather."
-    },
-    {
-      "options": [
-        "small-group-sunset"
-      ],
-      "title": "How the day goes (full-day sunset trip)",
-      "steps": [
-        {
-          "time": "08:30",
-          "text": "Pickup at your hotel, then by van to Hua Hin Pier."
-        },
-        {
-          "time": "10:00",
-          "text": "The boat leaves the pier, with snacks on the way."
+          "time": "10:40",
+          "text": "The boat leaves Koh Lanta for Koh Rok, with snacks and a view over the Andaman Sea."
         },
         {
           "time": "12:00",
@@ -368,15 +287,11 @@
         },
         {
           "time": "16:30",
-          "text": "The boat leaves Koh Rok for the Koh Haa lagoon."
+          "text": "The boat leaves Koh Rok for the calm, clear lagoon of Koh Haa."
         },
         {
           "time": "17:50",
-          "text": "Back to Koh Lanta, watching the sunset with soft drinks on board."
-        },
-        {
-          "time": "18:30",
-          "text": "The transfer back to your hotel, between 18:30 and 20:00."
+          "text": "Back to Koh Lanta, watching the sunset with soft drinks on board, then the car to your hotel."
         }
       ],
       "note": "Times are approximate and change with the tide and the weather."
@@ -388,14 +303,13 @@
     "Light breakfast at the pier on the day trip",
     "Masks, snorkels and life jackets",
     "Guide, English-speaking on the day trip",
-    "Insurance",
-    "On the sunset trip: snacks on the way out, soft drinks on the sunset cruise"
+    "Insurance"
   ],
   "notIncluded": [
     "National park fee, paid in cash on the island"
   ],
   "beforeYouBook": {
-    "pickup": "Day trip: pickup at your hotel around 08:00, then a light breakfast at Lanta Old Town pier. Sunset trip: pickup at 10:00 by private car, snacks on the boat, no breakfast. Full-day sunset trip: pickup at 08:30, then by van to Hua Hin Pier. Private longtail: no breakfast, we set the pickup time with you. Private speedboat: pickup at your hotel at the time you choose.",
+    "pickup": "Day trip: pickup at your hotel around 08:00, then a light breakfast at Lanta Old Town pier. Sunset trip: pickup at 10:00 by car, snacks on the boat, no breakfast. Private longtail: no breakfast, we set the pickup time with you. Private speedboat: pickup at your hotel at the time you choose.",
     "bring": [
       "Cash for the national park fee"
     ],
@@ -425,7 +339,7 @@
     },
     {
       "q": "Which trip should I pick?",
-      "a": "The day trip leaves Koh Haa at 15:30. Two trips come back at sunset: the sunset trip picks you up at 10:00, with 25 to 45 guests on the boat; the full-day sunset trip picks you up at 08:30, includes wine and has a guide who speaks English or Chinese. The private longtail goes to Koh Rok only, for your group. The private speedboat is yours for the day: you choose the departure time and you are back by 16:00 at the latest."
+      "a": "The day trip leaves Koh Haa at 15:30. The sunset trip picks you up at 10:00 and comes back at sunset, with 25 to 45 guests on the boat. The private longtail goes to Koh Rok only, for your group. The private speedboat is yours for the day: you choose the departure time and you are back by 16:00 at the latest."
     }
   ],
   "photos": [
@@ -666,16 +580,19 @@
     {
       "field": "options[private-speedboat], includedByOption[private-speedboat], lead, faq[Which trip should I pick?], beforeYouBook",
       "from": "Message d'Anaïs du 18.11.2026 (nouvelle partenaire, sorties privées seulement) : bateau à deux moteurs Yamaha 200, 20 passagers plus l'équipage, départ à l'heure choisie par le client, retour au plus tard à 16:00, inclus (transferts hôtel-ponton, équipage, guide de snorkeling sur demande, masque tuba gilets, déjeuner sur menu, fruits, eau, électrolytes, boissons sans alcool, coupe de glace, kit oxygène, trousse de secours, briefing récif). Décisions de Jérémy du 18.11.2026 : programme libre, option sur chaque page de destination, prix sur WhatsApp. Frais de parc : ceux déjà affichés sur la page (la partenaire dit 200 THB par snorkeleur). Tarif Gestion « Private speedboat, custom day » (e1c1818e-ead0-4b8c-bc68-364fb9cf0007), sans prix. Saison : celle de la fiche."
+    },
+    {
+      "field": "options[sunset].note, options[sunset].prices, day[sunset], includedByOption[sunset], included, beforeYouBook.pickup, faq[Which trip should I pick?] ; options[small-group-sunset] et day[small-group-sunset] retirés",
+      "from": "Flyer du partenaire « Rok Haa Island + Sunset » transmis par Jérémy le 22.11.2026 (départ de Koh Lanta) : nouvelle version de l'affiche du 09.11.2026, adulte 2 900, enfant de 4 à 11 ans 1 900, programme 10.00 pick-up en voiture, 10.40 départ, 12.00 Koh Rok, 13.30 buffet thaï sur la plage, 15.30 snorkeling, 16.30 Koh Ha, 17.50 retour avec soft drinks à bord, « program and timing approximate […] tide and local weather conditions ». Il remplace aussi la sortie en petit groupe du 17.11.2026 (autre ponton). Compris limité à ce que dit le flyer. Aucun prix sous 4 ans : rien d'écrit. Annulation, taille du bateau et frais de parc : ceux déjà sur la fiche."
     }
   ],
   "refPrefix": "ROK",
   "includedByOption": {
-    "small-group-sunset": [
-      "Hotel transfer both ways, by van",
-      "Lunch, soft drinks, wine and fruit",
-      "Snorkelling equipment",
-      "An experienced local guide who speaks English or Chinese",
-      "Insurance"
+    "sunset": [
+      "Hotel pickup and return by car",
+      "Snacks on the boat",
+      "Thai buffet lunch on the beach of Koh Rok",
+      "Soft drinks on board on the way back"
     ],
     "private-speedboat": [
       "Hotel transfer to the pier and back",

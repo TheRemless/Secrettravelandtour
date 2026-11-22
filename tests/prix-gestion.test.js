@@ -13,7 +13,8 @@ const load = () => import(pathToFileURL(path.join(__dirname, "..", "scripts", "p
 test("chaque ligne de prix du site (hors frais de parc) porte une clé vers Gestion", async () => {
   const { siteRows } = await load();
   const rows = siteRows();
-  assert.ok(rows.length > 150, String(rows.length));
+  // 149 lignes depuis le 22.11.2026 : la sortie en petit groupe du 17.11.2026 retirée de Koh Rok (deux lignes).
+  assert.ok(rows.length > 140, String(rows.length));
   const missing = rows.filter((r) => !KEYS[r.key]).map((r) => r.key);
   assert.ok(rows.some((r) => r.key === "taxi|koh-lanta-krabi-day-trip|from" && r.amount === 3500), "l'excursion vers Krabi est contrôlée");
   assert.deepEqual(missing, []);

@@ -17,19 +17,18 @@ const cfgOf = (doc) => JSON.parse(doc.match(/<script type="application\/json" id
 const NOMS = {
   "koh-phi-phi": {
     "join-in-speedboat": ["Day trip", "Shared speedboat, back in the afternoon"],
-    "small-group-sunset": ["Full-day sunset trip", "Pickup at 08:30, lunch with wine, home after sunset"],
+    sunset: ["Sunset trip", "Pickup at 10:00, sunset cruise home"],
     "private-longtail": ["Private longtail", "The whole boat for your group"]
   },
   "koh-rok-koh-haa": {
     "join-in-speedboat": ["Day trip", "Shared speedboat, back in the afternoon"],
     sunset: ["Sunset trip", "Pickup at 10:00, sunset cruise home"],
-    "small-group-sunset": ["Full-day sunset trip", "Pickup at 08:30, lunch with wine, home after sunset"],
     "private-longtail": ["Private longtail", "The whole boat for your group"]
   }
 };
 const PRIX = {
-  "koh-phi-phi": { "join-in-speedboat": [2000, 1000, 0], "small-group-sunset": [3900, 2900], "private-longtail": [] },
-  "koh-rok-koh-haa": { "join-in-speedboat": [2000, 1000, 0], sunset: [2500, 1800], "small-group-sunset": [3900, 2900], "private-longtail": [] }
+  "koh-phi-phi": { "join-in-speedboat": [2000, 1000, 0], sunset: [2900, 1900], "private-longtail": [] },
+  "koh-rok-koh-haa": { "join-in-speedboat": [2000, 1000, 0], sunset: [2900, 1900], "private-longtail": [] }
 };
 const ANCIENS = /small[ -]group|join-in speedboat|later trip|later sunset|private longtail to koh rok/i;
 
@@ -55,8 +54,8 @@ for (const [slug, noms] of Object.entries(NOMS)) {
       assert.ok(t.includes(label), label);
       assert.ok(t.includes(sub), sub);
     }
-    // L'id « small-group-sunset » reste dans les attributs (ids inchangés) : le contrôle porte sur tout le reste, JSON-LD compris.
-    assert.doesNotMatch(doc.replace(/small-group-sunset/g, ""), ANCIENS);
+    // Contrôle sur toute la page, JSON-LD compris (l'option « small-group-sunset » est retirée le 22.11.2026).
+    assert.doesNotMatch(doc, ANCIENS);
   });
 
   test(`${slug} : la feuille, le message WhatsApp et la copie Gestion portent les nouveaux noms`, () => {
@@ -82,12 +81,11 @@ test("rien n'est perdu des anciennes notes : groupe, enfants, ponton, Koh Rok se
   const phi = P("koh-phi-phi"), rok = P("koh-rok-koh-haa");
   const note = (p, id) => p.options.find((o) => o.id === id).note;
   for (const s of ["Children from 4 count in the group size, under 4 do not.", "we reply with the price for your day", "Available when the national park is open."]) assert.ok(note(phi, "private-longtail").includes(s), s);
-  assert.match(note(phi, "small-group-sunset"), /Maya Bay is not on this programme\./);
+  assert.match(note(phi, "sunset"), /Maya Bay is not on this programme\./);
   for (const s of ["From Lanta Old Town pier.", "Koh Rok by longtail only runs as a private trip.", "Koh Rok only, 08:00 to 16:00, about 1 hr 30 min each way.", "Children from 4 count in the group size, under 4 do not.", "we reply with the price for your day"]) assert.ok(note(rok, "private-longtail").includes(s), s);
-  assert.match(note(rok, "sunset"), /private car.*Koh Haa lagoon.*17:50/);
-  for (const p of [phi, rok]) assert.match(note(p, "small-group-sunset"), /between 18:30 and 20:00/);
+  for (const p of [phi, rok]) assert.match(note(p, "sunset"), /By car from your hotel.*17:50/);
   // Le détail de l'option choisie s'affiche dans le sélecteur.
   assert.ok(text(html("/tours/koh-rok-koh-haa/")).includes("Koh Rok only, 08:00 to 16:00"));
   assert.ok(text(html("/tours/koh-phi-phi/")).includes("Maya Bay is not on this programme."));
-  assert.match(phi.lead, /full-day sunset trip/);
+  assert.match(phi.lead, /the sunset trip/);
 });

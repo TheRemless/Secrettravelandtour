@@ -145,8 +145,8 @@ test("liste de sorties : un message classé par jour, un prix par sortie, total 
   // Une seule sortie : son total suffit. Une sortie sans total (coucher de soleil, pas de prix enfant) : son prix, pas de total de la liste.
   assert.doesNotMatch(B.buildTripList(cat, { ...list, items: [list.items[0]] }), /all trips/);
   const sunset = B.buildTripList(cat, { ...list, items: [list.items[0], { slug: "koh-rok-koh-haa", option: "sunset", date: "2026-11-22" }] });
-  // Sortie au coucher de soleil : 2 adultes à 2 500 et un enfant à 1 800 (décision du 10.11.2026).
-  assert.ok(sunset.includes("\nKoh Rok & Koh Haa – Sunset trip\nEstimated total: 6,800 THB\n"));
+  // Sortie au coucher de soleil : 2 adultes à 2 900 et un enfant à 1 900 (flyer du 22.11.2026).
+  assert.ok(sunset.includes("\nKoh Rok & Koh Haa – Sunset trip\nEstimated total: 7,700 THB\n"));
   assert.deepEqual(B.sameDayClashes(cat, list.items), [{ date: "2026-11-20", names: ["4 Islands", "Koh Phi Phi"] }]);
   // Les prix du catalogue sont ceux des fiches.
   for (const s of SLUGS) {
