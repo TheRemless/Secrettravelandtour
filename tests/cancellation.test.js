@@ -9,7 +9,7 @@ const SITE = path.join(__dirname, "..", "_site");
 const html = (u) => fs.readFileSync(path.join(SITE, u, "index.html"), "utf8").replace(/&#39;/g, "'");
 const C = require("../src/_data/cancellation.js")();
 const site = require("../src/_data/site.json");
-const PARTENAIRES = /rattana|lacha ?ru|sukho|lanta ?atv|atv adventure|lanta elephant|lanta longtail|lanta batik|lanta kayaking|lanta ?e-?gokart|noom|bundhaya|satun|pakbara speed|blue ?planet|octopusea|at lanta|mr\.? nan/i;
+const PARTENAIRES = /rattana|lacha ?ru|sukho|lanta ?atv|atv adventure|tiger ?atv|lanta elephant|lanta longtail|lanta batik|lanta kayaking|lanta ?e-?gokart|noom|bundhaya|satun|pakbara speed|blue ?planet|octopusea|at lanta|mr\.? nan/i;
 
 test("la page donne la règle de chaque fiche Secret, la même que la ligne Cancellation de la fiche, avec le lien vers la page", () => {
   const items = C.groups.flatMap((g) => g.items).filter((i) => i.slug !== "taxi");

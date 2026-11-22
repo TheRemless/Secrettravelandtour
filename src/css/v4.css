@@ -819,6 +819,11 @@ html:not(.js) .rent__seg, html:not(.js) .sb__seg { display: none; }
 .po--grid, .po--grid.is-sel { background: none; box-shadow: none; }
 .po--grid:not(.is-sel) { display: none; }
 .po--grid .po__note { padding: 0 4px; }
+/* Photo propre à une option (sortie d'un autre partenaire sur la même page) : petite, à gauche de la note. */
+.po--grid.po--ph { display: grid; grid-template-columns: minmax(96px, 200px) 1fr; gap: 12px; align-items: start; }
+.po--grid.po--ph:not(.is-sel) { display: none; }
+.po__ph { border-radius: 10px; overflow: hidden; aspect-ratio: 4 / 3; }
+.po__ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
 /* Groupe et total */
 .calc { position: sticky; top: calc(var(--hd) + 24px); background: var(--white); border-radius: var(--r); padding: 22px; transition: top var(--t3) var(--out); }
 .hd-off .calc { top: 24px; }

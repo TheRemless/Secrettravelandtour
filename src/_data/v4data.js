@@ -33,7 +33,7 @@ const CARD_PHOTO = {
 // Une fiche absente de cette liste n'a pas de galerie. Les photos sont réparties par splitPhotos : la mosaïque du
 // bloc « How the day goes » (ou de la bande de photos sans journée), puis une ou deux à côté des infos pratiques.
 const GALLERY = {
-  atv: ["gal-atv-viewpoint-line", "gal-atv-riders", "gal-atv-group-viewpoint"],
+  atv: ["gal-atv-water-splash", "gal-atv-forest-trail", "gal-atv-practice-track", "gal-atv-child-front", "gal-atv-sand-splash"],
   "go-kart": ["gal-kart-driver", "gal-kart-double-red", "gal-kart-double-teal", "gal-kart-corner", "gal-kart-koi"],
   "cooking-class": ["gal-cooking-market", "gal-cooking-mortar", "gal-cooking-class-room", "gal-cooking-spring-rolls", "gal-cooking-carving"],
   batik: ["gal-batik-large-canvas", "gal-batik-fish", "gal-batik-sun-canvas", "gal-batik-whale-shark", "gal-batik-mandala"],
@@ -344,6 +344,9 @@ module.exports = async function () {
   for (const slug of BOATS.concat(ACTIVITIES).filter((x) => x !== "4-islands")) {
     const page = vp.productPage(product(slug), { ...ctx, hero: await photo(CARD_PHOTO[slug]), group: GROUPS.find((g) => g.slugs.includes(slug)) });
     const gallery = await galleryOf(slug);
+    // Photo propre à une option (options[].photo de la fiche) : la sortie d'un autre partenaire sur la même page
+    // garde sa photo à elle, sur sa carte d'option (quad + kayak, 22.11.2026).
+    for (const o of (page.pick && page.pick.options) || []) if (o.photoId) o.photo = await photo(o.photoId);
     productPages.push({ ...page, gallery, photos: splitPhotos(gallery) });
   }
   // 4 Islands : même gabarit de fiche, bloc « Choose your boat » ; la ligne de chaque bateau dit toutes les îles du tour,
@@ -413,5 +416,7 @@ module.exports = async function () {
   await view.responsive(productPages.map((x) => x.hero), { widths: [480, 640, 768, 960, 1280, 1600], avif: 45, webp: 68 });
   // Galeries : vignettes de 300 à 600 px ; la visionneuse prend la largeur native, toujours ajoutée par responsive().
   await view.responsive(productPages.map((x) => x.gallery).concat([rentalPage.gallery]), { widths: [480, 640, 960], avif: 45, webp: 68 });
+  // Photo d'une option (carte d'option) : petite, à côté de son détail.
+  await view.responsive([productPages.flatMap((x) => ((x.pick && x.pick.options) || []).map((o) => o.photo).filter(Boolean))], { widths: [400, 640], avif: 45, webp: 68 });
   return data;
 };

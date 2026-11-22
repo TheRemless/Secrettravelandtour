@@ -16,7 +16,7 @@ const products = ["tours", "activities"].flatMap((f) => fs.readdirSync(path.join
   .concat(["rental.json", "secret-transfers/speedboat-ferry.json", "secret-transfers/shared-minivan.json"].map((n) => JSON.parse(fs.readFileSync(path.join(DIR, n), "utf8"))));
 const routes = require("../src/_data/taxiPages.js")();
 // Même liste que tests/partenaires.test.js.
-const PARTENAIRES = /rattana|lacha ?ru|sukho|lanta ?atv|atv adventure|lanta elephant|lanta longtail|lanta batik|lanta kayaking|lanta ?e-?gokart|noom|bundhaya|satun|pakbara|at ?lanta vacation|blue ?planet/i;
+const PARTENAIRES = /rattana|lacha ?ru|sukho|lanta ?atv|atv adventure|tiger ?atv|lanta elephant|lanta longtail|lanta batik|lanta kayaking|lanta ?e-?gokart|noom|bundhaya|satun|pakbara|at ?lanta vacation|blue ?planet/i;
 
 test("llms.txt au format llmstxt.org : H1, résumé en citation, sections H2 de liens absolus, date de mise à jour", () => {
   const lines = short.split("\n");

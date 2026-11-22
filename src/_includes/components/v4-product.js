@@ -252,7 +252,8 @@ function pickOf(p, site, opts = {}) {
       what: days[o.id] || [],
       fees: shared.fees || [],
       thai: [],
-      fallback: optionFallback(p, site, o)
+      fallback: optionFallback(p, site, o),
+      photoId: o.photo || ""
     };
   });
   options.forEach((o) => { o.thai = o.fees.filter((f) => /Thai/.test(f.label)); o.fees = o.fees.filter((f) => !/Thai/.test(f.label)); });
