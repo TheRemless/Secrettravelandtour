@@ -64,5 +64,7 @@ Une ou deux photos sur une fiche qui a un déroulé se posent dans la colonne de
 - Gestion ne répond pas : le build garde les prix des fichiers et l'écrit (`[prix Gestion] source indisponible`), sans échouer.
 - Un tarif absent, un prix qui n'est pas un entier, ou un prix plus de deux fois plus haut ou plus bas que le fichier : la ligne garde son prix, le journal le nomme.
 - Une clé `"auto": false` (la ligne du site n'a pas l'unité du tarif, par exemple un prix par personne relié à un tarif pour deux) n'est jamais remplacée.
-- Un montant que garde aussi une autre ligne de la fiche ne change ni le prix d'appel ni les textes (le journal dit « à relire »). Les totaux calculés dans une phrase (« a group of 3 pays 5,700 THB ») ne sont pas recalculés : les relire quand le prix de base change.
+- Un écart de plus de 25 % est appliqué et signalé « à relire ».
+- Le prix d'appel suit sa ligne (la première ligne adulte qui le porte), « From X THB » le suit. Un montant que garde aussi une autre ligne de la fiche ne change pas dans les autres textes (journal « à relire »).
+- Le total des radeaux (« Each extra person adds …, so a group of 3 pays … ») est recalculé et signalé « à relire ». Une fiche qui porte un autre total écrit garde tous ses prix.
 - Les fichiers du dépôt restent la référence de secours : après un changement de prix dans Gestion, les reporter ici quand on touche la fiche (`scripts/prix-gestion.mjs` les liste chaque mois).

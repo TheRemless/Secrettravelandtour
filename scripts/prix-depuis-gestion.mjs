@@ -8,11 +8,16 @@
 //
 // Règles :
 //   * la source ne répond pas, répond mal ou trop lentement : le build garde les prix des fichiers, l'écrit dans le journal et continue ;
-//   * un tarif absent (inactif, sans prix, hors Secret et Taxi), un prix qui n'est pas un entier positif, ou un prix plus de deux fois
+//   * un tarif absent (inactif, sans prix, non publié, hors Secret et Taxi), un prix qui n'est pas un entier positif, ou un prix plus de deux fois
 //     plus haut ou plus bas que celui du fichier (faute de frappe probable) : la ligne garde son prix et le journal le dit ;
 //   * une clé marquée « auto »: false (la ligne du site n'a pas la même unité que le tarif) n'est jamais remplacée ;
-//   * le prix d'appel (price.from) et les textes de la fiche qui citent l'ancien montant (« From 1,000 THB ») suivent, sauf si une autre
-//     ligne de la même fiche garde ce montant (le texte pourrait parler d'elle) : le journal le signale alors.
+//   * un écart de plus de 25 % est appliqué et signalé « à relire » au journal ;
+//   * le prix d'appel (price.from) suit SA ligne (la première ligne adulte qui le porte : « per adult rider » de l'ATV, petit monoplace
+//     10 minutes du go-kart), et « From X THB » le suit ; les autres textes qui citent l'ancien montant suivent, sauf si une autre ligne de
+//     la fiche garde ce montant ; une ligne de même libellé moins chère dans une autre option est signalée « à relire » ;
+//   * un total écrit (« Each extra person adds 1,800 THB, so a group of 3 pays 5,700 THB », radeaux) est recalculé avec la ligne du groupe
+//     et le supplément, si la formule tient sur le fichier, et signalé « à relire » ; une fiche qui porte un autre total écrit garde tous
+//     ses prix (aucun chiffre incohérent en ligne).
 //
 // Modes (STT_PRIX_GESTION) : « ecrire » (par défaut sur Netlify, NETLIFY=true) réécrit les fichiers du build ; « lire » (par défaut
 // ailleurs : poste de travail, CI) dit seulement ce qui changerait ; « 0 » ne lit rien. Le script sort toujours avec le code 0.
@@ -89,42 +94,117 @@ function remplacerTextes(objet, ancien, nouveau, chemin = "", vus = []) {
   return vus;
 }
 
+const enfant = (r) => /child|kid|infant|baby|nanny/i.test(r.label || "") || Boolean(r.ages && typeof r.ages.max === "number" && r.ages.max < 12);
+const adulte = (r) => typeof r.amount === "number" && r.amount > 0 && !r.supplement && !enfant(r);
+
+// Ligne du prix d'appel : la première ligne adulte de la fiche (ni enfant, ni supplément) qui porte price.from. Le prix d'appel suit CETTE
+// ligne, pas le montant : 4 Islands a deux lignes à 1 000 (adulte longtail, enfant speedboat), l'ATV dit « per adult rider » à 1 200 alors
+// que le passager adulte paie 900, le go-kart « small single-seat kart, 10 minutes » à 399 à côté de deux lignes à 499.
+function ligneDuPrixDappel(j) {
+  if (!j.price || typeof j.price.from !== "number") return null;
+  for (const o of j.options || []) for (const r of o.prices || []) if (adulte(r) && r.amount === j.price.from) return { option: o, ligne: r };
+  return null;
+}
+
+// Total écrit dans une phrase : « Each extra person adds 1,800 THB, so a group of 3 pays 5,700 THB. » Formule connue : la ligne du groupe
+// (group.max) plus le supplément (supplement) par personne au-delà. Toute autre phrase de total est inconnue.
+const TOTAL = /Each extra person adds ([\d,]+)[\s\u00a0]?THB, so a group of (\d+) pays ([\d,]+)[\s\u00a0]?THB/;
+const TOTAL_QUELCONQUE = /\b(pays|total|in all|altogether|for the group)\b[^.]*?\d[\d,]*[\s\u00a0]?THB/i;
+const nombre = (t) => Number(String(t).replace(/,/g, ""));
+function totaux(j) {
+  const connus = [];
+  const inconnus = [];
+  const visite = (v, chemin, option) => {
+    if (typeof v === "string") {
+      const m = v.match(TOTAL);
+      if (m) {
+        const base = option && (option.prices || []).find((r) => r.group && typeof r.group.max === "number" && typeof r.amount === "number");
+        const sup = option && (option.prices || []).filter((r) => r.supplement && typeof r.amount === "number");
+        const n = Number(m[2]);
+        if (base && sup.length === 1 && nombre(m[1]) === sup[0].amount && nombre(m[3]) === base.amount + sup[0].amount * (n - base.group.max)) connus.push({ chemin, parent: null, base, sup: sup[0], n });
+        else inconnus.push(chemin);
+      } else if (TOTAL_QUELCONQUE.test(v)) inconnus.push(chemin);
+      return;
+    }
+    if (!v || typeof v !== "object") return;
+    for (const [k, x] of Object.entries(v)) {
+      if (TEXTES_IGNORES.has(k)) continue;
+      visite(x, chemin ? `${chemin}.${k}` : k, option || (Array.isArray(v) && v === j.options ? x : null));
+    }
+  };
+  for (const [k, x] of Object.entries(j)) if (!TEXTES_IGNORES.has(k)) visite(x, k, null);
+  return { connus, inconnus };
+}
+const lireChemin = (j, chemin) => chemin.split(".").reduce((o, k) => (o == null ? o : o[k]), j);
+const ecrireChemin = (j, chemin, v) => { const c = chemin.split("."); const d = c.pop(); c.reduce((o, k) => o[k], j)[d] = v; };
+
 // Remplace en place, dans `fichiers`, les prix que Gestion donne (`prix` : Map identifiant → prix de vente). Rend le compte rendu.
 export function appliquer({ fichiers, keys, prix }) {
   const changements = [];
   const gardes = [];
   const textes = [];
-  const touches = new Set();
+  const alertes = [];
   const toutes = lignes(fichiers);
+  // Avant tout remplacement : ligne du prix d'appel et totaux écrits, fiche par fiche.
+  const avant = new Map();
+  for (const [fichier, j] of Object.entries(fichiers)) avant.set(fichier, { appel: ligneDuPrixDappel(j), totaux: totaux(j), from: j.price && j.price.from });
   for (const l of toutes) {
     const k = keys[l.key];
     if (!k || !k.prestation || k.auto === false) continue;
     const ancien = l.objet[l.champ];
-    if (!prix.has(k.prestation)) { gardes.push({ key: l.key, ancien, motif: "tarif absent de Gestion (inactif, sans prix ou hors Secret et Taxi)" }); continue; }
+    if (!prix.has(k.prestation)) { gardes.push({ key: l.key, ancien, motif: "tarif absent de Gestion (inactif, sans prix ou non publié)" }); continue; }
     const brut = prix.get(k.prestation);
     const nouveau = Number(brut);
     if (!Number.isInteger(nouveau) || nouveau <= 0) { gardes.push({ key: l.key, ancien, motif: `prix de Gestion inutilisable (${brut})` }); continue; }
     if (nouveau === ancien) continue;
     if (nouveau > ancien * 2 || nouveau * 2 < ancien) { gardes.push({ key: l.key, ancien, motif: `Gestion donne ${nouveau}, plus du double ou moins de la moitié : à vérifier dans Gestion` }); continue; }
     l.objet[l.champ] = nouveau;
-    changements.push({ key: l.key, fichier: l.fichier, ancien, nouveau });
-    touches.add(l.fichier);
+    changements.push({ key: l.key, fichier: l.fichier, ancien, nouveau, ligne: l });
+    const ecart = Math.abs(nouveau - ancien) / ancien;
+    if (ecart > 0.25) alertes.push({ key: l.key, fichier: l.fichier, motif: `à relire : ${ancien} → ${nouveau}, écart de ${Math.round(ecart * 100)} % (appliqué)` });
   }
-  // Prix d'appel et textes de chaque fiche changée, montant par montant.
+  // Une fiche qui a changé et porte un total écrit que la formule ne sait pas refaire : aucun de ses prix ne change (rien d'incohérent en ligne).
+  for (const fichier of new Set(changements.map((c) => c.fichier))) {
+    const { inconnus } = avant.get(fichier).totaux;
+    if (!inconnus.length) continue;
+    for (const c of changements.filter((c) => c.fichier === fichier)) { c.ligne.objet[c.ligne.champ] = c.ancien; gardes.push({ key: c.key, ancien: c.ancien, motif: `fiche avec un total écrit non recalculable (${inconnus.join(", ")}) : prix du fichier gardé, à relire` }); }
+    for (let i = changements.length - 1; i >= 0; i--) if (changements[i].fichier === fichier) changements.splice(i, 1);
+    for (let i = alertes.length - 1; i >= 0; i--) if (alertes[i].fichier === fichier) alertes.splice(i, 1);
+  }
+  const touches = new Set(changements.map((c) => c.fichier));
   for (const fichier of touches) {
     const j = fichiers[fichier];
+    const a = avant.get(fichier);
+    // 1. Le prix d'appel suit sa ligne ; « From 1,000 THB » suit le prix d'appel.
+    if (a.appel && a.appel.ligne.amount !== a.from) {
+      j.price.from = a.appel.ligne.amount;
+      const re = new RegExp(`(\\bfrom[\\s\\u00a0]+)(${montant(a.from).replace(/,/g, ",?")})(?=[\\s\\u00a0]?THB)`, "gi");
+      const vus = [];
+      const parcours = (o, chemin) => { for (const [k, v] of Object.entries(o)) { if (TEXTES_IGNORES.has(k)) continue; const c = chemin ? `${chemin}.${k}` : k; if (typeof v === "string") { const s2 = v.replace(re, `$1${montant(j.price.from)}`); if (s2 !== v) { o[k] = s2; vus.push(c); } } else if (v && typeof v === "object") parcours(v, c); } };
+      parcours(j, "");
+      for (const champ of vus) textes.push({ fichier, ancien: a.from, nouveau: j.price.from, champ });
+      const plusBas = (j.options || []).flatMap((o) => (o.prices || []).filter((r) => adulte(r) && r.label === a.appel.ligne.label && r.amount < j.price.from));
+      if (plusBas.length) alertes.push({ key: "price.from", fichier, motif: `à relire : prix d'appel ${j.price.from}, une ligne « ${a.appel.ligne.label} » d'une autre option est à ${Math.min(...plusBas.map((r) => r.amount))}` });
+    }
+    // 2. Les autres montants cités, sauf si une autre ligne de la fiche garde ce montant.
     const restes = new Set(toutes.filter((l) => l.fichier === fichier).map((l) => l.objet[l.champ]));
     const parAncien = new Map();
     for (const c of changements.filter((c) => c.fichier === fichier)) parAncien.set(c.ancien, [...(parAncien.get(c.ancien) || []), c.nouveau]);
     for (const [ancien, nouveaux] of parAncien) {
-      const cible = new Set(nouveaux);
-      if (restes.has(ancien) || cible.size > 1) { textes.push({ fichier, ancien, motif: "texte et prix d'appel non changés : une autre ligne garde ce montant ou le montant se sépare en deux" }); continue; }
-      const nouveau = nouveaux[0];
-      if (j.price && j.price.from === ancien) j.price.from = nouveau;
-      for (const champ of remplacerTextes(j, ancien, nouveau)) textes.push({ fichier, ancien, nouveau, champ });
+      if (restes.has(ancien) || new Set(nouveaux).size > 1) { textes.push({ fichier, ancien, motif: "montant cité non changé : une autre ligne garde ce montant ou il se sépare en deux" }); continue; }
+      for (const champ of remplacerTextes(j, ancien, nouveaux[0])) textes.push({ fichier, ancien, nouveau: nouveaux[0], champ });
+    }
+    // 3. Les totaux écrits, recalculés avec la formule vérifiée avant le remplacement.
+    for (const t of a.totaux.connus) {
+      const v = lireChemin(j, t.chemin);
+      const total = t.base.amount + t.sup.amount * (t.n - t.base.group.max);
+      const s2 = v.replace(TOTAL, `Each extra person adds ${montant(t.sup.amount)} THB, so a group of ${t.n} pays ${montant(total)} THB`);
+      if (s2 !== v) ecrireChemin(j, t.chemin, s2);
+      alertes.push({ key: t.chemin, fichier, motif: `à relire : total écrit recalculé, un groupe de ${t.n} paie ${montant(total)} THB` });
     }
   }
-  return { changements, gardes, textes, fichiers: [...touches].sort() };
+  for (const c of changements) delete c.ligne;
+  return { changements, gardes, textes, alertes, fichiers: [...touches].sort() };
 }
 
 // Lit les prix dans Gestion. Lève une erreur si la réponse n'a pas la forme attendue : l'appelant garde alors les prix des fichiers.
@@ -164,6 +244,7 @@ export async function principal({ env = process.env, data = path.join(ROOT, "src
     log(`${prix.size} tarifs lus sur ${ids.length} demandés, ${rep.changements.length} prix ${mode === "ecrire" ? "remplacés" : "à remplacer (mode lecture, rien n'est écrit)"}.`);
     for (const c of rep.changements) log(`  ${c.key} : ${c.ancien} → ${c.nouveau}`);
     for (const g of rep.gardes) log(`  gardé ${g.key} (${g.ancien}) : ${g.motif}`);
+    for (const a of rep.alertes) log(`  ${a.fichier} ${a.key} : ${a.motif}`);
     for (const t of rep.textes) log(t.champ ? `  texte ${t.fichier} ${t.champ} : ${t.ancien} → ${t.nouveau}` : `  à relire ${t.fichier}, montant ${t.ancien} : ${t.motif}`);
     if (mode === "ecrire") for (const f of rep.fichiers) fs.writeFileSync(path.join(data, f), JSON.stringify(fichiers[f], null, 2) + "\n");
     return { mode, statut: "lu", ...rep };
