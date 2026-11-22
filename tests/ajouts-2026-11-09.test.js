@@ -25,11 +25,11 @@ for (const rel of ["tours/koh-rok-koh-haa", "tours/4-islands"]) {
 }
 
 // ---------- Koh Rok & Koh Haa avec coucher de soleil (affiche « Rok Haa Island + Sunset ») ----------
-test("Koh Rok, coucher de soleil : 2 500 THB adulte, 1 800 THB enfant de 4 à 11 ans (décision du 10.11.2026), 10:00 à 17:50, frais de parc à part", () => {
+test("Koh Rok, coucher de soleil : 2 900 THB adulte, 1 900 THB enfant de 4 à 11 ans (flyer du 22.11.2026, avant 2 500 / 1 800), 10:00 à 17:50, frais de parc à part", () => {
   const p = P("tours/koh-rok-koh-haa");
   const o = p.options.find((x) => x.id === "sunset");
   assert.ok(!o.priceOnRequest);
-  assert.deepEqual(o.prices.map((r) => [r.label, r.amount, r.unit]), [["Adult", 2500, "per person"], ["Child, 4 to 11", 1800, "per person"]]);
+  assert.deepEqual(o.prices.map((r) => [r.label, r.amount, r.unit]), [["Adult", 2900, "per person"], ["Child, 4 to 11", 1900, "per person"]]);
   assert.deepEqual(o.prices[1].ages, { min: 4, max: 11 });
   assert.ok(o.notIncludedFees.length > 0, "« Not including National park fee »");
   const day = p.day.find((b) => (b.options || []).includes("sunset"));
@@ -37,12 +37,12 @@ test("Koh Rok, coucher de soleil : 2 500 THB adulte, 1 800 THB enfant de 4 à 11
   assert.equal(day.steps[day.steps.length - 1].time, "17:50");
   const doc = html(p.url), t = text(doc);
   assert.doesNotMatch(t, /exists on some days|Ask us\./, "l'ancienne phrase est remplacée par l'option");
-  for (const s of ["Sunset trip", "2,500 THB", "1,800 THB", "17:50"]) assert.ok(t.includes(s), s);
+  for (const s of ["Sunset trip", "2,900 THB", "1,900 THB", "17:50"]) assert.ok(t.includes(s), s);
   assert.ok(!t.includes("No child price on the site"));
   const msg = B.buildMessage(cfgOf(doc), state("sunset", { pickup: "Lanta Sand Resort" }));
   assert.match(msg, /^Booking request: Koh Rok & Koh Haa – Sunset trip\n/);
-  // 2 adultes à 2 500 et un enfant de 7 ans à 1 800 : le total se calcule et termine le message.
-  assert.match(msg, /\nEstimated total: 6,800 THB$/);
+  // 2 adultes à 2 900 et un enfant de 7 ans à 1 900 : le total se calcule et termine le message.
+  assert.match(msg, /\nEstimated total: 7,700 THB$/);
   assert.doesNotMatch(msg, /Ref:|Page:/);
   assert.doesNotMatch(msg, /Departure:/);
 });
