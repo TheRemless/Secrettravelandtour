@@ -16,7 +16,7 @@ const IMAGES = path.join(DATA, "..", "images");
 const P = (rel) => JSON.parse(fs.readFileSync(path.join(DATA, "products", rel + ".json"), "utf8"));
 const home = JSON.parse(fs.readFileSync(path.join(DATA, "home.json"), "utf8"));
 const PHOTOS = JSON.parse(fs.readFileSync(path.join(DATA, "photos-v3.json"), "utf8")).photos;
-const BEST = require("./bestSellers.json").options;
+const BEST_CARDS = require("./bestSellers.json").cards;
 
 // Dossier de chaque fiche : tours/ (bateaux) ou activities/.
 const BOATS = ["4-islands", "koh-rok-koh-haa", "koh-phi-phi", "sunset-dinner-raft", "sunrise-raft", "fishing-trip", "mangroves"];
@@ -113,7 +113,7 @@ async function card(slug) {
     href: p.url, title: p.name, promise: p.promise || "",
     meta: cardMeta(p),
     price: pr ? { amount: pr.amount, unit: p.price.unit, from: p.price.from } : null,
-    bestSeller: Boolean(BEST[slug]),
+    bestSeller: BEST_CARDS.includes(slug),
     photo: await photo(CARD_PHOTO[slug])
   };
 }

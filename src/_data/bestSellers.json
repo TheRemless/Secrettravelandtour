@@ -1,11 +1,10 @@
 {
-  "_note": "Options marquées « Best seller » : slug de la fiche vers l'id de l'option (une par fiche). Ids seulement, jamais de chiffre.",
+  "_note": "Badges « Best seller ». cards : fiches badgées sur leur carte (une par groupe de cartes : islands, mangrove, land). options : sur chaque fiche, l'option badgée quand elle rapporte nettement plus que les autres. Ids seulement, jamais de chiffre.",
+  "cards": ["4-islands", "cooking-class"],
   "options": {
+    "4-islands": "join-in-speedboat",
     "cooking-class": "single-chef",
     "batik": "kayak-and-painting",
-    "4-islands": "join-in-speedboat",
-    "koh-phi-phi": "join-in-speedboat",
-    "koh-rok-koh-haa": "join-in-speedboat",
     "elephant-sanctuary": "programme-a"
   }
 }

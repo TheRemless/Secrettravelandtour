@@ -6,7 +6,7 @@ const path = require("node:path");
 
 const DATA = path.join(__dirname, "..", "src", "_data");
 const raw = fs.readFileSync(path.join(DATA, "bestSellers.json"), "utf8");
-const best = JSON.parse(raw).options;
+const { cards, options: best } = JSON.parse(raw);
 const fiche = (slug) => ["tours", "activities"].map((d) => path.join(DATA, "products", d, slug + ".json")).find((p) => fs.existsSync(p));
 
 test("chaque option badgée existe sur sa fiche", () => {
@@ -16,6 +16,10 @@ test("chaque option badgée existe sur sa fiche", () => {
     const ids = JSON.parse(fs.readFileSync(p, "utf8")).options.map((o) => o.id);
     assert.ok(ids.includes(id), `${slug} : option ${id} introuvable`);
   }
+});
+
+test("chaque carte badgée a aussi son option badgée sur la fiche", () => {
+  for (const slug of cards) assert.ok(best[slug], "carte sans option badgée : " + slug);
 });
 
 test("la liste ne contient aucun chiffre (ni prix, ni net, ni commission)", () => {
