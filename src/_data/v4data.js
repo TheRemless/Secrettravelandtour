@@ -344,6 +344,9 @@ module.exports = async function () {
   for (const slug of BOATS.concat(ACTIVITIES).filter((x) => x !== "4-islands")) {
     const page = vp.productPage(product(slug), { ...ctx, hero: await photo(CARD_PHOTO[slug]), group: GROUPS.find((g) => g.slugs.includes(slug)) });
     const gallery = await galleryOf(slug);
+    // Photo propre à une option (options[].photo de la fiche) : la sortie d'un autre partenaire sur la même page
+    // garde sa photo à elle, sur sa carte d'option (quad + kayak, 22.11.2026).
+    for (const o of (page.pick && page.pick.options) || []) if (o.photoId) o.photo = await photo(o.photoId);
     productPages.push({ ...page, gallery, photos: splitPhotos(gallery) });
   }
   // 4 Islands : même gabarit de fiche, bloc « Choose your boat » ; la ligne de chaque bateau dit toutes les îles du tour,
@@ -368,6 +371,8 @@ module.exports = async function () {
       },
       facts: (o) => [["Pier", o.pier || ""], ["Guests", o.guests || ""], ["On board", o.onBoard || ""], ["Lunch", o.lunch || ""]].filter((r) => r[1])
     });
+    // Photo propre à une option, comme sur les autres fiches (speedboat privé à deux moteurs, 22.11.2026).
+    for (const o of page.pick.options) if (o.photoId) o.photo = await photo(o.photoId);
     page.single = page.pick.sel;
     Object.assign(fourData, { page, booking: page.booking });
     // Accueil : le message d'exemple est celui que la feuille de la 4 Islands écrit vraiment (Jérémy, 11.11.2026 :
@@ -413,5 +418,8 @@ module.exports = async function () {
   await view.responsive(productPages.map((x) => x.hero), { widths: [480, 640, 768, 960, 1280, 1600], avif: 45, webp: 68 });
   // Galeries : vignettes de 300 à 600 px ; la visionneuse prend la largeur native, toujours ajoutée par responsive().
   await view.responsive(productPages.map((x) => x.gallery).concat([rentalPage.gallery]), { widths: [480, 640, 960], avif: 45, webp: 68 });
+  // Photo d'une option (carte d'option) : petite, à côté de son détail.
+  await view.responsive([productPages.flatMap((x) => ((x.pick && x.pick.options) || []).map((o) => o.photo).filter(Boolean))], { widths: [400, 640], avif: 45, webp: 68 });
+  await view.responsive([((fourData.page.pick || {}).options || []).map((o) => o.photo).filter(Boolean)], { widths: [400, 640], avif: 45, webp: 68 });
   return data;
 };
