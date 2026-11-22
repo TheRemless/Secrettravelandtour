@@ -371,6 +371,8 @@ module.exports = async function () {
       },
       facts: (o) => [["Pier", o.pier || ""], ["Guests", o.guests || ""], ["On board", o.onBoard || ""], ["Lunch", o.lunch || ""]].filter((r) => r[1])
     });
+    // Photo propre à une option, comme sur les autres fiches (speedboat privé à deux moteurs, 22.11.2026).
+    for (const o of page.pick.options) if (o.photoId) o.photo = await photo(o.photoId);
     page.single = page.pick.sel;
     Object.assign(fourData, { page, booking: page.booking });
     // Accueil : le message d'exemple est celui que la feuille de la 4 Islands écrit vraiment (Jérémy, 11.11.2026 :
@@ -418,5 +420,6 @@ module.exports = async function () {
   await view.responsive(productPages.map((x) => x.gallery).concat([rentalPage.gallery]), { widths: [480, 640, 960], avif: 45, webp: 68 });
   // Photo d'une option (carte d'option) : petite, à côté de son détail.
   await view.responsive([productPages.flatMap((x) => ((x.pick && x.pick.options) || []).map((o) => o.photo).filter(Boolean))], { widths: [400, 640], avif: 45, webp: 68 });
+  await view.responsive([((fourData.page.pick || {}).options || []).map((o) => o.photo).filter(Boolean)], { widths: [400, 640], avif: 45, webp: 68 });
   return data;
 };

@@ -902,6 +902,19 @@
       "licence": "Propriété du partenaire, usage autorisé",
       "url": "",
       "shot": "Fishing from the raft."
+    },
+    {
+      "id": "opt-private-speedboat",
+      "usage": "Koh Phi Phi, 4 Islands and Koh Rok pages, private speedboat option: the boat on the beach",
+      "file": "secret/v3/private-speedboat-beach.jpg",
+      "position": "50% 60%",
+      "alt": "A purple and white speedboat moored in clear turquoise water off a sandy beach, a wooded island behind",
+      "placeholder": false,
+      "source": "Photo du bateau du speedboat privé (deux moteurs), transmise par Jérémy le 22.11.2026 ; nom sur la coque gardé (décision de Jérémy)",
+      "author": "Partenaire du speedboat privé, photo transmise par Jérémy (22.11.2026)",
+      "licence": "Propriété du partenaire, usage autorisé",
+      "url": "",
+      "shot": "The private speedboat (two engines) on the beach."
     }
   ]
 }

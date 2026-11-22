@@ -300,7 +300,8 @@
           "note": "Cash, paid to the ranger on the island"
         }
       ],
-      "customDay": true
+      "customDay": true,
+      "photo": "opt-private-speedboat"
     }
   ],
   "day": [
@@ -674,6 +675,10 @@
     {
       "field": "options[private-speedboat], includedByOption[private-speedboat], faq[Is the 4 Islands tour private?], beforeYouBook",
       "from": "Message d'Anaïs du 18.11.2026 (nouvelle partenaire, sorties privées seulement) : bateau à deux moteurs Yamaha 200, 20 passagers plus l'équipage, départ à l'heure choisie par le client, retour au plus tard à 16:00, inclus (transferts hôtel-ponton, équipage, guide de snorkeling sur demande, masque tuba gilets, déjeuner sur menu, fruits, eau, électrolytes, boissons sans alcool, coupe de glace, kit oxygène, trousse de secours, briefing récif). Décisions de Jérémy du 18.11.2026 : programme libre, option sur chaque page de destination, prix sur WhatsApp. Frais de parc : ceux déjà affichés sur la page (la partenaire dit 200 THB par snorkeleur). Tarif Gestion « Private speedboat, custom day » (e1c1818e-ead0-4b8c-bc68-364fb9cf0007), sans prix."
+    },
+    {
+      "field": "options[private-speedboat].photo",
+      "from": "Photo du bateau à deux moteurs transmise par Jérémy le 22.11.2026 (« le bateau pour les prestations de speedboat privé ») ; capacité de la coque (20 passagers, 2 d'équipage) conforme au registre du 18.11.2026"
     }
   ],
   "notes": [

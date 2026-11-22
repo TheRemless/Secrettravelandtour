@@ -215,7 +215,8 @@
             "max": 11
           }
         }
-      ]
+      ],
+      "photo": "opt-private-speedboat"
     }
   ],
   "day": [
@@ -584,6 +585,10 @@
     {
       "field": "options[sunset].note, options[sunset].prices, day[sunset], includedByOption[sunset], included, beforeYouBook.pickup, faq[Which trip should I pick?] ; options[small-group-sunset] et day[small-group-sunset] retirés",
       "from": "Flyer du partenaire « Rok Haa Island + Sunset » transmis par Jérémy le 22.11.2026 (départ de Koh Lanta) : nouvelle version de l'affiche du 09.11.2026, adulte 2 900, enfant de 4 à 11 ans 1 900, programme 10.00 pick-up en voiture, 10.40 départ, 12.00 Koh Rok, 13.30 buffet thaï sur la plage, 15.30 snorkeling, 16.30 Koh Ha, 17.50 retour avec soft drinks à bord, « program and timing approximate […] tide and local weather conditions ». Il remplace aussi la sortie en petit groupe du 17.11.2026 (autre ponton). Compris limité à ce que dit le flyer. Aucun prix sous 4 ans : rien d'écrit. Annulation, taille du bateau et frais de parc : ceux déjà sur la fiche."
+    },
+    {
+      "field": "options[private-speedboat].photo",
+      "from": "Photo du bateau à deux moteurs transmise par Jérémy le 22.11.2026 (« le bateau pour les prestations de speedboat privé ») ; capacité de la coque (20 passagers, 2 d'équipage) conforme au registre du 18.11.2026"
     }
   ],
   "refPrefix": "ROK",

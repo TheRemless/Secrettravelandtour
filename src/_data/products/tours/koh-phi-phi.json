@@ -231,7 +231,8 @@
           "unit": "per person",
           "note": "Cash"
         }
-      ]
+      ],
+      "photo": "opt-private-speedboat"
     }
   ],
   "day": [
@@ -546,6 +547,10 @@
     {
       "field": "options[sunset] (remplace options[small-group-sunset]), day[sunset], includedByOption[sunset], lead, faq[Which trip should I pick?], beforeYouBook.pickup, beforeYouBook.cancellation",
       "from": "Flyer du partenaire « Phi Phi Bamboo Island + Sunset » transmis par Jérémy le 22.11.2026 (départ de Koh Lanta, il remplace la brochure du 17.11.2026 qui partait d'un autre ponton) : adulte 2 900, enfant de 4 à 11 ans 1 900, programme 10.00 à 17.50, arrêts Phi Phi Don, Loh Samah, Monkey Beach et Bamboo Island, soft drinks et dîner au retour, transfert en voiture, « program and timing approximate […] tide and local weather conditions ». Compris limité à ce que dit le flyer (ni guide, ni assurance, ni matériel écrits). Aucun prix sous 4 ans, aucune taille de groupe, aucun jour de départ : rien d'écrit. Bateau « speedboat » comme la sortie Rok Haa + Sunset du même partenaire. Annulation : 12 h avant, comme le day trip. Frais de parc : ceux de la fiche."
+    },
+    {
+      "field": "options[private-speedboat].photo",
+      "from": "Photo du bateau à deux moteurs transmise par Jérémy le 22.11.2026 (« le bateau pour les prestations de speedboat privé ») ; capacité de la coque (20 passagers, 2 d'équipage) conforme au registre du 18.11.2026"
     }
   ],
   "refPrefix": "PP",
