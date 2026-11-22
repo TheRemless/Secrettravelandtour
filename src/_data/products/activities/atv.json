@@ -33,7 +33,7 @@
     },
     {
       "label": "Ages",
-      "value": "No children under 4. Child price from 4 to 12; on the ATV and kayak ride, child riders from 6"
+      "value": "Child riders 5 to 12, child passengers 3 to 12; on the ATV and kayak ride, child riders 6 to 12 and child passengers 4 to 12"
     },
     {
       "label": "Cancellation",
@@ -65,7 +65,7 @@
           "label": "Child rider",
           "amount": 900,
           "ages": {
-            "min": 4,
+            "min": 5,
             "max": 12
           },
           "unit": "per person"
@@ -74,7 +74,7 @@
           "label": "Child passenger",
           "amount": 600,
           "ages": {
-            "min": 4,
+            "min": 3,
             "max": 12
           },
           "unit": "per person"
@@ -110,7 +110,7 @@
           "label": "Child rider",
           "amount": 1500,
           "ages": {
-            "min": 4,
+            "min": 5,
             "max": 12
           },
           "unit": "per person"
@@ -119,7 +119,7 @@
           "label": "Child passenger",
           "amount": 1000,
           "ages": {
-            "min": 4,
+            "min": 3,
             "max": 12
           },
           "unit": "per person"
@@ -163,7 +163,7 @@
           "label": "Child rider",
           "amount": 2200,
           "ages": {
-            "min": 4,
+            "min": 5,
             "max": 12
           },
           "unit": "per person"
@@ -172,7 +172,7 @@
           "label": "Child passenger",
           "amount": 1500,
           "ages": {
-            "min": 4,
+            "min": 3,
             "max": 12
           },
           "unit": "per person"
@@ -231,7 +231,7 @@
           "unit": "per person"
         }
       ],
-      "note": "For experienced ATV riders only. On this ride, child riders are 6 to 12.",
+      "note": "For experienced ATV riders only. On this ride, child riders are 6 to 12 and child passengers 4 to 12.",
       "choices": [
         {
           "id": "experience",
@@ -314,13 +314,13 @@
       "Closed shoes",
       "Clothes that can get dusty or wet"
     ],
-    "children": "No children under 4. The child price runs from 4 to 12. On the ATV and kayak ride, child riders are 6 to 12.",
+    "children": "Child riders are 5 to 12 and child passengers 3 to 12. On the ATV and kayak ride, child riders are 6 to 12 and child passengers 4 to 12.",
     "cancellation": "Cancel at least 24 hours ahead. Later than that, half the ride is charged."
   },
   "faq": [
     {
       "q": "Can children drive?",
-      "a": "Children from 4 to 12 pay the child price, as rider or passenger. On the ATV and kayak ride, children drive from 6. Under 4 cannot come."
+      "a": "Yes, from 5 to 12 at the child rider price. Children ride as passengers from 3. On the ATV and kayak ride, children drive from 6 and ride as passengers from 4."
     },
     {
       "q": "Which ride should I pick?",
@@ -402,7 +402,7 @@
     "h1": "ATV ride",
     "h1em": "on Koh Lanta",
     "intro": [
-      "Every ride comes with a guide, safety gear and a hotel transfer. Open all year. Children pay the child price from 4 to 12; on the ATV and kayak ride, they drive from 6."
+      "Every ride comes with a guide, safety gear and a hotel transfer. Open all year. Children drive from 5 and ride as passengers from 3; on the ATV and kayak ride, they drive from 6 and ride as passengers from 4."
     ],
     "cardDescription": "An ATV ride on the dirt tracks of Koh Lanta.",
     "cardInfo": [
@@ -410,7 +410,7 @@
     ],
     "dayTitle": "The four rides",
     "goodToKnow": [
-      "No children under 4. Child price from 4 to 12; on the ATV and kayak ride, child riders from 6.",
+      "Child riders 5 to 12, child passengers 3 to 12; on the ATV and kayak ride, child riders 6 to 12 and child passengers 4 to 12.",
       "Cancel at least 24 hours ahead. Later than that, half the ride is charged.",
       "Closed shoes and clothes that can get dusty or wet."
     ],
@@ -489,7 +489,7 @@
     },
     {
       "field": "facts, options, day, included, beforeYouBook, faq, photos, schema.places, legacyText (22.11.2026)",
-      "from": "Tarif et flyer du nouveau partenaire quad transmis par Jérémy le 22.11.2026 (T1 30 min, T2 1 h Lung Sod Beach, T3 2 h Lung Sod Beach et Siri Lanta Bridge, prix pilote et passager, enfant 4 à 12 ans d'après le tarif, inclus, santé, annulation 24 h). Quads de 250 cc (Jérémy, le flyer dit 150 cc). Option quad + kayak : ancien partenaire, inchangée (enfant pilote 6 à 12). Photos : page Facebook du nouveau partenaire, reprise autorisée ; la photo de l'option quad + kayak vient de l'ancien partenaire."
+      "from": "Tarif et flyer du nouveau partenaire quad transmis par Jérémy le 22.11.2026 (T1 30 min, T2 1 h Lung Sod Beach, T3 2 h Lung Sod Beach et Siri Lanta Bridge, prix pilote et passager, pilote enfant 5 à 12 ans et passager enfant 3 à 12 ans (Jérémy, 22.11.2026), inclus, santé, annulation 24 h). Quads de 250 cc (Jérémy, le flyer dit 150 cc). Option quad + kayak : ancien partenaire, inchangée (enfant pilote 6 à 12). Photos : page Facebook du nouveau partenaire, reprise autorisée ; la photo de l'option quad + kayak vient de l'ancien partenaire."
     }
   ],
   "refPrefix": "ATV"

@@ -385,7 +385,7 @@ const kids = [
   kidRow(elephant, "programme-a", cap(fact(elephant, "Children").replace(/^4–10 child rate, under 4 free, /, ""))),
   kidRow(batik, "morning-or-afternoon", "Your canvas comes back the next day"),
   { slug: "sunrise-raft", name: sunrise.name, url: sunrise.url, adult: thb(row(opt(sunrise, "raft-sunrise"), /^1 or 2/).amount) + " for 1 or 2 people, then " + thb(row(opt(sunrise, "raft-sunrise"), /^Each extra/).amount) + " each", child: thb(rafts.amount), ages: (rafts.label.match(/(\d+ to \d+)/) || [])[1], free: "", extra: "Private raft, your group only" },
-  { slug: "atv", name: atv.name, url: atv.url, adult: adultOf(atv, "track-30-min"), child: thb(atvPass.amount) + " as a passenger", ages: "4 to 12", free: "", extra: fact(atv, "Ages") }
+  { slug: "atv", name: atv.name, url: atv.url, adult: adultOf(atv, "track-30-min"), child: thb(atvPass.amount) + " as a passenger", ages: "3 to 12", free: "", extra: fact(atv, "Ages") }
 ];
 const g4 = {
   slug: "koh-lanta-with-kids",
@@ -433,7 +433,7 @@ const g4 = {
         { list: [
           "Tell us the age of each child when you book. The child rate depends on it.",
           "Child seats and baby seats for transfers are on request, and only if we confirm them in writing.",
-          "On the ATV, there are no children under 4. The child price runs from 4 to 12; on the ATV and kayak ride, children drive from 6."
+          "On the ATV, children drive from 5 and ride as passengers from 3. On the ATV and kayak ride, they drive from 6 and ride as passengers from 4."
         ] }
       ]
     },

@@ -28,13 +28,15 @@ test("quatre options aux prix de vente des brochures, dans l'ordre 30 min, 1 h, 
   assert.equal(atv.price.from, 1200);
 });
 
-test("âges : prix enfant de 4 à 12 ans ; sur quad + kayak, enfant pilote de 6 à 12 ans", () => {
+test("âges (Jérémy, 22.11.2026) : pilote enfant 5 à 12, passager enfant 3 à 12 ; quad + kayak : 6 à 12 et 4 à 12", () => {
   for (const o of atv.options) {
+    const kayak = o.id === "atv-kayak-2-hr";
     const rider = o.prices.find((r) => r.label === "Child rider");
     const pass = o.prices.find((r) => r.label === "Child passenger");
-    assert.deepEqual(rider.ages, { min: o.id === "atv-kayak-2-hr" ? 6 : 4, max: 12 }, o.id);
-    assert.deepEqual(pass.ages, { min: 4, max: 12 }, o.id);
+    assert.deepEqual(rider.ages, { min: kayak ? 6 : 5, max: 12 }, o.id);
+    assert.deepEqual(pass.ages, { min: kayak ? 4 : 3, max: 12 }, o.id);
   }
+  assert.doesNotMatch(text, /under 4|from 4 to 12/i);
 });
 
 test("250 cc partout, jamais la cylindrée du flyer", () => {

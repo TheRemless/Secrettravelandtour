@@ -41,11 +41,11 @@
  },
  "atv|1 hour to Lung Sod Beach|Child passenger": {
   "prestation": "f6bb9c2f-86a0-4c48-8446-4004b9b50606",
-  "gestion": "T2: ATV 1 hour (Koh Lanta Noi, Lung Sod Beach), passenger child (4-12)"
+  "gestion": "T2: ATV 1 hour (Koh Lanta Noi, Lung Sod Beach), passenger child (3-12)"
  },
  "atv|1 hour to Lung Sod Beach|Child rider": {
   "prestation": "696bcf75-5279-42bc-90ed-bdadcea573ac",
-  "gestion": "T2: ATV 1 hour (Koh Lanta Noi, Lung Sod Beach), driver child (4-12)"
+  "gestion": "T2: ATV 1 hour (Koh Lanta Noi, Lung Sod Beach), driver child (5-12)"
  },
  "atv|2 hours, beach and bridge|Adult passenger": {
   "prestation": "8283627d-c415-4629-a1f7-9c76f1285b94",
@@ -57,11 +57,11 @@
  },
  "atv|2 hours, beach and bridge|Child passenger": {
   "prestation": "d8368cba-a583-453b-9b64-3853f23822ba",
-  "gestion": "T3: ATV 2 hours (Lung Sod Beach & Siri Lanta Bridge), passenger child (4-12)"
+  "gestion": "T3: ATV 2 hours (Lung Sod Beach & Siri Lanta Bridge), passenger child (3-12)"
  },
  "atv|2 hours, beach and bridge|Child rider": {
   "prestation": "dd321049-07d4-4016-bc6c-a571567dd860",
-  "gestion": "T3: ATV 2 hours (Lung Sod Beach & Siri Lanta Bridge), driver child (4-12)"
+  "gestion": "T3: ATV 2 hours (Lung Sod Beach & Siri Lanta Bridge), driver child (5-12)"
  },
  "atv|30 minutes on a closed track|Adult passenger": {
   "prestation": "5fb2332a-3778-49fb-8aef-af0f4657128e",
@@ -73,11 +73,11 @@
  },
  "atv|30 minutes on a closed track|Child passenger": {
   "prestation": "e5d47e79-6e3d-4034-a900-c3489cadc364",
-  "gestion": "T1: ATV 30 mins (practice track), passenger child (4-12)"
+  "gestion": "T1: ATV 30 mins (practice track), passenger child (3-12)"
  },
  "atv|30 minutes on a closed track|Child rider": {
   "prestation": "482235fd-65a7-4daa-b506-c7ff1f68a267",
-  "gestion": "T1: ATV 30 mins (practice track), driver child (4-12)"
+  "gestion": "T1: ATV 30 mins (practice track), driver child (5-12)"
  },
  "batik|Kayaking and painting|Adult": {
   "prestation": "f7eef8a4-f3ac-53ae-a335-b8f48559ff45",
