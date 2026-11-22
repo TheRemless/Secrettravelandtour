@@ -56,3 +56,13 @@ Obligatoires : `slug` (= nom du fichier), `url`, `brand`, `template`, `name`, `s
 4. Passer les emplacements `gallery` de `photos[]` de la fiche en `keep` avec leur `file`.
 
 Une ou deux photos sur une fiche qui a un déroulé se posent dans la colonne de gauche de « How the day goes », sous les faits (`galleryInDay`), plutôt qu'en bande. Une fiche absente de `GALLERY` n'a pas de galerie et reste telle quelle.
+
+## Prix de Gestion au build (22.11.2026)
+
+`npm run build` lance d'abord `scripts/prix-depuis-gestion.mjs`. Pour chaque ligne de prix reliée par `src/_data/gestion-keys.json`, le prix de vente du tarif de Gestion (fonction publique `prix_publics_site`, migration 117 de Gestion) remplace celui du fichier, ainsi que le prix d'appel et les textes de la fiche qui citent l'ancien montant. Sur Netlify, les fichiers du build sont réécrits ; sur un poste ou en CI, le journal dit seulement ce qui changerait (`STT_PRIX_GESTION=ecrire` pour forcer, `0` pour couper).
+
+- Gestion ne répond pas : le build garde les prix des fichiers et l'écrit (`[prix Gestion] source indisponible`), sans échouer.
+- Un tarif absent, un prix qui n'est pas un entier, ou un prix plus de deux fois plus haut ou plus bas que le fichier : la ligne garde son prix, le journal le nomme.
+- Une clé `"auto": false` (la ligne du site n'a pas l'unité du tarif, par exemple un prix par personne relié à un tarif pour deux) n'est jamais remplacée.
+- Un montant que garde aussi une autre ligne de la fiche ne change ni le prix d'appel ni les textes (le journal dit « à relire »). Les totaux calculés dans une phrase (« a group of 3 pays 5,700 THB ») ne sont pas recalculés : les relire quand le prix de base change.
+- Les fichiers du dépôt restent la référence de secours : après un changement de prix dans Gestion, les reporter ici quand on touche la fiche (`scripts/prix-gestion.mjs` les liste chaque mois).
