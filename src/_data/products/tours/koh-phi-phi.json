@@ -14,7 +14,7 @@
     }
   },
   "h1": "Koh Phi Phi day trip from Koh Lanta",
-  "lead": "Maya Bay, Pileh Lagoon, Viking Cave and Monkey Beach in the morning, then lunch on Phi Phi Don, Bamboo Island and free time on Phi Phi Don. By shared speedboat on the day trip, on the full-day sunset trip, or by private longtail or private speedboat for your group only.",
+  "lead": "Maya Bay, Pileh Lagoon, Viking Cave and Monkey Beach in the morning, then lunch on Phi Phi Don, Bamboo Island and free time on Phi Phi Don. By shared speedboat on the day trip or the sunset trip, or by private longtail or private speedboat for your group only.",
   "promise": "Maya Bay, Pileh Lagoon and Bamboo Island by speedboat",
   "facts": [
     {
@@ -117,20 +117,20 @@
       ]
     },
     {
-      "id": "small-group-sunset",
-      "label": "Full-day sunset trip",
+      "id": "sunset",
+      "label": "Sunset trip",
       "kind": "join-in",
       "boat": "speedboat",
-      "note": "Pickup at 08:30, lunch with wine, home after sunset. Phi Phi and Bamboo Island, back at your hotel between 18:30 and 20:00. Maya Bay is not on this programme.",
+      "note": "Pickup at 10:00, sunset cruise home. By car from your hotel, snorkelling around Phi Phi, lunch on Bamboo Island, then back to Koh Lanta at 17:50 with soft drinks and dinner on the way. Maya Bay is not on this programme.",
       "prices": [
         {
           "label": "Adult",
-          "amount": 3900,
+          "amount": 2900,
           "unit": "per person"
         },
         {
           "label": "Child, 4 to 11",
-          "amount": 2900,
+          "amount": 1900,
           "ages": {
             "min": 4,
             "max": 11
@@ -269,21 +269,17 @@
     },
     {
       "options": [
-        "small-group-sunset"
+        "sunset"
       ],
-      "title": "How the day goes (full-day sunset trip)",
+      "title": "How the day goes (sunset trip)",
       "steps": [
         {
-          "time": "08:30",
-          "text": "Pickup at your hotel, then by van to Hua Hin Pier."
-        },
-        {
           "time": "10:00",
-          "text": "The boat leaves the pier."
+          "text": "Pickup at your hotel by car."
         },
         {
           "time": "11:00",
-          "text": "Around Phi Phi: snorkelling, snacks, and a tour of Monkey Bay, Viking Cave and Pileh Lagoon."
+          "text": "The boat leaves Koh Lanta for Phi Phi: snorkelling, snacks, and a tour of Monkey Bay, Viking Cave and Pileh Lagoon."
         },
         {
           "time": "13:50",
@@ -295,15 +291,11 @@
         },
         {
           "time": "17:00",
-          "text": "Bamboo Island again, with free time on the beach."
+          "text": "Bamboo Island again, with free time to explore."
         },
         {
           "time": "17:50",
-          "text": "The boat leaves Bamboo Island for Koh Lanta, with the sunset and soft drinks on board."
-        },
-        {
-          "time": "18:30",
-          "text": "The transfer back to your hotel, between 18:30 and 20:00."
+          "text": "The boat leaves Bamboo Island for Koh Lanta. The sunset on the way, with soft drinks and dinner, then the car back to your hotel."
         }
       ],
       "note": "Times are approximate and change with the tide and the weather."
@@ -354,12 +346,12 @@
     "National park fee, paid in cash"
   ],
   "beforeYouBook": {
-    "pickup": "Pickup at your hotel between 08:00 and 09:00, by car or by boat. On the day trip, a light breakfast at Lanta Old Town pier. Full-day sunset trip: pickup at 08:30, then by van to Hua Hin Pier. Private speedboat: pickup at your hotel at the time you choose.",
+    "pickup": "Pickup at your hotel between 08:00 and 09:00, by car or by boat. On the day trip, a light breakfast at Lanta Old Town pier. Sunset trip: pickup at 10:00 by car. Private speedboat: pickup at your hotel at the time you choose.",
     "bring": [
       "Cash for the national park fee"
     ],
     "weather": "Maya Bay has its own rules set by the national park. The stop depends on the day and the season. The private longtail runs when the national park is open, and its programme can change with the tide and the weather.",
-    "cancellation": "Day trip and private longtail: tell us at least 12 hours before departure, or the full price is charged. Private speedboat: we confirm the conditions with you when you book."
+    "cancellation": "Day trip, sunset trip and private longtail: tell us at least 12 hours before departure, or the full price is charged. Private speedboat: we confirm the conditions with you when you book."
   },
   "faq": [
     {
@@ -380,7 +372,7 @@
     },
     {
       "q": "Which trip should I pick?",
-      "a": "The day trip stops at Maya Bay and gives you free time on Phi Phi Don until 16:00. The full-day sunset trip picks you up at 08:30, has lunch and the end of the afternoon on Bamboo Island and comes back at sunset, with wine included and a guide who speaks English or Chinese. Maya Bay is not on this programme. The private longtail and the private speedboat are the whole boat for your group, and on the speedboat you choose the times."
+      "a": "The day trip stops at Maya Bay and gives you free time on Phi Phi Don until 16:00. The sunset trip picks you up at 10:00, stops at Loh Samah, Monkey Beach, Phi Phi Don and Bamboo Island, and comes back at sunset with soft drinks and dinner. Maya Bay is not on this programme. The private longtail and the private speedboat are the whole boat for your group, and on the speedboat you choose the times."
     }
   ],
   "photos": [
@@ -550,6 +542,10 @@
     {
       "field": "options[private-speedboat], includedByOption[private-speedboat], facts[Boat], lead, faq, beforeYouBook",
       "from": "Message d'Anaïs du 18.11.2026 (nouvelle partenaire, sorties privées seulement) : bateau à deux moteurs Yamaha 200, 20 passagers plus l'équipage, départ à l'heure choisie par le client, retour au plus tard à 16:00, inclus (transferts hôtel-ponton, équipage, guide de snorkeling sur demande, masque tuba gilets, déjeuner sur menu, fruits, eau, électrolytes, boissons sans alcool, coupe de glace, kit oxygène, trousse de secours, briefing récif). Décisions de Jérémy du 18.11.2026 : programme libre, option sur chaque page de destination, prix sur WhatsApp. Frais de parc : ceux déjà affichés sur la page (la partenaire dit 200 THB par snorkeleur). Tarif Gestion « Private speedboat, custom day » (e1c1818e-ead0-4b8c-bc68-364fb9cf0007), sans prix."
+    },
+    {
+      "field": "options[sunset] (remplace options[small-group-sunset]), day[sunset], includedByOption[sunset], lead, faq[Which trip should I pick?], beforeYouBook.pickup, beforeYouBook.cancellation",
+      "from": "Flyer du partenaire « Phi Phi Bamboo Island + Sunset » transmis par Jérémy le 22.11.2026 (départ de Koh Lanta, il remplace la brochure du 17.11.2026 qui partait d'un autre ponton) : adulte 2 900, enfant de 4 à 11 ans 1 900, programme 10.00 à 17.50, arrêts Phi Phi Don, Loh Samah, Monkey Beach et Bamboo Island, soft drinks et dîner au retour, transfert en voiture, « program and timing approximate […] tide and local weather conditions ». Compris limité à ce que dit le flyer (ni guide, ni assurance, ni matériel écrits). Aucun prix sous 4 ans, aucune taille de groupe, aucun jour de départ : rien d'écrit. Bateau « speedboat » comme la sortie Rok Haa + Sunset du même partenaire. Annulation : 12 h avant, comme le day trip. Frais de parc : ceux de la fiche."
     }
   ],
   "refPrefix": "PP",
@@ -557,12 +553,11 @@
     "Saison : toute l'année sauf fermeture du parc national (réponse de Jérémy du 03.11.2026) ; pas de saison affichée tant que les mois de fermeture ne sont pas donnés."
   ],
   "includedByOption": {
-    "small-group-sunset": [
-      "Hotel transfer both ways, by van",
-      "Lunch, soft drinks, wine and fruit",
-      "Snorkelling equipment",
-      "An experienced local guide who speaks English or Chinese",
-      "Insurance"
+    "sunset": [
+      "Hotel pickup and return by car",
+      "Snacks on the boat",
+      "Thai buffet lunch on Bamboo Island",
+      "Soft drinks and dinner on the way back"
     ],
     "private-longtail": [
       "Hotel pickup and return, by car or by boat",

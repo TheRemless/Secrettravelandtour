@@ -218,13 +218,13 @@
   "prestation": "264bc47b-67a7-5261-ad0f-275187939068",
   "gestion": "One Day Trip Koh Phi Phi + Bamboo Island, child (4-11)"
  },
- "koh-phi-phi|Full-day sunset trip|Adult": {
-  "prestation": "c0a0922b-e30c-44bc-b029-a131f65e36ba",
-  "gestion": "Lazy Day Sunset Trip Koh Phi Phi + Bamboo Island"
+ "koh-phi-phi|Sunset trip|Adult": {
+  "prestation": "133fe67c-74c4-4b4b-a8a9-a1e7aa927d1e",
+  "gestion": "Phi Phi Bamboo Island + Sunset"
  },
- "koh-phi-phi|Full-day sunset trip|Child, 4 to 11": {
-  "prestation": "5f4e4bfa-7bd3-4fef-9b82-c76d419ec1d6",
-  "gestion": "Lazy Day Sunset Trip Koh Phi Phi + Bamboo Island, child (4-11)"
+ "koh-phi-phi|Sunset trip|Child, 4 to 11": {
+  "prestation": "ef164c6d-7244-4f59-8c3e-59d8563e18d0",
+  "gestion": "Phi Phi Bamboo Island + Sunset, child (4-11)"
  },
  "koh-rok-koh-haa|Day trip|Adult": {
   "prestation": "e54ec997-a2bf-5bb1-ac02-9531e46d1e25",
