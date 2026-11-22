@@ -436,19 +436,6 @@
       "url": ""
     },
     {
-      "id": "opt-atv-kayak",
-      "usage": "ATV page, ATV and kayak option: Riders on the track",
-      "file": "secret/v3/atv-riders.jpg",
-      "position": "50% 55%",
-      "alt": "Three riders on red quad bikes with their arms raised on a dirt track",
-      "shot": "Riders on the track.",
-      "placeholder": false,
-      "source": "Photo d'un partenaire, accord donné à Jérémy (14.11.2026, dossier Drive Photos)",
-      "author": "Photo d'un partenaire, accord donné à Jérémy (14.11.2026, dossier Drive Photos)",
-      "licence": "Propriété du partenaire, usage autorisé",
-      "url": ""
-    },
-    {
       "id": "gal-kart-driver",
       "usage": "Electric go-kart page, gallery: Driver on the track",
       "file": "secret/v3/kart-driver.jpg",

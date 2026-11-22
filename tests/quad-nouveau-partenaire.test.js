@@ -59,19 +59,17 @@ test("chaque ligne de prix a sa clé Gestion ; quad + kayak garde les tarifs de 
   assert.equal(KEYS["atv|30 minutes on a closed track|Adult rider"].prestation, "423ac437-5ee2-46f5-878a-d04c49a8a76a");
 });
 
-test("photos : galerie et photo du haut du nouveau partenaire, photo de l'ancien seulement sur la carte quad + kayak", () => {
+test("photos : photo du haut et galerie du nouveau partenaire ; quad + kayak sans photo, avec sa phrase", () => {
   const kayak = atv.options.find((o) => o.id === "atv-kayak-2-hr");
-  assert.equal(kayak.photo, "opt-atv-kayak");
-  assert.equal(PHOTOS.find((p) => p.id === "opt-atv-kayak").file, "secret/v3/atv-riders.jpg");
-  assert.ok(atv.options.filter((o) => o.photo).length === 1);
+  assert.ok(!atv.options.some((o) => o.photo), "aucune photo d'option sur la page quad");
+  assert.ok(!PHOTOS.some((p) => p.file === "secret/v3/atv-riders.jpg"));
+  assert.ok(!fs.existsSync(path.join(root, "src/images/secret/v3/atv-riders.jpg")));
   for (const id of ["card-atv", "gal-atv-water-splash", "gal-atv-forest-trail", "gal-atv-practice-track", "gal-atv-child-front", "gal-atv-sand-splash"]) {
     const p = PHOTOS.find((x) => x.id === id);
     assert.ok(p && /Facebook du partenaire quad/.test(p.source), id);
   }
-  // La photo de l'option est dans le bloc de l'option quad + kayak, pas dans la galerie.
-  const block = page.match(/<div class="po po--grid po--ph" data-po="atv-kayak-2-hr">([\s\S]*?)<\/div>\s*<\/div>/);
-  assert.ok(block, "bloc de l'option quad + kayak avec sa photo");
-  const alt = PHOTOS.find((p) => p.id === "opt-atv-kayak").alt;
-  assert.ok(block[1].includes(alt));
-  assert.ok(!page.replace(block[0], "").includes(alt), "la photo de l'ancien partenaire n'est que sur sa carte");
+  assert.match(kayak.note, /different team and different ATVs/);
+  assert.match(kayak.note, /Thung Yee Peng/);
+  assert.doesNotMatch(page, /po--ph/);
+  assert.match(text, /different team and different ATVs from the other three/);
 });

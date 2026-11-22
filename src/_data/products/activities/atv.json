@@ -231,7 +231,7 @@
           "unit": "per person"
         }
       ],
-      "note": "For experienced ATV riders only. On this ride, child riders are 6 to 12 and child passengers 4 to 12.",
+      "note": "For experienced ATV riders only. On this ride, child riders are 6 to 12 and child passengers 4 to 12. This ride runs with a different team and different ATVs from the other three. The kayak hour is in the mangrove at Thung Yee Peng.",
       "choices": [
         {
           "id": "experience",
@@ -248,8 +248,7 @@
           "Child rider",
           "Child passenger"
         ]
-      },
-      "photo": "opt-atv-kayak"
+      }
     }
   ],
   "day": [
@@ -373,13 +372,6 @@
       "file": "secret/v3/atv-sand-splash.jpg",
       "alt": "A rider on an orange quad bike crossing a puddle on a sandy track lined with trees",
       "shot": "Quad crossing a puddle."
-    },
-    {
-      "slot": "option",
-      "status": "keep",
-      "file": "secret/v3/atv-riders.jpg",
-      "alt": "Three riders on red quad bikes with their arms raised on a dirt track",
-      "shot": "ATV and kayak ride: riders on the track."
     }
   ],
   "related": [
@@ -489,7 +481,7 @@
     },
     {
       "field": "facts, options, day, included, beforeYouBook, faq, photos, schema.places, legacyText (22.11.2026)",
-      "from": "Tarif et flyer du nouveau partenaire quad transmis par Jérémy le 22.11.2026 (T1 30 min, T2 1 h Lung Sod Beach, T3 2 h Lung Sod Beach et Siri Lanta Bridge, prix pilote et passager, pilote enfant 5 à 12 ans et passager enfant 3 à 12 ans (Jérémy, 22.11.2026), inclus, santé, annulation 24 h). Quads de 250 cc (Jérémy, le flyer dit 150 cc). Option quad + kayak : ancien partenaire, inchangée (enfant pilote 6 à 12). Photos : page Facebook du nouveau partenaire, reprise autorisée ; la photo de l'option quad + kayak vient de l'ancien partenaire."
+      "from": "Tarif et flyer du nouveau partenaire quad transmis par Jérémy le 22.11.2026 (T1 30 min, T2 1 h Lung Sod Beach, T3 2 h Lung Sod Beach et Siri Lanta Bridge, prix pilote et passager, pilote enfant 5 à 12 ans et passager enfant 3 à 12 ans (Jérémy, 22.11.2026), inclus, santé, annulation 24 h). Quads de 250 cc (Jérémy, le flyer dit 150 cc). Option quad + kayak : ancien partenaire, inchangée (enfant pilote 6 à 12). Photos : page Facebook du nouveau partenaire, reprise autorisée. Option quad + kayak : sans photo, phrase « different team and different ATVs », kayak à Thung Yee Peng (demande de Jérémy, 22.11.2026)."
     }
   ],
   "refPrefix": "ATV"
