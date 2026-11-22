@@ -1,0 +1,11 @@
+{
+  "_note": "Options marquées « Best seller » : slug de la fiche vers l'id de l'option (une par fiche). Ids seulement, jamais de chiffre.",
+  "options": {
+    "cooking-class": "single-chef",
+    "batik": "kayak-and-painting",
+    "4-islands": "join-in-speedboat",
+    "koh-phi-phi": "join-in-speedboat",
+    "koh-rok-koh-haa": "join-in-speedboat",
+    "elephant-sanctuary": "programme-a"
+  }
+}

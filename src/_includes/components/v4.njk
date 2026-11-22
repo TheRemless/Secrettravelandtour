@@ -48,6 +48,7 @@ https://wa.me/{{ number }}{% if text %}?text={{ text | urlencode }}{% endif %}
 <article class="card{% if add %} card--add{% endif %}"{% if anchor %} id="{{ anchor }}"{% endif %} data-slug="{{ c.slug }}" data-kind="{{ c.kind }}" data-group="{{ c.group }}"{% if c.price %} data-from="{{ c.price.from }}"{% endif %}>
   <a class="card__link press" href="{{ c.href }}" data-track-cta="product_card">
     {{ photo(c.photo, sizes, eager, "ph--43") }}
+    {%- if c.bestSeller %}<span class="bs">Best seller</span>{% endif %}
     <span class="card__body">
       <{{ hx }} class="card__title">{{ c.title }}</{{ hx }}>
       {%- if c.promise %}<span class="card__line">{{ c.promise | keephy | safe }}</span>{% endif %}

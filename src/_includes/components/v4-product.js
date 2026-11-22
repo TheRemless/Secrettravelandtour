@@ -5,6 +5,8 @@
 // dans la fiche (ou site.json) ; seuls les titres de section et les libellés de boutons sont du texte d'interface.
 const view = require("./view.js");
 const price = require("../../js/v4-price.js");
+// Option marquée « Best seller » sur chaque fiche (src/_data/bestSellers.json, ids seulement).
+const BEST = require("../../_data/bestSellers.json").options;
 
 const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : "");
 // Noms de lieux jamais coupés en fin de ligne (« Koh Bubu », « Thung Yee Peng ») : espaces insécables.
@@ -242,7 +244,7 @@ function pickOf(p, site, opts = {}) {
     const rest = notes.filter((x) => x.replace(/\.$/, "") !== sub);
     const shared = optFees.list.find((x) => x.id === o.id) || {};
     return {
-      id: o.id, label: o.label, sub, from: fromOf(o, skip), onRequest: Boolean(o.priceOnRequest || !(o.prices || []).length),
+      id: o.id, label: o.label, best: BEST[p.slug] === o.id, sub, from: fromOf(o, skip), onRequest: Boolean(o.priceOnRequest || !(o.prices || []).length),
       facts: opts.facts ? opts.facts(o) : [],
       rows: (o.prices || []).map((r) => {
         const v = rowChoice && rowChoice.values.find((x) => x.row === r.label);
