@@ -128,7 +128,7 @@
         <div class="po" data-po="{{ o.id }}">
           <label class="po__head">
             <input type="radio" name="pick" value="{{ o.id }}"{% if o.id == pk.sel %} checked{% endif %}{% if pk.single %} hidden{% endif %} aria-controls="po-{{ o.id }}-d">
-            <span class="po__name">{{ o.label }}{% if o.sub %}<small>{{ o.sub }}</small>{% endif %}</span>
+            <span class="po__name">{{ o.label }}{% if o.best %} <span class="bs bs--opt">Best seller</span>{% endif %}{% if o.sub %}<small>{{ o.sub }}</small>{% endif %}</span>
             {%- if o.from %}
             <span class="po__from">{% if o.from.from %}<small>from</small> {% endif %}<b>{{ o.from.amount }}</b><small>{{ o.from.unit }}</small></span>
             {%- else %}
