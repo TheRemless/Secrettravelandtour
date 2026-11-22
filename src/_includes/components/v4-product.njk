@@ -71,6 +71,7 @@
 {#- Détail de l'option : faits propres, toutes ses lignes de prix, note, déroulé court, frais propres. -#}
 {% macro detail(o) %}
 <div class="po__detail" id="po-{{ o.id }}-d">
+  {%- if o.photo %}{{ v4.photo(o.photo, "(min-width: 900px) 320px, 90vw", false, "po__ph") }}{% endif %}
   {%- if o.facts.length %}<dl class="po__facts">{% for f in o.facts %}<div><dt>{{ f[0] }}</dt><dd>{{ f[1] }}</dd></div>{% endfor %}</dl>{% endif %}
   {%- if o.onRequest %}
   {#- Sans prix d'appel, l'en-tête dit déjà « Price on WhatsApp ». -#}
@@ -115,7 +116,7 @@
           </tbody>
         </table>
         {%- for o in pk.options %}
-        <div class="po po--grid" data-po="{{ o.id }}">{% if o.sub or o.note %}<p class="po__note">{% if o.sub %}{{ o.sub }}.{% endif %}{% if o.sub and o.note %} {% endif %}{{ o.note }}</p>{% endif %}</div>
+        <div class="po po--grid{% if o.photo %} po--ph{% endif %}" data-po="{{ o.id }}">{% if o.photo %}{{ v4.photo(o.photo, "(min-width: 900px) 200px, 40vw", false, "po__ph") }}{% endif %}{% if o.sub or o.note %}<p class="po__note">{% if o.sub %}{{ o.sub }}.{% endif %}{% if o.sub and o.note %} {% endif %}{{ o.note }}</p>{% endif %}</div>
         {%- endfor %}
       </fieldset>
       {%- else %}

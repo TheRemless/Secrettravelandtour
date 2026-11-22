@@ -14,7 +14,7 @@ const SITE = site.url.replace(/\/+$/, "");
 const AGENCY = `${SITE}/#agency`;
 const VIP = `${SITE}/taxi/#vip`;
 // Même liste que tests/products-schema.test.js (elle-même reprise de tests/partenaires.test.js).
-const PARTENAIRES = /rattana|lacha ?ru|sukho|lanta ?atv|atv adventure|lanta elephant|lanta longtail|lanta batik|lanta kayaking|lanta ?e-?gokart|noom|bundhaya|satun|pakbara|blue ?planet|octopusea/i;
+const PARTENAIRES = /rattana|lacha ?ru|sukho|lanta ?atv|atv adventure|tiger ?atv|lanta elephant|lanta longtail|lanta batik|lanta kayaking|lanta ?e-?gokart|noom|bundhaya|satun|pakbara|blue ?planet|octopusea/i;
 // Adresses de niveau 1 et 2 du fil d'Ariane qui existent (accueil, sections du hub /tours/, /taxi/).
 // Groupes des vignettes (11.11.2026) ; #boat-trips et #activities restent pour une fiche hors groupe.
 const CRUMB_URLS = ["/", "/tours/#islands", "/tours/#mangroves", "/tours/#on-land", "/tours/#boat-trips", "/tours/#activities", "/taxi/"].map((p) => SITE + p);

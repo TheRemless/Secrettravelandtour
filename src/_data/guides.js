@@ -433,7 +433,7 @@ const g4 = {
         { list: [
           "Tell us the age of each child when you book. The child rate depends on it.",
           "Child seats and baby seats for transfers are on request, and only if we confirm them in writing.",
-          "On the ATV, there are no children under 4. Passengers ride from 4, drivers from 6 with staff supervision."
+          "On the ATV, there are no children under 4. The child price runs from 4 to 12; on the ATV and kayak ride, children drive from 6."
         ] }
       ]
     },
