@@ -7,7 +7,8 @@ const path = require("node:path");
 const root = path.join(__dirname, "..");
 const home = fs.readFileSync(path.join(root, "_site", "index.html"), "utf8");
 const block = (home.match(/<section class="tx tx-a"[\s\S]*?<\/section>/) || [""])[0];
-const { routes } = require("../src/_data/taxiPages.js")();
+const { routes, ferry, meet } = require("../src/_data/taxiPages.js")();
+const esc = (t) => t.replace(/&/g, "&amp;");
 
 test("le bloc taxi est sur l'accueil, avec la photo du plafond et le logo de VIP Taxi Lanta", () => {
   assert.ok(block, "bloc .tx-a absent");
@@ -25,6 +26,11 @@ test("les trois trajets affichent le prix de la grille VIP (taxiPages.js)", () =
     assert.ok(a.includes(r.price.thb.toLocaleString("en-US") + " THB"), "prix faux : " + href);
   }
   assert.match(block, new RegExp(`See all ${routes.length} routes`));
+});
+
+test("les faits viennent des textes de /taxi/ (ferry, accueil à l'aéroport, places)", () => {
+  for (const t of [ferry.text, meet.text]) assert.ok(block.includes(esc(t)), "fait absent : " + t);
+  assert.match(block, /6 to 8 seats depending on luggage\./);
 });
 
 test("plus d'interrupteur de variantes ni d'ancienne colonne Private transfers", () => {

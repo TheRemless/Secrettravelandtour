@@ -88,7 +88,7 @@ permalink: /
   {{ rail(g.id, g.title, "/tours/#" ~ g.hash, "See all", g.items, g.title | lower) }}
   {%- endfor %}
 
-  {#- Se déplacer : trois trajets en liens, le speedboat, la location et ses trois fourchettes. -#}
+  {#- Se déplacer : le bloc taxi de VIP Taxi Lanta, puis le speedboat et la location avec ses trois fourchettes. -#}
   {%- set ar = h.around -%}
   {{ taxiHome.block(ar.transfers) }}
   <section class="sec sec--tight" id="around" aria-labelledby="around-h">
@@ -99,7 +99,7 @@ permalink: /
         <li><a class="lrow press" href="{{ ar.transfers.speedboat.href }}" data-track="home_getting_around" data-track-cta="speedboat_timetable"><span><b>{{ ar.transfers.speedboat.title }}</b><small>{{ ar.transfers.speedboat.text }}</small></span></a></li>
       </ul>
       {%- endif %}
-      <div class="around">
+      <div class="around around--one">
         <div>
           <h3 id="rent-h">{{ ar.rental.title }}</h3>
           <p class="around__lead">Prices {{ ar.rental.unit }}.</p>
