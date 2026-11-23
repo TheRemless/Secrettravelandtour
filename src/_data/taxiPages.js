@@ -209,6 +209,9 @@ module.exports = function () {
     further: legacy.further,
     commonFaq: (legacy.common || {}).faq || [],
     how: (legacy.common || {}).how || [],
+    // Faits repris tels quels par le bloc taxi de l'accueil (v4data.js).
+    meet: MEET,
+    ferry: FERRY,
     hubBooking,
     rating: view.rating(site.brands.vip.rating),
     contact: view.contact(site)

@@ -260,9 +260,11 @@ module.exports = async function () {
   // Unité de la location : « per 24 hours », celle des lignes de prix (réponse du client), dite une seule fois.
   const rentalUnit = rentalP.options[0].prices[0].unit;
 
-  // Les trois trajets les plus demandés vers ou depuis Koh Lanta (aéroports de Krabi et de Phuket, Ao Nang).
-  const MAIN_ROUTES = ["/taxi/krabi-airport-koh-lanta/", "/taxi/phuket-airport-koh-lanta/", "/taxi/koh-lanta-ao-nang/"];
   const vehFact = (label) => fact(rentalP, label);
+  // Grille et textes de VIP Taxi Lanta, calculés une fois : bloc taxi de l'accueil et /transfers/.
+  const taxiP = require("./taxiPages.js")();
+  // Les trois trajets les plus demandés vers ou depuis Koh Lanta (aéroports de Krabi et de Phuket, Ao Nang).
+  const MAIN_ROUTES = ["/taxi/krabi-airport-koh-lanta/", "/taxi/koh-lanta-ao-nang/", "/taxi/phuket-airport-koh-lanta/"];
   const homeData = {
     seo: {
       title: "Secret Travel & Tour | Koh Lanta Trips and Transfers",
@@ -275,12 +277,19 @@ module.exports = async function () {
     heroTrips: await Promise.all(["4-islands", "koh-rok-koh-haa", "koh-phi-phi"].map(async (s) => ({ ...bySlug[s], photo: await photo(CARD_PHOTO[s]) }))),
     // Une bande par groupe de vignettes (îles, mangrove, sur terre).
     groups: GROUPS.map((g) => ({ id: g.id, title: g.title, hash: g.hash, items: g.slugs.map((s) => bySlug[s]) })),
-    // Transferts et location réunis : trois trajets en liens, le speedboat, puis les trois fourchettes de la location.
+    // Bloc taxi (section à part avant « Getting here and around »), puis le speedboat et les trois fourchettes de la location.
     around: {
       transfers: {
-        lead: `Private minivans for your group only, run by ${site.brands.vip.name}.`,
         vip: site.brands.vip.name,
-        routes: MAIN_ROUTES.map((u) => taxi.find((t) => t.url === u)).filter(Boolean).map((t) => ({ href: t.url, name: t.name, drive: cap(t.drive) })),
+        // Bloc « plafond éclairé » (choix de Jérémy, 23.11.2026) : prix « From » et durées de la grille VIP (taxiPages.js).
+        block: {
+          count: taxiP.routes.length,
+          // Phrases de /taxi/ : places (fin de la première phrase de « Always private », le titre dit déjà « just for your group »),
+          // ferry et accueil à l'aéroport.
+          facts: [cap(taxiP.how.find((x) => x.title === "Always private").text.split(". ")[0].replace(/^.*?, with /, "")) + ".", taxiP.ferry.text, taxiP.meet.text],
+          routes: MAIN_ROUTES.map((u) => taxiP.routes.find((r) => r.url === u)).filter(Boolean)
+            .map((r) => ({ href: r.url, name: r.name, drive: cap(r.drive.replace(/^about /, "")), price: r.price && r.price.thb ? r.price.thb.toLocaleString("en-US") : "", approx: Boolean(r.price && r.price.approx) }))
+        },
         // Le texte de home.json sans sa dernière phrase (la prise en charge est dite sur la page du speedboat).
         speedboat: LIVE.has("/tours/speedboat/") ? (({ title, text }) => ({ href: "/tours/speedboat/", title, text: text.split(". ")[0].replace(/, on the [^,]*$/, "") }))(home.transfers.items.find((i) => i.href === "/tours/speedboat/")) : null
       },
@@ -390,7 +399,7 @@ module.exports = async function () {
   const speedboatPage = vp.speedboatPage(P("secret-transfers/speedboat-ferry"), ctx);
   // /transfers/ : les prix d'appel des trajets privés cités en exemple viennent de la grille VIP Taxi Lanta (taxiPages.js),
   // donc suivent toute correction de prix sans retoucher la page.
-  const transfersPage = vp.transfersPage(P("secret-transfers/shared-minivan"), { ...ctx, privateRoutes: require("./taxiPages.js")().routes });
+  const transfersPage = vp.transfersPage(P("secret-transfers/shared-minivan"), { ...ctx, privateRoutes: taxiP.routes });
 
   const data = {
     productPages, rentalPage, speedboatPage, transfersPage,

@@ -1,0 +1,30 @@
+{#- Bloc taxi de l'accueil, « plafond éclairé » (choix de Jérémy, 23.11.2026). Faits : taxiPages.js (prix « From »,
+    durées, places, ferry, accueil à l'aéroport), rien d'écrit à la main. Styles : .tx dans v4.css. -#}
+{% macro block(t) %}
+{%- set p = t.block -%}
+
+<section class="tx tx-a" id="taxi" aria-labelledby="tx-h">
+  <div class="tx-a__photo">
+    <img src="/images/taxi/hero-ceiling-1800.webp" sizes="(min-width: 900px) 58vw, 100vw" loading="lazy" decoding="async" alt="Lit ceiling with gold patterns above tan leather seats inside a VIP Taxi Lanta minivan">
+  </div>
+  <div class="tx-a__body">
+    <p class="tx-a__brand"><span class="tx-a__logo"><img src="/images/taxi/logo.webp" width="64" height="64" alt="VIP Taxi Lanta logo"></span><span><b>{{ t.vip }}</b>Our partner for private transfers</span></p>
+    <h2 id="tx-h">A minivan just for your group, from your door</h2>
+    <ul class="tx-a__facts">
+      {%- for f in p.facts %}
+      <li>{{ f }}</li>
+      {%- endfor %}
+    </ul>
+    <ul class="tx-a__routes">
+      {%- for r in p.routes %}
+      <li><a href="{{ r.href }}" data-track="home_getting_around" data-track-cta="transfer_route"><b>{{ r.name }}</b><small>{{ r.drive }}, both directions</small>{% if r.price %}<span class="pr"><small>{{ "about" if r.approx else "from" }}</small>{{ r.price }} THB</span>{% endif %}</a></li>
+      {%- endfor %}
+    </ul>
+    <p class="tx-a__note">Prices per minivan.</p>
+    <div class="tx-a__cta">
+      <a class="tx-btn" href="/taxi/">See all {{ p.count }} routes</a>
+      <span class="tx-more"><a href="/transfers/">Shared minivan or songthaew?</a></span>
+    </div>
+  </div>
+</section>
+{% endmacro %}
