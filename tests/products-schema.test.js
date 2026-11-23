@@ -40,9 +40,9 @@ function walk(value, where, visit) {
   else if (value && typeof value === "object") for (const [k, v] of Object.entries(value)) walk(v, `${where}.${k}`, visit);
 }
 
-test("produits : 31 fichiers dans les bons dossiers (découpage du 11.11.2026, snorkeling dans la plongée le 12.11, taxi 13)", () => {
+test("produits : 32 fichiers dans les bons dossiers (découpage du 11.11.2026, snorkeling dans la plongée le 12.11, taxi 13)", () => {
   const count = (f) => files.filter((x) => x.folder === f).length;
-  assert.equal(count("tours"), 7);
+  assert.equal(count("tours"), 8); // + sunset-plankton-kayak (23.11.2026)
   assert.equal(count("activities"), 8);
   assert.equal(count(""), 1);
   assert.equal(count("secret-transfers"), 2);

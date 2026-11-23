@@ -629,5 +629,20 @@
  "taxi|surat-thani-koh-lanta|Surat Thani Airport and bus terminal": {
   "prestation": "0af08f17-b1fd-512e-a414-d914e0cc7abf",
   "gestion": "Surat Thani (town, airport, station)"
+ },
+ "sunset-plankton-kayak|Private longtail, sunset barbecue and plankton kayak|1 to 4 people, the boat": {
+  "prestation": null,
+  "gestion": null,
+  "note": "Prestation à créer dans Gestion (uuid à venir, session facturation), prix de vente = brochure du 23.11.2026"
+ },
+ "sunset-plankton-kayak|Private longtail, sunset barbecue and plankton kayak|Each extra adult": {
+  "prestation": null,
+  "gestion": null,
+  "note": "Prestation à créer dans Gestion (uuid à venir, session facturation), prix de vente = brochure du 23.11.2026"
+ },
+ "sunset-plankton-kayak|Private longtail, sunset barbecue and plankton kayak|Each extra child, 4 to 11": {
+  "prestation": null,
+  "gestion": null,
+  "note": "Prestation à créer dans Gestion (uuid à venir, session facturation), prix de vente = brochure du 23.11.2026"
  }
 }

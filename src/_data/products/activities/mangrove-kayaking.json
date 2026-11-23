@@ -18,7 +18,7 @@
     },
     {
       "label": "Times",
-      "value": "09:30–12:30 or 14:00–17:00"
+      "value": "09:30–12:30 or 13:00–16:30"
     },
     {
       "label": "Season",
@@ -78,7 +78,7 @@
             },
             {
               "id": "afternoon",
-              "label": "Afternoon, 14:00–17:00"
+              "label": "Afternoon, 13:00–16:30"
             }
           ]
         }
@@ -91,7 +91,7 @@
         "mangrove-kayak-half-day"
       ],
       "title": "Mangrove kayaking with lunch",
-      "note": "Times with ≈ are approximate and move with the tide and the weather. The afternoon trip follows the same programme from 14:00 to 17:00.",
+      "note": "Times with ≈ are approximate and move with the tide and the weather. The afternoon trip follows the same programme from 13:00 to 16:30.",
       "steps": [
         {
           "time": "09:30",
@@ -131,7 +131,7 @@
     },
     {
       "q": "Morning or afternoon?",
-      "a": "The morning trip runs from 09:30 to 12:30 and the afternoon trip from 14:00 to 17:00, hotel transfer included. The programme is the same."
+      "a": "The morning trip runs from 09:30 to 12:30 and the afternoon trip from 13:00 to 16:30, hotel transfer included. The programme is the same."
     },
     {
       "q": "Will we see monkeys?",
@@ -182,6 +182,10 @@
     {
       "field": "day[].steps[].time",
       "from": "heures intermédiaires approximatives (≈), estimées entre l'heure de prise en charge et l'heure de fin de la brochure, à la demande de Jérémy du 12.11.2026 (« mets quand même des heures approximatives »)"
+    },
+    {
+      "field": "facts[Times], options[].choices[slot], day[].note, faq[1]",
+      "from": "brochure du partenaire mangrove du 23.11.2026, « Kayaking trip with lunch » : « Morning 9:30 AM – 12:30 PM, Afternoon 1:00 PM – 4:30 PM » (avant : 14:00–17:00, brochure kayak plus ancienne) ; prix inchangés 1 000 / 700 ; « Community / village entrance fee ฿40 per person » non inclus, tarif enfant 20 THB de la décision du 08.11.2026 conservé"
     }
   ]
 }
