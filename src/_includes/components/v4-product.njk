@@ -15,6 +15,7 @@
 {% macro hero(t, c, fallback, book, cta="Choose a date", side="") %}
 <section class="wrap phero{% if not t.hero %} phero--np{% endif %}" aria-labelledby="h1">
   <div class="phero__text">
+    {%- if t.bestSeller %}<p class="bs bs--top">Best seller</p>{% endif %}
     <h1 id="h1">{{ t.h1 }}</h1>
     {%- if t.keyFacts.length %}
     <dl class="keyf{% if t.kind == 'rental' or t.kind == 'speedboat' %} keyf--rows{% endif %}">{% for f in t.keyFacts %}<div><dt>{{ f.label }}</dt><dd>{{ f.value }}</dd></div>{% endfor %}</dl>

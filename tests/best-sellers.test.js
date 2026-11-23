@@ -18,8 +18,16 @@ test("chaque option badgée existe sur sa fiche", () => {
   }
 });
 
-test("chaque carte badgée a aussi son option badgée sur la fiche", () => {
-  for (const slug of cards) assert.ok(best[slug], "carte sans option badgée : " + slug);
+test("chaque carte badgée à plusieurs options a aussi son option badgée sur la fiche", () => {
+  for (const slug of cards) {
+    const n = JSON.parse(fs.readFileSync(fiche(slug), "utf8")).options.length;
+    if (n > 1) assert.ok(best[slug], "carte sans option badgée : " + slug);
+  }
+});
+
+test("une seule carte badgée par groupe de cartes", () => {
+  const { GROUPS } = require("../src/_includes/components/groups.js");
+  for (const g of GROUPS) assert.ok(g.slugs.filter((s) => cards.includes(s)).length <= 1, "plusieurs badges dans " + g.id);
 });
 
 test("la liste ne contient aucun chiffre (ni prix, ni net, ni commission)", () => {

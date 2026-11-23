@@ -20,7 +20,7 @@ const BEST_CARDS = require("./bestSellers.json").cards;
 
 // Dossier de chaque fiche : tours/ (bateaux) ou activities/.
 const BOATS = ["4-islands", "koh-rok-koh-haa", "koh-phi-phi", "sunset-dinner-raft", "sunrise-raft", "fishing-trip", "mangroves"];
-const ACTIVITIES = ["scuba-diving", "kayak", "mangrove-kayaking", "elephant-sanctuary", "atv", "cooking-class", "batik", "go-kart"];
+const ACTIVITIES = ["mangrove-kayaking", "scuba-diving", "kayak", "elephant-sanctuary", "atv", "cooking-class", "batik", "go-kart"];
 const { GROUPS, groupOf: groupFor } = require("../_includes/components/groups.js");
 const groupOf = (slug) => (groupFor(slug) || {}).id || "";
 const CARD_PHOTO = {
