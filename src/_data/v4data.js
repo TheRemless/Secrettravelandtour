@@ -260,8 +260,6 @@ module.exports = async function () {
   // Unité de la location : « per 24 hours », celle des lignes de prix (réponse du client), dite une seule fois.
   const rentalUnit = rentalP.options[0].prices[0].unit;
 
-  // Les trois trajets les plus demandés vers ou depuis Koh Lanta (aéroports de Krabi et de Phuket, Ao Nang).
-  const MAIN_ROUTES = ["/taxi/krabi-airport-koh-lanta/", "/taxi/phuket-airport-koh-lanta/", "/taxi/koh-lanta-ao-nang/"];
   const vehFact = (label) => fact(rentalP, label);
   const homeData = {
     seo: {
@@ -278,16 +276,13 @@ module.exports = async function () {
     // Transferts et location réunis : trois trajets en liens, le speedboat, puis les trois fourchettes de la location.
     around: {
       transfers: {
-        lead: `Private minivans for your group only, run by ${site.brands.vip.name}.`,
         vip: site.brands.vip.name,
-        routes: MAIN_ROUTES.map((u) => taxi.find((t) => t.url === u)).filter(Boolean).map((t) => ({ href: t.url, name: t.name, drive: cap(t.drive) })),
-        // Propositions de design du bloc taxi (TAXI_VARIANT=a|b|c au build) : prix « From » et durées de la grille VIP (taxiPages.js).
-        variant: process.env.TAXI_VARIANT || "",
-        props: (() => {
+        // Bloc « plafond éclairé » (choix de Jérémy, 23.11.2026) : prix « From » et durées de la grille VIP (taxiPages.js).
+        block: (() => {
           const tp = require("./taxiPages.js")();
           const lanta = tp.routes.filter((r) => r.from === "Koh Lanta" || r.to === "Koh Lanta")
-            .map((r) => ({ href: r.url, name: r.name, place: r.from === "Koh Lanta" ? r.to : r.from, drive: cap(r.drive.replace(/^about /, "")), price: r.price && r.price.thb ? r.price.thb.toLocaleString("en-US") : "", approx: Boolean(r.price && r.price.approx), hrs: ((n) => n.reduce((a, b) => a + b, 0) / n.length)((r.drive.match(/\d+/g) || ["0"]).map(Number)) }));
-          const order = ["Krabi Airport", "Ao Nang", "Phuket Airport", "Krabi Town", "Khao Sok", "Trang", "Surat Thani Airport", "Phuket"];
+            .map((r) => ({ href: r.url, name: r.name, place: r.from === "Koh Lanta" ? r.to : r.from, drive: cap(r.drive.replace(/^about /, "")), price: r.price && r.price.thb ? r.price.thb.toLocaleString("en-US") : "", approx: Boolean(r.price && r.price.approx) }));
+          const order = ["Krabi Airport", "Ao Nang", "Phuket Airport"];
           return { count: tp.routes.length, lanta: order.map((p) => lanta.find((r) => r.place === p)).filter(Boolean) };
         })(),
         // Le texte de home.json sans sa dernière phrase (la prise en charge est dite sur la page du speedboat).
