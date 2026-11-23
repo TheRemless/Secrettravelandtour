@@ -43,7 +43,7 @@ permalink: /
       <ul class="hrows" data-hrows>
         {%- for t in h.heroTrips %}
         <li><a class="hrow press" href="{{ t.href }}" data-track="home_hero" data-track-cta="hero_trip" data-hero-i="{{ loop.index0 }}"{% if loop.first %} aria-current="true"{% endif %}>
-          <span class="hrow__t"><b>{{ t.title }}</b><small>{{ t.promise | keephy | safe }}</small></span>
+          <span class="hrow__t"><b>{{ t.title }}{% if t.bestSeller %} <span class="bs bs--opt">Best seller</span>{% endif %}</b><small>{{ t.promise | keephy | safe }}</small></span>
           <span class="hrow__p"><b>from {{ t.price.amount }}</b><small>{{ t.price.unit }}</small></span>
         </a></li>
         {%- endfor %}
