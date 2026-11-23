@@ -5,6 +5,7 @@ permalink: /
     v4.js et v4-home.js n'ajoutent que le comportement. -#}
 {% import "components/v4.njk" as v4 %}
 {% from "components/icons.njk" import icon %}
+{% import "components/taxi-props.njk" as taxiProps %}
 {%- set d = v4data -%}
 {%- set h = d.home -%}
 {%- set c = d.contact -%}
@@ -89,6 +90,9 @@ permalink: /
 
   {#- Se déplacer : trois trajets en liens, le speedboat, la location et ses trois fourchettes. -#}
   {%- set ar = h.around -%}
+  {%- if ar.transfers.variant %}
+  {{ taxiProps.block(ar.transfers, ar.transfers.variant) }}
+  {%- endif %}
   <section class="sec sec--tight" id="around" aria-labelledby="around-h">
     <div class="wrap">
       <h2 id="around-h">Getting here and around</h2>
@@ -98,6 +102,7 @@ permalink: /
       </ul>
       {%- endif %}
       <div class="around">
+        {%- if not ar.transfers.variant %}
         <div>
           <h3 id="tr-h">Private transfers</h3>
           <p class="around__lead">{{ ar.transfers.lead | replace(ar.transfers.vip, '<a class="link" href="/taxi/">' ~ ar.transfers.vip ~ '</a>') | safe }}</p>
@@ -109,6 +114,7 @@ permalink: /
           <a class="link" href="/taxi/">All private transfers</a>
           <p class="note"><a class="link" href="/transfers/">Shared minivan or songthaew? See all transfer options</a></p>
         </div>
+        {%- endif %}
         <div>
           <h3 id="rent-h">{{ ar.rental.title }}</h3>
           <p class="around__lead">Prices {{ ar.rental.unit }}.</p>

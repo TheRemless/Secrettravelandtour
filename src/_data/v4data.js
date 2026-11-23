@@ -281,6 +281,15 @@ module.exports = async function () {
         lead: `Private minivans for your group only, run by ${site.brands.vip.name}.`,
         vip: site.brands.vip.name,
         routes: MAIN_ROUTES.map((u) => taxi.find((t) => t.url === u)).filter(Boolean).map((t) => ({ href: t.url, name: t.name, drive: cap(t.drive) })),
+        // Propositions de design du bloc taxi (TAXI_VARIANT=a|b|c au build) : prix « From » et durées de la grille VIP (taxiPages.js).
+        variant: process.env.TAXI_VARIANT || "",
+        props: (() => {
+          const tp = require("./taxiPages.js")();
+          const lanta = tp.routes.filter((r) => r.from === "Koh Lanta" || r.to === "Koh Lanta")
+            .map((r) => ({ href: r.url, name: r.name, place: r.from === "Koh Lanta" ? r.to : r.from, drive: cap(r.drive.replace(/^about /, "")), price: r.price && r.price.thb ? r.price.thb.toLocaleString("en-US") : "", approx: Boolean(r.price && r.price.approx), hrs: ((n) => n.reduce((a, b) => a + b, 0) / n.length)((r.drive.match(/\d+/g) || ["0"]).map(Number)) }));
+          const order = ["Krabi Airport", "Ao Nang", "Phuket Airport", "Krabi Town", "Khao Sok", "Trang", "Surat Thani Airport", "Phuket"];
+          return { count: tp.routes.length, lanta: order.map((p) => lanta.find((r) => r.place === p)).filter(Boolean) };
+        })(),
         // Le texte de home.json sans sa dernière phrase (la prise en charge est dite sur la page du speedboat).
         speedboat: LIVE.has("/tours/speedboat/") ? (({ title, text }) => ({ href: "/tours/speedboat/", title, text: text.split(". ")[0].replace(/, on the [^,]*$/, "") }))(home.transfers.items.find((i) => i.href === "/tours/speedboat/")) : null
       },
