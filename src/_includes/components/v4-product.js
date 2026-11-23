@@ -6,7 +6,7 @@
 const view = require("./view.js");
 const price = require("../../js/v4-price.js");
 // Option marquée « Best seller » sur chaque fiche (src/_data/bestSellers.json, ids seulement).
-const BEST = require("../../_data/bestSellers.json").options;
+const { options: BEST, cards: BEST_CARDS } = require("../../_data/bestSellers.json");
 
 const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : "");
 // Noms de lieux jamais coupés en fin de ligne (« Koh Bubu », « Thung Yee Peng ») : espaces insécables.
@@ -475,7 +475,7 @@ function productPage(p, ctx) {
     nav: ctx.group ? ctx.group.id : p.template === "boat" ? "boats" : "activities",
     crumb: ctx.group ? { label: ctx.group.nav, href: "/tours/#" + ctx.group.hash }
       : p.template === "boat" ? { label: "Boat trips", href: "/tours/#boat-trips" } : { label: "Activities", href: "/tours/#activities" },
-    seo: p.seo, h1: nb(p.h1), lead: p.lead, promise: p.promise || "",
+    seo: p.seo, h1: nb(p.h1), lead: p.lead, promise: p.promise || "", bestSeller: BEST_CARDS.includes(p.slug),
     keyFacts: facts.hero,
     price: pr ? { amount: pr.amount, unit: p.price.unit } : null,
     hero: ctx.hero,
