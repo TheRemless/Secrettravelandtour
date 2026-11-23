@@ -1,5 +1,5 @@
 {
-  "_note": "Badges « Best seller ». cards : fiches badgées sur leur carte (une par groupe de cartes : islands, mangrove, land), aussi en haut de leur fiche. options : sur chaque fiche, l'option badgée quand elle rapporte nettement plus que les autres. Ids seulement, jamais de chiffre.",
+  "_note": "Badges « Best seller ». cards : fiches badgées sur leur carte (une par groupe de cartes : islands, mangrove, land), et dans le haut de l'accueil pour les trois sorties mises en avant. options : sur chaque fiche, l'option badgée quand elle rapporte nettement plus que les autres. Ids seulement, jamais de chiffre.",
   "cards": [
     "4-islands",
     "mangrove-kayaking",
