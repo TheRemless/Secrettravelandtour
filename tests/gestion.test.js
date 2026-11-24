@@ -143,6 +143,49 @@ test("chaque type se rend : classe, rôle, icône, texte en textContent, lien, c
   assert.equal(all(fixed, (n) => n.className === "site-notice__close").length, 0);
 });
 
+test("texte long (600 au plus) : replié par « More » avec aria-expanded, lien sous le texte, retours à la ligne gardés, texte brut", () => {
+  assert.equal(N.TEXT_MAX, 600);
+  assert.equal(N.isLong("x".repeat(140)), false, "140 : rendu d'avant");
+  assert.equal(N.isLong("x".repeat(141)), true);
+  assert.equal(N.isLong("Christmas week\nTransfers run as usual."), true, "un retour à la ligne suffit");
+  assert.equal(N.cleanText("A  \r\nB\n\n\n\nC  "), "A\nB\n\nC", "deux retours au plus, espaces de fin retirés");
+  assert.equal(N.cleanText("y".repeat(700)).length, 600, "coupé à la limite du contrat");
+  const text = "<b>Rough</b> sea. " + "Boats leave later today. ".repeat(20);
+  const box = N.build(fakeDoc(), banner({ id: "b-long", text, link: { kind: "page", href: "/tours/", label: "See trips" } }), "1");
+  assert.equal(box.className, "site-notice site-notice--info site-notice--long");
+  const p = all(box, (n) => n.className === "site-notice__text")[0];
+  assert.equal(p._text, N.cleanText(text), "texte brut, jamais interprété comme HTML");
+  assert.equal(p.children.length, 0, "le lien n'est plus dans le texte replié");
+  const more = all(box, (n) => n.className === "site-notice__more")[0];
+  assert.equal(more.tag, "button");
+  assert.equal(more.type, "button");
+  assert.equal(more._text, "More");
+  assert.equal(more.attrs["aria-expanded"], "false");
+  assert.equal(more.attrs["aria-controls"], p.id);
+  assert.equal(p.id, "site-notice-text-b-long");
+  const row = all(box, (n) => n.className === "site-notice__actions")[0];
+  assert.deepEqual(row.children.map((n) => n.className), ["site-notice__more", "site-notice__link"], "More puis le lien, visibles replié");
+  assert.equal(all(box, (n) => n.className === "site-notice__close").length, 1);
+  // 140 caractères au plus sans retour à la ligne : exactement le rendu d'avant (texte puis lien dans le même paragraphe).
+  const short = N.build(fakeDoc(), banner({ text: "x".repeat(140), link: { kind: "page", href: "/tours/", label: "See trips" } }), "1");
+  assert.equal(short.className, "site-notice site-notice--info");
+  const sp = all(short, (n) => n.className === "site-notice__text")[0];
+  assert.equal(sp._text, "x".repeat(140));
+  assert.equal(sp.children[1].className, "site-notice__link");
+  assert.equal(all(short, (n) => n.className === "site-notice__more").length, 0);
+});
+
+test("texte long : style replié sur deux lignes, ouvert sans animation, zone de toucher de 44 px, Échap referme", () => {
+  const js = src("src/js/notice.js");
+  assert.match(js, /\.site-notice--long \.site-notice__text\{white-space:pre-line;overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden\}/);
+  assert.match(js, /\.site-notice--long\.is-open \.site-notice__text\{display:block;-webkit-line-clamp:none/);
+  assert.match(js, /width:max\(100% \+ 16px,44px\);height:44px/);
+  assert.match(js, /more\.setAttribute\("aria-expanded", open \? "true" : "false"\)/);
+  assert.match(js, /more\.textContent = open \? "Less" : "More"/);
+  assert.match(js, /e\.key !== "Escape"/);
+  assert.doesNotMatch(js, /site-notice--long[^"]*transition|marquee|@keyframes/, "aucun texte qui défile, aucune animation");
+});
+
 test("pages : contexte du bandeau sur chaque page, script différé, styles des deux marques, mesure après « Accept »", () => {
   const ctx = (rel) => read(rel).match(/<script defer(?:="")? src="\/js\/notice\.js\?v=[^"]+" data-notice-brand="([^"]*)" data-notice-section="([^"]*)" data-notice-product="([^"]*)" data-notice-wa="(\d+)"><\/script>/).slice(1);
   assert.deepEqual(ctx("tours/4-islands"), ["secret", "islands", "4-islands", "66958683846"]);

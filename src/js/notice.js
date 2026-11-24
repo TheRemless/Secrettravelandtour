@@ -8,7 +8,11 @@
    Texte, libellé du lien et étiquette des cartes posés avec textContent, jamais comme HTML. Lien : un chemin du site,
    ou WhatsApp construit avec le numéro du site. Fermé par le visiteur (si closable) : retenu dans localStorage.
    Mesure (consent.js, après « Accept » seulement) : notice_view, notice_close, banner_click {type}, jamais le texte.
-   Étiquette facultative sur les cartes des sorties visées (sea et season avec card_label), posée sur la photo. */
+   Étiquette facultative sur les cartes des sorties visées (sea et season avec card_label), posée sur la photo.
+   Texte long (24.11.2026, 600 caractères au plus, retours à la ligne permis) : au-delà de 140 caractères ou avec un
+   retour à la ligne, le texte est replié sur deux lignes avec un bouton « More » (aria-expanded), puis « Less ». Le
+   bouton n'apparaît que si le texte dépasse vraiment deux lignes ; le lien passe alors sous le texte pour rester
+   visible replié. Un texte de 140 caractères au plus, sans retour à la ligne, se rend exactement comme avant. */
 (function (root, factory) {
   if (typeof module === "object" && module.exports) module.exports = factory();
   else {
@@ -21,6 +25,13 @@
   var URL = "https://lkxqcmzeidlyssoqmqkh.supabase.co/functions/v1/bandeau-site";
   var KEY = "stt-notice-v1", CLOSED = "stt-notice-closed";
   var TYPES = { info: 1, sea: 1, season: 1, "new": 1, urgent: 1 };
+  // Contrat : 600 caractères au plus. Jusqu'à 140 sans retour à la ligne, le rendu d'avant (une ligne de texte et le lien à la suite).
+  var TEXT_MAX = 600, LEGACY_MAX = 140;
+  function isLong(text) { return text.length > LEGACY_MAX || /[\r\n]/.test(text); }
+  // Retours à la ligne gardés (deux au plus de suite), espaces de fin de ligne retirés.
+  function cleanText(text) {
+    return String(text).replace(/\r\n?/g, "\n").replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim().slice(0, TEXT_MAX);
+  }
 
   // ---------- Règle de choix : copie exacte de choisirBandeau (contrat) ----------
   var ORDER = { urgent: 0, sea: 1, season: 2, "new": 3, info: 4 };
@@ -99,10 +110,49 @@
     + ".card-notice{position:absolute;top:10px;left:10px;z-index:1;display:inline-block;padding:2px 8px;border-radius:999px;font:600 13px/1.4 var(--sans,'Manrope',system-ui,sans-serif)}"
     + ".card-notice--sea{background:#F7D58B;color:var(--ink,#14262B)}"
     + ".card-notice--season{background:var(--on-dark-mute,#B5CBC6);color:var(--deep,#0B3B3C)}"
+    // Texte long : replié sur deux lignes (hauteur fixe tant qu'il est replié), ouvert par « More ». Aucune animation.
+    + ".site-notice--long .site-notice__body{min-width:0;max-width:80ch}"
+    + ".site-notice--long .site-notice__text{white-space:pre-line;overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden}"
+    + ".site-notice--long.is-open .site-notice__text{display:block;-webkit-line-clamp:none;line-clamp:none;overflow-y:auto;max-height:calc(100vh - var(--hd,0px) - 120px);max-height:calc(100dvh - var(--hd,0px) - 120px)}"
+    + ".site-notice__actions{display:flex;flex-wrap:wrap;align-items:center;gap:0 24px;margin-top:4px}"
+    + ".site-notice__actions[hidden],.site-notice__more[hidden]{display:none}"
+    // Bouton et lien de la hauteur d'une ligne ; la zone de toucher (44 px au moins) déborde par ::before.
+    + ".site-notice__more,.site-notice__actions .site-notice__link{position:relative;display:inline-block;padding:0;background:none;border:0;color:inherit;font-family:inherit;font-size:15px;font-weight:700;line-height:1.45;text-decoration:underline;text-underline-offset:3px;cursor:pointer;touch-action:manipulation}"
+    + ".site-notice__more::before,.site-notice__actions .site-notice__link::before{content:\"\";position:absolute;top:50%;left:50%;width:max(100% + 16px,44px);height:44px;transform:translate(-50%,-50%)}"
+    + ".site-notice__more:focus-visible,.site-notice--long .site-notice__text:focus-visible{outline:2px solid currentColor;outline-offset:2px}"
     + "@media(prefers-reduced-motion:reduce){.site-notice--top,.hd.is-hidden~.site-notice--top{transition:none}}";
 
   function emit(doc, name, type) {
     if (typeof CustomEvent === "function") doc.dispatchEvent(new CustomEvent(name, { detail: { type: type } }));
+  }
+
+  function linkNode(doc, l) {
+    var a = doc.createElement("a");
+    a.className = "site-notice__link";
+    a.href = l.href;
+    a.textContent = l.label.slice(0, 60);
+    a.setAttribute("data-notice-link", "");
+    if (l.blank) { a.target = "_blank"; a.rel = "noopener"; }
+    return a;
+  }
+
+  // Texte long replié : « More » seulement s'il dépasse vraiment deux lignes ; la ligne d'actions disparaît si elle est vide.
+  function fit(box) {
+    if (!box || !box.classList.contains("site-notice--long") || box.classList.contains("is-open")) return;
+    var p = box.querySelector(".site-notice__text"), more = box.querySelector(".site-notice__more"), row = box.querySelector(".site-notice__actions");
+    if (!p || !more || !row) return;
+    var over = p.scrollHeight > p.clientHeight + 1;
+    more.hidden = !over;
+    row.hidden = !over && !box.querySelector(".site-notice__link");
+  }
+  function toggle(box, open) {
+    var p = box.querySelector(".site-notice__text"), more = box.querySelector(".site-notice__more");
+    box.classList.toggle("is-open", open);
+    more.setAttribute("aria-expanded", open ? "true" : "false");
+    more.textContent = open ? "Less" : "More";
+    // Ouvert et plus haut que l'écran : le texte défile dans le bandeau, au clavier aussi.
+    if (open && p.scrollHeight > p.clientHeight + 1) p.setAttribute("tabindex", "0"); else p.removeAttribute("tabindex");
+    if (!open) fit(box);
   }
 
   // Construit le bandeau (HTML du contrat) noeud par noeud : les textes venus de Gestion ne sont jamais lus comme du HTML.
@@ -120,19 +170,35 @@
     inner.appendChild(svg(doc, ICONS[b.type], { "class": "site-notice__icon", viewBox: "0 0 24 24", width: "20", height: "20", fill: "none", stroke: "currentColor", "stroke-width": "1.8", "stroke-linecap": "round", "stroke-linejoin": "round", "aria-hidden": "true" }));
     var p = doc.createElement("p");
     p.className = "site-notice__text";
-    p.textContent = b.text.slice(0, 140);
-    var l = linkOf(b, number);
-    if (l) {
-      var a = doc.createElement("a");
-      a.className = "site-notice__link";
-      a.href = l.href;
-      a.textContent = l.label.slice(0, 60);
-      a.setAttribute("data-notice-link", "");
-      if (l.blank) { a.target = "_blank"; a.rel = "noopener"; }
-      p.appendChild(doc.createTextNode(" "));
-      p.appendChild(a);
+    var l = linkOf(b, number), long = isLong(b.text);
+    if (long) {
+      // Texte long : le texte (replié par le style), puis une ligne avec « More » et le lien.
+      box.className += " site-notice--long";
+      var body = doc.createElement("div");
+      body.className = "site-notice__body";
+      p.id = "site-notice-text-" + String(b.id).replace(/[^A-Za-z0-9_-]/g, "");
+      p.textContent = cleanText(b.text);
+      body.appendChild(p);
+      var row = doc.createElement("div");
+      row.className = "site-notice__actions";
+      var more = doc.createElement("button");
+      more.className = "site-notice__more";
+      more.type = "button";
+      more.setAttribute("aria-expanded", "false");
+      more.setAttribute("aria-controls", p.id);
+      more.textContent = "More";
+      row.appendChild(more);
+      if (l) row.appendChild(linkNode(doc, l));
+      body.appendChild(row);
+      inner.appendChild(body);
+    } else {
+      p.textContent = b.text.slice(0, LEGACY_MAX);
+      if (l) {
+        p.appendChild(doc.createTextNode(" "));
+        p.appendChild(linkNode(doc, l));
+      }
+      inner.appendChild(p);
     }
-    inner.appendChild(p);
     if (b.closable) {
       var x = doc.createElement("button");
       x.className = "site-notice__close";
@@ -205,7 +271,9 @@
         cards(data);
         if (!b || (old && old.getAttribute("data-notice-id") === b.id)) return;
         style();
-        place(build(doc, b, number));
+        var box = build(doc, b, number);
+        place(box);
+        fit(box);
         if (shownId !== b.id) {
           shownId = b.id;
           // Après « load » : consent.js n'écoute la mesure qu'à partir de là (rien ne part sans « Accept »).
@@ -222,12 +290,26 @@
       if (!box) return;
       var type = box.getAttribute("data-notice-type");
       if (t.closest("[data-notice-link]")) { emit(doc, "stt-notice-click", type); return; }
+      if (t.closest(".site-notice__more")) { toggle(box, !box.classList.contains("is-open")); return; }
       if (!t.closest(".site-notice__close")) return;
       closed = closed.concat(box.getAttribute("data-notice-id")).slice(-20);
       try { localStorage.setItem(CLOSED, JSON.stringify(closed)); } catch (e2) { /* stockage indisponible : fermé pour cette page */ }
       box.remove();
       emit(doc, "stt-notice-close", type);
     });
+
+    // Échap referme un texte ouvert et rend le focus au bouton.
+    doc.addEventListener("keydown", function (e) {
+      if (e.key !== "Escape" || !e.target || !e.target.closest) return;
+      var box = e.target.closest(".site-notice.is-open");
+      if (!box) return;
+      toggle(box, false);
+      box.querySelector(".site-notice__more").focus();
+    });
+    // La largeur change (rotation, fenêtre) ou la police arrive : « More » recalculé.
+    var refit = 0, again = function () { refit = 0; fit(doc.querySelector(".site-notice")); };
+    window.addEventListener("resize", function () { if (!refit) refit = requestAnimationFrame(again); });
+    if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(again, function () {});
 
     // Copie de la page précédente tout de suite, puis la réponse à jour (en cache 60 s côté fonction).
     show(read("sessionStorage", KEY, null));
@@ -239,5 +321,5 @@
     }).catch(function () { /* panne ou hors ligne : pas de bandeau */ });
   }
 
-  return { pickBanner: pickBanner, choose: choose, valid: valid, linkOf: linkOf, build: build, mount: mount, URL: URL };
+  return { pickBanner: pickBanner, choose: choose, valid: valid, linkOf: linkOf, build: build, mount: mount, isLong: isLong, cleanText: cleanText, TEXT_MAX: TEXT_MAX, LEGACY_MAX: LEGACY_MAX, URL: URL };
 });
