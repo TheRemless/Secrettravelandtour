@@ -27,11 +27,12 @@
 @media (max-width: 560px) { :root { --gut: 20px; --hd: 64px; } }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--hd) + 16px); }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--hd) + var(--notice-h, 0px) + 16px); }
 body {
   margin: 0; background: var(--white); color: var(--ink);
   font: 400 17px/1.65 var(--sans); font-variant-numeric: lining-nums;
-  padding-top: var(--hd); overflow-x: clip;
+  /* Bandeau d'information (notice.js) : sa hauteur s'ajoute à celle de l'en-tête, il ne recouvre jamais le haut de la page. */
+  padding-top: calc(var(--hd) + var(--notice-h, 0px)); overflow-x: clip;
 }
 img, svg { display: block; max-width: 100%; }
 [hidden] { display: none !important; }
@@ -543,7 +544,7 @@ html.sheet-open .dock { transform: translateY(calc(100% + 2px)); }
 .top .lead { margin-top: 12px; }
 @media (max-width: 899px) { .top { padding-top: 0; } .top h1 { font-size: 34px; line-height: 1.05; } .top .lead { margin-top: 8px; font-size: 16px; } }
 /* Filtres : une rangée collante sous l'en-tête, téléphone compris. */
-.bar { position: sticky; top: calc(var(--hd) - 1px); z-index: 30; background: var(--white); border-block: 1px solid var(--line); transition: top var(--t3) var(--out); }
+.bar { position: sticky; top: calc(var(--hd) + var(--notice-h, 0px) - 1px); z-index: 30; background: var(--white); border-block: 1px solid var(--line); transition: top var(--t3) var(--out); }
 .hd-off .bar { top: 0; }
 @media (max-height: 500px) { .bar { position: static; } .tl-dock { min-height: 52px; padding-block: 6px; } .trips .sheet-foot .sheet-note { display: none; } }
 .bar__in { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 8px; }
@@ -574,8 +575,8 @@ html:not(.js) .hub__cmp { display: none; }
   .lrows--3 li { border-top: 1px solid var(--line); }
 }
 .hub .card { view-transition-class: card; }
-.hub .card { scroll-margin-top: calc(var(--hd) + 90px); }
-[data-grid] { scroll-margin-top: calc(var(--hd) + 140px); }
+.hub .card { scroll-margin-top: calc(var(--hd) + var(--notice-h, 0px) + 90px); }
+[data-grid] { scroll-margin-top: calc(var(--hd) + var(--notice-h, 0px) + 140px); }
 ::view-transition-group(.card) { animation-duration: 420ms; animation-timing-function: var(--spring); }
 ::view-transition-old(.card):only-child { animation: 180ms var(--in) both vt-leave; }
 ::view-transition-new(.card):only-child { animation: 280ms var(--out) 80ms both vt-enter; }
@@ -675,7 +676,7 @@ html:not(.js) .hub__cmp { display: none; }
 .sec__note { color: var(--ink-mute); font-size: 16px; max-width: 60ch; }
 .opts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; align-items: start; }
 .opts--one { grid-template-columns: minmax(0, 1fr); max-width: 560px; }
-.opts__col { display: flex; flex-direction: column; gap: 14px; background: var(--white); border-radius: var(--r); padding: 22px; scroll-margin-top: calc(var(--hd) + 16px); }
+.opts__col { display: flex; flex-direction: column; gap: 14px; background: var(--white); border-radius: var(--r); padding: 22px; scroll-margin-top: calc(var(--hd) + var(--notice-h, 0px) + 16px); }
 .opts__col:target { outline: 2px solid var(--sea); outline-offset: 2px; }
 .opts__col h3 { font-size: 26px; }
 .opts__note { font-size: 15px; line-height: 1.5; color: var(--ink-soft); }
@@ -698,7 +699,7 @@ html:not(.js) .hub__cmp { display: none; }
 
 /* ---------- Location : le haut de page est la liste. Bureau : texte à gauche (collant), véhicules à droite ---------- */
 .rhero { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 64px; align-items: start; padding-block: 8px 72px; }
-.rhero__text { position: sticky; top: calc(var(--hd) + 24px); transition: top var(--t3) var(--out); }
+.rhero__text { position: sticky; top: calc(var(--hd) + var(--notice-h, 0px) + 24px); transition: top var(--t3) var(--out); }
 .hd-off .rhero__text { top: 24px; }
 .rhero h1 { font-size: clamp(40px, 4vw, 56px); line-height: 1.02; max-width: 14ch; }
 .rhero .lead { margin-top: 18px; }
@@ -729,7 +730,7 @@ html:not(.js) .rent__seg, html:not(.js) .sb__seg { display: none; }
   .rhero h1 { font-size: 34px; line-height: 1.05; max-width: none; }
   .rhero .lead { margin-top: 8px; font-size: 16px; }
   .rhero .link { margin-top: 0; }
-  .rent__seg { position: sticky; top: calc(var(--hd) + 8px); z-index: 5; box-shadow: 0 0 0 8px var(--white); transition: top var(--t3) var(--out); }
+  .rent__seg { position: sticky; top: calc(var(--hd) + var(--notice-h, 0px) + 8px); z-index: 5; box-shadow: 0 0 0 8px var(--white); transition: top var(--t3) var(--out); }
   .hd-off .rent__seg { top: 8px; }
 }
 /* « Before you book » serré (location, speedboat) : titres en Manrope, deux colonnes au bureau. */
@@ -832,7 +833,7 @@ html:not(.js) .rent__seg, html:not(.js) .sb__seg { display: none; }
 .po__ph { border-radius: 10px; overflow: hidden; aspect-ratio: 4 / 3; }
 .po__ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
 /* Groupe et total */
-.calc { position: sticky; top: calc(var(--hd) + 24px); background: var(--white); border-radius: var(--r); padding: 22px; transition: top var(--t3) var(--out); }
+.calc { position: sticky; top: calc(var(--hd) + var(--notice-h, 0px) + 24px); background: var(--white); border-radius: var(--r); padding: 22px; transition: top var(--t3) var(--out); }
 .hd-off .calc { top: 24px; }
 .calc__h { font-size: 26px; }
 .calc__opt { margin-top: 2px; font-size: 15px; color: var(--ink-mute); }
@@ -1105,7 +1106,7 @@ h1, h2, h3, h4, .brand b, .drawer nav a, .card__title, .hrow__t b, .route__step 
 .know__in { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 56px; align-items: start; }
 .know--wide .know__in { grid-template-columns: minmax(0, 1fr); }
 .know--wide .know__main { max-width: 920px; }
-.know__ph { display: grid; gap: 12px; position: sticky; top: calc(var(--hd) + 24px); transition: top var(--t3) var(--out); }
+.know__ph { display: grid; gap: 12px; position: sticky; top: calc(var(--hd) + var(--notice-h, 0px) + 24px); transition: top var(--t3) var(--out); }
 .hd-off .know__ph { top: 24px; }
 .know__ph--n1 .gal__item { aspect-ratio: 1; }
 .know__ph--n2 { grid-template-columns: 1fr 1fr; }

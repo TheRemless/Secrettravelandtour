@@ -27,10 +27,12 @@
   var TYPES = { info: 1, sea: 1, season: 1, "new": 1, urgent: 1 };
   // Contrat : 600 caractères au plus. Jusqu'à 140 sans retour à la ligne, le rendu d'avant (une ligne de texte et le lien à la suite).
   var TEXT_MAX = 600, LEGACY_MAX = 140;
-  function isLong(text) { return text.length > LEGACY_MAX || /[\r\n]/.test(text); }
+  // Longueurs en caractères visibles comptés en points de code (un emoji = 1, comme length() de Postgres et le compteur de Gestion).
+  function chars(text) { return Array.from(String(text)); }
+  function isLong(text) { return chars(text).length > LEGACY_MAX || /[\r\n]/.test(text); }
   // Retours à la ligne gardés (deux au plus de suite), espaces de fin de ligne retirés.
   function cleanText(text) {
-    return String(text).replace(/\r\n?/g, "\n").replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim().slice(0, TEXT_MAX);
+    return chars(String(text).replace(/\r\n?/g, "\n").replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim()).slice(0, TEXT_MAX).join("");
   }
 
   // ---------- Règle de choix : copie exacte de choisirBandeau (contrat) ----------
@@ -111,6 +113,7 @@
     + ".card-notice--sea{background:#F7D58B;color:var(--ink,#14262B)}"
     + ".card-notice--season{background:var(--on-dark-mute,#B5CBC6);color:var(--deep,#0B3B3C)}"
     // Texte long : replié sur deux lignes (hauteur fixe tant qu'il est replié), ouvert par « More ». Aucune animation.
+    + ".site-notice--long .site-notice__inner{padding-bottom:13px}"
     + ".site-notice--long .site-notice__body{min-width:0;max-width:80ch}"
     + ".site-notice--long .site-notice__text{white-space:pre-line;overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden}"
     + ".site-notice--long.is-open .site-notice__text{display:block;-webkit-line-clamp:none;line-clamp:none;overflow-y:auto;max-height:calc(100vh - var(--hd,0px) - 120px);max-height:calc(100dvh - var(--hd,0px) - 120px)}"
@@ -136,12 +139,31 @@
     return a;
   }
 
+  // Texte entier de chaque bandeau long : replié, le paragraphe ne montre qu'un début coupé sur un mot.
+  var FULL = typeof WeakMap === "function" ? new WeakMap() : null;
+  function fullText(p) { return (FULL && FULL.get(p)) || p.textContent; }
+  // Replié : le plus long début, coupé après un mot entier (jamais au milieu d'un nombre), qui tient en deux lignes avec « … ».
+  // Le style replie aussi sur deux lignes : sans mesure possible, la coupe du navigateur reste.
+  function cut(p) {
+    var full = fullText(p);
+    p.textContent = full;
+    if (p.scrollHeight <= p.clientHeight + 1) return false;
+    var parts = full.split(/(\s+)/), words = Math.ceil(parts.length / 2), lo = 0, hi = words - 1, best = "";
+    var head = function (k) { return parts.slice(0, 2 * k - 1).join("").replace(/[\s.,;:!?\u2014\u2013-]+$/, "") + "\u2026"; };
+    while (lo < hi) {
+      var mid = (lo + hi + 1) >> 1;
+      p.textContent = head(mid);
+      if (p.scrollHeight <= p.clientHeight + 1) { lo = mid; best = p.textContent; } else hi = mid - 1;
+    }
+    p.textContent = best || full;
+    return true;
+  }
   // Texte long replié : « More » seulement s'il dépasse vraiment deux lignes ; la ligne d'actions disparaît si elle est vide.
   function fit(box) {
     if (!box || !box.classList.contains("site-notice--long") || box.classList.contains("is-open")) return;
     var p = box.querySelector(".site-notice__text"), more = box.querySelector(".site-notice__more"), row = box.querySelector(".site-notice__actions");
     if (!p || !more || !row) return;
-    var over = p.scrollHeight > p.clientHeight + 1;
+    var over = cut(p);
     more.hidden = !over;
     row.hidden = !over && !box.querySelector(".site-notice__link");
   }
@@ -150,8 +172,10 @@
     box.classList.toggle("is-open", open);
     more.setAttribute("aria-expanded", open ? "true" : "false");
     more.textContent = open ? "Less" : "More";
-    // Ouvert et plus haut que l'écran : le texte défile dans le bandeau, au clavier aussi.
-    if (open && p.scrollHeight > p.clientHeight + 1) p.setAttribute("tabindex", "0"); else p.removeAttribute("tabindex");
+    if (open) p.textContent = fullText(p);
+    // Ouvert et plus haut que l'écran : le texte défile dans le bandeau, au clavier aussi, sous un nom (« Notice text »).
+    if (open && p.scrollHeight > p.clientHeight + 1) { p.setAttribute("tabindex", "0"); p.setAttribute("role", "region"); p.setAttribute("aria-label", "Notice text"); }
+    else { p.removeAttribute("tabindex"); p.removeAttribute("role"); p.removeAttribute("aria-label"); }
     if (!open) fit(box);
   }
 
@@ -178,6 +202,7 @@
       body.className = "site-notice__body";
       p.id = "site-notice-text-" + String(b.id).replace(/[^A-Za-z0-9_-]/g, "");
       p.textContent = cleanText(b.text);
+      if (FULL) FULL.set(p, p.textContent);
       body.appendChild(p);
       var row = doc.createElement("div");
       row.className = "site-notice__actions";
@@ -192,7 +217,7 @@
       body.appendChild(row);
       inner.appendChild(body);
     } else {
-      p.textContent = b.text.slice(0, LEGACY_MAX);
+      p.textContent = chars(b.text).slice(0, LEGACY_MAX).join("");
       if (l) {
         p.appendChild(doc.createTextNode(" "));
         p.appendChild(linkNode(doc, l));
@@ -220,6 +245,23 @@
     var closed = read("localStorage", CLOSED, []);
     if (!Array.isArray(closed)) closed = [];
     var styled = false, shownId = null;
+    // Hauteur du bandeau du haut dans --notice-h : le corps de la page la réserve sous l'en-tête (v4.css), rien n'est recouvert.
+    // Gardée pour la page suivante du même contexte : consent-head.njk la pose avant l'affichage, sans saut.
+    var HKEY = "stt-notice-h:" + (tag.getAttribute("data-notice-brand") || "") + ":" + (tag.getAttribute("data-notice-section") || "") + ":" + (tag.getAttribute("data-notice-product") || "");
+    var ro = null;
+    function height() {
+      var box = doc.querySelector(".site-notice--top");
+      var h = box ? Math.round(box.getBoundingClientRect().height) : 0;
+      doc.documentElement.style.setProperty("--notice-h", h + "px");
+      if (!box || !box.classList.contains("is-open")) { try { sessionStorage.setItem(HKEY, JSON.stringify({ w: window.innerWidth, h: h })); } catch (e) { /* stockage indisponible */ } }
+    }
+    function watch(box) {
+      if (ro) ro.disconnect();
+      ro = null;
+      if (!box || !box.classList.contains("site-notice--top") || typeof ResizeObserver !== "function") return;
+      ro = new ResizeObserver(height);
+      ro.observe(box);
+    }
 
     function style() {
       if (styled) return;
@@ -267,13 +309,16 @@
       try {
         var b = choose(data, page, Date.now(), closed);
         var old = doc.querySelector(".site-notice");
-        if (old && (!b || old.getAttribute("data-notice-id") !== b.id)) { old.remove(); shownId = null; }
+        if (old && (!b || old.getAttribute("data-notice-id") !== b.id)) { old.remove(); shownId = null; watch(null); }
         cards(data);
-        if (!b || (old && old.getAttribute("data-notice-id") === b.id)) return;
+        if (!b) { if (data) height(); return; }
+        if (old && old.getAttribute("data-notice-id") === b.id) return;
         style();
         var box = build(doc, b, number);
         place(box);
         fit(box);
+        height();
+        watch(box);
         if (shownId !== b.id) {
           shownId = b.id;
           // Après « load » : consent.js n'écoute la mesure qu'à partir de là (rien ne part sans « Accept »).
@@ -295,6 +340,8 @@
       closed = closed.concat(box.getAttribute("data-notice-id")).slice(-20);
       try { localStorage.setItem(CLOSED, JSON.stringify(closed)); } catch (e2) { /* stockage indisponible : fermé pour cette page */ }
       box.remove();
+      watch(null);
+      height();
       emit(doc, "stt-notice-close", type);
     });
 
@@ -307,7 +354,7 @@
       box.querySelector(".site-notice__more").focus();
     });
     // La largeur change (rotation, fenêtre) ou la police arrive : « More » recalculé.
-    var refit = 0, again = function () { refit = 0; fit(doc.querySelector(".site-notice")); };
+    var refit = 0, again = function () { refit = 0; fit(doc.querySelector(".site-notice")); height(); };
     window.addEventListener("resize", function () { if (!refit) refit = requestAnimationFrame(again); });
     if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(again, function () {});
 

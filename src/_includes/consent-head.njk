@@ -7,4 +7,6 @@
     (noticePages.js ; les pages /taxi/ sans fiche prennent la section taxi). -#}
 {%- set np = noticePages[page.url] -%}
 {%- if not np %}{% set np = { brand: "taxi", section: "taxi", product: "" } if (page.url and page.url.indexOf("/taxi/") == 0) else { brand: "secret", section: "", product: "" } %}{% endif %}
+{#- Hauteur du bandeau vue sur la page précédente du même contexte, à la même largeur : réservée avant l'affichage (notice.js la tient à jour). -#}
+<script>try{var n=JSON.parse(sessionStorage.getItem("stt-notice-h:{{ np.brand }}:{{ np.section }}:{{ np.product }}"));if(n&&n.w===innerWidth&&n.h>0)document.documentElement.style.setProperty("--notice-h",n.h+"px")}catch(e){}</script>
 <script defer src="/js/notice.js?v={{ build.v }}" data-notice-brand="{{ np.brand }}" data-notice-section="{{ np.section }}" data-notice-product="{{ np.product }}" data-notice-wa="{{ site.whatsapp.number }}"></script>

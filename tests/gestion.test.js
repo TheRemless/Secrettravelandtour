@@ -150,6 +150,15 @@ test("texte long (600 au plus) : replié par « More » avec aria-expanded, lien
   assert.equal(N.isLong("Christmas week\nTransfers run as usual."), true, "un retour à la ligne suffit");
   assert.equal(N.cleanText("A  \r\nB\n\n\n\nC  "), "A\nB\n\nC", "deux retours au plus, espaces de fin retirés");
   assert.equal(N.cleanText("y".repeat(700)).length, 600, "coupé à la limite du contrat");
+  // Caractères visibles comptés en points de code, comme Postgres et le compteur de Gestion : un emoji ou un drapeau ne compte pas double.
+  const emoji = "\u{1F30A}", drapeau = "\u{1F1F9}\u{1F1ED}";
+  assert.equal(N.isLong(emoji.repeat(140)), false, "140 emoji : 280 unités UTF-16 mais 140 caractères");
+  assert.equal(N.isLong(emoji.repeat(141)), true);
+  assert.equal(N.isLong(drapeau.repeat(70)), false, "70 drapeaux = 140 points de code");
+  assert.equal(Array.from(N.cleanText(emoji.repeat(700))).length, 600, "coupé à 600 caractères");
+  assert.equal(N.cleanText(emoji.repeat(700)), emoji.repeat(600), "jamais une moitié d'emoji");
+  const pe = all(N.build(fakeDoc(), banner({ text: emoji.repeat(140) }), "1"), (n) => n.className === "site-notice__text")[0];
+  assert.equal(pe._text, emoji.repeat(140), "140 emoji : texte entier, rendu d'avant");
   const text = "<b>Rough</b> sea. " + "Boats leave later today. ".repeat(20);
   const box = N.build(fakeDoc(), banner({ id: "b-long", text, link: { kind: "page", href: "/tours/", label: "See trips" } }), "1");
   assert.equal(box.className, "site-notice site-notice--info site-notice--long");
@@ -184,6 +193,26 @@ test("texte long : style replié sur deux lignes, ouvert sans animation, zone de
   assert.match(js, /more\.textContent = open \? "Less" : "More"/);
   assert.match(js, /e\.key !== "Escape"/);
   assert.doesNotMatch(js, /site-notice--long[^"]*transition|marquee|@keyframes/, "aucun texte qui défile, aucune animation");
+  assert.match(js, /\.site-notice--long \.site-notice__inner\{padding-bottom:13px\}/, "la zone de 44 px de la dernière ligne reste dans le bandeau");
+  assert.match(js, /p\.setAttribute\("role", "region"\); p\.setAttribute\("aria-label", "Notice text"\)/, "texte ouvert qui défile : focusable et nommé");
+  assert.match(js, /replace\(\/\[\\s\.,;:!\?\\u2014\\u2013-\]\+\$\/, ""\) \+ "\\u2026"/, "coupe sur un mot, sans ponctuation ni espace avant « … »");
+});
+
+test("bandeau du haut : sa hauteur est réservée sous l'en-tête (--notice-h), posée avant l'affichage d'après la page précédente", () => {
+  const css = src("src/css/v4.css");
+  assert.match(css, /padding-top: calc\(var\(--hd\) \+ var\(--notice-h, 0px\)\);/, "le corps réserve en-tête et bandeau");
+  assert.match(css, /scroll-padding-top: calc\(var\(--hd\) \+ var\(--notice-h, 0px\) \+ 16px\)/, "ancres sous le bandeau");
+  assert.doesNotMatch(src("src/css/v4.css") + src("src/css/v4-transfers.css") + src("src/css/v4-guides.css"), /calc\(var\(--hd\) \+ (?!var\(--notice-h)/, "chaque décalage sous l'en-tête compte aussi le bandeau");
+  const js = src("src/js/notice.js");
+  assert.match(js, /setProperty\("--notice-h", h \+ "px"\)/);
+  assert.match(js, /new ResizeObserver\(height\)/, "mise à jour au dépli, au repli et au redimensionnement");
+  assert.match(js, /box\.remove\(\);\n\s+watch\(null\);\n\s+height\(\);/, "remise à zéro à la fermeture");
+  const h = read("");
+  const inline = h.match(/<script>try\{var n=JSON\.parse\(sessionStorage\.getItem\("stt-notice-h:secret::"\)\);if\(n&&n\.w===innerWidth&&n\.h>0\)document\.documentElement\.style\.setProperty\("--notice-h",n\.h\+"px"\)\}catch\(e\)\{\}<\/script>/);
+  assert.ok(inline, "réservation posée dans le head, avant le rendu");
+  assert.ok(h.indexOf(inline[0]) < h.indexOf("</head>"));
+  assert.match(read("tours/4-islands"), /sessionStorage\.getItem\("stt-notice-h:secret:islands:4-islands"\)/, "clé du contexte de la page, la même que notice.js");
+  assert.match(js, /"stt-notice-h:" \+ \(tag\.getAttribute\("data-notice-brand"\) \|\| ""\) \+ ":" \+ \(tag\.getAttribute\("data-notice-section"\) \|\| ""\) \+ ":" \+ \(tag\.getAttribute\("data-notice-product"\) \|\| ""\)/);
 });
 
 test("pages : contexte du bandeau sur chaque page, script différé, styles des deux marques, mesure après « Accept »", () => {
