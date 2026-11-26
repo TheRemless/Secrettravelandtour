@@ -435,6 +435,13 @@ details[open] .faq-mark::after { transform: rotate(0deg); }
 [data-brand="vip"] .sheet[open] .sheet-head::after { animation: rule-in .55s var(--ease) .12s both; }
 @keyframes rule-in { from { transform: scaleX(0); } to { transform: none; } }
 [data-brand="vip"] .sheet-kicker { color: var(--gold); font-weight: 500; }
+/* Feuille en étapes (26.11.2026) : l'indicateur vit dans l'en-tête noir, en or comme la ligne qu'il remplace. */
+[data-brand="vip"] .sheet-progress { color: var(--gold); font-weight: 500; }
+[data-brand="vip"] .sheet-progress__bar i { background: rgb(255 255 255 / .28); }
+[data-brand="vip"] .sheet-progress__bar i.is-on { background: var(--gold); }
+[data-brand="vip"] .sheet-progress:focus-visible { box-shadow: 0 0 0 2px var(--gold); }
+[data-brand="vip"] .sheet-back { border-radius: 4px; }
+[data-brand="vip"] .sheet-back:hover { background: var(--lac-2); }
 [data-brand="vip"] .sheet-title { font-size: 23px; line-height: 1.2; }
 [data-brand="vip"] .sheet-close { color: var(--ivory); border-radius: 4px; }
 [data-brand="vip"] .sheet-close:hover { background: var(--lac-2); }

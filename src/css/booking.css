@@ -231,3 +231,63 @@ html.sheet-open { overflow: hidden; }
 .sheet textarea[aria-invalid="true"] { border-color: var(--sheet-err); border-width: 2px; }
 .round[hidden], .count[hidden] { display: none; }
 .round-note a { color: inherit; font-weight: 700; text-decoration: underline; text-underline-offset: .18em; }
+
+/* Feuille en trois étapes (maquette B, 26.11.2026) : 1. quoi et quand, 2. qui et où, 3. qui écrit. Une étape à la fois,
+   indicateur discret sous l'en-tête, retour à gauche du titre. Pied d'une ligne : le total à gauche, Next ou
+   Send on WhatsApp à droite. Sur téléphone, la feuille prend tout l'écran (zones sûres comprises). */
+.sheet-head__text { flex: 1 1 auto; min-width: 0; }
+.sheet-back {
+  flex: none; display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; margin: calc(-1 * var(--s0)) 0 0 calc(-1 * var(--s1)); padding: 0;
+  border: 0; border-radius: 12px; background: transparent; color: inherit; cursor: pointer;
+}
+.sheet[data-steps] .sheet-head { gap: var(--s1); }
+.sheet-back svg { width: 1.5rem; height: 1.5rem; }
+.sheet-back[hidden] { display: none; }
+.sheet[data-at-step] .sheet-kicker { display: none; }
+/* Barre de trois traits au-dessus du nom de l'étape ; « Step 2 of 3 » reste pour le lecteur d'écran (sr-only). */
+.sheet .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.sheet-progress { display: grid; justify-items: start; gap: 6px; margin: var(--s1) 0 0; white-space: nowrap; font-size: var(--t1); line-height: var(--l1); color: var(--sheet-mute); }
+.sheet-progress[hidden] { display: none; }
+.sheet-progress:focus-visible { box-shadow: 0 0 0 2px var(--sheet-accent); border-radius: 4px; }
+.sheet-progress__bar { display: flex; gap: 4px; flex: none; }
+.sheet-progress__bar i { display: block; width: 18px; height: 4px; border-radius: 2px; background: var(--sheet-rule); }
+.sheet-progress__bar i.is-on { background: var(--sheet-accent); }
+.sheet-progress__bar i[hidden] { display: none; }
+.sheet-step[hidden] { display: none; }
+.sheet-step { padding-bottom: var(--s2); }
+
+.sheet-foot--row { display: flex; align-items: center; gap: var(--s2); }
+.sheet-foot--row .sheet-total { flex: 1 1 auto; min-width: 0; display: grid; gap: 0; margin: 0; font-size: var(--t1); line-height: 1.3; }
+.sheet-foot--row .sheet-total[hidden] { display: none; }
+.sheet-foot--row .sheet-btn { flex: 1 1 auto; width: auto; }
+.sheet-foot--row .sheet-total:not([hidden]) ~ .sheet-btn { flex: 0 0 auto; min-width: 8.5rem; }
+.sheet-foot--row .sheet-btn[hidden] { display: none; }
+.sheet-btn--next svg { width: 1.25rem; height: 1.25rem; }
+
+/* Total et cash du parc relus avant l'envoi (étape 3). */
+.sheet-sum { margin: 0 0 var(--s2); padding: var(--s2); border-radius: 12px; background: var(--sheet-soft); }
+.sheet-sum[hidden], .sheet-sum [hidden] { display: none; }
+.sheet-sum p { margin: 0; }
+.sheet-sum__total { font-weight: 700; }
+.sheet-sum__cash { margin-top: var(--s0); font-size: var(--t2); line-height: var(--l2); color: var(--sheet-mute); }
+.sheet-step .sheet-link--trip { display: flex; margin-inline: auto; }
+
+/* Indicatif : le champ fermé n'affiche que « +66 » (data-code-face, booking.js) ; la liste ouverte garde les pays. */
+.sheet[data-steps] .phone-row { grid-template-columns: 6rem minmax(0, 1fr); }
+.select--code select { color: transparent; -webkit-text-fill-color: transparent; }
+.select--code select option, .select--code select optgroup { color: var(--sheet-ink); -webkit-text-fill-color: var(--sheet-ink); background: var(--sheet-field-bg, var(--sheet-bg)); }
+.code-face {
+  position: absolute; left: calc(var(--s2) + 1.5px); top: 50%; transform: translateY(-50%); z-index: 1; pointer-events: none;
+  font: 400 var(--t3)/1 var(--sheet-text); font-variant-numeric: tabular-nums; color: var(--sheet-ink);
+}
+.f-hint--ends { margin-bottom: var(--s2); }
+
+@media (max-width: 63.99rem) {
+  dialog.sheet[data-steps] {
+    inset: 0; width: 100%; max-width: 100%; height: 100dvh; max-height: 100dvh; margin: 0;
+    border-radius: 0; box-shadow: none;
+  }
+  dialog[data-steps] .sheet-head { padding-top: calc(var(--s2) + env(safe-area-inset-top)); }
+  dialog.sheet[data-steps] .sheet-grab { display: none; }
+}

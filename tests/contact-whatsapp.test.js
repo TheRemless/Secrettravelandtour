@@ -10,7 +10,7 @@ const ROOT = path.join(__dirname, "..");
 const read = (rel) => fs.readFileSync(path.join(ROOT, "_site", rel, "index.html"), "utf8");
 const src = (rel) => fs.readFileSync(path.join(ROOT, rel), "utf8");
 const WHO = { firstName: "Anna", lastName: "Becker", phoneCode: "GB", phone: "07700 900123" };
-const HELP = "So we can reach you if your message doesn't come through.";
+const HELP = "We only use it if your message doesn't reach us.";
 
 test("E.164 : indicatif choisi, 0 national retiré (sauf Italie), numéro complet tapé ou rempli par le téléphone", () => {
   assert.equal(B.phoneE164({ phoneCode: "GB", phone: "07700 900123" }), "+447700900123");
@@ -133,7 +133,7 @@ test("pages : champs du gabarit (clavier, remplissage auto, aide, Clarity) dans 
     assert.match(h, /<input data-clarity-mask="True" id="book-phoneOther" name="phoneOther" type="tel" inputmode="tel"/, rel);
     assert.ok(h.includes(`<p class="f-hint f-hint--under" id="book-h-phone">${HELP.replace("'", "&#39;")}</p>`) || h.includes(`id="book-h-phone">${HELP}</p>`), rel);
     assert.doesNotMatch(h, /id="book-name"/, rel);
-    // Ordre de lecture : prénom, nom, numéro, puis le reste de la feuille.
+    // Ordre de lecture : prénom, nom, numéro (étape 3 depuis le 26.11.2026, après l'option, la date et le groupe).
     assert.ok(h.indexOf('id="book-firstName"') < h.indexOf('id="book-lastName"') && h.indexOf('id="book-lastName"') < h.indexOf('id="book-phone"'), rel);
     assert.match(h, /Your message is ready in WhatsApp<\/h2>/, rel);
     assert.match(h, /<strong>Tap Send to reach us\.<\/strong>/, rel);
