@@ -51,7 +51,7 @@
       '<span class="select"><select data-clarity-mask="True" id="tl-phoneCode" data-ttext="phoneCode" autocomplete="tel-country-code" aria-label="Country code" aria-describedby="tl-e-phone"><option value="">Code</option>' + codes + "</select></span>" +
       '<input data-clarity-mask="True" id="tl-phone" type="tel" inputmode="tel" autocomplete="tel" enterkeyhint="next" value="' + V.esc(l.phone || "") + '" data-ttext="phone" aria-describedby="tl-h-phone tl-e-phone"></div>' +
       '<div class="phone-other" data-phone-other' + (l.phoneCode === "other" ? "" : " hidden") + '><label class="f-label" for="tl-phoneOther">Country code</label><input data-clarity-mask="True" id="tl-phoneOther" type="tel" inputmode="tel" autocomplete="off" placeholder="+20" value="' + V.esc(l.phoneOther || "") + '" data-ttext="phoneOther" aria-describedby="tl-e-phone"></div>' +
-      '<p class="f-hint f-hint--under" id="tl-h-phone">So we can reach you if your message doesn\'t come through.</p><p class="err" id="tl-e-phone" hidden></p></div>';
+      '<p class="f-hint f-hint--under" id="tl-h-phone">In case your message doesn\'t reach us.</p><p class="err" id="tl-e-phone" hidden></p></div>';
   }
   function save(l) { V.trips.set(l); }
   function dayLabel(iso) { return V.date(iso, { weekday: "long", day: "numeric", month: "long" }); }

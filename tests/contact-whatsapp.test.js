@@ -10,7 +10,7 @@ const ROOT = path.join(__dirname, "..");
 const read = (rel) => fs.readFileSync(path.join(ROOT, "_site", rel, "index.html"), "utf8");
 const src = (rel) => fs.readFileSync(path.join(ROOT, rel), "utf8");
 const WHO = { firstName: "Anna", lastName: "Becker", phoneCode: "GB", phone: "07700 900123" };
-const HELP = "So we can reach you if your message doesn't come through.";
+const HELP = "In case your message doesn't reach us.";
 
 test("E.164 : indicatif choisi, 0 national retiré (sauf Italie), numéro complet tapé ou rempli par le téléphone", () => {
   assert.equal(B.phoneE164({ phoneCode: "GB", phone: "07700 900123" }), "+447700900123");

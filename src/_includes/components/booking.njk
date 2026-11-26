@@ -19,11 +19,12 @@
 
 {#- Champ texte. extra : attributs pour le clavier du téléphone (autocapitalize, enterkeyhint, spellcheck). -#}
 {#- hintAttrs : attributs de l'aide (data-hint et data-round-hint du Pickup, que booking.js échange en aller-retour). -#}
-{% macro text(name, label, hint, required=false, autocomplete="off", extra="", group="", hintAttrs="") %}
+{#- hintRef : id d'une aide écrite au-dessus d'un autre champ (Drop-off lit l'aide de Pickup, maquette A 26.11.2026). -#}
+{% macro text(name, label, hint, required=false, autocomplete="off", extra="", group="", hintAttrs="", hintRef="") %}
 <div class="f"{% if group %} {{ group | safe }}{% endif %}>
   <label for="book-{{ name }}">{{ label }}</label>
   {% if hint %}<p class="f-hint" id="book-h-{{ name }}"{% if hintAttrs %} {{ hintAttrs | safe }}{% endif %}>{{ hint }}</p>{% endif %}
-  <input data-clarity-mask="True" id="book-{{ name }}" name="{{ name }}" type="text" autocomplete="{{ autocomplete }}" {{ extra | safe }}{% if required %} required aria-required="true"{% endif %} aria-describedby="{% if hint %}book-h-{{ name }} {% endif %}book-e-{{ name }}">
+  <input data-clarity-mask="True" id="book-{{ name }}" name="{{ name }}" type="text" autocomplete="{{ autocomplete }}" {{ extra | safe }}{% if required %} required aria-required="true"{% endif %} aria-describedby="{% if hint %}book-h-{{ name }} {% elif hintRef %}{{ hintRef }} {% endif %}book-e-{{ name }}">
   <p class="err" id="book-e-{{ name }}" hidden></p>
 </div>
 {% endmacro %}
@@ -45,29 +46,6 @@
         <button class="sheet-close" type="button" data-close>{{ icon("close") }}<span class="sr-only">Close</span></button>
       </div>
       <div class="sheet-body">
-        {#- Qui écrit d'abord, dans toutes les feuilles : c'est ce que le téléphone remplit seul. Prénom, nom et numéro WhatsApp
-            obligatoires (Jérémy, 17.11.2026 : des messages préparés n'arrivent jamais, le numéro permet de rappeler). Les
-            indicatifs viennent de booking.js (DIAL_CODES) ; « Other » ouvre un petit champ pour taper le sien. -#}
-        <div class="f-who">
-          <div class="f-pair">
-            {{ text("firstName", "First name", "", true, "given-name", 'maxlength="60" autocapitalize="words" enterkeyhint="next" spellcheck="false"') }}
-            {{ text("lastName", "Last name", "", true, "family-name", 'maxlength="60" autocapitalize="words" enterkeyhint="next" spellcheck="false"') }}
-          </div>
-          <div class="f f-phone">
-            <label for="book-phone">Your WhatsApp number</label>
-            <div class="phone-row">
-              <span class="select"><select data-clarity-mask="True" id="book-phoneCode" name="phoneCode" autocomplete="tel-country-code" aria-label="Country code" aria-describedby="book-e-phone"><option value="">Code</option></select></span>
-              <input data-clarity-mask="True" id="book-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" enterkeyhint="next" required aria-required="true" aria-describedby="book-h-phone book-e-phone">
-            </div>
-            <div class="phone-other" data-phone-other hidden>
-              <label class="f-label" for="book-phoneOther">Country code</label>
-              <input data-clarity-mask="True" id="book-phoneOther" name="phoneOther" type="tel" inputmode="tel" autocomplete="off" placeholder="+20" aria-describedby="book-e-phone">
-            </div>
-            <p class="f-hint f-hint--under" id="book-h-phone">So we can reach you if your message doesn't come through.</p>
-            <p class="err" id="book-e-phone" hidden></p>
-          </div>
-        </div>
-
         {%- if cfg.options and cfg.options.length > 1 %}
         <fieldset class="f">
           <legend>Option</legend>
@@ -281,7 +259,7 @@
         {#- Deux lieux, pas quatre : où le chauffeur prend le client, où il le dépose. Le bout déjà connu d'une page trajet
             (aéroport, jetée) n'est pas redemandé : booking.js le range dans la ligne « data-fixed ». -#}
         <p class="f-fixed" data-fixed hidden></p>
-        {%- set hubHint = "Hotel, address, airport or pier." if (cfg.from and cfg.to) else "Hotel, address, airport or pier. If you pick a town from the list, add your hotel after it." -%}
+        {%- set hubHint = "Hotel, address, airport or pier." if (cfg.from and cfg.to) else "Hotel, address, airport or pier. If you pick a town, add your hotel." -%}
         {%- if cfg.roundTrip %}
         {#- Aller-retour depuis le point de prise en charge (16.11.2026), seulement là où Pickup et Drop-off sont libres (hub, songthaew).
             booking.js (endsUI) cache Drop-off et montre data-round ; le message suit le format commun avec Gestion. -#}
@@ -294,7 +272,10 @@
         </fieldset>
         {%- endif %}
         {{ text("pickupAt", "Pickup", ("Your hotel, address or the airport." if cfg.shared else hubHint), true, "off", 'autocapitalize="words" enterkeyhint="next"', "data-end=pickup", (('data-hint="' + hubHint + '" data-round-hint="' + cfg.roundHint + '"') if cfg.roundTrip else "")) }}
-        {{ text("dropoffAt", "Drop-off", ("Where you are going." if cfg.shared else hubHint), true, "off", 'autocapitalize="words" enterkeyhint="next"', "data-end=dropoff") }}
+        {#- Hub (deux lieux libres) : une seule aide, écrite sous Pickup et lue aussi par Drop-off (aria-describedby).
+            Page trajet : un des deux bouts est caché (data-fixed), l'autre garde l'aide courte. -#}
+        {%- set dropHint = "Where you are going." if cfg.shared else (hubHint if (cfg.from and cfg.to) else "") -%}
+        {{ text("dropoffAt", "Drop-off", dropHint, true, "off", 'autocapitalize="words" enterkeyhint="next"', "data-end=dropoff", "", ("" if dropHint else "book-h-pickupAt")) }}
         {%- if cfg.roundTrip %}
         <div class="round" data-round hidden>
           <div class="f">
@@ -346,17 +327,44 @@
           <p class="err" id="book-e-pickup" hidden></p>
         </div>
         {%- endif %}
+        {#- Qui écrit, à la fin de toutes les feuilles (maquette A, 26.11.2026 : d'abord ce qu'on réserve). Prénom, nom et numéro WhatsApp
+            obligatoires (Jérémy, 17.11.2026 : des messages préparés n'arrivent jamais, le numéro permet de rappeler). Les
+            indicatifs viennent de booking.js (DIAL_CODES) ; « Other » ouvre un petit champ pour taper le sien. -#}
+        <div class="f-who">
+          <div class="f-pair">
+            {{ text("firstName", "First name", "", true, "given-name", 'maxlength="60" autocapitalize="words" enterkeyhint="next" spellcheck="false"') }}
+            {{ text("lastName", "Last name", "", true, "family-name", 'maxlength="60" autocapitalize="words" enterkeyhint="next" spellcheck="false"') }}
+          </div>
+          <div class="f f-phone">
+            <label for="book-phone">Your WhatsApp number</label>
+            <div class="phone-row">
+              <span class="select select--code"><span class="select-code" data-code-shown aria-hidden="true">Code</span><select data-clarity-mask="True" id="book-phoneCode" name="phoneCode" autocomplete="tel-country-code" aria-label="Country code" aria-describedby="book-e-phone"><option value="">Code</option></select></span>
+              <input data-clarity-mask="True" id="book-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" enterkeyhint="next" required aria-required="true" aria-describedby="book-h-phone book-e-phone">
+            </div>
+            <div class="phone-other" data-phone-other hidden>
+              <label class="f-label" for="book-phoneOther">Country code</label>
+              <input data-clarity-mask="True" id="book-phoneOther" name="phoneOther" type="tel" inputmode="tel" autocomplete="off" placeholder="+20" aria-describedby="book-e-phone">
+            </div>
+            <p class="f-hint f-hint--under" id="book-h-phone">In case your message doesn't reach us.</p>
+            <p class="err" id="book-e-phone" hidden></p>
+          </div>
+        </div>
+
+        {#- Ce qui quittait le pied fixe (maquette A) : frais en cash du jour, ce qui se passe à l'envoi, liste de sorties. -#}
+        <div class="sheet-after">
+          {%- if cfg.variant == "tour" %}<p class="sheet-cash" data-total-note hidden></p>{% endif %}
+          <p class="sheet-note sheet-note--send" id="book-send-note">WhatsApp opens with your message. Check it, then tap Send.</p>
+          {%- if cfg.tripList %}
+          <button class="sheet-link sheet-link--trip" type="button" data-trip data-track="sheet" data-track-cta="add_to_trip_list">Add to my trip list</button>
+          {%- endif %}
+        </div>
       </div>
       {#- Champ piège (contrat demandes-site) : invisible pour un humain, rempli par les robots ; jamais dans le message. -#}
       <div class="hp" aria-hidden="true"><label for="bk-website">Website</label><input data-clarity-mask="True" id="bk-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
-      <div class="sheet-foot{% if cfg.tripList %} sheet-foot--pair{% endif %}">
+      <div class="sheet-foot sheet-foot--row">
         {%- if cfg.variant == "tour" %}<p class="sheet-total" data-total aria-live="polite" hidden></p>{% endif %}
         {#- Envoi direct (Jérémy, 16.11.2026 : plus d'aperçu) : booking.js ouvre WhatsApp depuis l'envoi du formulaire. -#}
         <button class="sheet-btn" type="submit" aria-describedby="book-send-note">{{ icon("whatsapp") }}<span>Send on WhatsApp</span></button>
-        <p class="sheet-note sheet-note--send" id="book-send-note">WhatsApp opens with your message. Check it, then tap Send.</p>
-        {%- if cfg.tripList %}
-        <button class="sheet-link sheet-link--trip" type="button" data-trip data-track="sheet" data-track-cta="add_to_trip_list">Add to my trip list</button>
-        {%- endif %}
       </div>
     </form>
   </div>

@@ -906,6 +906,9 @@
     function showPhoneOther() {
       var box = form.querySelector("[data-phone-other]");
       if (box) box.hidden = state.phoneCode !== "other";
+      // Champ fermé : l'indicatif seul (« +66 »), la liste ouverte garde les noms de pays (maquette A, 26.11.2026).
+      var shown = form.querySelector("[data-code-shown]");
+      if (shown) { var d = dialOf(state.phoneCode); shown.textContent = d ? "+" + d.dial : state.phoneCode === "other" ? "Other" : "Code"; }
     }
     function today() { return bangkokToday(new Date()); }
 
@@ -1123,17 +1126,28 @@
       var tot = dialog.querySelector("[data-total]");
       if (tot) {
         var q = opt ? quoteOf(opt, state) : null, cash = opt ? parkCash(config, state) : null;
+        // Pied d'une ligne (maquette A, 26.11.2026) : le montant reste dans le pied, la phrase du cash passe en fin de formulaire.
+        var cashBox = dialog.querySelector("[data-total-note]");
         tot.hidden = !opt || pendingPrice(opt, state);
         tot.innerHTML = "";
+        if (cashBox) { cashBox.hidden = true; cashBox.textContent = ""; }
         if (opt) {
-          var b = doc.createElement("b"), sm = doc.createElement("span");
-          b.textContent = q ? "Estimated total " + thb(q.total) : "Total confirmed on WhatsApp";
+          var b = doc.createElement("b"), sm = cashBox || doc.createElement("span");
+          if (q) {
+            var lab = doc.createElement("span");
+            lab.textContent = "Estimated total";
+            b.textContent = thb(q.total);
+            tot.appendChild(lab);
+          } else b.textContent = "Total confirmed on WhatsApp";
           tot.appendChild(b);
           // À qui se paie ce cash quand les données le disent (« Cash, paid to the ranger on the island ») : l'aperçu qui
           // l'affichait n'existe plus (16.11.2026).
           // Même règle que l'ancien aperçu : la note de la fiche vaut pour ses propres frais (même libellé), pas pour ceux d'une option.
           var note = cash && config.parkFee && cash.label === config.parkFee.label ? config.parkFee.note : "", to = /^Cash, (.+)$/.exec(note || "");
-          if (cash) { sm.textContent = "Plus " + thb(cash.total) + " " + (cash.label || "fees").toLowerCase() + ", in cash on the day" + (to ? ", " + to[1] : ""); tot.appendChild(sm); }
+          if (cash) {
+            sm.textContent = "Plus " + thb(cash.total) + " " + (cash.label || "fees").toLowerCase() + ", in cash on the day" + (to ? ", " + to[1] : "") + ".";
+            if (cashBox) cashBox.hidden = tot.hidden; else tot.appendChild(sm);
+          }
         }
       }
     }
