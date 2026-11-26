@@ -851,9 +851,9 @@
     steps.forEach(function (x) { if (x.at === first) out[x.k] = errors[x.k]; });
     return { step: first, errors: out };
   }
-  // « Step 2 of 3 · Guests and pickup » : lu par le lecteur d'écran quand l'étape prend le focus.
-  function stepText(i, n, name) {
-    return "Step " + (i + 1) + " of " + n + (name ? " · " + name : "");
+  // « Step 2 of 3, » : lu par le lecteur d'écran seul, avant le nom de l'étape (la barre de traits le montre à l'écran).
+  function stepText(i, n) {
+    return "Step " + (i + 1) + " of " + n + ", ";
   }
 
   function makeDraft(state, now) {
@@ -1534,8 +1534,9 @@
       if (sendBtn) sendBtn.hidden = !last;
       if (progress) {
         progress.hidden = live.length < 2;
-        var txt = progress.querySelector("[data-progress-text]");
-        if (txt) txt.textContent = stepText(at, live.length, el.getAttribute("data-step-name"));
+        var sr = progress.querySelector("[data-progress-sr]"), txt = progress.querySelector("[data-progress-text]");
+        if (sr) sr.textContent = stepText(at, live.length);
+        if (txt) txt.textContent = el.getAttribute("data-step-name") || "";
         Array.prototype.forEach.call(progress.querySelectorAll("i"), function (bar, i) {
           bar.hidden = i >= live.length;
           bar.className = i <= at ? "is-on" : "";

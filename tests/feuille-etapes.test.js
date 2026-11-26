@@ -28,9 +28,14 @@ test("pickStep : la première étape en erreur, avec ses seules erreurs ; une cl
   assert.deepEqual(B.pickStep({ dates: "d", phone: "x" }, [["dates"], ["phone"]]), { step: 0, errors: { dates: "d" } });
 });
 
-test("stepText : « Step 2 of 3 · Guests and pickup »", () => {
-  assert.equal(B.stepText(1, 3, "Guests and pickup"), "Step 2 of 3 · Guests and pickup");
-  assert.equal(B.stepText(0, 2, ""), "Step 1 of 2");
+test("stepText : « Step 2 of 3, » pour le lecteur d'écran ; l'écran ne montre que le nom de l'étape, sans point médian", () => {
+  assert.equal(B.stepText(1, 3), "Step 2 of 3, ");
+  assert.equal(B.stepText(0, 2), "Step 1 of 2, ");
+  const h = read("tours/4-islands");
+  assert.match(h, /<span class="sr-only" data-progress-sr(?:="")?><\/span><span data-progress-text(?:="")?><\/span>/);
+  for (const f of ["src/_includes/components/booking.njk", "src/js/booking.js", "src/css/booking.css", "tests/feuille-etapes.test.js"].slice(0, 3)) {
+    assert.doesNotMatch(fs.readFileSync(path.join(__dirname, "..", f), "utf8").split("Step").slice(1).join(""), /of \d+ ·/, f);
+  }
 });
 
 test("validate : une feuille remplie étape par étape ne garde des erreurs que dans l'étape suivante", () => {

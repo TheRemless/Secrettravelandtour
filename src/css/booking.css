@@ -245,7 +245,8 @@ html.sheet-open { overflow: hidden; }
 .sheet-back svg { width: 1.5rem; height: 1.5rem; }
 .sheet-back[hidden] { display: none; }
 .sheet[data-at-step] .sheet-kicker { display: none; }
-/* Barre au-dessus du texte : à 390 px, avec le retour et la croix, « Step 2 of 3 · Guests and places » tient sur une ligne. */
+/* Barre de trois traits au-dessus du nom de l'étape ; « Step 2 of 3 » reste pour le lecteur d'écran (sr-only). */
+.sheet .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .sheet-progress { display: grid; justify-items: start; gap: 6px; margin: var(--s1) 0 0; white-space: nowrap; font-size: var(--t1); line-height: var(--l1); color: var(--sheet-mute); }
 .sheet-progress[hidden] { display: none; }
 .sheet-progress:focus-visible { box-shadow: 0 0 0 2px var(--sheet-accent); border-radius: 4px; }

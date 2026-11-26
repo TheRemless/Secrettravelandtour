@@ -43,8 +43,9 @@
           <p class="sheet-kicker">{% if cfg.kicker %}{{ cfg.kicker }}{% elif cfg.variant == "tour" %}Choose a date{% else %}Check availability{% endif %}</p>
           {#- Hub taxi (trajet libre) : le titre reprend les lieux écrits par le visiteur, masqué pour Clarity. -#}
           <h2 class="sheet-title" id="book-title" tabindex="-1" data-focus data-route-title{% if not (cfg.from and cfg.to) %} data-clarity-mask="True"{% endif %}>{{ cfg.product }}</h2>
-          {#- Indicateur d'étape (remplace la ligne du dessus quand les étapes sont actives) : reçoit le focus à chaque étape. -#}
-          <p class="sheet-progress" data-progress tabindex="-1" hidden><span class="sheet-progress__bar" aria-hidden="true"><i></i><i></i><i></i></span><span data-progress-text></span></p>
+          {#- Indicateur d'étape (remplace la ligne du dessus quand les étapes sont actives) : la barre dit la progression, le texte
+              visible le nom de l'étape ; « Step 2 of 3 » est lu par le lecteur d'écran seul. Reçoit le focus à chaque étape. -#}
+          <p class="sheet-progress" data-progress tabindex="-1" hidden><span class="sheet-progress__bar" aria-hidden="true"><i></i><i></i><i></i></span><span class="sr-only" data-progress-sr></span><span data-progress-text></span></p>
         </div>
         <button class="sheet-close" type="button" data-close>{{ icon("close") }}<span class="sr-only">Close</span></button>
       </div>
