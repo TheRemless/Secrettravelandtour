@@ -42,7 +42,7 @@ const GALLERY = {
   "koh-rok-koh-haa": ["gal-rok-beach-island", "gal-rok-reef", "gal-rok-turquoise-water", "gal-rok-beach-lunch", "gal-rok-driftwood", "gal-rok-fallen-tree", "gal-rok-palm-beach"],
   "sunrise-raft": ["gal-raft-river-low-sun"],
   "sunset-dinner-raft": ["gal-raft-river-evening", "gal-raft-deck-lantern"],
-  "sunset-plankton-kayak": ["gal-plankton-bow-sunset"],
+  "sunset-plankton-kayak": ["gal-plankton-bow-dinner", "gal-plankton-bow-sunset"],
   "fishing-trip": ["gal-raft-fishing-deck"],
   rental: ["gal-rental-shed", "gal-rental-scooter", "gal-rental-motorbike", "gal-rental-car-white", "gal-rental-car-black"]
 };

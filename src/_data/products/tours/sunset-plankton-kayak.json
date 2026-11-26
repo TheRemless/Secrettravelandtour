@@ -134,7 +134,7 @@
     "Life jackets"
   ],
   "beforeYouBook": {
-    "children": "The longtail is for your group only. Beyond the first four people, children from 4 to 11 pay 600 THB instead of 1,200 THB."
+    "children": "The longtail is for your group only. Children under 4 come free. Beyond the first four people, children from 4 to 11 pay 600 THB instead of 1,200 THB."
   },
   "faq": [
     {
@@ -168,6 +168,13 @@
       "file": "secret/v3/longtail-bow-sunset.jpg",
       "alt": "The bow of a longtail with flower garlands, the sun low over the sea",
       "shot": "Longtail bow and sunset over the sea."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/longtail-bow-dinner.jpg",
+      "alt": "Two guests sharing a meal and fresh fruit on the bow of a longtail at sunset",
+      "shot": "Guests eating on the longtail bow at sunset."
     }
   ],
   "related": [
@@ -189,16 +196,16 @@
     },
     {
       "field": "options[].notIncludedFees, facts[Village entrance fee], faq[3]",
-      "from": "brochure : « Village Entrance Fee: 40 THB per person (not included) » ; tarif enfant 20 THB repris de la décision client du 08.11.2026 (mêmes frais que les autres fiches de Thung Yee Peng), voir todo"
+      "from": "brochure : « Village Entrance Fee: 40 THB per person (not included) » ; 40 THB adulte, 20 THB enfant de 4 à 11 ans gardés comme sur le reste du site (décision client du 08.11.2026, confirmée par Jérémy le 26.11.2026 : pas de page officielle, seul tarif enfant trouvé en ligne)"
     },
     {
       "field": "photos, photos-v3.json",
-      "from": "photos réelles du partenaire transmises par Jérémy le 23.11.2026 ; visuels de la brochure non repris (images générées) ; photo du couple au repas en attente de l'accord de Jérémy"
+      "from": "photos réelles du partenaire transmises par Jérémy le 23.11.2026, droits de publication acquis (règle de ses accords partenaires, 26.11.2026) ; visuels de la brochure non repris (images générées, logo du partenaire)"
+    },
+    {
+      "field": "beforeYouBook.children, prix des moins de 4 ans",
+      "from": "règle de Jérémy du 26.11.2026 : gratuit quand le partenaire n'indique pas de prix ; la brochure n'en donne pas pour les moins de 4 ans"
     }
-  ],
-  "todo": [
-    "TODO(client): droit d'entrée du village, brochure « 40 THB per person » contre décision du 08.11.2026 « 40 THB adulte, 20 THB enfant de 4 à 11 » ; la fiche garde 40 / 20 comme les autres fiches de Thung Yee Peng.",
-    "TODO(client): enfants de moins de 4 ans, la brochure ne donne pas de tarif ; la fiche applique la règle des bateaux privés (ne comptent pas dans le groupe)."
   ],
   "refPrefix": "PLNK"
 }
