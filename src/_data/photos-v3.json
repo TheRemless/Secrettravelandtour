@@ -944,17 +944,18 @@
       "shot": "Longtail bow and sunset over the sea."
     },
     {
-      "id": "gal-plankton-bow-dinner",
-      "usage": "Sunset longtail and plankton kayak page, gallery: a meal on the bow at sunset",
-      "file": "secret/v3/longtail-bow-dinner.jpg",
-      "position": "50% 60%",
+      "id": "card-longtail-half-day",
+      "usage": "Private longtail half day card",
+      "file": "secret/v3/card-longtail-half-day.jpg",
+      "position": "50% 72%",
       "alt": "Two guests sharing a meal and fresh fruit on the bow of a longtail at sunset",
       "placeholder": false,
       "source": "Photo du partenaire de la sortie au plancton, transmise par Jérémy pour le site (23.11.2026)",
       "author": "Photo du partenaire de la sortie au plancton, transmise par Jérémy pour le site (23.11.2026)",
       "licence": "Propriété du partenaire, usage autorisé (droits de publication de Jérémy, 26.11.2026)",
       "url": "",
-      "shot": "Guests eating on the longtail bow at sunset."
+      "shot": "Guests eating on the longtail bow at sunset.",
+      "ratio": "4:3"
     }
   ]
 }

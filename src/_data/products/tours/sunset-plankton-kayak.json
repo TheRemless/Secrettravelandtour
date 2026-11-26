@@ -168,19 +168,12 @@
       "file": "secret/v3/longtail-bow-sunset.jpg",
       "alt": "The bow of a longtail with flower garlands, the sun low over the sea",
       "shot": "Longtail bow and sunset over the sea."
-    },
-    {
-      "slot": "gallery",
-      "status": "keep",
-      "file": "secret/v3/longtail-bow-dinner.jpg",
-      "alt": "Two guests sharing a meal and fresh fruit on the bow of a longtail at sunset",
-      "shot": "Guests eating on the longtail bow at sunset."
     }
   ],
   "related": [
+    "/tours/sunset-longtail-half-day/",
     "/tours/sunset-dinner-raft/",
-    "/tours/mangrove-kayaking/",
-    "/tours/mangroves/"
+    "/tours/mangrove-kayaking/"
   ],
   "schema": {
     "type": "TouristTrip",

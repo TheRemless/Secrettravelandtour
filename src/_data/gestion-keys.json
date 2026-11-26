@@ -644,5 +644,20 @@
   "prestation": null,
   "gestion": null,
   "note": "Prestation à créer dans Gestion (uuid à venir, session facturation), prix de vente = brochure du 23.11.2026"
+ },
+ "sunset-longtail-half-day|Private longtail, mangrove, Koh Talabeng and sunset at Koh Por|1 to 4 people, the boat": {
+  "prestation": null,
+  "gestion": null,
+  "note": "Prestation à créer dans Gestion (uuid à venir), prix de vente fixé par Jérémy le 26.11.2026"
+ },
+ "sunset-longtail-half-day|Private longtail, mangrove, Koh Talabeng and sunset at Koh Por|Each extra adult": {
+  "prestation": null,
+  "gestion": null,
+  "note": "Prestation à créer dans Gestion (uuid à venir), prix de vente fixé par Jérémy le 26.11.2026"
+ },
+ "sunset-longtail-half-day|Private longtail, mangrove, Koh Talabeng and sunset at Koh Por|Each extra child, 4 to 11": {
+  "prestation": null,
+  "gestion": null,
+  "note": "Prestation à créer dans Gestion (uuid à venir), prix de vente fixé par Jérémy le 26.11.2026"
  }
 }

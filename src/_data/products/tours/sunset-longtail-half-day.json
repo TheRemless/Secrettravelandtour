@@ -1,0 +1,207 @@
+{
+  "slug": "sunset-longtail-half-day",
+  "url": "/tours/sunset-longtail-half-day/",
+  "brand": "secret",
+  "template": "boat",
+  "name": "Koh Talabeng and sunset by private longtail",
+  "seo": {
+    "title": "Koh Talabeng & Sunset by Longtail | Secret Travel & Tour",
+    "metaDescription": "An afternoon on your own longtail: the Koh Lanta mangrove, sea caves and a swim at Koh Talabeng, then a meal at sunset off Koh Por. 7,000 THB for 1 to 4."
+  },
+  "h1": "Your own longtail for the afternoon, from the mangrove to the sunset at Koh Por",
+  "lead": "The Thung Yee Peng mangrove, the view from Koh Ung, a kayak into the sea caves of Koh Talabeng and a swim from a small beach. Then a meal while the sun goes down at Koh Por, with only your group on board.",
+  "promise": "Mangrove, sea caves, a swim and a sunset meal",
+  "facts": [
+    {
+      "label": "Where",
+      "value": "Thung Yee Peng, east coast of Koh Lanta"
+    },
+    {
+      "label": "Hotel pickup",
+      "value": "13:00"
+    },
+    {
+      "label": "Back at your hotel",
+      "value": "18:30"
+    },
+    {
+      "label": "Boat",
+      "value": "Longtail, for your group only"
+    },
+    {
+      "label": "Village entrance fee",
+      "value": "40 THB per adult, 20 THB per child from 4 to 11, not included"
+    }
+  ],
+  "price": {
+    "from": 7000,
+    "currency": "THB",
+    "unit": "per boat, 1 to 4 people"
+  },
+  "options": [
+    {
+      "id": "longtail-half-day-sunset",
+      "label": "Private longtail, mangrove, Koh Talabeng and sunset at Koh Por",
+      "kind": "private",
+      "boat": "longtail",
+      "note": "The price covers the boat for 1 to 4 people. Each extra adult adds 1,400 THB and each extra child from 4 to 11 adds 700 THB, so 5 adults pay 8,400 THB. Children under 4 come free.",
+      "prices": [
+        {
+          "label": "1 to 4 people, the boat",
+          "amount": 7000,
+          "group": {
+            "min": 1,
+            "max": 4
+          },
+          "unit": "per boat"
+        },
+        {
+          "label": "Each extra adult",
+          "amount": 1400,
+          "supplement": true,
+          "unit": "per person"
+        },
+        {
+          "label": "Each extra child, 4 to 11",
+          "amount": 700,
+          "supplement": true,
+          "ages": {
+            "min": 4,
+            "max": 11
+          },
+          "unit": "per person"
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "Village entrance fee, adults",
+          "amount": 40,
+          "unit": "per person"
+        },
+        {
+          "label": "Village entrance fee, children 4 to 11",
+          "amount": 20,
+          "unit": "per person"
+        }
+      ]
+    }
+  ],
+  "day": [
+    {
+      "options": [
+        "longtail-half-day-sunset"
+      ],
+      "title": "The afternoon on the longtail",
+      "note": "The route depends on the weather and the sea on the day.",
+      "steps": [
+        {
+          "time": "13:00",
+          "text": "Pickup at your hotel and the drive to Thung Yee Peng community pier."
+        },
+        {
+          "time": "13:30",
+          "text": "Into the mangrove forest by longtail. Look out for long-tailed macaques and the local birds."
+        },
+        {
+          "time": "14:20",
+          "text": "A stop at Koh Ung for the view all around, over the islands and the sea."
+        },
+        {
+          "time": "15:00",
+          "text": "Koh Talabeng: kayak along the coast, into the sea caves and past the limestone rocks, then time on a small beach to rest and swim."
+        },
+        {
+          "time": "17:00",
+          "text": "Sunset at Koh Por, with a meal while the sun goes down over the sea."
+        },
+        {
+          "time": "18:30",
+          "text": "Drop-off at your hotel."
+        }
+      ]
+    }
+  ],
+  "included": [
+    "Pickup and drop-off at your hotel",
+    "The longtail for your group only",
+    "Kayak",
+    "A meal at sunset",
+    "Drinking water and seasonal fruit",
+    "Life jackets"
+  ],
+  "beforeYouBook": {
+    "bring": [
+      "Swimwear and a towel"
+    ],
+    "children": "The longtail is for your group only. Children under 4 come free. Beyond the first four people, children from 4 to 11 pay 700 THB instead of 1,400 THB.",
+    "weather": "The route depends on the weather and the sea on the day."
+  },
+  "faq": [
+    {
+      "q": "How much for a bigger group?",
+      "a": "7,000 THB covers the boat for up to 4 people. Each extra adult adds 1,400 THB and each extra child from 4 to 11 adds 700 THB. Children under 4 come free."
+    },
+    {
+      "q": "Can we swim?",
+      "a": "Yes. After the kayak at Koh Talabeng there is time on a small beach to rest and swim."
+    },
+    {
+      "q": "How is it different from the plankton trip?",
+      "a": "This one is an afternoon of islands, sea caves and a swim, with a meal at sunset and back at your hotel by 18:30. The plankton trip starts at 16:30, with a barbecue at sunset and a kayak in the dark."
+    },
+    {
+      "q": "Is the village entrance fee included?",
+      "a": "No. Thung Yee Peng village charges 40 THB per adult and 20 THB per child from 4 to 11, paid on the spot."
+    }
+  ],
+  "photos": [
+    {
+      "slot": "hero",
+      "status": "keep",
+      "file": "secret/v3/card-longtail-half-day.jpg",
+      "alt": "Two guests sharing a meal and fresh fruit on the bow of a longtail at sunset",
+      "shot": "Guests eating on the longtail bow at sunset."
+    }
+  ],
+  "related": [
+    "/tours/sunset-plankton-kayak/",
+    "/tours/kayak/",
+    "/tours/mangroves/"
+  ],
+  "schema": {
+    "type": "TouristTrip",
+    "places": [
+      "Thung Yee Peng",
+      "Koh Ung",
+      "Koh Talabeng",
+      "Koh Por"
+    ]
+  },
+  "sources": [
+    {
+      "field": "day, facts, included, lead, faq",
+      "from": "brochure du partenaire de la sortie au plancton, page « Half-day private longtail boat tour » (transmise par Jérémy le 23.11.2026) : 13:00 à 18:30, ponton communautaire de Thung Yee Peng, macaques et oiseaux, panorama de Koh Ung, kayak le long de Koh Talabeng, grottes, rochers calcaires, petite plage et baignade, coucher de soleil et repas à Koh Por, retour à l'hôtel ; inclus : gilets, kayak, repas, eau, fruits de saison"
+    },
+    {
+      "field": "options, price",
+      "from": "prix de vente fixé par Jérémy le 26.11.2026 (absent de la brochure) : 7 000 THB jusqu'à 4, adulte en plus 1 400, enfant de 4 à 11 ans en plus 700, moins de 4 ans gratuits"
+    },
+    {
+      "field": "options[].notIncludedFees, facts[Village entrance fee], faq[3]",
+      "from": "40 THB adulte, 20 THB enfant de 4 à 11 ans, comme sur le reste du site (décision client du 08.11.2026, confirmée par Jérémy le 26.11.2026)"
+    },
+    {
+      "field": "day[].note, beforeYouBook.weather",
+      "from": "programme selon la météo et la mer (Jérémy, 26.11.2026)"
+    },
+    {
+      "field": "included[Pickup and drop-off], beforeYouBook.bring",
+      "from": "déroulé de la brochure : « Hotel Pick-up », « Return Transfer: Drop-off at your accommodation » ; baignade au programme"
+    },
+    {
+      "field": "photos, photos-v3.json",
+      "from": "photo réelle du partenaire transmise par Jérémy le 23.11.2026, droits de publication acquis (26.11.2026) ; visuels de la brochure non repris"
+    }
+  ],
+  "refPrefix": "LTHD"
+}

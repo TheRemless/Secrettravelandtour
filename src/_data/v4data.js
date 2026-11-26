@@ -19,7 +19,7 @@ const PHOTOS = JSON.parse(fs.readFileSync(path.join(DATA, "photos-v3.json"), "ut
 const BEST_CARDS = require("./bestSellers.json").cards;
 
 // Dossier de chaque fiche : tours/ (bateaux) ou activities/.
-const BOATS = ["4-islands", "koh-rok-koh-haa", "koh-phi-phi", "sunset-dinner-raft", "sunset-plankton-kayak", "sunrise-raft", "fishing-trip", "mangroves"];
+const BOATS = ["4-islands", "koh-rok-koh-haa", "koh-phi-phi", "sunset-dinner-raft", "sunset-plankton-kayak", "sunset-longtail-half-day", "sunrise-raft", "fishing-trip", "mangroves"];
 const ACTIVITIES = ["mangrove-kayaking", "scuba-diving", "kayak", "elephant-sanctuary", "atv", "cooking-class", "batik", "go-kart"];
 const { GROUPS, groupOf: groupFor } = require("../_includes/components/groups.js");
 const groupOf = (slug) => (groupFor(slug) || {}).id || "";
@@ -27,7 +27,7 @@ const CARD_PHOTO = {
   "4-islands": "card-4-islands", "koh-rok-koh-haa": "card-koh-rok", "koh-phi-phi": "card-koh-phi-phi",
   mangroves: "card-mangroves", "fishing-trip": "card-fishing",
   "scuba-diving": "card-scuba", atv: "card-atv", kayak: "card-kayak", "elephant-sanctuary": "card-elephant",
-  "sunset-dinner-raft": "card-sunset-raft", "sunset-plankton-kayak": "card-sunset-plankton", "sunrise-raft": "card-sunrise-raft", "mangrove-kayaking": "card-mangrove-kayak",
+  "sunset-dinner-raft": "card-sunset-raft", "sunset-plankton-kayak": "card-sunset-plankton", "sunset-longtail-half-day": "card-longtail-half-day", "sunrise-raft": "card-sunrise-raft", "mangrove-kayaking": "card-mangrove-kayak",
   "cooking-class": "card-cooking", batik: "card-batik", "go-kart": "card-go-kart"
 };
 // Galerie de chaque fiche : ids de photos-v3.json, dans l'ordre d'affichage (la première est la grande vignette).
@@ -42,7 +42,7 @@ const GALLERY = {
   "koh-rok-koh-haa": ["gal-rok-beach-island", "gal-rok-reef", "gal-rok-turquoise-water", "gal-rok-beach-lunch", "gal-rok-driftwood", "gal-rok-fallen-tree", "gal-rok-palm-beach"],
   "sunrise-raft": ["gal-raft-river-low-sun"],
   "sunset-dinner-raft": ["gal-raft-river-evening", "gal-raft-deck-lantern"],
-  "sunset-plankton-kayak": ["gal-plankton-bow-dinner", "gal-plankton-bow-sunset"],
+  "sunset-plankton-kayak": ["gal-plankton-bow-sunset"],
   "fishing-trip": ["gal-raft-fishing-deck"],
   rental: ["gal-rental-shed", "gal-rental-scooter", "gal-rental-motorbike", "gal-rental-car-white", "gal-rental-car-black"]
 };

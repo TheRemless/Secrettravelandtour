@@ -11,7 +11,7 @@ const DATA = __dirname;
 const P = (rel) => JSON.parse(fs.readFileSync(path.join(DATA, "products", rel + ".json"), "utf8"));
 const home = fs.existsSync(path.join(DATA, "home.json")) ? JSON.parse(fs.readFileSync(path.join(DATA, "home.json"), "utf8")) : {};
 
-const BOATS = ["4-islands", "koh-rok-koh-haa", "koh-phi-phi", "sunset-dinner-raft", "sunset-plankton-kayak", "sunrise-raft", "fishing-trip", "mangroves"].map((id) => "tours/" + id);
+const BOATS = ["4-islands", "koh-rok-koh-haa", "koh-phi-phi", "sunset-dinner-raft", "sunset-plankton-kayak", "sunset-longtail-half-day", "sunrise-raft", "fishing-trip", "mangroves"].map((id) => "tours/" + id);
 const ACTIVITIES = ["elephant-sanctuary", "atv", "batik", "kayak", "mangrove-kayaking", "cooking-class", "scuba-diving", "go-kart"].map((id) => "activities/" + id);
 
 // Adresses qui répondent aujourd'hui (pages refaites ou anciennes pages encore en place) : un lien vers une

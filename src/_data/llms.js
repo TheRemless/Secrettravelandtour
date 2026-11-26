@@ -23,7 +23,7 @@ const joinList = (a) => (a.length > 1 ? a.slice(0, -1).join(", ") + " and " + a[
 
 // Fiches dans l'ordre du site (groupes du hub /tours/) : bateaux, puis activités.
 const { GROUPS } = require("../_includes/components/groups.js");
-const BOATS = ["4-islands", "koh-rok-koh-haa", "koh-phi-phi", "sunset-dinner-raft", "sunset-plankton-kayak", "sunrise-raft", "fishing-trip", "mangroves"];
+const BOATS = ["4-islands", "koh-rok-koh-haa", "koh-phi-phi", "sunset-dinner-raft", "sunset-plankton-kayak", "sunset-longtail-half-day", "sunrise-raft", "fishing-trip", "mangroves"];
 const tours = Object.fromEntries(list("tours").map((p) => [p.slug, p]));
 const acts = Object.fromEntries(list("activities").map((p) => [p.slug, p]));
 const order = GROUPS.flatMap((g) => g.slugs);
