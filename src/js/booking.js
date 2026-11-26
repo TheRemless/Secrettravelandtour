@@ -834,6 +834,28 @@
     return errors;
   }
 
+  // ---------- Étapes de la feuille (maquette B, 26.11.2026) ----------
+  // keysByStep : pour chaque étape visible, les clés d'erreur de ses champs (dans l'ordre de l'écran). Renvoie la première
+  // étape qui a une erreur et les seules erreurs de cette étape ; une clé qu'aucune étape ne porte compte pour la dernière.
+  // { step: -1, errors: {} } quand tout va.
+  function pickStep(errors, keysByStep) {
+    var n = keysByStep.length, steps = [];
+    Object.keys(errors || {}).forEach(function (k) {
+      var at = -1;
+      for (var i = 0; i < n; i++) if (keysByStep[i].indexOf(k) > -1) { at = i; break; }
+      steps.push({ k: k, at: at < 0 ? n - 1 : at });
+    });
+    if (!steps.length || !n) return { step: -1, errors: {} };
+    var first = Math.min.apply(null, steps.map(function (x) { return x.at; }));
+    var out = {};
+    steps.forEach(function (x) { if (x.at === first) out[x.k] = errors[x.k]; });
+    return { step: first, errors: out };
+  }
+  // « Step 2 of 3 · Guests and pickup » : lu par le lecteur d'écran quand l'étape prend le focus.
+  function stepText(i, n, name) {
+    return "Step " + (i + 1) + " of " + n + (name ? " · " + name : "");
+  }
+
   function makeDraft(state, now) {
     var copy = {};
     // Le numéro WhatsApp ne reste pas 7 jours sur l'appareil : il vit le temps de la visite (stt-who, sessionStorage).
@@ -906,6 +928,14 @@
     function showPhoneOther() {
       var box = form.querySelector("[data-phone-other]");
       if (box) box.hidden = state.phoneCode !== "other";
+      codeFace();
+    }
+    // Champ fermé de l'indicatif : « +66 » seulement (le nom du pays coupait le champ, 26.11.2026) ; la liste garde les noms.
+    function codeFace() {
+      var face = form.querySelector("[data-code-face]");
+      if (!face) return;
+      var c = dialOf(state.phoneCode);
+      face.textContent = c ? "+" + c.dial : state.phoneCode === "other" ? "Other" : "Code";
     }
     function today() { return bangkokToday(new Date()); }
 
@@ -1120,20 +1150,32 @@
         adv.hidden = !young;
         adv.textContent = young ? opt.advice.text : "";
       }
-      var tot = dialog.querySelector("[data-total]");
+      // Pied d'une ligne (26.11.2026) : le total en deux mots à gauche du bouton. Le total complet et le cash du parc se
+      // relisent à l'étape 3, au-dessus de l'envoi (data-sum).
+      var tot = dialog.querySelector("[data-total]"), sum = dialog.querySelector("[data-sum]");
+      var q = opt ? quoteOf(opt, state) : null, cash = opt ? parkCash(config, state) : null;
+      var priced = Boolean(opt) && !pendingPrice(opt, state);
       if (tot) {
-        var q = opt ? quoteOf(opt, state) : null, cash = opt ? parkCash(config, state) : null;
-        tot.hidden = !opt || pendingPrice(opt, state);
+        tot.hidden = !priced;
         tot.innerHTML = "";
-        if (opt) {
-          var b = doc.createElement("b"), sm = doc.createElement("span");
-          b.textContent = q ? "Estimated total " + thb(q.total) : "Total confirmed on WhatsApp";
-          tot.appendChild(b);
-          // À qui se paie ce cash quand les données le disent (« Cash, paid to the ranger on the island ») : l'aperçu qui
-          // l'affichait n'existe plus (16.11.2026).
-          // Même règle que l'ancien aperçu : la note de la fiche vaut pour ses propres frais (même libellé), pas pour ceux d'une option.
-          var note = cash && config.parkFee && cash.label === config.parkFee.label ? config.parkFee.note : "", to = /^Cash, (.+)$/.exec(note || "");
-          if (cash) { sm.textContent = "Plus " + thb(cash.total) + " " + (cash.label || "fees").toLowerCase() + ", in cash on the day" + (to ? ", " + to[1] : ""); tot.appendChild(sm); }
+        if (priced) {
+          var k = doc.createElement("span"), b = doc.createElement("b");
+          k.textContent = q ? "Estimated total" : "Total";
+          b.textContent = q ? thb(q.total) : "Confirmed on WhatsApp";
+          tot.appendChild(k); tot.appendChild(b);
+        }
+      }
+      if (sum) {
+        sum.hidden = !priced;
+        var st = sum.querySelector("[data-sum-total]"), sc = sum.querySelector("[data-sum-cash]");
+        if (st) st.textContent = priced ? (q ? "Estimated total " + thb(q.total) : "Total confirmed on WhatsApp") : "";
+        // À qui se paie ce cash quand les données le disent (« Cash, paid to the ranger on the island ») : l'aperçu qui
+        // l'affichait n'existe plus (16.11.2026).
+        // Même règle que l'ancien aperçu : la note de la fiche vaut pour ses propres frais (même libellé), pas pour ceux d'une option.
+        var note = cash && config.parkFee && cash.label === config.parkFee.label ? config.parkFee.note : "", to = /^Cash, (.+)$/.exec(note || "");
+        if (sc) {
+          sc.hidden = !(priced && cash);
+          sc.textContent = priced && cash ? "Plus " + thb(cash.total) + " " + (cash.label || "fees").toLowerCase() + ", in cash on the day" + (to ? ", " + to[1] : "") : "";
         }
       }
     }
@@ -1407,7 +1449,8 @@
     }
     function controlFor(key) {
       if (key === "phone") return field(phoneFocus(state));
-      if (key === "date") return form.querySelector('input[name="dateChoice"]:checked') || form.querySelector('input[name="dateChoice"]');
+      // « Today » est caché une fois le ramassage commencé : le focus va au premier choix visible.
+      if (key === "date") return form.querySelector('input[name="dateChoice"]:checked') || form.querySelector('label:not([hidden]) > input[name="dateChoice"]');
       return controlsFor(key)[0] || null;
     }
     function groupOf(el) { return el && el.closest ? el.closest(".f, .count") : null; }
@@ -1447,6 +1490,8 @@
       first.focus({ preventScroll: true });
       first.removeAttribute("data-quiet-focus");
       var err = errorEl(firstKey), g = groupOf(err) || groupOf(first);
+      // Pickup et Drop-off partagent une aide posée juste au-dessus : le défilement la garde en vue.
+      if (g && g.previousElementSibling && g.previousElementSibling.classList.contains("f-hint--ends")) g = g.previousElementSibling;
       var box = form.querySelector(".sheet-body");
       if (!g || !g.scrollIntoView) return;
       var how = reduced ? "auto" : "smooth";
@@ -1460,6 +1505,69 @@
       var clash = opt && (opt.choices || []).some(function (ch) { var v = choiceValue(state, opt, ch); return v && v.days && errors[choiceKey(opt, ch)]; });
       if (clash) Array.prototype.forEach.call(form.querySelectorAll('input[name="dateChoice"]'), function (r) { r.setAttribute("aria-invalid", "true"); });
     }
+
+    // ---------- Étapes ----------
+    var steps = Array.prototype.slice.call(form.querySelectorAll("[data-sheet-step]"));
+    var curStep = steps[0] || null;
+    var progress = form.querySelector("[data-progress]");
+    var backBtn = dialog.querySelector("[data-back]"), nextBtn = form.querySelector("[data-next]"), sendBtn = form.querySelector("[data-submit]");
+    // Une étape sans champ visible (location : tout tient à l'étape 1) est sautée.
+    function liveSteps() {
+      return steps.filter(function (s) {
+        return Array.prototype.some.call(s.children, function (c) { return !c.hidden && c.tagName !== "TEMPLATE"; });
+      });
+    }
+    function keysByStep(live) {
+      return live.map(function (s) {
+        return Array.prototype.map.call(s.querySelectorAll(".err[id]"), function (el) { return el.id.replace("book-e-", ""); });
+      });
+    }
+    function goStep(el, focus) {
+      var live = liveSteps();
+      if (!live.length) return;
+      if (live.indexOf(el) < 0) el = live[0];
+      curStep = el;
+      var at = live.indexOf(el), last = at === live.length - 1;
+      steps.forEach(function (s) { s.hidden = s !== el; });
+      if (backBtn) backBtn.hidden = at === 0;
+      if (nextBtn) nextBtn.hidden = last;
+      if (sendBtn) sendBtn.hidden = !last;
+      if (progress) {
+        progress.hidden = live.length < 2;
+        var txt = progress.querySelector("[data-progress-text]");
+        if (txt) txt.textContent = stepText(at, live.length, el.getAttribute("data-step-name"));
+        Array.prototype.forEach.call(progress.querySelectorAll("i"), function (bar, i) {
+          bar.hidden = i >= live.length;
+          bar.className = i <= at ? "is-on" : "";
+        });
+      }
+      dialog.setAttribute("data-at-step", String(at + 1));
+      var body = form.querySelector(".sheet-body");
+      if (body) body.scrollTop = 0;
+      if (focus && progress && !progress.hidden) progress.focus();
+    }
+    function stepCheck(errors) {
+      var live = liveSteps();
+      return { live: live, at: live.indexOf(curStep), pick: pickStep(errors, keysByStep(live)) };
+    }
+    function stepErrors(sc) {
+      goStep(sc.live[sc.pick.step], false);
+      showErrors(sc.pick.errors);
+      markDayClash(sc.pick.errors);
+    }
+    if (nextBtn) nextBtn.addEventListener("click", function () {
+      state.today = today();
+      state.nowTime = bangkokTime(new Date());
+      var sc = stepCheck(validate(config, state));
+      if (sc.pick.step > -1 && sc.pick.step <= sc.at) { stepErrors(sc); return; }
+      showErrors({});
+      goStep(sc.live[Math.min(sc.at + 1, sc.live.length - 1)], true);
+    });
+    if (backBtn) backBtn.addEventListener("click", function () {
+      var live = liveSteps(), at = live.indexOf(curStep);
+      showErrors({});
+      goStep(live[Math.max(0, at - 1)], true);
+    });
 
     function show(name) {
       Object.keys(screens).forEach(function (k) { if (screens[k]) screens[k].hidden = k !== name; });
@@ -1486,7 +1594,8 @@
       state.today = today();
       state.nowTime = bangkokTime(new Date());
       var errors = validate(config, state);
-      if (Object.keys(errors).length) { showErrors(errors); markDayClash(errors); return; }
+      // Une erreur d'une étape déjà passée (date devenue passée, heure dépassée) ramène à cette étape.
+      if (Object.keys(errors).length) { stepErrors(stepCheck(errors)); return; }
       message = buildMessage(config, state);
       // Copie pour Gestion : avant window.open, sans attendre (le geste du visiteur reste disponible pour WhatsApp).
       var trap = form.querySelector('[name="website"]');
@@ -1511,7 +1620,7 @@
       state.nowTime = bangkokTime(new Date());
       var errors = validate(config, state);
       ["pickup", "firstName", "lastName", "phone"].forEach(function (k) { delete errors[k]; });
-      if (Object.keys(errors).length) { showErrors(errors); return; }
+      if (Object.keys(errors).length) { stepErrors(stepCheck(errors)); return; }
       emit("stt-trip-add", {
         slug: config.productId, option: state.option, date: resolveDate(state.dateChoice, state.dateOther, state.today),
         adults: state.adults, childAges: state.childAges, addons: state.addons || [],
@@ -1591,6 +1700,7 @@
       fillForm();
       showErrors({});
       show("form");
+      goStep(liveSteps()[0], false);
       markOptions();
       doc.documentElement.classList.add("sheet-open");
       dialog.showModal();
@@ -1649,6 +1759,8 @@
     DEMANDE_URL: DEMANDE_URL,
     trackInfo: trackInfo,
     makeDraft: makeDraft,
+    pickStep: pickStep,
+    stepText: stepText,
     restoreDraft: restoreDraft,
     emptyState: emptyState,
     endKind: endKind,

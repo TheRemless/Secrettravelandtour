@@ -19,11 +19,12 @@
 
 {#- Champ texte. extra : attributs pour le clavier du téléphone (autocapitalize, enterkeyhint, spellcheck). -#}
 {#- hintAttrs : attributs de l'aide (data-hint et data-round-hint du Pickup, que booking.js échange en aller-retour). -#}
-{% macro text(name, label, hint, required=false, autocomplete="off", extra="", group="", hintAttrs="") %}
+{#- desc : id d'une aide commune posée hors du champ (Pickup et Drop-off partagent la même, 26.11.2026). -#}
+{% macro text(name, label, hint, required=false, autocomplete="off", extra="", group="", hintAttrs="", desc="") %}
 <div class="f"{% if group %} {{ group | safe }}{% endif %}>
   <label for="book-{{ name }}">{{ label }}</label>
   {% if hint %}<p class="f-hint" id="book-h-{{ name }}"{% if hintAttrs %} {{ hintAttrs | safe }}{% endif %}>{{ hint }}</p>{% endif %}
-  <input data-clarity-mask="True" id="book-{{ name }}" name="{{ name }}" type="text" autocomplete="{{ autocomplete }}" {{ extra | safe }}{% if required %} required aria-required="true"{% endif %} aria-describedby="{% if hint %}book-h-{{ name }} {% endif %}book-e-{{ name }}">
+  <input data-clarity-mask="True" id="book-{{ name }}" name="{{ name }}" type="text" autocomplete="{{ autocomplete }}" {{ extra | safe }}{% if required %} required aria-required="true"{% endif %} aria-describedby="{% if desc %}{{ desc }} {% endif %}{% if hint %}book-h-{{ name }} {% endif %}book-e-{{ name }}">
   <p class="err" id="book-e-{{ name }}" hidden></p>
 </div>
 {% endmacro %}
@@ -32,42 +33,26 @@
 {%- set taxi = cfg.variant == "taxi" -%}
 {%- set rental = cfg.variant == "rental" -%}
 {%- set speedboat = cfg.variant == "speedboat" -%}
-<dialog class="sheet" id="book" aria-labelledby="book-title">
+<dialog class="sheet" id="book" aria-labelledby="book-title" data-steps>
   <div class="sheet-grab" aria-hidden="true"></div>
   <div class="sheet-screen" data-screen="form">
     <form novalidate>
       <div class="sheet-head">
-        <div>
+        <button class="sheet-back" type="button" data-back hidden>{{ icon("chevron-left") }}<span class="sr-only">Back</span></button>
+        <div class="sheet-head__text">
           <p class="sheet-kicker">{% if cfg.kicker %}{{ cfg.kicker }}{% elif cfg.variant == "tour" %}Choose a date{% else %}Check availability{% endif %}</p>
           {#- Hub taxi (trajet libre) : le titre reprend les lieux écrits par le visiteur, masqué pour Clarity. -#}
           <h2 class="sheet-title" id="book-title" tabindex="-1" data-focus data-route-title{% if not (cfg.from and cfg.to) %} data-clarity-mask="True"{% endif %}>{{ cfg.product }}</h2>
+          {#- Indicateur d'étape (remplace la ligne du dessus quand les étapes sont actives) : reçoit le focus à chaque étape. -#}
+          <p class="sheet-progress" data-progress tabindex="-1" hidden><span class="sheet-progress__bar" aria-hidden="true"><i></i><i></i><i></i></span><span data-progress-text></span></p>
         </div>
         <button class="sheet-close" type="button" data-close>{{ icon("close") }}<span class="sr-only">Close</span></button>
       </div>
+      {#- Trois étapes (maquette B, 26.11.2026) : 1. quoi et quand, 2. qui et où, 3. qui écrit et l'envoi. Ordre du DOM = ordre
+          à l'écran. booking.js montre une étape à la fois, saute une étape vide (location) et ne passe à la suivante que si
+          ses champs sont bons ; validate() et le message ne changent pas. -#}
       <div class="sheet-body">
-        {#- Qui écrit d'abord, dans toutes les feuilles : c'est ce que le téléphone remplit seul. Prénom, nom et numéro WhatsApp
-            obligatoires (Jérémy, 17.11.2026 : des messages préparés n'arrivent jamais, le numéro permet de rappeler). Les
-            indicatifs viennent de booking.js (DIAL_CODES) ; « Other » ouvre un petit champ pour taper le sien. -#}
-        <div class="f-who">
-          <div class="f-pair">
-            {{ text("firstName", "First name", "", true, "given-name", 'maxlength="60" autocapitalize="words" enterkeyhint="next" spellcheck="false"') }}
-            {{ text("lastName", "Last name", "", true, "family-name", 'maxlength="60" autocapitalize="words" enterkeyhint="next" spellcheck="false"') }}
-          </div>
-          <div class="f f-phone">
-            <label for="book-phone">Your WhatsApp number</label>
-            <div class="phone-row">
-              <span class="select"><select data-clarity-mask="True" id="book-phoneCode" name="phoneCode" autocomplete="tel-country-code" aria-label="Country code" aria-describedby="book-e-phone"><option value="">Code</option></select></span>
-              <input data-clarity-mask="True" id="book-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" enterkeyhint="next" required aria-required="true" aria-describedby="book-h-phone book-e-phone">
-            </div>
-            <div class="phone-other" data-phone-other hidden>
-              <label class="f-label" for="book-phoneOther">Country code</label>
-              <input data-clarity-mask="True" id="book-phoneOther" name="phoneOther" type="tel" inputmode="tel" autocomplete="off" placeholder="+20" aria-describedby="book-e-phone">
-            </div>
-            <p class="f-hint f-hint--under" id="book-h-phone">So we can reach you if your message doesn't come through.</p>
-            <p class="err" id="book-e-phone" hidden></p>
-          </div>
-        </div>
-
+        <div class="sheet-step" data-sheet-step="1" data-step-name="{% if taxi %}Trip and date{% elif speedboat %}Boat and date{% elif rental %}Vehicle and dates{% else %}Option and date{% endif %}">
         {%- if cfg.options and cfg.options.length > 1 %}
         <fieldset class="f">
           <legend>Option</legend>
@@ -91,8 +76,21 @@
         </fieldset>
         {%- endif %}
 
-        {#- Sous-variantes de chaque option (créneau, cours, nombre de karts…) : visibles quand l'option est choisie. -#}
-        {%- for o in cfg.options %}{% if o.choices or o.counts or o.extras %}
+        {%- if taxi and cfg.roundTrip and not cfg.dayTrip %}
+        {#- Aller-retour depuis le point de prise en charge (16.11.2026), seulement là où Pickup et Drop-off sont libres (hub, songthaew).
+            booking.js (endsUI) cache Drop-off et montre data-round ; le message suit le format commun avec Gestion. -#}
+        <fieldset class="f">
+          <legend>Trip</legend>
+          <div class="choice choice--list">
+            <label><input type="radio" name="ride" value="oneway"><span><b>One way</b></span></label>
+            <label><input type="radio" name="ride" value="round"><span><b>Round trip from my place</b></span></label>
+          </div>
+        </fieldset>
+        {%- endif %}
+
+        {#- Sous-variantes de chaque option (créneau, cours, site…) : visibles quand l'option est choisie. Les compteurs et les
+            extras de l'option sont à l'étape 2, avec les personnes. -#}
+        {%- for o in cfg.options %}{% if o.choices %}
         <div class="opt-more" data-opt-block="{{ o.id }}" hidden>
           {%- for ch in o.choices %}
           {%- set key = "c-" + o.id + "-" + ch.id %}
@@ -115,6 +113,75 @@
           </fieldset>
           {%- endif %}
           {%- endfor %}
+        </div>
+        {%- endif %}{% endfor %}
+
+        {%- if speedboat %}
+        {#- Ouverte depuis un bateau de la grille : trajet et départ déjà choisis dans les deux champs, visibles. -#}
+        <div class="sb-pick" data-sb-pick>
+        <div class="f">
+          <label for="book-route">Trip</label>
+          <span class="select"><select id="book-route" name="route" aria-describedby="book-e-route">
+            <option value="">Choose where you are going</option>
+            {%- for g in cfg.groups %}
+            <optgroup label="{{ g.label }}">{% for r in g.routes %}<option value="{{ r.id }}">{{ r.label }}</option>{% endfor %}</optgroup>
+            {%- endfor %}
+          </select></span>
+          <p class="err" id="book-e-route" hidden></p>
+        </div>
+        <fieldset class="f" data-deps hidden>
+          <legend>Departure</legend>
+          <div class="choice choice--list">
+            {%- for r in cfg.routes %}{% for dep in r.deps %}
+            <label data-dep-route="{{ r.id }}" hidden><input type="radio" name="departure" value="{{ dep.id }}" aria-describedby="book-e-departure"><span><b>{{ dep.time }}</b><span class="opt-price">{% if dep.arrives %}arrives {{ dep.arrives }}{% endif %}{% if dep.detail %}<small>{{ dep.detail }}</small>{% endif %}</span></span></label>
+            {%- endfor %}{% endfor %}
+          </div>
+          <p class="err" id="book-e-departure" hidden></p>
+        </fieldset>
+        </div>
+        {%- endif %}
+
+        {%- if rental %}
+        <div class="f">
+          <label for="book-vehicle">Model</label>
+          <p class="f-hint" id="book-h-vehicle">Optional: the model you saw in the list.</p>
+          <input data-clarity-mask="True" id="book-vehicle" name="vehicle" type="text" list="book-vehicle-list" autocomplete="off" aria-describedby="book-h-vehicle">
+          <datalist id="book-vehicle-list">{% for o in cfg.options %}{% for r in o.rows %}<option value="{{ r.label }}"></option>{% endfor %}{% endfor %}</datalist>
+        </div>
+        <div class="f">
+          {{ stepper("vehicles", "Number of vehicles", 1, 1, 20) }}
+          <p class="err" id="book-e-vehicles" hidden></p>
+        </div>
+        <fieldset class="f">
+          <legend>Dates and times</legend>
+          <div class="dates">
+            <div><label class="f-label" for="book-dateFrom">Start date</label><input data-clarity-mask="True" id="book-dateFrom" name="dateFrom" type="date" aria-describedby="book-e-dates"></div>
+            <div><label class="f-label" for="book-timeFrom">Start time</label><input data-clarity-mask="True" id="book-timeFrom" name="timeFrom" type="time" aria-describedby="book-e-dates"></div>
+            <div><label class="f-label" for="book-dateTo">Return date</label><input data-clarity-mask="True" id="book-dateTo" name="dateTo" type="date" aria-describedby="book-e-dates"></div>
+            <div><label class="f-label" for="book-timeTo">Return time</label><input data-clarity-mask="True" id="book-timeTo" name="timeTo" type="time" aria-describedby="book-e-dates"></div>
+          </div>
+          <p class="err" id="book-e-dates" hidden></p>
+        </fieldset>
+        {%- else %}
+        <fieldset class="f">
+          <legend>{{ "Date of the boat" if speedboat else "Date" }}</legend>
+          <div class="choice choice--3">
+            <label><input type="radio" name="dateChoice" value="today" aria-describedby="book-e-date"><span>Today<small data-day></small></span></label>
+            <label><input type="radio" name="dateChoice" value="tomorrow" aria-describedby="book-e-date"><span>Tomorrow<small data-day></small></span></label>
+            <label><input type="radio" name="dateChoice" value="other" aria-describedby="book-e-date"><span>Other date</span></label>
+          </div>
+          <div class="date-other" data-date-other hidden>
+            <label class="f-label" for="book-dateOther">Date</label>
+            <input data-clarity-mask="True" id="book-dateOther" name="dateOther" type="date" aria-describedby="book-e-date">
+          </div>
+          <p class="err" id="book-e-date" hidden></p>
+        </fieldset>
+        {%- endif %}
+        </div>
+
+        <div class="sheet-step" data-sheet-step="2" data-step-name="{% if taxi %}Guests and places{% elif speedboat %}Ticket and guests{% elif rental %}Details{% else %}Guests and pickup{% endif %}">
+        {%- for o in cfg.options %}{% if o.counts or o.extras %}
+        <div class="opt-more" data-opt-block="{{ o.id }}" hidden>
           {%- if o.counts %}
           <fieldset class="f">
             <legend>{{ o.counts.label }}</legend>
@@ -144,41 +211,6 @@
         {%- endif %}{% endfor %}
 
         {%- if speedboat %}
-        {#- Ouverte depuis un bateau de la grille : trajet et départ déjà choisis dans les deux champs, visibles. -#}
-        <div class="sb-pick" data-sb-pick>
-        <div class="f">
-          <label for="book-route">Trip</label>
-          <span class="select"><select id="book-route" name="route" aria-describedby="book-e-route">
-            <option value="">Choose where you are going</option>
-            {%- for g in cfg.groups %}
-            <optgroup label="{{ g.label }}">{% for r in g.routes %}<option value="{{ r.id }}">{{ r.label }}</option>{% endfor %}</optgroup>
-            {%- endfor %}
-          </select></span>
-          <p class="err" id="book-e-route" hidden></p>
-        </div>
-        <fieldset class="f" data-deps hidden>
-          <legend>Departure</legend>
-          <div class="choice choice--list">
-            {%- for r in cfg.routes %}{% for dep in r.deps %}
-            <label data-dep-route="{{ r.id }}" hidden><input type="radio" name="departure" value="{{ dep.id }}" aria-describedby="book-e-departure"><span><b>{{ dep.time }}</b><span class="opt-price">{% if dep.arrives %}arrives {{ dep.arrives }}{% endif %}{% if dep.detail %}<small>{{ dep.detail }}</small>{% endif %}</span></span></label>
-            {%- endfor %}{% endfor %}
-          </div>
-          <p class="err" id="book-e-departure" hidden></p>
-        </fieldset>
-        </div>
-        <fieldset class="f">
-          <legend>Date of the boat</legend>
-          <div class="choice choice--3">
-            <label><input type="radio" name="dateChoice" value="today" aria-describedby="book-e-date"><span>Today<small data-day></small></span></label>
-            <label><input type="radio" name="dateChoice" value="tomorrow" aria-describedby="book-e-date"><span>Tomorrow<small data-day></small></span></label>
-            <label><input type="radio" name="dateChoice" value="other" aria-describedby="book-e-date"><span>Other date</span></label>
-          </div>
-          <div class="date-other" data-date-other hidden>
-            <label class="f-label" for="book-dateOther">Date</label>
-            <input data-clarity-mask="True" id="book-dateOther" name="dateOther" type="date" aria-describedby="book-e-date">
-          </div>
-          <p class="err" id="book-e-date" hidden></p>
-        </fieldset>
         <fieldset class="f">
           <legend>Ticket</legend>
           <div class="choice choice--2">
@@ -202,43 +234,6 @@
             <input data-clarity-mask="True" id="book-returnTime" name="returnTime" type="text" autocomplete="off" aria-describedby="book-e-returnTrip">
           </div>
           <p class="err" id="book-e-returnTrip" hidden></p>
-        </fieldset>
-        {%- endif %}
-
-        {%- if rental %}
-        <div class="f">
-          <label for="book-vehicle">Model</label>
-          <p class="f-hint" id="book-h-vehicle">Optional: the model you saw in the list.</p>
-          <input data-clarity-mask="True" id="book-vehicle" name="vehicle" type="text" list="book-vehicle-list" autocomplete="off" aria-describedby="book-h-vehicle">
-          <datalist id="book-vehicle-list">{% for o in cfg.options %}{% for r in o.rows %}<option value="{{ r.label }}"></option>{% endfor %}{% endfor %}</datalist>
-        </div>
-        <div class="f">
-          {{ stepper("vehicles", "Number of vehicles", 1, 1, 20) }}
-          <p class="err" id="book-e-vehicles" hidden></p>
-        </div>
-        <fieldset class="f">
-          <legend>Dates and times</legend>
-          <div class="dates">
-            <div><label class="f-label" for="book-dateFrom">Start date</label><input data-clarity-mask="True" id="book-dateFrom" name="dateFrom" type="date" aria-describedby="book-e-dates"></div>
-            <div><label class="f-label" for="book-timeFrom">Start time</label><input data-clarity-mask="True" id="book-timeFrom" name="timeFrom" type="time" aria-describedby="book-e-dates"></div>
-            <div><label class="f-label" for="book-dateTo">Return date</label><input data-clarity-mask="True" id="book-dateTo" name="dateTo" type="date" aria-describedby="book-e-dates"></div>
-            <div><label class="f-label" for="book-timeTo">Return time</label><input data-clarity-mask="True" id="book-timeTo" name="timeTo" type="time" aria-describedby="book-e-dates"></div>
-          </div>
-          <p class="err" id="book-e-dates" hidden></p>
-        </fieldset>
-        {%- elif not speedboat %}
-        <fieldset class="f">
-          <legend>Date</legend>
-          <div class="choice choice--3">
-            <label><input type="radio" name="dateChoice" value="today" aria-describedby="book-e-date"><span>Today<small data-day></small></span></label>
-            <label><input type="radio" name="dateChoice" value="tomorrow" aria-describedby="book-e-date"><span>Tomorrow<small data-day></small></span></label>
-            <label><input type="radio" name="dateChoice" value="other" aria-describedby="book-e-date"><span>Other date</span></label>
-          </div>
-          <div class="date-other" data-date-other hidden>
-            <label class="f-label" for="book-dateOther">Date</label>
-            <input data-clarity-mask="True" id="book-dateOther" name="dateOther" type="date" aria-describedby="book-e-date">
-          </div>
-          <p class="err" id="book-e-date" hidden></p>
         </fieldset>
         {%- endif %}
 
@@ -279,22 +274,15 @@
         </div>
         {%- elif taxi %}
         {#- Deux lieux, pas quatre : où le chauffeur prend le client, où il le dépose. Le bout déjà connu d'une page trajet
-            (aéroport, jetée) n'est pas redemandé : booking.js le range dans la ligne « data-fixed ». -#}
+            (aéroport, jetée) n'est pas redemandé : booking.js le range dans la ligne « data-fixed ».
+            Une seule aide pour les deux champs (26.11.2026), au-dessus de Pickup ; en aller-retour, elle prend le texte roundHint. -#}
         <p class="f-fixed" data-fixed hidden></p>
-        {%- set hubHint = "Hotel, address, airport or pier." if (cfg.from and cfg.to) else "Hotel, address, airport or pier. If you pick a town from the list, add your hotel after it." -%}
-        {%- if cfg.roundTrip %}
-        {#- Aller-retour depuis le point de prise en charge (16.11.2026), seulement là où Pickup et Drop-off sont libres (hub, songthaew).
-            booking.js (endsUI) cache Drop-off et montre data-round ; le message suit le format commun avec Gestion. -#}
-        <fieldset class="f">
-          <legend>Trip</legend>
-          <div class="choice choice--list">
-            <label><input type="radio" name="ride" value="oneway"><span><b>One way</b></span></label>
-            <label><input type="radio" name="ride" value="round"><span><b>Round trip from my place</b></span></label>
-          </div>
-        </fieldset>
+        {%- set hubHint = "Hotel, address, airport or pier." if (cfg.from and cfg.to) else "Hotel, address, airport or pier. Picked a town from the list? Add your hotel after it." -%}
+        {%- if not cfg.shared %}
+        <p class="f-hint f-hint--ends" id="book-h-pickupAt"{% if cfg.roundTrip %} data-hint="{{ hubHint }}" data-round-hint="{{ cfg.roundHint }}"{% endif %}>{{ hubHint }}</p>
         {%- endif %}
-        {{ text("pickupAt", "Pickup", ("Your hotel, address or the airport." if cfg.shared else hubHint), true, "off", 'autocapitalize="words" enterkeyhint="next"', "data-end=pickup", (('data-hint="' + hubHint + '" data-round-hint="' + cfg.roundHint + '"') if cfg.roundTrip else "")) }}
-        {{ text("dropoffAt", "Drop-off", ("Where you are going." if cfg.shared else hubHint), true, "off", 'autocapitalize="words" enterkeyhint="next"', "data-end=dropoff") }}
+        {{ text("pickupAt", "Pickup", ("Your hotel, address or the airport." if cfg.shared else ""), true, "off", 'autocapitalize="words" enterkeyhint="next"', "data-end=pickup", "", ("" if cfg.shared else "book-h-pickupAt")) }}
+        {{ text("dropoffAt", "Drop-off", ("Where you are going." if cfg.shared else ""), true, "off", 'autocapitalize="words" enterkeyhint="next"', "data-end=dropoff", "", ("" if cfg.shared else "book-h-pickupAt")) }}
         {%- if cfg.roundTrip %}
         <div class="round" data-round hidden>
           <div class="f">
@@ -346,17 +334,50 @@
           <p class="err" id="book-e-pickup" hidden></p>
         </div>
         {%- endif %}
-      </div>
-      {#- Champ piège (contrat demandes-site) : invisible pour un humain, rempli par les robots ; jamais dans le message. -#}
-      <div class="hp" aria-hidden="true"><label for="bk-website">Website</label><input data-clarity-mask="True" id="bk-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
-      <div class="sheet-foot{% if cfg.tripList %} sheet-foot--pair{% endif %}">
-        {%- if cfg.variant == "tour" %}<p class="sheet-total" data-total aria-live="polite" hidden></p>{% endif %}
-        {#- Envoi direct (Jérémy, 16.11.2026 : plus d'aperçu) : booking.js ouvre WhatsApp depuis l'envoi du formulaire. -#}
-        <button class="sheet-btn" type="submit" aria-describedby="book-send-note">{{ icon("whatsapp") }}<span>Send on WhatsApp</span></button>
+        </div>
+
+        <div class="sheet-step" data-sheet-step="3" data-step-name="Your details">
+        {#- Qui écrit : prénom, nom et numéro WhatsApp obligatoires (Jérémy, 17.11.2026 : des messages préparés n'arrivent jamais,
+            le numéro permet de rappeler). Dernière étape depuis le 26.11.2026 : le téléphone les remplit souvent seul.
+            Les indicatifs viennent de booking.js (DIAL_CODES) ; le champ fermé n'affiche que « +66 » (data-code-face),
+            la liste ouverte garde le nom des pays. « Other » ouvre un petit champ pour taper le sien. -#}
+        <div class="f-who">
+          <div class="f-pair">
+            {{ text("firstName", "First name", "", true, "given-name", 'maxlength="60" autocapitalize="words" enterkeyhint="next" spellcheck="false"') }}
+            {{ text("lastName", "Last name", "", true, "family-name", 'maxlength="60" autocapitalize="words" enterkeyhint="next" spellcheck="false"') }}
+          </div>
+          <div class="f f-phone">
+            <label for="book-phone">Your WhatsApp number</label>
+            <div class="phone-row">
+              <span class="select select--code"><span class="code-face" data-code-face aria-hidden="true">Code</span><select data-clarity-mask="True" id="book-phoneCode" name="phoneCode" autocomplete="tel-country-code" aria-label="Country code" aria-describedby="book-e-phone"><option value="">Code</option></select></span>
+              <input data-clarity-mask="True" id="book-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" enterkeyhint="done" required aria-required="true" aria-describedby="book-h-phone book-e-phone">
+            </div>
+            <div class="phone-other" data-phone-other hidden>
+              <label class="f-label" for="book-phoneOther">Country code</label>
+              <input data-clarity-mask="True" id="book-phoneOther" name="phoneOther" type="tel" inputmode="tel" autocomplete="off" placeholder="+20" aria-describedby="book-e-phone">
+            </div>
+            <p class="f-hint f-hint--under" id="book-h-phone">We only use it if your message doesn't reach us.</p>
+            <p class="err" id="book-e-phone" hidden></p>
+          </div>
+        </div>
+        {%- if cfg.variant == "tour" %}
+        {#- Total estimé et cash du parc, relus avant l'envoi (booking.js, optionUI). -#}
+        <div class="sheet-sum" data-sum hidden><p class="sheet-sum__total" data-sum-total></p><p class="sheet-sum__cash" data-sum-cash hidden></p></div>
+        {%- endif %}
         <p class="sheet-note sheet-note--send" id="book-send-note">WhatsApp opens with your message. Check it, then tap Send.</p>
         {%- if cfg.tripList %}
         <button class="sheet-link sheet-link--trip" type="button" data-trip data-track="sheet" data-track-cta="add_to_trip_list">Add to my trip list</button>
         {%- endif %}
+        </div>
+      </div>
+      {#- Champ piège (contrat demandes-site) : invisible pour un humain, rempli par les robots ; jamais dans le message. -#}
+      <div class="hp" aria-hidden="true"><label for="bk-website">Website</label><input data-clarity-mask="True" id="bk-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+      {#- Pied d'une ligne : le total à gauche (excursions), Next puis Send on WhatsApp à droite. -#}
+      <div class="sheet-foot sheet-foot--row">
+        {%- if cfg.variant == "tour" %}<p class="sheet-total" data-total aria-live="polite" hidden></p>{% endif %}
+        <button class="sheet-btn sheet-btn--next" type="button" data-next><span>Next</span>{{ icon("chevron-right") }}</button>
+        {#- Envoi direct (Jérémy, 16.11.2026 : plus d'aperçu) : booking.js ouvre WhatsApp depuis l'envoi du formulaire. -#}
+        <button class="sheet-btn" type="submit" aria-describedby="book-send-note" data-submit>{{ icon("whatsapp") }}<span>Send on WhatsApp</span></button>
       </div>
     </form>
   </div>
