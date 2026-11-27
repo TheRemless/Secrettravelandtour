@@ -166,7 +166,7 @@ function fromOf(o, skip) {
   const tiers = rows.filter((r) => r.group).sort((a, b) => (a.group.min || 0) - (b.group.min || 0));
   const min = adult || tiers[0] || rows.reduce((a, b) => (b.amount < a.amount ? b : a));
   const many = !adult && !tiers.length && new Set(rows.map((r) => r.amount)).size > 1;
-  const unit = adult ? (/^adult/i.test(adult.label) ? "per adult" : "per person") : min.group ? `${min.unit || "per boat"}, ${min.label.replace(/, the raft$/, "").toLowerCase()}` : min.unit || "";
+  const unit = adult ? (/^adult/i.test(adult.label) ? "per adult" : "per person") : min.group ? `${min.unit || "per boat"}, ${min.label.toLowerCase()}` : min.unit || "";
   return { amount: view.thb(min.amount), unit, from: many };
 }
 

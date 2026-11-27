@@ -20,7 +20,7 @@ for (const [slug, amounts] of Object.entries(GRID)) {
   const total = (a, k) => (P.quote(opt, { adults: a, ages: k }) || {}).total;
 
   test(`${slug} : quatre tranches, ni supplément ni tarif enfant`, () => {
-    assert.deepEqual(opt.prices.map((r) => [r.label, r.amount, r.group.min, r.group.max]), amounts.map((a, i) => [`${2 * i + 1} to ${2 * i + 2} people, the raft`, a, 2 * i + 1, 2 * i + 2]));
+    assert.deepEqual(opt.prices.map((r) => [r.label, r.amount, r.group.min, r.group.max]), amounts.map((a, i) => [`${2 * i + 1} to ${2 * i + 2} people`, a, 2 * i + 1, 2 * i + 2]));
     assert.ok(opt.prices.every((r) => !r.supplement && !r.ages));
     assert.doesNotMatch(JSON.stringify(product(slug).beforeYouBook) + opt.note, /extra person|child rate|3 to 9|whatever their age/i);
   });
@@ -60,10 +60,10 @@ test("message de réservation : la tranche et le total, ou le prix sur demande a
   const html = fs.readFileSync(path.join(__dirname, "..", "_site", "tours", "fishing-trip", "index.html"), "utf8");
   const cfg = JSON.parse(html.match(/<script type="application\/json" id="book-data">([\s\S]*?)<\/script>/)[1]);
   const base = { option: cfg.options[0].id, today: "2026-11-27", dateChoice: "tomorrow", childAges: [], pickup: "Hotel", firstName: "A", lastName: "B", phoneCode: "TH", phone: "081 234 5678" };
-  assert.match(B.buildMessage(cfg, { ...base, adults: 3 }), /Estimated total: 5,900 THB \(3 to 4 people, the raft\)/);
-  assert.match(B.buildMessage(cfg, { ...base, adults: 8 }), /Estimated total: 9,900 THB \(7 to 8 people, the raft\)/);
+  assert.match(B.buildMessage(cfg, { ...base, adults: 3 }), /Estimated total: 5,900 THB \(3 to 4 people\)/);
+  assert.match(B.buildMessage(cfg, { ...base, adults: 8 }), /Estimated total: 9,900 THB \(7 to 8 people\)/);
   assert.match(B.buildMessage(cfg, { ...base, adults: 9 }), /Price: on request, group of 9 people/);
   const bebe = B.buildMessage(cfg, { ...base, adults: 2, children: 1, childAges: [1] });
   assert.match(bebe, /Guests: 2 adults, 1 child \(age 1\)/);
-  assert.match(bebe, /Estimated total: 3,900 THB \(1 to 2 people, the raft\)/);
+  assert.match(bebe, /Estimated total: 3,900 THB \(1 to 2 people\)/);
 });

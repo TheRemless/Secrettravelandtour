@@ -325,7 +325,7 @@
   // Ce que l'agence lit pour répondre : le total estimé quand les données le permettent, sinon le prix de la page.
   function priceSummary(option, state) {
     var q = option && PRICE && Array.isArray(option.prices) ? quoteOf(option, state) : null;
-    // Radeau privé (grille du 27.11.2026) : la tranche choisie suit le total, « Estimated total: 5,900 THB (3 to 4 people, the raft) ».
+    // Radeau privé (grille du 27.11.2026) : la tranche choisie suit le total, « Estimated total: 5,900 THB (3 to 4 people) ».
     var tiered = q && (option.prices || []).filter(function (r) { return r.group; }).length > 1;
     if (q && tiered && q.lines.length === 1) return "Estimated total: " + thb(q.total) + " (" + q.lines[0][0] + ")";
     if (q) return "Estimated total: " + thb(q.total);

@@ -158,19 +158,19 @@
   "prestation": "cd19d60c-4c3a-5a27-a5a7-c56221169a1d",
   "gestion": "Program D, child (4-10)"
  },
- "fishing-trip|Private raft, fishing and seafood lunch|1 to 2 people, the raft": {
+ "fishing-trip|Private raft, fishing and seafood lunch|1 to 2 people": {
   "prestation": "2f0d23fb-d650-5670-a0d4-5053f0615e20",
   "gestion": "Program B: Private Fishing & Fresh Seafood Lunch, for 1 to 2 people"
  },
- "fishing-trip|Private raft, fishing and seafood lunch|3 to 4 people, the raft": {
+ "fishing-trip|Private raft, fishing and seafood lunch|3 to 4 people": {
   "prestation": "06c2dc17-8c1a-40bf-97d8-9bf94324efb4",
   "gestion": "Program B: Private Fishing & Fresh Seafood Lunch, for 3 to 4 people"
  },
- "fishing-trip|Private raft, fishing and seafood lunch|5 to 6 people, the raft": {
+ "fishing-trip|Private raft, fishing and seafood lunch|5 to 6 people": {
   "prestation": "1bc34673-92f5-453c-a2d1-c01fc44bb98c",
   "gestion": "Program B: Private Fishing & Fresh Seafood Lunch, for 5 to 6 people"
  },
- "fishing-trip|Private raft, fishing and seafood lunch|7 to 8 people, the raft": {
+ "fishing-trip|Private raft, fishing and seafood lunch|7 to 8 people": {
   "prestation": "d9710862-1a07-4bcd-b537-4ae4733017c5",
   "gestion": "Program B: Private Fishing & Fresh Seafood Lunch, for 7 to 8 people"
  },
@@ -525,35 +525,35 @@
   "prestation": "e44f254f-730a-5954-acd2-0e1b7e113cf0",
   "gestion": "Southern trip, 3 dives (back at 5 pm)"
  },
- "sunrise-raft|Private raft at sunrise|1 to 2 people, the raft": {
+ "sunrise-raft|Private raft at sunrise|1 to 2 people": {
   "prestation": "bcdf0c72-7a4a-5485-a4b0-2c98e1892f83",
   "gestion": "Program A: Sunrise View, for 1 to 2 people"
  },
- "sunrise-raft|Private raft at sunrise|3 to 4 people, the raft": {
+ "sunrise-raft|Private raft at sunrise|3 to 4 people": {
   "prestation": "fbc0bc19-f58b-4f9f-8658-c0feb193ca34",
   "gestion": "Program A: Sunrise View, for 3 to 4 people"
  },
- "sunrise-raft|Private raft at sunrise|5 to 6 people, the raft": {
+ "sunrise-raft|Private raft at sunrise|5 to 6 people": {
   "prestation": "75f513e5-9afd-41d4-afd2-45cd24da78d8",
   "gestion": "Program A: Sunrise View, for 5 to 6 people"
  },
- "sunrise-raft|Private raft at sunrise|7 to 8 people, the raft": {
+ "sunrise-raft|Private raft at sunrise|7 to 8 people": {
   "prestation": "97e48d0a-c497-46f0-895c-3e1c84e756e9",
   "gestion": "Program A: Sunrise View, for 7 to 8 people"
  },
- "sunset-dinner-raft|Private raft, sunset dinner|1 to 2 people, the raft": {
+ "sunset-dinner-raft|Private raft, sunset dinner|1 to 2 people": {
   "prestation": "8dd08629-e895-5f93-a3b0-2bceb8608aaa",
   "gestion": "Program C: Luxury Sunset Dinner & Plankton Bioluminescent, for 1 to 2 people"
  },
- "sunset-dinner-raft|Private raft, sunset dinner|3 to 4 people, the raft": {
+ "sunset-dinner-raft|Private raft, sunset dinner|3 to 4 people": {
   "prestation": "26ea4b06-d41b-4f4b-b91c-ffb268014487",
   "gestion": "Program C: Luxury Sunset Dinner & Plankton Bioluminescent, for 3 to 4 people"
  },
- "sunset-dinner-raft|Private raft, sunset dinner|5 to 6 people, the raft": {
+ "sunset-dinner-raft|Private raft, sunset dinner|5 to 6 people": {
   "prestation": "68a0fb35-fe86-449b-8cb8-9498b8a545a5",
   "gestion": "Program C: Luxury Sunset Dinner & Plankton Bioluminescent, for 5 to 6 people"
  },
- "sunset-dinner-raft|Private raft, sunset dinner|7 to 8 people, the raft": {
+ "sunset-dinner-raft|Private raft, sunset dinner|7 to 8 people": {
   "prestation": "8abc4bcd-ef68-41d9-ae84-dcaa74b1f240",
   "gestion": "Program C: Luxury Sunset Dinner & Plankton Bioluminescent, for 7 to 8 people"
  },

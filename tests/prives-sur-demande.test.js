@@ -34,7 +34,7 @@ test("aucun ancien prix de longtail privé ni « +500 THB » dans les pages, les
     let s = fs.readFileSync(f, "utf8").replace(/cc698212e79400cca1a404ad4bf10b5f/g, "");
     // Radeaux privés (grille du 27.11.2026) : leurs tranches dans les données publiques et llms.txt sont hors de ce contrôle.
     if (f.endsWith("catalog.json")) { const c = JSON.parse(s); for (const k of RADEAUX) delete c[k]; s = JSON.stringify(c); }
-    s = s.replace(/\b\d+ to \d+ people, the raft: [\d,]+ THB per raft/g, "");
+    s = s.replace(/\b\d+ to \d+ people: [\d,]+ THB per raft/g, "");
     assert.doesNotMatch(s, ANCIENS, path.relative(SITE, f));
   }
 });

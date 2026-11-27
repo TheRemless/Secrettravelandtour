@@ -43,7 +43,7 @@
       "note": "Four hours on the water, fishing gear and bait included. One price for the whole raft. Under 3 free. From 3 years, each child counts as one person. For more than 8 people, ask us on WhatsApp.",
       "prices": [
         {
-          "label": "1 to 2 people, the raft",
+          "label": "1 to 2 people",
           "amount": 3900,
           "group": {
             "min": 1,
@@ -52,7 +52,7 @@
           "unit": "per raft"
         },
         {
-          "label": "3 to 4 people, the raft",
+          "label": "3 to 4 people",
           "amount": 5900,
           "group": {
             "min": 3,
@@ -61,7 +61,7 @@
           "unit": "per raft"
         },
         {
-          "label": "5 to 6 people, the raft",
+          "label": "5 to 6 people",
           "amount": 7900,
           "group": {
             "min": 5,
@@ -70,7 +70,7 @@
           "unit": "per raft"
         },
         {
-          "label": "7 to 8 people, the raft",
+          "label": "7 to 8 people",
           "amount": 9900,
           "group": {
             "min": 7,
