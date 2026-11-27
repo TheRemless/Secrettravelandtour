@@ -183,7 +183,7 @@
         }
       ],
       "priceFrom": {
-        "thb": 2500,
+        "thb": 2300,
         "approx": false
       }
     },
@@ -303,7 +303,7 @@
     },
     {
       "field": "routes[surat-thani-khao-sok].priceFrom",
-      "from": "Prix donnés par Mr. Brown via Jérémy le 11.11.2026 (prix de vente, par véhicule). Surat Thani → Khao Sok 2 500."
+      "from": "Prix donnés par Mr. Brown via Jérémy le 11.11.2026 (prix de vente, par véhicule). Surat Thani → Khao Sok 2 500. Passé à 2 300 par Jérémy le 22.11.2026 (même prix dans Gestion, tarifs Secret et Taxi)."
     },
     {
       "field": "routes[krabi-khao-sok].priceFrom",

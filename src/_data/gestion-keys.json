@@ -117,7 +117,9 @@
   "gestion": "Market visit and lunch class, Partner Chef",
   "aussi": [
    "278fcd8b-87f8-551b-a1d1-eef6df67d69c"
-  ]
+  ],
+  "auto": false,
+  "note": "Le tarif de Gestion est au groupe de 2 (3 300), la ligne du site est par personne : le build ne la remplace pas (22.11.2026)."
  },
  "cooking-class|Single chef|Per person": {
   "prestation": "c5ea1f1e-e0a2-5ee9-a0ab-c2621229e49f",
