@@ -22,7 +22,7 @@ for (const [slug, amounts] of Object.entries(GRID)) {
   test(`${slug} : quatre tranches, ni supplément ni tarif enfant`, () => {
     assert.deepEqual(opt.prices.map((r) => [r.label, r.amount, r.group.min, r.group.max]), amounts.map((a, i) => [`${2 * i + 1} to ${2 * i + 2} people`, a, 2 * i + 1, 2 * i + 2]));
     assert.ok(opt.prices.every((r) => !r.supplement && !r.ages));
-    assert.doesNotMatch(JSON.stringify(product(slug).beforeYouBook) + opt.note, /extra person|child rate|3 to 9|whatever their age/i);
+    assert.doesNotMatch(JSON.stringify(product(slug).beforeYouBook) + opt.note, /extra person|child rate|3 to 9|whatever their age|Under 3 free/i);
   });
 
   test(`${slug} : 2, 3, 5 et 8 personnes, enfants comptés, au-delà de 8 sur demande`, () => {
@@ -37,7 +37,7 @@ for (const [slug, amounts] of Object.entries(GRID)) {
     assert.equal(total(4, [2, 10]), amounts[2]);
     assert.equal(total(2, [""]), amounts[1], "un enfant compte dès qu'il est ajouté, âge pas encore choisi");
     assert.equal(P.overTiers(opt, 8, [""]), 9);
-    assert.match(opt.note + product(slug).beforeYouBook.children, /Under 3 free\. From 3 years, each child counts as one person\./);
+    assert.match(opt.note + product(slug).beforeYouBook.children, /Children under 3 are free\. From age 3, each child counts as one person\./);
     assert.equal(P.quote(opt, { adults: 9, ages: [] }), null);
     assert.equal(P.overTiers(opt, 7, [3, 5]), 9);
     assert.equal(P.overTiers(opt, 8, []), 0);

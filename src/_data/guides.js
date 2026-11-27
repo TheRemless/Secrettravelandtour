@@ -386,7 +386,7 @@ const kids = [
   kidRow(kayak, "mangrove-kayak-half-day", "Half day"),
   kidRow(elephant, "programme-a", cap(fact(elephant, "Children").replace(/^4–10 child rate, under 4 free, /, ""))),
   kidRow(batik, "morning-or-afternoon", "Your canvas comes back the next day"),
-  { slug: "sunrise-raft", name: sunrise.name, url: sunrise.url, adult: thb(raftLow.amount) + " for " + raftLow.group.min + " to " + raftLow.group.max + " people, up to " + thb(raftTop.amount) + " for " + raftTop.group.min + " to " + raftTop.group.max, child: "Counts as one person", ages: "3 and over", free: "Under 3", extra: "Private raft, one price for the whole raft" },
+  { slug: "sunrise-raft", name: sunrise.name, url: sunrise.url, adult: thb(raftLow.amount) + " for " + raftLow.group.min + " to " + raftLow.group.max + " people, up to " + thb(raftTop.amount) + " for " + raftTop.group.min + " to " + raftTop.group.max, child: "Counts as one person from age 3", ages: "3 and over", free: "", extra: "Private raft, one price for the whole raft. Children under 3 are free. From age 3, each child counts as one person." },
   { slug: "atv", name: atv.name, url: atv.url, adult: adultOf(atv, "track-30-min"), child: thb(atvPass.amount) + " as a passenger", ages: "3 to 12", free: "", extra: fact(atv, "Ages") }
 ];
 const g4 = {
