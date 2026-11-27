@@ -24,9 +24,15 @@
 
   // Taille du groupe pour les tranches d'un prix par bateau ou par radeau : les adultes, plus les enfants à partir de
   // option.groupFrom (4 ans par défaut, règle des bateaux privés ; 0 sur les radeaux, où chaque enfant compte).
+  // Avec option.groupFrom écrit dans les données (radeaux), un enfant compte dès qu'il est ajouté, même sans âge choisi :
+  // seul un âge connu sous le seuil le sort du groupe. Changer le seuil (bébés gratuits, par exemple 3) se fait dans le JSON.
   function groupSize(option, adults, ages) {
-    var from = option && typeof option.groupFrom === "number" ? option.groupFrom : 4;
-    return (adults || 0) + (ages || []).filter(function (a) { return a !== "" && a !== null && a !== undefined && Number(a) >= from; }).length;
+    var set = option && typeof option.groupFrom === "number";
+    var from = set ? option.groupFrom : 4;
+    return (adults || 0) + (ages || []).filter(function (a) {
+      if (a === "" || a === null || a === undefined) return set;
+      return Number(a) >= from;
+    }).length;
   }
 
   // Groupe au-delà de la dernière tranche, sans supplément écrit pour la suite (radeaux au-delà de 8) : le prix est sur demande.
@@ -77,7 +83,7 @@
       if (ageRows && kids.length) return null;
       // Bateau privé : les enfants comptent dans le groupe dès 4 ans, les moins de 4 ans ne comptent pas (client, 08.11.2026).
       // Radeau privé (grille du 27.11.2026, option.groupFrom = 0) : chaque enfant compte comme une personne.
-      var n = groupSize(option, adults, kids);
+      var n = groupSize(option, adults, ages);
       var hits = tiers.filter(function (r) { return n >= r.group.min && n <= r.group.max; });
       // Deux tranches du partenaire qui se touchent (« 5 to 7 » et « 7 to 9 ») : un groupe pile sur la borne n'a pas un prix
       // écrit, il n'est pas deviné (prix confirmé sur WhatsApp).
@@ -177,7 +183,7 @@
       var sum = n * row.amount + addonTotal(rows, g.addons, n, out);
       return { total: sum, lines: out, unpriced: young, perBoat: false };
     }
-    return estimate(option, g.adults || 0, kids, g.addons || []);
+    return estimate(option, g.adults || 0, g.ages || [], g.addons || []);
   }
 
   // Frais de parc en espèces, comme parkCash() de booking.js : adultes et enfants au tarif des données.

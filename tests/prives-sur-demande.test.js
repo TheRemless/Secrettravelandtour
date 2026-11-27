@@ -24,15 +24,15 @@ function files(dir) {
 }
 
 // Les pages et données qui montraient ces prix : les trois fiches, les listes de sorties, les guides, les données publiques et llms.
-const CIBLES = () => files(SITE).filter((f) => /\/(tours\/(4-islands|koh-phi-phi|koh-rok-koh-haa)\/index\.html|tours\/index\.html|index\.html|guides\/[^/]+\/index\.html|cancellation\/index\.html|data\/catalog\.json|llms(-full)?\.txt)$/.test(f.replace(SITE, "")));
+// « index.html » prend toutes les pages : les fiches des radeaux, dont les tranches valent 5,900 et 7,900 THB, en sont retirées.
+const CIBLES = () => files(SITE).filter((f) => !RADEAUX.some((r) => f.replace(SITE, "") === `/tours/${r}/index.html`)).filter((f) => /\/(tours\/(4-islands|koh-phi-phi|koh-rok-koh-haa)\/index\.html|tours\/index\.html|index\.html|guides\/[^/]+\/index\.html|cancellation\/index\.html|data\/catalog\.json|llms(-full)?\.txt)$/.test(f.replace(SITE, "")));
 
 test("aucun ancien prix de longtail privé ni « +500 THB » dans les pages, les données publiques et llms.txt", () => {
   const all = CIBLES();
   assert.ok(all.length >= 8, String(all.length));
   for (const f of all) {
-    if (RADEAUX.some((r) => f.replace(SITE, "") === `/tours/${r}/index.html`)) continue;
     let s = fs.readFileSync(f, "utf8").replace(/cc698212e79400cca1a404ad4bf10b5f/g, "");
-    // Les radeaux privés (grille du 27.11.2026) ont leurs propres tranches à 5,900 et 7,900 THB : hors de ce contrôle.
+    // Radeaux privés (grille du 27.11.2026) : leurs tranches dans les données publiques et llms.txt sont hors de ce contrôle.
     if (f.endsWith("catalog.json")) { const c = JSON.parse(s); for (const k of RADEAUX) delete c[k]; s = JSON.stringify(c); }
     s = s.replace(/\b\d+ to \d+ people, the raft: [\d,]+ THB per raft/g, "");
     assert.doesNotMatch(s, ANCIENS, path.relative(SITE, f));

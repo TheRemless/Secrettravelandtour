@@ -32,6 +32,12 @@ for (const [slug, amounts] of Object.entries(GRID)) {
     assert.equal(total(8, []), amounts[3]);
     assert.equal(total(2, [1]), amounts[1], "un bébé compte comme une personne");
     assert.equal(total(4, [2, 10]), amounts[2]);
+    assert.equal(total(2, [""]), amounts[1], "un enfant compte dès qu'il est ajouté, âge pas encore choisi");
+    assert.equal(P.overTiers(opt, 8, [""]), 9);
+    // Seuil réglable en une ligne de données (bébés hors du groupe, par exemple dès 3 ans) : un âge connu sous le seuil ne compte pas.
+    const seuil = { ...opt, groupFrom: 3 };
+    assert.equal(P.quote(seuil, { adults: 2, ages: [1] }).total, amounts[0]);
+    assert.equal(P.quote(seuil, { adults: 2, ages: [""] }).total, amounts[1]);
     assert.equal(P.quote(opt, { adults: 9, ages: [] }), null);
     assert.equal(P.overTiers(opt, 7, [3, 5]), 9);
     assert.equal(P.overTiers(opt, 8, []), 0);
