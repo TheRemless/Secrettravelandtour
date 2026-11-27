@@ -40,7 +40,7 @@
       "label": "Private raft, sunset dinner",
       "kind": "private",
       "boat": "raft",
-      "note": "Seafood dinner and the plankton after dark. One price for the whole raft, each child counts as one person. For more than 8 people, ask us on WhatsApp.",
+      "note": "Seafood dinner and the plankton after dark. One price for the whole raft. Under 3 free. From 3 years, each child counts as one person. For more than 8 people, ask us on WhatsApp.",
       "prices": [
         {
           "label": "1 to 2 people, the raft",
@@ -79,7 +79,7 @@
           "unit": "per raft"
         }
       ],
-      "groupFrom": 0
+      "groupFrom": 3
     }
   ],
   "day": [
@@ -135,7 +135,7 @@
     "bring": [
       "Mosquito repellent"
     ],
-    "children": "The raft is private, for your group only. Each child counts as one person in the group, whatever their age.",
+    "children": "The raft is private, for your group only. Under 3 free. From 3 years, each child counts as one person.",
     "cancellation": "Please tell us at least 24 hours before."
   },
   "faq": [
@@ -203,6 +203,10 @@
     {
       "field": "options[raft-sunset-dinner].prices, options[raft-sunset-dinner].note, options[raft-sunset-dinner].groupFrom, beforeYouBook.children",
       "from": "affiche du partenaire du radeau « Tour Package Prices », 27.11.2026 : un prix par radeau privé pour 1 à 2, 3 à 4, 5 à 6 et 7 à 8 personnes, enfants comptés comme une personne ; plus de supplément par personne ni de tarif enfant, rien au-delà de 8 personnes (décision de Jérémy du 27.11.2026)"
+    },
+    {
+      "field": "options[raft-sunset-dinner].groupFrom, options[raft-sunset-dinner].note, beforeYouBook.children",
+      "from": "décision de Jérémy du 27.11.2026 : sur les radeaux, un enfant de moins de 3 ans est gratuit et ne compte pas dans le groupe (« Under 3 free. From 3 years, each child counts as one person. »)"
     }
   ]
 }

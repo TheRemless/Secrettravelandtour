@@ -377,7 +377,7 @@ const kidRow = (p, optionId, extra = "") => {
 const atv = P("activities/atv"), batik = P("activities/batik"), cooking = P("activities/cooking-class");
 const mangroves = P("tours/mangroves"), kayak = P("activities/mangrove-kayaking"), sunrise = P("tours/sunrise-raft"), kart = P("activities/go-kart");
 const atvPass = row(opt(atv, "track-30-min"), /^Child passenger/);
-// Radeau au lever du soleil (grille du 27.11.2026) : un prix par radeau selon la taille du groupe, chaque enfant compte comme une personne.
+// Radeau au lever du soleil (grille du 27.11.2026) : un prix par radeau selon la taille du groupe ; dès 3 ans, chaque enfant compte comme une personne, les moins de 3 ans sont gratuits.
 const raftTiers = opt(sunrise, "raft-sunrise").prices.filter((r) => r.group);
 const raftLow = raftTiers[0], raftTop = raftTiers[raftTiers.length - 1];
 const kids = [
@@ -386,7 +386,7 @@ const kids = [
   kidRow(kayak, "mangrove-kayak-half-day", "Half day"),
   kidRow(elephant, "programme-a", cap(fact(elephant, "Children").replace(/^4–10 child rate, under 4 free, /, ""))),
   kidRow(batik, "morning-or-afternoon", "Your canvas comes back the next day"),
-  { slug: "sunrise-raft", name: sunrise.name, url: sunrise.url, adult: thb(raftLow.amount) + " for " + raftLow.group.min + " to " + raftLow.group.max + " people, up to " + thb(raftTop.amount) + " for " + raftTop.group.min + " to " + raftTop.group.max, child: "Counts as one person", ages: "Any age", free: "", extra: "Private raft, one price for the whole raft" },
+  { slug: "sunrise-raft", name: sunrise.name, url: sunrise.url, adult: thb(raftLow.amount) + " for " + raftLow.group.min + " to " + raftLow.group.max + " people, up to " + thb(raftTop.amount) + " for " + raftTop.group.min + " to " + raftTop.group.max, child: "Counts as one person", ages: "3 and over", free: "Under 3", extra: "Private raft, one price for the whole raft" },
   { slug: "atv", name: atv.name, url: atv.url, adult: adultOf(atv, "track-30-min"), child: thb(atvPass.amount) + " as a passenger", ages: "3 to 12", free: "", extra: fact(atv, "Ages") }
 ];
 const g4 = {

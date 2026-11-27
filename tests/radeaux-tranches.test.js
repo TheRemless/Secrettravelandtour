@@ -22,7 +22,7 @@ for (const [slug, amounts] of Object.entries(GRID)) {
   test(`${slug} : quatre tranches, ni supplément ni tarif enfant`, () => {
     assert.deepEqual(opt.prices.map((r) => [r.label, r.amount, r.group.min, r.group.max]), amounts.map((a, i) => [`${2 * i + 1} to ${2 * i + 2} people, the raft`, a, 2 * i + 1, 2 * i + 2]));
     assert.ok(opt.prices.every((r) => !r.supplement && !r.ages));
-    assert.doesNotMatch(JSON.stringify(product(slug).beforeYouBook) + opt.note, /extra person|child rate|3 to 9/i);
+    assert.doesNotMatch(JSON.stringify(product(slug).beforeYouBook) + opt.note, /extra person|child rate|3 to 9|whatever their age/i);
   });
 
   test(`${slug} : 2, 3, 5 et 8 personnes, enfants comptés, au-delà de 8 sur demande`, () => {
@@ -30,14 +30,14 @@ for (const [slug, amounts] of Object.entries(GRID)) {
     assert.equal(total(3, []), amounts[1]);
     assert.equal(total(5, []), amounts[2]);
     assert.equal(total(8, []), amounts[3]);
-    assert.equal(total(2, [1]), amounts[1], "un bébé compte comme une personne");
+    assert.equal(opt.groupFrom, 3);
+    assert.equal(total(2, [1]), amounts[0], "moins de 3 ans : gratuit, hors du groupe (Jérémy, 27.11.2026)");
+    assert.equal(total(2, [3]), amounts[1], "dès 3 ans, l'enfant compte comme une personne");
+    assert.equal(total(8, [0, 2]), amounts[3], "deux bébés ne font pas passer au-delà de 8");
     assert.equal(total(4, [2, 10]), amounts[2]);
     assert.equal(total(2, [""]), amounts[1], "un enfant compte dès qu'il est ajouté, âge pas encore choisi");
     assert.equal(P.overTiers(opt, 8, [""]), 9);
-    // Seuil réglable en une ligne de données (bébés hors du groupe, par exemple dès 3 ans) : un âge connu sous le seuil ne compte pas.
-    const seuil = { ...opt, groupFrom: 3 };
-    assert.equal(P.quote(seuil, { adults: 2, ages: [1] }).total, amounts[0]);
-    assert.equal(P.quote(seuil, { adults: 2, ages: [""] }).total, amounts[1]);
+    assert.match(opt.note + product(slug).beforeYouBook.children, /Under 3 free\. From 3 years, each child counts as one person\./);
     assert.equal(P.quote(opt, { adults: 9, ages: [] }), null);
     assert.equal(P.overTiers(opt, 7, [3, 5]), 9);
     assert.equal(P.overTiers(opt, 8, []), 0);
@@ -63,4 +63,7 @@ test("message de réservation : la tranche et le total, ou le prix sur demande a
   assert.match(B.buildMessage(cfg, { ...base, adults: 3 }), /Estimated total: 5,900 THB \(3 to 4 people, the raft\)/);
   assert.match(B.buildMessage(cfg, { ...base, adults: 8 }), /Estimated total: 9,900 THB \(7 to 8 people, the raft\)/);
   assert.match(B.buildMessage(cfg, { ...base, adults: 9 }), /Price: on request, group of 9 people/);
+  const bebe = B.buildMessage(cfg, { ...base, adults: 2, children: 1, childAges: [1] });
+  assert.match(bebe, /Guests: 2 adults, 1 child \(age 1\)/);
+  assert.match(bebe, /Estimated total: 3,900 THB \(1 to 2 people, the raft\)/);
 });
