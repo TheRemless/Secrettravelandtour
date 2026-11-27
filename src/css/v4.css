@@ -441,7 +441,8 @@ html.has-trips.hd-off:has(.dock.is-on) .toast { bottom: calc(138px + env(safe-ar
 .crumbs { padding-top: 16px; font-size: 14px; color: var(--ink-mute); }
 .crumbs ol { list-style: none; display: flex; flex-wrap: wrap; gap: 0 10px; }
 .crumbs li { display: flex; align-items: center; }
-.crumbs li + li::before { content: "/"; margin-right: 10px; color: var(--field); }
+/* Le séparateur suit l'élément qu'il ferme : un titre long passe à la ligne sans laisser un « / » en tête de ligne. */
+.crumbs li:not(:last-child)::after { content: "/"; margin-left: 10px; color: var(--field); }
 .crumbs a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; }
 .crumbs a:hover { text-decoration: underline; }
 .crumbs span { display: inline-flex; align-items: center; min-height: 44px; }
