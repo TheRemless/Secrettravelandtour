@@ -277,7 +277,7 @@ a:hover, a.is-hover { text-decoration-thickness: 2px; }
 
 /* ---------- Fil d'Ariane ---------- */
 .crumbs ol { display: flex; flex-wrap: wrap; list-style: none; padding: 0; font-size: var(--t2); line-height: var(--l2); color: var(--mute); }
-.crumbs li + li::before { content: "/"; padding-inline: var(--s1); color: var(--field); }
+.crumbs li:not(:last-child)::after { content: "/"; padding-inline: var(--s1); color: var(--field); }
 .crumbs a, .crumbs [aria-current] { display: inline-flex; align-items: center; min-height: 44px; }
 .crumbs a { color: var(--mute); }
 .crumbs [aria-current] { color: var(--ink); }

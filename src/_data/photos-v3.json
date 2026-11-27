@@ -915,6 +915,47 @@
       "licence": "Propriété du partenaire, usage autorisé",
       "url": "",
       "shot": "The private speedboat (two engines) on the beach."
+    },
+    {
+      "id": "card-sunset-plankton",
+      "usage": "Sunset longtail and plankton kayak card",
+      "file": "secret/v3/card-sunset-plankton.jpg",
+      "ratio": "4:3",
+      "position": "60% 50%",
+      "alt": "Cushions and a mat on the bow of a longtail, heading into the sunset",
+      "placeholder": false,
+      "source": "Photo du partenaire de la sortie au plancton, transmise par Jérémy pour le site (23.11.2026)",
+      "author": "Photo du partenaire de la sortie au plancton, transmise par Jérémy pour le site (23.11.2026)",
+      "licence": "Propriété du partenaire, usage autorisé",
+      "url": "",
+      "shot": "The longtail bow with cushions at sunset."
+    },
+    {
+      "id": "gal-plankton-bow-sunset",
+      "usage": "Sunset longtail and plankton kayak page, gallery: the bow at sunset",
+      "file": "secret/v3/longtail-bow-sunset.jpg",
+      "position": "30% 50%",
+      "alt": "The bow of a longtail with flower garlands, the sun low over the sea",
+      "placeholder": false,
+      "source": "Photo du partenaire de la sortie au plancton, transmise par Jérémy pour le site (23.11.2026)",
+      "author": "Photo du partenaire de la sortie au plancton, transmise par Jérémy pour le site (23.11.2026)",
+      "licence": "Propriété du partenaire, usage autorisé",
+      "url": "",
+      "shot": "Longtail bow and sunset over the sea."
+    },
+    {
+      "id": "card-longtail-half-day",
+      "usage": "Private longtail half day card",
+      "file": "secret/v3/card-longtail-half-day.jpg",
+      "position": "50% 50%",
+      "alt": "Two guests sharing a meal and fresh fruit on the bow of a longtail at sunset",
+      "placeholder": false,
+      "source": "Photo du partenaire de la sortie au plancton, transmise par Jérémy pour le site (23.11.2026)",
+      "author": "Photo du partenaire de la sortie au plancton, transmise par Jérémy pour le site (23.11.2026)",
+      "licence": "Propriété du partenaire, usage autorisé (droits de publication de Jérémy, 26.11.2026)",
+      "url": "",
+      "shot": "Guests eating on the longtail bow at sunset.",
+      "ratio": "4:3"
     }
   ]
 }

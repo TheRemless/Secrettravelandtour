@@ -35,6 +35,26 @@
       // Un tarif enfant à côté de tranches de groupe sans « Each extra person » : la règle de calcul n'est pas écrite,
       // rien n'est deviné (prix confirmé sur WhatsApp). Les radeaux, eux, ont leur règle juste en dessous.
       var ageRows = rows.some(function (r) { return r.ages && typeof r.amount === "number" && r.amount > 0; });
+      // Longtail privé au plancton (brochure du 23.11.2026) : le prix du bateau couvre 1 à 4 personnes, puis « Each extra adult »
+      // et « Each extra child » (4 à 11 ans). Les moins de 4 ans ne comptent pas (règle des bateaux privés), un enfant au-dessus
+      // de la tranche compte comme adulte. Avec moins de 4 adultes et plus de 4 personnes, la brochure ne dit pas qui est
+      // « en plus » : rien n'est deviné (prix confirmé sur WhatsApp).
+      var exAdult = rows.filter(function (r) { return r.supplement && /extra adult/i.test(r.label) && typeof r.amount === "number"; })[0];
+      var exChild = rows.filter(function (r) { return r.supplement && r.ages && /extra child/i.test(r.label) && typeof r.amount === "number"; })[0];
+      var base = tiers.length === 1 && tiers[0].group.max !== undefined ? tiers[0] : null;
+      if (exAdult && exChild && base) {
+        if (adults < 1) return null;
+        var big = adults + kids.filter(function (a) { return a > exChild.ages.max; }).length;
+        var small = kids.filter(function (a) { return a >= exChild.ages.min && a <= exChild.ages.max; }).length;
+        var cap = base.group.max, el = [[base.label, base.amount]], et = base.amount;
+        if (big + small > cap) {
+          if (big < cap) return null;
+          var xa = big - cap;
+          if (xa) { et += xa * exAdult.amount; el.push([xa + " × extra " + (xa === 1 ? "adult" : "adults"), xa * exAdult.amount]); }
+          if (small) { et += small * exChild.amount; el.push([small + " × extra " + (small === 1 ? "child" : "children") + ", " + exChild.ages.min + " to " + exChild.ages.max, small * exChild.amount]); }
+        }
+        return { total: et, lines: el, unpriced: [], perBoat: /\bboat\b/i.test(base.unit || "") };
+      }
       // Radeau privé (Lacha Ru A, B, C, décision du 11.11.2026) : le prix de base couvre 1 ou 2 adultes, chaque adulte
       // en plus paie « Each extra person », chaque enfant paie son tarif d'âge. Un âge sans tarif (moins de 3 ans) n'est pas deviné.
       var raftExtra = rows.filter(function (r) { return r.supplement && /extra person/i.test(r.label) && typeof r.amount === "number"; })[0];

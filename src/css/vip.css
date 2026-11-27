@@ -224,7 +224,7 @@ a { color: var(--amber); text-underline-offset: .18em; }
 .vip-actions { display: flex; flex-wrap: wrap; gap: var(--s2); margin-top: var(--s3); }
 @media (min-width: 64rem) { .vip-two { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--s5); align-items: start; } }
 .vip-page .crumbs ol { display: flex; flex-wrap: wrap; margin: var(--s3) 0 var(--s2); padding: 0; list-style: none; color: var(--mute); }
-.vip-page .crumbs li + li::before { content: "/"; padding-inline: var(--s1); }
+.vip-page .crumbs li:not(:last-child)::after { content: "/"; padding-inline: var(--s1); }
 .vip-page .crumbs a { display: inline-flex; align-items: center; min-height: 44px; }
 .vip-page .crumbs [aria-current] { display: inline-flex; align-items: center; min-height: 44px; }
 .vip-page h1 { margin-bottom: var(--s2); }

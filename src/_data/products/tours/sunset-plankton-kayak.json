@@ -1,0 +1,204 @@
+{
+  "slug": "sunset-plankton-kayak",
+  "url": "/tours/sunset-plankton-kayak/",
+  "brand": "secret",
+  "template": "boat",
+  "name": "Sunset longtail and plankton kayak",
+  "seo": {
+    "title": "Plankton Kayak at Sunset, Koh Lanta | Secret Travel & Tour",
+    "metaDescription": "A private longtail through the Koh Lanta mangrove, a barbecue at sunset on Ko Kwang headland, then a night kayak among glowing plankton. 6,000 THB for 1 to 4."
+  },
+  "h1": "Sunset longtail and night kayak with the glowing plankton",
+  "lead": "Your own longtail through the Thung Yee Peng mangrove in the late afternoon, a barbecue on Ko Kwang headland as the sun goes down, then a kayak in the dark to look for the plankton that glows in the water.",
+  "promise": "Sunset barbecue, then a night kayak among glowing plankton",
+  "facts": [
+    {
+      "label": "Where",
+      "value": "Thung Yee Peng, east coast of Koh Lanta"
+    },
+    {
+      "label": "Hotel pickup",
+      "value": "16:30"
+    },
+    {
+      "label": "Back at the pier",
+      "value": "20:00, then the transfer to your hotel"
+    },
+    {
+      "label": "Boat",
+      "value": "Longtail, for your group only"
+    },
+    {
+      "label": "Village entrance fee",
+      "value": "40 THB per adult, 20 THB per child from 4 to 11, not included"
+    }
+  ],
+  "price": {
+    "from": 6000,
+    "currency": "THB",
+    "unit": "per boat, 1 to 4 people"
+  },
+  "options": [
+    {
+      "id": "longtail-sunset-plankton",
+      "label": "Private longtail, sunset barbecue and plankton kayak",
+      "kind": "private",
+      "boat": "longtail",
+      "note": "The price covers the boat for 1 to 4 people. Each extra adult adds 1,200 THB and each extra child from 4 to 11 adds 600 THB, so 5 adults pay 7,200 THB.",
+      "prices": [
+        {
+          "label": "1 to 4 people, the boat",
+          "amount": 6000,
+          "group": {
+            "min": 1,
+            "max": 4
+          },
+          "unit": "per boat"
+        },
+        {
+          "label": "Each extra adult",
+          "amount": 1200,
+          "supplement": true,
+          "unit": "per person"
+        },
+        {
+          "label": "Each extra child, 4 to 11",
+          "amount": 600,
+          "supplement": true,
+          "ages": {
+            "min": 4,
+            "max": 11
+          },
+          "unit": "per person"
+        }
+      ],
+      "notIncludedFees": [
+        {
+          "label": "Village entrance fee, adults",
+          "amount": 40,
+          "unit": "per person"
+        },
+        {
+          "label": "Village entrance fee, children 4 to 11",
+          "amount": 20,
+          "unit": "per person"
+        }
+      ]
+    }
+  ],
+  "day": [
+    {
+      "options": [
+        "longtail-sunset-plankton"
+      ],
+      "title": "The evening on the longtail",
+      "steps": [
+        {
+          "time": "16:30",
+          "text": "Pickup at your hotel and the drive to Thung Yee Peng community pier."
+        },
+        {
+          "time": "17:00",
+          "text": "Your longtail leaves the pier for Ko Kwang headland."
+        },
+        {
+          "time": "17:15",
+          "text": "A slow cruise through the mangrove forest. Look out for macaques and the local birds."
+        },
+        {
+          "time": "18:00",
+          "text": "Barbecue dinner on Ko Kwang headland at sunset, with seasonal fruit and drinks."
+        },
+        {
+          "time": "18:40",
+          "text": "The longtail takes you to the plankton area."
+        },
+        {
+          "time": "19:30",
+          "text": "Into the kayaks in the dark, to look for the glowing plankton."
+        },
+        {
+          "time": "20:00",
+          "text": "Back at the pier and the transfer to your hotel."
+        }
+      ]
+    }
+  ],
+  "included": [
+    "Hotel transfer both ways",
+    "The longtail for your group only",
+    "Barbecue dinner",
+    "Drinking water and seasonal fruit",
+    "Local guide",
+    "Kayaks and paddles",
+    "Life jackets"
+  ],
+  "beforeYouBook": {
+    "children": "The longtail is for your group only. Children under 4 come free. Beyond the first four people, children from 4 to 11 pay 600 THB instead of 1,200 THB."
+  },
+  "faq": [
+    {
+      "q": "How much for a bigger group?",
+      "a": "6,000 THB covers the boat for up to 4 people. Each extra adult adds 1,200 THB and each extra child from 4 to 11 adds 600 THB."
+    },
+    {
+      "q": "What is for dinner?",
+      "a": "A barbecue on Ko Kwang headland at sunset, with seasonal fruit, drinking water and drinks."
+    },
+    {
+      "q": "How is it different from the sunset dinner raft?",
+      "a": "The raft drifts through the mangrove with a seafood dinner on board. Here a longtail takes you out to the headland for a barbecue, and you paddle a kayak yourself to find the plankton."
+    },
+    {
+      "q": "Is the village entrance fee included?",
+      "a": "No. Thung Yee Peng village charges 40 THB per adult and 20 THB per child from 4 to 11, paid on the spot."
+    }
+  ],
+  "photos": [
+    {
+      "slot": "hero",
+      "status": "keep",
+      "file": "secret/v3/card-sunset-plankton.jpg",
+      "alt": "Cushions and a mat on the bow of a longtail, heading into the sunset",
+      "shot": "The longtail bow with cushions at sunset."
+    },
+    {
+      "slot": "gallery",
+      "status": "keep",
+      "file": "secret/v3/longtail-bow-sunset.jpg",
+      "alt": "The bow of a longtail with flower garlands, the sun low over the sea",
+      "shot": "Longtail bow and sunset over the sea."
+    }
+  ],
+  "related": [
+    "/tours/sunset-longtail-half-day/",
+    "/tours/sunset-dinner-raft/",
+    "/tours/mangrove-kayaking/"
+  ],
+  "schema": {
+    "type": "TouristTrip",
+    "places": [
+      "Thung Yee Peng",
+      "Ko Kwang"
+    ]
+  },
+  "sources": [
+    {
+      "field": "options, price, day, facts, included, faq, lead",
+      "from": "brochure du partenaire de la sortie au plancton, page « Sunset longtail boat & bioluminescent plankton kayaking » (transmise par Jérémy le 23.11.2026) : prix privé 6 000 THB pour 1 à 4, adulte en plus 1 200, enfant de 4 à 11 ans en plus 600 ; déroulé 16:30 à 20:00 (ponton communautaire de Thung Yee Peng, Hua Laem Ko Kwang, macaques et oiseaux, barbecue au coucher du soleil, plancton, kayak de nuit) ; inclus : transferts, longtail privé, barbecue, eau et fruits de saison, guide local, kayaks et pagaies, gilets"
+    },
+    {
+      "field": "options[].notIncludedFees, facts[Village entrance fee], faq[3]",
+      "from": "brochure : « Village Entrance Fee: 40 THB per person (not included) » ; 40 THB adulte, 20 THB enfant de 4 à 11 ans gardés comme sur le reste du site (décision client du 08.11.2026, confirmée par Jérémy le 26.11.2026 : pas de page officielle, seul tarif enfant trouvé en ligne)"
+    },
+    {
+      "field": "photos, photos-v3.json",
+      "from": "photos réelles du partenaire transmises par Jérémy le 23.11.2026, droits de publication acquis (règle de ses accords partenaires, 26.11.2026) ; visuels de la brochure non repris (images générées, logo du partenaire)"
+    },
+    {
+      "field": "beforeYouBook.children, prix des moins de 4 ans",
+      "from": "règle de Jérémy du 26.11.2026 : gratuit quand le partenaire n'indique pas de prix ; la brochure n'en donne pas pour les moins de 4 ans"
+    }
+  ],
+  "refPrefix": "PLNK"
+}
