@@ -266,7 +266,8 @@
     if (est) V.odo(odo, est.total);
     var conf = $("[data-calc-confirm]", calc);
     conf.hidden = Boolean(est);
-    conf.textContent = q && q.needRow ? "Choose a line above to see the total." : o.counts ? (o.priceOnRequest ? "We confirm the total on WhatsApp." : "Add who is coming to see the total.") : "We confirm the total on WhatsApp.";
+    var over = !q && PR.overTiers ? PR.overTiers(o, st.adults, kids()) : 0;
+    conf.textContent = q && q.needRow ? "Choose a line above to see the total." : over ? "For a group of " + over + ", we confirm the price on WhatsApp." : o.counts ? (o.priceOnRequest ? "We confirm the total on WhatsApp." : "Add who is coming to see the total.") : "We confirm the total on WhatsApp.";
     $("[data-calc-lines]", calc).innerHTML = est ? est.lines.map(function (l) { return "<li><span>" + V.esc(l[0]) + "</span><span>" + V.thb(l[1]) + "</span></li>"; }).join("") : "";
     var un = $("[data-calc-unpriced]", calc);
     un.hidden = !(est && est.unpriced.length);
