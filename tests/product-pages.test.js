@@ -124,7 +124,7 @@ test("message : chaque option donne le produit, l'option, ses sous-variantes et 
       else {
         assert.equal(priceLines.length, 1, `${p.slug} ${o.id} : une ligne de prix`);
         assert.equal(priceLines[0], lines[lines.length - 1], `${p.slug} ${o.id} : le prix termine le message`);
-        assert.match(priceLines[0], /^(Estimated total: [1-9][\d,]* THB|Price: \S.*)$/, `${p.slug} ${o.id} : total ou prix`);
+        assert.match(priceLines[0], /^(Estimated total: [1-9][\d,]* THB( \(\d+ to \d+ people\))?|Price: \S.*)$/, `${p.slug} ${o.id} : total ou prix`);
       }
       for (const c of o.choices || []) assert.match(msg, new RegExp(`\\n${c.label}: \\S`), `${p.slug} ${o.id} : ${c.label}`);
       if (o.counts) assert.ok(msg.includes(`${o.counts.label}: 1 × ${o.counts.rows[0]}`), `${p.slug} ${o.id} : nombre`);

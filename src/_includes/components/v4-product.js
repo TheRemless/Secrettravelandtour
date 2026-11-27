@@ -166,7 +166,7 @@ function fromOf(o, skip) {
   const tiers = rows.filter((r) => r.group).sort((a, b) => (a.group.min || 0) - (b.group.min || 0));
   const min = adult || tiers[0] || rows.reduce((a, b) => (b.amount < a.amount ? b : a));
   const many = !adult && !tiers.length && new Set(rows.map((r) => r.amount)).size > 1;
-  const unit = adult ? (/^adult/i.test(adult.label) ? "per adult" : "per person") : min.group ? `${min.unit || "per boat"}, ${min.label.replace(/, the raft$/, "").toLowerCase()}` : min.unit || "";
+  const unit = adult ? (/^adult/i.test(adult.label) ? "per adult" : "per person") : min.group ? `${min.unit || "per boat"}, ${min.label.toLowerCase()}` : min.unit || "";
   return { amount: view.thb(min.amount), unit, from: many };
 }
 
@@ -282,7 +282,7 @@ function pickOf(p, site, opts = {}) {
   const json = {
     slug: p.slug, name: p.name, sel, adultFrom: adultFrom || 12, mode: counts ? "counts" : "people",
     options: list.map((o) => ({
-      id: o.id, label: o.label, kind: o.kind || "", prices: o.prices || [], priceOnRequest: Boolean(o.priceOnRequest), feesToConfirm: Boolean(o.feesToConfirm),
+      id: o.id, label: o.label, kind: o.kind || "", prices: o.prices || [], ...(typeof o.groupFrom === "number" ? { groupFrom: o.groupFrom } : {}), priceOnRequest: Boolean(o.priceOnRequest), feesToConfirm: Boolean(o.feesToConfirm),
       counts: o.counts ? o.counts.rows : null, cash: o.feesToConfirm ? null : cashOf(o.notIncludedFees), advice: adviceOf(o)
     }))
   };
@@ -510,7 +510,7 @@ function bookingOf(p, site) {
       const src = (p.options || []).find((x) => x.id === o.id) || {};
       const adv = adviceOf(src);
       return {
-        ...o, prices: src.prices || [], ...(src.priceOnRequest ? { priceOnRequest: true } : {}),
+        ...o, prices: src.prices || [], ...(typeof src.groupFrom === "number" ? { groupFrom: src.groupFrom } : {}), ...(src.priceOnRequest ? { priceOnRequest: true } : {}),
         cash: src.feesToConfirm ? null : cashOf(src.notIncludedFees),
         ...(adv ? { advice: adv } : {}),
         ...(o.counts ? { people: o.counts.rows.every((r) => /rider|passenger|adult|child/i.test(r)) } : {})

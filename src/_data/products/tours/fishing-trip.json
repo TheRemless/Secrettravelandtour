@@ -6,7 +6,7 @@
   "name": "Fishing trip",
   "seo": {
     "title": "Fishing Trip from Koh Lanta | Secret Travel & Tour",
-    "metaDescription": "Fishing from Koh Lanta on a private wooden raft in Ao Lanta: four hours on the water, gear and bait included, seafood lunch cooked on board. From 3,900 THB.",
+    "metaDescription": "Fishing from Koh Lanta on a private wooden raft in Ao Lanta: four hours on the water, gear and bait included, fresh seafood lunch on the raft. From 3,900 THB.",
     "draft": {
       "title": "Fishing Trip Koh Lanta – Longtail or Private Raft",
       "h1": "Fishing trips from Koh Lanta"
@@ -40,10 +40,10 @@
       "label": "Private raft, fishing and seafood lunch",
       "kind": "private",
       "boat": "raft",
-      "note": "Four hours on the water, fishing gear and bait included. The price covers 1 or 2 people. Each extra person adds 1,800 THB, so a group of 3 pays 5,700 THB. Children from 3 to 9 pay 1,500 THB each.",
+      "note": "Four hours on the water, fishing gear and bait included. One price for the whole raft. Children under 3 are free. From age 3, each child counts as one person. For more than 8 people, ask us on WhatsApp.",
       "prices": [
         {
-          "label": "1 or 2 people, the raft",
+          "label": "1 to 2 people",
           "amount": 3900,
           "group": {
             "min": 1,
@@ -52,21 +52,34 @@
           "unit": "per raft"
         },
         {
-          "label": "Each extra person",
-          "amount": 1800,
-          "supplement": true,
-          "unit": "per person"
+          "label": "3 to 4 people",
+          "amount": 5900,
+          "group": {
+            "min": 3,
+            "max": 4
+          },
+          "unit": "per raft"
         },
         {
-          "label": "Child 3 to 9, per person",
-          "amount": 1500,
-          "ages": {
-            "min": 3,
-            "max": 9
+          "label": "5 to 6 people",
+          "amount": 7900,
+          "group": {
+            "min": 5,
+            "max": 6
           },
-          "unit": "per person"
+          "unit": "per raft"
+        },
+        {
+          "label": "7 to 8 people",
+          "amount": 9900,
+          "group": {
+            "min": 7,
+            "max": 8
+          },
+          "unit": "per raft"
         }
-      ]
+      ],
+      "groupFrom": 3
     }
   ],
   "day": [
@@ -120,7 +133,8 @@
   ],
   "beforeYouBook": {
     "pickup": "Raft: pickup at your hotel around 09:30, check-in at Thung Yee Peng pier at 10:00.",
-    "cancellation": "Please tell us at least 24 hours before."
+    "cancellation": "Please tell us at least 24 hours before.",
+    "children": "The raft is private, for your group only. Children under 3 are free. From age 3, each child counts as one person."
   },
   "faq": [
     {
@@ -171,7 +185,7 @@
     "h1": "Fishing trip",
     "h1em": "off Koh Lanta",
     "intro": [
-      "Two versions. The longtail goes out to sea off Koh Lanta with a local captain. The raft stays in the sheltered bay of Ao Lanta, on the mangrove side, and the crew cooks fresh seafood on board for lunch."
+      "Two versions. The longtail goes out to sea off Koh Lanta with a local captain. The raft stays in the sheltered bay of Ao Lanta, on the mangrove side, with a fresh seafood lunch on the raft."
     ],
     "cardDescription": "A fishing trip on a longtail off the coast of Koh Lanta.",
     "cardInfo": [
@@ -180,7 +194,7 @@
     ],
     "dayTitle": "How the raft morning goes",
     "goodToKnow": [
-      "The raft is private, from one or two people. From three people the price is per person. Children from 3 to 9 have a child rate.",
+      "The raft is private, one price for the whole raft from 1 to 8 people. Children under 3 are free. From age 3, each child counts as one person.",
       "The longtail trip is a half day too. Tell us which one you prefer, or ask us which suits your group."
     ],
     "priceNote": "For the longtail version, ask us for the price.",
@@ -267,6 +281,14 @@
     {
       "field": "lead, day[10:45, 11:45, 12:15], faq",
       "from": "affiche Private Fishing Experience.jpg : « Fresh Seafood Lunch on Raft », « Delicious local meal with drinks & fruits », « Enjoy fishing in peaceful waters », « Relax & Explore / Learn local fishing lifestyle », « Local guide » (pas de capitaine qui initie, pas de cuisine à bord écrite), « Perfect for couples, families and friends » (audit des affiches du 12.11.2026, demande de Jérémy de reprendre tout ce que disent les affiches) ; question « Do we eat what we catch? » retirée, l'affiche ne le dit pas"
+    },
+    {
+      "field": "options[private-raft].prices, options[private-raft].note, options[private-raft].groupFrom, beforeYouBook.children",
+      "from": "affiche du partenaire du radeau « Tour Package Prices », 27.11.2026 : un prix par radeau privé pour 1 à 2, 3 à 4, 5 à 6 et 7 à 8 personnes, enfants comptés comme une personne ; plus de supplément par personne ni de tarif enfant, rien au-delà de 8 personnes (décision de Jérémy du 27.11.2026)"
+    },
+    {
+      "field": "options[private-raft].groupFrom, options[private-raft].note, beforeYouBook.children",
+      "from": "décision de Jérémy du 27.11.2026 : sur les radeaux, un enfant de moins de 3 ans est gratuit et ne compte pas dans le groupe (texte public : « Children under 3 are free. From age 3, each child counts as one person. », formulation de Jérémy du 27.11.2026)"
     }
   ],
   "refPrefix": "FISH"

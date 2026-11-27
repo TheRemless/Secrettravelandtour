@@ -300,7 +300,7 @@
   }
 
   // Total estimé (v4-price.js), dans la même forme que la page : lignes de prix brutes de l'option, groupe de la feuille.
-  // Null quand la règle n'est pas dans les données (radeau au-delà de 2 personnes, âge sans tarif, prix sur demande).
+  // Null quand la règle n'est pas dans les données (radeau au-delà de 8 personnes, âge sans tarif, prix sur demande).
   function quoteOf(option, state) {
     if (!PRICE || !option || !option.prices || !option.prices.length) return null;
     if (option.counts) {
@@ -325,7 +325,13 @@
   // Ce que l'agence lit pour répondre : le total estimé quand les données le permettent, sinon le prix de la page.
   function priceSummary(option, state) {
     var q = option && PRICE && Array.isArray(option.prices) ? quoteOf(option, state) : null;
+    // Radeau privé (grille du 27.11.2026) : la tranche choisie suit le total, « Estimated total: 5,900 THB (3 to 4 people) ».
+    var tiered = q && (option.prices || []).filter(function (r) { return r.group; }).length > 1;
+    if (q && tiered && q.lines.length === 1) return "Estimated total: " + thb(q.total) + " (" + q.lines[0][0] + ")";
     if (q) return "Estimated total: " + thb(q.total);
+    // Au-delà de la dernière tranche (radeau à plus de 8) : pas de prix écrit, il est donné sur WhatsApp.
+    var over = option && PRICE && PRICE.overTiers ? PRICE.overTiers(option, state.adults, state.childAges) : 0;
+    if (over) return "Price: on request, group of " + over + " people";
     // Bateau privé : une ligne « 7 people or more : On request » et un groupe de cette taille, le prix est à donner sur WhatsApp.
     var onReq = option && (option.rows || []).filter(function (r) { return r.price === "On request" && /^\d+ people or more$/i.test(r.label); })[0];
     if (onReq) {

@@ -22,7 +22,32 @@
     return max ? max + 1 : 0;
   }
 
-  // option : { prices: [{label, amount, ages?, group?, supplement?}], priceOnRequest? }
+  // Taille du groupe pour les tranches d'un prix par bateau ou par radeau : les adultes, plus les enfants à partir de
+  // option.groupFrom (4 ans par défaut, règle des bateaux privés ; 0 sur les radeaux, où chaque enfant compte).
+  // Avec option.groupFrom écrit dans les données (radeaux), un enfant compte dès qu'il est ajouté, même sans âge choisi :
+  // seul un âge connu sous le seuil le sort du groupe. Changer le seuil (bébés gratuits, par exemple 3) se fait dans le JSON.
+  function groupSize(option, adults, ages) {
+    var set = option && typeof option.groupFrom === "number";
+    var from = set ? option.groupFrom : 4;
+    return (adults || 0) + (ages || []).filter(function (a) {
+      if (a === "" || a === null || a === undefined) return set;
+      return Number(a) >= from;
+    }).length;
+  }
+
+  // Groupe au-delà de la dernière tranche, sans supplément écrit pour la suite (radeaux au-delà de 8) : le prix est sur demande.
+  // Renvoie la taille du groupe dans ce cas, sinon 0.
+  function overTiers(option, adults, ages) {
+    if (!option || option.priceOnRequest) return 0;
+    var rows = option.prices || [];
+    var tiers = rows.filter(function (r) { return r.group && typeof r.group.max === "number" && typeof r.amount === "number"; });
+    if (tiers.length < 2 || rows.some(function (r) { return r.supplement; })) return 0;
+    var n = groupSize(option, adults, ages);
+    var max = Math.max.apply(null, tiers.map(function (r) { return r.group.max; }));
+    return n > max ? n : 0;
+  }
+
+  // option : { prices: [{label, amount, ages?, group?, supplement?}], priceOnRequest?, groupFrom? }
   // Renvoie { total, lines: [[libellé, montant]], unpriced: [âges], perBoat } ou null (prix sur WhatsApp).
   function estimate(option, adults, ages, addons) {
     if (!option || option.priceOnRequest || !(option.prices || []).length) return null;
@@ -33,7 +58,7 @@
     var tiers = rows.filter(function (r) { return r.group && typeof r.amount === "number"; });
     if (tiers.length) {
       // Un tarif enfant à côté de tranches de groupe sans « Each extra person » : la règle de calcul n'est pas écrite,
-      // rien n'est deviné (prix confirmé sur WhatsApp). Les radeaux, eux, ont leur règle juste en dessous.
+      // rien n'est deviné (prix confirmé sur WhatsApp).
       var ageRows = rows.some(function (r) { return r.ages && typeof r.amount === "number" && r.amount > 0; });
       // Longtail privé au plancton (brochure du 23.11.2026) : le prix du bateau couvre 1 à 4 personnes, puis « Each extra adult »
       // et « Each extra child » (4 à 11 ans). Les moins de 4 ans ne comptent pas (règle des bateaux privés), un enfant au-dessus
@@ -55,31 +80,10 @@
         }
         return { total: et, lines: el, unpriced: [], perBoat: /\bboat\b/i.test(base.unit || "") };
       }
-      // Radeau privé (Lacha Ru A, B, C, décision du 11.11.2026) : le prix de base couvre 1 ou 2 adultes, chaque adulte
-      // en plus paie « Each extra person », chaque enfant paie son tarif d'âge. Un âge sans tarif (moins de 3 ans) n'est pas deviné.
-      var raftExtra = rows.filter(function (r) { return r.supplement && /extra person/i.test(r.label) && typeof r.amount === "number"; })[0];
-      var raftBase = tiers.length === 1 && tiers[0].group.max !== undefined ? tiers[0] : null;
-      if (ageRows && raftExtra && raftBase) {
-        if (adults < 1) return null;
-        var rl = [], rt = raftBase.amount, unpricedKids = [], byAge = [];
-        rl.push([raftBase.label, raftBase.amount]);
-        if (adults > raftBase.group.max) {
-          var more = adults - raftBase.group.max;
-          rt += more * raftExtra.amount;
-          rl.push([more + " × extra " + (more === 1 ? "person" : "people"), more * raftExtra.amount]);
-        }
-        kids.forEach(function (age) {
-          var cr = rows.filter(function (x) { return x.ages && typeof x.amount === "number" && age >= (x.ages.min || 0) && age <= (x.ages.max === undefined ? Infinity : x.ages.max); })[0];
-          if (!cr) { unpricedKids.push(age); return; }
-          var hit = byAge.filter(function (b) { return b.r === cr; })[0];
-          if (hit) hit.n++; else byAge.push({ r: cr, n: 1 });
-        });
-        byAge.forEach(function (b) { rt += b.n * b.r.amount; rl.push([b.n + " × " + b.r.label.toLowerCase(), b.n * b.r.amount]); });
-        return { total: rt, lines: rl, unpriced: unpricedKids, perBoat: false };
-      }
       if (ageRows && kids.length) return null;
       // Bateau privé : les enfants comptent dans le groupe dès 4 ans, les moins de 4 ans ne comptent pas (client, 08.11.2026).
-      var n = adults + kids.filter(function (a) { return a >= 4; }).length;
+      // Radeau privé (grille du 27.11.2026, option.groupFrom = 0) : chaque enfant compte comme une personne.
+      var n = groupSize(option, adults, ages);
       var hits = tiers.filter(function (r) { return n >= r.group.min && n <= r.group.max; });
       // Deux tranches du partenaire qui se touchent (« 5 to 7 » et « 7 to 9 ») : un groupe pile sur la borne n'a pas un prix
       // écrit, il n'est pas deviné (prix confirmé sur WhatsApp).
@@ -179,7 +183,7 @@
       var sum = n * row.amount + addonTotal(rows, g.addons, n, out);
       return { total: sum, lines: out, unpriced: young, perBoat: false };
     }
-    return estimate(option, g.adults || 0, kids, g.addons || []);
+    return estimate(option, g.adults || 0, g.ages || [], g.addons || []);
   }
 
   // Frais de parc en espèces, comme parkCash() de booking.js : adultes et enfants au tarif des données.
@@ -200,5 +204,5 @@
     return { total: total, text: parts.join(" + ") + " = " + thb(total) };
   }
 
-  return { thb: thb, estimate: estimate, quote: quote, parkCash: parkCash, adultFrom: adultFrom };
+  return { thb: thb, estimate: estimate, quote: quote, parkCash: parkCash, adultFrom: adultFrom, groupSize: groupSize, overTiers: overTiers };
 });
